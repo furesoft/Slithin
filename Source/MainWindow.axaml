@@ -5,5 +5,17 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Slithin.MainWindow"
         Title="Slithin">
-    Welcome to Avalonia!
+    <TabControl TabStripPlacement="Left">
+        <TabItem Header="Device">
+
+        </TabItem>
+
+        <TabItem Header="Cloud">
+
+        </TabItem>
+
+        <TabItem Header="Settings">
+
+        </TabItem>
+    </TabControl>
 </Window>
