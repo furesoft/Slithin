@@ -8,11 +8,11 @@
   <Grid RowDefinitions="AUTO,35,35,35,65" ColumnDefinitions="*,AUTO" Margin="3">
     <Image Source="Ressources/Logo.png" Grid.ColumnSpan="2" />
 
-    <TextBox Watermark="IP Address" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,3" />
-    <TextBox Watermark="Username" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" />
-    <TextBox Watermark="Password" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,3,0,3" />
+    <TextBox Watermark="IP Address" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding IP}" />
+    <TextBox Watermark="Username" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding UserName}" />
+    <TextBox Watermark="Password" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding Password}" />
 
     <CheckBox Grid.Row="4" Grid.Column="0">Remember</CheckBox>
-    <Button Content="Connect" Grid.Row="4" Grid.Column="1" />
+    <Button Content="Connect" Grid.Row="4" Grid.Column="1" Command="{Binding ConnectCommand}" />
   </Grid>
 </Window>

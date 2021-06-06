@@ -9,6 +9,8 @@ namespace Slithin
         public ConnectWindow()
         {
             InitializeComponent();
+
+            DataContext = new ViewModels.ConnectionWindowViewModel();
 #if DEBUG
             this.AttachDevTools();
 #endif
