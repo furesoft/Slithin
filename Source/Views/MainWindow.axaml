@@ -9,7 +9,7 @@
     <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*">
         <Image Source="../Resources/Logo_Menu.png" Grid.Row="0" Grid.Column="0" Width="200" Margin="15,0,0,0" />
 
-        <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1"  />
+        <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="3"  />
 
         <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" core:PageSelector.IsPageContainer="True" />
     </Grid>

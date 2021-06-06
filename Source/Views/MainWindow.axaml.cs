@@ -23,13 +23,11 @@ namespace Slithin.Views
 
         private void MainWindow_Closed(object? sender, EventArgs e)
         {
-#if !DEBUG
             ServiceLocator.Client.Disconnect();
             ServiceLocator.Scp.Disconnect();
             ServiceLocator.Database.Dispose();
 
             Environment.Exit(0);
-#endif
         }
 
         private void InitializeComponent()
