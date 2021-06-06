@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
 using LiteDB;
@@ -25,34 +26,42 @@ namespace Slithin.ViewModels
             ServiceLocator.Client = new Renci.SshNet.SshClient(IP, 22, "root", Password);
             ServiceLocator.Scp = new Renci.SshNet.ScpClient(IP, 22, "root", Password);
 
-            try
+            if (IPAddress.TryParse(IP, out var addr))
             {
-                ServiceLocator.Client.Connect();
-
-                if (ServiceLocator.Client.IsConnected)
+                try
                 {
-                    if (Remember)
-                    {
-                        ServiceLocator.RememberLoginCredencials(this);
-                    }
+                    ServiceLocator.Client.Connect();
 
-                    if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                    if (ServiceLocator.Client.IsConnected)
                     {
-                        desktop.MainWindow.Hide();
-                        desktop.MainWindow = new MainWindow();
-                        desktop.MainWindow.Show();
+                        if (Remember)
+                        {
+                            ServiceLocator.RememberLoginCredencials(this);
+                        }
+
+                        if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                        {
+                            desktop.MainWindow.Hide();
+                            desktop.MainWindow = new MainWindow();
+                            desktop.MainWindow.Show();
+                        }
+                    }
+                    else
+                    {
+                        //ToDo Display Connection Error
+                        System.Console.WriteLine("Could not connect to host");
                     }
                 }
-                else
+                catch (SshException ex)
                 {
                     //ToDo Display Connection Error
-                    System.Console.WriteLine("Could not connect to host");
+                    System.Console.WriteLine(ex.Message);
                 }
             }
-            catch (SshException ex)
+            else
             {
-                //ToDo Display Connection Error
-                System.Console.WriteLine(ex.Message);
+                //ToDo Display invalid ip Error
+                System.Console.WriteLine("The given IP was not valid");
             }
         }
 
