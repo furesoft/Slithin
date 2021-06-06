@@ -14,12 +14,9 @@ namespace Slithin.Views
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
-#else
-            ((MainWindowViewModel)DataContext).LoadMetadataCommand.Execute(null);
 #endif
-
             DataContext = new MainWindowViewModel();
-
+            ((MainWindowViewModel)DataContext).LoadMetadataCommand.Execute(null);
 
             this.Closed += MainWindow_Closed;
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Input;
 using Slithin.Core;
@@ -10,9 +11,12 @@ namespace Slithin.ViewModels
     {
         public ICommand LoadMetadataCommand { get; set; }
 
+        public ObservableCollection<string> Documents { get; set; }
+
         public MainWindowViewModel()
         {
             LoadMetadataCommand = new DelegateCommand(LoadMetadata);
+            Documents = new();
         }
 
         private void LoadMetadata(object? obj)
@@ -27,6 +31,8 @@ namespace Slithin.ViewModels
                     var filecontent = ServiceLocator.Client.RunCommand("cat " + PathList.Documents + "/" + filename);
                     var metadata = System.Text.Json.JsonSerializer.Deserialize<Metadata>(filecontent.Result);
                     MetadataStorage.Add(metadata);
+
+                    Documents.Add(metadata.VisibleName);
                 }
             }
 

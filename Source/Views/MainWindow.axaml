@@ -6,11 +6,13 @@
         x:Class="Slithin.Views.MainWindow"
         Title="Slithin">
     <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*">
-        <Image Source="../Ressources/Logo.png" Grid.Row="0" Grid.Column="0" Width="200" />
+        <Image Source="../Ressources/Logo_Menu.png" Grid.Row="0" Grid.Column="0" Width="200" Margin="15,0,0,0" />
 
         <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <TabItem Header="Device">
+                <ListBox Items="{Binding Documents}">
 
+                </ListBox>
             </TabItem>
 
             <TabItem Header="Cloud">

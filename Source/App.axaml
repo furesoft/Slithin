@@ -3,5 +3,7 @@
              x:Class="Slithin.App">
     <Application.Styles>
         <FluentTheme Mode="Light"/>
+
+        <StyleInclude Source="/Ressources/TabItemStyle.axaml" />
     </Application.Styles>
 </Application>
