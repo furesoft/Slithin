@@ -17,7 +17,7 @@ namespace Slithin.Core
 
             if (collection.Count() == 1)
             {
-                collection.Update(viewModel);
+                //collection.Update(viewModel);
             }
             else
             {

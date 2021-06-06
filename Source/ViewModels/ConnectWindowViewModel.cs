@@ -81,7 +81,7 @@ namespace Slithin.ViewModels
 
         [BsonIgnore]
         public ICommand ConnectCommand { get; set; }
-        public BsonAutoId _id { get; set; }
+        public ObjectId _id { get; set; }
 
     }
 }
