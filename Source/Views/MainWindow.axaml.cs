@@ -22,6 +22,7 @@ namespace Slithin.Views
         {
             ServiceLocator.Client.Disconnect();
             ServiceLocator.Scp.Disconnect();
+            ServiceLocator.Database.Dispose();
 
             Environment.Exit(0);
         }

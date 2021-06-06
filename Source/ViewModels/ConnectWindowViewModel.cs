@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
+using LiteDB;
 using Renci.SshNet.Common;
 using Slithin.Core;
 using Slithin.Views;
@@ -31,6 +32,11 @@ namespace Slithin.ViewModels
 
                 if (ServiceLocator.Client.IsConnected)
                 {
+                    if (Remember)
+                    {
+                        ServiceLocator.RememberLoginCredencials(this);
+                    }
+
                     if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
                     {
                         desktop.MainWindow.Hide();
@@ -46,6 +52,7 @@ namespace Slithin.ViewModels
             }
             catch (SshException ex)
             {
+                //ToDo Display Connection Error
                 System.Console.WriteLine(ex.Message);
             }
         }
@@ -79,6 +86,7 @@ namespace Slithin.ViewModels
         }
 
 
+        [BsonIgnore]
         public ICommand ConnectCommand { get; set; }
 
     }

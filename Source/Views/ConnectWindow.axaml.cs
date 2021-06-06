@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Core;
 
 namespace Slithin.Views
 {
@@ -10,7 +11,7 @@ namespace Slithin.Views
         {
             InitializeComponent();
 
-            DataContext = new ViewModels.ConnectionWindowViewModel();
+            DataContext = ServiceLocator.GetLoginCredentials();
 #if DEBUG
             this.AttachDevTools();
 #endif
