@@ -8,10 +8,11 @@
     <PackageReference Include="Avalonia" Version="0.10.3" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.3" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.3" />
+    <PackageReference Include="LiteDB" Version="5.0.10" />
     <PackageReference Include="SSH.NET" Version="2020.0.1" />
    </ItemGroup>
 
    <ItemGroup>
-     <AvaloniaResource Include="Ressources\**"/>
+     <AvaloniaResource Include="Ressources\**" />
    </ItemGroup>
 </Project>

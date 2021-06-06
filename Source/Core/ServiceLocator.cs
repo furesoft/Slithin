@@ -1,6 +1,6 @@
 using Renci.SshNet;
 
-namespace Slithin
+namespace Slithin.Core
 {
     public static class ServiceLocator
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
 
-namespace Slithin
+namespace Slithin.Core
 {
     public class DelegateCommand : ICommand
     {

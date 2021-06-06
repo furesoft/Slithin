@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Slithin
+namespace Slithin.Core
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
