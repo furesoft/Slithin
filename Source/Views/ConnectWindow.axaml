@@ -3,10 +3,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Slithin.Views.ConnectWindow"
+        x:Class="Slithin.Views.ConnectWindow" Icon="../Resources/Icon.ico"
         Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" Height="396">
   <Grid RowDefinitions="AUTO,35,35,65" ColumnDefinitions="*,AUTO" Margin="3">
-    <Image Source="../Ressources/Logo.png" Grid.ColumnSpan="2" />
+    <Image Source="../Resources/Logo.png" Grid.ColumnSpan="2" />
 
     <TextBox Watermark="IP Address" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding IP}" />
     <TextBox Watermark="Password" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding Password}" PasswordChar="*" />

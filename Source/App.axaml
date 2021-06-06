@@ -4,6 +4,6 @@
     <Application.Styles>
         <FluentTheme Mode="Light"/>
 
-        <StyleInclude Source="/Ressources/TabItemStyle.axaml" />
+        <StyleInclude Source="/Resources/TabItemStyle.axaml" />
     </Application.Styles>
 </Application>
