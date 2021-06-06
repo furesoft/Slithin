@@ -1,5 +1,8 @@
 using System;
+using System.Linq.Expressions;
 using System.Windows.Input;
+using Avalonia.Controls.ApplicationLifetimes;
+using Renci.SshNet.Common;
 
 namespace Slithin.ViewModels
 {
@@ -18,6 +21,32 @@ namespace Slithin.ViewModels
         private void Connect(object? obj)
         {
             Console.WriteLine("Connect clicked");
+            ServiceLocator.Client = new Renci.SshNet.SshClient(IP, 22, UserName, Password);
+            ServiceLocator.Scp = new Renci.SshNet.ScpClient(IP, 22, UserName, Password);
+
+            try
+            {
+                ServiceLocator.Client.Connect();
+
+                if (ServiceLocator.Client.IsConnected)
+                {
+                    if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                    {
+                        desktop.MainWindow.Hide();
+                        desktop.MainWindow = new MainWindow();
+                        desktop.MainWindow.Show();
+                    }
+                }
+                else
+                {
+                    //ToDo Display Connection Error
+                    System.Console.WriteLine("Could not connect to host");
+                }
+            }
+            catch (SshException ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
         }
 
         private string _ipAddress;
@@ -47,7 +76,7 @@ namespace Slithin.ViewModels
             get { return _remember; }
             set { SetValue(ref _remember, value); }
         }
-        
+
 
         public ICommand ConnectCommand { get; set; }
 
