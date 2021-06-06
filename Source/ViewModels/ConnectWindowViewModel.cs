@@ -7,9 +7,10 @@ namespace Slithin.ViewModels
     {
         public ConnectionWindowViewModel()
         {
-            _ipAddress = "";
-            _userName = "";
-            _password = "";
+            _ipAddress = string.Empty;
+            _userName = string.Empty;
+            _password = string.Empty;
+            _remember = false;
 
             ConnectCommand = new DelegateCommand(Connect);
         }
@@ -39,6 +40,14 @@ namespace Slithin.ViewModels
             get { return _password; }
             set { SetValue(ref _password, value); }
         }
+
+        private bool _remember;
+        public bool Remember
+        {
+            get { return _remember; }
+            set { SetValue(ref _remember, value); }
+        }
+        
 
         public ICommand ConnectCommand { get; set; }
 
