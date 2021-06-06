@@ -13,7 +13,6 @@ namespace Slithin.ViewModels
         public ConnectionWindowViewModel()
         {
             _ipAddress = string.Empty;
-            _userName = string.Empty;
             _password = string.Empty;
             _remember = false;
 
@@ -23,8 +22,8 @@ namespace Slithin.ViewModels
         private void Connect(object? obj)
         {
             Console.WriteLine("Connect clicked");
-            ServiceLocator.Client = new Renci.SshNet.SshClient(IP, 22, UserName, Password);
-            ServiceLocator.Scp = new Renci.SshNet.ScpClient(IP, 22, UserName, Password);
+            ServiceLocator.Client = new Renci.SshNet.SshClient(IP, 22, "root", Password);
+            ServiceLocator.Scp = new Renci.SshNet.ScpClient(IP, 22, "root", Password);
 
             try
             {
@@ -62,13 +61,6 @@ namespace Slithin.ViewModels
         {
             get { return _ipAddress; }
             set { SetValue(ref _ipAddress, value); }
-        }
-
-        private string _userName;
-        public string UserName
-        {
-            get { return _userName; }
-            set { SetValue(ref _userName, value); }
         }
 
         private string _password;
