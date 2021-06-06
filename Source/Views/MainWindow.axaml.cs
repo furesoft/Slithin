@@ -2,8 +2,9 @@ using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Core;
 
-namespace Slithin
+namespace Slithin.Views
 {
     public partial class MainWindow : Window
     {

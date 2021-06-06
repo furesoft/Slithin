@@ -1,8 +1,9 @@
 using System;
-using System.Linq.Expressions;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
 using Renci.SshNet.Common;
+using Slithin.Core;
+using Slithin.Views;
 
 namespace Slithin.ViewModels
 {
