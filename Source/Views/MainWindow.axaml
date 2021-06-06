@@ -5,21 +5,25 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Slithin.Views.MainWindow"
         Title="Slithin">
-    <TabControl TabStripPlacement="Left">
-        <TabItem Header="Device">
+    <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*">
+        <Image Source="../Ressources/Logo.png" Grid.Row="0" Grid.Column="0" Width="200" />
 
-        </TabItem>
+        <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <TabItem Header="Device">
 
-        <TabItem Header="Cloud">
+            </TabItem>
 
-        </TabItem>
+            <TabItem Header="Cloud">
 
-        <TabItem Header="Templates">
+            </TabItem>
 
-        </TabItem>
+            <TabItem Header="Templates">
 
-        <TabItem Header="Settings">
+            </TabItem>
 
-        </TabItem>
-    </TabControl>
+            <TabItem Header="Settings">
+
+            </TabItem>
+        </TabControl>
+    </Grid>
 </Window>
