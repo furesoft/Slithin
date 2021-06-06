@@ -2,30 +2,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:core="using:Slithin.Core"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Slithin.Views.MainWindow" Icon="/Resources/Icon.ico"
         Title="Slithin">
     <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*">
-        <Image Source="../Ressources/Logo_Menu.png" Grid.Row="0" Grid.Column="0" Width="200" Margin="15,0,0,0" />
+        <Image Source="../Resources/Logo_Menu.png" Grid.Row="0" Grid.Column="0" Width="200" Margin="15,0,0,0" />
 
-        <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-            <TabItem Header="Device">
-                <ListBox Items="{Binding Documents}">
+        <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1"  />
 
-                </ListBox>
-            </TabItem>
-
-            <TabItem Header="Cloud">
-
-            </TabItem>
-
-            <TabItem Header="Templates">
-
-            </TabItem>
-
-            <TabItem Header="Settings">
-
-            </TabItem>
-        </TabControl>
+        <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" core:PageSelector.IsPageContainer="True" />
     </Grid>
 </Window>
