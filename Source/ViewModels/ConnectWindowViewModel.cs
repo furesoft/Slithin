@@ -10,7 +10,6 @@ namespace Slithin.ViewModels
 {
     public class ConnectionWindowViewModel : BaseViewModel
     {
-
         public ConnectionWindowViewModel()
         {
             _ipAddress = string.Empty;

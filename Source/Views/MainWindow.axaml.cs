@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
+using Slithin.ViewModels;
 
 namespace Slithin.Views
 {
@@ -14,6 +15,9 @@ namespace Slithin.Views
 #if DEBUG
             this.AttachDevTools();
 #endif
+
+            DataContext = new MainWindowViewModel();
+            ((MainWindowViewModel)DataContext).LoadMetadataCommand.Execute(null);
 
             this.Closed += MainWindow_Closed;
         }

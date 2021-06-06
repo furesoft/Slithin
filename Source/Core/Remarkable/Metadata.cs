@@ -17,7 +17,13 @@ namespace Slithin.Core.Remarkable
         public int Version { get; set; }
 
         [JsonPropertyName("type")]
-        public MetadataType Type { get; set; }
+        public string Type { get; set; }
+
+        [JsonConstructor]
+        public Metadata()
+        {
+
+        }
     }
 
     public enum MetadataType
