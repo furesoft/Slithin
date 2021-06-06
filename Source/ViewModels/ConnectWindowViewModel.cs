@@ -10,6 +10,7 @@ namespace Slithin.ViewModels
 {
     public class ConnectionWindowViewModel : BaseViewModel
     {
+
         public ConnectionWindowViewModel()
         {
             _ipAddress = string.Empty;
@@ -80,6 +81,7 @@ namespace Slithin.ViewModels
 
         [BsonIgnore]
         public ICommand ConnectCommand { get; set; }
+        public BsonAutoId _id { get; set; }
 
     }
 }
