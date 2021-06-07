@@ -2,10 +2,8 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Text.Json.Serialization;
-using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 
 namespace Slithin.Core.Remarkable
 {
@@ -26,7 +24,7 @@ namespace Slithin.Core.Remarkable
         [JsonPropertyName("landscape")]
         public bool Landscape { get; set; }
 
-        private IImage _image;
+        private IImage? _image;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -44,14 +42,16 @@ namespace Slithin.Core.Remarkable
                 Directory.CreateDirectory("Templates");
             }
 
-            if (!File.Exists(Path.Combine("Templates", Filename + ".png")))
+            var path = Path.Combine(Environment.CurrentDirectory, "Templates", Filename + ".png");
+
+            if (!File.Exists(path))
             {
-                var output = File.OpenWrite(Path.Combine("Templates", Filename + ".png"));
-                ServiceLocator.Scp.Download(PathList.Templates + "/" + Filename + ".png", output);
+                var output = File.OpenWrite(path);
+                ServiceLocator.Scp.Download(path, output);
                 output.Close();
             }
 
-            var path = Path.Combine(Environment.CurrentDirectory, "Templates", Filename + ".png");
+
             Image = new Bitmap(path);
         }
     }
