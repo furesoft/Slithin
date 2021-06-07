@@ -62,6 +62,8 @@ namespace Slithin.Core
 
                     var page = new TabItem();
                     page.Header = pageInstance?.Title;
+                    page.DataContext = controlInstance.DataContext;
+
                     if (pageInstance.UseContextualMenu())
                     {
                         page.Tag = pageInstance.GetContextualMenu();

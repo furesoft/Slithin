@@ -1,7 +1,6 @@
-using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows.Input;
+using Newtonsoft.Json;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 
@@ -29,7 +28,7 @@ namespace Slithin.ViewModels
                 if (filename.EndsWith(".metadata"))
                 {
                     var filecontent = ServiceLocator.Client.RunCommand("cat " + PathList.Documents + "/" + filename);
-                    var metadata = System.Text.Json.JsonSerializer.Deserialize<Metadata>(filecontent.Result);
+                    var metadata = JsonConvert.DeserializeObject<Metadata>(filecontent.Result);
                     MetadataStorage.Add(metadata);
 
                     Documents.Add(metadata.VisibleName);

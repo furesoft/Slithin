@@ -4,7 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.Pages.TemplatesPage">
-  <ListBox Items="{Binding Templates}">
-
-  </ListBox>
+   <ListBox Items="{Binding Templates}" Margin="16,0,0,0">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Vertical">
+                
+                <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
+                <TextBlock Text="{Binding Filename}" />
+              </StackPanel>
+                
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
 </UserControl>

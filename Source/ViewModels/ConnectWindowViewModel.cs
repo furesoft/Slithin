@@ -31,6 +31,7 @@ namespace Slithin.ViewModels
                 try
                 {
                     ServiceLocator.Client.Connect();
+                    ServiceLocator.Scp.Connect();
 
                     if (ServiceLocator.Client.IsConnected)
                     {

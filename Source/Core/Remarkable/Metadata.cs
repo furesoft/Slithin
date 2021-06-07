@@ -1,29 +1,25 @@
-using System.Text.Json.Serialization;
+
+
+using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
 {
     public class Metadata
     {
-        [JsonPropertyName("deleted")]
+        [JsonProperty("deleted")]
         public bool Deleted { get; set; }
 
-        [JsonPropertyName("parent")]
+        [JsonProperty("parent")]
         public string? Parent { get; set; }
 
-        [JsonPropertyName("visibleName")]
+        [JsonProperty("visibleName")]
         public string? VisibleName { get; set; }
 
-        [JsonPropertyName("version")]
+        [JsonProperty("version")]
         public int Version { get; set; }
 
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-
-        [JsonConstructor]
-        public Metadata()
-        {
-
-        }
+        [JsonProperty("type")]
+        public MetadataType Type { get; set; }
     }
 
     public enum MetadataType

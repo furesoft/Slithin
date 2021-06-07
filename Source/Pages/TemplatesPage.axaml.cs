@@ -1,7 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.ContextualMenus;
 using Slithin.Core;
+using Slithin.ViewModels;
 
 namespace Slithin.Pages
 {
@@ -10,13 +12,15 @@ namespace Slithin.Pages
         public TemplatesPage()
         {
             InitializeComponent();
+
+            DataContext = new TemplatesPageViewModel();
         }
 
         public string Title => "My Templates";
 
         public Control GetContextualMenu()
         {
-            return new Button() { Content = "Install on Device" };
+            return new TemplatesContextualMenu();
         }
 
         public bool UseContextualMenu()

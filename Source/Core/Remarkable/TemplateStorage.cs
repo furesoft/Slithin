@@ -1,11 +1,11 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
 {
     public class TemplateStorage
     {
 
-        [JsonPropertyName("templates")]
+        [JsonProperty("templates")]
         public Template[]? Templates { get; set; }
 
         public static TemplateStorage? Instance = new();
@@ -13,9 +13,14 @@ namespace Slithin.Core.Remarkable
         public void Load()
         {
             var content = ServiceLocator.Client.RunCommand("cat " + PathList.Templates + "/templates.json").Result;
-            var templates = System.Text.Json.JsonSerializer.Deserialize<TemplateStorage>(content);
+            var templates = JsonConvert.DeserializeObject<TemplateStorage>(content);
 
             Instance = templates;
+
+            foreach (var item in templates.Templates)
+            {
+                item.Load();
+            }
         }
 
         public void Apply()
