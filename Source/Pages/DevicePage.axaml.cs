@@ -12,7 +12,7 @@ namespace Slithin.Pages
             InitializeComponent();
         }
 
-        public string Title => "Device";
+        public string Title => "My Device";
 
         public Control GetContextualMenu()
         {

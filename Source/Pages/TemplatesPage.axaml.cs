@@ -5,18 +5,18 @@ using Slithin.Core;
 
 namespace Slithin.Pages
 {
-    public partial class SettingsPage : UserControl, IPage
+    public partial class TemplatesPage : UserControl, IPage
     {
-        public SettingsPage()
+        public TemplatesPage()
         {
             InitializeComponent();
         }
 
-        public string Title => "Settings";
+        public string Title => "My Templates";
 
         public Control GetContextualMenu()
         {
-            return new Button() { Content = "Add Something" };
+            return new Button() { Content = "Install on Device" };
         }
 
         public bool UseContextualMenu()
