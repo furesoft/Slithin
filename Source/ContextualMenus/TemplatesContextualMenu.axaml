@@ -2,7 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.ContextualMenus.TemplatesContextualMenu">
-  <Button Command="{Binding RefreshCommand}">Refresh</Button>
+  <StackPanel Spacing="4" Orientation="Horizontal">
+    <controls:ImageButton Text="Refresh" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" />
+    <controls:ImageButton Text="Add" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" />
+    <controls:ImageButton Text="Remove" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" />
+    <controls:ImageButton Text="Deactivate" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" />
+    <controls:ImageButton Text="Activate" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" />
+  </StackPanel>
 </UserControl>

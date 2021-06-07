@@ -51,7 +51,8 @@ namespace Slithin.Core.Remarkable
                 output.Close();
             }
 
-            Image = new Bitmap(Path.Combine(Environment.CurrentDirectory, "Templates", Filename + ".png"));
+            var path = Path.Combine(Environment.CurrentDirectory, "Templates", Filename + ".png");
+            Image = new Bitmap(path);
         }
     }
 }

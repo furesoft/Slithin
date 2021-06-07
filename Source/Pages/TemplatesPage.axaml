@@ -8,11 +8,9 @@
         <ListBox.ItemTemplate>
             <DataTemplate>
               <StackPanel Orientation="Vertical">
-                
                 <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
                 <TextBlock Text="{Binding Filename}" />
               </StackPanel>
-                
             </DataTemplate>
         </ListBox.ItemTemplate>
     </ListBox>

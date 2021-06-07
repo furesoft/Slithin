@@ -5,5 +5,6 @@
         <FluentTheme Mode="Light"/>
 
         <StyleInclude Source="/Resources/TabItemStyle.axaml" />
+        <StyleInclude Source="/Controls/ImageButton.axaml" />
     </Application.Styles>
 </Application>

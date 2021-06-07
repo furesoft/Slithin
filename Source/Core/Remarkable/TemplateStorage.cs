@@ -1,7 +1,9 @@
+using System.IO;
 using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
 {
+    //ToDo save all templates and templates.json into liteb file
     public class TemplateStorage
     {
 
@@ -21,6 +23,8 @@ namespace Slithin.Core.Remarkable
             {
                 item.Load();
             }
+
+            File.WriteAllText("templates.json", content);
         }
 
         public void Apply()

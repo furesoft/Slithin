@@ -1,0 +1,25 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Slithin.Controls">
+  <Design.PreviewWith>
+    <controls:ImageButton />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|ImageButton">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}" CornerRadius="2" Margin="2">
+          <StackPanel VerticalAlignment="Center">
+            <Image Source="{TemplateBinding Image}" Width="60" Height="60" />
+            <TextBlock Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17" />
+          </StackPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|ImageButton:pointerenter">
+    <Setter Property="Background" Value="LightGray" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+</Styles>

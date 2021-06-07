@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Slithin.Views.ConnectWindow" Icon="../Resources/Icon.ico"
-        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" Height="396">
+        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" Height="390" MinHeight="290" MinWidth="300">
   <Grid RowDefinitions="AUTO,35,35,65" ColumnDefinitions="*,AUTO" Margin="3">
     <Image Source="../Resources/Logo.png" Grid.ColumnSpan="2" />
 
