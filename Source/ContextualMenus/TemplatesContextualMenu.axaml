@@ -5,11 +5,12 @@
              xmlns:controls="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.ContextualMenus.TemplatesContextualMenu">
-  <StackPanel Spacing="4" Orientation="Horizontal">
-    <controls:ImageButton Text="Refresh" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" />
-    <controls:ImageButton Text="Add" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" />
-    <controls:ImageButton Text="Remove" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" />
-    <controls:ImageButton Text="Deactivate" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" />
-    <controls:ImageButton Text="Activate" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" />
-  </StackPanel>
+    <Grid>
+      <StackPanel Spacing="4" Orientation="Horizontal">
+        <controls:ImageButton Text="Add" Command="{Binding RefreshCommand}" Image="../Resources/add.png" />
+        <controls:ImageButton Text="Remove" Command="{Binding RefreshCommand}" Image="../Resources/minus.png" />
+      </StackPanel>
+
+      <controls:ImageButton Text="Synchronize" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" HorizontalAlignment="Right" />
+    </Grid>
 </UserControl>
