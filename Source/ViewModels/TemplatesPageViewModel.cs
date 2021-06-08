@@ -1,7 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using Avalonia.Controls;
+using Avalonia.Layout;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 
@@ -29,6 +32,21 @@ namespace Slithin.ViewModels
             RefreshCommand = new DelegateCommand(Refresh);
             Templates = new();
             Categories = new();
+
+            PropertyChanged += OnPropertyChanged;
+        }
+
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            Templates.Clear();
+
+            if (e.PropertyName == nameof(SelectedCategory))
+            {
+                foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory)))
+                {
+                    Templates.Add(item);
+                }
+            }
         }
 
         private void Refresh(object? obj)
