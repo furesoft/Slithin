@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.Pages.TemplatesPage">
-  <Grid RowDefinitions="35,*">
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+  <Grid RowDefinitions="35,*" ColumnDefinitions="*,AUTO">
+    <ComboBox Items="{Binding Categories}" Grid.Row="0" Grid.Column="1" />
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2">
       <ItemsRepeater Items="{Binding Templates}" Margin="16,0,0,0">
         <ItemsRepeater.ItemTemplate>
             <DataTemplate>  
