@@ -16,6 +16,14 @@ namespace Slithin.ViewModels
 
         public ObservableCollection<string> Categories { get; set; }
 
+        private string _selectedCategory;
+        public string SelectedCategory
+        {
+            get { return _selectedCategory; }
+            set { SetValue(ref _selectedCategory, value); }
+        }
+
+
         public TemplatesPageViewModel()
         {
             RefreshCommand = new DelegateCommand(Refresh);
