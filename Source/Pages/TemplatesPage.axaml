@@ -4,16 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.Pages.TemplatesPage">
-   <ListBox Items="{Binding Templates}" Margin="16,0,0,0">
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-              <StackPanel Orientation="Vertical">
-                <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
-                <TextBlock Text="{Binding Filename}" />
-
-                <ItemsPresenter Items="{Binding Categories}" />
-              </StackPanel>
+  <Grid RowDefinitions="35,*">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+      <ItemsRepeater Items="{Binding Templates}" Margin="16,0,0,0">
+        <ItemsRepeater.ItemTemplate>
+            <DataTemplate>  
+              <Border Margin="3">
+                <StackPanel Orientation="Vertical">
+                  <Border Margin="5" BorderThickness="1" BorderBrush="Black">
+                    <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
+                  </Border>
+                  
+                  <TextBlock Text="{Binding Filename}" TextAlignment="Center" />
+                </StackPanel>
+              </Border>
             </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+          </ItemsRepeater.ItemTemplate>
+          <ItemsRepeater.Layout>
+            <UniformGridLayout ItemsJustification="SpaceEvenly" MinRowSpacing="10" Orientation="Horizontal"
+                             MaximumRowsOrColumns="5" />
+          </ItemsRepeater.Layout>
+        </ItemsRepeater>
+      </ScrollViewer>
+    </Grid>
 </UserControl>
