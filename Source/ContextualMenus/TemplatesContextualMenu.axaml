@@ -10,7 +10,5 @@
         <controls:ImageButton Text="Add" Command="{Binding RefreshCommand}" Image="../Resources/add.png" />
         <controls:ImageButton Text="Remove" Command="{Binding RefreshCommand}" Image="../Resources/minus.png" />
       </StackPanel>
-
-      <controls:ImageButton Text="Synchronize" Command="{Binding RefreshCommand}" Image="../Resources/refresh.png" HorizontalAlignment="Right" />
     </Grid>
 </UserControl>
