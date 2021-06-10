@@ -14,9 +14,6 @@ namespace Slithin.ViewModels
     {
         public ObservableCollection<Template> Templates { get; set; }
 
-
-        public ICommand RefreshCommand { get; set; }
-
         public ObservableCollection<string> Categories { get; set; }
 
         private string _selectedCategory;
@@ -29,7 +26,6 @@ namespace Slithin.ViewModels
 
         public TemplatesPageViewModel()
         {
-            RefreshCommand = new DelegateCommand(Refresh);
             Templates = new();
             Categories = new();
 
@@ -47,32 +43,6 @@ namespace Slithin.ViewModels
                     Templates.Add(item);
                 }
             }
-        }
-
-        private void Refresh(object? obj)
-        {
-            Templates.Clear();
-
-            TemplateStorage.Instance?.Load();
-
-            var tempCats = TemplateStorage.Instance?.Templates.Select(_ => _.Categories);
-            foreach (var item in tempCats)
-            {
-                foreach (var cat in item)
-                {
-                    if (!Categories.Contains(cat))
-                    {
-                        Categories.Add(cat);
-                    }
-                }
-            }
-
-            foreach (var item in TemplateStorage.Instance?.Templates)
-            {
-                Templates.Add(item);
-            }
-
-
         }
     }
 }

@@ -12,10 +12,37 @@ namespace Slithin.ViewModels
 
         public ObservableCollection<string> Documents { get; set; }
 
+        public ICommand RefreshCommand { get; set; }
+
         public MainWindowViewModel()
         {
             LoadMetadataCommand = new DelegateCommand(LoadMetadata);
             Documents = new();
+            RefreshCommand = new DelegateCommand(Refresh);
+        }
+
+        private void Refresh(object? obj)
+        {
+            Templates.Clear();
+
+            TemplateStorage.Instance?.Load();
+
+            var tempCats = TemplateStorage.Instance?.Templates.Select(_ => _.Categories);
+            foreach (var item in tempCats)
+            {
+                foreach (var cat in item)
+                {
+                    if (!Categories.Contains(cat))
+                    {
+                        Categories.Add(cat);
+                    }
+                }
+            }
+
+            foreach (var item in TemplateStorage.Instance?.Templates)
+            {
+                Templates.Add(item);
+            }
         }
 
         private void LoadMetadata(object? obj)
