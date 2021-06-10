@@ -1,0 +1,48 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="using:Slithin.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+  <Style Selector="controls|DialogControl">
+    <Setter Property="MinHeight" Value="250" />
+    <Setter Property="MinWidth" Value="250" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border CornerRadius="3" MinHeight="{TemplateBinding MinHeight}" Margin="5" BorderBrush="Black" BorderThickness="1"  Background="White">
+          <Grid RowDefinitions="10,AUTO,*,2,10,30" Margin="5,0,5,5">
+            <TextBlock Classes="popupHeader" Text="{TemplateBinding Header}" Grid.Row="1" />
+            <ContentPresenter Content="{TemplateBinding Content}" Margin="3" Grid.Row="2" />
+
+            <Rectangle Grid.Row="3" Fill="Gray" />
+
+            <Grid Classes="single" Grid.Row="5" VerticalAlignment="Bottom">
+              <Button MinWidth="250" Classes="base" VerticalContentAlignment="Bottom" IsDefault="True" Content="{TemplateBinding CommandText, Mode=TwoWay}" Command="{TemplateBinding Command}" />
+            </Grid>
+
+            <StackPanel Classes="both" Orientation="Horizontal" Spacing="5" Grid.Row="5" Margin="2,2,2,10" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+              <Button Classes="base" VerticalContentAlignment="Bottom" IsCancel="True"  IsVisible="{TemplateBinding IsCancelEnabled}" Content="Abbrechen" Command="{TemplateBinding CancelCommand}" />
+              <Button Classes="base" VerticalContentAlignment="Bottom" IsDefault="True"  Content="{TemplateBinding CommandText, Mode=TwoWay}" Command="{TemplateBinding Command}" />
+            </StackPanel>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|DialogControl[IsCancelEnabled=False] Grid.single">
+    <Setter Property="IsVisible" Value="True" />
+  </Style>
+  <Style Selector="controls|DialogControl[IsCancelEnabled=True] Grid.single">
+    <Setter Property="IsVisible" Value="False" />
+  </Style>
+
+  <Style Selector="controls|DialogControl[IsCancelEnabled=False] StackPanel.both">
+    <Setter Property="IsVisible" Value="False" />
+  </Style>
+
+  <Style Selector="controls|DialogControl[IsCancelEnabled=True] StackPanel.both">
+    <Setter Property="IsVisible" Value="True" />
+  </Style>
+</Styles>

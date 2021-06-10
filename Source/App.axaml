@@ -6,5 +6,7 @@
 
         <StyleInclude Source="/Resources/TabItemStyle.axaml" />
         <StyleInclude Source="/Controls/ImageButton.axaml" />
+        <StyleInclude Source="/Controls/ContentDialogStyle.axaml" />
+        <StyleInclude Source="/Controls/DialogControlStyle.axaml" />
     </Application.Styles>
 </Application>
