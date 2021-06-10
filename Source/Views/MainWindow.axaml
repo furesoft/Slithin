@@ -7,13 +7,15 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Slithin.Views.MainWindow" Icon="/Resources/Icon.ico"
         Title="Slithin">
-    <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*,50">
-        <Image Source="../Resources/Logo_Menu.png" Grid.Row="0" Grid.Column="0" Width="200" Margin="15,0,0,0" />
+    <controls:ContentDialog controls:DialogService.IsHost="True">
+        <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*,50">
+            <Image Source="../Resources/Logo_Menu.png" Grid.Row="0" Grid.Column="0" Width="200" Margin="15,0,0,0" />
 
-        <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="3"  />
+            <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="3"  />
 
-        <controls:ImageButton Text="Synchronize" Command="{Binding RefreshCommand}" Grid.Row="2" Image="../Resources/refresh.png" HorizontalAlignment="Right" />
+            <controls:ImageButton Text="Synchronize" Command="{Binding RefreshCommand}" Grid.Row="2" Image="../Resources/refresh.png" HorizontalAlignment="Right" />
 
-        <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" core:PageSelector.IsPageContainer="True" />
-    </Grid>
+            <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" core:PageSelector.IsPageContainer="True" />
+        </Grid>
+    </contorls:ContentDialog>
 </Window>
