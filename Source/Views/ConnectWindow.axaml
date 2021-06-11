@@ -4,14 +4,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Slithin.Views.ConnectWindow" Icon="../Resources/Icon.ico"
-        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" Height="390" MinHeight="290" MinWidth="300">
-  <Grid RowDefinitions="AUTO,35,35,65" ColumnDefinitions="*,AUTO" Margin="3">
+        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" Height="390" MinHeight="390" MinWidth="342" MaxWidth="342" MaxHeight="390">
+  <Grid RowDefinitions="250,35,35,65" ColumnDefinitions="*,AUTO" Margin="3">
     <Image Source="../Resources/Logo.png" Grid.ColumnSpan="2" />
 
     <TextBox Watermark="IP Address" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding IP}" />
     <TextBox Watermark="Password" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding Password}" PasswordChar="*" />
 
     <CheckBox Grid.Row="4" Grid.Column="0" IsChecked="{Binding Remember}">Remember</CheckBox>
-    <Button Content="Connect" Grid.Row="3" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" />
+    <Button Grid.Row="3" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150">
+      <TextBlock Text="Connect" HorizontalAlignment="Center" FontSize="25" />
+    </Button>
   </Grid>
 </Window>
