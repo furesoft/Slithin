@@ -50,7 +50,6 @@ namespace Slithin.Core
             Documents = new();
             Templates = new();
             Categories = new();
-            _selectedCategory = "Grids";
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -59,6 +58,8 @@ namespace Slithin.Core
         {
             LoadDocumentMetadata();
             LoadTemplates();
+
+            SelectedCategory = "Grids";
         }
 
         private void LoadTemplates()
