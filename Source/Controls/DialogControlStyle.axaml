@@ -10,7 +10,7 @@
 
     <Setter Property="Template">
       <ControlTemplate>
-        <Border CornerRadius="3" MinHeight="{TemplateBinding MinHeight}" Margin="5" BorderBrush="Black" BorderThickness="1"  Background="White">
+        <Border CornerRadius="3" MinHeight="{TemplateBinding MinHeight}" Margin="5" BorderBrush="Black" BorderThickness="1"  Background="White" MaxHeight="{TemplateBinding MaxHeight}">
           <Grid RowDefinitions="10,AUTO,*,2,10,30" Margin="5,0,5,5">
             <TextBlock Classes="popupHeader" Text="{TemplateBinding Header}" Grid.Row="1" />
             <ContentPresenter Content="{TemplateBinding Content}" Margin="3" Grid.Row="2" />
@@ -18,7 +18,9 @@
             <Rectangle Grid.Row="3" Fill="Gray" />
 
             <Grid Classes="single" Grid.Row="5" VerticalAlignment="Bottom">
-              <Button MinWidth="250" Classes="base" VerticalContentAlignment="Bottom" IsDefault="True" Content="{TemplateBinding CommandText, Mode=TwoWay}" Command="{TemplateBinding Command}" />
+              <Button MinWidth="320" Classes="base" VerticalContentAlignment="Bottom" IsDefault="True" Command="{TemplateBinding Command}">
+                <ContentPresenter HorizontalAlignment="Center" Content="{TemplateBinding CommandText, Mode=TwoWay}" />
+              </Button>
             </Grid>
 
             <StackPanel Classes="both" Orientation="Horizontal" Spacing="5" Grid.Row="5" Margin="2,2,2,10" HorizontalAlignment="Right" VerticalAlignment="Bottom">

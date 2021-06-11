@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Slithin.Core;
+using Slithin.Modals;
 using System.Windows.Input;
 
 namespace Slithin.Controls
@@ -43,6 +44,17 @@ namespace Slithin.Controls
             content.DataContext = viewModel;
 
             Open(content);
+        }
+
+        public static void OpenError(string msg)
+        {
+            var dc = new
+            {
+                CancelCommand = new DelegateCommand((_) => Close()),
+                Message = msg
+            };
+
+            Open(new ErrorModal { DataContext = dc });
         }
 
         public static void Open()

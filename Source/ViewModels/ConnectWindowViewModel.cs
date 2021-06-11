@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
 using LiteDB;
 using Renci.SshNet.Common;
+using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Views;
 
@@ -22,7 +23,6 @@ namespace Slithin.ViewModels
 
         private void Connect(object? obj)
         {
-            Console.WriteLine("Connect clicked");
             ServiceLocator.Client = new Renci.SshNet.SshClient(IP, 22, "root", Password);
             ServiceLocator.Scp = new Renci.SshNet.ScpClient(IP, 22, "root", Password);
 
@@ -49,14 +49,12 @@ namespace Slithin.ViewModels
                     }
                     else
                     {
-                        //ToDo Display Connection Error
-                        System.Console.WriteLine("Could not connect to host");
+                        DialogService.OpenError("Could not connect to host");
                     }
                 }
                 catch (SshException ex)
                 {
-                    //ToDo Display Connection Error
-                    System.Console.WriteLine(ex.Message);
+                    DialogService.OpenError(ex.Message);
                 }
             }
             else
