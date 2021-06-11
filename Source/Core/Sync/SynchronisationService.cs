@@ -24,8 +24,26 @@ namespace Slithin.Core
         public string SelectedCategory
         {
             get { return _selectedCategory; }
-            set { SetValue(ref _selectedCategory, value); }
+            set { SetValue(ref _selectedCategory, value); RefreshTemplates(); }
         }
+
+        private bool _landscape;
+        public bool Landscape
+        {
+            get { return _landscape; }
+            set { SetValue(ref _landscape, value); RefreshTemplates(); }
+        }
+
+        private void RefreshTemplates()
+        {
+            Templates.Clear();
+
+            foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape))
+            {
+                Templates.Add(item);
+            }
+        }
+
         protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
         {
             field = value;
@@ -34,16 +52,9 @@ namespace Slithin.Core
 
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            Templates.Clear();
 
-            if (e.PropertyName == nameof(SelectedCategory))
-            {
-                foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory)))
-                {
-                    Templates.Add(item);
-                }
-            }
         }
+
         public SynchronisationService()
         {
             SynchronizeCommand = new DelegateCommand(Synchronize);
