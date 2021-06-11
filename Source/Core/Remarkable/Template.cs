@@ -24,6 +24,12 @@ namespace Slithin.Core.Remarkable
         [JsonPropertyName("landscape")]
         public bool Landscape { get; set; }
 
+        [JsonIgnore]
+        public bool ToDownload { get; set; }
+
+        [JsonIgnore]
+        public bool OnDevice { get; set; }
+
         private IImage? _image;
 
         public event PropertyChangedEventHandler? PropertyChanged;

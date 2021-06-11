@@ -21,6 +21,7 @@ namespace Slithin.Core.Remarkable
 
             foreach (var item in templates.Templates)
             {
+                item.OnDevice = true;
                 item.Load();
             }
 
