@@ -51,8 +51,10 @@ namespace Slithin.Core.Remarkable
                 output.Close();
             }
 
-
-            Image = new Bitmap(path);
+            if (Image is null)
+            {
+                Image = new Bitmap(path);
+            }
         }
     }
 }

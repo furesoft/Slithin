@@ -5,11 +5,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.Pages.TemplatesPage">
   <Grid RowDefinitions="35,*" ColumnDefinitions="*,AUTO">
-    <ComboBox Items="{Binding Categories}" Grid.Row="0" Grid.Column="1" SelectedItem="{Binding SelectedCategory}" />
+    <ComboBox Items="{Binding SyncService.Categories}" Grid.Row="0" Grid.Column="1" SelectedItem="{Binding SyncService.SelectedCategory}" />
     <TextBox Watermark="Search ..." Grid.Column="0" Grid.Row="0" MaxWidth="350" HorizontalAlignment="Left" />
 
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2">
-      <ItemsRepeater Items="{Binding Templates}" Margin="16,0,0,0">
+      <ItemsRepeater Items="{Binding SyncService.Templates}" Margin="16,0,0,0">
         <ItemsRepeater.ItemTemplate>
             <DataTemplate>  
               <Border Margin="3">

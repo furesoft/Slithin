@@ -10,6 +10,7 @@ namespace Slithin.Core
         public static SshClient Client;
         public static ScpClient Scp;
         public static LiteDatabase Database = new("slithin.db");
+        public static SynchronisationService SyncService = new();
 
         public static void RememberLoginCredencials(ConnectionWindowViewModel viewModel)
         {
