@@ -38,9 +38,19 @@ namespace Slithin.Core
         {
             Templates.Clear();
 
-            foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape))
+            if (SelectedCategory == "All")
             {
-                Templates.Add(item);
+                foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => Landscape == _.Landscape))
+                {
+                    Templates.Add(item);
+                }
+            }
+            else
+            {
+                foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape))
+                {
+                    Templates.Add(item);
+                }
             }
         }
 
@@ -61,6 +71,8 @@ namespace Slithin.Core
             Documents = new();
             Templates = new();
             Categories = new();
+
+            Categories.Add("All");
 
             PropertyChanged += OnPropertyChanged;
         }
