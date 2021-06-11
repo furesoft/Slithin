@@ -67,7 +67,6 @@ namespace Slithin.Core
 
         public SynchronisationService()
         {
-            SynchronizeCommand = new DelegateCommand(Synchronize);
             Documents = new();
             Templates = new();
             Categories = new();
@@ -75,6 +74,7 @@ namespace Slithin.Core
             Categories.Add("All");
 
             PropertyChanged += OnPropertyChanged;
+            SynchronizeCommand = new DelegateCommand(Synchronize);
         }
 
         private void Synchronize(object? obj)
