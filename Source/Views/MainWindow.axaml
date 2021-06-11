@@ -8,10 +8,10 @@
         x:Class="Slithin.Views.MainWindow" Icon="/Resources/Icon.ico"
         Title="Slithin">
     <controls:ContentDialog controls:DialogService.IsHost="True">
-        <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*,150*">
+        <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*,150">
             <Image Source="../Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="200" Height="125" Margin="15,0,0,0" />
 
-            <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="3"  />
+            <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="3" HorizontalAlignment="Left"  />
 
             <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" core:PageSelector.IsPageContainer="True" />
 
