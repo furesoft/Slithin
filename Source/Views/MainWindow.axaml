@@ -16,6 +16,10 @@
             <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" core:PageSelector.IsPageContainer="True" />
 
             <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" Image="../Resources/refresh.png" HorizontalAlignment="Right" />
+        
+            <Border VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1">
+                <TextBlock Text="Status ..." FontSize="35" />
+            </Border>
         </Grid>
     </controls:ContentDialog>
 </Window>
