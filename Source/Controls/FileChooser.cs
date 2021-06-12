@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -44,7 +46,15 @@ namespace Slithin.Controls
         private async void ShowOpenFileDialog(object? obj)
         {
             var ofd = new OpenFileDialog();
-            ofd.Filters.Add(new FileDialogFilter() { });
+            // ofd.Filters.Add(new FileDialogFilter() { });
+
+            var regex = new Regex(@"(?<Name>[^|]*)\|(?<Extension>[^|]*)\|?");
+            var matches = regex.Matches(Filter);
+            foreach (Match match in matches)
+            {
+                ofd.Filters.Add(new FileDialogFilter() { Name = match.Groups["Name"].Value, Extensions = new List<string>(new[] { match.Groups["Extension"].Value }) });
+                // Debug.Print("Name: '{0}' Extension:'{1}'", match.Groups["Name"].Value, match.Groups["Extension"].Value);
+            }
 
             var filenames = await ofd.ShowAsync(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
             Filename = filenames[0];

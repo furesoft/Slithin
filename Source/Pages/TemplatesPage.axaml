@@ -17,6 +17,7 @@
         <ItemsRepeater.ItemTemplate>
             <DataTemplate>
               <Border Margin="3">
+                <ListBoxItem>
                   <StackPanel Orientation="Vertical">
                     <Border Margin="5" BorderThickness="1" BorderBrush="Black">
                       <Grid>
@@ -30,7 +31,8 @@
                     </Border>
                     
                     <TextBlock Text="{Binding Filename}" TextAlignment="Center" />
-                  </StackPanel>                  
+                  </StackPanel>  
+                </ListBoxItem>                
               </Border>
             </DataTemplate>
           </ItemsRepeater.ItemTemplate>
