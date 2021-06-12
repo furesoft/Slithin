@@ -7,7 +7,7 @@
              x:Class="Slithin.ContextualMenus.TemplatesContextualMenu">
     <Grid>
       <StackPanel Spacing="4" Orientation="Horizontal">
-        <controls:ImageButton Text="Add" Command="{Binding RefreshCommand}" Image="../Resources/add.png" />
+        <controls:ImageButton Text="Add" Command="{Binding OpenAddModalCommand}" Image="../Resources/add.png" />
         <controls:ImageButton Text="Remove" Command="{Binding RefreshCommand}" Image="../Resources/minus.png" />
       </StackPanel>
     </Grid>

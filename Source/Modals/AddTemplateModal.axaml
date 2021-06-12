@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:c="using:Slithin.Controls"
+             x:Class="Slithin.Modals.AddTemplateModal">
+  <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True" Command="{Binding CancelCommand}" MaxHeight="150">
+    <StackPanel>
+      <TextBox Watermark="Name" />
+      <CheckBox Content="Landscape" />
+      <ComboBox />
+    </StackPanel>
+  </c:DialogControl>
+</UserControl>
