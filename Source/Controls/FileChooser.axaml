@@ -1,0 +1,18 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Slithin.Controls">
+  <Design.PreviewWith>
+    <controls:FileChooser />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|FileChooser">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel Spacing="4" Orientation="Horizontal">
+          <TextBox Text="{TemplateBinding ShortFilename}" />
+          <Button Text="..." />
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

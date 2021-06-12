@@ -9,7 +9,8 @@
     <StackPanel>
       <TextBox Watermark="Name" />
       <CheckBox Content="Landscape" />
-      <ComboBox />
+      <ComboBox PlaceholderText="IconCode" />
+      <c:FileChooser Filename="{Binding Filename}" />
     </StackPanel>
   </c:DialogControl>
 </UserControl>
