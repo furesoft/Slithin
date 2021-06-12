@@ -15,7 +15,7 @@
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,0">
       <ItemsRepeater Items="{Binding SyncService.Templates}" Margin="16,0,0,0">
         <ItemsRepeater.ItemTemplate>
-            <DataTemplate>  
+            <DataTemplate>
               <Border Margin="3">
                   <StackPanel Orientation="Vertical">
                     <Border Margin="5" BorderThickness="1" BorderBrush="Black">
