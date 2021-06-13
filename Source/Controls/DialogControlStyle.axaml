@@ -11,11 +11,11 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Border CornerRadius="3" MinHeight="{TemplateBinding MinHeight}" Margin="5" BorderBrush="Black" BorderThickness="1"  Background="White" MaxHeight="{TemplateBinding MaxHeight}">
-          <Grid RowDefinitions="10,AUTO,*,2,25,30" Margin="5,0,5,5">
+          <Grid RowDefinitions="10,AUTO,*,2,25,40" Margin="5,0,5,5">
             <TextBlock Classes="popupHeader" Text="{TemplateBinding Header}" Grid.Row="1" />
             <ContentPresenter Content="{TemplateBinding Content}" Margin="3" Grid.Row="2" />
 
-            <Rectangle Grid.Row="3" Fill="Gray" />
+            <Rectangle Grid.Row="3" Fill="Gray" VerticalAlignment="Bottom" />
 
             <Grid Classes="single" Grid.Row="5" VerticalAlignment="Bottom">
               <Button MinWidth="320" Classes="base" VerticalContentAlignment="Bottom" IsDefault="True" Command="{TemplateBinding Command}">

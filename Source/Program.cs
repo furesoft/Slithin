@@ -1,7 +1,5 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia;
+using Avalonia.Dialogs;
 
 namespace Slithin
 {
@@ -17,6 +15,7 @@ namespace Slithin
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
+                .UseManagedSystemDialogs()
                 .LogToTrace();
     }
 }

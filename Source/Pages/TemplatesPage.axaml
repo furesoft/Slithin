@@ -16,8 +16,8 @@
       <ItemsRepeater Items="{Binding SyncService.Templates}" Margin="16,0,0,0">
         <ItemsRepeater.ItemTemplate>
             <DataTemplate>
+              <CheckBox>
               <Border Margin="3">
-                <ListBoxItem>
                   <StackPanel Orientation="Vertical">
                     <Border Margin="5" BorderThickness="1" BorderBrush="Black">
                       <Grid>
@@ -31,9 +31,9 @@
                     </Border>
                     
                     <TextBlock Text="{Binding Filename}" TextAlignment="Center" />
-                  </StackPanel>  
-                </ListBoxItem>                
+                  </StackPanel>               
               </Border>
+              </CheckBox>
             </DataTemplate>
           </ItemsRepeater.ItemTemplate>
           <ItemsRepeater.Layout>

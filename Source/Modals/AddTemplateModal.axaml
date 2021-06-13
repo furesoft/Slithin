@@ -6,12 +6,16 @@
              xmlns:c="using:Slithin.Controls"
              x:Class="Slithin.Modals.AddTemplateModal">
   <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True" Command="{Binding CancelCommand}" MinHeight="250">
-    <StackPanel>
+    <StackPanel Spacing="3">
       <TextBox Watermark="Name" />
+      <c:FileChooser Filename="{Binding Filename}" Watermark="Template File" />
+
+      <StackPanel Orientation="Horizontal" Spacing="2">
+        <ComboBox PlaceholderText="IconCode" />
+        <ComboBox Items="{Binding Categories, Mode=TwoWay}" SelectedItem="{Binding SelectedCategory}" />
+      </StackPanel>
+      
       <CheckBox Content="Landscape" />
-      <ComboBox PlaceholderText="IconCode" />
-      <ComboBox PlaceholderText="Category" />
-      <c:FileChooser Filename="{Binding Filename}" />
     </StackPanel>
   </c:DialogControl>
 </UserControl>
