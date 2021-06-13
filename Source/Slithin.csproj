@@ -15,5 +15,6 @@
 
    <ItemGroup>
      <AvaloniaResource Include="Resources\**" />
+     <EmbeddedResource Include="Resources\IconTiles\**" />
    </ItemGroup>
 </Project>

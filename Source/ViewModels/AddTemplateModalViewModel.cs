@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -9,12 +10,24 @@ namespace Slithin.ViewModels
     public class AddTemplateModalViewModel : BaseViewModel
     {
         public ObservableCollection<string> Categories { get; set; }
+        public ObservableCollection<IconCodeItem> IconCodes { get; set; } = new();
         public AddTemplateModalViewModel()
         {
             Categories = SyncService.Categories;
             Categories.RemoveAt(0);
 
             SelectedCategory = "Grids";
+
+            foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
+            {
+                if (res.StartsWith("Slithin.Resources.IconTiles."))
+                {
+                    var item = new IconCodeItem { Name = res.Split('.')[^2] };
+                    item.Load();
+
+                    IconCodes.Add(item);
+                }
+            }
         }
 
         private string _selectedCategory;

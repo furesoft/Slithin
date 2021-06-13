@@ -11,7 +11,22 @@
       <c:FileChooser Filename="{Binding Filename}" Watermark="Template File" />
 
       <StackPanel Orientation="Horizontal" Spacing="2">
-        <ComboBox PlaceholderText="IconCode" />
+        <ComboBox PlaceholderText="IconCode" Items="{Binding IconCodes, Mode=TwoWay}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Spacing="3">
+                <Image Source="{Binding Image}" Width="32" Height="32" />
+                <TextBlock Text="{Binding Name}" TextAlignment="Center" />
+              </StackPanel>
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+
+          <ComboBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Columns="2"/>
+            </ItemsPanelTemplate>
+          </ComboBox.ItemsPanel>
+        </ComboBox>
         <ComboBox Items="{Binding Categories, Mode=TwoWay}" SelectedItem="{Binding SelectedCategory}" />
       </StackPanel>
       
