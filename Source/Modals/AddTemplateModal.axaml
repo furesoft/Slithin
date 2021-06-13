@@ -23,7 +23,7 @@
 
           <ComboBox.ItemsPanel>
             <ItemsPanelTemplate>
-                <UniformGrid Columns="2"/>
+                <UniformGrid Columns="4"/>
             </ItemsPanelTemplate>
           </ComboBox.ItemsPanel>
         </ComboBox>
