@@ -10,7 +10,7 @@
       <ControlTemplate>
         <StackPanel Spacing="4" Orientation="Horizontal">
           <TextBox Text="{TemplateBinding ShortFilename}" />
-          <Button Content="..." />
+          <Button Content="..." Command="{TemplateBinding BrowseCommand}" />
         </StackPanel>
       </ControlTemplate>
     </Setter>

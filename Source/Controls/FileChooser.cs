@@ -6,6 +6,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
+using Avalonia.Dialogs;
 using Slithin.Core;
 
 namespace Slithin.Controls
@@ -17,7 +18,7 @@ namespace Slithin.Controls
 
         public static StyledProperty<string> FilterProperty = AvaloniaProperty.Register<FileChooser, string>("Filter");
 
-        public ICommand ShowOpenFileDialogCommand;
+        public static StyledProperty<ICommand> BrowseCommandProperty = AvaloniaProperty.Register<FileChooser, ICommand>("BrowseCommand");
 
         public string Filename
         {
@@ -37,28 +38,25 @@ namespace Slithin.Controls
             set { SetValue(ShortFilenameProperty, value); }
         }
 
+        public ICommand BrowseCommand
+        {
+            get { return GetValue(BrowseCommandProperty); }
+            set { SetValue(BrowseCommandProperty, value); }
+        }
+
 
         public FileChooser()
         {
-            ShowOpenFileDialogCommand = new DelegateCommand(ShowOpenFileDialog);
+            BrowseCommand = new DelegateCommand(ShowOpenFileDialog);
         }
 
-        private async void ShowOpenFileDialog(object? obj)
+        private void ShowOpenFileDialog(object? obj)
         {
             var ofd = new OpenFileDialog();
-            // ofd.Filters.Add(new FileDialogFilter() { });
+            ofd.Title = "Programm laden";
 
-            var regex = new Regex(@"(?<Name>[^|]*)\|(?<Extension>[^|]*)\|?");
-            var matches = regex.Matches(Filter);
-            foreach (Match match in matches)
-            {
-                ofd.Filters.Add(new FileDialogFilter() { Name = match.Groups["Name"].Value, Extensions = new List<string>(new[] { match.Groups["Extension"].Value }) });
-                // Debug.Print("Name: '{0}' Extension:'{1}'", match.Groups["Name"].Value, match.Groups["Extension"].Value);
-            }
-
-            var filenames = await ofd.ShowAsync(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
-            Filename = filenames[0];
-            ShortFilename = Path.GetFileName(Filename);
+            var window = App.Current.ApplicationLifetime as ClassicDesktopStyleApplicationLifetime;
+            var filenames = ofd.ShowAsync(window.MainWindow).Result;
         }
     }
 }

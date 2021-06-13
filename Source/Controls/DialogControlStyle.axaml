@@ -11,7 +11,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Border CornerRadius="3" MinHeight="{TemplateBinding MinHeight}" Margin="5" BorderBrush="Black" BorderThickness="1"  Background="White" MaxHeight="{TemplateBinding MaxHeight}">
-          <Grid RowDefinitions="10,AUTO,*,2,10,30" Margin="5,0,5,5">
+          <Grid RowDefinitions="10,AUTO,*,2,25,30" Margin="5,0,5,5">
             <TextBlock Classes="popupHeader" Text="{TemplateBinding Header}" Grid.Row="1" />
             <ContentPresenter Content="{TemplateBinding Content}" Margin="3" Grid.Row="2" />
 
@@ -23,7 +23,7 @@
               </Button>
             </Grid>
 
-            <StackPanel Classes="both" Orientation="Horizontal" Spacing="5" Grid.Row="5" Margin="2,2,2,10" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <StackPanel Classes="both" Orientation="Horizontal" Spacing="5" Grid.Row="5" Margin="2,2,2,5" HorizontalAlignment="Right" VerticalAlignment="Bottom">
               <Button Classes="base" VerticalContentAlignment="Bottom" IsCancel="True"  IsVisible="{TemplateBinding IsCancelEnabled}" Content="Abbrechen" Command="{TemplateBinding CancelCommand}" />
               <Button Classes="base" VerticalContentAlignment="Bottom" IsDefault="True"  Content="{TemplateBinding CommandText, Mode=TwoWay}" Command="{TemplateBinding Command}" />
             </StackPanel>
