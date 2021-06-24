@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -5,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Sync;
 
 namespace Slithin.Core
 {
@@ -16,6 +18,8 @@ namespace Slithin.Core
         public ObservableCollection<Template> Templates { get; set; }
 
         public ObservableCollection<string> Categories { get; set; }
+
+        public List<SyncItem> SyncQueue { get; set; } = new();
 
         private string _selectedCategory;
 

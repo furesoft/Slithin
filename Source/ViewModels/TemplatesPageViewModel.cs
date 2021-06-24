@@ -1,13 +1,7 @@
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Windows.Input;
-using Avalonia.Controls;
-using Avalonia.Layout;
 using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Core.Remarkable;
+using Slithin.Core.Commands;
 using Slithin.Modals;
 
 namespace Slithin.ViewModels
@@ -16,9 +10,12 @@ namespace Slithin.ViewModels
     {
         public ICommand OpenAddModalCommand { get; set; }
 
+        public ICommand AddToQueueCommand { get; set; }
+
         public TemplatesPageViewModel()
         {
             OpenAddModalCommand = DialogService.CreateOpenCommand(new AddTemplateModal(), new AddTemplateModalViewModel());
+            AddToQueueCommand = new AddToSyncQueueCommand();
         }
     }
 }

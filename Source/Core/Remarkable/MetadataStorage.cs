@@ -8,7 +8,10 @@ namespace Slithin.Core.Remarkable
 
         public static void Add(Metadata metadata)
         {
-            _storage.Add(metadata.VisibleName, metadata);
+            if (!_storage.ContainsKey(metadata.VisibleName))
+            {
+                _storage.Add(metadata.VisibleName, metadata);
+            }
         }
 
         public static Metadata Get(string name)

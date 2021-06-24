@@ -7,16 +7,60 @@
   <Grid RowDefinitions="35,*" ColumnDefinitions="350*,AUTO">
     
     <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="5">
-      <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,10,0" />
+      <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,10,0" IsEnabled="False" />
       <CheckBox Content="Landscape" IsChecked="{Binding SyncService.Landscape, Mode=TwoWay}" />
       <ComboBox Items="{Binding SyncService.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.SelectedCategory}" />
     </StackPanel>
 
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,0">
+    <ListBox Items="{Binding SyncService.Templates}" Margin="16,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="templatesListBox">
+      <ListBox.ContextMenu>
+                    <ContextMenu>
+                      <MenuItem Header="Add to Sync Queue" Command="{Binding AddToQueueCommand}" CommandParameter="{Binding #templatesListBox.SelectedItem}" />
+                      <MenuItem Header="Remove from Sync Queue" />
+                    </ContextMenu>
+                  </ListBox.ContextMenu>
+
+      <ListBox.ItemTemplate>
+            <DataTemplate>
+            <Grid>
+                <Border Margin="3" HorizontalAlignment="Center">
+                  <Border.ContextMenu>
+                    <ContextMenu>
+                       <MenuItem Header="Add to Sync Queue" Command="{Binding AddToQueueCommand}" CommandParameter="{Binding}" />
+                      <MenuItem Header="Remove from Sync Queue" />
+                    </ContextMenu>
+                  </Border.ContextMenu>
+
+                    <StackPanel Orientation="Vertical">
+                      <Border Margin="5" BorderThickness="1" BorderBrush="Black">
+                        <Grid>
+                          <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
+
+                          <Image Source="../Resources/tablet.png" Margin="2,0,0,2" Width="24" Height="24" IsVisible="{Binding OnDevice}" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+                          <Button Margin="2,0,0,2" Height="24" IsVisible="{Binding ToDownload}" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                            Add
+                          </Button>
+                        </Grid>
+                      </Border>
+                      
+                      <TextBlock Text="{Binding Filename}" TextAlignment="Center" />
+                    </StackPanel>               
+                </Border>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+
+           <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Columns="4"/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+    </ListBox>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,0" IsVisible="False">
       <ItemsRepeater Items="{Binding SyncService.Templates}" Margin="16,0,0,0">
         <ItemsRepeater.ItemTemplate>
             <DataTemplate>
-              <CheckBox>
               <Border Margin="3">
                   <StackPanel Orientation="Vertical">
                     <Border Margin="5" BorderThickness="1" BorderBrush="Black">
@@ -33,7 +77,6 @@
                     <TextBlock Text="{Binding Filename}" TextAlignment="Center" />
                   </StackPanel>               
               </Border>
-              </CheckBox>
             </DataTemplate>
           </ItemsRepeater.ItemTemplate>
           <ItemsRepeater.Layout>

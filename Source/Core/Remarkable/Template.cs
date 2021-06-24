@@ -2,8 +2,10 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Text.Json.Serialization;
+using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Slithin.Core.Commands;
 
 namespace Slithin.Core.Remarkable
 {
@@ -34,10 +36,18 @@ namespace Slithin.Core.Remarkable
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        [JsonIgnore]
+        public ICommand AddToQueueCommand { get; set; }
+
         public IImage Image
         {
             get { return _image; }
             set { _image = value; PropertyChanged?.Invoke(this, new(nameof(Image))); }
+        }
+
+        public Template()
+        {
+            AddToQueueCommand = new AddToSyncQueueCommand();
         }
 
 
