@@ -1,7 +1,7 @@
-﻿using Avalonia.Controls;
+﻿using System.Windows.Input;
+using Avalonia.Controls;
 using Slithin.Core;
 using Slithin.Modals;
-using System.Windows.Input;
 
 namespace Slithin.Controls
 {
@@ -46,6 +46,14 @@ namespace Slithin.Controls
             Open(content);
         }
 
+        public static void Open()
+        {
+            if (_host != null)
+            {
+                _host.IsOpened = true;
+            }
+        }
+
         public static void OpenError(string msg)
         {
             var dc = new
@@ -55,14 +63,6 @@ namespace Slithin.Controls
             };
 
             Open(new ErrorModal { DataContext = dc });
-        }
-
-        public static void Open()
-        {
-            if (_host != null)
-            {
-                _host.IsOpened = true;
-            }
         }
 
         public static void SetIsHost(ContentDialog target, bool value)

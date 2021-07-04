@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows.Input;
 using Slithin.Core.Remarkable;
@@ -18,7 +18,6 @@ namespace Slithin.Core.Commands
         {
             if (parameter is Template tmpl)
             {
-                
             }
 
             Debug.WriteLine("add clicked");

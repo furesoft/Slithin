@@ -1,5 +1,4 @@
-using System;
-using System.Net;
+﻿using System.Net;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
 using LiteDB;
@@ -12,6 +11,12 @@ namespace Slithin.ViewModels
 {
     public class ConnectionWindowViewModel : BaseViewModel
     {
+        private string _ipAddress;
+
+        private string _password;
+
+        private bool _remember;
+
         public ConnectionWindowViewModel()
         {
             _ipAddress = string.Empty;
@@ -19,6 +24,29 @@ namespace Slithin.ViewModels
             _remember = false;
 
             ConnectCommand = new DelegateCommand(Connect);
+        }
+
+        public ObjectId _id { get; set; }
+
+        [BsonIgnore]
+        public ICommand ConnectCommand { get; set; }
+
+        public string IP
+        {
+            get { return _ipAddress; }
+            set { SetValue(ref _ipAddress, value); }
+        }
+
+        public string Password
+        {
+            get { return _password; }
+            set { SetValue(ref _password, value); }
+        }
+
+        public bool Remember
+        {
+            get { return _remember; }
+            set { SetValue(ref _remember, value); }
         }
 
         private void Connect(object? obj)
@@ -64,32 +92,5 @@ namespace Slithin.ViewModels
                 System.Console.WriteLine("The given IP was not valid");
             }
         }
-
-        private string _ipAddress;
-        public string IP
-        {
-            get { return _ipAddress; }
-            set { SetValue(ref _ipAddress, value); }
-        }
-
-        private string _password;
-        public string Password
-        {
-            get { return _password; }
-            set { SetValue(ref _password, value); }
-        }
-
-        private bool _remember;
-        public bool Remember
-        {
-            get { return _remember; }
-            set { SetValue(ref _remember, value); }
-        }
-
-
-        [BsonIgnore]
-        public ICommand ConnectCommand { get; set; }
-        public ObjectId _id { get; set; }
-
     }
 }

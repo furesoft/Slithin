@@ -1,12 +1,12 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Slithin.Core;
 
 namespace Slithin.ViewModels
 {
     public class AddTemplateModalViewModel : BaseViewModel
     {
-        public ObservableCollection<string> Categories { get; set; }
-        public ObservableCollection<IconCodeItem> IconCodes { get; set; } = new();
+        private string _selectedCategory;
+
         public AddTemplateModalViewModel()
         {
             Categories = SyncService.Categories;
@@ -26,7 +26,8 @@ namespace Slithin.ViewModels
             }
         }
 
-        private string _selectedCategory;
+        public ObservableCollection<string> Categories { get; set; }
+        public ObservableCollection<IconCodeItem> IconCodes { get; set; } = new();
 
         public string SelectedCategory
         {

@@ -1,14 +1,11 @@
-
-
-using Slithin.Core.Remarkable;
+﻿using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Sync
 {
     public interface IRepository
     {
         void Add(Template template);
+
         Template[] GetTemplates();
-
-
     }
 }

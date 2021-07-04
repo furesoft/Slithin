@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -10,25 +10,27 @@ namespace Slithin.Controls
 {
     public class FileChooser : TemplatedControl
     {
-        public static StyledProperty<string> FilenameProperty = AvaloniaProperty.Register<FileChooser, string>("Filename");
-        public static StyledProperty<string> ShortFilenameProperty = AvaloniaProperty.Register<FileChooser, string>("ShortFilename");
-
-        public static StyledProperty<string> FilterProperty = AvaloniaProperty.Register<FileChooser, string>("Filter");
-
         public static StyledProperty<ICommand> BrowseCommandProperty = AvaloniaProperty.Register<FileChooser, ICommand>("BrowseCommand");
-
+        public static StyledProperty<string> FilenameProperty = AvaloniaProperty.Register<FileChooser, string>("Filename");
+        public static StyledProperty<string> FilterProperty = AvaloniaProperty.Register<FileChooser, string>("Filter");
+        public static StyledProperty<string> ShortFilenameProperty = AvaloniaProperty.Register<FileChooser, string>("ShortFilename");
         public static StyledProperty<string> WatermarkProperty = AvaloniaProperty.Register<FileChooser, string>("Watermark");
+
+        public FileChooser()
+        {
+            BrowseCommand = new DelegateCommand(ShowOpenFileDialog);
+        }
+
+        public ICommand BrowseCommand
+        {
+            get { return GetValue(BrowseCommandProperty); }
+            set { SetValue(BrowseCommandProperty, value); }
+        }
 
         public string Filename
         {
             get { return GetValue(FilenameProperty); }
             set { SetValue(FilenameProperty, value); }
-        }
-
-        public string Watermark
-        {
-            get { return GetValue(WatermarkProperty); }
-            set { SetValue(WatermarkProperty, value); }
         }
 
         public string Filter
@@ -43,15 +45,10 @@ namespace Slithin.Controls
             set { SetValue(ShortFilenameProperty, value); }
         }
 
-        public ICommand BrowseCommand
+        public string Watermark
         {
-            get { return GetValue(BrowseCommandProperty); }
-            set { SetValue(BrowseCommandProperty, value); }
-        }
-
-        public FileChooser()
-        {
-            BrowseCommand = new DelegateCommand(ShowOpenFileDialog);
+            get { return GetValue(WatermarkProperty); }
+            set { SetValue(WatermarkProperty, value); }
         }
 
         private async void ShowOpenFileDialog(object obj)

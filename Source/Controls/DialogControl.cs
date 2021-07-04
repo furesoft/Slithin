@@ -1,9 +1,9 @@
-﻿using Avalonia;
+﻿using System;
+using System.Windows.Input;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Styling;
 using Slithin.Core;
-using System;
-using System.Windows.Input;
 
 namespace Slithin.Controls
 {

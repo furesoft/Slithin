@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
 using System.Text.Json.Serialization;
@@ -11,8 +11,20 @@ namespace Slithin.Core.Remarkable
 {
     public class Template : INotifyPropertyChanged
     {
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        private IImage? _image;
+
+        public Template()
+        {
+            AddToQueueCommand = new AddToSyncQueueCommand();
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        [JsonIgnore]
+        public ICommand AddToQueueCommand { get; set; }
+
+        [JsonPropertyName("categories")]
+        public string[]? Categories { get; set; }
 
         [JsonPropertyName("filename")]
         public string? Filename { get; set; }
@@ -20,36 +32,23 @@ namespace Slithin.Core.Remarkable
         [JsonPropertyName("iconCode")]
         public string? IconCode { get; set; }
 
-        [JsonPropertyName("categories")]
-        public string[]? Categories { get; set; }
-
-        [JsonPropertyName("landscape")]
-        public bool Landscape { get; set; }
-
-        [JsonIgnore]
-        public bool ToDownload { get; set; }
-
-        [JsonIgnore]
-        public bool OnDevice { get; set; }
-
-        private IImage? _image;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        [JsonIgnore]
-        public ICommand AddToQueueCommand { get; set; }
-
         public IImage Image
         {
             get { return _image; }
             set { _image = value; PropertyChanged?.Invoke(this, new(nameof(Image))); }
         }
 
-        public Template()
-        {
-            AddToQueueCommand = new AddToSyncQueueCommand();
-        }
+        [JsonPropertyName("landscape")]
+        public bool Landscape { get; set; }
 
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonIgnore]
+        public bool OnDevice { get; set; }
+
+        [JsonIgnore]
+        public bool ToDownload { get; set; }
 
         public void Load()
         {

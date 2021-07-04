@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -12,62 +12,8 @@ namespace Slithin.Core
 {
     public class SynchronisationService : INotifyPropertyChanged
     {
-        public ObservableCollection<string> Documents { get; set; }
-
-        public ICommand SynchronizeCommand { get; set; }
-        public ObservableCollection<Template> Templates { get; set; }
-
-        public ObservableCollection<string> Categories { get; set; }
-
-        public List<SyncItem> SyncQueue { get; set; } = new();
-
-        private string _selectedCategory;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public string SelectedCategory
-        {
-            get { return _selectedCategory; }
-            set { SetValue(ref _selectedCategory, value); RefreshTemplates(); }
-        }
-
         private bool _landscape;
-        public bool Landscape
-        {
-            get { return _landscape; }
-            set { SetValue(ref _landscape, value); RefreshTemplates(); }
-        }
-
-        private void RefreshTemplates()
-        {
-            Templates.Clear();
-
-            if (SelectedCategory == "All")
-            {
-                foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => Landscape == _.Landscape))
-                {
-                    Templates.Add(item);
-                }
-            }
-            else
-            {
-                foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape))
-                {
-                    Templates.Add(item);
-                }
-            }
-        }
-
-        protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
-        {
-            field = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-
-        }
+        private string _selectedCategory;
 
         public SynchronisationService()
         {
@@ -81,12 +27,49 @@ namespace Slithin.Core
             SynchronizeCommand = new DelegateCommand(Synchronize);
         }
 
-        private void Synchronize(object? obj)
-        {
-            LoadDocumentMetadata();
-            LoadTemplates();
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-            SelectedCategory = "Grids";
+        public ObservableCollection<string> Categories { get; set; }
+        public ObservableCollection<string> Documents { get; set; }
+
+        public bool Landscape
+        {
+            get { return _landscape; }
+            set { SetValue(ref _landscape, value); RefreshTemplates(); }
+        }
+
+        public string SelectedCategory
+        {
+            get { return _selectedCategory; }
+            set { SetValue(ref _selectedCategory, value); RefreshTemplates(); }
+        }
+
+        public ICommand SynchronizeCommand { get; set; }
+        public List<SyncItem> SyncQueue { get; set; } = new();
+        public ObservableCollection<Template> Templates { get; set; }
+
+        protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
+        {
+            field = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
+        private void LoadDocumentMetadata()
+        {
+            var allDocumentsStream = ServiceLocator.Client.RunCommand("ls " + PathList.Documents).Result;
+            var filenames = allDocumentsStream.Split('\n');
+
+            foreach (var filename in filenames)
+            {
+                if (filename.EndsWith(".metadata"))
+                {
+                    var filecontent = ServiceLocator.Client.RunCommand("cat " + PathList.Documents + "/" + filename);
+                    var metadata = JsonConvert.DeserializeObject<Metadata>(filecontent.Result);
+                    MetadataStorage.Add(metadata);
+
+                    Documents.Add(metadata.VisibleName);
+                }
+            }
         }
 
         private void LoadTemplates()
@@ -113,22 +96,36 @@ namespace Slithin.Core
             }
         }
 
-        private void LoadDocumentMetadata()
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            var allDocumentsStream = ServiceLocator.Client.RunCommand("ls " + PathList.Documents).Result;
-            var filenames = allDocumentsStream.Split('\n');
+        }
 
-            foreach (var filename in filenames)
+        private void RefreshTemplates()
+        {
+            Templates.Clear();
+
+            if (SelectedCategory == "All")
             {
-                if (filename.EndsWith(".metadata"))
+                foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => Landscape == _.Landscape))
                 {
-                    var filecontent = ServiceLocator.Client.RunCommand("cat " + PathList.Documents + "/" + filename);
-                    var metadata = JsonConvert.DeserializeObject<Metadata>(filecontent.Result);
-                    MetadataStorage.Add(metadata);
-
-                    Documents.Add(metadata.VisibleName);
+                    Templates.Add(item);
                 }
             }
+            else
+            {
+                foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape))
+                {
+                    Templates.Add(item);
+                }
+            }
+        }
+
+        private void Synchronize(object? obj)
+        {
+            LoadDocumentMetadata();
+            LoadTemplates();
+
+            SelectedCategory = "Grids";
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Avalonia.Controls;
 
 namespace Slithin.Core
@@ -7,14 +7,12 @@ namespace Slithin.Core
     {
         private static TextBlock outputTextBlock;
 
-        public static void SetIsNotificationOutput(TextBlock target, bool value)
+        public static ICommand BuildCommand(string message, ICommand handlerCommand)
         {
-            outputTextBlock = target;
-        }
-
-        public static bool GetIsNotificationOutput(TextBlock target)
-        {
-            return target == outputTextBlock;
+            return new DelegateCommand((_) =>
+            {
+                DoAndShow(message, handlerCommand);
+            });
         }
 
         public static void DoAndShow(string message, ICommand cmd)
@@ -27,12 +25,14 @@ namespace Slithin.Core
             outputTextBlock.IsVisible = false;
         }
 
-        public static ICommand BuildCommand(string message, ICommand handlerCommand)
+        public static bool GetIsNotificationOutput(TextBlock target)
         {
-            return new DelegateCommand((_) =>
-            {
-                DoAndShow(message, handlerCommand);
-            });
+            return target == outputTextBlock;
+        }
+
+        public static void SetIsNotificationOutput(TextBlock target, bool value)
+        {
+            outputTextBlock = target;
         }
     }
 }

@@ -1,5 +1,4 @@
-
-using System;
+﻿using System;
 using System.IO;
 using LiteDB;
 using Slithin.Core.Remarkable;
@@ -15,15 +14,15 @@ namespace Slithin.Core.Sync.Repositorys
         {
             _database = new("slithin.local");
             _templates = _database.GetCollection<Template>();
-            
         }
+
         public void Add(Template template)
         {
             if (!_templates.Exists(Query.EQ("Filename", template.Filename)))
             {
-                var ms = new MemoryStream(template.Load);
-                _database.FileStorage.Upload(Guid.NewGuid(), template.Filename, ms);
-                
+                var ms = new MemoryStream();
+                _database.FileStorage.Upload(Guid.NewGuid().ToString(), template.Filename, ms);
+
                 _templates.Insert(template);
             }
         }

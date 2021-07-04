@@ -1,12 +1,13 @@
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 
 namespace Slithin.Core
 {
     public interface IPage
     {
-        bool UseContextualMenu();
+        string Title { get; }
+
         Control GetContextualMenu();
 
-        string Title { get; }
+        bool UseContextualMenu();
     }
 }

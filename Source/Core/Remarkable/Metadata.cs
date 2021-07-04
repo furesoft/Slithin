@@ -1,9 +1,13 @@
-
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
 {
+    public enum MetadataType
+    {
+        DocumentType,
+        CollectionType,
+    }
+
     public class Metadata
     {
         [JsonProperty("deleted")]
@@ -12,19 +16,13 @@ namespace Slithin.Core.Remarkable
         [JsonProperty("parent")]
         public string? Parent { get; set; }
 
-        [JsonProperty("visibleName")]
-        public string? VisibleName { get; set; }
+        [JsonProperty("type")]
+        public MetadataType Type { get; set; }
 
         [JsonProperty("version")]
         public int Version { get; set; }
 
-        [JsonProperty("type")]
-        public MetadataType Type { get; set; }
-    }
-
-    public enum MetadataType
-    {
-        DocumentType,
-        CollectionType,
+        [JsonProperty("visibleName")]
+        public string? VisibleName { get; set; }
     }
 }
