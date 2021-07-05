@@ -1,7 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin", "Slithin.csproj", "{8D6DDA9F-C8F3-4EDB-8D4A-9CDC729C0F29}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin", "Slithin.csproj", "{8D6DDA9F-C8F3-4EDB-8D4A-9CDC729C0F29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicenceKeyGenerator", "..\LicenceKeyGenerator\LicenceKeyGenerator.csproj", "{12FA410D-0AF0-4C63-88FE-5967BF92DFBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,5 +16,15 @@ Global
 		{8D6DDA9F-C8F3-4EDB-8D4A-9CDC729C0F29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D6DDA9F-C8F3-4EDB-8D4A-9CDC729C0F29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D6DDA9F-C8F3-4EDB-8D4A-9CDC729C0F29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12FA410D-0AF0-4C63-88FE-5967BF92DFBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12FA410D-0AF0-4C63-88FE-5967BF92DFBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12FA410D-0AF0-4C63-88FE-5967BF92DFBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12FA410D-0AF0-4C63-88FE-5967BF92DFBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEF28834-827B-4DA8-AC92-207A90616579}
 	EndGlobalSection
 EndGlobal
