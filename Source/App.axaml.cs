@@ -2,9 +2,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using FeatureSwitcher;
 using Slithin.Core;
-using Slithin.Features;
 using Slithin.Views;
 
 namespace Slithin
