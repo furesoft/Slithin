@@ -23,18 +23,13 @@ namespace Slithin.Core.Remarkable
 
         public void Load()
         {
-            var content = ServiceLocator.Client.RunCommand("cat " + PathList.Templates + "/templates.json").Result;
-            var templates = JsonConvert.DeserializeObject<TemplateStorage>(content);
+            Instance.Templates = ServiceLocator.Local.GetTemplates();
 
-            Instance = templates;
-
-            foreach (var item in templates.Templates)
+            foreach (var item in Instance.Templates)
             {
                 item.OnDevice = true;
                 item.Load();
             }
-
-            File.WriteAllText("templates.json", content);
         }
     }
 }

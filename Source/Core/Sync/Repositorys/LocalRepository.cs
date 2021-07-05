@@ -1,35 +1,53 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Linq;
 using LiteDB;
 using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Sync.Repositorys
 {
+    public class DeviceRepository : IRepository
+    {
+        public void Add(Template template)
+        {
+            //1. copy template to device
+            //2. add template to template.json
+
+            ServiceLocator.Scp.Upload(File.OpenRead(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png")), PathList.Templates);
+
+            var jsonStrm = File.OpenRead(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json"));
+            ServiceLocator.Scp.Upload(jsonStrm, PathList.Templates);
+        }
+
+        public Template[] GetTemplates()
+        {
+            ServiceLocator.Scp.Download(Path.Combine(PathList.Templates, "templates.json"), new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json")));
+            //Get template.json
+            //sort out all synced templates
+            //download all nonsynced templates to localrepository
+
+            return null;
+        }
+    }
+
     public class LocalRepository : IRepository
     {
-        private LiteDatabase _database;
-        private ILiteCollection<Template> _templates;
+        private readonly LiteDatabase _database;
+        private readonly ILiteCollection<Template> _templates;
 
         public LocalRepository()
         {
-            _database = new("slithin.local");
+            _database = new(Path.Combine(ServiceLocator.ConfigBaseDir, "slithin.local"));
             _templates = _database.GetCollection<Template>();
         }
 
         public void Add(Template template)
         {
-            if (!_templates.Exists(Query.EQ("Filename", template.Filename)))
-            {
-                var ms = new MemoryStream();
-                _database.FileStorage.Upload(Guid.NewGuid().ToString(), template.Filename, ms);
-
-                _templates.Insert(template);
-            }
+            _templates.Insert(template);
         }
 
         public Template[] GetTemplates()
         {
-            throw new System.NotImplementedException();
+            return _templates.FindAll().ToArray();
         }
     }
 }

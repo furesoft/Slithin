@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using LiteDB;
 using Renci.SshNet;
+using Slithin.Core.Sync.Repositorys;
 using Slithin.ViewModels;
 
 namespace Slithin.Core
@@ -8,9 +11,13 @@ namespace Slithin.Core
     public static class ServiceLocator
     {
         public static SshClient Client;
+        public static string ConfigBaseDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static LiteDatabase Database = new("slithin.db");
+        public static DeviceRepository Device = new();
+        public static LocalRepository Local = new();
         public static ScpClient Scp;
         public static SynchronisationService SyncService = new();
+        public static string TemplatesDir = Path.Combine(ConfigBaseDir, "Templates");
 
         public static ConnectionWindowViewModel GetLoginCredentials()
         {

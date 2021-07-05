@@ -76,8 +76,11 @@ namespace Slithin.Core
         {
             Templates.Clear();
 
+            // Load local Templates
             TemplateStorage.Instance?.Load();
+            var deviceTemplates = ServiceLocator.Device.GetTemplates();
 
+            // Load Category Names
             var tempCats = TemplateStorage.Instance?.Templates.Select(_ => _.Categories);
             foreach (var item in tempCats)
             {

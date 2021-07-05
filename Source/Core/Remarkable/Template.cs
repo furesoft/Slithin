@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using LiteDB;
 using Slithin.Core.Commands;
 
 namespace Slithin.Core.Remarkable
@@ -52,23 +53,14 @@ namespace Slithin.Core.Remarkable
 
         public void Load()
         {
-            if (!Directory.Exists("Templates"))
+            if (Directory.Exists(ServiceLocator.TemplatesDir))
             {
-                Directory.CreateDirectory("Templates");
-            }
+                var path = Path.Combine(ServiceLocator.TemplatesDir, Filename + ".png");
 
-            var path = Path.Combine(Environment.CurrentDirectory, "Templates", Filename + ".png");
-
-            if (!File.Exists(path))
-            {
-                var output = File.OpenWrite(path);
-                ServiceLocator.Scp.Download(path, output);
-                output.Close();
-            }
-
-            if (Image is null)
-            {
-                Image = Bitmap.DecodeToWidth(File.OpenRead(path), 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+                if (Image is null)
+                {
+                    Image = Bitmap.DecodeToWidth(File.OpenRead(path), 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+                }
             }
         }
     }
