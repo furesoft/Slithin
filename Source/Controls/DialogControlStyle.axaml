@@ -12,7 +12,7 @@
       <ControlTemplate>
         <Border CornerRadius="3" MinHeight="{TemplateBinding MinHeight}" Margin="5" BorderBrush="Black" BorderThickness="1"  Background="White" MaxHeight="{TemplateBinding MaxHeight}">
           <Grid RowDefinitions="10,AUTO,*,2,25,40" Margin="5,0,5,5">
-            <TextBlock Classes="popupHeader" Text="{TemplateBinding Header}" Grid.Row="1" />
+            <TextBlock Classes="popupHeader" Text="{TemplateBinding Header}" Grid.Row="1" FontWeight="Bold" FontSize="22" TextAlignment="Center" />
             <ContentPresenter Content="{TemplateBinding Content}" Margin="3" Grid.Row="2" />
 
             <Rectangle Grid.Row="3" Fill="Gray" VerticalAlignment="Bottom" />

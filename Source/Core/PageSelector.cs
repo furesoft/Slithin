@@ -24,7 +24,7 @@ namespace Slithin.Core
                     var page = new TabItem();
                     page.Header = pageInstance?.Title;
                     page.DataContext = controlInstance.DataContext;
-                    page.IsEnabled = pageInstance.IsEnabled();
+                    page.IsVisible = pageInstance.IsEnabled();
 
                     if (pageInstance.UseContextualMenu())
                     {
@@ -38,6 +38,7 @@ namespace Slithin.Core
             }
 
             s_container.Items = pages;
+            s_container.SelectedIndex = 0;
         }
 
         public static bool GetIsContextualContainer(Control control)

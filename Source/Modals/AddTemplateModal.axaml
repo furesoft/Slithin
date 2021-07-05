@@ -23,13 +23,13 @@
 
           <ComboBox.ItemsPanel>
             <ItemsPanelTemplate>
-                <UniformGrid Columns="4"/>
+              <UniformGrid Columns="4" />
             </ItemsPanelTemplate>
           </ComboBox.ItemsPanel>
         </ComboBox>
         <ComboBox Items="{Binding Categories, Mode=TwoWay}" SelectedItem="{Binding SelectedCategory}" />
       </StackPanel>
-      
+
       <CheckBox Content="Landscape" />
     </StackPanel>
   </c:DialogControl>

@@ -7,19 +7,19 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Slithin.Views.MainWindow" Icon="/Resources/Icon.png"
         Title="Slithin">
-    <controls:ContentDialog controls:DialogService.IsHost="True">
-        <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*,150">
-            <Image Source="../Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="200" Height="125" Margin="15,0,0,0" />
+  <controls:ContentDialog controls:DialogService.IsHost="True">
+    <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*,150">
+      <Image Source="../Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="200" Height="125" Margin="15,0,0,0" />
 
-            <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="3" HorizontalAlignment="Left"  />
+      <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="3" HorizontalAlignment="Left" />
 
-            <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" core:PageSelector.IsPageContainer="True" />
+      <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" core:PageSelector.IsPageContainer="True" />
 
-            <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" Image="../Resources/refresh.png" Margin="0,0,12,0" HorizontalAlignment="Right" />
-        
-            <Border VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1">
-                <TextBlock Text="Status ..." FontSize="35" core:NotificationService.IsNotificationOutput="True" IsVisible="False" />
-            </Border>
-        </Grid>
-    </controls:ContentDialog>
+      <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" Image="../Resources/refresh.png" Margin="0,0,12,0" HorizontalAlignment="Right" />
+
+      <Border VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1">
+        <TextBlock Text="Status ..." FontSize="35" core:NotificationService.IsNotificationOutput="True" IsVisible="False" />
+      </Border>
+    </Grid>
+  </controls:ContentDialog>
 </Window>

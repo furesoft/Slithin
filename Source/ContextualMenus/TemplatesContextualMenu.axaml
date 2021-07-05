@@ -3,12 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:Slithin.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150"
              x:Class="Slithin.ContextualMenus.TemplatesContextualMenu">
-    <Grid>
-      <StackPanel Spacing="4" Orientation="Horizontal">
-        <controls:ImageButton Text="Add" Command="{Binding OpenAddModalCommand}" Image="../Resources/add.png" />
-        <controls:ImageButton Text="Remove" Command="{Binding RefreshCommand}" Image="../Resources/minus.png" />
-      </StackPanel>
-    </Grid>
+  <Grid>
+    <StackPanel Spacing="4" Orientation="Horizontal">
+      <controls:ImageButton Text="Add" Command="{Binding OpenAddModalCommand}" Image="../Resources/add.png" />
+      <controls:ImageButton Text="Remove"  Image="../Resources/minus.png" />
+    </StackPanel>
+  </Grid>
 </UserControl>
