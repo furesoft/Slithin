@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Actress;
 using LiteDB;
 using Renci.SshNet;
 using Slithin.Core.Sync.Repositorys;
+using Slithin.Messages;
 using Slithin.ViewModels;
 
 namespace Slithin.Core
@@ -39,6 +41,7 @@ namespace Slithin.Core
         {
             MessageRouter.Register<UploadTemplateMessage>(_ =>
             {
+                Debug.WriteLine("upload Template routed");
                 //ToDo: upload template to device
             });
         }
