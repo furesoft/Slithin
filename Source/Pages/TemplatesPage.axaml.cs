@@ -22,6 +22,8 @@ namespace Slithin.Pages
             return new TemplatesContextualMenu();
         }
 
+        bool IPage.IsEnabled() => true;
+
         public bool UseContextualMenu()
         {
             return true;

@@ -20,12 +20,11 @@ namespace Slithin.Core
                     var instance = Activator.CreateInstance(type);
                     var pageInstance = instance as IPage;
                     var controlInstance = instance as Control;
-                    var enabledAttribute = type.GetCustomAttribute<EnabledAttribute>() ?? new EnabledAttribute(true);
 
                     var page = new TabItem();
                     page.Header = pageInstance?.Title;
                     page.DataContext = controlInstance.DataContext;
-                    page.IsEnabled = enabledAttribute.IsEnabled;
+                    page.IsEnabled = pageInstance.IsEnabled();
 
                     if (pageInstance.UseContextualMenu())
                     {

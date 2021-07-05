@@ -1,10 +1,11 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using FeatureSwitcher;
 using Slithin.Core;
+using Slithin.Features;
 
 namespace Slithin.Pages
 {
-    [Enabled(false)]
     public partial class DevicePage : UserControl, IPage
     {
         public DevicePage()
@@ -17,6 +18,11 @@ namespace Slithin.Pages
         public Control GetContextualMenu()
         {
             return null;
+        }
+
+        bool IPage.IsEnabled()
+        {
+            return Feature<Device>.Is().Enabled;
         }
 
         public bool UseContextualMenu()

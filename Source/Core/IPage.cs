@@ -8,6 +8,8 @@ namespace Slithin.Core
 
         Control GetContextualMenu();
 
+        bool IsEnabled();
+
         bool UseContextualMenu();
     }
 }

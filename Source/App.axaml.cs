@@ -1,6 +1,8 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using FeatureSwitcher;
+using Slithin.Features;
 using Slithin.Views;
 
 namespace Slithin
@@ -16,7 +18,11 @@ namespace Slithin
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
+#if !DEBUG
                 desktop.MainWindow = new ConnectWindow();
+#else
+                desktop.MainWindow = new MainWindow();
+#endif
             }
 
             base.OnFrameworkInitializationCompleted();
