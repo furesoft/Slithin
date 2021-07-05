@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Avalonia.Controls;
 
 namespace Slithin.Core
@@ -19,10 +20,12 @@ namespace Slithin.Core
                     var instance = Activator.CreateInstance(type);
                     var pageInstance = instance as IPage;
                     var controlInstance = instance as Control;
+                    var enabledAttribute = type.GetCustomAttribute<EnabledAttribute>() ?? new EnabledAttribute(true);
 
                     var page = new TabItem();
                     page.Header = pageInstance?.Title;
                     page.DataContext = controlInstance.DataContext;
+                    page.IsEnabled = enabledAttribute.IsEnabled;
 
                     if (pageInstance.UseContextualMenu())
                     {

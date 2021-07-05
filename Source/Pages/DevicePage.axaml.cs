@@ -4,6 +4,7 @@ using Slithin.Core;
 
 namespace Slithin.Pages
 {
+    [Enabled(false)]
     public partial class DevicePage : UserControl, IPage
     {
         public DevicePage()
