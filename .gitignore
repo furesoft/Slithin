@@ -354,3 +354,7 @@ Source/Templates/
 Source/templates.json
 
 LicenceKeyGenerator/
+
+Dist/Linux/
+
+Dist/MacOS/

@@ -4,7 +4,12 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin", "Slithin.csproj", "{8D6DDA9F-C8F3-4EDB-8D4A-9CDC729C0F29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicenceKeyGenerator", "..\LicenceKeyGenerator\LicenceKeyGenerator.csproj", "{12FA410D-0AF0-4C63-88FE-5967BF92DFBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LicenceKeyGenerator", "..\LicenceKeyGenerator\LicenceKeyGenerator.csproj", "{12FA410D-0AF0-4C63-88FE-5967BF92DFBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{19714095-490C-41EE-B64E-C0046D452830}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
