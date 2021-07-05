@@ -1,7 +1,9 @@
-﻿using Avalonia;
+﻿using Actress;
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using FeatureSwitcher;
+using Slithin.Core;
 using Slithin.Features;
 using Slithin.Views;
 
@@ -24,6 +26,20 @@ namespace Slithin
                 desktop.MainWindow = new MainWindow();
 #endif
             }
+
+            ServiceLocator.Mailbox = MailboxProcessor.Start<AsynchronousMessage>(
+                async (_) =>
+                {
+                    while (true)
+                    {
+                        var msg = await _.Receive();
+
+                        MessageRouter.Route(msg);
+                    }
+                }
+                );
+
+            ServiceLocator.InitMessageRouter();
 
             base.OnFrameworkInitializationCompleted();
         }
