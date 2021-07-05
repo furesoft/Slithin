@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -22,9 +22,9 @@ namespace Slithin.Views
 
         private void MainWindow_Closed(object? sender, EventArgs e)
         {
-            ServiceLocator.Client.Disconnect();
-            ServiceLocator.Scp.Disconnect();
-            ServiceLocator.Database.Dispose();
+            ServiceLocator.Client?.Disconnect();
+            ServiceLocator.Scp?.Disconnect();
+            ServiceLocator.Database?.Dispose();
 
             Environment.Exit(0);
         }
