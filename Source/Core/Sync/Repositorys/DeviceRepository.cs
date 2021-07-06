@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
 
@@ -37,6 +38,15 @@ namespace Slithin.Core.Sync.Repositorys
             //Get template.json
             //sort out all synced templates
             //download all nonsynced templates to localrepository
+
+            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+            var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
+            var toSyncTemplates = templateJson.Templates.Where(_ => !ServiceLocator.Local.GetTemplates().Contains(_));
+
+            foreach (var t in toSyncTemplates)
+            {
+                ServiceLocator.Scp.Download(PathList.Templates + "/" + t.Filename + ".png", new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "Templates", t.Filename + ".png")));
+            }
 
             return null;
         }
