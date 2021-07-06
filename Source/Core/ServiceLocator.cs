@@ -14,7 +14,7 @@ namespace Slithin.Core
     public static class ServiceLocator
     {
         public static SshClient Client;
-        public static string ConfigBaseDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        public static string ConfigBaseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin");
         public static LiteDatabase Database = new("slithin.db");
         public static DeviceRepository Device = new();
         public static LocalRepository Local = new();

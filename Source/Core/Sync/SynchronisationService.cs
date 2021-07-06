@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -32,6 +33,8 @@ namespace Slithin.Core
         public ObservableCollection<string> Categories { get; set; }
         public ObservableCollection<string> Documents { get; set; }
 
+        public bool IsSyncNeeded => !Directory.Exists(ServiceLocator.TemplatesDir);
+
         public bool Landscape
         {
             get { return _landscape; }
@@ -56,6 +59,7 @@ namespace Slithin.Core
 
         private void LoadDocumentMetadata()
         {
+            /*
             var allDocumentsStream = ServiceLocator.Client.RunCommand("ls " + PathList.Documents).Result;
             var filenames = allDocumentsStream.Split('\n');
 
@@ -70,18 +74,26 @@ namespace Slithin.Core
                     Documents.Add(metadata.VisibleName);
                 }
             }
+            */
         }
 
         private void LoadTemplates()
         {
             Templates.Clear();
 
+            if (ServiceLocator.SyncService.IsSyncNeeded)
+            {
+                ServiceLocator.Device.GetTemplates();
+            }
+
+            var deviceTemplates = ServiceLocator.Device.GetTemplates();
             // Load local Templates
             TemplateStorage.Instance?.Load();
-            var deviceTemplates = ServiceLocator.Device.GetTemplates();
 
             // Load Category Names
             var tempCats = TemplateStorage.Instance?.Templates.Select(_ => _.Categories);
+            Categories.Add("All");
+
             foreach (var item in tempCats)
             {
                 foreach (var cat in item)

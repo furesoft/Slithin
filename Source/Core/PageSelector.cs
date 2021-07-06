@@ -21,19 +21,21 @@ namespace Slithin.Core
                     var pageInstance = instance as IPage;
                     var controlInstance = instance as Control;
 
-                    var page = new TabItem();
-                    page.Header = pageInstance?.Title;
-                    page.DataContext = controlInstance.DataContext;
-                    page.IsVisible = pageInstance.IsEnabled();
-
-                    if (pageInstance.UseContextualMenu())
+                    if (pageInstance.IsEnabled())
                     {
-                        page.Tag = pageInstance.GetContextualMenu();
+                        var page = new TabItem();
+                        page.Header = pageInstance?.Title;
+                        page.DataContext = controlInstance.DataContext;
+
+                        if (pageInstance.UseContextualMenu())
+                        {
+                            page.Tag = pageInstance.GetContextualMenu();
+                        }
+
+                        page.Content = controlInstance;
+
+                        pages.Add(page);
                     }
-
-                    page.Content = controlInstance;
-
-                    pages.Add(page);
                 }
             }
 
