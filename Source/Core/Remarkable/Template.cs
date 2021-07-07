@@ -1,11 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
-using System.Text.Json.Serialization;
 using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using LiteDB;
+using Newtonsoft.Json;
 using Slithin.Core.Commands;
 
 namespace Slithin.Core.Remarkable
@@ -24,25 +22,26 @@ namespace Slithin.Core.Remarkable
         [JsonIgnore]
         public ICommand AddToQueueCommand { get; set; }
 
-        [JsonPropertyName("categories")]
+        [JsonProperty("categories")]
         public string[]? Categories { get; set; }
 
-        [JsonPropertyName("filename")]
+        [JsonProperty("filename")]
         public string? Filename { get; set; }
 
-        [JsonPropertyName("iconCode")]
+        [JsonProperty("iconCode")]
         public string? IconCode { get; set; }
 
+        [JsonIgnore]
         public IImage Image
         {
             get { return _image; }
             set { _image = value; PropertyChanged?.Invoke(this, new(nameof(Image))); }
         }
 
-        [JsonPropertyName("landscape")]
+        [JsonProperty("landscape")]
         public bool Landscape { get; set; }
 
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string? Name { get; set; }
 
         [JsonIgnore]
@@ -55,7 +54,7 @@ namespace Slithin.Core.Remarkable
         {
             if (Directory.Exists(ServiceLocator.TemplatesDir))
             {
-                var path = Path.Combine(ServiceLocator.TemplatesDir, Filename + ".png");
+                var path = Path.Combine(ServiceLocator.TemplatesDir, Filename);
 
                 if (Image is null)
                 {

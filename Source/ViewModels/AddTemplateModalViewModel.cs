@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows.Input;
 using Slithin.Core;
+using Slithin.Core.Remarkable;
 using Slithin.Messages;
 
 namespace Slithin.ViewModels
@@ -72,7 +74,30 @@ namespace Slithin.ViewModels
 
         private void AddTemplate(object obj)
         {
+            var template = BuildTemplate();
+
+            File.Copy(Filename, Path.Combine(ServiceLocator.TemplatesDir, template.Filename));
+            ServiceLocator.Local.Add(template);
+
+            template.Load();
+
+            ServiceLocator.SyncService.Templates.Add(template);
+
+            Controls.DialogService.Close();
+
             // ServiceLocator.Mailbox.Post(new UploadTemplateMessage());
+        }
+
+        private Template BuildTemplate()
+        {
+            return new Template
+            {
+                Categories = new[] { SelectedCategory },
+                Filename = Path.GetFileName(Filename),
+                Name = Name,
+                IconCode = IconCode.Name,
+                Landscape = IsLandscape
+            };
         }
     }
 }
