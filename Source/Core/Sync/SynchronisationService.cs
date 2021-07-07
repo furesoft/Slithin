@@ -137,10 +137,10 @@ namespace Slithin.Core
 
         private void Synchronize(object? obj)
         {
-            LoadDocumentMetadata();
+            //LoadDocumentMetadata();
             LoadTemplates();
 
-            SelectedCategory = "Grids";
+            SelectedCategory = "All";
         }
     }
 }
