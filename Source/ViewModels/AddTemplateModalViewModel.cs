@@ -7,6 +7,10 @@ namespace Slithin.ViewModels
 {
     public class AddTemplateModalViewModel : BaseViewModel
     {
+        private string _filename;
+        private IconCodeItem _iconCode;
+        private bool _isLandscape;
+        private string _name;
         private string _selectedCategory;
 
         public AddTemplateModalViewModel()
@@ -34,7 +38,31 @@ namespace Slithin.ViewModels
 
         public ObservableCollection<string> Categories { get; set; }
 
+        public string Filename
+        {
+            get { return _filename; }
+            set { SetValue(ref _filename, value); }
+        }
+
+        public IconCodeItem IconCode
+        {
+            get { return _iconCode; }
+            set { SetValue(ref _iconCode, value); }
+        }
+
         public ObservableCollection<IconCodeItem> IconCodes { get; set; } = new();
+
+        public bool IsLandscape
+        {
+            get { return _isLandscape; }
+            set { SetValue(ref _isLandscape, value); }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set { SetValue(ref _name, value); }
+        }
 
         public string SelectedCategory
         {
@@ -44,7 +72,7 @@ namespace Slithin.ViewModels
 
         private void AddTemplate(object obj)
         {
-            ServiceLocator.Mailbox.Post(new UploadTemplateMessage());
+            // ServiceLocator.Mailbox.Post(new UploadTemplateMessage());
         }
     }
 }

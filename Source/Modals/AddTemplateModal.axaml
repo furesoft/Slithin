@@ -7,11 +7,11 @@
              x:Class="Slithin.Modals.AddTemplateModal">
   <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True" Command="{Binding AddTemplateCommand}" MinHeight="250">
     <StackPanel Spacing="3">
-      <TextBox Watermark="Name" />
+      <TextBox Watermark="Name" Text="{Binding Name}" />
       <c:FileChooser Filename="{Binding Filename}" Watermark="Template File" />
 
       <StackPanel Orientation="Horizontal" Spacing="2">
-        <ComboBox PlaceholderText="IconCode" Items="{Binding IconCodes, Mode=TwoWay}">
+        <ComboBox PlaceholderText="IconCode" Items="{Binding IconCodes, Mode=TwoWay}" SelectedItem="{Binding IconCode}">
           <ComboBox.ItemTemplate>
             <DataTemplate>
               <StackPanel Spacing="3">
@@ -30,7 +30,7 @@
         <ComboBox Items="{Binding Categories, Mode=TwoWay}" SelectedItem="{Binding SelectedCategory}" />
       </StackPanel>
 
-      <CheckBox Content="Landscape" />
+      <CheckBox Content="Landscape" IsChecked="{Binding IsLandscape}" />
     </StackPanel>
   </c:DialogControl>
 </UserControl>
