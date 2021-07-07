@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Actress;
 using LiteDB;
 using Renci.SshNet;
+using Slithin.Core.Remarkable;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 using Slithin.ViewModels;
@@ -39,10 +39,24 @@ namespace Slithin.Core
 
         public static void InitMessageRouter()
         {
-            MessageRouter.Register<UploadTemplateMessage>(_ =>
+            MessageRouter.Register<SyncMessage>(_ =>
             {
-                Debug.WriteLine("upload Template routed");
-                //ToDo: upload template to device
+                if (_.Item.Direction == Sync.SyncDirection.ToDevice)
+                {
+                    switch (_.Item.Type)
+                    {
+                        case Sync.SyncType.Template:
+                            ServiceLocator.Device.Add((Template)_.Item.Data);
+                            break;
+
+                        case Sync.SyncType.TemplateConfig:
+                            ServiceLocator.Scp.Upload(new FileInfo(Path.Combine(ServiceLocator.TemplatesDir, "templates.json")), PathList.Templates + "/templates.json");
+                            break;
+                    }
+                }
+                else
+                {
+                }
             });
         }
 

@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Input;
+using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
-using Slithin.Messages;
+using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels
 {
@@ -83,9 +84,13 @@ namespace Slithin.ViewModels
 
             ServiceLocator.SyncService.Templates.Add(template);
 
-            Controls.DialogService.Close();
+            DialogService.Close();
 
-            // ServiceLocator.Mailbox.Post(new UploadTemplateMessage());
+            var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
+            ServiceLocator.SyncService.SyncQueue.Add(syncItem);
+
+            var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(ServiceLocator.TemplatesDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
+            ServiceLocator.SyncService.SyncQueue.Add(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
         }
 
         private Template BuildTemplate()

@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
+using Slithin.Messages;
 
 namespace Slithin.Core
 {
@@ -50,6 +51,13 @@ namespace Slithin.Core
         public ICommand SynchronizeCommand { get; set; }
         public List<SyncItem> SyncQueue { get; set; } = new();
         public ObservableCollection<Template> Templates { get; set; }
+
+        public void LoadFromLocal()
+        {
+            LoadTemplates();
+
+            SelectedCategory = "All";
+        }
 
         protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
         {
@@ -137,10 +145,14 @@ namespace Slithin.Core
 
         private void Synchronize(object? obj)
         {
-            //LoadDocumentMetadata();
-            LoadTemplates();
+            // SelectedCategory = "All";
 
-            SelectedCategory = "All";
+            foreach (var item in SyncQueue)
+            {
+                ServiceLocator.Mailbox.Post(new SyncMessage { Item = item }); // redirect sync job to mailboy for asynchronity
+            }
+
+            SyncQueue.Clear();
         }
     }
 }

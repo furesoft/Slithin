@@ -14,6 +14,12 @@ namespace Slithin.Core.Sync.Repositorys
         public void Add(Template template)
         {
             var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+
+            if (!File.Exists(path))
+            {
+                File.WriteAllText(path, "{\"templates\": []}");
+            }
+
             var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
             Template[] templates = new Template[templateJson.Templates.Length + 1];
             Array.Copy(templateJson.Templates, templates, templateJson.Templates.Length);
