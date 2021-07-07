@@ -100,7 +100,7 @@ namespace Slithin.ViewModels
                 Categories = new[] { SelectedCategory },
                 Filename = Path.GetFileName(Filename),
                 Name = Name,
-                IconCode = IconCode.Name,
+                IconCode = @"\u" + IconCode.Name,
                 Landscape = IsLandscape
             };
         }
