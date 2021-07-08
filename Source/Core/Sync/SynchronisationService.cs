@@ -94,7 +94,7 @@ namespace Slithin.Core
                 ServiceLocator.Device.GetTemplates();
             }
 
-            var deviceTemplates = ServiceLocator.Device.GetTemplates();
+            // var deviceTemplates = ServiceLocator.Device.GetTemplates();
             // Load local Templates
             TemplateStorage.Instance?.Load();
 

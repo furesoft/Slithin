@@ -77,7 +77,7 @@ namespace Slithin.ViewModels
         {
             var template = BuildTemplate();
 
-            File.Copy(Filename, Path.Combine(ServiceLocator.TemplatesDir, template.Filename));
+            File.Copy(Filename, Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png"));
             ServiceLocator.Local.Add(template);
 
             template.Load();
@@ -89,7 +89,7 @@ namespace Slithin.ViewModels
             var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
             ServiceLocator.SyncService.SyncQueue.Add(syncItem);
 
-            var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(ServiceLocator.TemplatesDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
+            var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
             ServiceLocator.SyncService.SyncQueue.Add(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
         }
 
@@ -98,9 +98,9 @@ namespace Slithin.ViewModels
             return new Template
             {
                 Categories = new[] { SelectedCategory },
-                Filename = Path.GetFileName(Filename),
+                Filename = Path.GetFileNameWithoutExtension(Filename),
                 Name = Name,
-                IconCode = @"\u" + IconCode.Name,
+                IconCode = "\\u" + IconCode.Name,
                 Landscape = IsLandscape
             };
         }

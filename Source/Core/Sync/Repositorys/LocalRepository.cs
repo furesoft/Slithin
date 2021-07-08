@@ -28,7 +28,7 @@ namespace Slithin.Core.Sync.Repositorys
 
             templateJson.Templates = templates;
 
-            File.WriteAllText(path, JsonConvert.SerializeObject(templateJson));
+            File.WriteAllText(path, JsonConvert.SerializeObject(templateJson, Formatting.Indented));
         }
 
         public Template[] GetTemplates()

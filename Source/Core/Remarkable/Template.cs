@@ -58,7 +58,7 @@ namespace Slithin.Core.Remarkable
 
                 if (Image is null)
                 {
-                    Image = Bitmap.DecodeToWidth(File.OpenRead(path), 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+                    Image = Bitmap.DecodeToWidth(File.OpenRead(path + ".png"), 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
                 }
             }
         }

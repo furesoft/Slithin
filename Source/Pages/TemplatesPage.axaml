@@ -7,7 +7,7 @@
   <Grid RowDefinitions="35,*" ColumnDefinitions="350*,AUTO">
 
     <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="5">
-      <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,10,0" IsEnabled="False" />
+      <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,0,10" IsEnabled="False" />
       <CheckBox Content="Landscape" IsChecked="{Binding SyncService.Landscape, Mode=TwoWay}" />
       <ComboBox Items="{Binding SyncService.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.SelectedCategory}" />
     </StackPanel>
