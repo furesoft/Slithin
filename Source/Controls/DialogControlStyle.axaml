@@ -24,7 +24,7 @@
             </Grid>
 
             <StackPanel Classes="both" Orientation="Horizontal" Spacing="5" Grid.Row="5" Margin="2,2,2,5" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-              <Button Classes="base" VerticalContentAlignment="Bottom" IsCancel="True"  IsVisible="{TemplateBinding IsCancelEnabled}" Content="Abbrechen" Command="{TemplateBinding CancelCommand}" />
+              <Button Classes="base" VerticalContentAlignment="Bottom" IsCancel="True"  IsVisible="{TemplateBinding IsCancelEnabled}" Content="Cancel" Command="{TemplateBinding CancelCommand}" />
               <Button Classes="base" VerticalContentAlignment="Bottom" IsDefault="True"  Content="{TemplateBinding CommandText, Mode=TwoWay}" Command="{TemplateBinding Command}" />
             </StackPanel>
           </Grid>
