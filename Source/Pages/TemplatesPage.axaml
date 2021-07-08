@@ -12,7 +12,7 @@
       <ComboBox Items="{Binding SyncService.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.SelectedCategory}" />
     </StackPanel>
 
-    <ListBox Items="{Binding SyncService.Templates}" Margin="16,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="templatesListBox">
+    <ListBox Items="{Binding SyncService.Templates}" Margin="16,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="templatesListBox" SelectedItem="{Binding SelectedTemplate}">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <Grid>

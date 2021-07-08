@@ -12,15 +12,7 @@ namespace Slithin.Core.Remarkable
     {
         private IImage? _image;
 
-        public Template()
-        {
-            AddToQueueCommand = new AddToSyncQueueCommand();
-        }
-
         public event PropertyChangedEventHandler? PropertyChanged;
-
-        [JsonIgnore]
-        public ICommand AddToQueueCommand { get; set; }
 
         [JsonProperty("categories")]
         public string[]? Categories { get; set; }

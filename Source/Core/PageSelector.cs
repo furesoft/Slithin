@@ -64,18 +64,21 @@ namespace Slithin.Core
 
             s_container.SelectionChanged += (object sender, SelectionChangedEventArgs e) =>
             {
-                if (e.AddedItems[0] is TabItem tab)
+                if (e.AddedItems.Count > 0)
                 {
-                    if (s_conextualMenu is not null && tab.Tag is Control context && control is not null)
+                    if (e.AddedItems[0] is TabItem tab)
                     {
-                        s_conextualMenu.Children.Clear();
+                        if (s_conextualMenu is not null && tab.Tag is Control context && control is not null)
+                        {
+                            s_conextualMenu.Children.Clear();
 
-                        context.DataContext = tab.DataContext;
-                        s_conextualMenu.Children.Add(context);
-                    }
-                    else
-                    {
-                        s_conextualMenu?.Children.Clear();
+                            context.DataContext = tab.DataContext;
+                            s_conextualMenu.Children.Add(context);
+                        }
+                        else
+                        {
+                            s_conextualMenu?.Children.Clear();
+                        }
                     }
                 }
             };
