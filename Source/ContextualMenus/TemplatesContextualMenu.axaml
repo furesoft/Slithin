@@ -8,7 +8,7 @@
   <Grid>
     <StackPanel Spacing="4" Orientation="Horizontal">
       <controls:ImageButton Text="Add" Command="{Binding OpenAddModalCommand}" Image="../Resources/add.png" />
-      <controls:ImageButton Text="Remove"  Image="../Resources/minus.png" />
+      <controls:ImageButton Text="Remove" Command="{Binding RemoveTemplateCommand}" Image="../Resources/minus.png" CommandParameter="{Binding SelectedTemplate}" />
     </StackPanel>
   </Grid>
 </UserControl>
