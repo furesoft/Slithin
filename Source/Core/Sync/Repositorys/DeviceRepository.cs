@@ -55,5 +55,10 @@ namespace Slithin.Core.Sync.Repositorys
 
             return null;
         }
+
+        public void Remove(Template template)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

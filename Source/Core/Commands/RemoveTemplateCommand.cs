@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Slithin.Controls;
 using Slithin.Core.Remarkable;
 using Slithin.ViewModels;
 
@@ -8,7 +9,7 @@ namespace Slithin.Core.Commands
 {
     public class RemoveTemplateCommand : ICommand
     {
-        private TemplatesPageViewModel _templatesPageViewModel;
+        private readonly TemplatesPageViewModel _templatesPageViewModel;
 
         public RemoveTemplateCommand(TemplatesPageViewModel templatesPageViewModel)
         {
@@ -22,14 +23,21 @@ namespace Slithin.Core.Commands
             return parameter != null && parameter is Template;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
             if (parameter is Template tmpl)
             {
                 //ToDo: display template delete confirm modal
                 // if ok, remove from templatestorage...
-                _templatesPageViewModel.SelectedTemplate = null;
-                ServiceLocator.SyncService.Templates.Remove(tmpl);
+
+                if (await DialogService.ShowDialog($"Would you really want to delete '{tmpl.Filename}'?"))
+                {
+                    _templatesPageViewModel.SelectedTemplate = null;
+                    ServiceLocator.SyncService.Templates.Remove(tmpl);
+
+                    TemplateStorage.Instance.Remove(tmpl);
+                    ServiceLocator.Local.Remove(tmpl);
+                }
             }
         }
     }

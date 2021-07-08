@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Slithin.Core.Remarkable
 {
@@ -30,6 +32,22 @@ namespace Slithin.Core.Remarkable
                 item.OnDevice = true;
                 item.Load();
             }
+        }
+
+        public void Remove(Template tmpl)
+        {
+            var tmp = Templates.ToList();
+            tmp.Remove(tmpl);
+
+            Templates = tmp.ToArray();
+
+            Save();
+        }
+
+        public void Save()
+        {
+            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+            File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented));
         }
     }
 }

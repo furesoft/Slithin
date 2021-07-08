@@ -36,5 +36,10 @@ namespace Slithin.Core.Sync.Repositorys
             var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
             return JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path)).Templates;
         }
+
+        public void Remove(Template template)
+        {
+            File.Delete(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png"));
+        }
     }
 }

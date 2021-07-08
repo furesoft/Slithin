@@ -7,5 +7,7 @@ namespace Slithin.Core.Sync
         void Add(Template template);
 
         Template[] GetTemplates();
+
+        void Remove(Template template);
     }
 }

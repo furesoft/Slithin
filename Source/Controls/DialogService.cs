@@ -1,7 +1,11 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Avalonia.Controls;
 using Slithin.Core;
 using Slithin.Modals;
+using Slithin.ViewModels;
 
 namespace Slithin.Controls
 {
@@ -71,6 +75,23 @@ namespace Slithin.Controls
             {
                 _host = target;
             }
+        }
+
+        public static Task<bool> ShowDialog(string message)
+        {
+            TaskCompletionSource<bool> tcs = new();
+            var vm = new MessageBoxModalViewModel();
+
+            vm.Message = message;
+            vm.AcceptCommand = new DelegateCommand(_ =>
+            {
+                Close();
+                tcs.TrySetResult(true);
+            });
+
+            Open(new MessageBoxModal(), vm);
+
+            return tcs.Task;
         }
     }
 }
