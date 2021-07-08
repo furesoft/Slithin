@@ -149,7 +149,7 @@ namespace Slithin.Core
 
             foreach (var item in SyncQueue)
             {
-                ServiceLocator.Mailbox.Post(new SyncMessage { Item = item }); // redirect sync job to mailboy for asynchronity
+                ServiceLocator.Mailbox.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
             }
 
             SyncQueue.Clear();
