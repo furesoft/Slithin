@@ -15,7 +15,7 @@ namespace Slithin.Core
     {
         public static SshClient Client;
         public static string ConfigBaseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin");
-        public static LiteDatabase Database = new("slithin.db");
+        public static LiteDatabase Database = new(Path.Combine(ConfigBaseDir, "slithin.db"));
         public static DeviceRepository Device = new();
         public static LocalRepository Local = new();
         public static MailboxProcessor<AsynchronousMessage> Mailbox;

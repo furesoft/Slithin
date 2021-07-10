@@ -3,12 +3,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:Slithin.Controls"
-             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="150"
              x:Class="Slithin.ContextualMenus.TemplatesContextualMenu">
-  <Grid>
-    <StackPanel Spacing="4" Orientation="Horizontal">
+  <DockPanel>
+    <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
       <controls:ImageButton Text="Add" Command="{Binding OpenAddModalCommand}" Image="../Resources/add.png" />
       <controls:ImageButton Text="Remove" Command="{Binding RemoveTemplateCommand}" Image="../Resources/minus.png" CommandParameter="{Binding SelectedTemplate}" />
+
+      <controls:ImagePopupButton Text="Filter" Image="../Resources/filter.png">
+        <controls:ImagePopupButton.PopupContent>
+          <Grid RowDefinitions="*,AUTO" Margin="4">
+            <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,0,10" IsVisible="False" />
+            <ToggleSwitch OnContent="Landscape" OffContent="Portrait" IsChecked="{Binding SyncService.Landscape, Mode=TwoWay}" />
+            <ComboBox Grid.Row="1" Items="{Binding SyncService.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.SelectedCategory}" MinWidth="175" />
+          </Grid>
+        </controls:ImagePopupButton.PopupContent>
+      </controls:ImagePopupButton>
+
+      <controls:ImagePopupButton Text="Search" Image="../Resources/filter.png" IsVisible="False">
+        <controls:ImagePopupButton.PopupContent>
+          <Grid RowDefinitions="*,AUTO" Margin="4">
+            <TextBox Watermark="Search ..." MinWidth="175" />
+          </Grid>
+        </controls:ImagePopupButton.PopupContent>
+      </controls:ImagePopupButton>
     </StackPanel>
-  </Grid>
+  </DockPanel>
 </UserControl>

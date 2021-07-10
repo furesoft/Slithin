@@ -2,10 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="300"
              xmlns:c="using:Slithin.Controls"
              x:Class="Slithin.Modals.AddTemplateModal">
-  <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True" Command="{Binding AddTemplateCommand}" MinHeight="250">
+  <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True" Command="{Binding AddTemplateCommand}" MinHeight="300">
     <Grid ColumnDefinitions="*,25,*" RowDefinitions="35,35,55,35">
       <TextBox Grid.Column="0" Grid.Row="0" Watermark="Name" Text="{Binding Name}" Margin="0,0,0,7" />
       <c:FileChooser Grid.Column="0" Grid.Row="1" Filename="{Binding Filename, Mode=TwoWay}" Watermark="Template File" />
@@ -29,10 +29,7 @@
         </ComboBox.ItemsPanel>
       </ComboBox>
 
-      <StackPanel Grid.Column="0" Grid.Row="3" Margin="0,7,0,7">
-        <RadioButton Content="Landscape" IsChecked="{Binding IsLandscape}" />
-        <RadioButton Content="Portrait" IsChecked="{Binding !IsLandscape}" />
-      </StackPanel>
+      <ToggleSwitch Grid.Column="0" Grid.Row="3" OnContent="Landscape" OffContent="Portrait" IsChecked="{Binding IsLandscape}" />
     </Grid>
   </c:DialogControl>
 </UserControl>

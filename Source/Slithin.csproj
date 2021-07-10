@@ -22,4 +22,8 @@
      <AvaloniaResource Include="Resources\**" />
      <EmbeddedResource Include="Resources\IconTiles\**" />
    </ItemGroup>
+
+   <ItemGroup>
+     <None Remove="Resources\filter.png" />
+   </ItemGroup>
 </Project>

@@ -4,15 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.Pages.TemplatesPage">
-  <Grid RowDefinitions="35,*" ColumnDefinitions="350*,AUTO">
-
-    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="5">
-      <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,0,10" IsEnabled="False" />
-      <CheckBox Content="Landscape" IsChecked="{Binding SyncService.Landscape, Mode=TwoWay}" />
-      <ComboBox Items="{Binding SyncService.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.SelectedCategory}" />
-    </StackPanel>
-
-    <ListBox Items="{Binding SyncService.Templates}" Margin="16,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="templatesListBox" SelectedItem="{Binding SelectedTemplate}">
+  <Grid>
+    <ListBox Items="{Binding SyncService.Templates}" Margin="16,0,0,0" x:Name="templatesListBox" SelectedItem="{Binding SelectedTemplate}">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <Grid>
