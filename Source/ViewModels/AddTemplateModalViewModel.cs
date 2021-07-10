@@ -82,6 +82,7 @@ namespace Slithin.ViewModels
 
             template.Load();
 
+            TemplateStorage.Instance.Add(template);
             ServiceLocator.SyncService.Templates.Add(template);
 
             DialogService.Close();

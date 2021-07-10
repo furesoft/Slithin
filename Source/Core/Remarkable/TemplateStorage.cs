@@ -13,6 +13,16 @@ namespace Slithin.Core.Remarkable
         [JsonProperty("templates")]
         public Template[]? Templates { get; set; }
 
+        public void Add(Template template)
+        {
+            var tmp = new Template[Templates.Length + 1];
+            Array.Copy(Templates, tmp, Templates.Length);
+
+            tmp[^1] = template;
+
+            Templates = tmp;
+        }
+
         public void Apply()
         {
             var result = ServiceLocator.Client.RunCommand("systemctl restart xochitl");
