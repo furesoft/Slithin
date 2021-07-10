@@ -6,31 +6,33 @@
              xmlns:c="using:Slithin.Controls"
              x:Class="Slithin.Modals.AddTemplateModal">
   <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True" Command="{Binding AddTemplateCommand}" MinHeight="250">
-    <StackPanel Spacing="3">
-      <TextBox Watermark="Name" Text="{Binding Name}" />
-      <c:FileChooser Filename="{Binding Filename, Mode=TwoWay}" Watermark="Template File" />
+    <Grid ColumnDefinitions="*,25,*" RowDefinitions="35,35,55,35">
+      <TextBox Grid.Column="0" Grid.Row="0" Watermark="Name" Text="{Binding Name}" Margin="0,0,0,7" />
+      <c:FileChooser Grid.Column="0" Grid.Row="1" Filename="{Binding Filename, Mode=TwoWay}" Watermark="Template File" />
 
-      <StackPanel Orientation="Horizontal" Spacing="2">
-        <ComboBox PlaceholderText="IconCode" Items="{Binding IconCodes, Mode=TwoWay}" SelectedItem="{Binding IconCode}">
-          <ComboBox.ItemTemplate>
-            <DataTemplate>
-              <StackPanel Spacing="3">
-                <Image Source="{Binding Image}" Width="32" Height="32" />
-                <TextBlock Text="{Binding Name}" TextAlignment="Center" />
-              </StackPanel>
-            </DataTemplate>
-          </ComboBox.ItemTemplate>
+      <ListBox MinWidth="150" Grid.Column="2" Grid.RowSpan="5" Grid.Row="0" Items="{Binding Categories, Mode=TwoWay}" SelectedItem="{Binding SelectedCategory}" SelectionMode="Multiple" />
 
-          <ComboBox.ItemsPanel>
-            <ItemsPanelTemplate>
-              <UniformGrid Columns="4" />
-            </ItemsPanelTemplate>
-          </ComboBox.ItemsPanel>
-        </ComboBox>
-        <ComboBox Items="{Binding Categories, Mode=TwoWay}" SelectedItem="{Binding SelectedCategory}" />
+      <ComboBox Grid.Column="0" Grid.Row="2" MinWidth="150" PlaceholderText="IconCode" Margin="0,7,0,7" Items="{Binding IconCodes, Mode=TwoWay}" SelectedItem="{Binding IconCode}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Spacing="3">
+              <Image Source="{Binding Image}" Width="32" Height="32" />
+              <TextBlock Text="{Binding Name}" TextAlignment="Center" />
+            </StackPanel>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+
+        <ComboBox.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Columns="4" />
+          </ItemsPanelTemplate>
+        </ComboBox.ItemsPanel>
+      </ComboBox>
+
+      <StackPanel Grid.Column="0" Grid.Row="3" Margin="0,7,0,7">
+        <RadioButton Content="Landscape" IsChecked="{Binding IsLandscape}" />
+        <RadioButton Content="Portrait" IsChecked="{Binding !IsLandscape}" />
       </StackPanel>
-
-      <CheckBox Content="Landscape" IsChecked="{Binding IsLandscape}" />
-    </StackPanel>
+    </Grid>
   </c:DialogControl>
 </UserControl>
