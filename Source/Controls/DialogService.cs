@@ -21,11 +21,12 @@ namespace Slithin.Controls
             }
         }
 
-        public static ICommand CreateOpenCommand(Control content, BaseViewModel viewModel)
+        public static ICommand CreateOpenCommand<T>(BaseViewModel viewModel)
+            where T : Control, new()
         {
             return new DelegateCommand((o) =>
             {
-                Open(content, viewModel);
+                Open(new T(), viewModel);
             });
         }
 

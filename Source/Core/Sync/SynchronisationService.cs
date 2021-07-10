@@ -49,7 +49,7 @@ namespace Slithin.Core
         }
 
         public ICommand SynchronizeCommand { get; set; }
-        public List<SyncItem> SyncQueue { get; set; } = new();
+        public ObservableCollection<SyncItem> SyncQueue { get; set; } = new();
         public ObservableCollection<Template> Templates { get; set; }
 
         public void LoadFromLocal()
