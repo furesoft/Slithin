@@ -35,34 +35,5 @@
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>
-
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,0" IsVisible="False">
-      <ItemsRepeater Items="{Binding SyncService.Templates}" Margin="16,0,0,0">
-        <ItemsRepeater.ItemTemplate>
-          <DataTemplate>
-            <Border Margin="3">
-              <StackPanel Orientation="Vertical">
-                <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                  <Grid>
-                    <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
-
-                    <Image Source="../Resources/tablet.png" Margin="2,0,0,2" Width="24" Height="24" IsVisible="{Binding OnDevice}" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-                    <Button Margin="2,0,0,2" Height="24" IsVisible="{Binding ToDownload}" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                      Add
-                    </Button>
-                  </Grid>
-                </Border>
-
-                <TextBlock Text="{Binding Filename}" TextAlignment="Center" />
-              </StackPanel>
-            </Border>
-          </DataTemplate>
-        </ItemsRepeater.ItemTemplate>
-        <ItemsRepeater.Layout>
-          <UniformGridLayout ItemsJustification="Start" MinRowSpacing="10" Orientation="Horizontal"
-                           MaximumRowsOrColumns="7" />
-        </ItemsRepeater.Layout>
-      </ItemsRepeater>
-    </ScrollViewer>
   </Grid>
 </UserControl>
