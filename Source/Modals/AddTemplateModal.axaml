@@ -6,13 +6,13 @@
              xmlns:c="using:Slithin.Controls"
              x:Class="Slithin.Modals.AddTemplateModal">
   <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True" Command="{Binding AddTemplateCommand}" MinHeight="300">
-    <Grid ColumnDefinitions="*,25,*" RowDefinitions="35,35,55,35">
+    <Grid ColumnDefinitions="*,50,*" RowDefinitions="35,35,45,35">
       <TextBox Grid.Column="0" Grid.Row="0" Watermark="Name" Text="{Binding Name}" Margin="0,0,0,7" />
       <c:FileChooser Grid.Column="0" Grid.Row="1" Filename="{Binding Filename, Mode=TwoWay}" Watermark="Template File" />
 
       <ListBox MinWidth="150" Grid.Column="2" Grid.RowSpan="5" Grid.Row="0" Items="{Binding Categories, Mode=TwoWay}" SelectedItem="{Binding SelectedCategory}" SelectionMode="Multiple" />
 
-      <ComboBox Grid.Column="0" Grid.Row="2" MinWidth="150" PlaceholderText="IconCode" Margin="0,7,0,7" Items="{Binding IconCodes, Mode=TwoWay}" SelectedItem="{Binding IconCode}">
+      <ComboBox Grid.Column="0" Grid.Row="2" MinWidth="150" PlaceholderText="IconCode" Margin="0,7,0,0" Items="{Binding IconCodes, Mode=TwoWay}" SelectedItem="{Binding IconCode}">
         <ComboBox.ItemTemplate>
           <DataTemplate>
             <StackPanel Spacing="3">

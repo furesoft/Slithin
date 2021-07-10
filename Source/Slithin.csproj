@@ -25,5 +25,6 @@
 
    <ItemGroup>
      <None Remove="Resources\filter.png" />
+     <None Remove="Resources\search.png" />
    </ItemGroup>
 </Project>

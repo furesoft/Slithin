@@ -20,7 +20,7 @@
         </controls:ImagePopupButton.PopupContent>
       </controls:ImagePopupButton>
 
-      <controls:ImagePopupButton Text="Search" Image="../Resources/filter.png" IsVisible="False">
+      <controls:ImagePopupButton Text="Search" Image="../Resources/search.png" IsVisible="False">
         <controls:ImagePopupButton.PopupContent>
           <Grid RowDefinitions="*,AUTO" Margin="4">
             <TextBox Watermark="Search ..." MinWidth="175" />
