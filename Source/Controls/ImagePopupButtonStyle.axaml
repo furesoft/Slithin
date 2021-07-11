@@ -7,7 +7,7 @@
       <ControlTemplate>
         <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="2" Margin="2">
           <StackPanel VerticalAlignment="Center">
-            <Image Source="{TemplateBinding Image}" Width="60" Height="60" />
+            <Image Source="{TemplateBinding Image}" Width="40" Height="40" />
             <TextBlock Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17" />
 
             <Popup
