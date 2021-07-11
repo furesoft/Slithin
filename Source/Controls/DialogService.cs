@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using Slithin.Core;
 using Slithin.Modals;
 using Slithin.ViewModels;
@@ -81,6 +82,7 @@ namespace Slithin.Controls
         public static Task<bool> ShowDialog(string message)
         {
             TaskCompletionSource<bool> tcs = new();
+
             var vm = new MessageBoxModalViewModel();
 
             vm.Message = message;
@@ -90,7 +92,10 @@ namespace Slithin.Controls
                 tcs.TrySetResult(true);
             });
 
-            Open(new MessageBoxModal(), vm);
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Open(new MessageBoxModal(), vm);
+            });
 
             return tcs.Task;
         }

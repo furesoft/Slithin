@@ -72,7 +72,7 @@ namespace Slithin.ViewModels
                         {
                             desktop.MainWindow.Hide();
                             desktop.MainWindow = new MainWindow();
-                            ((MainWindowViewModel)desktop.MainWindow.DataContext).SyncService.SynchronizeCommand.Execute(null);
+                            //((MainWindowViewModel)desktop.MainWindow.DataContext).SyncService.SynchronizeCommand.Execute(null);
                             desktop.MainWindow.Show();
                         }
                     }

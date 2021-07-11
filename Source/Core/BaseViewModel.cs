@@ -1,5 +1,6 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using LiteDB;
 
 namespace Slithin.Core
 {
@@ -7,6 +8,7 @@ namespace Slithin.Core
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        [BsonIgnore]
         public SynchronisationService SyncService => ServiceLocator.SyncService;
 
         protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)

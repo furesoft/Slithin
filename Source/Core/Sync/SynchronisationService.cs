@@ -112,6 +112,8 @@ namespace Slithin.Core
                 ServiceLocator.Mailbox.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
             }
 
+            SyncQueue.AnalyseAndAppend();
+
             SyncQueue.DeleteAll();
         }
     }

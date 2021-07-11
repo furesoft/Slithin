@@ -13,7 +13,7 @@ namespace Slithin.Core.Sync.Repositorys
             //1. copy template to device
             //2. add template to template.json
 
-            ServiceLocator.Scp.Upload(File.OpenRead(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png")), PathList.Templates);
+            ServiceLocator.Scp?.Upload(File.OpenRead(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png")), PathList.Templates);
 
             // modifiy template.json
             var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");

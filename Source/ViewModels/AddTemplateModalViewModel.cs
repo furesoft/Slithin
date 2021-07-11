@@ -81,11 +81,24 @@ namespace Slithin.ViewModels
             this.SyncService.TemplateFilter.Categories.Add(obj.ToString());
         }
 
-        private void AddTemplate(object obj)
+        private async void AddTemplate(object obj)
         {
             var template = BuildTemplate();
 
+            if (File.Exists(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png")))
+            {
+                if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
+                {
+                    File.Delete(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png"));
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             File.Copy(Filename, Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png"));
+
             ServiceLocator.Local.Add(template);
 
             template.Load();

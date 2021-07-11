@@ -4,6 +4,7 @@ using System.Linq;
 using Actress;
 using LiteDB;
 using Renci.SshNet;
+using Slithin.Controls;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
@@ -46,16 +47,26 @@ namespace Slithin.Core
                     switch (_.Item.Type)
                     {
                         case Sync.SyncType.Template:
-                            ServiceLocator.Device.Add((Template)_.Item.Data);
+                            Device.Add((Template)_.Item.Data);
                             break;
 
                         case Sync.SyncType.TemplateConfig:
-                            ServiceLocator.Scp.Upload(new FileInfo(Path.Combine(ServiceLocator.TemplatesDir, "templates.json")), PathList.Templates + "/templates.json");
+                            Scp.Upload(new FileInfo(Path.Combine(TemplatesDir, "templates.json")), PathList.Templates + "/templates.json");
                             break;
                     }
                 }
                 else
                 {
+                }
+            });
+
+            MessageRouter.Register<AttentionRequiredMessage>(async _ =>
+            {
+                var result = await DialogService.ShowDialog(_.Text);
+
+                if (result)
+                {
+                    _.Action(_);
                 }
             });
         }

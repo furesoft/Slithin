@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Sync;
 using Slithin.ViewModels;
 
 namespace Slithin.Core.Commands
@@ -37,6 +38,16 @@ namespace Slithin.Core.Commands
 
                     TemplateStorage.Instance.Remove(tmpl);
                     ServiceLocator.Local.Remove(tmpl);
+
+                    var item = new SyncItem
+                    {
+                        Action = SyncAction.Remove,
+                        Direction = SyncDirection.ToDevice,
+                        Data = tmpl,
+                        Type = SyncType.Template
+                    };
+
+                    ServiceLocator.Mailbox.Post(new Messages.SyncMessage { Item = item });
                 }
             }
         }
