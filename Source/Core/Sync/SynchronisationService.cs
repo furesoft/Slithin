@@ -107,6 +107,8 @@ namespace Slithin.Core
 
         private void Synchronize(object? obj)
         {
+            ServiceLocator.Mailbox.Post(new ShowStatusMessage { Message = "Syncing ..." });
+
             foreach (var item in SyncQueue.FindAll())
             {
                 ServiceLocator.Mailbox.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity

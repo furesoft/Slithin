@@ -17,12 +17,11 @@ namespace Slithin.Core
 
         public static void DoAndShow(string message, ICommand cmd)
         {
-            outputTextBlock.Text = message;
-            outputTextBlock.IsVisible = true;
+            Show(message);
 
             cmd.Execute(null);
 
-            outputTextBlock.IsVisible = false;
+            Hide();
         }
 
         public static bool GetIsNotificationOutput(TextBlock target)
@@ -30,9 +29,20 @@ namespace Slithin.Core
             return target == outputTextBlock;
         }
 
+        public static void Hide()
+        {
+            outputTextBlock.IsVisible = false;
+        }
+
         public static void SetIsNotificationOutput(TextBlock target, bool value)
         {
             outputTextBlock = target;
+        }
+
+        public static void Show(string message)
+        {
+            outputTextBlock.Text = message;
+            outputTextBlock.IsVisible = true;
         }
     }
 }

@@ -69,6 +69,16 @@ namespace Slithin.Core
                     _.Action(_);
                 }
             });
+
+            MessageRouter.Register<HideStatusMessage>(_ =>
+            {
+                NotificationService.Hide();
+            });
+
+            MessageRouter.Register<ShowStatusMessage>(_ =>
+            {
+                NotificationService.Show(_.Message);
+            });
         }
 
         public static void RememberLoginCredencials(ConnectionWindowViewModel viewModel)

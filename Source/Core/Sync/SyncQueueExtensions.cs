@@ -21,6 +21,8 @@ namespace Slithin.Core.Sync
 
                 ServiceLocator.Mailbox.Post(new AttentionRequiredMessage { Title = "Apply Templates", Text = "All Templates are synced. Would you like to apply all templates?", Action = applyTemplateAction });
             }
+
+            ServiceLocator.Mailbox.Post(new HideStatusMessage());
         }
     }
 }

@@ -21,9 +21,9 @@
       <StackPanel Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom" Orientation="Horizontal" Spacing="5" Margin="5,0,0,5">
         <progRing:ProgressRing Width="60"
                            Height="60"
-                           IsActive="True"
+                           IsActive="{Binding IsVisible, ElementName=statusTb}"
                            Foreground="Black" />
-        <TextBlock Text="Status ..." FontSize="28" core:NotificationService.IsNotificationOutput="True" IsVisible="True" VerticalAlignment="Center" />
+        <TextBlock Text="Status ..." FontSize="28" x:Name="statusTb" core:NotificationService.IsNotificationOutput="True" IsVisible="False" VerticalAlignment="Center" />
       </StackPanel>
     </Grid>
   </controls:ContentDialog>
