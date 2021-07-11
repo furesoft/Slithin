@@ -28,4 +28,10 @@
      <None Remove="Resources\filter.png" />
      <None Remove="Resources\search.png" />
    </ItemGroup>
+
+   <ItemGroup>
+     <Compile Update="Pages\NotebooksPage.axaml.cs">
+       <DependentUpon>NotebooksPage.axaml</DependentUpon>
+     </Compile>
+   </ItemGroup>
 </Project>

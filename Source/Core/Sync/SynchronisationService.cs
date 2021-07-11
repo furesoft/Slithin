@@ -15,8 +15,8 @@ namespace Slithin.Core
     {
         public SynchronisationService()
         {
-            Documents = new();
             TemplateFilter = new();
+            NotebooksFilter = new();
 
             PropertyChanged += OnPropertyChanged;
             SynchronizeCommand = new DelegateCommand(Synchronize);
@@ -25,10 +25,9 @@ namespace Slithin.Core
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ObservableCollection<string> Documents { get; set; }
-
         public bool IsSyncNeeded => !Directory.Exists(ServiceLocator.TemplatesDir);
 
+        public NotebooksFilter NotebooksFilter { get; set; }
         public ICommand SynchronizeCommand { get; set; }
         public ILiteCollection<SyncItem> SyncQueue { get; set; }
 

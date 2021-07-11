@@ -9,8 +9,7 @@ namespace Slithin.ViewModels
 {
     public class TemplatesPageViewModel : BaseViewModel
     {
-        private Template _selectedTemplate
-            ;
+        private Template _selectedTemplate;
 
         public TemplatesPageViewModel()
         {

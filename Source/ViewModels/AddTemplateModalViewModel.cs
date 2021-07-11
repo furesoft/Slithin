@@ -22,7 +22,7 @@ namespace Slithin.ViewModels
             Categories = SyncService.TemplateFilter.Categories;
             Categories.RemoveAt(0);
 
-            SelectedCategory = "Grids";
+            SelectedCategory = new[] { "Grids" };
 
             foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
             {

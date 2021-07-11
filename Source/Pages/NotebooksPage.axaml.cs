@@ -1,19 +1,20 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using FeatureSwitcher;
 using Slithin.Core;
-using Slithin.Features;
+using Slithin.ViewModels;
 
 namespace Slithin.Pages
 {
-    public partial class DevicePage : UserControl, IPage
+    public partial class NotebooksPage : UserControl, IPage
     {
-        public DevicePage()
+        public NotebooksPage()
         {
             InitializeComponent();
+
+            DataContext = new NotebooksPageViewModel();
         }
 
-        public string Title => "My Device";
+        public string Title => "Notebooks";
 
         public Control GetContextualMenu()
         {
@@ -22,7 +23,7 @@ namespace Slithin.Pages
 
         bool IPage.IsEnabled()
         {
-            return Feature<Device>.Is().Enabled;
+            return true;
         }
 
         public bool UseContextualMenu()
