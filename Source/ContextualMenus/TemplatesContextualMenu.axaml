@@ -14,9 +14,8 @@
         <controls:ImagePopupButton.PopupContent>
           <Grid RowDefinitions="*,AUTO" Margin="4">
             <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,0,10" IsVisible="False" />
-            <ToggleSwitch OnContent="Landscape" OffContent="Portrait" IsChecked="{Binding SyncService.Landscape, Mode=TwoWay}" />
-            <ComboBox Grid.Row="1" Items="{Binding SyncService.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.SelectedCategory}" MinWidth="175" />
-            <TextBox Watermark="Search ..." MinWidth="175" IsVisible="False" />
+            <ToggleSwitch OnContent="Landscape" OffContent="Portrait" IsChecked="{Binding SyncService.TemplateFilter.Landscape, Mode=TwoWay}" />
+            <ComboBox Grid.Row="1" Items="{Binding SyncService.TemplateFilter.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.TemplateFilter.SelectedCategory}" MinWidth="175" />
           </Grid>
         </controls:ImagePopupButton.PopupContent>
       </controls:ImagePopupButton>

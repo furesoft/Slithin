@@ -18,7 +18,7 @@ namespace Slithin.ViewModels
 
         public AddTemplateModalViewModel()
         {
-            Categories = SyncService.Categories;
+            Categories = SyncService.TemplateFilter.Categories;
             Categories.RemoveAt(0);
 
             SelectedCategory = "Grids";
@@ -78,7 +78,7 @@ namespace Slithin.ViewModels
 
         private void AddCategory(object obj)
         {
-            this.SyncService.Categories.Add(obj.ToString());
+            this.SyncService.TemplateFilter.Categories.Add(obj.ToString());
         }
 
         private void AddTemplate(object obj)
@@ -91,15 +91,15 @@ namespace Slithin.ViewModels
             template.Load();
 
             TemplateStorage.Instance.Add(template);
-            ServiceLocator.SyncService.Templates.Add(template);
+            ServiceLocator.SyncService.TemplateFilter.Templates.Add(template);
 
             DialogService.Close();
 
             var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
-            ServiceLocator.SyncService.SyncQueue.Add(syncItem);
+            ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
 
             var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
-            ServiceLocator.SyncService.SyncQueue.Add(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
+            ServiceLocator.SyncService.SyncQueue.Insert(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
         }
 
         private Template BuildTemplate()

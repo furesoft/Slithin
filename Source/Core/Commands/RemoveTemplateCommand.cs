@@ -33,7 +33,7 @@ namespace Slithin.Core.Commands
                 if (await DialogService.ShowDialog($"Would you really want to delete '{tmpl.Filename}'?"))
                 {
                     _templatesPageViewModel.SelectedTemplate = null;
-                    ServiceLocator.SyncService.Templates.Remove(tmpl);
+                    ServiceLocator.SyncService.TemplateFilter.Templates.Remove(tmpl);
 
                     TemplateStorage.Instance.Remove(tmpl);
                     ServiceLocator.Local.Remove(tmpl);
