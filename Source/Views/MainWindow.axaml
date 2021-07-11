@@ -2,24 +2,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
         xmlns:core="using:Slithin.Core"
         xmlns:controls="using:Slithin.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Slithin.Views.MainWindow" Icon="/Resources/Icon.png"
         Title="Slithin">
   <controls:ContentDialog controls:DialogService.IsHost="True">
-    <Grid RowDefinitions="AUTO,*" ColumnDefinitions="AUTO,*,150">
+    <Grid RowDefinitions="AUTO,*,*" ColumnDefinitions="AUTO,*,150">
       <Image Source="../Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="200" Height="125" Margin="15,0,0,0" />
 
-      <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="3" MinWidth="450" HorizontalAlignment="Left" />
+      <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="0" MinWidth="450" HorizontalAlignment="Left" />
 
-      <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" core:PageSelector.IsPageContainer="True" />
+      <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" core:PageSelector.IsPageContainer="True" />
 
       <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" Image="../Resources/refresh.png" Margin="0,0,12,0" HorizontalAlignment="Right" />
 
-      <Border VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1">
-        <TextBlock Text="Status ..." FontSize="35" core:NotificationService.IsNotificationOutput="True" IsVisible="False" />
-      </Border>
+      <StackPanel Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom" Orientation="Horizontal" Spacing="5" Margin="5,0,0,5">
+        <progRing:ProgressRing Width="60"
+                           Height="60"
+                           IsActive="True"
+                           Foreground="Black" />
+        <TextBlock Text="Status ..." FontSize="28" core:NotificationService.IsNotificationOutput="True" IsVisible="True" VerticalAlignment="Center" />
+      </StackPanel>
     </Grid>
   </controls:ContentDialog>
 </Window>
