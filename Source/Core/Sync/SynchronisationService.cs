@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using LiteDB;
 using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
@@ -27,6 +28,7 @@ namespace Slithin.Core
 
             PropertyChanged += OnPropertyChanged;
             SynchronizeCommand = new DelegateCommand(Synchronize);
+            SyncQueue = ServiceLocator.Database.GetCollection<SyncItem>();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -49,7 +51,7 @@ namespace Slithin.Core
         }
 
         public ICommand SynchronizeCommand { get; set; }
-        public ObservableCollection<SyncItem> SyncQueue { get; set; } = new();
+        public ILiteCollection<SyncItem> SyncQueue { get; set; }
         public ObservableCollection<Template> Templates { get; set; }
 
         public void LoadFromLocal()
@@ -147,12 +149,12 @@ namespace Slithin.Core
         {
             // SelectedCategory = "All";
 
-            foreach (var item in SyncQueue)
+            foreach (var item in SyncQueue.FindAll())
             {
                 ServiceLocator.Mailbox.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
             }
 
-            SyncQueue.Clear();
+            SyncQueue.DeleteAll();
         }
     }
 }
