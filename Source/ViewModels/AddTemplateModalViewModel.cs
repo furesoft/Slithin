@@ -5,6 +5,7 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
+using System.ComponentModel.DataAnnotations;
 
 namespace Slithin.ViewModels
 {
@@ -14,7 +15,7 @@ namespace Slithin.ViewModels
         private IconCodeItem _iconCode;
         private bool _isLandscape;
         private string _name;
-        private string _selectedCategory;
+        private string[] _selectedCategory;
 
         public AddTemplateModalViewModel()
         {
@@ -44,12 +45,14 @@ namespace Slithin.ViewModels
 
         public ObservableCollection<string> Categories { get; set; }
 
+        [Required(ErrorMessage = "You have to select a template file")]
         public string Filename
         {
             get { return _filename; }
             set { SetValue(ref _filename, value); }
         }
 
+        [Required(ErrorMessage = "IconCode is required")]
         public IconCodeItem IconCode
         {
             get { return _iconCode; }
@@ -64,13 +67,14 @@ namespace Slithin.ViewModels
             set { SetValue(ref _isLandscape, value); }
         }
 
+        [Required(ErrorMessage = "Name is required")]
         public string Name
         {
             get { return _name; }
             set { SetValue(ref _name, value); }
         }
 
-        public string SelectedCategory
+        public string[] SelectedCategory
         {
             get { return _selectedCategory; }
             set { SetValue(ref _selectedCategory, value); }
@@ -119,7 +123,7 @@ namespace Slithin.ViewModels
         {
             return new Template
             {
-                Categories = new[] { SelectedCategory },
+                Categories = SelectedCategory,
                 Filename = Path.GetFileNameWithoutExtension(Filename),
                 Name = Name,
                 IconCode = @"\" + "u" + IconCode.Name,
