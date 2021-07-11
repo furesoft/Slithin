@@ -10,5 +10,6 @@
     <StyleInclude Source="/Controls/ContentDialogStyle.axaml" />
     <StyleInclude Source="/Controls/DialogControlStyle.axaml" />
     <StyleInclude Source="/Controls/FileChooser.axaml" />
+    <StyleInclude Source="/Controls/CommandTextBox.axaml" />
   </Application.Styles>
 </Application>

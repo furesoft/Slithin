@@ -35,7 +35,10 @@ namespace Slithin.ViewModels
             }
 
             AddTemplateCommand = new DelegateCommand(AddTemplate);
+            AddCategoryCommand = new DelegateCommand(AddCategory);
         }
+
+        public ICommand AddCategoryCommand { get; set; }
 
         public ICommand AddTemplateCommand { get; set; }
 
@@ -71,6 +74,11 @@ namespace Slithin.ViewModels
         {
             get { return _selectedCategory; }
             set { SetValue(ref _selectedCategory, value); }
+        }
+
+        private void AddCategory(object obj)
+        {
+            this.SyncService.Categories.Add(obj.ToString());
         }
 
         private void AddTemplate(object obj)

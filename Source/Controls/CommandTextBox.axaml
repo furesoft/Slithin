@@ -1,0 +1,19 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Slithin.Controls">
+  <Design.PreviewWith>
+    <controls:CommandTextBox />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|CommandTextBox">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid ColumnDefinitions="*,AUTO" Margin="2">
+          <TextBox x:Name="tb" Grid.Column="0" Margin="0,0,5,0" Watermark="{TemplateBinding Watermark}" Text="{TemplateBinding Text, Mode=TwoWay}" />
+          <Button Grid.Column="1" Content="{TemplateBinding CommandText}" Command="{TemplateBinding Action}" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>
