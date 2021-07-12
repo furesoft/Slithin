@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.ContextualMenus;
 using Slithin.Core;
 using Slithin.ViewModels;
 
@@ -18,7 +19,7 @@ namespace Slithin.Pages
 
         public Control GetContextualMenu()
         {
-            return null;
+            return new NotebooksContextualMenu();
         }
 
         bool IPage.IsEnabled()
@@ -28,7 +29,7 @@ namespace Slithin.Pages
 
         public bool UseContextualMenu()
         {
-            return false;
+            return true;
         }
 
         private void InitializeComponent()

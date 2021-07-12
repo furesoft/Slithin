@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:Slithin.Controls"
+             mc:Ignorable="d" d:DesignWidth="180" d:DesignHeight="100"
+             x:Class="Slithin.ContextualMenus.NotebooksContextualMenu">
+  <DockPanel>
+    <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
+      <controls:ImageButton Text="Add" Command="{Binding OpenAddModalCommand}" Image="../Resources/add.png" />
+      <controls:ImageButton Text="Remove" Command="{Binding RemoveNotebookCommand}" Image="../Resources/minus.png" CommandParameter="{Binding SelectedTemplate}" />
+
+      <controls:ImagePopupButton Text="Search" Image="../Resources/search.png">
+        <controls:ImagePopupButton.PopupContent>
+          <Border>
+            <TextBox Watermark="Search ..." MinWidth="175" Height="35" IsVisible="True" />
+          </Border>
+        </controls:ImagePopupButton.PopupContent>
+      </controls:ImagePopupButton>
+    </StackPanel>
+  </DockPanel>
+</UserControl>
