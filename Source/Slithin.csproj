@@ -25,8 +25,13 @@
    </ItemGroup>
 
    <ItemGroup>
+     <None Remove="Resources\export.png" />
      <None Remove="Resources\filter.png" />
      <None Remove="Resources\search.png" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <AvaloniaResource Include="Styles\TabItemStyle.axaml" />
    </ItemGroup>
 
    <ItemGroup>
