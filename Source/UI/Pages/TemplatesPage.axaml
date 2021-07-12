@@ -14,11 +14,6 @@
                 <Border Margin="5" BorderThickness="1" BorderBrush="Black">
                   <Grid>
                     <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
-
-                    <Image Source="../Resources/tablet.png" Margin="2,0,0,2" Width="24" Height="24" IsVisible="{Binding OnDevice}" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-                    <Button Margin="2,0,0,2" Height="24" IsVisible="{Binding ToDownload}" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                      Add
-                    </Button>
                   </Grid>
                 </Border>
 

@@ -10,13 +10,13 @@
         Title="Slithin">
   <controls:ContentDialog controls:DialogService.IsHost="True">
     <Grid RowDefinitions="AUTO,*,*" ColumnDefinitions="AUTO,*,150">
-      <Image Source="../Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="200" Height="125" Margin="15,0,0,0" />
+      <Image Source="avares:/Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="200" Height="125" Margin="15,0,0,0" />
 
       <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="0" MinWidth="450" HorizontalAlignment="Left" />
 
       <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" core:PageSelector.IsPageContainer="True" />
 
-      <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" Image="../Resources/refresh.png" Margin="0,0,12,0" HorizontalAlignment="Right" />
+      <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" Image="avares:/Resources/refresh.png" Margin="0,0,12,0" HorizontalAlignment="Right" />
 
       <StackPanel Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom" Orientation="Horizontal" Spacing="5" Margin="5,0,0,5">
         <progRing:ProgressRing Width="60"

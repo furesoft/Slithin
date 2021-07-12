@@ -27,6 +27,8 @@
    <ItemGroup>
      <None Remove="Resources\export.png" />
      <None Remove="Resources\filter.png" />
+     <None Remove="Resources\image.png" />
+     <None Remove="Resources\import.png" />
      <None Remove="Resources\search.png" />
    </ItemGroup>
 

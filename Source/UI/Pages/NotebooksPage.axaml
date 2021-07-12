@@ -4,5 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.Pages.NotebooksPage">
-  <ListBox Items="{Binding SyncService.Notebooks}" />
+  <Grid ColumnDefinitions="250,*">
+    <ListBox Items="{Binding Folders}" />
+
+    <ListBox Items="{Binding SyncService.NotebookFilter.Notebooks}" Margin="16,0,0,0" x:Name="noteboooksListBox" SelectedItem="{Binding SelectedNotebook}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <Border Margin="3" HorizontalAlignment="Center">
+              <StackPanel Orientation="Vertical">
+                <Border Margin="5" BorderThickness="1" BorderBrush="Black">
+                  <Image Source="/Resources/image.png" Width="150" Height="150" />
+                </Border>
+
+                <TextBlock Text="{Binding Name}" TextAlignment="Center" />
+              </StackPanel>
+            </Border>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <UniformGrid Columns="4" />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+  </Grid>
 </UserControl>
