@@ -35,7 +35,7 @@
    </ItemGroup>
 
    <ItemGroup>
-     <Compile Update="Pages\NotebooksPage.axaml.cs">
+     <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>
    </ItemGroup>
