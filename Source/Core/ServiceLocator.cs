@@ -47,7 +47,14 @@ namespace Slithin.Core
                     switch (_.Item.Type)
                     {
                         case Sync.SyncType.Template:
-                            Device.Add((Template)_.Item.Data);
+                            if (_.Item.Action == Sync.SyncAction.Add)
+                            {
+                                Device.Add((Template)_.Item.Data);
+                            }
+                            else if (_.Item.Action == Sync.SyncAction.Remove)
+                            {
+                                Device.Remove((Template)_.Item.Data);
+                            }
                             break;
 
                         case Sync.SyncType.TemplateConfig:
