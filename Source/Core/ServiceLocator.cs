@@ -20,6 +20,7 @@ namespace Slithin.Core
         public static DeviceRepository Device = new();
         public static LocalRepository Local = new();
         public static MailboxProcessor<AsynchronousMessage> Mailbox;
+        public static string NotebooksDir = Path.Combine(ConfigBaseDir, "Notebooks");
         public static ScpClient Scp;
         public static SynchronisationService SyncService = new();
         public static string TemplatesDir = Path.Combine(ConfigBaseDir, "Templates");

@@ -11,7 +11,7 @@ namespace Slithin.ViewModels
         public NotebooksPageViewModel()
         {
             // OpenAddModalCommand = DialogService.CreateOpenCommand<AddNotebookModal>(new AddTemplateModalViewModel());
-            // RemoveTemplateCommand = new RemoveNotebookCommand(this);
+            RemoveTemplateCommand = new RemoveNotebookCommand(this);
         }
 
         public ICommand OpenAddModalCommand { get; set; }
