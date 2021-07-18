@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using LiteDB;
+using Slithin.Core.Sync;
 
 namespace Slithin.Core
 {

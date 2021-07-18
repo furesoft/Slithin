@@ -5,7 +5,7 @@ using FeatureSwitcher;
 using Slithin.Core;
 using Slithin.Features;
 
-namespace Slithin.Pages
+namespace Slithin.UI.Pages
 {
     public partial class ToolsPage : UserControl, IPage
     {

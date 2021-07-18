@@ -9,6 +9,7 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 using Slithin.ViewModels;
+using Slithin.Core.Sync;
 
 namespace Slithin.Core
 {

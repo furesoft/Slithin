@@ -5,8 +5,8 @@ using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Slithin.Core;
-using Slithin.Modals;
 using Slithin.ViewModels;
+using Slithin.UI.Modals;
 
 namespace Slithin.Controls
 {

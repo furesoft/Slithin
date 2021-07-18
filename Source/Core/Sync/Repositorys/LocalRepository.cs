@@ -44,7 +44,7 @@ namespace Slithin.Core.Sync.Repositorys
 
             if (tmpl.Type == MetadataType.DocumentType)
             {
-                var path = Path.Combine(ServiceLocator.NotebooksDir, tmpl.Type);
+                //var path = Path.Combine(ServiceLocator.NotebooksDir, tmpl.Type);
             }
         }
 

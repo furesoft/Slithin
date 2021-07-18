@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.ContextualMenus
+namespace Slithin.UI.ContextualMenus
 {
     public partial class TemplatesContextualMenu : UserControl
     {

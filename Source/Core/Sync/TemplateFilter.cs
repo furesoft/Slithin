@@ -3,8 +3,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Slithin.Core.Remarkable;
+using Slithin.Core;
 
-namespace Slithin.Core
+namespace Slithin.Core.Sync
 {
     public class TemplateFilter : INotifyPropertyChanged
     {

@@ -2,8 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Slithin.Core.Remarkable;
+using Slithin.Core;
 
-namespace Slithin.Core
+namespace Slithin.Core.Sync
 {
     public class NotebooksFilter : INotifyPropertyChanged
     {

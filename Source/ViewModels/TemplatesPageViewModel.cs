@@ -3,7 +3,7 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
-using Slithin.Modals;
+using Slithin.UI.Modals;
 
 namespace Slithin.ViewModels
 {

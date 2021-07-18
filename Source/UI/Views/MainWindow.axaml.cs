@@ -5,7 +5,7 @@ using Avalonia.Markup.Xaml;
 using Slithin.Core;
 using Slithin.ViewModels;
 
-namespace Slithin.Views
+namespace Slithin.UI.Views
 {
     public partial class MainWindow : Window
     {

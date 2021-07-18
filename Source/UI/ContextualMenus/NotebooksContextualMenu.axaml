@@ -4,14 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="100"
-             x:Class="Slithin.ContextualMenus.NotebooksContextualMenu">
+             x:Class="Slithin.UI.ContextualMenus.NotebooksContextualMenu">
   <DockPanel>
     <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-      <controls:ImageButton Text="Remove" Command="{Binding RemoveNotebookCommand}" Image="../Resources/minus.png" CommandParameter="{Binding SelectedTemplate}" />
-      <controls:ImageButton Text="Import" Command="{Binding OpenAddModalCommand}" Image="../Resources/import.png" />
-      <controls:ImageButton Text="Export" Command="{Binding ExportCommand}" Image="/Resources/export.png" />
+      <controls:ImageButton Text="Remove" Command="{Binding RemoveNotebookCommand}" Image="avares://Slithin/Resources/minus.png" CommandParameter="{Binding SelectedTemplate}" />
+      <controls:ImageButton Text="Import" Command="{Binding OpenAddModalCommand}" Image="avares://Slithin/Resources/import.png" />
+      <controls:ImageButton Text="Export" Command="{Binding ExportCommand}" Image="avares://Slithin/Resources/export.png" />
 
-      <controls:ImagePopupButton Text="Search" Image="../Resources/search.png">
+      <controls:ImagePopupButton Text="Search" Image="avares://Slithin/Resources/search.png">
         <controls:ImagePopupButton.PopupContent>
           <Border>
             <TextBox Watermark="Search ..." MinWidth="175" Height="35" IsVisible="True" />

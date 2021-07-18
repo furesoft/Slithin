@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:c="using:Slithin.Controls"
-             x:Class="Slithin.Modals.MessageBoxModal">
+             x:Class="Slithin.UI.Modals.MessageBoxModal">
   <c:DialogControl Header="Information" CommandText="OK" IsCancelEnabled="True" Command="{Binding AcceptCommand}" MaxHeight="100">
     <TextBlock Text="{Binding Message}" TextWrapping="Wrap" />
   </c:DialogControl>

@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="150"
-             x:Class="Slithin.ContextualMenus.TemplatesContextualMenu">
+             x:Class="Slithin.UI.ContextualMenus.TemplatesContextualMenu">
   <DockPanel>
     <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-      <controls:ImageButton Text="Add" Command="{Binding OpenAddModalCommand}" Image="../Resources/add.png" />
-      <controls:ImageButton Text="Remove" Command="{Binding RemoveTemplateCommand}" Image="../Resources/minus.png" CommandParameter="{Binding SelectedTemplate}" />
+      <controls:ImageButton Text="Add" Command="{Binding OpenAddModalCommand}" Image="avares://Slithin/Resources/add.png" />
+      <controls:ImageButton Text="Remove" Command="{Binding RemoveTemplateCommand}" Image="avares://Slithin/Resources/minus.png" CommandParameter="{Binding SelectedTemplate}" />
 
-      <controls:ImagePopupButton Text="Filter" Image="../Resources/filter.png">
+      <controls:ImagePopupButton Text="Filter" Image="avares://Slithin/Resources/filter.png">
         <controls:ImagePopupButton.PopupContent>
           <Grid RowDefinitions="*,AUTO" Margin="4">
             <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,0,10" IsVisible="False" />

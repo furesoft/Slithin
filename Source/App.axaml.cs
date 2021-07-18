@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
-using Slithin.Views;
+using Slithin.UI.Views;
 
 namespace Slithin
 {

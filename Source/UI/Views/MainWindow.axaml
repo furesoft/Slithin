@@ -6,7 +6,7 @@
         xmlns:core="using:Slithin.Core"
         xmlns:controls="using:Slithin.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Slithin.Views.MainWindow" Icon="/Resources/Icon.png"
+        x:Class="Slithin.UI.Views.MainWindow" Icon="/Resources/Icon.png"
         Title="Slithin">
   <controls:ContentDialog controls:DialogService.IsHost="True">
     <Grid RowDefinitions="AUTO,*,*" ColumnDefinitions="AUTO,*,150">

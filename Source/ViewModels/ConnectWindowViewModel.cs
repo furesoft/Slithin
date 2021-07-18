@@ -5,7 +5,7 @@ using LiteDB;
 using Renci.SshNet.Common;
 using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Views;
+using Slithin.UI.Views;
 
 namespace Slithin.ViewModels
 {

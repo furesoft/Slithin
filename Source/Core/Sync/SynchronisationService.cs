@@ -8,8 +8,9 @@ using LiteDB;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
 using Slithin.Messages;
+using Slithin.Core;
 
-namespace Slithin.Core
+namespace Slithin.Core.Sync
 {
     public class SynchronisationService : INotifyPropertyChanged
     {

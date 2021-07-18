@@ -1,10 +1,10 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Slithin.ContextualMenus;
 using Slithin.Core;
 using Slithin.ViewModels;
+using Slithin.UI.ContextualMenus;
 
-namespace Slithin.Pages
+namespace Slithin.UI.Pages
 {
     public partial class TemplatesPage : UserControl, IPage
     {

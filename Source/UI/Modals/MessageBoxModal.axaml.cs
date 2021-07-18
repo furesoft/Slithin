@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.Modals
+namespace Slithin.UI.Modals
 {
     public partial class MessageBoxModal : UserControl
     {
