@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Slithin.Core;
+using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
 
 namespace Slithin.ViewModels
@@ -10,12 +11,12 @@ namespace Slithin.ViewModels
 
         public NotebooksPageViewModel()
         {
-            // OpenAddModalCommand = DialogService.CreateOpenCommand<AddNotebookModal>(new AddTemplateModalViewModel());
+            //ImportCommand = DialogService.CreateOpenCommand<ImportNotebookModal>(new AddTemplateModalViewModel());
             RemoveTemplateCommand = new RemoveNotebookCommand(this);
         }
 
-        public ICommand OpenAddModalCommand { get; set; }
-
+        public ICommand ExportCommand { get; set; }
+        public ICommand ImportCommand { get; set; }
         public ICommand RemoveTemplateCommand { get; set; }
 
         public Metadata SelectedNotebook
