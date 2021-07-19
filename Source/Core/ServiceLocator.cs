@@ -79,6 +79,16 @@ namespace Slithin.Core
                 }
             });
 
+            MessageRouter.Register<GetNotebookFilenamesMessage>(_ =>
+            {
+                var cmd = Client.RunCommand("ls " + NotebooksDir);
+
+                if (cmd.ExitStatus == 0)
+                {
+                    _.Channel.Reply(cmd.Result.Split('\r'));
+                }
+            });
+
             MessageRouter.Register<HideStatusMessage>(_ =>
             {
                 NotificationService.Hide();

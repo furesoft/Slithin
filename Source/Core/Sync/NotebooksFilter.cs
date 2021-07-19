@@ -2,19 +2,18 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Slithin.Core.Remarkable;
-using Slithin.Core;
 
 namespace Slithin.Core.Sync
 {
     public class NotebooksFilter : INotifyPropertyChanged
     {
-        private string _folder;
+        private Metadata _folder;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<Metadata> Documents { get; set; }
+        public ObservableCollection<Metadata> Documents { get; set; } = new();
 
-        public string Folder
+        public Metadata Folder
         {
             get { return _folder; }
             set { SetValue(ref _folder, value); }

@@ -13,6 +13,10 @@ namespace Slithin.ViewModels
         {
             //ImportCommand = DialogService.CreateOpenCommand<ImportNotebookModal>(new AddTemplateModalViewModel());
             RemoveTemplateCommand = new RemoveNotebookCommand(this);
+
+            //ToDo: Remove after UI is working
+            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.DocumentType, VisibleName = "My Document" });
+            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.CollectionType, VisibleName = "Folder" });
         }
 
         public ICommand ExportCommand { get; set; }
