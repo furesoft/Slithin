@@ -3,9 +3,9 @@ using Slithin.Core;
 
 namespace Slithin.Messages
 {
-    public class GetNotebookFilenamesMessage : AsynchronousMessage
+    public class DownloadAllNotebooksMessage : AsynchronousMessage
     {
-        public GetNotebookFilenamesMessage(IReplyChannel<string[]> channel)
+        public DownloadAllNotebooksMessage(IReplyChannel<string[]> channel)
         {
             Channel = channel;
         }

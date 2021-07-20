@@ -2,6 +2,7 @@
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
+using Slithin.Messages;
 
 namespace Slithin.ViewModels
 {
@@ -27,6 +28,8 @@ namespace Slithin.ViewModels
             SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.CollectionType, VisibleName = "Folder 4" });
 
             SyncService.NotebooksFilter.SortByFolder();
+
+            ExportCommand = new DelegateCommand(_ => ServiceLocator.Mailbox.Post(new DownloadAllNotebooksMessage(null)));
         }
 
         public ICommand ExportCommand { get; set; }
