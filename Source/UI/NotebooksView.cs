@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Avalonia.Controls;
 using Slithin.Core.Remarkable;
 using Slithin.ViewModels;
+
+using System.Linq;
+
+using System.Collections.Generic;
 
 namespace Slithin.UI
 {
     public static class NotebooksView
     {
+        private static Stack<string> _lastFolderIDs = new();
         private static ListBox _lb;
 
         public static bool GetIsView(Control control)
@@ -32,15 +33,27 @@ namespace Slithin.UI
                 if (_lb.DataContext is NotebooksPageViewModel vm)
                 {
                     //ToDo: change to foldermanager
+                    var item = (_lb.Items as IEnumerable<Metadata>).ToArray();
                     vm.SyncService.NotebooksFilter.Documents.Clear();
+
+                    var id = md.ID;
 
                     if (md.VisibleName.Equals("Up .."))
                     {
-                        vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = MetadataType.DocumentType, VisibleName = "root" });
+                        id = _lastFolderIDs.Pop();
                     }
                     else
                     {
-                        vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = MetadataType.DocumentType, VisibleName = "tst doc" });
+                        _lastFolderIDs.Push(md.Parent);
+                    }
+
+                    foreach (var mds in MetadataStorage.GetByParent(id))
+                    {
+                        vm.SyncService.NotebooksFilter.Documents.Add(mds);
+                    }
+
+                    if (_lastFolderIDs.Count > 0)
+                    {
                         vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = MetadataType.CollectionType, VisibleName = "Up .." });
                     }
 

@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace Slithin.Core.Remarkable
@@ -17,6 +18,17 @@ namespace Slithin.Core.Remarkable
         public static Metadata Get(string name)
         {
             return _storage[name];
+        }
+
+        public static IEnumerable<Metadata> GetByParent(string parent)
+        {
+            foreach (var item in _storage)
+            {
+                if (item.Value.Parent.Equals(parent))
+                {
+                    yield return item.Value;
+                }
+            }
         }
 
         public static IEnumerable<string?> GetNames()

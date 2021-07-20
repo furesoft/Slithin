@@ -81,7 +81,9 @@ namespace Slithin.Core
 
             MessageRouter.Register<DownloadAllNotebooksMessage>(_ =>
             {
-                Scp.Download(PathList.Documents, new DirectoryInfo(NotebooksDir));
+                NotificationService.Show("Downloading Notebooks");
+                //Scp.Download(PathList.Documents, new DirectoryInfo(NotebooksDir));
+                NotificationService.Hide();
             });
 
             MessageRouter.Register<HideStatusMessage>(_ =>

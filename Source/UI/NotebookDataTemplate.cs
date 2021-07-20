@@ -37,6 +37,7 @@ namespace Slithin.UI
                 [!TextBlock.TextProperty] = new Binding("VisibleName")
             };
             title.TextAlignment = Avalonia.Media.TextAlignment.Center;
+            title.TextWrapping = Avalonia.Media.TextWrapping.Wrap;
 
             container.Children.Add(title);
 

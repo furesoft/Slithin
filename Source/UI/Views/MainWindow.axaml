@@ -18,13 +18,15 @@
 
       <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" Image="avares:/Resources/refresh.png" Margin="0,0,12,0" HorizontalAlignment="Right" />
 
-      <StackPanel Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom" Orientation="Horizontal" Spacing="5" Margin="5,0,0,5">
-        <progRing:ProgressRing Width="60"
-                           Height="60"
-                           IsActive="{Binding IsVisible, ElementName=statusTb}"
-                           Foreground="Black" />
-        <TextBlock Text="Status ..." FontSize="28" x:Name="statusTb" core:NotificationService.IsNotificationOutput="True" IsVisible="False" VerticalAlignment="Center" />
-      </StackPanel>
+      <Border Grid.Row="2" Margin="7,5,10,-3" HorizontalAlignment="Left" CornerRadius="4" Background="LightGray" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" IsVisible="{Binding IsVisible, ElementName=statusTb}">
+        <StackPanel Orientation="Horizontal" Spacing="7" Margin="5,5,5,5">
+          <progRing:ProgressRing Width="30"
+                             Height="30"
+                             IsActive="{Binding IsVisible, ElementName=statusTb}"
+                             Foreground="Black" />
+          <TextBlock Text="Status ..." FontSize="15" FontWeight="Bold" x:Name="statusTb" core:NotificationService.IsNotificationOutput="True" IsVisible="False" VerticalAlignment="Center" />
+        </StackPanel>
+      </Border>
     </Grid>
   </controls:ContentDialog>
 </Window>

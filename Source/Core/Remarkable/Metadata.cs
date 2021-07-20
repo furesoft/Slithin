@@ -13,6 +13,9 @@ namespace Slithin.Core.Remarkable
         [JsonProperty("deleted")]
         public bool Deleted { get; set; }
 
+        [JsonIgnore]
+        public string ID { get; internal set; }
+
         [JsonProperty("parent")]
         public string? Parent { get; set; }
 

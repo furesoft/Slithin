@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.IO;
+using System.Windows.Input;
+using Newtonsoft.Json;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
@@ -15,17 +17,17 @@ namespace Slithin.ViewModels
             //ImportCommand = DialogService.CreateOpenCommand<ImportNotebookModal>(new AddTemplateModalViewModel());
             RemoveTemplateCommand = new RemoveNotebookCommand(this);
 
-            //ToDo: Remove after UI is working
-            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.DocumentType, VisibleName = "My Document d" });
-            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.DocumentType, VisibleName = "My Document re" });
-            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.CollectionType, VisibleName = "Folder 1" });
-            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.CollectionType, VisibleName = "Folder 2" });
-            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.DocumentType, VisibleName = "My Document fed" });
-            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.DocumentType, VisibleName = "My Document fd" });
-            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.DocumentType, VisibleName = "My Document fd" });
-            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.CollectionType, VisibleName = "Folder 3" });
+            foreach (var md in Directory.GetFiles(ServiceLocator.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
+            {
+                var mdObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(md));
+                mdObj.ID = Path.GetFileNameWithoutExtension(md);
+                MetadataStorage.Add(mdObj);
+            }
 
-            SyncService.NotebooksFilter.Documents.Add(new Metadata() { Type = MetadataType.CollectionType, VisibleName = "Folder 4" });
+            foreach (var md in MetadataStorage.GetByParent(""))
+            {
+                SyncService.NotebooksFilter.Documents.Add(md);
+            }
 
             SyncService.NotebooksFilter.SortByFolder();
 

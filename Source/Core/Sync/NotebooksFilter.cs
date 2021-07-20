@@ -27,7 +27,8 @@ namespace Slithin.Core.Sync
 
         public void SortByFolder()
         {
-            var ordered = Documents.OrderBy(_ => _.Type != MetadataType.CollectionType);
+            var ordered = Documents.OrderByDescending(_ => _.Type == MetadataType.CollectionType);
+            ordered = ordered.OrderByDescending(_ => _.VisibleName.Equals("Up .."));
 
             Documents = new ObservableCollection<Metadata>(ordered);
         }
