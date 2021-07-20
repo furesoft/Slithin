@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel;
 using System.IO;
-using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LiteDB;
 using Newtonsoft.Json;
-using Slithin.Core.Commands;
 
 namespace Slithin.Core.Remarkable
 {

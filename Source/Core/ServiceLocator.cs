@@ -6,10 +6,10 @@ using LiteDB;
 using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 using Slithin.ViewModels;
-using Slithin.Core.Sync;
 
 namespace Slithin.Core
 {

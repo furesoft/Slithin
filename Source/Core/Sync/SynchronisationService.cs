@@ -1,14 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using LiteDB;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Sync;
 using Slithin.Messages;
-using Slithin.Core;
 
 namespace Slithin.Core.Sync
 {

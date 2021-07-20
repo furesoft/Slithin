@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
-using Slithin.ViewModels;
 using Slithin.UI.ContextualMenus;
+using Slithin.ViewModels;
 
 namespace Slithin.UI.Pages
 {

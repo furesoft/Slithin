@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
-using System.ComponentModel.DataAnnotations;
 
 namespace Slithin.ViewModels
 {
