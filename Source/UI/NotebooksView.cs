@@ -36,6 +36,7 @@ namespace Slithin.UI
 
                     if (md.VisibleName.Equals("Up .."))
                     {
+                        vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = MetadataType.DocumentType, VisibleName = "root" });
                     }
                     else
                     {

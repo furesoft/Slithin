@@ -8,11 +8,16 @@ namespace Slithin.Core.Sync
 {
     public class NotebooksFilter : INotifyPropertyChanged
     {
+        private ObservableCollection<Metadata> _documents = new();
         private Metadata _folder;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<Metadata> Documents { get; set; } = new();
+        public ObservableCollection<Metadata> Documents
+        {
+            get { return _documents; }
+            set { SetValue(ref _documents, value); }
+        }
 
         public Metadata Folder
         {
