@@ -2,29 +2,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="using:Slithin.UI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.NotebooksPage">
-  <Grid ColumnDefinitions="250,*">
-    <ListBox Items="{Binding SyncService.NotebookFilter.Notebooks}" Margin="0,0,0,0" x:Name="noteboooksListBox" SelectedItem="{Binding SelectedNotebook}">
+  <Grid>
+    <ListBox Items="{Binding SyncService.NotebooksFilter.Documents}" x:Name="noteboooksListBox" SelectedItem="{Binding SelectedNotebook}">
       <ListBox.ItemTemplate>
-        <DataTemplate>
-          <Grid>
-            <Border Margin="3" HorizontalAlignment="Center">
-              <StackPanel Orientation="Vertical">
-                <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                  <Image Source="/Resources/image.png" Width="150" Height="150" />
-                </Border>
-
-                <TextBlock Text="{Binding Name}" TextAlignment="Center" />
-              </StackPanel>
-            </Border>
-          </Grid>
-        </DataTemplate>
+        <ui:NotebookDataTemplate />
       </ListBox.ItemTemplate>
 
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
-          <UniformGrid Columns="4" />
+          <UniformGrid Columns="5" />
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>
