@@ -22,7 +22,7 @@ namespace Slithin.ViewModels
             Categories = SyncService.TemplateFilter.Categories;
             Categories.RemoveAt(0);
 
-            SelectedCategory = new[] { "Grids" };
+            //SelectedCategory = new[] { "Grids" };
 
             foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
             {
@@ -45,14 +45,12 @@ namespace Slithin.ViewModels
 
         public ObservableCollection<string> Categories { get; set; }
 
-        [Required(ErrorMessage = "You have to select a template file")]
         public string Filename
         {
             get { return _filename; }
             set { SetValue(ref _filename, value); }
         }
 
-        [Required(ErrorMessage = "IconCode is required")]
         public IconCodeItem IconCode
         {
             get { return _iconCode; }
@@ -67,7 +65,6 @@ namespace Slithin.ViewModels
             set { SetValue(ref _isLandscape, value); }
         }
 
-        [Required(ErrorMessage = "Name is required")]
         public string Name
         {
             get { return _name; }
