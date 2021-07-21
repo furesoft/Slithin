@@ -7,36 +7,31 @@ using Slithin.ViewModels;
 
 namespace Slithin.Core.Commands
 {
-
-    public class RemoveTemplateCommand : ICommand
+    public class RemoveNotebookCommand : ICommand
     {
-        private readonly TemplatesPageViewModel _templatesPageViewModel;
+        private readonly NotebooksPageViewModel _notebooksPageViewModel;
 
-        public RemoveTemplateCommand(TemplatesPageViewModel templatesPageViewModel)
+        public RemoveNotebookCommand(NotebooksPageViewModel templatesPageViewModel)
         {
-            _templatesPageViewModel = templatesPageViewModel;
+            _notebooksPageViewModel = templatesPageViewModel;
         }
 
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {
-            return parameter != null && parameter is Template;
+            return parameter != null && parameter is Metadata;
         }
 
         public async void Execute(object parameter)
         {
-            if (parameter is Template tmpl)
+            if (parameter is Metadata tmpl)
             {
-                //ToDo: display template delete confirm modal
-                // if ok, remove from templatestorage...
-
-                if (await DialogService.ShowDialog($"Would you really want to delete '{tmpl.Filename}'?"))
+                if (await DialogService.ShowDialog($"Would you really want to delete '{tmpl.VisibleName}'?"))
                 {
-                    _templatesPageViewModel.SelectedTemplate = null;
-                    ServiceLocator.SyncService.TemplateFilter.Templates.Remove(tmpl);
-
-                    TemplateStorage.Instance.Remove(tmpl);
+                    _notebooksPageViewModel.SelectedNotebook = null;
+                    ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(tmpl);
+                    MetadataStorage.Remove(tmpl);
                     ServiceLocator.Local.Remove(tmpl);
 
                     var item = new SyncItem
@@ -44,7 +39,7 @@ namespace Slithin.Core.Commands
                         Action = SyncAction.Remove,
                         Direction = SyncDirection.ToDevice,
                         Data = tmpl,
-                        Type = SyncType.Template
+                        Type = SyncType.Notebook
                     };
 
                     ServiceLocator.SyncService.SyncQueue.Insert(item);

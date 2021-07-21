@@ -62,6 +62,13 @@ namespace Slithin.Core
                         case Sync.SyncType.TemplateConfig:
                             Scp.Upload(new FileInfo(Path.Combine(TemplatesDir, "templates.json")), PathList.Templates + "/templates.json");
                             break;
+
+                        case SyncType.Notebook:
+                            if (_.Item.Action == Sync.SyncAction.Remove)
+                            {
+                                Device.Remove((Metadata)_.Item.Data);
+                            }
+                            break;
                     }
                 }
                 else

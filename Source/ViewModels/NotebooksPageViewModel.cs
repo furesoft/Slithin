@@ -15,7 +15,7 @@ namespace Slithin.ViewModels
         public NotebooksPageViewModel()
         {
             //ImportCommand = DialogService.CreateOpenCommand<ImportNotebookModal>(new AddTemplateModalViewModel());
-            RemoveTemplateCommand = new RemoveNotebookCommand(this);
+            RemoveNotebookCommand = new RemoveNotebookCommand(this);
 
             foreach (var md in Directory.GetFiles(ServiceLocator.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
             {
@@ -36,7 +36,7 @@ namespace Slithin.ViewModels
 
         public ICommand ExportCommand { get; set; }
         public ICommand ImportCommand { get; set; }
-        public ICommand RemoveTemplateCommand { get; set; }
+        public ICommand RemoveNotebookCommand { get; set; }
 
         public Metadata SelectedNotebook
         {

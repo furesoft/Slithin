@@ -39,12 +39,19 @@ namespace Slithin.Core.Sync.Repositorys
 
         public void Remove(Metadata tmpl)
         {
-            //folder-id
-            //files...
-
             if (tmpl.Type == MetadataType.DocumentType)
             {
-                //var path = Path.Combine(ServiceLocator.NotebooksDir, tmpl.Type);
+                var files = Directory.GetFiles(ServiceLocator.NotebooksDir, tmpl.ID);
+                foreach (var file in files)
+                {
+                    File.Delete(file);
+                }
+
+                var di = new DirectoryInfo(Path.Combine(ServiceLocator.NotebooksDir, tmpl.ID));
+                if (di.Exists)
+                {
+                    di.Delete(true);
+                }
             }
         }
 
