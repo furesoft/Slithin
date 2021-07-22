@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel;
 using System.IO;
-using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LiteDB;
 using Newtonsoft.Json;
-using Slithin.Core.Commands;
 
 namespace Slithin.Core.Remarkable
 {
@@ -52,7 +50,10 @@ namespace Slithin.Core.Remarkable
 
                 if (Image is null)
                 {
-                    Image = Bitmap.DecodeToWidth(File.OpenRead(path + ".png"), 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+                    if (File.Exists(path + ".png"))
+                    {
+                        Image = Bitmap.DecodeToWidth(File.OpenRead(path + ".png"), 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+                    }
                 }
             }
         }

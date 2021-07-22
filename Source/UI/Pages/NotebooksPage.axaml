@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="using:Slithin.UI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.UI.Pages.NotebooksPage">
+  <Grid>
+    <ListBox ui:NotebooksView.IsView="True" Items="{Binding SyncService.NotebooksFilter.Documents}" Margin="16,0,0,0" x:Name="noteboooksListBox" SelectedItem="{Binding SelectedNotebook}">
+      <ListBox.ItemTemplate>
+        <ui:NotebookDataTemplate />
+      </ListBox.ItemTemplate>
+
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <UniformGrid Columns="5" />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+  </Grid>
+</UserControl>

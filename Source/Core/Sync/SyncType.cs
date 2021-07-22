@@ -4,5 +4,6 @@
     {
         Template,
         TemplateConfig,
+        Notebook,
     }
 }

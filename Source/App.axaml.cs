@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
-using Slithin.Views;
+using Slithin.UI.Views;
 
 namespace Slithin
 {
@@ -18,7 +18,7 @@ namespace Slithin
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-#if !DEBUG
+#if DEBUG
                 desktop.MainWindow = new ConnectWindow();
 #else
                 desktop.MainWindow = new MainWindow();

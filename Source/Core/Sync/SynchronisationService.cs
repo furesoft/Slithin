@@ -1,15 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using LiteDB;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Sync;
 using Slithin.Messages;
 
-namespace Slithin.Core
+namespace Slithin.Core.Sync
 {
     public class SynchronisationService : INotifyPropertyChanged
     {
@@ -107,6 +105,7 @@ namespace Slithin.Core
         private void Synchronize(object? obj)
         {
             ServiceLocator.Mailbox.Post(new ShowStatusMessage { Message = "Syncing ..." });
+            ServiceLocator.Mailbox.Post(new DownloadAllNotebooksMessage());
 
             foreach (var item in SyncQueue.FindAll())
             {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core.Remarkable;
@@ -8,6 +7,7 @@ using Slithin.ViewModels;
 
 namespace Slithin.Core.Commands
 {
+
     public class RemoveTemplateCommand : ICommand
     {
         private readonly TemplatesPageViewModel _templatesPageViewModel;
@@ -47,7 +47,7 @@ namespace Slithin.Core.Commands
                         Type = SyncType.Template
                     };
 
-                    ServiceLocator.Mailbox.Post(new Messages.SyncMessage { Item = item });
+                    ServiceLocator.SyncService.SyncQueue.Insert(item);
                 }
             }
         }

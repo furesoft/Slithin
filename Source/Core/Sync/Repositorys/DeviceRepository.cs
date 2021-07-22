@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -58,7 +59,27 @@ namespace Slithin.Core.Sync.Repositorys
 
         public void Remove(Template template)
         {
-            throw new NotImplementedException();
+            // modifiy template.json
+            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+            var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
+            templateJson.Remove(template);
+            templateJson.Save();
+
+            ServiceLocator.Scp.Upload(File.OpenRead(ServiceLocator.ConfigBaseDir + "templates.json"), Path.Combine(PathList.Templates, "templates.json"));
+            ServiceLocator.Client.RunCommand("rm -fr " + PathList.Templates + template.Filename + ".png");
+        }
+
+        public void Remove(Metadata data)
+        {
+            if (data.Type == MetadataType.DocumentType)
+            {
+                var cmd = ServiceLocator.Client.RunCommand("ls " + PathList.Documents);
+                var split = cmd.Result.Split('\n');
+                var excluded = split.Where(_ => _.Contains(data.ID));
+
+                var filenames = string.Join(' ', excluded);
+                ServiceLocator.Client.RunCommand("rm -fr " + filenames);
+            }
         }
     }
 }

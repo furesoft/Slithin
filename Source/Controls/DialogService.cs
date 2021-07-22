@@ -1,11 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Slithin.Core;
-using Slithin.Modals;
+using Slithin.UI.Modals;
 using Slithin.ViewModels;
 
 namespace Slithin.Controls

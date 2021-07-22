@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Avalonia.Controls;
+using Avalonia.Threading;
 
 namespace Slithin.Core
 {
@@ -41,8 +42,11 @@ namespace Slithin.Core
 
         public static void Show(string message)
         {
-            outputTextBlock.Text = message;
-            outputTextBlock.IsVisible = true;
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                outputTextBlock.Text = message;
+                outputTextBlock.IsVisible = true;
+            });
         }
     }
 }

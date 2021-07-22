@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:c="using:Slithin.Controls"
+             x:Class="Slithin.UI.Modals.ErrorModal">
+  <c:DialogControl Header="Error" CommandText="OK" IsCancelEnabled="False" Command="{Binding CancelCommand}" MaxHeight="100">
+    <StackPanel>
+      <Image Source="../Resources/error.png" Width="50" Height="50" />
+      <TextBlock Text="{Binding Message}" TextWrapping="Wrap" />
+    </StackPanel>
+  </c:DialogControl>
+</UserControl>
