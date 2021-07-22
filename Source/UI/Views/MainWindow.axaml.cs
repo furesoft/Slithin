@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -36,9 +37,11 @@ namespace Slithin.UI.Views
         {
             AvaloniaXamlLoader.Load(this);
 
-            if (!ServiceLocator.Local.GetTemplates().Any())
+            if (!ServiceLocator.Local.GetTemplates().Any() || !Directory.GetFiles(ServiceLocator.NotebooksDir).Any())
             {
-                DialogService.OpenError("There is no data. Please synchronize!");
+                DialogService.OpenError("There is no data. First synchronisation is starting");
+
+                ServiceLocator.SyncService.SynchronizeCommand.Execute(null);
             }
         }
     }

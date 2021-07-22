@@ -54,6 +54,11 @@ namespace Slithin.ViewModels
             ServiceLocator.Client = new Renci.SshNet.SshClient(IP, 22, "root", Password);
             ServiceLocator.Scp = new Renci.SshNet.ScpClient(IP, 22, "root", Password);
 
+            ServiceLocator.Scp.ErrorOccurred += (s, _) =>
+            {
+                DialogService.OpenError(_.Exception.ToString());
+            };
+
             if (IPAddress.TryParse(IP, out var addr))
             {
                 try

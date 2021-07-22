@@ -104,6 +104,11 @@ namespace Slithin.Core.Sync
 
         private void Synchronize(object? obj)
         {
+            if (!ServiceLocator.Local.GetTemplates().Any())
+            {
+                ServiceLocator.Mailbox.Post(new InitStorageMessage());
+            }
+
             ServiceLocator.Mailbox.Post(new ShowStatusMessage { Message = "Syncing ..." });
             ServiceLocator.Mailbox.Post(new DownloadAllNotebooksMessage());
 

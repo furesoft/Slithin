@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Actress;
+using Avalonia;
 using LiteDB;
 using Newtonsoft.Json;
 using Renci.SshNet;
@@ -108,6 +110,21 @@ namespace Slithin.Core
                 }
             });
 
+            MessageRouter.Register<InitStorageMessage>(async _ =>
+            {
+                Device.GetTemplates();
+                SyncService.SynchronizeCommand.Execute(null);
+
+                var result = await DialogService.ShowDialog("Download complete. Slithin will restart");
+                if (result)
+                {
+                    var fileName = Assembly.GetExecutingAssembly().Location;
+                    System.Diagnostics.Process.Start(fileName);
+
+                    Environment.Exit(0);
+                }
+            });
+
             MessageRouter.Register<AttentionRequiredMessage>(async _ =>
             {
                 var result = await DialogService.ShowDialog(_.Text);
@@ -125,7 +142,7 @@ namespace Slithin.Core
                 //get all metadata files, compare with local metadata files and download only newer version
 
                 var cmd = Client.RunCommand("ls -p " + PathList.Documents);
-                var allFilenames = cmd.Result.Split('\n');
+                var allFilenames = cmd.Result.Split('\n').Where(_ => !_.EndsWith("/"));
                 var filenames = allFilenames.Where(_ => _.EndsWith(".metadata"));
                 var toDownload = new List<string>();
 
@@ -137,7 +154,7 @@ namespace Slithin.Core
                         var mdDeviceObj = JsonConvert.DeserializeObject<Metadata>(mdContent);
                         var mdLocalObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(NotebooksDir, md)));
 
-                        if (mdLocalObj.Version < mdDeviceObj.Version)
+                        if (mdLocalObj.Version < mdDeviceObj.Version && !mdDeviceObj.Deleted)
                         {
                             toDownload.Add(md);
                         }
@@ -148,23 +165,32 @@ namespace Slithin.Core
                     }
                 }
 
+                var folderNames = Client.RunCommand("ls -p " + PathList.Documents).Result.Split('\n').Where(_ => _.EndsWith("/"));
+
                 for (int i = 0; i < toDownload.Count; i++)
                 {
-                    NotificationService.Show($"Downloading Notebook {i} of {toDownload.Count()}");
+                    NotificationService.Show($"Downloading Notebooks. Please be patient");
 
                     foreach (var filename in allFilenames.Where(_ => _.StartsWith(Path.GetFileNameWithoutExtension(
                         toDownload[i]))).Where(_ => !_.EndsWith("/")))
                     {
                         //download
-                        Scp.Download(filename, new FileInfo(Path.Combine(NotebooksDir,
+                        Scp.Download(PathList.Documents + "/" + filename, new FileInfo(Path.Combine(NotebooksDir,
                             Path.GetFileName(filename)))
                         );
                     }
 
                     //download notebook content
-                    Scp.Download(Path.GetFileNameWithoutExtension(toDownload[i]),
-                        new DirectoryInfo(Path.Combine(NotebooksDir, Path.GetFileNameWithoutExtension(toDownload[i])))
-                    );
+
+                    if (Client.RunCommand("ls -p " + PathList.Documents + "/" + Path.GetFileNameWithoutExtension(toDownload[i])).Result.Split("\n").Any())
+                    {
+                        if (folderNames.Contains(Path.GetFileNameWithoutExtension(toDownload[i]) + "/"))
+                        {
+                            Scp.Download(PathList.Documents + "/" + Path.GetFileNameWithoutExtension(folderNames.ToArray()[i]),
+                                new DirectoryInfo(Path.Combine(NotebooksDir, Path.GetFileNameWithoutExtension(folderNames.ToArray()[i])))
+                            );
+                        }
+                    }
                 }
 
                 NotificationService.Hide();

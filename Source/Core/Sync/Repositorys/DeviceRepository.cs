@@ -45,6 +45,8 @@ namespace Slithin.Core.Sync.Repositorys
             //sort out all synced templates
             //download all nonsynced templates to localrepository
 
+            NotificationService.Show("Downloading Templates");
+
             var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
             var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
             var toSyncTemplates = templateJson.Templates.Where(_ => !ServiceLocator.Local.GetTemplates().Contains(_));
@@ -53,6 +55,8 @@ namespace Slithin.Core.Sync.Repositorys
             {
                 ServiceLocator.Scp.Download(PathList.Templates + "/" + t.Filename + ".png", new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "Templates", t.Filename + ".png")));
             }
+
+            NotificationService.Hide();
 
             return null;
         }
