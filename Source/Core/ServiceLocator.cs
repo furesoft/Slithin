@@ -19,14 +19,22 @@ namespace Slithin.Core
     {
         public static SshClient Client;
         public static string ConfigBaseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin");
-        public static LiteDatabase Database = new(Path.Combine(ConfigBaseDir, "slithin.db"));
-        public static DeviceRepository Device = new();
-        public static LocalRepository Local = new();
+
+        public static LiteDatabase Database;
+
+        public static DeviceRepository Device;
+
+        public static LocalRepository Local;
+
         public static MailboxProcessor<AsynchronousMessage> Mailbox;
-        public static string NotebooksDir = Path.Combine(ConfigBaseDir, "Notebooks");
+
+        public static string NotebooksDir;
+
         public static ScpClient Scp;
-        public static SynchronisationService SyncService = new();
-        public static string TemplatesDir = Path.Combine(ConfigBaseDir, "Templates");
+
+        public static SynchronisationService SyncService;
+
+        public static string TemplatesDir;
 
         public static ConnectionWindowViewModel GetLoginCredentials()
         {
@@ -42,31 +50,53 @@ namespace Slithin.Core
             }
         }
 
+        public static void Init()
+        {
+            NotebooksDir = Path.Combine(ConfigBaseDir, "Notebooks");
+            TemplatesDir = Path.Combine(ConfigBaseDir, "Templates");
+
+            if (!Directory.Exists(ConfigBaseDir))
+            {
+                Directory.CreateDirectory(ConfigBaseDir);
+                Directory.CreateDirectory(TemplatesDir);
+                Directory.CreateDirectory(NotebooksDir);
+
+                File.WriteAllText(Path.Combine(ConfigBaseDir, "templates.json"), "{\"templates\": []}");
+            }
+
+            Database = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin", "slithin.db"));
+
+            Device = new();
+            Local = new();
+
+            SyncService = new();
+        }
+
         public static void InitMessageRouter()
         {
             MessageRouter.Register<SyncMessage>(_ =>
             {
-                if (_.Item.Direction == Sync.SyncDirection.ToDevice)
+                if (_.Item.Direction == SyncDirection.ToDevice)
                 {
                     switch (_.Item.Type)
                     {
-                        case Sync.SyncType.Template:
-                            if (_.Item.Action == Sync.SyncAction.Add)
+                        case SyncType.Template:
+                            if (_.Item.Action == SyncAction.Add)
                             {
                                 Device.Add((Template)_.Item.Data);
                             }
-                            else if (_.Item.Action == Sync.SyncAction.Remove)
+                            else if (_.Item.Action == SyncAction.Remove)
                             {
                                 Device.Remove((Template)_.Item.Data);
                             }
                             break;
 
-                        case Sync.SyncType.TemplateConfig:
+                        case SyncType.TemplateConfig:
                             Scp.Upload(new FileInfo(Path.Combine(TemplatesDir, "templates.json")), PathList.Templates + "/templates.json");
                             break;
 
                         case SyncType.Notebook:
-                            if (_.Item.Action == Sync.SyncAction.Remove)
+                            if (_.Item.Action == SyncAction.Remove)
                             {
                                 Device.Remove((Metadata)_.Item.Data);
                             }

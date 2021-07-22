@@ -1,4 +1,6 @@
-﻿using Actress;
+﻿using System;
+using System.IO;
+using Actress;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -16,9 +18,11 @@ namespace Slithin
 
         public override void OnFrameworkInitializationCompleted()
         {
+            ServiceLocator.Init();
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-#if DEBUG
+#if !DEBUG
                 desktop.MainWindow = new ConnectWindow();
 #else
                 desktop.MainWindow = new MainWindow();

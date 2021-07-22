@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Remarkable;
 using Slithin.ViewModels;
 
 namespace Slithin.UI.Views
@@ -32,6 +35,11 @@ namespace Slithin.UI.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+
+            if (!ServiceLocator.Local.GetTemplates().Any())
+            {
+                DialogService.OpenError("There is no data. Please synchronize!");
+            }
         }
     }
 }

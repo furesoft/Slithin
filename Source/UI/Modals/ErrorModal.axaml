@@ -7,7 +7,7 @@
              x:Class="Slithin.UI.Modals.ErrorModal">
   <c:DialogControl Header="Error" CommandText="OK" IsCancelEnabled="False" Command="{Binding CancelCommand}" MaxHeight="100">
     <StackPanel>
-      <Image Source="../Resources/error.png" Width="50" Height="50" />
+      <Image Source="avares://Slithin/Resources/error.png" Width="50" Height="50" />
       <TextBlock Text="{Binding Message}" TextWrapping="Wrap" />
     </StackPanel>
   </c:DialogControl>
