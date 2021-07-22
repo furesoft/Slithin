@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
-using Slithin.Messages;
 
 namespace Slithin.ViewModels
 {
@@ -31,11 +30,13 @@ namespace Slithin.ViewModels
 
             SyncService.NotebooksFilter.SortByFolder();
 
-            ExportCommand = new DelegateCommand(_ => ServiceLocator.Mailbox.Post(new DownloadAllNotebooksMessage(null)));
+            //DownloadCommand = new DelegateCommand(_ => ServiceLocator.Mailbox.Post(new DownloadAllNotebooksMessage(null)));
+            //ExportCommand = new DelegateCommand(_ => ServiceLocator.Mailbox.Post(new DownloadAllNotebooksMessage(null)));
         }
 
+        //public ICommand DownloadCommand { get; set; }
         public ICommand ExportCommand { get; set; }
-        public ICommand ImportCommand { get; set; }
+
         public ICommand RemoveNotebookCommand { get; set; }
 
         public Metadata SelectedNotebook
