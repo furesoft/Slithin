@@ -2,7 +2,7 @@
 
 namespace Slithin.Messages
 {
-    public class DownloadAllNotebooksMessage : AsynchronousMessage
+    public class DownloadNotebooksMessage : AsynchronousMessage
     {
     }
 }

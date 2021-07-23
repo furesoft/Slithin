@@ -110,7 +110,7 @@ namespace Slithin.Core.Sync
             }
 
             ServiceLocator.Mailbox.Post(new ShowStatusMessage { Message = "Syncing ..." });
-            ServiceLocator.Mailbox.Post(new DownloadAllNotebooksMessage());
+            ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
 
             foreach (var item in SyncQueue.FindAll())
             {
