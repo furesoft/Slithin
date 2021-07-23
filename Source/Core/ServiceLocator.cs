@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Actress;
 using Avalonia;
+using Avalonia.Threading;
 using LiteDB;
 using Newtonsoft.Json;
 using Renci.SshNet;
@@ -126,17 +127,12 @@ namespace Slithin.Core
 
             MessageRouter.Register<InitStorageMessage>(async _ =>
             {
-                Device.GetTemplates();
-                SyncService.SynchronizeCommand.Execute(null);
-
-                var result = await DialogService.ShowDialog("Download complete. Slithin will restart");
-                if (result)
+                await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    var fileName = Assembly.GetExecutingAssembly().Location;
-                    System.Diagnostics.Process.Start(fileName);
+                    Device.GetTemplates();
+                });
 
-                    Environment.Exit(0);
-                }
+                SyncService.SynchronizeCommand.Execute(null);
             });
 
             MessageRouter.Register<AttentionRequiredMessage>(async _ =>
@@ -149,7 +145,7 @@ namespace Slithin.Core
                 }
             });
 
-            MessageRouter.Register<DownloadAllNotebooksMessage>(_ =>
+            MessageRouter.Register<DownloadNotebooksMessage>(_ =>
             {
                 NotificationService.Show("Checking Notebooks");
 
@@ -159,6 +155,7 @@ namespace Slithin.Core
                 var allFilenames = cmd.Result.Split('\n').Where(_ => !_.EndsWith("/"));
                 var filenames = allFilenames.Where(_ => _.EndsWith(".metadata"));
                 var toDownload = new List<string>();
+                var mds = new Dictionary<string, Metadata>();
 
                 foreach (var md in filenames)
                 {
@@ -171,6 +168,7 @@ namespace Slithin.Core
                         if (mdLocalObj.Version < mdDeviceObj.Version && !mdDeviceObj.Deleted)
                         {
                             toDownload.Add(md);
+                            mds.Add(mdDeviceObj.ID, mdDeviceObj);
                         }
                     }
                     else
@@ -203,6 +201,9 @@ namespace Slithin.Core
                             Scp.Download(PathList.Documents + "/" + Path.GetFileNameWithoutExtension(folderNames.ToArray()[i]),
                                 new DirectoryInfo(Path.Combine(NotebooksDir, Path.GetFileNameWithoutExtension(folderNames.ToArray()[i])))
                             );
+
+                            MetadataStorage.Add(mds[toDownload[i]]);
+                            SyncService.NotebooksFilter.Documents.Add(mds[toDownload[i]]);
                         }
                     }
                 }
