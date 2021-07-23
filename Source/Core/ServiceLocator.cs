@@ -72,6 +72,20 @@ namespace Slithin.Core
             Local = new();
 
             SyncService = new();
+
+            Mailbox = MailboxProcessor.Start<AsynchronousMessage>(
+                async (_) =>
+                {
+                    while (true)
+                    {
+                        var msg = await _.Receive();
+
+                        MessageRouter.Route(msg);
+                    }
+                }
+                );
+
+            ServiceLocator.InitMessageRouter();
         }
 
         public static void InitMessageRouter()

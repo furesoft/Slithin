@@ -22,26 +22,12 @@ namespace Slithin
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-#if DEBUG
+#if !DEBUG
                 desktop.MainWindow = new ConnectWindow();
 #else
                 desktop.MainWindow = new MainWindow();
 #endif
             }
-
-            ServiceLocator.Mailbox = MailboxProcessor.Start<AsynchronousMessage>(
-                async (_) =>
-                {
-                    while (true)
-                    {
-                        var msg = await _.Receive();
-
-                        MessageRouter.Route(msg);
-                    }
-                }
-                );
-
-            ServiceLocator.InitMessageRouter();
 
             ServiceLocator.SyncService.LoadFromLocal();
 
