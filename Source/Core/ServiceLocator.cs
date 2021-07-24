@@ -127,14 +127,16 @@ namespace Slithin.Core
                 }
             });
 
-            MessageRouter.Register<InitStorageMessage>(async _ =>
+            MessageRouter.Register<InitStorageMessage>(_ =>
             {
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    Device.GetTemplates();
-                });
+                var templates = Device.GetTemplates();
 
-                Mailbox.Post(new DownloadNotebooksMessage());
+                TemplateStorage.Instance.Load();
+
+                foreach (var tmpl in TemplateStorage.Instance.Templates)
+                {
+                    SyncService.TemplateFilter.Templates.Add(tmpl);
+                }
             });
 
             MessageRouter.Register<AttentionRequiredMessage>(async _ =>

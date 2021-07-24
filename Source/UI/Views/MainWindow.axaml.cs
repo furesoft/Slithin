@@ -41,6 +41,11 @@ namespace Slithin.UI.Views
             if (!ServiceLocator.Local.GetTemplates().Any() || !Directory.GetFiles(ServiceLocator.NotebooksDir).Any())
             {
                 ServiceLocator.Mailbox.Post(new InitStorageMessage());
+                ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
+            }
+            else
+            {
+                ServiceLocator.SyncService.LoadFromLocal();
             }
         }
     }

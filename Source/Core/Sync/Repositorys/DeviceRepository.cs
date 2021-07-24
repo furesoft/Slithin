@@ -35,15 +35,6 @@ namespace Slithin.Core.Sync.Repositorys
 
         public Template[] GetTemplates()
         {
-            if (!Directory.Exists(ServiceLocator.TemplatesDir))
-            {
-                Directory.CreateDirectory(ServiceLocator.TemplatesDir);
-            }
-            else
-            {
-                return null;
-            }
-
             ServiceLocator.Scp.Download(PathList.Templates + "templates.json", new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json")));
             //Get template.json
             //sort out all synced templates

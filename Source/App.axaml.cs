@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
+using Slithin.Messages;
 using Slithin.UI.Views;
 
 namespace Slithin
@@ -29,7 +30,22 @@ namespace Slithin
 #endif
             }
 
-            ServiceLocator.SyncService.LoadFromLocal();
+            var root = new DirectoryInfo(ServiceLocator.ConfigBaseDir);
+            var tmpls = new DirectoryInfo(ServiceLocator.TemplatesDir);
+            var notes = new DirectoryInfo(ServiceLocator.NotebooksDir);
+
+            if (!root.Exists || !tmpls.Exists || !notes.Exists)
+            {
+                try
+                {
+                    root.Create();
+                    tmpls.Create();
+                    notes.Create();
+                }
+                catch { }
+
+                File.WriteAllText(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json"), "{\"templates\": []}");
+            }
 
             base.OnFrameworkInitializationCompleted();
         }
