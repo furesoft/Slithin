@@ -39,6 +39,10 @@ namespace Slithin.Core.Sync.Repositorys
             {
                 Directory.CreateDirectory(ServiceLocator.TemplatesDir);
             }
+            else
+            {
+                return null;
+            }
 
             ServiceLocator.Scp.Download(PathList.Templates + "templates.json", new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json")));
             //Get template.json

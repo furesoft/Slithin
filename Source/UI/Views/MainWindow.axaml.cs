@@ -7,6 +7,7 @@ using Avalonia.Markup.Xaml;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Messages;
 using Slithin.ViewModels;
 
 namespace Slithin.UI.Views
@@ -39,9 +40,7 @@ namespace Slithin.UI.Views
 
             if (!ServiceLocator.Local.GetTemplates().Any() || !Directory.GetFiles(ServiceLocator.NotebooksDir).Any())
             {
-                DialogService.OpenError("There is no data. First synchronisation is starting");
-
-                ServiceLocator.SyncService.SynchronizeCommand.Execute(null);
+                ServiceLocator.Mailbox.Post(new InitStorageMessage());
             }
         }
     }

@@ -132,7 +132,7 @@ namespace Slithin.Core
                     Device.GetTemplates();
                 });
 
-                SyncService.SynchronizeCommand.Execute(null);
+                Mailbox.Post(new DownloadNotebooksMessage());
             });
 
             MessageRouter.Register<AttentionRequiredMessage>(async _ =>
@@ -147,65 +147,86 @@ namespace Slithin.Core
 
             MessageRouter.Register<DownloadNotebooksMessage>(_ =>
             {
-                NotificationService.Show("Checking Notebooks");
-
-                //get all metadata files, compare with local metadata files and download only newer version
+                NotificationService.Show("Downloading Notebook Metadata");
 
                 var cmd = Client.RunCommand("ls -p " + PathList.Documents);
-                var allFilenames = cmd.Result.Split('\n').Where(_ => !_.EndsWith("/"));
-                var filenames = allFilenames.Where(_ => _.EndsWith(".metadata"));
-                var toDownload = new List<string>();
-                var mds = new Dictionary<string, Metadata>();
+                var allFilenames = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => !_.EndsWith(".zip") && !_.EndsWith(".zip.part"));
+                var mds = new List<Metadata>();
+                var mdFilenames = allFilenames.Where(_ => _.EndsWith(".metadata"));
 
-                foreach (var md in filenames)
+                foreach (var md in mdFilenames)
                 {
+                    var mdContent = Client.RunCommand("cat " + PathList.Documents + "/" + md).Result;
+                    var mdObj = JsonConvert.DeserializeObject<Metadata>(mdContent);
+
+                    mdObj.ID = Path.GetFileNameWithoutExtension(md);
+
                     if (File.Exists(Path.Combine(NotebooksDir, md)))
                     {
-                        var mdContent = Client.RunCommand("cat " + PathList.Documents + "/" + md).Result;
-                        var mdDeviceObj = JsonConvert.DeserializeObject<Metadata>(mdContent);
                         var mdLocalObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(NotebooksDir, md)));
 
-                        if (mdLocalObj.Version < mdDeviceObj.Version && !mdDeviceObj.Deleted)
+                        if (!mdObj.Deleted)
                         {
-                            toDownload.Add(md);
-                            mds.Add(mdDeviceObj.ID, mdDeviceObj);
+                            if (mdObj.Version > mdLocalObj.Version)
+                            {
+                                if (mdObj.Type == MetadataType.DocumentType)
+                                {
+                                    mds.Add(mdObj);
+                                }
+
+                                File.WriteAllText(Path.Combine(NotebooksDir, md), mdContent);
+                            }
                         }
                     }
                     else
                     {
-                        toDownload.Add(md);
+                        if (mdObj.Type == MetadataType.DocumentType)
+                        {
+                            mds.Add(mdObj);
+                        }
+
+                        File.WriteAllText(Path.Combine(NotebooksDir, md), mdContent);
+                    }
+
+                    if (mdObj.Type == MetadataType.CollectionType && mdObj.Parent == "")
+                    {
+                        MetadataStorage.Add(mdObj);
+                        SyncService.NotebooksFilter.Documents.Add(mdObj);
                     }
                 }
 
-                var folderNames = Client.RunCommand("ls -p " + PathList.Documents).Result.Split('\n').Where(_ => _.EndsWith("/"));
-
-                for (int i = 0; i < toDownload.Count; i++)
+                var notebook = 0;
+                foreach (var md in mds)
                 {
-                    NotificationService.Show($"Downloading Notebooks. Please be patient");
-
-                    foreach (var filename in allFilenames.Where(_ => _.StartsWith(Path.GetFileNameWithoutExtension(
-                        toDownload[i]))).Where(_ => !_.EndsWith("/")))
+                    if (allFilenames.Contains(md.ID + "/"))
                     {
-                        //download
-                        Scp.Download(PathList.Documents + "/" + filename, new FileInfo(Path.Combine(NotebooksDir,
-                            Path.GetFileName(filename)))
-                        );
-                    }
+                        NotificationService.Show($"Downloading File {notebook}/{allFilenames.Where(_ => !_.EndsWith(".metadata")).Count()}");
 
-                    //download notebook content
-
-                    if (Client.RunCommand("ls -p " + PathList.Documents + "/" + Path.GetFileNameWithoutExtension(toDownload[i])).Result.Split("\n").Any())
-                    {
-                        if (folderNames.Contains(Path.GetFileNameWithoutExtension(toDownload[i]) + "/"))
+                        var directoryInfo = new DirectoryInfo(Path.Combine(NotebooksDir, md.ID));
+                        if (!directoryInfo.Exists)
                         {
-                            Scp.Download(PathList.Documents + "/" + Path.GetFileNameWithoutExtension(folderNames.ToArray()[i]),
-                                new DirectoryInfo(Path.Combine(NotebooksDir, Path.GetFileNameWithoutExtension(folderNames.ToArray()[i])))
-                            );
+                            directoryInfo.Create();
+                        }
 
-                            MetadataStorage.Add(mds[toDownload[i]]);
-                            SyncService.NotebooksFilter.Documents.Add(mds[toDownload[i]]);
+                        Scp.Download(PathList.Documents + "/" + md.ID, directoryInfo);
+                        notebook++;
+
+                        MetadataStorage.Add(md);
+
+                        if (md.Parent == "")
+                        {
+                            SyncService.NotebooksFilter.Documents.Add(md);
                         }
                     }
+                }
+
+                var otherfiles = allFilenames.Where(_ => !_.EndsWith(".metadata") && !_.EndsWith("/"));
+
+                foreach (var filename in otherfiles)
+                {
+                    NotificationService.Show($"Downloading File {notebook}/{allFilenames.Where(_ => !_.EndsWith(".metadata")).Count()}");
+                    Scp.Download(PathList.Documents + "/" + filename, new FileInfo(Path.Combine(NotebooksDir, filename)));
+                    notebook++;
                 }
 
                 NotificationService.Hide();
