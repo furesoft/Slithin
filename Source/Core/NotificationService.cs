@@ -32,7 +32,10 @@ namespace Slithin.Core
 
         public static void Hide()
         {
-            outputTextBlock.IsVisible = false;
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                outputTextBlock.IsVisible = false;
+            });
         }
 
         public static void SetIsNotificationOutput(TextBlock target, bool value)

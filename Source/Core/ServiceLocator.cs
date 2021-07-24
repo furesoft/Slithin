@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -9,6 +10,7 @@ using Avalonia.Threading;
 using LiteDB;
 using Newtonsoft.Json;
 using Renci.SshNet;
+using Renci.SshNet.Common;
 using Slithin.Controls;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
@@ -157,6 +159,12 @@ namespace Slithin.Core
                 foreach (var md in mdFilenames)
                 {
                     var mdContent = Client.RunCommand("cat " + PathList.Documents + "/" + md).Result;
+
+                    if (string.IsNullOrEmpty(mdContent))
+                    {
+                        continue;
+                    }
+
                     var mdObj = JsonConvert.DeserializeObject<Metadata>(mdContent);
 
                     mdObj.ID = Path.GetFileNameWithoutExtension(md);
@@ -200,7 +208,7 @@ namespace Slithin.Core
                 {
                     if (allFilenames.Contains(md.ID + "/"))
                     {
-                        NotificationService.Show($"Downloading File {notebook}/{allFilenames.Where(_ => !_.EndsWith(".metadata")).Count()}");
+                        NotificationService.Show($"Downloading Folder {md.ID} {notebook}/{allFilenames.Where(_ => _.EndsWith("/")).Count()}");
 
                         var directoryInfo = new DirectoryInfo(Path.Combine(NotebooksDir, md.ID));
                         if (!directoryInfo.Exists)
@@ -220,14 +228,16 @@ namespace Slithin.Core
                     }
                 }
 
-                var otherfiles = allFilenames.Where(_ => !_.EndsWith(".metadata") && !_.EndsWith("/"));
+                var otherfiles = allFilenames.Where(_ => !_.EndsWith(".metadata") && !_.EndsWith("/")).ToArray();
 
-                foreach (var filename in otherfiles)
+                Scp.Downloading += onDownloading;
+
+                for (int i = 0; i < otherfiles.Count(); i++)
                 {
-                    NotificationService.Show($"Downloading File {notebook}/{allFilenames.Where(_ => !_.EndsWith(".metadata")).Count()}");
-                    Scp.Download(PathList.Documents + "/" + filename, new FileInfo(Path.Combine(NotebooksDir, filename)));
-                    notebook++;
+                    Scp.Download(PathList.Documents + "/" + otherfiles[i], new FileInfo(Path.Combine(NotebooksDir, otherfiles[i])));
                 }
+
+                Scp.Downloading -= onDownloading;
 
                 NotificationService.Hide();
             });
@@ -255,6 +265,11 @@ namespace Slithin.Core
             {
                 collection.Insert(viewModel);
             }
+        }
+
+        private static void onDownloading(object sender, ScpDownloadEventArgs e)
+        {
+            NotificationService.Show($"Downloading {e.Filename} {e.Downloaded:n0} Bytes/ {e.Size:n0} Bytes");
         }
     }
 }
