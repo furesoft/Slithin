@@ -38,33 +38,7 @@ namespace Slithin.Core.Sync
             TemplateFilter.SelectedCategory = "All";
         }
 
-        protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
-        {
-            field = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        private void LoadDocumentMetadata()
-        {
-            /*
-            var allDocumentsStream = ServiceLocator.Client.RunCommand("ls " + PathList.Documents).Result;
-            var filenames = allDocumentsStream.Split('\n');
-
-            foreach (var filename in filenames)
-            {
-                if (filename.EndsWith(".metadata"))
-                {
-                    var filecontent = ServiceLocator.Client.RunCommand("cat " + PathList.Documents + "/" + filename);
-                    var metadata = JsonConvert.DeserializeObject<Metadata>(filecontent.Result);
-                    MetadataStorage.Add(metadata);
-
-                    Documents.Add(metadata.VisibleName);
-                }
-            }
-            */
-        }
-
-        private void LoadTemplates()
+        public void LoadTemplates()
         {
             TemplateFilter.Templates.Clear();
 
@@ -96,6 +70,32 @@ namespace Slithin.Core.Sync
             {
                 TemplateFilter.Templates.Add(item);
             }
+        }
+
+        protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
+        {
+            field = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
+        private void LoadDocumentMetadata()
+        {
+            /*
+            var allDocumentsStream = ServiceLocator.Client.RunCommand("ls " + PathList.Documents).Result;
+            var filenames = allDocumentsStream.Split('\n');
+
+            foreach (var filename in filenames)
+            {
+                if (filename.EndsWith(".metadata"))
+                {
+                    var filecontent = ServiceLocator.Client.RunCommand("cat " + PathList.Documents + "/" + filename);
+                    var metadata = JsonConvert.DeserializeObject<Metadata>(filecontent.Result);
+                    MetadataStorage.Add(metadata);
+
+                    Documents.Add(metadata.VisibleName);
+                }
+            }
+            */
         }
 
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)

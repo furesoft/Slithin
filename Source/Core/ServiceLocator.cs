@@ -131,12 +131,7 @@ namespace Slithin.Core
             {
                 var templates = Device.GetTemplates();
 
-                TemplateStorage.Instance.Load();
-
-                foreach (var tmpl in TemplateStorage.Instance.Templates)
-                {
-                    SyncService.TemplateFilter.Templates.Add(tmpl);
-                }
+                SyncService.LoadTemplates();
             });
 
             MessageRouter.Register<AttentionRequiredMessage>(async _ =>
