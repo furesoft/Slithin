@@ -119,6 +119,20 @@ namespace Slithin.Core
                             {
                                 Device.Remove((Metadata)_.Item.Data);
                             }
+                            else if (_.Item.Action == SyncAction.Add)
+                            {
+                                if (_.Item.Data is Metadata md)
+                                {
+                                    NotificationService.Show("Uploading " + md.VisibleName);
+
+                                    Scp.Upload(new FileInfo(Path.Combine(NotebooksDir, md.ID + "." + md.Content.FileType)), PathList.Documents + "/" + md.ID + "." + md.Content.FileType);
+                                    Scp.Upload(new FileInfo(Path.Combine(NotebooksDir, md.ID + ".metadata")), PathList.Documents + "/" + md.ID + ".metadata");
+                                    Scp.Upload(new FileInfo(Path.Combine(NotebooksDir, md.ID + ".content")), PathList.Documents + "/" + md.ID + ".content");
+
+                                    TemplateStorage.Instance.Apply();
+                                }
+                            }
+
                             break;
                     }
                 }
@@ -182,7 +196,7 @@ namespace Slithin.Core
                         {
                             if (mdObj.Version > mdLocalObj.Version)
                             {
-                                if (mdObj.Type == MetadataType.DocumentType)
+                                if (mdObj.Type == "DocumentType")
                                 {
                                     mds.Add(mdObj);
                                 }
@@ -198,7 +212,7 @@ namespace Slithin.Core
                     }
                     else
                     {
-                        if (mdObj.Type == MetadataType.DocumentType)
+                        if (mdObj.Type == "DocumentType")
                         {
                             mds.Add(mdObj);
                         }
@@ -211,7 +225,7 @@ namespace Slithin.Core
                         }
                     }
 
-                    if (mdObj.Type == MetadataType.CollectionType && mdObj.Parent == "")
+                    if (mdObj.Type == "CollectionType" && mdObj.Parent == "")
                     {
                         MetadataStorage.Add(mdObj);
                         SyncService.NotebooksFilter.Documents.Add(mdObj);

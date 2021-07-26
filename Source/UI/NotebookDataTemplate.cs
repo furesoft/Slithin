@@ -23,7 +23,7 @@ namespace Slithin.UI
 
             if (param is Metadata md)
             {
-                if (md.Type == MetadataType.DocumentType)
+                if (md.Type == "DocumentType")
                 {
                     if (md.Content.FileType == "pdf")
                     {
@@ -35,7 +35,7 @@ namespace Slithin.UI
                     }
                     else
                     {
-                        img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/image.png")));
+                        img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/notebook.png")));
                     }
                 }
                 else

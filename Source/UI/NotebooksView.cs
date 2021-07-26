@@ -28,11 +28,10 @@ namespace Slithin.UI
 
         private static void _lb_DoubleTapped(object sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            if (_lb.SelectedItem is Metadata md && md.Type == MetadataType.CollectionType)
+            if (_lb.SelectedItem is Metadata md && md.Type == "CollectionType")
             {
                 if (_lb.DataContext is NotebooksPageViewModel vm)
                 {
-                    //ToDo: change to foldermanager
                     var item = (_lb.Items as IEnumerable<Metadata>).ToArray();
                     vm.SyncService.NotebooksFilter.Documents.Clear();
 
@@ -54,7 +53,12 @@ namespace Slithin.UI
 
                     if (_lastFolderIDs.Count > 0)
                     {
-                        vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = MetadataType.CollectionType, VisibleName = "Up .." });
+                        vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
+                        vm.SyncService.NotebooksFilter.Folder = id;
+                    }
+                    else
+                    {
+                        vm.SyncService.NotebooksFilter.Folder = "";
                     }
 
                     vm.SyncService.NotebooksFilter.SortByFolder();

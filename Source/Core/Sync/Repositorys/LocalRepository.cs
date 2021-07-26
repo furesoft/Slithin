@@ -39,7 +39,7 @@ namespace Slithin.Core.Sync.Repositorys
 
         public void Remove(Metadata tmpl)
         {
-            if (tmpl.Type == MetadataType.DocumentType)
+            if (tmpl.Type == "DocumentType")
             {
                 var files = Directory.GetFiles(ServiceLocator.NotebooksDir, tmpl.ID);
                 foreach (var file in files)

@@ -1,14 +1,7 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
 {
-    public enum MetadataType
-    {
-        DocumentType,
-        CollectionType,
-    }
-
     public class ContentFile
     {
         [JsonProperty("coverPageNumber")]
@@ -36,7 +29,7 @@ namespace Slithin.Core.Remarkable
         public string? Parent { get; set; }
 
         [JsonProperty("type")]
-        public MetadataType Type { get; set; }
+        public string Type { get; set; }
 
         [JsonProperty("version")]
         public int Version { get; set; }

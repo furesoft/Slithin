@@ -8,7 +8,7 @@
   <DockPanel>
     <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
       <controls:ImageButton Text="Remove" Command="{Binding RemoveNotebookCommand}" Image="avares://Slithin/Resources/minus.png" CommandParameter="{Binding SelectedNotebook}" />
-      <controls:ImageButton Text="Import" IsVisible="False" Command="{Binding ImportCommand}" Image="avares://Slithin/Resources/import.png" />
+      <controls:ImageButton Text="Folder" Command="{Binding ImportCommand}" Image="avares://Slithin/Resources/add.png" />
       <controls:ImageButton Text="Export" IsVisible="False" Command="{Binding ExportCommand}" Image="avares://Slithin/Resources/export.png"  CommandParameter="{Binding SelectedNotebook}" />
 
       <controls:ImagePopupButton Text="Search" Image="avares://Slithin/Resources/search.png" IsVisible="False">

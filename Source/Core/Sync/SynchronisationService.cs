@@ -90,12 +90,13 @@ namespace Slithin.Core.Sync
             }
 
             ServiceLocator.Mailbox.Post(new ShowStatusMessage { Message = "Syncing ..." });
-            ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
 
             foreach (var item in SyncQueue.FindAll())
             {
                 ServiceLocator.Mailbox.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
             }
+
+            ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
 
             SyncQueue.AnalyseAndAppend();
 

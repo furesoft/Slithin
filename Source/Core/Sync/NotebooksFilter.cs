@@ -9,7 +9,7 @@ namespace Slithin.Core.Sync
     public class NotebooksFilter : INotifyPropertyChanged
     {
         private ObservableCollection<Metadata> _documents = new();
-        private Metadata _folder;
+        private string _folder = "";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -19,7 +19,7 @@ namespace Slithin.Core.Sync
             set { SetValue(ref _documents, value); }
         }
 
-        public Metadata Folder
+        public string Folder
         {
             get { return _folder; }
             set { SetValue(ref _folder, value); }
@@ -27,7 +27,7 @@ namespace Slithin.Core.Sync
 
         public void SortByFolder()
         {
-            var ordered = Documents.OrderByDescending(_ => _.Type == MetadataType.CollectionType);
+            var ordered = Documents.OrderByDescending(_ => _.Type == "CollectionType");
             ordered = ordered.OrderByDescending(_ => _.VisibleName.Equals("Up .."));
 
             Documents = new ObservableCollection<Metadata>(ordered);

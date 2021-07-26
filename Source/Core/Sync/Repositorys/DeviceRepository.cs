@@ -70,7 +70,7 @@ namespace Slithin.Core.Sync.Repositorys
 
         public void Remove(Metadata data)
         {
-            if (data.Type == MetadataType.DocumentType)
+            if (data.Type == "DocumentType")
             {
                 var cmd = ServiceLocator.Client.RunCommand("ls " + PathList.Documents);
                 var split = cmd.Result.Split('\n');
