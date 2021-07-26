@@ -26,7 +26,7 @@ namespace Slithin.ViewModels
                     mdObj.Content = JsonConvert.DeserializeObject<ContentFile>(File.ReadAllText(Path.ChangeExtension(md, ".content")));
                 }
 
-                MetadataStorage.Add(mdObj);
+                MetadataStorage.Add(mdObj, out var alreadyAdded);
             }
 
             foreach (var md in MetadataStorage.GetByParent(""))

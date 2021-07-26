@@ -128,8 +128,6 @@ namespace Slithin.Core
                                     Scp.Upload(new FileInfo(Path.Combine(NotebooksDir, md.ID + "." + md.Content.FileType)), PathList.Documents + "/" + md.ID + "." + md.Content.FileType);
                                     Scp.Upload(new FileInfo(Path.Combine(NotebooksDir, md.ID + ".metadata")), PathList.Documents + "/" + md.ID + ".metadata");
                                     Scp.Upload(new FileInfo(Path.Combine(NotebooksDir, md.ID + ".content")), PathList.Documents + "/" + md.ID + ".content");
-
-                                    TemplateStorage.Instance.Apply();
                                 }
                             }
 
@@ -165,10 +163,14 @@ namespace Slithin.Core
                 var cmd = Client.RunCommand("ls -p " + PathList.Documents);
                 var allFilenames = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => !_.EndsWith(".zip") && !_.EndsWith(".zip.part"));
                 var mds = new List<Metadata>();
-                var mdFilenames = allFilenames.Where(_ => _.EndsWith(".metadata"));
+                var mdFilenames = allFilenames.Where(_ => _.EndsWith(".metadata")).ToArray();
+                var mdLocals = new Dictionary<string, Metadata>();
 
-                foreach (var md in mdFilenames)
+                for (int i = 0; i < mdFilenames.Length; i++)
                 {
+                    var md = mdFilenames[i];
+                    NotificationService.Show($"Downloading Notebook Metadata {i} / {mdFilenames.Length}");
+
                     var mdContent = Client.RunCommand("cat " + PathList.Documents + "/" + md).Result;
                     string contentContent = "{}";
 
@@ -184,14 +186,15 @@ namespace Slithin.Core
 
                     var mdObj = JsonConvert.DeserializeObject<Metadata>(mdContent);
                     var contentObj = JsonConvert.DeserializeObject<ContentFile>(contentContent);
+                    var mdLocalObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(NotebooksDir, md)));
 
                     mdObj.ID = Path.GetFileNameWithoutExtension(md);
                     mdObj.Content = contentObj;
 
+                    mdLocals.Add(mdObj.ID, mdLocalObj);
+
                     if (File.Exists(Path.Combine(NotebooksDir, md)))
                     {
-                        var mdLocalObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(NotebooksDir, md)));
-
                         if (!mdObj.Deleted)
                         {
                             if (mdObj.Version > mdLocalObj.Version)
@@ -227,48 +230,67 @@ namespace Slithin.Core
 
                     if (mdObj.Type == "CollectionType" && mdObj.Parent == "")
                     {
-                        MetadataStorage.Add(mdObj);
-                        SyncService.NotebooksFilter.Documents.Add(mdObj);
+                        MetadataStorage.Add(mdObj, out var alreadyAdded);
+
+                        if (!alreadyAdded)
+                        {
+                            SyncService.NotebooksFilter.Documents.Add(mdObj);
+                        }
                     }
                 }
 
                 var notebook = 0;
                 foreach (var md in mds)
                 {
-                    var allFolders = allFilenames.Where(_ => _.StartsWith(md.ID) && _.EndsWith("/"));
-
-                    foreach (var folder in allFolders)
+                    if (md.Content.FileType == "notebook")
                     {
-                        NotificationService.Show($"Downloading Folder {folder} {notebook}/{allFilenames.Where(_ => _.EndsWith("/")).Count()}");
+                        var allFolders = allFilenames.Where(_ => _.StartsWith(md.ID) && _.EndsWith("/"));
 
-                        var directoryInfo = new DirectoryInfo(Path.Combine(NotebooksDir, folder));
-                        if (!directoryInfo.Exists)
+                        foreach (var folder in allFolders)
                         {
-                            directoryInfo.Create();
+                            NotificationService.Show($"Downloading Folder {folder} {notebook}/{allFilenames.Where(_ => _.EndsWith("/")).Count()}");
+
+                            var directoryInfo = new DirectoryInfo(Path.Combine(NotebooksDir, folder));
+                            if (!directoryInfo.Exists)
+                            {
+                                directoryInfo.Create();
+                            }
+
+                            Scp.Download(PathList.Documents + "/" + folder, directoryInfo);
+                        }
+                    }
+                    else
+                    {
+                        var otherfiles = allFilenames.Where(_ => !_.EndsWith(".metadata") && !_.EndsWith("/") && _.StartsWith(md.ID)).ToArray();
+
+                        Scp.Downloading += onDownloading;
+
+                        for (int i = 0; i < otherfiles.Count(); i++)
+                        {
+                            var fi = new FileInfo(Path.Combine(NotebooksDir, otherfiles[i]));
+                            if (!md.Deleted)
+                            {
+                                if (md.Version > mdLocals[md.ID].Version)
+                                {
+                                    if (!fi.Exists)
+                                    {
+                                        Scp.Download(PathList.Documents + "/" + otherfiles[i], fi);
+                                    }
+                                }
+                            }
                         }
 
-                        Scp.Download(PathList.Documents + "/" + folder, directoryInfo);
+                        Scp.Downloading -= onDownloading;
                     }
 
-                    MetadataStorage.Add(md);
+                    MetadataStorage.Add(md, out var alreadyAdded);
 
-                    if (md.Parent == "")
+                    if (md.Parent == "" && alreadyAdded)
                     {
                         SyncService.NotebooksFilter.Documents.Add(md);
                     }
                     notebook++;
                 }
-
-                var otherfiles = allFilenames.Where(_ => !_.EndsWith(".metadata") && !_.EndsWith("/")).ToArray();
-
-                Scp.Downloading += onDownloading;
-
-                for (int i = 0; i < otherfiles.Count(); i++)
-                {
-                    Scp.Download(PathList.Documents + "/" + otherfiles[i], new FileInfo(Path.Combine(NotebooksDir, otherfiles[i])));
-                }
-
-                Scp.Downloading -= onDownloading;
 
                 NotificationService.Hide();
             });

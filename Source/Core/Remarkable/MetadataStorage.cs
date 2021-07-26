@@ -7,11 +7,16 @@ namespace Slithin.Core.Remarkable
     {
         private static readonly Dictionary<string?, Metadata?> _storage = new();
 
-        public static void Add(Metadata metadata)
+        public static void Add(Metadata metadata, out bool alreadyAdded)
         {
-            if (!_storage.ContainsKey(metadata.VisibleName))
+            if (!_storage.ContainsKey(metadata.ID))
             {
                 _storage.Add(metadata.ID, metadata);
+                alreadyAdded = false;
+            }
+            else
+            {
+                alreadyAdded = true;
             }
         }
 
