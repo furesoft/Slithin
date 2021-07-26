@@ -21,13 +21,27 @@ namespace Slithin.UI
             img.MinWidth = 25;
             img.MinHeight = 25;
 
-            if (param is Metadata md && md.Type == MetadataType.DocumentType)
+            if (param is Metadata md)
             {
-                img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/image.png")));
-            }
-            else if (param is Metadata md2 && md2.Type == MetadataType.CollectionType)
-            {
-                img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png")));
+                if (md.Type == MetadataType.DocumentType)
+                {
+                    if (md.Content.FileType == "pdf")
+                    {
+                        img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/pdf.png")));
+                    }
+                    else if (md.Content.FileType == "epub")
+                    {
+                        img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/epub.png")));
+                    }
+                    else
+                    {
+                        img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/image.png")));
+                    }
+                }
+                else
+                {
+                    img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png")));
+                }
             }
 
             container.Children.Add(img);
@@ -36,6 +50,7 @@ namespace Slithin.UI
             {
                 [!TextBlock.TextProperty] = new Binding("VisibleName")
             };
+
             title.TextAlignment = Avalonia.Media.TextAlignment.Center;
             title.TextWrapping = Avalonia.Media.TextWrapping.Wrap;
 

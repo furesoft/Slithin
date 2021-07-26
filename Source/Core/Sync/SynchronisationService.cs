@@ -78,26 +78,6 @@ namespace Slithin.Core.Sync
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private void LoadDocumentMetadata()
-        {
-            /*
-            var allDocumentsStream = ServiceLocator.Client.RunCommand("ls " + PathList.Documents).Result;
-            var filenames = allDocumentsStream.Split('\n');
-
-            foreach (var filename in filenames)
-            {
-                if (filename.EndsWith(".metadata"))
-                {
-                    var filecontent = ServiceLocator.Client.RunCommand("cat " + PathList.Documents + "/" + filename);
-                    var metadata = JsonConvert.DeserializeObject<Metadata>(filecontent.Result);
-                    MetadataStorage.Add(metadata);
-
-                    Documents.Add(metadata.VisibleName);
-                }
-            }
-            */
-        }
-
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
         }

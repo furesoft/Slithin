@@ -131,7 +131,7 @@ namespace Slithin.Core
             {
                 var templates = Device.GetTemplates();
 
-                SyncService.LoadTemplates();
+                SyncService.LoadFromLocal();
             });
 
             MessageRouter.Register<AttentionRequiredMessage>(async _ =>
@@ -156,6 +156,12 @@ namespace Slithin.Core
                 foreach (var md in mdFilenames)
                 {
                     var mdContent = Client.RunCommand("cat " + PathList.Documents + "/" + md).Result;
+                    string contentContent = "{}";
+
+                    if (allFilenames.Contains(Path.ChangeExtension(md, ".content")))
+                    {
+                        contentContent = Client.RunCommand("cat " + PathList.Documents + "/" + Path.ChangeExtension(md, ".content")).Result;
+                    }
 
                     if (string.IsNullOrEmpty(mdContent))
                     {
@@ -163,8 +169,10 @@ namespace Slithin.Core
                     }
 
                     var mdObj = JsonConvert.DeserializeObject<Metadata>(mdContent);
+                    var contentObj = JsonConvert.DeserializeObject<ContentFile>(contentContent);
 
                     mdObj.ID = Path.GetFileNameWithoutExtension(md);
+                    mdObj.Content = contentObj;
 
                     if (File.Exists(Path.Combine(NotebooksDir, md)))
                     {
@@ -180,6 +188,11 @@ namespace Slithin.Core
                                 }
 
                                 File.WriteAllText(Path.Combine(NotebooksDir, md), mdContent);
+
+                                if (allFilenames.Contains(Path.ChangeExtension(md, ".content")))
+                                {
+                                    File.WriteAllText(Path.Combine(NotebooksDir, Path.ChangeExtension(md, ".content")), contentContent);
+                                }
                             }
                         }
                     }
@@ -191,6 +204,11 @@ namespace Slithin.Core
                         }
 
                         File.WriteAllText(Path.Combine(NotebooksDir, md), mdContent);
+
+                        if (allFilenames.Contains(Path.ChangeExtension(md, ".content")))
+                        {
+                            File.WriteAllText(Path.Combine(NotebooksDir, Path.ChangeExtension(md, ".content")), contentContent);
+                        }
                     }
 
                     if (mdObj.Type == MetadataType.CollectionType && mdObj.Parent == "")
@@ -203,26 +221,28 @@ namespace Slithin.Core
                 var notebook = 0;
                 foreach (var md in mds)
                 {
-                    if (allFilenames.Contains(md.ID + "/"))
-                    {
-                        NotificationService.Show($"Downloading Folder {md.ID} {notebook}/{allFilenames.Where(_ => _.EndsWith("/")).Count()}");
+                    var allFolders = allFilenames.Where(_ => _.StartsWith(md.ID) && _.EndsWith("/"));
 
-                        var directoryInfo = new DirectoryInfo(Path.Combine(NotebooksDir, md.ID));
+                    foreach (var folder in allFolders)
+                    {
+                        NotificationService.Show($"Downloading Folder {folder} {notebook}/{allFilenames.Where(_ => _.EndsWith("/")).Count()}");
+
+                        var directoryInfo = new DirectoryInfo(Path.Combine(NotebooksDir, folder));
                         if (!directoryInfo.Exists)
                         {
                             directoryInfo.Create();
                         }
 
-                        Scp.Download(PathList.Documents + "/" + md.ID, directoryInfo);
-                        notebook++;
-
-                        MetadataStorage.Add(md);
-
-                        if (md.Parent == "")
-                        {
-                            SyncService.NotebooksFilter.Documents.Add(md);
-                        }
+                        Scp.Download(PathList.Documents + "/" + folder, directoryInfo);
                     }
+
+                    MetadataStorage.Add(md);
+
+                    if (md.Parent == "")
+                    {
+                        SyncService.NotebooksFilter.Documents.Add(md);
+                    }
+                    notebook++;
                 }
 
                 var otherfiles = allFilenames.Where(_ => !_.EndsWith(".metadata") && !_.EndsWith("/")).ToArray();

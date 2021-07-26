@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
 {
@@ -8,8 +9,23 @@ namespace Slithin.Core.Remarkable
         CollectionType,
     }
 
+    public class ContentFile
+    {
+        [JsonProperty("coverPageNumber")]
+        public int CoverPageNumber { get; set; }
+
+        [JsonProperty("fileType")]
+        public string FileType { get; set; }
+
+        [JsonProperty("pages")]
+        public string[] Pages { get; set; }
+    }
+
     public class Metadata
     {
+        [JsonIgnore]
+        public ContentFile Content { get; set; }
+
         [JsonProperty("deleted")]
         public bool Deleted { get; set; }
 
