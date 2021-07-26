@@ -10,7 +10,7 @@
         Title="Slithin">
   <controls:ContentDialog controls:DialogService.IsHost="True">
     <Grid RowDefinitions="AUTO,*,*" ColumnDefinitions="AUTO,*,150">
-      <Image Source="avares:/Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="200" Height="125" Margin="15,0,0,0" />
+      <Image Source="avares:/Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="175" Margin="0,15,15,15" Height="125" />
 
       <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="0" MinWidth="450" HorizontalAlignment="Left" />
 
