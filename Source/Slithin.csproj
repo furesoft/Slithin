@@ -28,6 +28,7 @@
      <None Remove="Resources\folder.png" />
      <None Remove="Resources\import.png" />
      <None Remove="Resources\search.png" />
+     <None Remove="Resources\trash-can.png" />
    </ItemGroup>
 
    <ItemGroup>
