@@ -1,9 +1,11 @@
 ﻿using System.IO;
 using System.Windows.Input;
 using Newtonsoft.Json;
+using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
+using Slithin.UI.Modals;
 
 namespace Slithin.ViewModels
 {
@@ -13,7 +15,7 @@ namespace Slithin.ViewModels
 
         public NotebooksPageViewModel()
         {
-            //ImportCommand = DialogService.CreateOpenCommand<ImportNotebookModal>(new AddTemplateModalViewModel());
+            MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(new MakeFolderModalViewModel());
             RemoveNotebookCommand = new RemoveNotebookCommand(this);
 
             foreach (var md in Directory.GetFiles(ServiceLocator.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
@@ -35,13 +37,9 @@ namespace Slithin.ViewModels
             }
 
             SyncService.NotebooksFilter.SortByFolder();
-
-            //DownloadCommand = new DelegateCommand(_ => ServiceLocator.Mailbox.Post(new DownloadAllNotebooksMessage(null)));
-            //ExportCommand = new DelegateCommand(_ => ServiceLocator.Mailbox.Post(new DownloadAllNotebooksMessage(null)));
         }
 
-        //public ICommand DownloadCommand { get; set; }
-        public ICommand ExportCommand { get; set; }
+        public ICommand MakeFolderCommand { get; set; }
 
         public ICommand RemoveNotebookCommand { get; set; }
 

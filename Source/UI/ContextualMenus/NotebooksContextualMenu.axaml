@@ -7,7 +7,7 @@
              x:Class="Slithin.UI.ContextualMenus.NotebooksContextualMenu">
   <DockPanel>
     <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-      <controls:ImageButton Text="Folder" Command="{Binding ImportCommand}" Image="avares://Slithin/Resources/add.png" />
+      <controls:ImageButton Text="Folder" Command="{Binding MakeFolderCommand}" Image="avares://Slithin/Resources/add.png" />
       <Rectangle Width="3" Fill="DarkGray" Height="30" Margin="0,-20,0,0" />
       <controls:ImageButton Text="Remove" Command="{Binding RemoveNotebookCommand}" Image="avares://Slithin/Resources/minus.png" CommandParameter="{Binding SelectedNotebook}" />
 
