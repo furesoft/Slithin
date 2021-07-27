@@ -3,11 +3,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="using:Slithin.Controls"
-             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="170"
+             mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="170"
              x:Class="Slithin.UI.Modals.MakeFolderModal">
-  <c:DialogControl Header="Make Folder" CommandText="OK" IsCancelEnabled="True" Command="{Binding MakeFolderCommand}" MaxHeight="160" MinHeight="160">
+  <c:DialogControl Header="Make Folder" CommandText="OK" IsCancelEnabled="True" Command="{Binding MakeFolderCommand}" MaxHeight="160" MinHeight="160" MaxWidth="150">
     <Grid>
-      <TextBox Text="{Binding FolderName}" Watermark="Name" Height="35" />
+      <TextBox Text="{Binding Name}" Watermark="Name" Height="35" />
     </Grid>
   </c:DialogControl>
 </UserControl>
