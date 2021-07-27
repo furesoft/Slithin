@@ -49,6 +49,7 @@ namespace Slithin.Core.Sync.Repositorys
             foreach (var t in toSyncTemplates)
             {
                 ServiceLocator.Scp.Download(PathList.Templates + "/" + t.Filename + ".png", new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "Templates", t.Filename + ".png")));
+                ServiceLocator.Scp.Download(PathList.Templates + "/" + t.Filename + ".svg", new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "Templates", t.Filename + ".svg")));
             }
 
             NotificationService.Hide();
