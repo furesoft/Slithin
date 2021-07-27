@@ -84,7 +84,7 @@ namespace Slithin.Core.Sync
 
         private void Synchronize(object? obj)
         {
-            if (!ServiceLocator.Local.GetTemplates().Any() || !Directory.GetFiles(ServiceLocator.TemplatesDir).Any())
+            if (!ServiceLocator.Local.GetTemplates().Any() && !Directory.GetFiles(ServiceLocator.TemplatesDir).Any())
             {
                 ServiceLocator.Mailbox.Post(new InitStorageMessage());
             }
