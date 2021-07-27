@@ -25,6 +25,9 @@ namespace Slithin.Core.Remarkable
         [JsonIgnore]
         public string ID { get; internal set; }
 
+        [JsonProperty("lastOpenedPage")]
+        public int LastOpenedPage { get; set; }
+
         [JsonProperty("parent")]
         public string? Parent { get; set; }
 

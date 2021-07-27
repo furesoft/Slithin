@@ -1,10 +1,12 @@
 ﻿using System;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Slithin.Core;
 using Slithin.Core.Remarkable;
 
 namespace Slithin.UI
@@ -25,17 +27,24 @@ namespace Slithin.UI
             {
                 if (md.Type == "DocumentType")
                 {
-                    if (md.Content.FileType == "pdf")
+                    if (Directory.Exists(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".thumbnails")))
                     {
-                        img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/pdf.png")));
-                    }
-                    else if (md.Content.FileType == "epub")
-                    {
-                        img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/epub.png")));
-                    }
-                    else
-                    {
-                        img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/notebook.png")));
+                        string filename = "";
+                        if (md?.Content.CoverPageNumber == 0)
+                        {
+                            // load first page
+                            filename = md.Content.Pages[0];
+                        }
+                        else if (md?.Content.CoverPageNumber == -1)
+                        {
+                            // load last page opened, set in md.LastOpenedPage
+                            filename = md.Content.Pages[md.LastOpenedPage];
+                        }
+
+                        if (!string.IsNullOrEmpty(filename))
+                        {
+                            img.Source = new Bitmap(File.OpenRead(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".thumbnails", filename + ".jpg")));
+                        }
                     }
                 }
                 else
@@ -61,7 +70,7 @@ namespace Slithin.UI
 
         public bool Match(object data)
         {
-            return data is Metadata md;
+            return data is Metadata;
         }
     }
 }
