@@ -38,9 +38,12 @@ namespace Slithin.UI.Views
         {
             AvaloniaXamlLoader.Load(this);
 
-            if (!ServiceLocator.Local.GetTemplates().Any() || !Directory.GetFiles(ServiceLocator.NotebooksDir).Any())
+            if (!ServiceLocator.Local.GetTemplates().Any())
             {
                 ServiceLocator.Mailbox.Post(new InitStorageMessage());
+            }
+            else if (!Directory.GetFiles(ServiceLocator.NotebooksDir).Any())
+            {
                 ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
             }
             else

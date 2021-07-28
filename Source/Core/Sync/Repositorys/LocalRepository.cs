@@ -37,21 +37,25 @@ namespace Slithin.Core.Sync.Repositorys
             return JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path)).Templates;
         }
 
-        public void Remove(Metadata tmpl)
+        public void Remove(Metadata md)
         {
-            if (tmpl.Type == "DocumentType")
+            if (md.Type == "DocumentType")
             {
-                var files = Directory.GetFiles(ServiceLocator.NotebooksDir, tmpl.ID);
+                var files = Directory.GetFiles(ServiceLocator.NotebooksDir, md.ID + ".*");
                 foreach (var file in files)
                 {
                     File.Delete(file);
                 }
 
-                var di = new DirectoryInfo(Path.Combine(ServiceLocator.NotebooksDir, tmpl.ID));
+                var di = new DirectoryInfo(Path.Combine(ServiceLocator.NotebooksDir, md.ID));
                 if (di.Exists)
                 {
                     di.Delete(true);
                 }
+            }
+            else
+            {
+                File.Delete(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"));
             }
         }
 

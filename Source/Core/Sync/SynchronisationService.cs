@@ -1,9 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using LiteDB;
+using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
 using Slithin.Messages;
 
@@ -82,6 +84,31 @@ namespace Slithin.Core.Sync
         {
         }
 
+        private void SyncDeviceDeletions()
+        {
+            //ToDo: sync deletion from device to local
+            var deviceFiles = ServiceLocator.Client.RunCommand("ls -p " + PathList.Documents).Result
+                .Split('\n', System.StringSplitOptions.RemoveEmptyEntries).Where(_ => !_.EndsWith("/") && !_.EndsWith(".zip") && !_.EndsWith(".zip.part"));
+            var localFiles = Directory.GetFiles(ServiceLocator.NotebooksDir);
+
+            var deltaLocalFiles = localFiles.Where(_ => !deviceFiles.Contains(_)).Where(_ => _.EndsWith(".metadata"));
+
+            foreach (var file in deltaLocalFiles)
+            {
+                var item = new SyncItem();
+                item.Data = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(file));
+                item.Direction = SyncDirection.ToLocal;
+                item.Action = SyncAction.Remove;
+
+                ((Metadata)item.Data).ID = Path.GetFileNameWithoutExtension(file);
+
+                ServiceLocator.Mailbox.Post(new SyncMessage { Item = item });
+            }
+
+            //compare local files with device files
+            // if file is not in device files but on local device files delete notebook
+        }
+
         private void Synchronize(object? obj)
         {
             if (!ServiceLocator.Local.GetTemplates().Any() && !Directory.GetFiles(ServiceLocator.TemplatesDir).Any())
@@ -90,6 +117,8 @@ namespace Slithin.Core.Sync
             }
 
             ServiceLocator.Mailbox.Post(new ShowStatusMessage { Message = "Syncing ..." });
+
+            SyncDeviceDeletions();
 
             foreach (var item in SyncQueue.FindAll())
             {

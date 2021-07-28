@@ -140,6 +140,13 @@ namespace Slithin.Core
                 }
                 else
                 {
+                    if (_.Item.Action == SyncAction.Remove)
+                    {
+                        var data = (Metadata)_.Item.Data;
+                        Local.Remove(data);
+                        MetadataStorage.Remove(data);
+                        SyncService.NotebooksFilter.Documents.Remove(data);
+                    }
                 }
             });
 
@@ -190,7 +197,17 @@ namespace Slithin.Core
 
                     var mdObj = JsonConvert.DeserializeObject<Metadata>(mdContent);
                     var contentObj = JsonConvert.DeserializeObject<ContentFile>(contentContent);
-                    var mdLocalObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(NotebooksDir, md)));
+                    Metadata mdLocalObj;
+
+                    try
+                    {
+                        mdLocalObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(NotebooksDir, md)));
+                    }
+                    catch
+                    {
+                        mdLocalObj = new();
+                        mdLocalObj.Version = 0;
+                    }
 
                     mdObj.ID = Path.GetFileNameWithoutExtension(md);
                     mdObj.Content = contentObj;
