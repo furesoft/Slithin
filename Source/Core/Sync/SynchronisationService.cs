@@ -87,7 +87,6 @@ namespace Slithin.Core.Sync
 
         private void SyncDeviceDeletions()
         {
-            //ToDo: sync deletion from device to local
             var deviceFiles = ServiceLocator.Client.RunCommand("ls -p " + PathList.Documents).Result
                 .Split('\n', System.StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
             var localFiles = Directory.GetFiles(ServiceLocator.NotebooksDir).Where(_ => _.EndsWith(".metadata")).
@@ -106,9 +105,6 @@ namespace Slithin.Core.Sync
 
                 ServiceLocator.Mailbox.Post(new SyncMessage { Item = item });
             }
-
-            //compare local files with device files
-            // if file is not in device files but on local device files delete notebook
         }
 
         private void Synchronize(object? obj)

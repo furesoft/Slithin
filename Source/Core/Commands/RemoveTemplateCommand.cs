@@ -7,7 +7,6 @@ using Slithin.ViewModels;
 
 namespace Slithin.Core.Commands
 {
-
     public class RemoveTemplateCommand : ICommand
     {
         private readonly TemplatesPageViewModel _templatesPageViewModel;
@@ -28,9 +27,6 @@ namespace Slithin.Core.Commands
         {
             if (parameter is Template tmpl)
             {
-                //ToDo: display template delete confirm modal
-                // if ok, remove from templatestorage...
-
                 if (await DialogService.ShowDialog($"Would you really want to delete '{tmpl.Filename}'?"))
                 {
                     _templatesPageViewModel.SelectedTemplate = null;

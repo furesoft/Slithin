@@ -93,8 +93,7 @@ namespace Slithin.ViewModels
             }
             else
             {
-                //ToDo Display invalid ip Error
-                System.Console.WriteLine("The given IP was not valid");
+                DialogService.OpenError("The given IP was not valid");
             }
         }
     }

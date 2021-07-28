@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
 {
-    //ToDo save all templates and templates.json into liteb file
     public class TemplateStorage
     {
         public static TemplateStorage? Instance = new();
