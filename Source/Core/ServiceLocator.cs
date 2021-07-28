@@ -145,7 +145,12 @@ namespace Slithin.Core
                         var data = (Metadata)_.Item.Data;
                         Local.Remove(data);
                         MetadataStorage.Remove(data);
-                        SyncService.NotebooksFilter.Documents.Remove(data);
+                        SyncService.NotebooksFilter.Documents.Clear();
+
+                        foreach (var mds in MetadataStorage.GetByParent(SyncService.NotebooksFilter.Folder))
+                        {
+                            SyncService.NotebooksFilter.Documents.Add(mds);
+                        }
                     }
                 }
             });
