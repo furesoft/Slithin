@@ -1,0 +1,8 @@
+- maybe contextflyout for syncbutton to view and edit sync queue?
+- maybe on importing file generate thumbnails folder with content?
+
+- find notebook id of generic pdf image and copy thumnails folder from Downloads/Notebooks
+
+- repair mode?
+	- generate thumnails
+        - find orphaned files and delete 
