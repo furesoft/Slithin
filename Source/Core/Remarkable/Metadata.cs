@@ -1,20 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
 {
-    public class ContentFile
-    {
-        [JsonProperty("coverPageNumber")]
-        public int CoverPageNumber { get; set; }
-
-        [JsonProperty("fileType")]
-        public string FileType { get; set; }
-
-        [JsonProperty("pages")]
-        public string[] Pages { get; set; }
-    }
-
-    public class Metadata
+    public class Metadata : IEqualityComparer<Metadata>
     {
         [JsonIgnore]
         public ContentFile Content { get; set; }
@@ -39,5 +30,29 @@ namespace Slithin.Core.Remarkable
 
         [JsonProperty("visibleName")]
         public string? VisibleName { get; set; }
+
+        public bool Equals(Metadata x, Metadata y)
+        {
+            return x.Content == x.Content &&
+                x.Deleted == y.Deleted &&
+                x.ID.Equals(y.ID) &&
+                x.LastOpenedPage == y.LastOpenedPage &&
+                x.Parent.Equals(y.Parent) &&
+                x.Type.Equals(y.Type) &&
+                x.Version == y.Version &&
+                x.VisibleName.Equals(y.VisibleName);
+        }
+
+        public int GetHashCode([DisallowNull] Metadata obj)
+        {
+            return HashCode.Combine(obj.VisibleName,
+                                    obj.Version,
+                                    obj.Type,
+                                    obj.Parent,
+                                    obj.LastOpenedPage,
+                                    obj.ID,
+                                    obj.Deleted,
+                                    obj.Content);
+        }
     }
 }
