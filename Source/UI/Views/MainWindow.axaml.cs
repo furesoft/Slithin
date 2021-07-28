@@ -42,14 +42,16 @@ namespace Slithin.UI.Views
             {
                 ServiceLocator.Mailbox.Post(new InitStorageMessage());
             }
-            else if (!Directory.GetFiles(ServiceLocator.NotebooksDir).Any())
-            {
-                ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
-            }
             else
             {
                 ServiceLocator.SyncService.LoadFromLocal();
             }
+
+            if (!Directory.GetFiles(ServiceLocator.NotebooksDir).Any())
+            {
+                ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
+            }
+            
         }
     }
 }

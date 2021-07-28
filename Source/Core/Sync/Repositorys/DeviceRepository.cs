@@ -77,7 +77,8 @@ namespace Slithin.Core.Sync.Repositorys
                 var split = cmd.Result.Split('\n');
                 var excluded = split.Where(_ => _.Contains(data.ID));
 
-                var filenames = string.Join(' ', excluded);
+                var filenames = string.Join(' ', excluded.Select(_ => PathList.Documents + "/" + _));
+
                 ServiceLocator.Client.RunCommand("rm -fr " + filenames);
             }
         }

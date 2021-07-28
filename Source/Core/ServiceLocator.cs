@@ -311,7 +311,7 @@ namespace Slithin.Core
 
                     MetadataStorage.Add(md, out var alreadyAdded);
 
-                    if (md.Parent == "" && alreadyAdded)
+                    if (md.Parent == "" && !alreadyAdded)
                     {
                         SyncService.NotebooksFilter.Documents.Add(md);
                     }

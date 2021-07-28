@@ -46,6 +46,10 @@ namespace Slithin.UI
                             img.Source = new Bitmap(File.OpenRead(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".thumbnails", filename + ".jpg")));
                         }
                     }
+                    else
+                    {
+                        img.Source = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png")));
+                    }
                 }
                 else
                 {

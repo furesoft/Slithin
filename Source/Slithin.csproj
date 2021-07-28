@@ -24,10 +24,12 @@
    </ItemGroup>
 
    <ItemGroup>
+     <None Remove="Resources\epub.png" />
      <None Remove="Resources\export.png" />
      <None Remove="Resources\filter.png" />
      <None Remove="Resources\folder.png" />
      <None Remove="Resources\import.png" />
+     <None Remove="Resources\pdf.png" />
      <None Remove="Resources\search.png" />
      <None Remove="Resources\trash-can.png" />
    </ItemGroup>
