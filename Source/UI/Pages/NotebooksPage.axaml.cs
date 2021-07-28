@@ -51,7 +51,7 @@ namespace Slithin.UI.Pages
                 e.DragEffects = DragDropEffects.None;
         }
 
-        private void Drop(object sender, DragEventArgs e)
+        private async void Drop(object sender, DragEventArgs e)
         {
             if (e.Data.Contains(DataFormats.FileNames))
             {
@@ -61,29 +61,36 @@ namespace Slithin.UI.Pages
                     var cnt = new ContentFile();
                     cnt.FileType = Path.GetExtension(filename).Replace(".", "");
 
-                    var md = new Metadata();
-                    md.ID = id.ToString();
-                    md.Parent = ServiceLocator.SyncService.NotebooksFilter.Folder;
-                    md.Content = cnt;
-                    md.Version = 1;
-                    md.Type = "DocumentType";
-                    md.VisibleName = Path.GetFileNameWithoutExtension(filename);
+                    if (cnt.FileType == "pdf" || cnt.FileType == "epub")
+                    {
+                        var md = new Metadata();
+                        md.ID = id.ToString();
+                        md.Parent = ServiceLocator.SyncService.NotebooksFilter.Folder;
+                        md.Content = cnt;
+                        md.Version = 1;
+                        md.Type = "DocumentType";
+                        md.VisibleName = Path.GetFileNameWithoutExtension(filename);
 
-                    MetadataStorage.Add(md, out var alreadyAdded);
-                    ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
+                        MetadataStorage.Add(md, out var alreadyAdded);
+                        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
 
-                    File.Copy(filename, Path.Combine(ServiceLocator.NotebooksDir, md.ID + Path.GetExtension(filename)));
+                        File.Copy(filename, Path.Combine(ServiceLocator.NotebooksDir, md.ID + Path.GetExtension(filename)));
 
-                    File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md));
-                    File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(cnt));
+                        File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md));
+                        File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(cnt));
 
-                    var syncItem = new SyncItem();
-                    syncItem.Action = SyncAction.Add;
-                    syncItem.Direction = SyncDirection.ToDevice;
-                    syncItem.Type = SyncType.Notebook;
-                    syncItem.Data = md;
+                        var syncItem = new SyncItem();
+                        syncItem.Action = SyncAction.Add;
+                        syncItem.Direction = SyncDirection.ToDevice;
+                        syncItem.Type = SyncType.Notebook;
+                        syncItem.Data = md;
 
-                    ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+                        ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+                    }
+                    else
+                    {
+                        await DialogService.ShowDialog($"The filetype '{cnt.FileType}' is not supported");
+                    }
                 }
             }
         }
