@@ -10,7 +10,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3">
-          <ContentPresenter Content="{TemplateBinding Content}" TextBlock.FontSize="22"  Margin="5" />
+          <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" TextBlock.FontSize="22"  Margin="5" />
         </Border>
       </ControlTemplate>
     </Setter>
@@ -21,7 +21,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3" Background="LightGray">
-          <ContentPresenter Content="{TemplateBinding Content}" TextBlock.FontSize="22"  Margin="5" />
+          <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" TextBlock.FontSize="22"  Margin="5" />
         </Border>
       </ControlTemplate>
     </Setter>
