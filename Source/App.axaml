@@ -11,6 +11,7 @@
     <StyleInclude Source="/Styles/DialogControlStyle.axaml" />
     <StyleInclude Source="/Styles/FileChooser.axaml" />
     <StyleInclude Source="/Styles/CommandTextBox.axaml" />
+    <StyleInclude Source="/Styles/ButtonStyle.axaml" />
 
     <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
   </Application.Styles>

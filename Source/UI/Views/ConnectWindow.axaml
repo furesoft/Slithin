@@ -14,7 +14,7 @@
       <TextBox Watermark="Password" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding Password}" PasswordChar="*" />
 
       <CheckBox Grid.Row="4" Grid.Column="0" IsChecked="{Binding Remember}">Remember</CheckBox>
-      <Button Grid.Row="3" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150">
+      <Button Grid.Row="3" Grid.Column="1" Classes="flat" Command="{Binding ConnectCommand}" IsDefault="True" Width="150">
         <TextBlock Text="Connect" HorizontalAlignment="Center" FontSize="25" />
       </Button>
     </Grid>
