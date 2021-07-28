@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -88,15 +89,16 @@ namespace Slithin.Core.Sync
         {
             //ToDo: sync deletion from device to local
             var deviceFiles = ServiceLocator.Client.RunCommand("ls -p " + PathList.Documents).Result
-                .Split('\n', System.StringSplitOptions.RemoveEmptyEntries).Where(_ => !_.EndsWith("/") && !_.EndsWith(".zip") && !_.EndsWith(".zip.part"));
-            var localFiles = Directory.GetFiles(ServiceLocator.NotebooksDir);
+                .Split('\n', System.StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
+            var localFiles = Directory.GetFiles(ServiceLocator.NotebooksDir).Where(_ => _.EndsWith(".metadata")).
+                Select(_ => Path.GetFileName(_));
 
-            var deltaLocalFiles = localFiles.Where(_ => !deviceFiles.Contains(_)).Where(_ => _.EndsWith(".metadata"));
+            var deltaLocalFiles = localFiles.Except(deviceFiles);
 
             foreach (var file in deltaLocalFiles)
             {
                 var item = new SyncItem();
-                item.Data = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(file));
+                item.Data = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(ServiceLocator.NotebooksDir, file)));
                 item.Direction = SyncDirection.ToLocal;
                 item.Action = SyncAction.Remove;
 
