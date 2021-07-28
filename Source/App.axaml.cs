@@ -23,11 +23,7 @@ namespace Slithin
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-#if DEBUG
                 desktop.MainWindow = new ConnectWindow();
-#else
-                desktop.MainWindow = new MainWindow();
-#endif
             }
 
             var root = new DirectoryInfo(ServiceLocator.ConfigBaseDir);
