@@ -13,6 +13,7 @@ using Renci.SshNet;
 using Renci.SshNet.Common;
 using Slithin.Controls;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Scripting;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
@@ -29,6 +30,7 @@ namespace Slithin.Core
 
         public static DeviceRepository Device;
 
+        public static EventStorage Events;
         public static LocalRepository Local;
 
         public static MailboxProcessor<AsynchronousMessage> Mailbox;
@@ -61,6 +63,8 @@ namespace Slithin.Core
             NotebooksDir = Path.Combine(ConfigBaseDir, "Notebooks");
             TemplatesDir = Path.Combine(ConfigBaseDir, "Templates");
             ScriptsDir = Path.Combine(ConfigBaseDir, "Scripts");
+
+            Events = new();
 
             if (!Directory.Exists(ConfigBaseDir))
             {
