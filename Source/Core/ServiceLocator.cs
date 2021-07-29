@@ -37,6 +37,7 @@ namespace Slithin.Core
 
         public static ScpClient Scp;
 
+        public static string ScriptsDir;
         public static SynchronisationService SyncService;
 
         public static string TemplatesDir;
@@ -59,12 +60,14 @@ namespace Slithin.Core
         {
             NotebooksDir = Path.Combine(ConfigBaseDir, "Notebooks");
             TemplatesDir = Path.Combine(ConfigBaseDir, "Templates");
+            ScriptsDir = Path.Combine(ConfigBaseDir, "Scripts");
 
             if (!Directory.Exists(ConfigBaseDir))
             {
                 Directory.CreateDirectory(ConfigBaseDir);
                 Directory.CreateDirectory(TemplatesDir);
                 Directory.CreateDirectory(NotebooksDir);
+                Directory.CreateDirectory(ScriptsDir);
 
                 File.WriteAllText(Path.Combine(ConfigBaseDir, "templates.json"), "{\"templates\": []}");
             }

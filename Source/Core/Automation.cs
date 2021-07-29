@@ -6,21 +6,13 @@ using NiL.JS;
 using NiL.JS.Core;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using Slithin.Core.Scripting;
+using Slithin.Core.Scripting.Extensions;
 
 namespace Slithin.Core
 {
     public static class Automation
     {
-        public static Context CreateContext()
-        {
-            var c = new Context();
-
-            c.DefineVariable("lib").Assign(new NamespaceProvider("System"));
-            c.DefineVariable("pdf").Assign(new NamespaceProvider("PdfSharpCore.Pdf"));
-
-            return c;
-        }
-
         public static void CreateNotbook(string template, int pageCount)
         {
             var document = new PdfDocument();
@@ -46,16 +38,25 @@ namespace Slithin.Core
             document.Save(ServiceLocator.ConfigBaseDir + "\\test.pdf");
         }
 
-        public static void Evaluate(string scriptname, Context context)
+        public static void Evaluate(string scriptname)
         {
-            context.Eval(File.ReadAllText(Path.Combine(ServiceLocator.ConfigBaseDir, "Scripts", scriptname + ".js")));
+            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "Scripts", scriptname + ".js");
+
+            if (File.Exists(path))
+            {
+                var mainModule = new Module($"Scripts/{scriptname}.js", File.ReadAllText(path));
+
+                mainModule.ModuleResolversChain.Add(new ModuleResolver());
+
+                mainModule.Run();
+            }
         }
 
         public static IEnumerable<ScriptInfo> GetScriptInfos()
         {
             foreach (var file in Directory.GetFiles(Path.Combine(ServiceLocator.ConfigBaseDir, "Scripts"), "*.info"))
             {
-                var obj = JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(file));
+                yield return JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(file));
             }
         }
 
@@ -65,6 +66,12 @@ namespace Slithin.Core
                     Path.Combine(ServiceLocator.ConfigBaseDir, "Scripts")).
                     Select(_ => Path.GetFileNameWithoutExtension(_)).
                     ToArray();
+        }
+
+        public static void Init()
+        {
+            Parser.DefineCustomCodeFragment(typeof(UsingStatement));
+            Parser.DefineCustomCodeFragment(typeof(KeysOfOperator));
         }
     }
 }
