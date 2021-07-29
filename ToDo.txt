@@ -6,3 +6,6 @@
 - repair mode?
 	- generate thumnails
         - find orphaned files and delete 
+
+- generate clipart notebook?
+	generate real notebook from svgs to make a copy availale on device

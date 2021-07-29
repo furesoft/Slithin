@@ -25,6 +25,11 @@ namespace Slithin.Core.Remarkable
             return _storage[id];
         }
 
+        public static IEnumerable<Metadata> GetAll()
+        {
+            return _storage.Values;
+        }
+
         public static IEnumerable<Metadata> GetByParent(string parent)
         {
             foreach (var item in _storage)
