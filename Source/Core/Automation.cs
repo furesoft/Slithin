@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using NiL.JS;
 using NiL.JS.Core;
 using PdfSharpCore.Drawing;
@@ -47,6 +49,14 @@ namespace Slithin.Core
         public static void Evaluate(string scriptname, Context context)
         {
             context.Eval(File.ReadAllText(Path.Combine(ServiceLocator.ConfigBaseDir, "Scripts", scriptname + ".js")));
+        }
+
+        public static IEnumerable<ScriptInfo> GetScriptInfos()
+        {
+            foreach (var file in Directory.GetFiles(Path.Combine(ServiceLocator.ConfigBaseDir, "Scripts"), "*.info"))
+            {
+                var obj = JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(file));
+            }
         }
 
         public static string[] GetScriptNames()
