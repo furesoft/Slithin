@@ -9,3 +9,14 @@
 
 - generate clipart notebook?
 	generate real notebook from svgs to make a copy availale on device
+
+- think about extra syntax:
+
+		on eventname call function;
+
+
+		on connect call onConnect;
+
+		function onConnect() {
+
+		}
