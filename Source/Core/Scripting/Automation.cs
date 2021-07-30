@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NiL.JS;
 using NiL.JS.Core;
+using NiL.JS.Core.Functions;
+using NiL.JS.Extensions;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using Slithin.Core.Scripting;
@@ -46,11 +50,25 @@ namespace Slithin.Core
             {
                 var mainModule = new Module($"Scripts/{scriptname}.js", File.ReadAllText(path));
                 mainModule.Context.DefineVariable("events").Assign(JSValue.Wrap(ServiceLocator.Events));
+                mainModule.Context.DefineVariable("config", false).Assign(Utils.ToJSObject((JObject)GetScriptInfo(scriptname).Config));
+                mainModule.Context.DefineVariable("saveConfig").Assign(new ExternalFunction((t, args) =>
+                {
+                    JObject confObj = Utils.ConvertToJObject(args.First().Value.As<JSObject>());
+
+                    GetScriptInfo(scriptname).Save(confObj);
+                    return null;
+                }));
 
                 mainModule.ModuleResolversChain.Add(new ModuleResolver());
 
                 mainModule.Run();
             }
+        }
+
+        public static ScriptInfo GetScriptInfo(string scriptName)
+        {
+            var file = Path.Combine(ServiceLocator.ConfigBaseDir, "Scripts", scriptName + ".info");
+            return JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(file));
         }
 
         public static IEnumerable<ScriptInfo> GetScriptInfos()
