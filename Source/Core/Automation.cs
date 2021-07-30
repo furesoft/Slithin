@@ -45,6 +45,7 @@ namespace Slithin.Core
             if (File.Exists(path))
             {
                 var mainModule = new Module($"Scripts/{scriptname}.js", File.ReadAllText(path));
+                mainModule.Context.DefineVariable("events").Assign(JSValue.Wrap(ServiceLocator.Events));
 
                 mainModule.ModuleResolversChain.Add(new ModuleResolver());
 
@@ -71,6 +72,8 @@ namespace Slithin.Core
         public static void Init()
         {
             Parser.DefineCustomCodeFragment(typeof(UsingStatement));
+            Parser.DefineCustomCodeFragment(typeof(OnCallStatement));
+
             Parser.DefineCustomCodeFragment(typeof(KeysOfOperator));
         }
     }

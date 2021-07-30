@@ -75,6 +75,8 @@ namespace Slithin.ViewModels
 
                         if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
                         {
+                            ServiceLocator.Events.Invoke("connect");
+
                             desktop.MainWindow.Hide();
                             desktop.MainWindow = new MainWindow();
                             //((MainWindowViewModel)desktop.MainWindow.DataContext).SyncService.SynchronizeCommand.Execute(null);

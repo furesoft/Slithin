@@ -1,5 +1,9 @@
-﻿using NiL.JS;
+﻿using System;
+using System.Threading.Tasks;
+using NiL.JS;
+using NiL.JS.BaseLibrary;
 using NiL.JS.Core;
+using Slithin.Controls;
 
 namespace Slithin.Core.Scripting
 {
@@ -9,13 +13,13 @@ namespace Slithin.Core.Scripting
         {
             if (moduleRequest.CmdArgument.StartsWith("Slithin"))
             {
-                result = new Module(moduleRequest.CmdArgument, "export { paths, events };");
+                result = new Module(moduleRequest.CmdArgument, "export { paths, openDialog };");
                 result.Context.DefineVariable("ns").Assign(new NamespaceProvider(moduleRequest.CmdArgument));
 
                 var paths = JSValue.Marshal(new { baseDir = ServiceLocator.ConfigBaseDir, templates = ServiceLocator.TemplatesDir, notebooks = ServiceLocator.NotebooksDir });
 
                 result.Context.DefineVariable("paths").Assign(paths);
-                result.Context.DefineVariable("events").Assign(JSValue.Wrap(ServiceLocator.Events));
+                result.Context.DefineVariable("openDialog").Assign(JSValue.Marshal(new Func<string, Task<bool>>(async (_) => await DialogService.ShowDialog(_))));
 
                 return true;
             }

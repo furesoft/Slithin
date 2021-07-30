@@ -6,42 +6,41 @@ using NiL.JS.Core;
 namespace Slithin.Core.Scripting.Extensions
 {
     [CustomCodeFragment]
-    public sealed class UsingStatement : CodeNode
+    public sealed class OnCallStatement : CodeNode
     {
-        private string aliasName;
-        private string namespaceName;
+        private string eventName;
+        private string function;
 
-        public UsingStatement(string namespaceName, string aliasName)
+        public OnCallStatement(string eventName, string function)
         {
-            this.namespaceName = namespaceName;
-            this.aliasName = aliasName;
+            this.eventName = eventName;
+            this.function = function;
         }
 
         public static CodeNode Parse(ParseInfo state, ref int position)
         {
-            if (!Parser.Validate(state.Code, "using", ref position))
+            if (!Parser.Validate(state.Code, "on", ref position))
                 return null;
 
             while (char.IsWhiteSpace(state.Code, position))
                 position++;
 
             int start = position;
-            while (Parser.ValidateName(state.Code, ref position) && state.Code[position] == '.')
-                position++;
+            Parser.ValidateName(state.Code, ref position);
 
             if (state.Code[position] != ' ')
             {
                 throw new JSException(new SyntaxError("Unexpected char at " + CodeCoordinates.FromTextPosition(state.Code, position, 0)));
             }
 
-            var namespaceName = state.Code.Substring(start, position - start);
+            var eventName = state.Code.Substring(start, position - start);
 
             while (char.IsWhiteSpace(state.Code, position))
                 position++;
 
-            if (!Parser.Validate(state.Code, "as", ref position))
+            if (!Parser.Validate(state.Code, "call", ref position))
             {
-                throw new JSException(new SyntaxError("Expected \"as\" at " + CodeCoordinates.FromTextPosition(state.Code, position, 2)));
+                throw new JSException(new SyntaxError("Expected \"call\" at " + CodeCoordinates.FromTextPosition(state.Code, position, 2)));
             }
 
             while (char.IsWhiteSpace(state.Code, position))
@@ -53,7 +52,7 @@ namespace Slithin.Core.Scripting.Extensions
                 throw new JSException(new SyntaxError("Expected identifier name at " + CodeCoordinates.FromTextPosition(state.Code, position, 0)));
             }
 
-            var aliasName = state.Code.Substring(start, position - start);
+            var function = state.Code.Substring(start, position - start);
 
             while (char.IsWhiteSpace(state.Code, position))
                 position++;
@@ -63,12 +62,12 @@ namespace Slithin.Core.Scripting.Extensions
                 throw new JSException(new SyntaxError("Expected \";\" at " + CodeCoordinates.FromTextPosition(state.Code, position, 1)));
             }
 
-            return new UsingStatement(namespaceName, aliasName);
+            return new OnCallStatement(eventName, function);
         }
 
         public static bool Validate(string code, int position)
         {
-            return Parser.Validate(code, "using", position);
+            return Parser.Validate(code, "on", position);
         }
 
         public override void Decompose(ref CodeNode self)
@@ -77,7 +76,8 @@ namespace Slithin.Core.Scripting.Extensions
 
         public override JSValue Evaluate(Context context)
         {
-            context.DefineVariable(aliasName).Assign(new NamespaceProvider(namespaceName));
+            context.Eval($"events.Subscribe(\"{eventName}\", {function});");
+
             return null;
         }
 
