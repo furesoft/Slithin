@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using NiL.JS;
 using NiL.JS.BaseLibrary;
@@ -12,28 +12,27 @@ namespace Slithin.Core.Scripting
     {
         public override bool TryGetModule(ModuleRequest moduleRequest, out Module result)
         {
+            var mb = new ModuleBuilder();
+
             if (moduleRequest.CmdArgument.StartsWith("Slithin"))
             {
-                result = new Module(moduleRequest.CmdArgument, "export { paths, openDialog };");
-                result.Context.DefineVariable("ns").Assign(new NamespaceProvider(moduleRequest.CmdArgument));
-
                 var paths = JSValue.Marshal(new { baseDir = ServiceLocator.ConfigBaseDir, templates = ServiceLocator.TemplatesDir, notebooks = ServiceLocator.NotebooksDir });
 
-                result.Context.DefineVariable("paths").Assign(paths);
-                result.Context.DefineVariable("openDialog").Assign(JSValue.Marshal(new Func<string, Task<bool>>(async (_) => await DialogService.ShowDialog(_))));
-
-                return true;
+                mb.Add("paths", paths);
+                mb.Add("openDialog", JSValue.Marshal(new Func<string, Task<bool>>(async (_) => await DialogService.ShowDialog(_))));
             }
             else if (moduleRequest.CmdArgument == "pdf")
             {
-                result = new Module(moduleRequest.CmdArgument, "export default ns;");
-                result.Context.DefineVariable("ns").Assign(new NamespaceProvider(typeof(PdfDocument).Namespace));
-
-                return true;
+                mb.Add(new NamespaceProvider(typeof(PdfDocument).Namespace));
+            }
+            else
+            {
+                result = null;
+                return false;
             }
 
-            result = null;
-            return false;
+            result = mb.Build(moduleRequest.CmdArgument);
+            return true;
         }
     }
 }
