@@ -109,6 +109,8 @@ namespace Slithin.Core.Sync
 
         private void Synchronize(object? obj)
         {
+            ServiceLocator.Events.Invoke("beforeSync", new[] { SyncQueue.FindAll() });
+
             if (!ServiceLocator.Local.GetTemplates().Any() && !Directory.GetFiles(ServiceLocator.TemplatesDir).Any())
             {
                 ServiceLocator.Mailbox.Post(new InitStorageMessage());
@@ -128,6 +130,8 @@ namespace Slithin.Core.Sync
             SyncQueue.AnalyseAndAppend();
 
             SyncQueue.DeleteAll();
+
+            ServiceLocator.Events.Invoke("afterSync");
         }
     }
 }
