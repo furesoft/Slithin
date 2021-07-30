@@ -8,8 +8,9 @@ namespace Slithin
 {
     public class ModuleBuilder
     {
-        private Dictionary<string, JSValue> _values = new();
-        private JSValue defaultExport;
+        private readonly List<Type> _ctors = new();
+        private readonly Dictionary<string, JSValue> _values = new();
+        private JSValue _defaultExport;
 
         public void Add(string name, JSValue value)
         {
@@ -21,16 +22,29 @@ namespace Slithin
 
         public void Add(JSValue export)
         {
-            defaultExport = export;
+            _defaultExport = export;
+        }
+
+        public void AddConstructor(Type type)
+        {
+            _ctors.Add(type);
+        }
+
+        public void AddFunction(string name, Delegate value)
+        {
+            Add(name, JSValue.Marshal(value));
         }
 
         public Module Build(string cmdArgument)
         {
             Module result = null;
 
-            if (defaultExport == null)
+            if (_defaultExport == null)
             {
-                string exports = $"export {{ {string.Join(" , ", _values.Keys.ToArray())} }};";
+                var items = _values.Keys;
+                var typeNames = _ctors.Select(_ => _.Name);
+
+                string exports = $"export {{ {string.Join(" , ", items.Concat(typeNames))} }};";
 
                 result = new Module(cmdArgument, exports);
 
@@ -38,11 +52,15 @@ namespace Slithin
                 {
                     result.Context.DefineVariable(item.Key).Assign(item.Value);
                 }
+                foreach (var ctor in _ctors)
+                {
+                    result.Context.DefineConstructor(ctor);
+                }
             }
             else
             {
                 result = new Module(cmdArgument, "export default ns;");
-                result.Context.DefineVariable("ns").Assign(defaultExport);
+                result.Context.DefineVariable("ns").Assign(_defaultExport);
             }
 
             return result;
