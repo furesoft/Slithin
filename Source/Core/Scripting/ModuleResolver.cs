@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using NiL.JS;
 using NiL.JS.BaseLibrary;
 using NiL.JS.Core;
+using PdfSharpCore.Pdf;
 using Slithin.Controls;
 
 namespace Slithin.Core.Scripting
@@ -20,6 +21,13 @@ namespace Slithin.Core.Scripting
 
                 result.Context.DefineVariable("paths").Assign(paths);
                 result.Context.DefineVariable("openDialog").Assign(JSValue.Marshal(new Func<string, Task<bool>>(async (_) => await DialogService.ShowDialog(_))));
+
+                return true;
+            }
+            else if (moduleRequest.CmdArgument == "pdf")
+            {
+                result = new Module(moduleRequest.CmdArgument, "export default ns;");
+                result.Context.DefineVariable("ns").Assign(new NamespaceProvider(typeof(PdfDocument).Namespace));
 
                 return true;
             }
