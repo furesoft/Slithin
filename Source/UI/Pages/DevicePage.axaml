@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.UI.Pages.DevicePage">
+  <StackPanel>
+    <Grid Margin="4">
+      <TextBlock Text="Version" />
+      <TextBlock Text="2.9" HorizontalAlignment="Right" />
+    </Grid>
+
+    <StackPanel>
+      <TextBlock Text="Screens" Margin="4" />
+
+      <ListBox Items="{Binding CustomScreens}" Margin="16,0,0,0">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Border BorderBrush="Black" BorderThickness="1">
+              <StackPanel Orientation="Vertical" Margin="2">
+                <TextBlock Text="{Binding Title}" />
+
+                <Image Source="{Binding Image}" DragDrop.AllowDrop="True" />
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+
+        <ListBox.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Columns="5" />
+          </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+      </ListBox>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

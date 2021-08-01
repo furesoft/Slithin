@@ -34,8 +34,9 @@ namespace Slithin
             var tmpls = new DirectoryInfo(ServiceLocator.TemplatesDir);
             var notes = new DirectoryInfo(ServiceLocator.NotebooksDir);
             var scripts = new DirectoryInfo(ServiceLocator.ScriptsDir);
+            var screens = new DirectoryInfo(ServiceLocator.CustomScreensDir);
 
-            if (!root.Exists || !tmpls.Exists || !notes.Exists || !scripts.Exists)
+            if (!root.Exists || !tmpls.Exists || !notes.Exists || !scripts.Exists || !screens.Exists)
             {
                 try
                 {
@@ -43,6 +44,7 @@ namespace Slithin
                     tmpls.Create();
                     notes.Create();
                     scripts.Create();
+                    screens.Create();
                 }
                 catch { }
 

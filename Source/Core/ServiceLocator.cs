@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Actress;
-using Avalonia;
-using Avalonia.Threading;
 using LiteDB;
 using Newtonsoft.Json;
 using Renci.SshNet;
@@ -43,6 +39,7 @@ namespace Slithin.Core
         public static SynchronisationService SyncService;
 
         public static string TemplatesDir;
+        internal static string CustomScreensDir;
 
         public static ConnectionWindowViewModel GetLoginCredentials()
         {
@@ -63,6 +60,7 @@ namespace Slithin.Core
             NotebooksDir = Path.Combine(ConfigBaseDir, "Notebooks");
             TemplatesDir = Path.Combine(ConfigBaseDir, "Templates");
             ScriptsDir = Path.Combine(ConfigBaseDir, "Scripts");
+            CustomScreensDir = Path.Combine(ConfigBaseDir, "Screens");
 
             Events = new();
 
@@ -72,6 +70,7 @@ namespace Slithin.Core
                 Directory.CreateDirectory(TemplatesDir);
                 Directory.CreateDirectory(NotebooksDir);
                 Directory.CreateDirectory(ScriptsDir);
+                Directory.CreateDirectory(CustomScreensDir);
 
                 File.WriteAllText(Path.Combine(ConfigBaseDir, "templates.json"), "{\"templates\": []}");
             }
