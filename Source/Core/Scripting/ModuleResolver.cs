@@ -23,6 +23,9 @@ namespace Slithin.Core.Scripting
                 mb.AddFunction("openDialog",
                                new Func<string, Task<bool>>(async (_) =>
                                     await DialogService.ShowDialog(_)));
+                mb.AddFunction("showNotification",
+                              new Action<string>((_) =>
+                                  NotificationService.Show(_)));
             }
             else if (moduleRequest.CmdArgument == "slithin.sync")
             {
