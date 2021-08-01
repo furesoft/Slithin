@@ -79,5 +79,10 @@ namespace Slithin.Core.Sync.Repositorys
         {
             File.Delete(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png"));
         }
+
+        public void UpdateVersion(Version version)
+        {
+            File.WriteAllText(Path.Combine(ServiceLocator.ConfigBaseDir, ".version"), version.ToString());
+        }
     }
 }
