@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -33,6 +32,28 @@ namespace Slithin.Core.Sync.Repositorys
             ServiceLocator.Scp.Upload(jsonStrm, PathList.Templates + "/templates.json");
         }
 
+        public void Add(CustomScreen screen)
+        {
+            ServiceLocator.Scp.Upload(new FileInfo(Path.Combine(ServiceLocator.CustomScreensDir, screen.Title + ".png")), PathList.Screens + screen.Title + ".png");
+        }
+
+        public void DownloadCustomScreens()
+        {
+            var cmd = ServiceLocator.Client.RunCommand("ls -p " + PathList.Screens);
+            var filenames = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".png"));
+
+            // download files to custom screen dir
+            foreach (var file in filenames)
+            {
+                ServiceLocator.Scp.Download(PathList.Screens + file, new FileInfo(Path.Combine(ServiceLocator.CustomScreensDir, Path.GetFileName(file))));
+            }
+
+            foreach (var cs in ServiceLocator.SyncService.CustomScreens)
+            {
+                cs.Load();
+            }
+        }
+
         public Template[] GetTemplates()
         {
             ServiceLocator.Scp.Download(PathList.Templates + "templates.json", new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json")));
@@ -55,6 +76,14 @@ namespace Slithin.Core.Sync.Repositorys
             NotificationService.Hide();
 
             return null;
+        }
+
+        public Version GetVersion()
+        {
+            var str = ServiceLocator.Client.RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf").Result;
+            str = str.Replace("REMARKABLE_RELEASE_VERSION=", "").Replace("\n", "");
+
+            return new(str);
         }
 
         public void Remove(Template template)

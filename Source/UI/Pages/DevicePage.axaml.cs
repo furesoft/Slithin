@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Sync;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels;
 
@@ -30,7 +33,7 @@ namespace Slithin.UI.Pages
 
         public bool UseContextualMenu()
         {
-            return false;
+            return true;
         }
 
         private void DragOver(object sender, DragEventArgs e)
@@ -50,10 +53,34 @@ namespace Slithin.UI.Pages
             {
                 var filename = e.Data.GetFileNames().First();
 
-                //copy filename to CustomScreens Dir
-                //Reload image
+                if (Path.GetExtension(filename) == ".png") //ToDo: Add Check for Image Width and Height!!
+                {
+                    if (e.Source is Image img)
+                    {
+                        var dc = img.Parent.DataContext;
 
-                ((CustomScreen)sender).Load();
+                        if (dc is CustomScreen cs)
+                        {
+                            ServiceLocator.Local.AddScreen(filename, cs.Filename);
+
+                            var item = new SyncItem
+                            {
+                                Action = SyncAction.Add,
+                                Data = sender,
+                                Direction = SyncDirection.ToDevice,
+                                Type = SyncType.Screen
+                            };
+
+                            ServiceLocator.SyncService.SyncQueue.Insert(item);
+
+                            cs.Load();
+                        }
+                    }
+                }
+                else
+                {
+                    await DialogService.ShowDialog($"The file '{filename}' has the wrong Filetype");
+                }
             }
         }
 

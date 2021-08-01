@@ -142,6 +142,15 @@ namespace Slithin.Core
                             }
 
                             break;
+
+                        case SyncType.Screen:
+                            if (_.Item.Data is CustomScreen cs && _.Item.Action == SyncAction.Add)
+                            {
+                                NotificationService.Show("Uploading Screen" + cs.Title);
+
+                                Scp.Upload(new FileInfo(Path.Combine(CustomScreensDir, cs.Filename)), PathList.Screens + cs.Filename);
+                            }
+                            break;
                     }
                 }
                 else
@@ -166,6 +175,8 @@ namespace Slithin.Core
                 var templates = Device.GetTemplates();
 
                 SyncService.LoadFromLocal();
+
+                Device.DownloadCustomScreens();
             });
 
             MessageRouter.Register<AttentionRequiredMessage>(async _ =>

@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Slithin.Core;
+﻿using Slithin.Core;
 
 namespace Slithin.ViewModels
 {
@@ -7,12 +6,19 @@ namespace Slithin.ViewModels
     {
         public DevicePageViewModel()
         {
-            CustomScreens.Add(new CustomScreen { Title = "Sleep" });
-            CustomScreens.Add(new CustomScreen { Title = "Power" });
-            CustomScreens.Add(new CustomScreen { Title = "Suspend" });
-            CustomScreens.Add(new CustomScreen { Title = "Rebooting" });
+            SyncService.CustomScreens.Add(new CustomScreen { Title = "Starting", Filename = "starting.png" });
+            SyncService.CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });
+            SyncService.CustomScreens.Add(new CustomScreen { Title = "Suspended", Filename = "suspended.png" });
+            SyncService.CustomScreens.Add(new CustomScreen { Title = "Rebooting", Filename = "rebooting.png" });
+
+            foreach (var cs in ServiceLocator.SyncService.CustomScreens)
+            {
+                cs.Load();
+            }
+
+            Version = ServiceLocator.Device.GetVersion().ToString();
         }
 
-        public ObservableCollection<CustomScreen> CustomScreens { get; set; } = new();
+        public string Version { get; set; }
     }
 }

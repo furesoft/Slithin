@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -26,8 +27,8 @@ namespace Slithin.Core.Sync
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public ObservableCollection<CustomScreen> CustomScreens { get; set; } = new();
         public bool IsSyncNeeded => !Directory.Exists(ServiceLocator.TemplatesDir);
-
         public NotebooksFilter NotebooksFilter { get; set; }
         public ICommand SynchronizeCommand { get; set; }
         public ILiteCollection<SyncItem> SyncQueue { get; set; }

@@ -31,10 +31,26 @@ namespace Slithin.Core.Sync.Repositorys
             File.WriteAllText(path, JsonConvert.SerializeObject(templateJson, Formatting.Indented));
         }
 
+        public void AddScreen(string filename, string localfilename)
+        {
+            File.Delete(Path.Combine(ServiceLocator.CustomScreensDir, localfilename));
+            File.Copy(filename, Path.Combine(ServiceLocator.CustomScreensDir, localfilename));
+        }
+
         public Template[] GetTemplates()
         {
             var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
             return JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path)).Templates;
+        }
+
+        public Version GetVersion()
+        {
+            if (!File.Exists(Path.Combine(ServiceLocator.ConfigBaseDir, ".version")))
+            {
+                File.WriteAllText(Path.Combine(ServiceLocator.ConfigBaseDir, ".version"), ServiceLocator.Device.GetVersion().ToString());
+            }
+
+            return new Version(File.ReadAllText(Path.Combine(ServiceLocator.ConfigBaseDir, ".version")));
         }
 
         public void Remove(Metadata md)

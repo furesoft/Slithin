@@ -6,21 +6,21 @@
              x:Class="Slithin.UI.Pages.DevicePage">
   <StackPanel>
     <Grid Margin="4">
-      <TextBlock Text="Version" />
-      <TextBlock Text="2.9" HorizontalAlignment="Right" />
+      <TextBlock Text="Version" FontSize="18" />
+      <TextBlock Text="{Binding Version}" HorizontalAlignment="Right" FontSize="18" />
     </Grid>
 
     <StackPanel>
-      <TextBlock Text="Screens" Margin="4" />
+      <TextBlock Text="Screens" Margin="4" FontSize="18" />
 
-      <ListBox Items="{Binding CustomScreens}" Margin="16,0,0,0">
+      <ListBox Items="{Binding SyncService.CustomScreens, Mode=TwoWay}" Margin="16,0,0,0">
         <ListBox.ItemTemplate>
           <DataTemplate>
-            <Border BorderBrush="Black" BorderThickness="1">
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center">
               <StackPanel Orientation="Vertical" Margin="2">
-                <TextBlock Text="{Binding Title}" />
+                <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,0,0,5" FontSize="17" FontWeight="Medium" />
 
-                <Image Source="{Binding Image}" DragDrop.AllowDrop="True" />
+                <Image Source="{Binding Image, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" />
               </StackPanel>
             </Border>
           </DataTemplate>

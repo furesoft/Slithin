@@ -1,13 +1,25 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
+using System.Runtime.CompilerServices;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 
 namespace Slithin.Core
 {
-    public class CustomScreen
+    public class CustomScreen : INotifyPropertyChanged
     {
+        private IImage _image;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public string Filename { get; set; }
-        public IImage Image { get; set; }
+
+        public IImage Image
+        {
+            get { return _image; }
+            set { _image = value; OnChange(); }
+        }
+
         public string Title { get; set; }
 
         public void Load()
@@ -16,14 +28,17 @@ namespace Slithin.Core
             {
                 var path = Path.Combine(ServiceLocator.CustomScreensDir, Filename);
 
-                if (Image is null)
+                if (File.Exists(path))
                 {
-                    if (File.Exists(path + ".png"))
-                    {
-                        Image = Bitmap.DecodeToWidth(File.OpenRead(path + ".png"), 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
-                    }
+                    using var strm = File.OpenRead(path);
+                    Image = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
                 }
             }
+        }
+
+        private void OnChange([CallerMemberName] string prop = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }
