@@ -12,11 +12,7 @@
 
 - think about extra syntax:
 
-		on eventname call function;
-
-
-		on connect call onConnect;
-
-		function onConnect() {
-
-		}
+		trigger upload templates
+		trigger download notebooks
+		
+		ITrigger -> Need implementations for all actions supported and make TriggerStorage. Turn other usaged to use ITrigger variant instead of function calls
