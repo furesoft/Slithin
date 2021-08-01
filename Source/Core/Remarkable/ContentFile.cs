@@ -10,8 +10,14 @@ namespace Slithin.Core.Remarkable
         [JsonProperty("coverPageNumber")]
         public int CoverPageNumber { get; set; }
 
+        [JsonProperty("extraMetadata")]
+        public object ExtraMetadata { get; set; }
+
         [JsonProperty("fileType")]
         public string FileType { get; set; }
+
+        [JsonProperty("pageCount")]
+        public int PageCount { get; set; }
 
         [JsonProperty("pages")]
         public string[] Pages { get; set; }
