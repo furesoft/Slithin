@@ -29,7 +29,7 @@ namespace Slithin.ViewModels
                 }
                 if (File.Exists(Path.ChangeExtension(md, ".pagedata")))
                 {
-                    mdObj.PageData.Parse(File.ReadAllText(Path.ChangeExtension(md, ".content"));
+                    mdObj.PageData.Parse(File.ReadAllText(Path.ChangeExtension(md, ".pagedata")));
                 }
 
                 MetadataStorage.Local.Add(mdObj, out var alreadyAdded);
