@@ -71,7 +71,7 @@ namespace Slithin.UI.Pages
                         md.Type = "DocumentType";
                         md.VisibleName = Path.GetFileNameWithoutExtension(filename);
 
-                        MetadataStorage.Add(md, out var alreadyAdded);
+                        MetadataStorage.Local.Add(md, out var alreadyAdded);
                         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
 
                         File.Copy(filename, Path.Combine(ServiceLocator.NotebooksDir, md.ID + Path.GetExtension(filename)));

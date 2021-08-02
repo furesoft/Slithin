@@ -20,7 +20,6 @@ namespace Slithin.UI.Views
 #if DEBUG
             this.AttachDevTools();
 #endif
-            DataContext = new MainWindowViewModel();
 
             this.Closed += MainWindow_Closed;
         }
@@ -38,6 +37,8 @@ namespace Slithin.UI.Views
         {
             AvaloniaXamlLoader.Load(this);
 
+            DataContext = new MainWindowViewModel();
+
             if (!ServiceLocator.Local.GetTemplates().Any())
             {
                 ServiceLocator.Mailbox.Post(new InitStorageMessage());
@@ -51,7 +52,6 @@ namespace Slithin.UI.Views
             {
                 ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
             }
-            
         }
     }
 }

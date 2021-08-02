@@ -31,7 +31,7 @@ namespace Slithin.Core.Commands
                 {
                     _notebooksPageViewModel.SelectedNotebook = null;
                     ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(tmpl);
-                    MetadataStorage.Remove(tmpl);
+                    MetadataStorage.Local.Remove(tmpl);
                     ServiceLocator.Local.Remove(tmpl);
 
                     var item = new SyncItem

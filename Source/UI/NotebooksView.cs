@@ -46,7 +46,7 @@ namespace Slithin.UI
                         _lastFolderIDs.Push(md.Parent);
                     }
 
-                    foreach (var mds in MetadataStorage.GetByParent(id))
+                    foreach (var mds in MetadataStorage.Local.GetByParent(id))
                     {
                         vm.SyncService.NotebooksFilter.Documents.Add(mds);
                     }

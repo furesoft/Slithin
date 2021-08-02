@@ -11,7 +11,6 @@ namespace Slithin.UI.Views
         {
             InitializeComponent();
 
-            DataContext = ServiceLocator.GetLoginCredentials();
 #if DEBUG
             this.AttachDevTools();
 #endif
@@ -20,6 +19,8 @@ namespace Slithin.UI.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+
+            DataContext = ServiceLocator.GetLoginCredentials();
         }
     }
 }

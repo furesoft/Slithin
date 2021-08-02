@@ -1,13 +1,10 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
 using LiteDB;
 using Renci.SshNet.Common;
 using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Cloud;
 using Slithin.UI.Views;
 
 namespace Slithin.ViewModels

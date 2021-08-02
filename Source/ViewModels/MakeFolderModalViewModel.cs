@@ -36,7 +36,7 @@ namespace Slithin.ViewModels
             md.Type = "CollectionType";
             md.VisibleName = Name;
 
-            MetadataStorage.Add(md, out var alreadyAdded);
+            MetadataStorage.Local.Add(md, out var alreadyAdded);
 
             if (!alreadyAdded)
             {

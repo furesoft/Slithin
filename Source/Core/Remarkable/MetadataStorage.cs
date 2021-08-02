@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 namespace Slithin.Core.Remarkable
 {
-    public static class MetadataStorage
+    public class MetadataStorage
     {
-        private static readonly Dictionary<string?, Metadata?> _storage = new();
+        public static MetadataStorage Local = new();
 
-        public static void Add(Metadata metadata, out bool alreadyAdded)
+        private readonly Dictionary<string?, Metadata?> _storage = new();
+
+        public void Add(Metadata metadata, out bool alreadyAdded)
         {
             if (!_storage.ContainsKey(metadata.ID))
             {
@@ -20,17 +22,17 @@ namespace Slithin.Core.Remarkable
             }
         }
 
-        public static Metadata Get(string id)
+        public Metadata Get(string id)
         {
             return _storage[id];
         }
 
-        public static IEnumerable<Metadata> GetAll()
+        public IEnumerable<Metadata> GetAll()
         {
             return _storage.Values;
         }
 
-        public static IEnumerable<Metadata> GetByParent(string parent)
+        public IEnumerable<Metadata> GetByParent(string parent)
         {
             foreach (var item in _storage)
             {
@@ -41,12 +43,12 @@ namespace Slithin.Core.Remarkable
             }
         }
 
-        public static IEnumerable<string?> GetNames()
+        public IEnumerable<string?> GetNames()
         {
             return _storage.Keys;
         }
 
-        public static void Remove(Metadata tmpl)
+        public void Remove(Metadata tmpl)
         {
             _storage.Remove(tmpl.ID);
         }

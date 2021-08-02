@@ -159,10 +159,10 @@ namespace Slithin.Core
                     {
                         var data = (Metadata)_.Item.Data;
                         Local.Remove(data);
-                        MetadataStorage.Remove(data);
+                        MetadataStorage.Local.Remove(data);
                         SyncService.NotebooksFilter.Documents.Clear();
 
-                        foreach (var mds in MetadataStorage.GetByParent(SyncService.NotebooksFilter.Folder))
+                        foreach (var mds in MetadataStorage.Local.GetByParent(SyncService.NotebooksFilter.Folder))
                         {
                             SyncService.NotebooksFilter.Documents.Add(mds);
                         }
@@ -273,7 +273,7 @@ namespace Slithin.Core
 
                     if (mdObj.Type == "CollectionType" && mdObj.Parent == "")
                     {
-                        MetadataStorage.Add(mdObj, out var alreadyAdded);
+                        MetadataStorage.Local.Add(mdObj, out var alreadyAdded);
 
                         if (!alreadyAdded)
                         {
@@ -326,7 +326,7 @@ namespace Slithin.Core
                         Scp.Downloading -= onDownloading;
                     }
 
-                    MetadataStorage.Add(md, out var alreadyAdded);
+                    MetadataStorage.Local.Add(md, out var alreadyAdded);
 
                     if (md.Parent == "" && !alreadyAdded)
                     {
