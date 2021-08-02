@@ -12,7 +12,7 @@
     <Grid RowDefinitions="AUTO,*,*" ColumnDefinitions="AUTO,*,150">
       <Image Source="avares:/Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="175" Margin="0,15,15,15" Height="125" />
 
-      <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="0" MinWidth="450" HorizontalAlignment="Left" />
+      <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="0" MinWidth="800" HorizontalAlignment="Left" />
 
       <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" core:PageSelector.IsPageContainer="True" />
 

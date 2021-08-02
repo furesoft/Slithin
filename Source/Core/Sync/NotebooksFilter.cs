@@ -28,18 +28,6 @@ namespace Slithin.Core.Sync
             set { SetValue(ref _folder, value); }
         }
 
-        public bool IsFav
-        {
-            get { return _isFav; }
-            set { SetValue(ref _isFav, value); }
-        }
-
-        public bool IsTrash
-        {
-            get { return _isTrash; }
-            set { SetValue(ref _isTrash, value); }
-        }
-
         public void SortByFolder()
         {
             var ordered = Documents.OrderByDescending(_ => _.Type == "CollectionType");

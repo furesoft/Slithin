@@ -20,7 +20,7 @@ namespace Slithin.Core.Commands
 
         public bool CanExecute(object parameter)
         {
-            return parameter != null && parameter is Metadata;
+            return parameter != null && parameter is Metadata md && md.VisibleName != "Quick sheets";
         }
 
         public async void Execute(object parameter)

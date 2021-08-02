@@ -20,16 +20,6 @@
           </Border>
         </controls:ImagePopupButton.PopupContent>
       </controls:ImagePopupButton>
-
-      <controls:ImagePopupButton Text="Filter" Image="avares://Slithin/Resources/filter.png">
-        <controls:ImagePopupButton.PopupContent>
-          <StackPanel Margin="4">
-            <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,0,10" IsVisible="False" />
-            <ToggleSwitch OnContent="Favorite" OffContent="All" IsChecked="{Binding SyncService.NotebookFilter.IsFav, Mode=TwoWay}" />
-            <ToggleSwitch OnContent="Trash" OffContent="Normal" IsChecked="{Binding SyncService.NotebookFilter.IsTrash, Mode=TwoWay}" />
-          </StackPanel>
-        </controls:ImagePopupButton.PopupContent>
-      </controls:ImagePopupButton>
     </StackPanel>
   </DockPanel>
 </UserControl>
