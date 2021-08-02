@@ -206,10 +206,15 @@ namespace Slithin.Core
 
                     var mdContent = Client.RunCommand("cat " + PathList.Documents + "/" + md).Result;
                     string contentContent = "{}";
+                    string pageDataContent = "";
 
                     if (allFilenames.Contains(Path.ChangeExtension(md, ".content")))
                     {
                         contentContent = Client.RunCommand("cat " + PathList.Documents + "/" + Path.ChangeExtension(md, ".content")).Result;
+                    }
+                    if (allFilenames.Contains(Path.ChangeExtension(md, ".pagedata")))
+                    {
+                        pageDataContent = Client.RunCommand("cat " + PathList.Documents + "/" + Path.ChangeExtension(md, ".pagedata")).Result;
                     }
 
                     if (string.IsNullOrEmpty(mdContent))
@@ -233,6 +238,7 @@ namespace Slithin.Core
 
                     mdObj.ID = Path.GetFileNameWithoutExtension(md);
                     mdObj.Content = contentObj;
+                    mdObj.PageData.Parse(pageDataContent);
 
                     mdLocals.Add(mdObj.ID, mdLocalObj);
 
@@ -253,6 +259,10 @@ namespace Slithin.Core
                                 {
                                     File.WriteAllText(Path.Combine(NotebooksDir, Path.ChangeExtension(md, ".content")), contentContent);
                                 }
+                                if (allFilenames.Contains(Path.ChangeExtension(md, ".pageData")))
+                                {
+                                    File.WriteAllText(Path.Combine(NotebooksDir, Path.ChangeExtension(md, ".pageData")), pageDataContent);
+                                }
                             }
                         }
                     }
@@ -268,6 +278,10 @@ namespace Slithin.Core
                         if (allFilenames.Contains(Path.ChangeExtension(md, ".content")))
                         {
                             File.WriteAllText(Path.Combine(NotebooksDir, Path.ChangeExtension(md, ".content")), contentContent);
+                        }
+                        if (allFilenames.Contains(Path.ChangeExtension(md, ".pageData")))
+                        {
+                            File.WriteAllText(Path.Combine(NotebooksDir, Path.ChangeExtension(md, ".pageData")), pageDataContent);
                         }
                     }
 

@@ -27,6 +27,10 @@ namespace Slithin.ViewModels
                 {
                     mdObj.Content = JsonConvert.DeserializeObject<ContentFile>(File.ReadAllText(Path.ChangeExtension(md, ".content")));
                 }
+                if (File.Exists(Path.ChangeExtension(md, ".pagedata")))
+                {
+                    mdObj.PageData.Parse(File.ReadAllText(Path.ChangeExtension(md, ".content"));
+                }
 
                 MetadataStorage.Local.Add(mdObj, out var alreadyAdded);
             }
