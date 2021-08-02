@@ -9,6 +9,21 @@ namespace Slithin.Core.Remarkable.Cloud
 {
     public static class Storage
     {
+        public static void Delete(Metadata md)
+        {
+            var storageUri = Api.GetStorageUrl();
+
+            var client = new RestClient(storageUri);
+            var request = new RestRequest("document-storage/json/2/upload/update-status", Method.PUT, DataFormat.Json);
+
+            var token = Api.RefreshToken();
+
+            request.AddHeader("Authorization", "Bearer " + token);
+            request.AddJsonBody(new[] { md });
+
+            client.Put(request);
+        }
+
         public static string Download(string blobUrl)
         {
             var tmp = Path.GetTempFileName();
@@ -65,12 +80,12 @@ namespace Slithin.Core.Remarkable.Cloud
             return obj[0];
         }
 
-        public static void UpdateMetadata(Metadata md)
+        public static void UpdateMetadata(CloudMetadata md)
         {
             var storageUri = Api.GetStorageUrl();
 
             var client = new RestClient(storageUri);
-            var request = new RestRequest("document-storage/json/2/upload/update-status", Method.PUT, DataFormat.Json);
+            var request = new RestRequest("/document-storage/json/2/upload/update-status", Method.PUT, DataFormat.Json);
 
             var token = Api.RefreshToken();
 

@@ -22,6 +22,9 @@ namespace Slithin.Core.Remarkable
         [JsonProperty("parent")]
         public string? Parent { get; set; }
 
+        [JsonProperty("pinned")]
+        public bool Pinned { get; set; }
+
         [JsonProperty("type")]
         public string Type { get; set; }
 
