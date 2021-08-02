@@ -11,6 +11,9 @@ namespace Slithin.Core.Sync
         private ObservableCollection<Metadata> _documents = new();
         private string _folder = "";
 
+        private bool _isFav;
+        private bool _isTrash;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<Metadata> Documents
@@ -23,6 +26,18 @@ namespace Slithin.Core.Sync
         {
             get { return _folder; }
             set { SetValue(ref _folder, value); }
+        }
+
+        public bool IsFav
+        {
+            get { return _isFav; }
+            set { SetValue(ref _isFav, value); }
+        }
+
+        public bool IsTrash
+        {
+            get { return _isTrash; }
+            set { SetValue(ref _isTrash, value); }
         }
 
         public void SortByFolder()
