@@ -1,4 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
 using LiteDB;
@@ -77,9 +81,14 @@ namespace Slithin.ViewModels
                         {
                             ServiceLocator.Events.Invoke("connect");
 
+                            var pingTimer = new System.Timers.Timer();
+                            pingTimer.Elapsed += pingTimer_ellapsed;
+                            pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
+                            pingTimer.Start();
+
                             desktop.MainWindow.Hide();
                             desktop.MainWindow = new MainWindow();
-                            //((MainWindowViewModel)desktop.MainWindow.DataContext).SyncService.SynchronizeCommand.Execute(null);
+
                             desktop.MainWindow.Show();
                         }
                     }
@@ -96,6 +105,25 @@ namespace Slithin.ViewModels
             else
             {
                 DialogService.OpenError("The given IP was not valid");
+            }
+        }
+
+        private void pingTimer_ellapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Ping pingSender = new Ping();
+
+            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            byte[] buffer = Encoding.ASCII.GetBytes(data);
+
+            int timeout = 10000;
+
+            PingOptions options = new PingOptions(64, true);
+
+            PingReply reply = pingSender.Send(ServiceLocator.Scp.ConnectionInfo.Host, timeout, buffer, options);
+
+            if (reply.Status != IPStatus.Success)
+            {
+                NotificationService.Show("Your remarkable is not reachable. Please check your connection and restart Slithin");
             }
         }
     }
