@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.IO;
 using System.Windows.Input;
 using Slithin.Controls;
@@ -21,8 +22,6 @@ namespace Slithin.ViewModels
         {
             Categories = SyncService.TemplateFilter.Categories;
             Categories.RemoveAt(0);
-
-            //SelectedCategory = new[] { "Grids" };
 
             foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
             {
@@ -97,6 +96,16 @@ namespace Slithin.ViewModels
                     return;
                 }
             }
+
+            var bitmap = Image.FromFile(Filename);
+
+            if (bitmap.Width != 1404 && bitmap.Height != 1872)
+            {
+                await DialogService.ShowDialog("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+
+                return;
+            }
+            bitmap.Dispose();
 
             File.Copy(Filename, Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png"));
 
