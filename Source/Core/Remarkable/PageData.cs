@@ -1,6 +1,6 @@
 ﻿namespace Slithin.Core.Remarkable
 {
-    public class PageData
+    public struct PageData
     {
         public string[] Data { get; set; }
 

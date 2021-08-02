@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
 {
-    public class ContentFile : IEqualityComparer<ContentFile>
+    public struct ContentFile : IEqualityComparer<ContentFile>
     {
         [JsonProperty("coverPageNumber")]
         public int CoverPageNumber { get; set; }
