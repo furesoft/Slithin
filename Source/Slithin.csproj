@@ -32,6 +32,7 @@
      <None Remove="Resources\import.png" />
      <None Remove="Resources\pdf.png" />
      <None Remove="Resources\search.png" />
+     <None Remove="Resources\star.png" />
      <None Remove="Resources\trash-can.png" />
    </ItemGroup>
 

@@ -45,6 +45,14 @@ namespace Slithin.UI
                         {
                             img.Source = new Bitmap(File.OpenRead(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".thumbnails", filename + ".jpg")));
                         }
+
+                        if (md.Pinned)
+                        {
+                            var pinnedImg = new Image();
+                            pinnedImg.Source = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/star.png")));
+
+                            container.Children.Add(pinnedImg);
+                        }
                     }
                     else
                     {
