@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
@@ -39,7 +39,7 @@ namespace Slithin.Core.Remarkable
 
         public bool Equals(Metadata x, Metadata y)
         {
-            return x.Content == x.Content &&
+            return x.Content.Equals(x.Content) &&
                 x.Deleted == y.Deleted &&
                 x.ID.Equals(y.ID) &&
                 x.LastOpenedPage == y.LastOpenedPage &&
