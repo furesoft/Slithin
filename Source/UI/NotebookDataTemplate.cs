@@ -50,8 +50,10 @@ namespace Slithin.UI
                         {
                             var pinnedImg = new Image();
                             pinnedImg.Source = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/star.png")));
+                            pinnedImg.Width = 25;
+                            pinnedImg.Height = 25;
 
-                            container.Children.Add(pinnedImg);
+                            //container.Children.Add(pinnedImg);
                         }
                     }
                     else

@@ -21,8 +21,14 @@ namespace Slithin.ViewModels
             }
 
             Version = ServiceLocator.Device.GetVersion().ToString();
+
+            var str = ServiceLocator.Client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf").Result;
+            str = str.Replace("BetaProgram=", "").Replace("\n", "");
+
+            IsBeta = bool.Parse(str);
         }
 
+        public bool IsBeta { get; set; }
         public string Version { get; set; }
     }
 }
