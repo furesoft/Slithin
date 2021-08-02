@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="120"
+             x:Class="Slithin.UI.Flyouts.SyncQueueFlyout">
+  <ListBox Items="{Binding Items}" IsHitTestVisible="True">
+    <ListBox.ItemTemplate>
+      <DataTemplate>
+        <StackPanel Orientation="Horizontal" Spacing="10">
+          <TextBlock Text="{Binding Data}" VerticalAlignment="Center" />
+
+          <StackPanel>
+            <TextBlock Text="Direction:" VerticalAlignment="Center" FontSize="10" />
+            <TextBlock Text="{Binding Direction}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <StackPanel>
+            <TextBlock Text="Action:" VerticalAlignment="Center" FontSize="10" />
+            <TextBlock Text="{Binding Action}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <Button Content="X" Classes="flat" Command="{Binding DeleteCommand}" />
+        </StackPanel>
+      </DataTemplate>
+    </ListBox.ItemTemplate>
+  </ListBox>
+</UserControl>

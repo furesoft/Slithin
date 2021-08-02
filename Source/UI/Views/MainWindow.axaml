@@ -5,6 +5,7 @@
         xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
         xmlns:core="using:Slithin.Core"
         xmlns:controls="using:Slithin.Controls"
+        xmlns:flyouts="using:Slithin.UI.Flyouts"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinWidth="800" MinHeight="450" WindowStartupLocation="CenterScreen"
         x:Class="Slithin.UI.Views.MainWindow" Icon="avares:/Resources/Icon.png"
         Title="Slithin">
@@ -16,7 +17,13 @@
 
       <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" core:PageSelector.IsPageContainer="True" />
 
-      <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" Image="avares:/Resources/refresh.png" Margin="0,0,12,0" HorizontalAlignment="Right" />
+      <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" Image="avares:/Resources/refresh.png" Margin="0,0,12,0" HorizontalAlignment="Right">
+        <controls:ImageButton.ContextFlyout>
+          <Flyout Placement="BottomEdgeAlignedLeft">
+            <flyouts:SyncQueueFlyout />
+          </Flyout>
+        </controls:ImageButton.ContextFlyout>
+      </controls:ImageButton>
 
       <Border Grid.Row="2" Margin="7,5,10,-3" HorizontalAlignment="Left" CornerRadius="4" Background="LightGray" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" IsVisible="{Binding IsVisible, ElementName=statusTb}">
         <StackPanel Orientation="Horizontal" Spacing="7" Margin="5,5,5,5">
