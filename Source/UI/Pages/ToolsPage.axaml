@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.ToolsPage">
-  <ItemsControl Items="{Binding Items, Mode=TwoWay}" Margin="16,0,0,0">
-    <ItemsControl.ItemTemplate>
+  <ListBox Items="{Binding Items, Mode=TwoWay}" Margin="16,0,0,0">
+    <ListBox.ItemTemplate>
       <DataTemplate>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" MaxHeight="275" Margin="2">
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" MaxHeight="275"  MinWidth="150" Margin="2" VerticalAlignment="Top">
           <StackPanel Orientation="Vertical" Margin="2" Spacing="5">
             <TextBlock Text="{Binding Info.Name}" TextAlignment="Center" TextWrapping="Wrap" FontSize="13" FontWeight="Medium" />
 
@@ -20,19 +20,25 @@
                 <TextBlock Text="{Binding Info.Category}" TextWrapping="Wrap" FontSize="15" Margin="3" />
               </Border>
 
-              <Button Command="{Binding $parent[ItemsControl].DataContext.ConfigurateScriptCommand}" IsHitTestVisible="True" IsVisible="{Binding IsConfigurable}"  HorizontalAlignment="Right" CommandParameter="{Binding}">
-                <Image Source="/Resources/config.png" Width="15" />
-              </Button>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="4">
+                <Button Command="{Binding $parent[ListBox].DataContext.ConfigurateScriptCommand}" IsHitTestVisible="True" IsVisible="{Binding IsConfigurable}"  CommandParameter="{Binding}">
+                  <Image Source="/Resources/config.png" Width="15" />
+                </Button>
+
+                <Button Command="{Binding $parent[ListBox].DataContext.ExecuteScriptCommand}" IsHitTestVisible="True" IsVisible="{Binding IsConfigurable}"  CommandParameter="{Binding}">
+                  <Image Source="/Resources/execute.png" Width="15" />
+                </Button>
+              </StackPanel>
             </Grid>
           </StackPanel>
         </Border>
       </DataTemplate>
-    </ItemsControl.ItemTemplate>
+    </ListBox.ItemTemplate>
 
-    <ItemsControl.ItemsPanel>
+    <ListBox.ItemsPanel>
       <ItemsPanelTemplate>
         <UniformGrid Columns="5" />
       </ItemsPanelTemplate>
-    </ItemsControl.ItemsPanel>
-  </ItemsControl>
+    </ListBox.ItemsPanel>
+  </ListBox>
 </UserControl>

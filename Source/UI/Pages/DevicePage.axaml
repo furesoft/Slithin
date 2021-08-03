@@ -18,8 +18,8 @@
     <StackPanel>
       <TextBlock Text="Screens" Margin="4" FontSize="18" />
 
-      <ListBox Items="{Binding SyncService.CustomScreens, Mode=TwoWay}" Margin="16,0,0,0">
-        <ListBox.ItemTemplate>
+      <ItemsControl Items="{Binding SyncService.CustomScreens, Mode=TwoWay}" Margin="16,0,0,0">
+        <ItemsControl.ItemTemplate>
           <DataTemplate>
             <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center">
               <StackPanel Orientation="Vertical" Margin="2">
@@ -29,14 +29,14 @@
               </StackPanel>
             </Border>
           </DataTemplate>
-        </ListBox.ItemTemplate>
+        </ItemsControl.ItemTemplate>
 
-        <ListBox.ItemsPanel>
+        <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
             <UniformGrid Columns="5" />
           </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
-      </ListBox>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
     </StackPanel>
   </StackPanel>
 </UserControl>

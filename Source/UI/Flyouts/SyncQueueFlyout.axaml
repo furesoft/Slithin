@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="75"
              x:Class="Slithin.UI.Flyouts.SyncQueueFlyout">
-  <ListBox Items="{Binding Items}" IsHitTestVisible="True">
-    <ListBox.ItemTemplate>
+  <ItemsControl Items="{Binding Items}" IsHitTestVisible="True">
+    <ItemsControl.ItemTemplate>
       <DataTemplate>
         <Grid ColumnDefinitions="165,75,75,75,35">
           <TextBlock Text="{Binding Data}" VerticalAlignment="Center" Grid.Column="0" TextWrapping="Wrap" />
@@ -25,9 +25,9 @@
             <TextBlock Text="{Binding Type}" VerticalAlignment="Center" />
           </StackPanel>
 
-          <Button Content="X" Grid.Column="4" Classes="flat" HorizontalAlignment="Right" Command="{Binding $parent[ListBox].DataContext.DeleteCommand}" CommandParameter="{Binding}" />
+          <Button Content="X" Grid.Column="4" Classes="flat" HorizontalAlignment="Right" Command="{Binding $parent[ItemsControl].DataContext.DeleteCommand}" CommandParameter="{Binding}" />
         </Grid>
       </DataTemplate>
-    </ListBox.ItemTemplate>
-  </ListBox>
+    </ItemsControl.ItemTemplate>
+  </ItemsControl>
 </UserControl>
