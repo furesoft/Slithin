@@ -23,7 +23,7 @@ namespace Slithin.Tools
 
         public ScriptInfo Info => new ScriptInfo("Notebook Creator", "Internal", "Build PDF Notebooks");
 
-        public bool IsConfigurable => true;
+        public bool IsConfigurable => false;
 
         public Control GetModal()
         {

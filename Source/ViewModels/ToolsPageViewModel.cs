@@ -12,7 +12,16 @@ namespace Slithin.ViewModels
         {
             Items.Add(new NotebookCreationTool());
 
-            ConfigurateScriptCommand = new DelegateCommand(_ => DialogService.Open());
+            ConfigurateScriptCommand = new DelegateCommand(_ => DialogService.Open(SelectedScript.GetModal()));
+            RemoveScriptCommand = new DelegateCommand(_ =>
+            {
+                Items.Remove(SelectedScript);
+            }, _ => SelectedScript is not null);
+
+            ExecuteScriptCommand = new DelegateCommand(_ =>
+            {
+                SelectedScript.Invoke(_);
+            }, _ => SelectedScript is not null);
         }
 
         public ICommand ConfigurateScriptCommand { get; set; }

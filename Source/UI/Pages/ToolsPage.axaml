@@ -4,16 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.ToolsPage">
-  <ListBox Items="{Binding Items, Mode=TwoWay}" Margin="16,0,0,0">
+  <ListBox Items="{Binding Items, Mode=TwoWay}" Margin="16,0,0,0" SelectedItem="{Binding SelectedScript}">
     <ListBox.ItemTemplate>
       <DataTemplate>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" MaxHeight="275"  MinWidth="150" Margin="2" VerticalAlignment="Top">
           <StackPanel Orientation="Vertical" Margin="2" Spacing="5">
-            <TextBlock Text="{Binding Info.Name}" TextAlignment="Center" TextWrapping="Wrap" FontSize="13" FontWeight="Medium" />
+            <TextBlock Text="{Binding Info.Name}" TextAlignment="Center" TextWrapping="Wrap" FontSize="17" FontWeight="Medium" />
 
             <Image Source="{Binding Image}" />
 
-            <TextBlock Text="{Binding Info.Description}" TextWrapping="Wrap" FontSize="15" TextAlignment="Center" />
+            <TextBlock Text="{Binding Info.Description}" TextWrapping="Wrap" FontSize="13" TextAlignment="Center" />
 
             <Grid>
               <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left">
