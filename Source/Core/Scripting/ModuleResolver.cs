@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using NiL.JS;
 using NiL.JS.BaseLibrary;
 using NiL.JS.Core;
+using NiL.JS.Expressions;
 using PdfSharpCore.Pdf;
 using Slithin.Controls;
 using Slithin.Core.Sync;
@@ -33,6 +35,21 @@ namespace Slithin.Core.Scripting
                 mb.AddConstructor(typeof(SyncAction));
                 mb.AddConstructor(typeof(SyncDirection));
                 mb.AddConstructor(typeof(SyncType));
+
+                mb.AddFunction("StartSync",
+                              new Action(() =>
+                                  ServiceLocator.SyncService.SynchronizeCommand.Execute(null)));
+            }
+            else if (moduleRequest.CmdArgument == "slithin.mailbox")
+            {
+                mb.AddFunction("post",
+                             new Action<AsynchronousMessage>(ServiceLocator.Mailbox.Post));
+
+                mb.AddConstructor(typeof(Messages.AttentionRequiredMessage));
+                mb.AddConstructor(typeof(Messages.DownloadNotebooksMessage));
+                mb.AddConstructor(typeof(Messages.HideStatusMessage));
+                mb.AddConstructor(typeof(Messages.InitStorageMessage));
+                mb.AddConstructor(typeof(Messages.ShowStatusMessage));
             }
             else if (moduleRequest.CmdArgument == "pdf")
             {
@@ -40,8 +57,19 @@ namespace Slithin.Core.Scripting
             }
             else
             {
-                result = null;
-                return false;
+                var path = Path.Combine(ServiceLocator.ScriptsDir, "lib", moduleRequest.CmdArgument);
+                if (File.Exists(path))
+                {
+                    var m = new Module(File.ReadAllText(path));
+
+                    result = m;
+                    return true;
+                }
+                else
+                {
+                    result = null;
+                    return false;
+                }
             }
 
             result = mb.Build(moduleRequest.CmdArgument);
