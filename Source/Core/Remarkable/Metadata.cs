@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
@@ -59,6 +59,11 @@ namespace Slithin.Core.Remarkable
                                     obj.ID,
                                     obj.Deleted,
                                     obj.Content);
+        }
+
+        public override string ToString()
+        {
+            return VisibleName;
         }
     }
 }

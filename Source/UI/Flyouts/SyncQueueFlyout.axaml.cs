@@ -16,6 +16,11 @@ namespace Slithin.UI.Flyouts
         {
             AvaloniaXamlLoader.Load(this);
 
+            this.Initialized += SyncQueueFlyout_Initialized;
+        }
+
+        private void SyncQueueFlyout_Initialized(object sender, System.EventArgs e)
+        {
             DataContext = new SyncQueueFlyoutViewModel();
         }
     }

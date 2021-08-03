@@ -7,12 +7,12 @@ namespace Slithin.ViewModels
 {
     public class SyncQueueFlyoutViewModel : BaseViewModel
     {
-        private SyncItem _selectedItem;
-
         public SyncQueueFlyoutViewModel()
         {
-            Items.Add(new SyncItem { Action = SyncAction.Add, Direction = SyncDirection.ToDevice, Type = SyncType.Template, Data = "Something" });
-            Items.Add(new SyncItem { Action = SyncAction.Add, Direction = SyncDirection.ToDevice, Type = SyncType.Template, Data = "Something" });
+            foreach (var item in SyncService.SyncQueue.FindAll())
+            {
+                Items.Add(item);
+            }
 
             DeleteCommand = new DelegateCommand(Delete);
         }
@@ -21,15 +21,12 @@ namespace Slithin.ViewModels
 
         public ObservableCollection<SyncItem> Items { get; set; } = new();
 
-        public SyncItem SelectedItem
-        {
-            get { return _selectedItem; }
-            set { SetValue(ref _selectedItem, value); }
-        }
-
         private void Delete(object obj)
         {
-            Items.Remove(SelectedItem);
+            var item = (SyncItem)obj;
+
+            Items.Remove(item);
+            this.SyncService.SyncQueue.Delete(item._id);
         }
     }
 }
