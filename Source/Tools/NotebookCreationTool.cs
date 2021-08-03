@@ -6,6 +6,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.UI.Tools;
 
 namespace Slithin.Tools
 {
@@ -30,9 +31,10 @@ namespace Slithin.Tools
             return null;
         }
 
-        public async void Invoke(object data)
+        public void Invoke(object data)
         {
-            await DialogService.ShowDialog("PDF generated");
+            var modal = new CreateNotebookModal();
+            DialogService.Open(modal);
         }
     }
 }
