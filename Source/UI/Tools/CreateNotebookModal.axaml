@@ -3,10 +3,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="using:Slithin.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450"
              x:Class="Slithin.UI.Tools.CreateNotebookModal">
   <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding}" MinHeight="300">
-    <Grid ColumnDefinitions="*,50,*" RowDefinitions="40,40,45,35,36">
+    <Grid RowDefinitions="40,40,45,35,36">
+      <ListBox Items="{Binding Templates}">
+        <ListBoxItem>Blank</ListBoxItem>
+        <ListBoxItem>Grid</ListBoxItem>
+      </ListBox>
+
+      <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="2" Spacing="5">
+        <TextBox Watermark="Page Count" />
+        <Button Content="Add" />
+      </StackPanel>
     </Grid>
   </c:DialogControl>
 </UserControl>
