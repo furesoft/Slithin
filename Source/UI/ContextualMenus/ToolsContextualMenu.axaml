@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:Slithin.Controls"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="100"
+             x:Class="Slithin.UI.ContextualMenus.ToolsContextualMenu">
+  <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
+    <controls:ImageButton Text="Remove" Command="{Binding RemoveScriptCommand}" Image="avares://Slithin/Resources/minus.png" CommandParameter="{Binding SelectedScript}" />
+    <controls:ImageButton Text="Execute" Command="{Binding ExecuteScriptCommand}" Image="avares://Slithin/Resources/execute.png" CommandParameter="{Binding SelectedScript}" />
+    <controls:ImageButton Text="Config" Command="{Binding ConfigurateScriptCommand}" Image="avares://Slithin/Resources/config.png" CommandParameter="{Binding SelectedScript}" />
+  </StackPanel>
+</UserControl>

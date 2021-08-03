@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
+using Slithin.UI.ContextualMenus;
+using Slithin.ViewModels;
 
 namespace Slithin.UI.Pages
 {
@@ -13,18 +15,20 @@ namespace Slithin.UI.Pages
 
         public string Title => "Tools";
 
-        public Control GetContextualMenu() => null;
+        public Control GetContextualMenu() => new ToolsContextualMenu();
 
         bool IPage.IsEnabled()
         {
-            return false;
+            return true;
         }
 
-        public bool UseContextualMenu() => false;
+        public bool UseContextualMenu() => true;
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+
+            DataContext = new ToolsPageViewModel();
         }
     }
 }

@@ -25,7 +25,9 @@
    </ItemGroup>
 
    <ItemGroup>
+     <None Remove="Resources\config.png" />
      <None Remove="Resources\epub.png" />
+     <None Remove="Resources\execute.png" />
      <None Remove="Resources\export.png" />
      <None Remove="Resources\filter.png" />
      <None Remove="Resources\folder.png" />
