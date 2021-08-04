@@ -6,16 +6,31 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.NotebooksPage">
   <Grid>
-    <ListBox ui:NotebooksView.IsView="True" DragDrop.AllowDrop="True" Items="{Binding SyncService.NotebooksFilter.Documents}" Margin="16,0,0,0" x:Name="noteboooksListBox" SelectedItem="{Binding SelectedNotebook}">
-      <ListBox.ItemTemplate>
-        <ui:NotebookDataTemplate />
-      </ListBox.ItemTemplate>
+    <StackPanel>
+      <Grid IsVisible="{Binding IsMoving, Mode=TwoWay}" Margin="16,0,0,0">
+        <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Left">
+          <Button Classes="flat" Margin="8" Command="{Binding MoveCancelCommand}">
+            Cancel
+          </Button>
+          <TextBlock Text="Please navigate to a folder to move in" Margin="16,0,0,0" FontSize="20" VerticalAlignment="Center" />
+        </StackPanel>
 
-      <ListBox.ItemsPanel>
-        <ItemsPanelTemplate>
-          <UniformGrid Columns="5" />
-        </ItemsPanelTemplate>
-      </ListBox.ItemsPanel>
-    </ListBox>
+        <Button Classes="flat" HorizontalAlignment="Right" Margin="8">
+          Move Here
+        </Button>
+      </Grid>
+
+      <ListBox ui:NotebooksView.IsView="True" DragDrop.AllowDrop="True" Items="{Binding SyncService.NotebooksFilter.Documents}" Margin="16,0,0,0" x:Name="noteboooksListBox" SelectedItem="{Binding SelectedNotebook}">
+        <ListBox.ItemTemplate>
+          <ui:NotebookDataTemplate />
+        </ListBox.ItemTemplate>
+
+        <ListBox.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Columns="5" />
+          </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+      </ListBox>
+    </StackPanel>
   </Grid>
 </UserControl>

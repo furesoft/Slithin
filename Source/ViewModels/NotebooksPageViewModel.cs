@@ -11,12 +11,22 @@ namespace Slithin.ViewModels
 {
     public class NotebooksPageViewModel : BaseViewModel
     {
+        private bool _isMoving;
         private Metadata _selectedNotebook;
 
         public NotebooksPageViewModel()
         {
             MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(new MakeFolderModalViewModel());
             RemoveNotebookCommand = new RemoveNotebookCommand(this);
+            MoveCommand = new DelegateCommand(_ =>
+            {
+                IsMoving = true;
+            }, (_) => SelectedNotebook != null && !IsMoving);
+
+            MoveCancelCommand = new DelegateCommand(_ =>
+             {
+                 IsMoving = false;
+             });
 
             foreach (var md in Directory.GetFiles(ServiceLocator.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
             {
@@ -43,8 +53,16 @@ namespace Slithin.ViewModels
             SyncService.NotebooksFilter.SortByFolder();
         }
 
+        public bool IsMoving
+        {
+            get { return _isMoving; }
+            set { SetValue(ref _isMoving, value); }
+        }
+
         public ICommand MakeFolderCommand { get; set; }
 
+        public ICommand MoveCancelCommand { get; set; }
+        public ICommand MoveCommand { get; set; }
         public ICommand RemoveNotebookCommand { get; set; }
 
         public Metadata SelectedNotebook
