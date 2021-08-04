@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
@@ -52,10 +53,7 @@ namespace Slithin.Core.Remarkable
 
         public void Move(Metadata md, string folder)
         {
-            if (md.Type == "CollectionType")
-            {
-            }
-            else
+            if (md.Type == "DocumentType")
             {
                 md.Parent = folder;
                 _storage[md.ID] = md; //replace metadata with changed md
