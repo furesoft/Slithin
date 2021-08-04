@@ -5,32 +5,30 @@
              xmlns:ui="using:Slithin.UI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.NotebooksPage">
-  <Grid>
-    <StackPanel Spacing="2" Margin="16,0,0,0">
-      <Grid IsVisible="{Binding IsMoving, Mode=TwoWay}">
-        <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Left">
-          <Button Classes="flat" Margin="8" Command="{Binding MoveCancelCommand}">
-            Cancel
-          </Button>
-          <TextBlock Text="Please navigate to a folder to move in" Margin="16,0,0,0" FontSize="20" VerticalAlignment="Center" />
-        </StackPanel>
-
-        <Button Classes="flat" HorizontalAlignment="Right" Margin="8" Command="{Binding MoveHereCommand}" CommandParameter="{Binding SelectedNotebook}">
-          Move Here
+  <Grid RowDefinitions="60,*">
+    <Grid IsVisible="{Binding IsMoving, Mode=TwoWay}" Grid.Row="0">
+      <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Left">
+        <Button Classes="flat" Margin="8" Command="{Binding MoveCancelCommand}">
+          Cancel
         </Button>
-      </Grid>
+        <TextBlock Text="Please navigate to a folder to move in" Margin="16,0,0,0" FontSize="20" VerticalAlignment="Center" />
+      </StackPanel>
 
-      <ListBox Background="Gray" ui:NotebooksView.IsView="True" DragDrop.AllowDrop="True" Items="{Binding SyncService.NotebooksFilter.Documents}" SelectedItem="{Binding SelectedNotebook, Mode=TwoWay}">
-        <ListBox.ItemTemplate>
-          <ui:NotebookDataTemplate />
-        </ListBox.ItemTemplate>
+      <Button Classes="flat" HorizontalAlignment="Right" Margin="8" Command="{Binding MoveHereCommand}" CommandParameter="{Binding SelectedNotebook}">
+        Move Here
+      </Button>
+    </Grid>
 
-        <ListBox.ItemsPanel>
-          <ItemsPanelTemplate>
-            <UniformGrid Columns="5" />
-          </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
-      </ListBox>
-    </StackPanel>
+    <ListBox Background="Gray" ui:NotebooksView.IsView="True" Grid.Row="1" DragDrop.AllowDrop="True" Items="{Binding SyncService.NotebooksFilter.Documents}" SelectedItem="{Binding SelectedNotebook, Mode=TwoWay}">
+      <ListBox.ItemTemplate>
+        <ui:NotebookDataTemplate />
+      </ListBox.ItemTemplate>
+
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <UniformGrid Columns="5" />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
   </Grid>
 </UserControl>
