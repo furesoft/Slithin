@@ -6,8 +6,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.NotebooksPage">
   <Grid>
-    <StackPanel>
-      <Grid IsVisible="{Binding IsMoving, Mode=TwoWay}" Margin="16,0,0,0">
+    <StackPanel Spacing="2" Margin="16,0,0,0">
+      <Grid IsVisible="{Binding IsMoving, Mode=TwoWay}">
         <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Left">
           <Button Classes="flat" Margin="8" Command="{Binding MoveCancelCommand}">
             Cancel
@@ -19,7 +19,8 @@
           Move Here
         </Button>
       </Grid>
-      <ListBox  ui:NotebooksView.IsView="True" DragDrop.AllowDrop="True" Items="{Binding SyncService.NotebooksFilter.Documents}" Margin="16,0,0,0" x:Name="notebooksListBox" SelectedItem="{Binding SelectedNotebook, Mode=TwoWay}">
+
+      <ListBox Background="Gray" ui:NotebooksView.IsView="True" DragDrop.AllowDrop="True" Items="{Binding SyncService.NotebooksFilter.Documents}" SelectedItem="{Binding SelectedNotebook, Mode=TwoWay}">
         <ListBox.ItemTemplate>
           <ui:NotebookDataTemplate />
         </ListBox.ItemTemplate>

@@ -32,7 +32,6 @@ namespace Slithin.UI
             {
                 if (_lb.DataContext is NotebooksPageViewModel vm)
                 {
-                    var item = (_lb.Items as IEnumerable<Metadata>).ToArray();
                     vm.SyncService.NotebooksFilter.Documents.Clear();
 
                     var id = md.ID;
