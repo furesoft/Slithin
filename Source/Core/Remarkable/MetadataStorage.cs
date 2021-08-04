@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Slithin.Core.Remarkable
 {
@@ -46,6 +48,20 @@ namespace Slithin.Core.Remarkable
         public IEnumerable<string?> GetNames()
         {
             return _storage.Keys;
+        }
+
+        public void Move(Metadata md, string folder)
+        {
+            if (md.Type == "CollectionType")
+            {
+            }
+            else
+            {
+                md.Parent = folder;
+                _storage[md.ID] = md; //replace metadata with changed md
+
+                File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
+            }
         }
 
         public void Remove(Metadata tmpl)
