@@ -5,6 +5,7 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Sync;
 using Slithin.UI.Modals;
 
 namespace Slithin.ViewModels
@@ -12,6 +13,7 @@ namespace Slithin.ViewModels
     public class NotebooksPageViewModel : BaseViewModel
     {
         private bool _isMoving;
+        private Metadata _movingNotebook;
         private Metadata _selectedNotebook;
 
         public NotebooksPageViewModel()
@@ -21,6 +23,7 @@ namespace Slithin.ViewModels
             MoveCommand = new DelegateCommand(_ =>
             {
                 IsMoving = true;
+                _movingNotebook = SelectedNotebook;
             }, (_) => SelectedNotebook != null && !IsMoving);
 
             MoveCancelCommand = new DelegateCommand(_ =>
@@ -51,6 +54,32 @@ namespace Slithin.ViewModels
             }
 
             SyncService.NotebooksFilter.SortByFolder();
+
+            MoveHereCommand = new DelegateCommand(_ =>
+            {
+                MetadataStorage.Local.Move(_movingNotebook, SyncService.NotebooksFilter.Folder);
+                IsMoving = false;
+
+                var item = new SyncItem
+                {
+                    Direction = SyncDirection.ToDevice,
+                    Data = MetadataStorage.Local.Get(_movingNotebook.ID),
+                    Type = SyncType.Notebook,
+                    Action = SyncAction.Update
+                };
+
+                SyncService.SyncQueue.Insert(item);
+
+                SyncService.NotebooksFilter.Documents.Clear();
+                foreach (var md in MetadataStorage.Local.GetByParent(SyncService.NotebooksFilter.Folder))
+                {
+                    SyncService.NotebooksFilter.Documents.Add(md);
+                }
+
+                SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
+
+                SyncService.NotebooksFilter.SortByFolder();
+            });
         }
 
         public bool IsMoving
@@ -63,6 +92,7 @@ namespace Slithin.ViewModels
 
         public ICommand MoveCancelCommand { get; set; }
         public ICommand MoveCommand { get; set; }
+        public ICommand MoveHereCommand { get; set; }
         public ICommand RemoveNotebookCommand { get; set; }
 
         public Metadata SelectedNotebook

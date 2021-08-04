@@ -3,6 +3,7 @@
     public enum SyncAction
     {
         Add,
-        Remove
+        Remove,
+        Update
     }
 }

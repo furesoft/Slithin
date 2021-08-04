@@ -15,12 +15,11 @@
           <TextBlock Text="Please navigate to a folder to move in" Margin="16,0,0,0" FontSize="20" VerticalAlignment="Center" />
         </StackPanel>
 
-        <Button Classes="flat" HorizontalAlignment="Right" Margin="8">
+        <Button Classes="flat" HorizontalAlignment="Right" Margin="8" Command="{Binding MoveHereCommand}" CommandParameter="{Binding SelectedNotebook}">
           Move Here
         </Button>
       </Grid>
-
-      <ListBox ui:NotebooksView.IsView="True" DragDrop.AllowDrop="True" Items="{Binding SyncService.NotebooksFilter.Documents}" Margin="16,0,0,0" x:Name="noteboooksListBox" SelectedItem="{Binding SelectedNotebook}">
+      <ListBox  ui:NotebooksView.IsView="True" DragDrop.AllowDrop="True" Items="{Binding SyncService.NotebooksFilter.Documents}" Margin="16,0,0,0" x:Name="notebooksListBox" SelectedItem="{Binding SelectedNotebook, Mode=TwoWay}">
         <ListBox.ItemTemplate>
           <ui:NotebookDataTemplate />
         </ListBox.ItemTemplate>

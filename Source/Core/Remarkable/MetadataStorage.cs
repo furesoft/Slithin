@@ -56,6 +56,8 @@ namespace Slithin.Core.Remarkable
             if (md.Type == "DocumentType")
             {
                 md.Parent = folder;
+                md.Version++;
+
                 _storage[md.ID] = md; //replace metadata with changed md
 
                 File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));

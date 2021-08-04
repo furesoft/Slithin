@@ -125,6 +125,15 @@ namespace Slithin.Core
                             {
                                 Device.Remove((Metadata)_.Item.Data);
                             }
+                            else if (_.Item.Action == SyncAction.Update)
+                            {
+                                if (_.Item.Data is Metadata md)
+                                {
+                                    NotificationService.Show("Updating " + md.VisibleName);
+
+                                    Scp.Upload(new FileInfo(Path.Combine(NotebooksDir, md.ID + ".metadata")), PathList.Documents + "/" + md.ID + ".metadata");
+                                }
+                            }
                             else if (_.Item.Action == SyncAction.Add)
                             {
                                 if (_.Item.Data is Metadata md)
@@ -133,7 +142,7 @@ namespace Slithin.Core
 
                                     Scp.Upload(new FileInfo(Path.Combine(NotebooksDir, md.ID + ".metadata")), PathList.Documents + "/" + md.ID + ".metadata");
 
-                                    if (md.Type == "DocumentType")
+                                    if (md.Type == "DocumentType" && (md.Content.FileType == "pdf" || md.Content.FileType == "epub"))
                                     {
                                         Scp.Upload(new FileInfo(Path.Combine(NotebooksDir, md.ID + "." + md.Content.FileType)), PathList.Documents + "/" + md.ID + "." + md.Content.FileType);
                                         Scp.Upload(new FileInfo(Path.Combine(NotebooksDir, md.ID + ".content")), PathList.Documents + "/" + md.ID + ".content");
