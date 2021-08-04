@@ -1,10 +1,8 @@
-- maybe on importing file generate thumbnails folder with content?
-
-- find notebook id of generic pdf image and copy thumnails folder from Downloads/Notebooks
-
-- repair mode?
-	- generate thumnails
-        - find orphaned files and delete 
 
 - generate clipart notebook?
 	generate real notebook from svgs to make a copy availale on device
+
+
+
+- implement move command
+- implement createnotebook modal for tool

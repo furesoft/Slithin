@@ -12,6 +12,7 @@
       <controls:ImageButton Text="Remove" Command="{Binding RemoveNotebookCommand}" Image="avares://Slithin/Resources/minus.png" CommandParameter="{Binding SelectedNotebook}" />
 
       <controls:ImageButton Text="Export" IsVisible="False" Command="{Binding ExportCommand}" Image="avares://Slithin/Resources/export.png"  CommandParameter="{Binding SelectedNotebook}" />
+      <controls:ImageButton Text="Move" IsVisible="True" Command="{Binding MoveCommand}" Image="avares://Slithin/Resources/move.png"  CommandParameter="{Binding SelectedNotebook}" />
 
       <controls:ImagePopupButton Text="Search" Image="avares://Slithin/Resources/search.png" IsVisible="False">
         <controls:ImagePopupButton.PopupContent>
