@@ -1,7 +1,5 @@
 ﻿using System.IO;
-using Newtonsoft.Json;
 using RestSharp;
-using RestSharp.Serialization.Json;
 using JsonSerializer = RestSharp.Serialization.Json.JsonSerializer;
 
 namespace Slithin.Core.Remarkable.Cloud

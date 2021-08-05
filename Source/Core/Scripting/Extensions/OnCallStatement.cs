@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NiL.JS;
 using NiL.JS.BaseLibrary;
 using NiL.JS.Core;
 

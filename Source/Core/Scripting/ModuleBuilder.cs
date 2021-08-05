@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NiL.JS;
 using NiL.JS.Core;
-using Slithin;
 
 namespace Slithin.Core.Scripting
 {

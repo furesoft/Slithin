@@ -1,11 +1,8 @@
-﻿using System;
-using System.IO;
-using Actress;
+﻿using System.IO;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
-using Slithin.Messages;
 using Slithin.UI.Views;
 using Slithin.Core.Scripting;
 

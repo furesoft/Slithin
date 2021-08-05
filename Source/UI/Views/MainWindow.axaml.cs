@@ -4,9 +4,7 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Core.Remarkable;
 using Slithin.Messages;
 using Slithin.ViewModels;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using Slithin.Core;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Cloud;
+﻿using Slithin.Core;
 
 namespace Slithin.ViewModels
 {

@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Slithin.Core.Remarkable;
 using Slithin.ViewModels;
-
-using System.Linq;
 
 using System.Collections.Generic;
 

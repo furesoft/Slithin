@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
-using System.Threading;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
 using LiteDB;

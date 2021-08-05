@@ -2,13 +2,10 @@
 using System.IO;
 using System.Threading.Tasks;
 using NiL.JS;
-using NiL.JS.BaseLibrary;
 using NiL.JS.Core;
-using NiL.JS.Expressions;
 using PdfSharpCore.Pdf;
 using Slithin.Controls;
 using Slithin.Core.Sync;
-using Slithin.Core.Scripting;
 
 namespace Slithin.Core.Scripting
 {
