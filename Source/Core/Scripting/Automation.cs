@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -10,10 +9,9 @@ using NiL.JS.Core.Functions;
 using NiL.JS.Extensions;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using Slithin.Core.Scripting;
 using Slithin.Core.Scripting.Extensions;
 
-namespace Slithin.Core
+namespace Slithin.Core.Scripting
 {
     public static class Automation
     {

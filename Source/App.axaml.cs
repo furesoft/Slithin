@@ -7,6 +7,7 @@ using Avalonia.Markup.Xaml;
 using Slithin.Core;
 using Slithin.Messages;
 using Slithin.UI.Views;
+using Slithin.Core.Scripting;
 
 namespace Slithin
 {

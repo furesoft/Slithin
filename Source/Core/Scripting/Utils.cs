@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using NiL.JS.Core;
 using NiL.JS.Extensions;
+using Slithin.Core;
 
-namespace Slithin.Core
+namespace Slithin.Core.Scripting
 {
     public static class Utils
     {

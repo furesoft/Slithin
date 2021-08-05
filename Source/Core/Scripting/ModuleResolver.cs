@@ -8,6 +8,7 @@ using NiL.JS.Expressions;
 using PdfSharpCore.Pdf;
 using Slithin.Controls;
 using Slithin.Core.Sync;
+using Slithin.Core.Scripting;
 
 namespace Slithin.Core.Scripting
 {

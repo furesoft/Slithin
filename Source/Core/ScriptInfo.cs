@@ -2,6 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using NiL.JS.Core;
+using Slithin.Core.Scripting;
 
 namespace Slithin.Core
 {
