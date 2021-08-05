@@ -7,6 +7,7 @@ using Avalonia.Platform;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.UI.Tools;
+using Slithin.ViewModels;
 
 namespace Slithin.Tools
 {
@@ -18,7 +19,7 @@ namespace Slithin.Tools
             {
                 var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-                return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/pdf.png"))); ;
+                return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/pdf.png")));
             }
         }
 
@@ -34,6 +35,8 @@ namespace Slithin.Tools
         public void Invoke(object data)
         {
             var modal = new CreateNotebookModal();
+            modal.DataContext = new CreateNotebookModalViewModel();
+
             DialogService.Open(modal);
         }
     }

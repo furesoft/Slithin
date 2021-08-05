@@ -5,17 +5,33 @@
              xmlns:c="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450"
              x:Class="Slithin.UI.Tools.CreateNotebookModal">
-  <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding}" MinHeight="300">
+  <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding}" MinHeight="300" MinWidth="500">
     <Grid RowDefinitions="40,40,45,35,36">
-      <ListBox Items="{Binding Templates}">
-        <ListBoxItem>Blank</ListBoxItem>
-        <ListBoxItem>Grid</ListBoxItem>
-      </ListBox>
+      <TextBox Watermark="Name" Grid.Row="0" Margin="5" HorizontalAlignment="Left" MinWidth="185" Text="{Binding Name}" />
 
-      <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="2" Spacing="5">
-        <TextBox Watermark="Page Count" />
-        <Button Content="Add" />
+      <StackPanel Orientation="Horizontal" Margin="2" Spacing="5" Grid.Row="1">
+        <ComboBox SelectedIndex="0" Margin="3" Items="{Binding Templates}" PlaceholderText="Template" SelectedItem="{Binding SelectedTemplate}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBox Watermark="Page Count" Margin="3" Text="{Binding PageCount}" />
+
+        <Button Content="Add" Command="{Binding AddPagesCommand}" />
       </StackPanel>
+
+      <StackPanel HorizontalAlignment="Right" Grid.Row="0">
+        <TextBlock Text="Cover" />
+
+        <Border BorderBrush="Black" BorderThickness="1"  Width="150" Height="150">
+          <Image Source="{Binding Cover, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" Margin="5" />
+        </Border>
+      </StackPanel>
+
+      <ComboBox SelectedIndex="0" Margin="3" Grid.Row="2" Items="{Binding Categories}" PlaceholderText="Category" />
     </Grid>
   </c:DialogControl>
 </UserControl>
