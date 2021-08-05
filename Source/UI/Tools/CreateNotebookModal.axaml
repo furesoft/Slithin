@@ -24,6 +24,14 @@
       </StackPanel>
 
       <StackPanel HorizontalAlignment="Right" Grid.Row="0">
+        <ComboBox PlaceholderText="SampleCover">
+          <ComboBoxItem>Blue</ComboBoxItem>
+          <ComboBoxItem>Yellow</ComboBoxItem>
+          <ComboBoxItem>Green</ComboBoxItem>
+          <ComboBoxItem>Red</ComboBoxItem>
+          <ComboBoxItem>Purple</ComboBoxItem>
+        </ComboBox>
+
         <TextBlock Text="Cover" />
 
         <Border BorderBrush="Black" BorderThickness="1"  Width="150" Height="150">
