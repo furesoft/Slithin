@@ -6,6 +6,7 @@ using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Newtonsoft.Json;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
@@ -13,6 +14,7 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Scripting;
+using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels
 {
@@ -141,7 +143,31 @@ namespace Slithin.ViewModels
                 }
             }
 
-            document.Save(ServiceLocator.ConfigBaseDir + "\\test.pdf");
+            var md = new Metadata();
+            md.ID = Guid.NewGuid().ToString();
+            md.VisibleName = Name;
+            md.Type = "DocumentType";
+            md.Version = 1;
+            md.Parent = "";
+
+            md.Content = new() { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count };
+
+            File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
+            File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(md.Content, Formatting.Indented));
+
+            document.Save(ServiceLocator.NotebooksDir + $"\\{md.ID}.pdf");
+
+            MetadataStorage.Local.Add(md, out var alreadyAdded);
+
+            SyncService.NotebooksFilter.Documents.Add(md);
+
+            var syncItem = new SyncItem();
+            syncItem.Action = SyncAction.Add;
+            syncItem.Data = md;
+            syncItem.Direction = SyncDirection.ToDevice;
+            syncItem.Type = SyncType.Notebook;
+
+            SyncService.SyncQueue.Insert(syncItem);
 
             DialogService.Close();
         }

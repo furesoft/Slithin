@@ -4,5 +4,5 @@
 
 
 
-- implement move command
-- implement createnotebook modal for tool
+- fix sync bug - same key already added
+- fix sync bug - generated pdf removed?
