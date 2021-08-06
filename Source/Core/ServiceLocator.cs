@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -209,6 +209,11 @@ namespace Slithin.Core
                 }
             });
 
+            MessageRouter.Register<PostActionMessage>(_ =>
+            {
+                _.Action();
+            });
+
             MessageRouter.Register<DownloadNotebooksMessage>(_ =>
             {
                 NotificationService.Show("Downloading Notebook Metadata");
@@ -381,6 +386,11 @@ namespace Slithin.Core
             {
                 NotificationService.Show(_.Message);
             });
+        }
+
+        public static void PostAction(Action p)
+        {
+            Mailbox.Post(new PostActionMessage(p));
         }
 
         public static void RememberLoginCredencials(ConnectionWindowViewModel viewModel)
