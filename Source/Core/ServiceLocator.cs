@@ -4,6 +4,10 @@ using System.IO;
 using System.Linq;
 using Actress;
 using LiteDB;
+using NetSparkleUpdater;
+using NetSparkleUpdater.Enums;
+using NetSparkleUpdater.Events;
+using NetSparkleUpdater.SignatureVerifiers;
 using Newtonsoft.Json;
 using Renci.SshNet;
 using Renci.SshNet.Common;
@@ -188,6 +192,13 @@ namespace Slithin.Core
                 Device.DownloadCustomScreens();
             });
 
+            MessageRouter.Register<CheckForUpdateMessage>(async _ =>
+            {
+                NotificationService.Show("Checking for Updates");
+
+                await Updater.StartUpdate();
+            });
+
             MessageRouter.Register<AttentionRequiredMessage>(async _ =>
             {
                 var result = await DialogService.ShowDialog(_.Text);
@@ -331,7 +342,7 @@ namespace Slithin.Core
 
                         Scp.Downloading += OnDownloading;
 
-                        for (var i = 0; i < otherfiles.Count(); i++)
+                        for (var i = 0; i < otherfiles.Length; i++)
                         {
                             var fi = new FileInfo(Path.Combine(NotebooksDir, otherfiles[i]));
                             if (!md.Deleted)

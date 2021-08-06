@@ -1,4 +1,5 @@
 ﻿using Slithin.Core;
+using Slithin.Messages;
 
 namespace Slithin.ViewModels
 {
@@ -11,6 +12,8 @@ namespace Slithin.ViewModels
                 ServiceLocator.Events.Invoke("newVersionAvailable");
                 ServiceLocator.Local.UpdateVersion(ServiceLocator.Device.GetVersion());
             }
+
+            ServiceLocator.Mailbox.Post(new CheckForUpdateMessage());
         }
     }
 }
