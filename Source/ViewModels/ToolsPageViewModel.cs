@@ -13,7 +13,7 @@ namespace Slithin.ViewModels
         public ToolsPageViewModel()
         {
             Items.Add(new NotebookCreationTool());
-            Items.Add(new NotebookCreationTool());
+            Items.Add(new BackUpTool());
 
             ConfigurateScriptCommand = new DelegateCommand(_ => DialogService.Open(SelectedScript.GetModal()), _ => _ is ITool tool && tool.IsConfigurable);
             RemoveScriptCommand = new DelegateCommand(_ =>
