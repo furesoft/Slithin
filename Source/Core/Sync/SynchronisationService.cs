@@ -126,12 +126,12 @@ namespace Slithin.Core.Sync
 
             mailboxService.Post(new ShowStatusMessage { Message = "Syncing ..." });
 
+            SyncDeviceDeletions();
+
             foreach (var item in SyncQueue.FindAll())
             {
                 mailboxService.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
             }
-
-            SyncDeviceDeletions();
 
             mailboxService.Post(new DownloadNotebooksMessage());
 

@@ -10,3 +10,5 @@
 	- objectservice
 
 - fix ui bug "Item already exists"
+
+- fix "henne ei problem" syncdevicedeletions
