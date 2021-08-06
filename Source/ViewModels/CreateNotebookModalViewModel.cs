@@ -24,6 +24,7 @@ namespace Slithin.ViewModels
 
         private string _pageCount;
 
+        private bool _renderName;
         private Template _selectedTemplate;
 
         public CreateNotebookModalViewModel()
@@ -72,6 +73,12 @@ namespace Slithin.ViewModels
 
         public ObservableCollection<(Template, int)> Pages { get; set; } = new();
 
+        public bool RenderName
+        {
+            get { return _renderName; }
+            set { SetValue(ref _renderName, value); }
+        }
+
         public Template SelectedTemplate
         {
             get { return _selectedTemplate; }
@@ -111,6 +118,13 @@ namespace Slithin.ViewModels
 
             var coverImage = XImage.FromStream(() => assets.Open(new Uri($"avares://Slithin/Resources/Cover.png")));
             coverGfx.DrawImage(coverImage, 0, 0, coverPage.Width, coverPage.Height);
+
+            if (RenderName)
+            {
+                var font = new XFont("Arial", 125);
+                XSize fontSize = coverGfx.MeasureString(Name, font);
+                coverGfx.DrawString(Name, font, XBrushes.Black, new XPoint(coverPage.Width / 2 - fontSize.Width / 2, 260));
+            }
 
             foreach (var p in Pages)
             {

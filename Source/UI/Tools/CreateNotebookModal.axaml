@@ -34,9 +34,11 @@
 
         <TextBlock Text="Cover" />
 
-        <Border BorderBrush="Black" BorderThickness="1"  Width="150" Height="150">
+        <Border BorderBrush="Black" BorderThickness="1" Width="150" Height="150">
           <Image Source="{Binding Cover, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" Margin="5" />
         </Border>
+
+        <CheckBox Content="Render Name" IsChecked="{Binding RenderName}" ToolTip.Tip="Only for Short Names" />
       </StackPanel>
 
       <ComboBox SelectedIndex="0" Margin="3" Grid.Row="2" Items="{Binding Categories}" PlaceholderText="Category" />
