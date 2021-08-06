@@ -43,8 +43,8 @@ namespace Slithin.Core
 
             Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
 
-            Device = new(Container.Resolve<IPathManager>());
-            Local = new(Container.Resolve<IPathManager>());
+            Device = Container.Resolve<DeviceRepository>();
+            Local = Container.Resolve<LocalRepository>();
 
             SyncService = new(Container.Resolve<IPathManager>(), Container.Resolve<LiteDatabase>());
 
