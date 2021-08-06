@@ -13,6 +13,15 @@ namespace Slithin.UI.Tools
             InitializeComponent();
         }
 
+        private void CoverSelection(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataContext is CreateNotebookModalViewModel vm)
+            {
+                vm.Filename = "internal:" + e.AddedItems[0].ToString();
+                vm.LoadCover();
+            }
+        }
+
         private void DragOver(object sender, DragEventArgs e)
         {
             // Only allow Copy or Link as Drop Operations.
@@ -32,7 +41,7 @@ namespace Slithin.UI.Tools
 
                 if (DataContext is CreateNotebookModalViewModel vm)
                 {
-                    vm.Filename = filename;
+                    vm.Filename = "custom:" + filename;
                     vm.LoadCover();
                 }
             }

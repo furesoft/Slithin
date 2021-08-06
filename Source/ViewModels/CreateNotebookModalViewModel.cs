@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Media;
@@ -13,7 +14,6 @@ using PdfSharpCore.Pdf;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Scripting;
 using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels
@@ -44,6 +44,12 @@ namespace Slithin.ViewModels
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
             Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Cover.png")));
+
+            var coverNames = GetType().Assembly.GetManifestResourceNames().
+                Where(_ => _.StartsWith("Slithin.Resources.Covers.")).
+                Select(_ => _.Replace(".png", "").Substring("Slithin.Resources.Covers.".Length));
+
+            DefaultCovers = new ObservableCollection<string>(coverNames);
         }
 
         public ICommand AddPagesCommand { get; set; }
@@ -55,6 +61,8 @@ namespace Slithin.ViewModels
             get { return _cover; }
             set { SetValue(ref _cover, value); }
         }
+
+        public ObservableCollection<string> DefaultCovers { get; set; }
 
         public string Filename
         {
@@ -94,8 +102,16 @@ namespace Slithin.ViewModels
 
         public void LoadCover()
         {
-            using var strm = File.OpenRead(Filename);
-            Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+            if (Filename.StartsWith("custom:"))
+            {
+                using var strm = File.OpenRead(Filename.Substring("custom:".Length));
+                Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+            }
+            else
+            {
+                using var strm = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + Filename.Substring("internal:".Length) + ".png");
+                Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+            }
         }
 
         private void AddPages(object obj)
@@ -123,7 +139,17 @@ namespace Slithin.ViewModels
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            var coverImage = XImage.FromStream(() => assets.Open(new Uri($"avares://Slithin/Resources/Cover.png")));
+            Stream coverStream = null;
+            if (Filename.StartsWith("custom:"))
+            {
+                coverStream = File.OpenRead(Filename.Substring("custom:".Length));
+            }
+            else
+            {
+                coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + Filename.Substring("internal:".Length) + ".png");
+            }
+
+            var coverImage = XImage.FromStream(() => coverStream);
             coverGfx.DrawImage(coverImage, 0, 0, coverPage.Width, coverPage.Height);
 
             if (RenderName)

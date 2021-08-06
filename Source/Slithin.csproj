@@ -22,11 +22,25 @@
    <ItemGroup>
      <AvaloniaResource Include="Resources\**" />
      <EmbeddedResource Include="Resources\IconTiles\**" />
+     <EmbeddedResource Include="Resources\Covers\**" />
    </ItemGroup>
 
    <ItemGroup>
+     <None Remove="Resources\backup.png" />
      <None Remove="Resources\config.png" />
      <None Remove="Resources\Cover.png" />
+     <None Remove="Resources\Covers\Folder-DBlue.png" />
+     <None Remove="Resources\Covers\Folder-Green.png" />
+     <None Remove="Resources\Covers\Folder-Grey.png" />
+     <None Remove="Resources\Covers\Folder-LBlue.png" />
+     <None Remove="Resources\Covers\Folder-Lime.png" />
+     <None Remove="Resources\Covers\Folder-Orange.png" />
+     <None Remove="Resources\Covers\Folder-Pink.png" />
+     <None Remove="Resources\Covers\Folder-Purple.png" />
+     <None Remove="Resources\Covers\Folder-Red.png" />
+     <None Remove="Resources\Covers\Folder-Turquoise.png" />
+     <None Remove="Resources\Covers\Folder-White.png" />
+     <None Remove="Resources\Covers\Folder-Yellow.png" />
      <None Remove="Resources\epub.png" />
      <None Remove="Resources\execute.png" />
      <None Remove="Resources\export.png" />
@@ -35,6 +49,7 @@
      <None Remove="Resources\import.png" />
      <None Remove="Resources\move.png" />
      <None Remove="Resources\pdf.png" />
+     <None Remove="Resources\restore.png" />
      <None Remove="Resources\search.png" />
      <None Remove="Resources\star.png" />
      <None Remove="Resources\trash-can.png" />

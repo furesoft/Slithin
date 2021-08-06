@@ -27,13 +27,7 @@
       </StackPanel>
 
       <StackPanel HorizontalAlignment="Right" Grid.Row="0" Spacing="3">
-        <ComboBox PlaceholderText="Default Cover">
-          <ComboBoxItem>Blue</ComboBoxItem>
-          <ComboBoxItem>Yellow</ComboBoxItem>
-          <ComboBoxItem>Green</ComboBoxItem>
-          <ComboBoxItem>Red</ComboBoxItem>
-          <ComboBoxItem>Purple</ComboBoxItem>
-        </ComboBox>
+        <ComboBox PlaceholderText="Default Cover" SelectionChanged="CoverSelection" Items="{Binding DefaultCovers}" />
 
         <TextBlock Text="Cover" />
 
