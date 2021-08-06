@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Actress;
+﻿using System.IO;
 using LiteDB;
-using Newtonsoft.Json;
 using Renci.SshNet;
-using Renci.SshNet.Common;
-using Slithin.Controls;
-using Slithin.Core.Remarkable;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
-using Slithin.Core.Services.Implementations;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
-using Slithin.Messages;
-using Slithin.ViewModels;
 
 namespace Slithin.Core
 {
