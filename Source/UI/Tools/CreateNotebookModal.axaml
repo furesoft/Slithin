@@ -13,7 +13,10 @@
         <ComboBox SelectedIndex="0" Margin="3" Items="{Binding Templates}" PlaceholderText="Template" SelectedItem="{Binding SelectedTemplate}">
           <ComboBox.ItemTemplate>
             <DataTemplate>
-              <TextBlock Text="{Binding Name}" />
+              <StackPanel Orientation="Horizontal" Spacing="5">
+                <TextBlock Text="{Binding Name}" />
+                <TextBlock Text="Landscape" IsVisible="{Binding Landscape}" />
+              </StackPanel>
             </DataTemplate>
           </ComboBox.ItemTemplate>
         </ComboBox>
@@ -23,7 +26,7 @@
         <Button Content="Add" Command="{Binding AddPagesCommand}" />
       </StackPanel>
 
-      <StackPanel HorizontalAlignment="Right" Grid.Row="0">
+      <StackPanel HorizontalAlignment="Right" Grid.Row="0" Spacing="3">
         <ComboBox PlaceholderText="Default Cover">
           <ComboBoxItem>Blue</ComboBoxItem>
           <ComboBoxItem>Yellow</ComboBoxItem>
