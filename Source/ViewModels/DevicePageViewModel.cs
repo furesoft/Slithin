@@ -10,6 +10,7 @@ namespace Slithin.ViewModels
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Suspended", Filename = "suspended.png" });
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Rebooting", Filename = "rebooting.png" });
+            SyncService.CustomScreens.Add(new CustomScreen { Title = "Splash", Filename = "splash.png" });
 
             foreach (var cs in ServiceLocator.SyncService.CustomScreens)
             {
