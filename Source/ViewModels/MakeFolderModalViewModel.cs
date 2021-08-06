@@ -30,11 +30,13 @@ namespace Slithin.ViewModels
         {
             var id = Guid.NewGuid();
 
-            var md = new Metadata();
-            md.ID = id.ToString();
-            md.Parent = ServiceLocator.SyncService.NotebooksFilter.Folder;
-            md.Type = "CollectionType";
-            md.VisibleName = Name;
+            var md = new Metadata
+            {
+                ID = id.ToString(),
+                Parent = ServiceLocator.SyncService.NotebooksFilter.Folder,
+                Type = "CollectionType",
+                VisibleName = Name
+            };
 
             MetadataStorage.Local.Add(md, out var alreadyAdded);
 
@@ -47,11 +49,13 @@ namespace Slithin.ViewModels
                 ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
                 ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
 
-                var syncItem = new SyncItem();
-                syncItem.Action = SyncAction.Add;
-                syncItem.Data = md;
-                syncItem.Direction = SyncDirection.ToDevice;
-                syncItem.Type = SyncType.Notebook;
+                var syncItem = new SyncItem
+                {
+                    Action = SyncAction.Add,
+                    Data = md,
+                    Direction = SyncDirection.ToDevice,
+                    Type = SyncType.Notebook
+                };
 
                 ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
 

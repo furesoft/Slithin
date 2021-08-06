@@ -33,7 +33,7 @@ namespace Slithin.ViewModels
         {
             Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
 
-            for (int i = 1; i < SyncService.TemplateFilter.Categories.Count; i++)
+            for (var i = 1; i < SyncService.TemplateFilter.Categories.Count; i++)
             {
                 Categories.Add(SyncService.TemplateFilter.Categories[i]);
             }
@@ -108,13 +108,15 @@ namespace Slithin.ViewModels
 
         private void OK(object obj)
         {
-            var document = new PdfDocument();
-            document.PageLayout = PdfPageLayout.SinglePage;
-            document.PageMode = PdfPageMode.FullScreen;
+            var document = new PdfDocument
+            {
+                PageLayout = PdfPageLayout.SinglePage,
+                PageMode = PdfPageMode.FullScreen
+            };
             document.Info.Author = "Slithin";
             document.Info.Title = Name;
 
-            XSize size = PageSizeConverter.ToSize(PageSize.A4);
+            var size = PageSizeConverter.ToSize(PageSize.A4);
 
             var coverPage = document.AddPage();
             var coverGfx = XGraphics.FromPdfPage(coverPage);
@@ -127,7 +129,7 @@ namespace Slithin.ViewModels
             if (RenderName)
             {
                 var font = new XFont("Arial", 125);
-                XSize fontSize = coverGfx.MeasureString(Name, font);
+                var fontSize = coverGfx.MeasureString(Name, font);
                 coverGfx.DrawString(Name, font, XBrushes.Black, new XPoint(coverPage.Width / 2 - fontSize.Width / 2, 260));
             }
 
@@ -135,7 +137,7 @@ namespace Slithin.ViewModels
             {
                 var t = XImage.FromFile(ServiceLocator.TemplatesDir + "\\" + p.Item1.Filename + ".png");
 
-                for (int i = 0; i < p.Item2; i++)
+                for (var i = 0; i < p.Item2; i++)
                 {
                     var page = document.AddPage();
                     page.Size = PageSize.A4;
@@ -146,14 +148,16 @@ namespace Slithin.ViewModels
                 }
             }
 
-            var md = new Metadata();
-            md.ID = Guid.NewGuid().ToString();
-            md.VisibleName = Name;
-            md.Type = "DocumentType";
-            md.Version = 1;
-            md.Parent = "";
+            var md = new Metadata
+            {
+                ID = Guid.NewGuid().ToString(),
+                VisibleName = Name,
+                Type = "DocumentType",
+                Version = 1,
+                Parent = "",
 
-            md.Content = new() { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count };
+                Content = new() { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count }
+            };
 
             File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
             File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(md.Content, Formatting.Indented));
@@ -164,11 +168,13 @@ namespace Slithin.ViewModels
 
             SyncService.NotebooksFilter.Documents.Add(md);
 
-            var syncItem = new SyncItem();
-            syncItem.Action = SyncAction.Add;
-            syncItem.Data = md;
-            syncItem.Direction = SyncDirection.ToDevice;
-            syncItem.Type = SyncType.Notebook;
+            var syncItem = new SyncItem
+            {
+                Action = SyncAction.Add,
+                Data = md,
+                Direction = SyncDirection.ToDevice,
+                Type = SyncType.Notebook
+            };
 
             SyncService.SyncQueue.Insert(syncItem);
 

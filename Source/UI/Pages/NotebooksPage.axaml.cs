@@ -57,18 +57,22 @@ namespace Slithin.UI.Pages
                 foreach (var filename in e.Data.GetFileNames())
                 {
                     var id = Guid.NewGuid();
-                    var cnt = new ContentFile();
-                    cnt.FileType = Path.GetExtension(filename).Replace(".", "");
+                    var cnt = new ContentFile
+                    {
+                        FileType = Path.GetExtension(filename).Replace(".", "")
+                    };
 
                     if (cnt.FileType == "pdf" || cnt.FileType == "epub")
                     {
-                        var md = new Metadata();
-                        md.ID = id.ToString();
-                        md.Parent = ServiceLocator.SyncService.NotebooksFilter.Folder;
-                        md.Content = cnt;
-                        md.Version = 1;
-                        md.Type = "DocumentType";
-                        md.VisibleName = Path.GetFileNameWithoutExtension(filename);
+                        var md = new Metadata
+                        {
+                            ID = id.ToString(),
+                            Parent = ServiceLocator.SyncService.NotebooksFilter.Folder,
+                            Content = cnt,
+                            Version = 1,
+                            Type = "DocumentType",
+                            VisibleName = Path.GetFileNameWithoutExtension(filename)
+                        };
 
                         MetadataStorage.Local.Add(md, out var alreadyAdded);
                         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
@@ -78,11 +82,13 @@ namespace Slithin.UI.Pages
                         File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md));
                         File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(cnt));
 
-                        var syncItem = new SyncItem();
-                        syncItem.Action = SyncAction.Add;
-                        syncItem.Direction = SyncDirection.ToDevice;
-                        syncItem.Type = SyncType.Notebook;
-                        syncItem.Data = md;
+                        var syncItem = new SyncItem
+                        {
+                            Action = SyncAction.Add,
+                            Direction = SyncDirection.ToDevice,
+                            Type = SyncType.Notebook,
+                            Data = md
+                        };
 
                         ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
                     }

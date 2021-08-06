@@ -19,9 +19,11 @@ namespace Slithin.UI
 
             var container = new StackPanel();
 
-            var img = new Image();
-            img.MinWidth = 25;
-            img.MinHeight = 25;
+            var img = new Image
+            {
+                MinWidth = 25,
+                MinHeight = 25
+            };
 
             if (param is Metadata md)
             {
@@ -29,7 +31,7 @@ namespace Slithin.UI
                 {
                     if (Directory.Exists(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".thumbnails")))
                     {
-                        string filename = "";
+                        var filename = "";
                         if (md?.Content.CoverPageNumber == 0)
                         {
                             // load first page
@@ -48,10 +50,12 @@ namespace Slithin.UI
 
                         if (md.Pinned)
                         {
-                            var pinnedImg = new Image();
-                            //pinnedImg.Source = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/star.png")));
-                            pinnedImg.Width = 25;
-                            pinnedImg.Height = 25;
+                            var pinnedImg = new Image
+                            {
+                                //pinnedImg.Source = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/star.png")));
+                                Width = 25,
+                                Height = 25
+                            };
 
                             //container.Children.Add(pinnedImg);
                         }

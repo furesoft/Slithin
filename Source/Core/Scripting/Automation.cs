@@ -17,9 +17,11 @@ namespace Slithin.Core.Scripting
     {
         public static void CreateNotbook(string template, int pageCount)
         {
-            var document = new PdfDocument();
-            document.PageLayout = PdfPageLayout.SinglePage;
-            document.PageMode = PdfPageMode.FullScreen;
+            var document = new PdfDocument
+            {
+                PageLayout = PdfPageLayout.SinglePage,
+                PageMode = PdfPageMode.FullScreen
+            };
 
             var p = document.AddPage();
             var pgfx = XGraphics.FromPdfPage(p);
@@ -30,7 +32,7 @@ namespace Slithin.Core.Scripting
             p.AddDocumentLink(new PdfRectangle(new XPoint(0, 50), new XSize(10, 10)), 1);
             pgfx.DrawString($"Page 1", new XFont("Arial", 20), XBrushes.Black, new XPoint(10, 50));
 
-            for (int i = 0; i < pageCount; i++)
+            for (var i = 0; i < pageCount; i++)
             {
                 var page = document.AddPage();
                 var gfx = XGraphics.FromPdfPage(page);
@@ -51,7 +53,7 @@ namespace Slithin.Core.Scripting
                 mainModule.Context.DefineVariable("config", false).Assign(Utils.ToJSObject((JObject)GetScriptInfo(scriptname).Config));
                 mainModule.Context.DefineVariable("saveConfig").Assign(new ExternalFunction((t, args) =>
                 {
-                    JObject confObj = Utils.ConvertToJObject(args.First().Value.As<JSObject>());
+                    var confObj = Utils.ConvertToJObject(args.First().Value.As<JSObject>());
 
                     GetScriptInfo(scriptname).Save(confObj);
                     return null;

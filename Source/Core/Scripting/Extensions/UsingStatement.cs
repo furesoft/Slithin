@@ -25,7 +25,7 @@ namespace Slithin.Core.Scripting.Extensions
             while (char.IsWhiteSpace(state.Code, position))
                 position++;
 
-            int start = position;
+            var start = position;
             while (Parser.ValidateName(state.Code, ref position) && state.Code[position] == '.')
                 position++;
 

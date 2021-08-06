@@ -8,7 +8,7 @@ namespace Slithin.Core.Scripting
     {
         public static JObject ConvertToJObject(JSObject obj)
         {
-            JObject o = new JObject();
+            var o = new JObject();
 
             foreach (var item in obj)
             {

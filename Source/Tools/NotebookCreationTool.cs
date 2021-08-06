@@ -29,16 +29,20 @@ namespace Slithin.Tools
 
         public Control GetModal()
         {
-            var modal = new CreateNotebookModal();
-            modal.DataContext = new CreateNotebookModalViewModel();
+            var modal = new CreateNotebookModal
+            {
+                DataContext = new CreateNotebookModalViewModel()
+            };
 
             return modal;
         }
 
         public void Invoke(object data)
         {
-            var modal = new CreateNotebookModal();
-            modal.DataContext = new CreateNotebookModalViewModel();
+            var modal = new CreateNotebookModal
+            {
+                DataContext = new CreateNotebookModalViewModel()
+            };
 
             DialogService.Open(modal);
         }

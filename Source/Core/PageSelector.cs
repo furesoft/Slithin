@@ -22,9 +22,11 @@ namespace Slithin.Core
 
                     if (pageInstance.IsEnabled())
                     {
-                        var page = new TabItem();
-                        page.Header = pageInstance?.Title;
-                        page.DataContext = controlInstance.DataContext;
+                        var page = new TabItem
+                        {
+                            Header = pageInstance?.Title,
+                            DataContext = controlInstance.DataContext
+                        };
 
                         if (pageInstance.UseContextualMenu())
                         {

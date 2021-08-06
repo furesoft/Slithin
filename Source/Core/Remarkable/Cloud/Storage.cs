@@ -59,10 +59,12 @@ namespace Slithin.Core.Remarkable.Cloud
 
         public static UploadRequestResponse RequestUpload()
         {
-            var upReq = new UploadRequest();
-            upReq.ID = Guid.NewGuid().ToString();
-            upReq.Version = 1;
-            upReq.Type = "DocumentType";
+            var upReq = new UploadRequest
+            {
+                ID = Guid.NewGuid().ToString(),
+                Version = 1,
+                Type = "DocumentType"
+            };
 
             var storageUri = Api.GetStorageUrl();
 

@@ -208,14 +208,14 @@ namespace Slithin.Core
                 var mdFilenames = allFilenames.Where(_ => _.EndsWith(".metadata")).ToArray();
                 var mdLocals = new Dictionary<string, Metadata>();
 
-                for (int i = 0; i < mdFilenames.Length; i++)
+                for (var i = 0; i < mdFilenames.Length; i++)
                 {
                     var md = mdFilenames[i];
                     NotificationService.Show($"Downloading Notebook Metadata {i} / {mdFilenames.Length}");
 
                     var mdContent = Client.RunCommand("cat " + PathList.Documents + "/" + md).Result;
-                    string contentContent = "{}";
-                    string pageDataContent = "";
+                    var contentContent = "{}";
+                    var pageDataContent = "";
 
                     if (allFilenames.Contains(Path.ChangeExtension(md, ".content")))
                     {
@@ -329,9 +329,9 @@ namespace Slithin.Core
                     {
                         var otherfiles = allFilenames.Where(_ => !_.EndsWith(".metadata") && !_.EndsWith("/") && _.StartsWith(md.ID)).ToArray();
 
-                        Scp.Downloading += onDownloading;
+                        Scp.Downloading += OnDownloading;
 
-                        for (int i = 0; i < otherfiles.Count(); i++)
+                        for (var i = 0; i < otherfiles.Count(); i++)
                         {
                             var fi = new FileInfo(Path.Combine(NotebooksDir, otherfiles[i]));
                             if (!md.Deleted)
@@ -346,7 +346,7 @@ namespace Slithin.Core
                             }
                         }
 
-                        Scp.Downloading -= onDownloading;
+                        Scp.Downloading -= OnDownloading;
                     }
 
                     MetadataStorage.Local.Add(md, out var alreadyAdded);
@@ -386,7 +386,7 @@ namespace Slithin.Core
             }
         }
 
-        private static void onDownloading(object sender, ScpDownloadEventArgs e)
+        private static void OnDownloading(object sender, ScpDownloadEventArgs e)
         {
             NotificationService.Show($"Downloading {e.Filename} {e.Downloaded:n0} Bytes/ {e.Size:n0} Bytes");
         }

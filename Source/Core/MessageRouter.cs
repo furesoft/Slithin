@@ -5,7 +5,7 @@ namespace Slithin.Core
 {
     public static class MessageRouter
     {
-        private static Dictionary<Type, Action<object>> _handlers = new();
+        private static readonly Dictionary<Type, Action<object>> _handlers = new();
 
         public static void Register<T>(Action<T> handler)
             where T : AsynchronousMessage
@@ -23,7 +23,7 @@ namespace Slithin.Core
                 {
                     _handlers[msgType](msg);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }

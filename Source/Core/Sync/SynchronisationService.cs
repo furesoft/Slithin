@@ -23,7 +23,7 @@ namespace Slithin.Core.Sync
             SyncQueue = ServiceLocator.Database.GetCollection<SyncItem>();
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<CustomScreen> CustomScreens { get; set; } = new();
         public bool IsSyncNeeded => !Directory.Exists(ServiceLocator.TemplatesDir);
@@ -74,13 +74,13 @@ namespace Slithin.Core.Sync
             }
         }
 
-        protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
+        protected void SetValue<T>(ref T field, T value, [CallerMemberName] string property = null)
         {
             field = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
         }
 
@@ -95,10 +95,12 @@ namespace Slithin.Core.Sync
 
             foreach (var file in deltaLocalFiles)
             {
-                var item = new SyncItem();
-                item.Data = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(ServiceLocator.NotebooksDir, file)));
-                item.Direction = SyncDirection.ToLocal;
-                item.Action = SyncAction.Remove;
+                var item = new SyncItem
+                {
+                    Data = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(ServiceLocator.NotebooksDir, file))),
+                    Direction = SyncDirection.ToLocal,
+                    Action = SyncAction.Remove
+                };
 
                 ((Metadata)item.Data).ID = Path.GetFileNameWithoutExtension(file);
 
@@ -106,7 +108,7 @@ namespace Slithin.Core.Sync
             }
         }
 
-        private void Synchronize(object? obj)
+        private void Synchronize(object obj)
         {
             ServiceLocator.Events.Invoke("beforeSync", new[] { SyncQueue.FindAll() });
 

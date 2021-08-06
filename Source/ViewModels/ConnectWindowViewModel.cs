@@ -109,16 +109,16 @@ namespace Slithin.ViewModels
 
         private void pingTimer_ellapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            Ping pingSender = new Ping();
+            var pingSender = new Ping();
 
-            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-            byte[] buffer = Encoding.ASCII.GetBytes(data);
+            var data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            var buffer = Encoding.ASCII.GetBytes(data);
 
-            int timeout = 10000;
+            var timeout = 10000;
 
-            PingOptions options = new PingOptions(64, true);
+            var options = new PingOptions(64, true);
 
-            PingReply reply = pingSender.Send(ServiceLocator.Scp.ConnectionInfo.Host, timeout, buffer, options);
+            var reply = pingSender.Send(ServiceLocator.Scp.ConnectionInfo.Host, timeout, buffer, options);
 
             if (reply.Status != IPStatus.Success)
             {

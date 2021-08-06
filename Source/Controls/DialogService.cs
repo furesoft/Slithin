@@ -81,14 +81,15 @@ namespace Slithin.Controls
         {
             TaskCompletionSource<bool> tcs = new();
 
-            var vm = new MessageBoxModalViewModel();
-
-            vm.Message = message;
-            vm.AcceptCommand = new DelegateCommand(_ =>
+            var vm = new MessageBoxModalViewModel
             {
-                Close();
-                tcs.TrySetResult(true);
-            });
+                Message = message,
+                AcceptCommand = new DelegateCommand(_ =>
+                {
+                    Close();
+                    tcs.TrySetResult(true);
+                })
+            };
 
             Dispatcher.UIThread.InvokeAsync(() =>
             {

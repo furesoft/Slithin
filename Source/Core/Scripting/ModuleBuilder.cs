@@ -44,7 +44,7 @@ namespace Slithin.Core.Scripting
                 var items = _values.Keys;
                 var typeNames = _ctors.Select(_ => _.Name);
 
-                string exports = $"export {{ {string.Join(" , ", items.Concat(typeNames))} }};";
+                var exports = $"export {{ {string.Join(" , ", items.Concat(typeNames))} }};";
 
                 result = new Module(cmdArgument, exports);
 

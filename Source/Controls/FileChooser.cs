@@ -53,8 +53,10 @@ namespace Slithin.Controls
 
         private async void ShowOpenFileDialog(object obj)
         {
-            var ofd = new OpenFileDialog();
-            ofd.Title = "Load File";
+            var ofd = new OpenFileDialog
+            {
+                Title = "Load File"
+            };
 
             var window = App.Current.ApplicationLifetime as ClassicDesktopStyleApplicationLifetime;
             var filenames = await ofd.ShowAsync(window.MainWindow);
