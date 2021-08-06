@@ -8,7 +8,7 @@ using Slithin.Core;
 
 namespace Slithin.Tools
 {
-    public class BackUpTool : ITool
+    public class BackupTool : ITool
     {
         public IImage Image
         {
