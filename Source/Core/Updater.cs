@@ -11,7 +11,7 @@ namespace Slithin.Core
 {
     public static class Updater
     {
-        public static SparkleUpdater _netSparkle = new("http://furesoft.ml/updates/Slithin/appcast.xml", new DSAChecker(SecurityMode.UseIfPossible));
+        public static SparkleUpdater _netSparkle = new("http://furesoft.ml/app_updates/Slithin/appcast.xml", new DSAChecker(SecurityMode.UseIfPossible));
 
         private static UpdateInfo _updateInfo;
 
