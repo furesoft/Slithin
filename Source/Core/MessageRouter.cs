@@ -19,7 +19,13 @@ namespace Slithin.Core
 
             if (_handlers.ContainsKey(msgType))
             {
-                _handlers[msgType](msg);
+                try
+                {
+                    _handlers[msgType](msg);
+                }
+                catch (Exception ex)
+                {
+                }
             }
         }
     }

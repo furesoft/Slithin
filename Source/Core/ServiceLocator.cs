@@ -22,6 +22,7 @@ namespace Slithin.Core
         public static SshClient Client;
         public static string ConfigBaseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin");
 
+        public static string CustomScreensDir;
         public static LiteDatabase Database;
 
         public static DeviceRepository Device;
@@ -39,7 +40,6 @@ namespace Slithin.Core
         public static SynchronisationService SyncService;
 
         public static string TemplatesDir;
-        internal static string CustomScreensDir;
 
         public static ConnectionWindowViewModel GetLoginCredentials()
         {

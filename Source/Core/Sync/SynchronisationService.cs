@@ -117,12 +117,12 @@ namespace Slithin.Core.Sync
 
             ServiceLocator.Mailbox.Post(new ShowStatusMessage { Message = "Syncing ..." });
 
-            SyncDeviceDeletions();
-
             foreach (var item in SyncQueue.FindAll())
             {
                 ServiceLocator.Mailbox.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
             }
+
+            SyncDeviceDeletions();
 
             ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
 
