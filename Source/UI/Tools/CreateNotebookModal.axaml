@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="using:Slithin.Controls"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
              x:Class="Slithin.UI.Tools.CreateNotebookModal">
-  <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding}" MinHeight="300" MinWidth="500">
+  <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding OKCommand}" MinHeight="350" MinWidth="500">
     <Grid RowDefinitions="40,40,45,35,36">
       <TextBox Watermark="Name" Grid.Row="0" Margin="5" HorizontalAlignment="Left" MinWidth="185" Text="{Binding Name}" />
 
@@ -24,7 +24,7 @@
       </StackPanel>
 
       <StackPanel HorizontalAlignment="Right" Grid.Row="0">
-        <ComboBox PlaceholderText="SampleCover">
+        <ComboBox PlaceholderText="Default Cover">
           <ComboBoxItem>Blue</ComboBoxItem>
           <ComboBoxItem>Yellow</ComboBoxItem>
           <ComboBoxItem>Green</ComboBoxItem>

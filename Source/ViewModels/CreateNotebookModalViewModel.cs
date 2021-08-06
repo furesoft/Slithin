@@ -6,8 +6,13 @@ using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using PdfSharpCore;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
+using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Scripting;
 
 namespace Slithin.ViewModels
 {
@@ -28,10 +33,11 @@ namespace Slithin.ViewModels
             Categories = SyncService.TemplateFilter.Categories;
 
             AddPagesCommand = new DelegateCommand(AddPages);
+            OKCommand = new DelegateCommand(OK);
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/cover.png")));
+            Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Cover.png")));
         }
 
         public ICommand AddPagesCommand { get; set; }
@@ -55,6 +61,8 @@ namespace Slithin.ViewModels
             get { return _name; }
             set { SetValue(ref _name, value); }
         }
+
+        public ICommand OKCommand { get; set; }
 
         public string PageCount
         {
@@ -84,6 +92,44 @@ namespace Slithin.ViewModels
 
             SelectedTemplate = null;
             PageCount = null;
+        }
+
+        private void OK(object obj)
+        {
+            var document = new PdfDocument();
+            document.PageLayout = PdfPageLayout.SinglePage;
+            document.PageMode = PdfPageMode.FullScreen;
+            document.Info.Author = "Slithin";
+            document.Info.Title = Name;
+
+            XSize size = PageSizeConverter.ToSize(PageSize.A4);
+
+            var coverPage = document.AddPage();
+            var coverGfx = XGraphics.FromPdfPage(coverPage);
+
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+
+            var coverImage = XImage.FromStream(() => assets.Open(new Uri($"avares://Slithin/Resources/Cover.png")));
+            coverGfx.DrawImage(coverImage, 0, 0, coverPage.Width, coverPage.Height);
+
+            foreach (var p in Pages)
+            {
+                var t = XImage.FromFile(ServiceLocator.TemplatesDir + "\\" + p.Item1.Filename + ".png");
+
+                for (int i = 0; i < p.Item2; i++)
+                {
+                    var page = document.AddPage();
+                    page.Size = PageSize.A4;
+
+                    var gfx = XGraphics.FromPdfPage(page);
+
+                    gfx.DrawImage(t, 0, 0, page.Width, page.Height);
+                }
+            }
+
+            document.Save(ServiceLocator.ConfigBaseDir + "\\test.pdf");
+
+            DialogService.Close();
         }
     }
 }
