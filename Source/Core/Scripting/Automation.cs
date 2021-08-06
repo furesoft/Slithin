@@ -12,9 +12,9 @@ using Slithin.Core.Services;
 
 namespace Slithin.Core.Scripting
 {
-    public static class Automation
+    public class Automation
     {
-        public static void Evaluate(string scriptname)
+        public void Evaluate(string scriptname)
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
@@ -39,7 +39,7 @@ namespace Slithin.Core.Scripting
             }
         }
 
-        public static ScriptInfo GetScriptInfo(string scriptName)
+        public ScriptInfo GetScriptInfo(string scriptName)
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
@@ -47,7 +47,7 @@ namespace Slithin.Core.Scripting
             return JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(file));
         }
 
-        public static IEnumerable<ScriptInfo> GetScriptInfos()
+        public IEnumerable<ScriptInfo> GetScriptInfos()
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
@@ -57,7 +57,7 @@ namespace Slithin.Core.Scripting
             }
         }
 
-        public static string[] GetScriptNames()
+        public string[] GetScriptNames()
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
@@ -67,7 +67,7 @@ namespace Slithin.Core.Scripting
                     ToArray();
         }
 
-        public static void Init()
+        public void Init()
         {
             Parser.DefineCustomCodeFragment(typeof(UsingStatement));
             Parser.DefineCustomCodeFragment(typeof(OnCallStatement));

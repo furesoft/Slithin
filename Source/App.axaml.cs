@@ -19,9 +19,11 @@ namespace Slithin
         {
             ServiceLocator.Init();
 
-            Automation.Init();
+            var automation = ServiceLocator.Container.Resolve<Automation>();
 
-            Automation.Evaluate("testScript");
+            automation.Init();
+
+            automation.Evaluate("testScript");
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {

@@ -56,13 +56,15 @@ namespace Slithin.ViewModels
             set { SetValue(ref _remember, value); }
         }
 
-        private void Connect(object? obj)
+        private void Connect(object obj)
         {
             ServiceLocator.Container.Register(new SshClient(IP, 22, "root", Password));
             ServiceLocator.Container.Register(new ScpClient(IP, 22, "root", Password));
 
             ServiceLocator.Client = ServiceLocator.Container.Resolve<SshClient>();
             ServiceLocator.Scp = ServiceLocator.Container.Resolve<ScpClient>();
+
+            ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
 
             ServiceLocator.Scp.ErrorOccurred += (s, _) =>
             {

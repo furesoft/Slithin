@@ -90,6 +90,8 @@ namespace Slithin.Core.Sync
 
         private void SyncDeviceDeletions()
         {
+            var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
+
             var deviceFiles = ServiceLocator.Client.RunCommand("ls -p " + PathList.Documents).Result
                 .Split('\n', System.StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
             var localFiles = Directory.GetFiles(_pathManager.NotebooksDir).Where(_ => _.EndsWith(".metadata")).
@@ -108,31 +110,32 @@ namespace Slithin.Core.Sync
 
                 ((Metadata)item.Data).ID = Path.GetFileNameWithoutExtension(file);
 
-                ServiceLocator.Mailbox.Post(new SyncMessage { Item = item });
+                mailboxService.Post(new SyncMessage { Item = item });
             }
         }
 
         private void Synchronize(object obj)
         {
             var events = ServiceLocator.Container.Resolve<EventStorage>();
+            var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
 
             events.Invoke("beforeSync", new[] { SyncQueue.FindAll() });
 
             if (!ServiceLocator.Local.GetTemplates().Any() && !Directory.GetFiles(_pathManager.TemplatesDir).Any())
             {
-                ServiceLocator.Mailbox.Post(new InitStorageMessage());
+                mailboxService.Post(new InitStorageMessage());
             }
 
-            ServiceLocator.Mailbox.Post(new ShowStatusMessage { Message = "Syncing ..." });
+            mailboxService.Post(new ShowStatusMessage { Message = "Syncing ..." });
 
             foreach (var item in SyncQueue.FindAll())
             {
-                ServiceLocator.Mailbox.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
+                mailboxService.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
             }
 
             SyncDeviceDeletions();
 
-            ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
+            mailboxService.Post(new DownloadNotebooksMessage());
 
             SyncQueue.AnalyseAndAppend();
 

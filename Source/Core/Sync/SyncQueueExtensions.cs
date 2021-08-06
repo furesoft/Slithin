@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Messages;
 
 namespace Slithin.Core.Sync
@@ -9,6 +10,8 @@ namespace Slithin.Core.Sync
     {
         public static void AnalyseAndAppend(this LiteDB.ILiteCollection<SyncItem> queue)
         {
+            var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
+
             var templates = queue.FindAll().Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Template);
             var importedNotebooks = queue.FindAll().Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Notebook);
 
@@ -19,10 +22,10 @@ namespace Slithin.Core.Sync
                     TemplateStorage.Instance.Apply();
                 });
 
-                ServiceLocator.Mailbox.Post(new AttentionRequiredMessage { Title = "Apply Changes", Text = "All files are synced. Would you like to apply all changes?", Action = applyTemplateAction });
+                mailboxService.Post(new AttentionRequiredMessage { Title = "Apply Changes", Text = "All files are synced. Would you like to apply all changes?", Action = applyTemplateAction });
             }
 
-            ServiceLocator.Mailbox.Post(new HideStatusMessage());
+            mailboxService.Post(new HideStatusMessage());
         }
     }
 }

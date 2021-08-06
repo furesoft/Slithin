@@ -14,11 +14,13 @@ namespace Slithin.Tools
 {
     public class BackupTool : ITool
     {
+        private readonly IMailboxService _mailboxService;
         private readonly IPathManager _pathManager;
 
-        public BackupTool(IPathManager pathManager)
+        public BackupTool(IPathManager pathManager, IMailboxService mailboxService)
         {
             _pathManager = pathManager;
+            _mailboxService = mailboxService;
         }
 
         public IImage Image
@@ -42,7 +44,7 @@ namespace Slithin.Tools
 
         public void Invoke(object data)
         {
-            ServiceLocator.PostAction(async () =>
+            _mailboxService.PostAction(async () =>
             {
                 NotificationService.Show("Start Compressing");
 

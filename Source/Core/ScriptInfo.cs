@@ -11,7 +11,9 @@ namespace Slithin.Core
 
         public void Evaluate()
         {
-            Automation.Evaluate(Name);
+            var automation = ServiceLocator.Container.Resolve<Automation>();
+
+            automation.Evaluate(Name);
         }
 
         public void Save(object configObj)

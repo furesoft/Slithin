@@ -39,10 +39,11 @@ namespace Slithin.UI.Views
 
             DataContext = ServiceLocator.Container.Resolve<MainWindowViewModel>();
             var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
+            var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
 
             if (!ServiceLocator.Local.GetTemplates().Any())
             {
-                ServiceLocator.Mailbox.Post(new InitStorageMessage());
+                mailboxService.Post(new InitStorageMessage());
             }
             else
             {
@@ -51,7 +52,7 @@ namespace Slithin.UI.Views
 
             if (!Directory.GetFiles(notebooksDir).Any())
             {
-                ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
+                mailboxService.Post(new DownloadNotebooksMessage());
             }
         }
     }

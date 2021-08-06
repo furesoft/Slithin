@@ -48,8 +48,10 @@ namespace Slithin.Core.Scripting
             }
             else if (moduleRequest.CmdArgument == "slithin.mailbox")
             {
+                var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
+
                 mb.AddFunction("post",
-                             new Action<AsynchronousMessage>(ServiceLocator.Mailbox.Post));
+                             new Action<AsynchronousMessage>(mailboxService.Post));
 
                 mb.AddConstructor(typeof(Messages.AttentionRequiredMessage));
                 mb.AddConstructor(typeof(Messages.DownloadNotebooksMessage));

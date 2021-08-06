@@ -1,12 +1,13 @@
 ﻿using Slithin.Core;
 using Slithin.Core.Scripting;
+using Slithin.Core.Services;
 using Slithin.Messages;
 
 namespace Slithin.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        public MainWindowViewModel(EventStorage events)
+        public MainWindowViewModel(EventStorage events, IMailboxService mailboxService)
         {
             if (ServiceLocator.Local.GetVersion() < ServiceLocator.Device.GetVersion())
             {
@@ -14,7 +15,7 @@ namespace Slithin.ViewModels
                 ServiceLocator.Local.UpdateVersion(ServiceLocator.Device.GetVersion());
             }
 
-            ServiceLocator.Mailbox.Post(new CheckForUpdateMessage());
+            mailboxService.Post(new CheckForUpdateMessage());
         }
     }
 }
