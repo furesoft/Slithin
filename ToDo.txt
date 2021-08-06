@@ -3,3 +3,10 @@
 	generate real notebook from svgs to make a copy availale on device
 
 
+- switch to dotnetzip and remove system.io.compression package
+
+- decouple dependencys with service and interfaces
+	- pathservice
+	- objectservice
+
+- fix ui bug "Item already exists"

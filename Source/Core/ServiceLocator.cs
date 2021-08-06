@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,6 +23,7 @@ namespace Slithin.Core
 {
     public static class ServiceLocator
     {
+        public static string BackupDir;
         public static SshClient Client;
         public static string ConfigBaseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin");
 
@@ -32,6 +33,7 @@ namespace Slithin.Core
         public static DeviceRepository Device;
 
         public static EventStorage Events;
+
         public static LocalRepository Local;
 
         public static MailboxProcessor<AsynchronousMessage> Mailbox;
@@ -41,6 +43,7 @@ namespace Slithin.Core
         public static ScpClient Scp;
 
         public static string ScriptsDir;
+
         public static SynchronisationService SyncService;
 
         public static string TemplatesDir;
@@ -65,6 +68,7 @@ namespace Slithin.Core
             TemplatesDir = Path.Combine(ConfigBaseDir, "Templates");
             ScriptsDir = Path.Combine(ConfigBaseDir, "Scripts");
             CustomScreensDir = Path.Combine(ConfigBaseDir, "Screens");
+            BackupDir = Path.Combine(ConfigBaseDir, "Backups");
 
             Events = new();
 
@@ -75,6 +79,7 @@ namespace Slithin.Core
                 Directory.CreateDirectory(NotebooksDir);
                 Directory.CreateDirectory(ScriptsDir);
                 Directory.CreateDirectory(CustomScreensDir);
+                Directory.CreateDirectory(BackupDir);
 
                 File.WriteAllText(Path.Combine(ConfigBaseDir, "templates.json"), "{\"templates\": []}");
             }
