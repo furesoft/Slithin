@@ -3,6 +3,3 @@
 	generate real notebook from svgs to make a copy availale on device
 
 
-
-- fix sync bug - same key already added
-- fix sync bug - generated pdf removed?

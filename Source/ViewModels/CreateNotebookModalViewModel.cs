@@ -33,7 +33,10 @@ namespace Slithin.ViewModels
         {
             Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
 
-            Categories = SyncService.TemplateFilter.Categories;
+            for (int i = 1; i < SyncService.TemplateFilter.Categories.Count; i++)
+            {
+                Categories.Add(SyncService.TemplateFilter.Categories[i]);
+            }
 
             AddPagesCommand = new DelegateCommand(AddPages);
             OKCommand = new DelegateCommand(OK);
