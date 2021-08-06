@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable
 {
@@ -55,7 +56,9 @@ namespace Slithin.Core.Remarkable
 
         public void Save()
         {
-            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+
+            var path = Path.Combine(pathManager.ConfigBaseDir, "templates.json");
             File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented));
         }
     }

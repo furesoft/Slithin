@@ -5,17 +5,20 @@ using Newtonsoft.Json;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels
 {
     public class MakeFolderModalViewModel : BaseViewModel
     {
+        private readonly IPathManager _pathManager;
         private string _name;
 
-        public MakeFolderModalViewModel()
+        public MakeFolderModalViewModel(IPathManager _pathManager)
         {
             MakeFolderCommand = new DelegateCommand(MakeFolder);
+            this._pathManager = _pathManager;
         }
 
         public ICommand MakeFolderCommand { get; set; }
@@ -42,7 +45,7 @@ namespace Slithin.ViewModels
 
             if (!alreadyAdded)
             {
-                var path = Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata");
+                var path = Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata");
                 var mdContent = JsonConvert.SerializeObject(md);
                 File.WriteAllText(path, mdContent);
 

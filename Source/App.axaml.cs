@@ -28,27 +28,6 @@ namespace Slithin
                 desktop.MainWindow = new ConnectWindow();
             }
 
-            var root = new DirectoryInfo(ServiceLocator.ConfigBaseDir);
-            var tmpls = new DirectoryInfo(ServiceLocator.TemplatesDir);
-            var notes = new DirectoryInfo(ServiceLocator.NotebooksDir);
-            var scripts = new DirectoryInfo(ServiceLocator.ScriptsDir);
-            var screens = new DirectoryInfo(ServiceLocator.CustomScreensDir);
-
-            if (!root.Exists || !tmpls.Exists || !notes.Exists || !scripts.Exists || !screens.Exists)
-            {
-                try
-                {
-                    root.Create();
-                    tmpls.Create();
-                    notes.Create();
-                    scripts.Create();
-                    screens.Create();
-                }
-                catch { }
-
-                File.WriteAllText(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json"), "{\"templates\": []}");
-            }
-
             base.OnFrameworkInitializationCompleted();
         }
     }

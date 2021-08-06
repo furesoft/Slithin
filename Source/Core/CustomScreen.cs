@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Slithin.Core.Services;
 
 namespace Slithin.Core
 {
@@ -24,9 +25,11 @@ namespace Slithin.Core
 
         public void Load()
         {
-            if (Directory.Exists(ServiceLocator.CustomScreensDir))
+            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+
+            if (Directory.Exists(pathManager.CustomScreensDir))
             {
-                var path = Path.Combine(ServiceLocator.CustomScreensDir, Filename);
+                var path = Path.Combine(pathManager.CustomScreensDir, Filename);
 
                 if (File.Exists(path))
                 {

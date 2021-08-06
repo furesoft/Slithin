@@ -14,12 +14,14 @@ using PdfSharpCore.Pdf;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels
 {
     public class CreateNotebookModalViewModel : BaseViewModel
     {
+        private readonly IPathManager _pathManager;
         private IImage _cover;
         private string _filename;
         private string _name;
@@ -29,7 +31,7 @@ namespace Slithin.ViewModels
         private bool _renderName;
         private Template _selectedTemplate;
 
-        public CreateNotebookModalViewModel()
+        public CreateNotebookModalViewModel(IPathManager pathManager)
         {
             Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
 
@@ -51,6 +53,7 @@ namespace Slithin.ViewModels
                 Select(_ => _.Replace(".png", "").Substring("Slithin.Resources.Covers.".Length));
 
             DefaultCovers = new ObservableCollection<string>(coverNames);
+            _pathManager = pathManager;
         }
 
         public ICommand AddPagesCommand { get; set; }
@@ -167,7 +170,7 @@ namespace Slithin.ViewModels
 
             foreach (var p in Pages)
             {
-                var t = XImage.FromFile(ServiceLocator.TemplatesDir + "\\" + p.Item1.Filename + ".png");
+                var t = XImage.FromFile(_pathManager.TemplatesDir + "\\" + p.Item1.Filename + ".png");
 
                 for (var i = 0; i < p.Item2; i++)
                 {
@@ -191,10 +194,10 @@ namespace Slithin.ViewModels
                 Content = new() { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count }
             };
 
-            File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
-            File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(md.Content, Formatting.Indented));
+            File.WriteAllText(Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
+            File.WriteAllText(Path.Combine(_pathManager.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(md.Content, Formatting.Indented));
 
-            document.Save(ServiceLocator.NotebooksDir + $"\\{md.ID}.pdf");
+            document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
 
             MetadataStorage.Local.Add(md, out var alreadyAdded);
 

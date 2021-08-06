@@ -4,6 +4,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LiteDB;
 using Newtonsoft.Json;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable
 {
@@ -44,9 +45,11 @@ namespace Slithin.Core.Remarkable
 
         public void Load()
         {
-            if (Directory.Exists(ServiceLocator.TemplatesDir))
+            var templatesDir = ServiceLocator.Container.Resolve<IPathManager>().TemplatesDir;
+
+            if (Directory.Exists(templatesDir))
             {
-                var path = Path.Combine(ServiceLocator.TemplatesDir, Filename);
+                var path = Path.Combine(templatesDir, Filename);
 
                 if (Image is null)
                 {

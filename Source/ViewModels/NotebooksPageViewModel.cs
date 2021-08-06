@@ -5,6 +5,7 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.UI.Modals;
 
@@ -16,9 +17,9 @@ namespace Slithin.ViewModels
         private Metadata _movingNotebook;
         private Metadata _selectedNotebook;
 
-        public NotebooksPageViewModel()
+        public NotebooksPageViewModel(IPathManager _pathManager)
         {
-            MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(new MakeFolderModalViewModel());
+            MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(new MakeFolderModalViewModel(_pathManager));
             RemoveNotebookCommand = new RemoveNotebookCommand(this);
             MoveCommand = new DelegateCommand(_ =>
             {
@@ -31,7 +32,7 @@ namespace Slithin.ViewModels
                  IsMoving = false;
              });
 
-            foreach (var md in Directory.GetFiles(ServiceLocator.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
+            foreach (var md in Directory.GetFiles(_pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
             {
                 var mdObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(md));
                 mdObj.ID = Path.GetFileNameWithoutExtension(md);

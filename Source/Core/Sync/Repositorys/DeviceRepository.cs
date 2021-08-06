@@ -3,20 +3,28 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Sync.Repositorys
 {
     public class DeviceRepository : IRepository
     {
+        private readonly IPathManager _pathManager;
+
+        public DeviceRepository(IPathManager pathManager)
+        {
+            _pathManager = pathManager;
+        }
+
         public void Add(Template template)
         {
             //1. copy template to device
             //2. add template to template.json
 
-            ServiceLocator.Scp?.Upload(File.OpenRead(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png")), PathList.Templates);
+            ServiceLocator.Scp?.Upload(File.OpenRead(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")), PathList.Templates);
 
             // modifiy template.json
-            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+            var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
             var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
             var templates = new Template[templateJson.Templates.Length + 1];
             Array.Copy(templateJson.Templates, templates, templateJson.Templates.Length);
@@ -34,7 +42,7 @@ namespace Slithin.Core.Sync.Repositorys
 
         public void Add(CustomScreen screen)
         {
-            ServiceLocator.Scp.Upload(new FileInfo(Path.Combine(ServiceLocator.CustomScreensDir, screen.Title + ".png")), PathList.Screens + screen.Title + ".png");
+            ServiceLocator.Scp.Upload(new FileInfo(Path.Combine(_pathManager.CustomScreensDir, screen.Title + ".png")), PathList.Screens + screen.Title + ".png");
         }
 
         public void DownloadCustomScreens()
@@ -45,7 +53,7 @@ namespace Slithin.Core.Sync.Repositorys
             // download files to custom screen dir
             foreach (var file in filenames)
             {
-                ServiceLocator.Scp.Download(PathList.Screens + file, new FileInfo(Path.Combine(ServiceLocator.CustomScreensDir, Path.GetFileName(file))));
+                ServiceLocator.Scp.Download(PathList.Screens + file, new FileInfo(Path.Combine(_pathManager.CustomScreensDir, Path.GetFileName(file))));
             }
 
             foreach (var cs in ServiceLocator.SyncService.CustomScreens)
@@ -56,21 +64,21 @@ namespace Slithin.Core.Sync.Repositorys
 
         public Template[] GetTemplates()
         {
-            ServiceLocator.Scp.Download(PathList.Templates + "templates.json", new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json")));
+            ServiceLocator.Scp.Download(PathList.Templates + "templates.json", new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")));
             //Get template.json
             //sort out all synced templates
             //download all nonsynced templates to localrepository
 
             NotificationService.Show("Downloading Templates");
 
-            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+            var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
             var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
             var toSyncTemplates = templateJson.Templates.Where(_ => !ServiceLocator.Local.GetTemplates().Contains(_));
 
             foreach (var t in toSyncTemplates)
             {
-                ServiceLocator.Scp.Download(PathList.Templates + "/" + t.Filename + ".png", new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "Templates", t.Filename + ".png")));
-                ServiceLocator.Scp.Download(PathList.Templates + "/" + t.Filename + ".svg", new FileInfo(Path.Combine(ServiceLocator.ConfigBaseDir, "Templates", t.Filename + ".svg")));
+                ServiceLocator.Scp.Download(PathList.Templates + "/" + t.Filename + ".png", new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".png")));
+                ServiceLocator.Scp.Download(PathList.Templates + "/" + t.Filename + ".svg", new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".svg")));
             }
 
             NotificationService.Hide();
@@ -89,12 +97,12 @@ namespace Slithin.Core.Sync.Repositorys
         public void Remove(Template template)
         {
             // modifiy template.json
-            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+            var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
             var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
             templateJson.Remove(template);
             templateJson.Save();
 
-            ServiceLocator.Scp.Upload(File.OpenRead(ServiceLocator.ConfigBaseDir + "templates.json"), Path.Combine(PathList.Templates, "templates.json"));
+            ServiceLocator.Scp.Upload(File.OpenRead(_pathManager.ConfigBaseDir + "templates.json"), Path.Combine(PathList.Templates, "templates.json"));
             ServiceLocator.Client.RunCommand("rm -fr " + PathList.Templates + template.Filename + ".png");
         }
 

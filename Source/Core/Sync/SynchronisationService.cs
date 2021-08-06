@@ -7,26 +7,31 @@ using System.Windows.Input;
 using LiteDB;
 using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Scripting;
+using Slithin.Core.Services;
 using Slithin.Messages;
 
 namespace Slithin.Core.Sync
 {
     public class SynchronisationService : INotifyPropertyChanged
     {
-        public SynchronisationService()
+        private readonly IPathManager _pathManager;
+
+        public SynchronisationService(IPathManager pathManager, LiteDatabase db)
         {
             TemplateFilter = new();
             NotebooksFilter = new();
 
             PropertyChanged += OnPropertyChanged;
             SynchronizeCommand = new DelegateCommand(Synchronize);
-            SyncQueue = ServiceLocator.Database.GetCollection<SyncItem>();
+            SyncQueue = db.GetCollection<SyncItem>();
+            _pathManager = pathManager;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<CustomScreen> CustomScreens { get; set; } = new();
-        public bool IsSyncNeeded => !Directory.Exists(ServiceLocator.TemplatesDir);
+        public bool IsSyncNeeded => !Directory.Exists(_pathManager.TemplatesDir);
         public NotebooksFilter NotebooksFilter { get; set; }
         public ICommand SynchronizeCommand { get; set; }
         public ILiteCollection<SyncItem> SyncQueue { get; set; }
@@ -49,7 +54,6 @@ namespace Slithin.Core.Sync
                 ServiceLocator.Device.GetTemplates();
             }
 
-            // var deviceTemplates = ServiceLocator.Device.GetTemplates();
             // Load local Templates
             TemplateStorage.Instance?.Load();
 
@@ -88,7 +92,7 @@ namespace Slithin.Core.Sync
         {
             var deviceFiles = ServiceLocator.Client.RunCommand("ls -p " + PathList.Documents).Result
                 .Split('\n', System.StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
-            var localFiles = Directory.GetFiles(ServiceLocator.NotebooksDir).Where(_ => _.EndsWith(".metadata")).
+            var localFiles = Directory.GetFiles(_pathManager.NotebooksDir).Where(_ => _.EndsWith(".metadata")).
                 Select(_ => Path.GetFileName(_));
 
             var deltaLocalFiles = localFiles.Except(deviceFiles);
@@ -97,7 +101,7 @@ namespace Slithin.Core.Sync
             {
                 var item = new SyncItem
                 {
-                    Data = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(ServiceLocator.NotebooksDir, file))),
+                    Data = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(_pathManager.NotebooksDir, file))),
                     Direction = SyncDirection.ToLocal,
                     Action = SyncAction.Remove
                 };
@@ -110,9 +114,11 @@ namespace Slithin.Core.Sync
 
         private void Synchronize(object obj)
         {
-            ServiceLocator.Events.Invoke("beforeSync", new[] { SyncQueue.FindAll() });
+            var events = ServiceLocator.Container.Resolve<EventStorage>();
 
-            if (!ServiceLocator.Local.GetTemplates().Any() && !Directory.GetFiles(ServiceLocator.TemplatesDir).Any())
+            events.Invoke("beforeSync", new[] { SyncQueue.FindAll() });
+
+            if (!ServiceLocator.Local.GetTemplates().Any() && !Directory.GetFiles(_pathManager.TemplatesDir).Any())
             {
                 ServiceLocator.Mailbox.Post(new InitStorageMessage());
             }
@@ -132,7 +138,7 @@ namespace Slithin.Core.Sync
 
             SyncQueue.DeleteAll();
 
-            ServiceLocator.Events.Invoke("afterSync");
+            events.Invoke("afterSync");
         }
     }
 }

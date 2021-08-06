@@ -5,19 +5,27 @@ using NiL.JS;
 using NiL.JS.Core;
 using PdfSharpCore.Pdf;
 using Slithin.Controls;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 
 namespace Slithin.Core.Scripting
 {
     public class ModuleResolver : CachedModuleResolverBase
     {
+        private readonly IPathManager _pathManager;
+
+        public ModuleResolver(IPathManager pathManager)
+        {
+            _pathManager = pathManager;
+        }
+
         public override bool TryGetModule(ModuleRequest moduleRequest, out Module result)
         {
             var mb = new ModuleBuilder();
 
             if (moduleRequest.CmdArgument == "slithin")
             {
-                var paths = JSValue.Marshal(new { baseDir = ServiceLocator.ConfigBaseDir, templates = ServiceLocator.TemplatesDir, notebooks = ServiceLocator.NotebooksDir });
+                var paths = JSValue.Marshal(new { baseDir = _pathManager.ConfigBaseDir, templates = _pathManager.TemplatesDir, notebooks = _pathManager.NotebooksDir });
 
                 mb.Add("paths", paths);
                 mb.AddFunction("openDialog",
@@ -55,7 +63,7 @@ namespace Slithin.Core.Scripting
             }
             else
             {
-                var path = Path.Combine(ServiceLocator.ScriptsDir, "lib", moduleRequest.CmdArgument);
+                var path = Path.Combine(_pathManager.ScriptsDir, "lib", moduleRequest.CmdArgument);
                 if (File.Exists(path))
                 {
                     var m = new Module(File.ReadAllText(path));

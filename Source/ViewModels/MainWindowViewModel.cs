@@ -1,15 +1,16 @@
 ﻿using Slithin.Core;
+using Slithin.Core.Scripting;
 using Slithin.Messages;
 
 namespace Slithin.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        public MainWindowViewModel()
+        public MainWindowViewModel(EventStorage events)
         {
             if (ServiceLocator.Local.GetVersion() < ServiceLocator.Device.GetVersion())
             {
-                ServiceLocator.Events.Invoke("newVersionAvailable");
+                events.Invoke("newVersionAvailable");
                 ServiceLocator.Local.UpdateVersion(ServiceLocator.Device.GetVersion());
             }
 

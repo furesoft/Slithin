@@ -6,6 +6,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Services;
 using Slithin.UI.Tools;
 using Slithin.ViewModels;
 
@@ -31,7 +32,7 @@ namespace Slithin.Tools
         {
             var modal = new CreateNotebookModal
             {
-                DataContext = new CreateNotebookModalViewModel()
+                DataContext = new CreateNotebookModalViewModel(ServiceLocator.Container.Resolve<IPathManager>())
             };
 
             return modal;
@@ -41,7 +42,7 @@ namespace Slithin.Tools
         {
             var modal = new CreateNotebookModal
             {
-                DataContext = new CreateNotebookModalViewModel()
+                DataContext = new CreateNotebookModalViewModel(ServiceLocator.Container.Resolve<IPathManager>())
             };
 
             DialogService.Open(modal);

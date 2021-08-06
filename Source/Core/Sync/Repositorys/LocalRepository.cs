@@ -2,18 +2,22 @@
 using System.IO;
 using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Sync.Repositorys
 {
     public class LocalRepository : IRepository
     {
-        public LocalRepository()
+        private readonly IPathManager _pathManager;
+
+        public LocalRepository(IPathManager pathManager)
         {
+            _pathManager = pathManager;
         }
 
         public void Add(Template template)
         {
-            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+            var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
 
             if (!File.Exists(path))
             {
@@ -33,37 +37,37 @@ namespace Slithin.Core.Sync.Repositorys
 
         public void AddScreen(string filename, string localfilename)
         {
-            File.Delete(Path.Combine(ServiceLocator.CustomScreensDir, localfilename));
-            File.Copy(filename, Path.Combine(ServiceLocator.CustomScreensDir, localfilename));
+            File.Delete(Path.Combine(_pathManager.CustomScreensDir, localfilename));
+            File.Copy(filename, Path.Combine(_pathManager.CustomScreensDir, localfilename));
         }
 
         public Template[] GetTemplates()
         {
-            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+            var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
             return JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path)).Templates;
         }
 
         public Version GetVersion()
         {
-            if (!File.Exists(Path.Combine(ServiceLocator.ConfigBaseDir, ".version")))
+            if (!File.Exists(Path.Combine(_pathManager.ConfigBaseDir, ".version")))
             {
-                File.WriteAllText(Path.Combine(ServiceLocator.ConfigBaseDir, ".version"), ServiceLocator.Device.GetVersion().ToString());
+                File.WriteAllText(Path.Combine(_pathManager.ConfigBaseDir, ".version"), ServiceLocator.Device.GetVersion().ToString());
             }
 
-            return new Version(File.ReadAllText(Path.Combine(ServiceLocator.ConfigBaseDir, ".version")));
+            return new Version(File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, ".version")));
         }
 
         public void Remove(Metadata md)
         {
             if (md.Type == "DocumentType")
             {
-                var files = Directory.GetFiles(ServiceLocator.NotebooksDir, md.ID + ".*");
+                var files = Directory.GetFiles(_pathManager.NotebooksDir, md.ID + ".*");
                 foreach (var file in files)
                 {
                     File.Delete(file);
                 }
 
-                var di = new DirectoryInfo(Path.Combine(ServiceLocator.NotebooksDir, md.ID));
+                var di = new DirectoryInfo(Path.Combine(_pathManager.NotebooksDir, md.ID));
                 if (di.Exists)
                 {
                     di.Delete(true);
@@ -71,18 +75,18 @@ namespace Slithin.Core.Sync.Repositorys
             }
             else
             {
-                File.Delete(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"));
+                File.Delete(Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata"));
             }
         }
 
         public void Remove(Template template)
         {
-            File.Delete(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png"));
+            File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
         }
 
         public void UpdateVersion(Version version)
         {
-            File.WriteAllText(Path.Combine(ServiceLocator.ConfigBaseDir, ".version"), version.ToString());
+            File.WriteAllText(Path.Combine(_pathManager.ConfigBaseDir, ".version"), version.ToString());
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Slithin.ViewModels
 
         public TemplatesPageViewModel()
         {
-            OpenAddModalCommand = DialogService.CreateOpenCommand<AddTemplateModal>(new AddTemplateModalViewModel());
+            OpenAddModalCommand = DialogService.CreateOpenCommand<AddTemplateModal>(ServiceLocator.Container.Resolve<AddTemplateModalViewModel>());
             RemoveTemplateCommand = new RemoveTemplateCommand(this);
         }
 

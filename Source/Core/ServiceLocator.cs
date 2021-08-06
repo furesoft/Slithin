@@ -4,16 +4,13 @@ using System.IO;
 using System.Linq;
 using Actress;
 using LiteDB;
-using NetSparkleUpdater;
-using NetSparkleUpdater.Enums;
-using NetSparkleUpdater.Events;
-using NetSparkleUpdater.SignatureVerifiers;
 using Newtonsoft.Json;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using Slithin.Controls;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Scripting;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
@@ -23,73 +20,33 @@ namespace Slithin.Core
 {
     public static class ServiceLocator
     {
-        public static string BackupDir;
         public static SshClient Client;
-        public static string ConfigBaseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin");
 
-        public static string CustomScreensDir;
-        public static LiteDatabase Database;
-
+        public static TinyIoCContainer Container;
         public static DeviceRepository Device;
-
-        public static EventStorage Events;
 
         public static LocalRepository Local;
 
         public static MailboxProcessor<AsynchronousMessage> Mailbox;
 
-        public static string NotebooksDir;
-
         public static ScpClient Scp;
-
-        public static string ScriptsDir;
 
         public static SynchronisationService SyncService;
 
-        public static string TemplatesDir;
-
-        public static ConnectionWindowViewModel GetLoginCredentials()
-        {
-            var collection = Database.GetCollection<ConnectionWindowViewModel>();
-
-            if (collection.Count() == 1)
-            {
-                return collection.FindAll().First();
-            }
-            else
-            {
-                return new();
-            }
-        }
-
         public static void Init()
         {
-            NotebooksDir = Path.Combine(ConfigBaseDir, "Notebooks");
-            TemplatesDir = Path.Combine(ConfigBaseDir, "Templates");
-            ScriptsDir = Path.Combine(ConfigBaseDir, "Scripts");
-            CustomScreensDir = Path.Combine(ConfigBaseDir, "Screens");
-            BackupDir = Path.Combine(ConfigBaseDir, "Backups");
+            Container = TinyIoCContainer.Current;
+            Container.AutoRegister();
 
-            Events = new();
+            var pathManager = Container.Resolve<IPathManager>();
+            pathManager.Init();
 
-            if (!Directory.Exists(ConfigBaseDir))
-            {
-                Directory.CreateDirectory(ConfigBaseDir);
-                Directory.CreateDirectory(TemplatesDir);
-                Directory.CreateDirectory(NotebooksDir);
-                Directory.CreateDirectory(ScriptsDir);
-                Directory.CreateDirectory(CustomScreensDir);
-                Directory.CreateDirectory(BackupDir);
+            Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
 
-                File.WriteAllText(Path.Combine(ConfigBaseDir, "templates.json"), "{\"templates\": []}");
-            }
+            Device = new(Container.Resolve<IPathManager>());
+            Local = new(Container.Resolve<IPathManager>());
 
-            Database = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin", "slithin.db"));
-
-            Device = new();
-            Local = new();
-
-            SyncService = new();
+            SyncService = new(Container.Resolve<IPathManager>(), Container.Resolve<LiteDatabase>());
 
             Mailbox = MailboxProcessor.Start<AsynchronousMessage>(
                 async (_) =>
@@ -110,6 +67,9 @@ namespace Slithin.Core
         {
             MessageRouter.Register<SyncMessage>(_ =>
             {
+                var NotebooksDir = Container.Resolve<IPathManager>().NotebooksDir;
+                var customscreensDir = Container.Resolve<IPathManager>().CustomScreensDir;
+
                 if (_.Item.Direction == SyncDirection.ToDevice)
                 {
                     switch (_.Item.Type)
@@ -126,6 +86,8 @@ namespace Slithin.Core
                             break;
 
                         case SyncType.TemplateConfig:
+                            var TemplatesDir = Container.Resolve<IPathManager>().TemplatesDir;
+
                             Scp.Upload(new FileInfo(Path.Combine(TemplatesDir, "templates.json")), PathList.Templates + "/templates.json");
                             break;
 
@@ -166,7 +128,7 @@ namespace Slithin.Core
                             {
                                 NotificationService.Show("Uploading Screen" + cs.Title);
 
-                                Scp.Upload(new FileInfo(Path.Combine(CustomScreensDir, cs.Filename)), PathList.Screens + cs.Filename);
+                                Scp.Upload(new FileInfo(Path.Combine(customscreensDir, cs.Filename)), PathList.Screens + cs.Filename);
                             }
                             break;
                     }
@@ -221,6 +183,8 @@ namespace Slithin.Core
 
             MessageRouter.Register<DownloadNotebooksMessage>(_ =>
             {
+                var NotebooksDir = Container.Resolve<IPathManager>().NotebooksDir;
+
                 NotificationService.Show("Downloading Notebook Metadata");
 
                 var cmd = Client.RunCommand("ls -p " + PathList.Documents);
@@ -396,20 +360,6 @@ namespace Slithin.Core
         public static void PostAction(Action p)
         {
             Mailbox.Post(new PostActionMessage(p));
-        }
-
-        public static void RememberLoginCredencials(ConnectionWindowViewModel viewModel)
-        {
-            var collection = Database.GetCollection<ConnectionWindowViewModel>();
-
-            if (collection.Count() == 1)
-            {
-                //collection.Update(viewModel);
-            }
-            else
-            {
-                collection.Insert(viewModel);
-            }
         }
 
         private static void OnDownloading(object sender, ScpDownloadEventArgs e)
