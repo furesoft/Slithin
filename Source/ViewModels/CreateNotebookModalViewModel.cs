@@ -43,7 +43,8 @@ namespace Slithin.ViewModels
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Cover.png")));
+            Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Covers/Folder-DBlue.png")));
+            Filename = "internal:Folder-DBlue.png";
 
             var coverNames = GetType().Assembly.GetManifestResourceNames().
                 Where(_ => _.StartsWith("Slithin.Resources.Covers.")).
@@ -149,8 +150,13 @@ namespace Slithin.ViewModels
                 coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + Filename.Substring("internal:".Length) + ".png");
             }
 
+            if (coverStream == null)
+            {
+                coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Cover.png");
+            }
+
             var coverImage = XImage.FromStream(() => coverStream);
-            coverGfx.DrawImage(coverImage, 0, 0, coverPage.Width, coverPage.Height);
+            coverGfx.DrawImage(coverImage, 3, 3, coverPage.Width - 6, coverPage.Height - 6);
 
             if (RenderName)
             {
@@ -193,6 +199,7 @@ namespace Slithin.ViewModels
             MetadataStorage.Local.Add(md, out var alreadyAdded);
 
             SyncService.NotebooksFilter.Documents.Add(md);
+            SyncService.NotebooksFilter.SortByFolder();
 
             var syncItem = new SyncItem
             {

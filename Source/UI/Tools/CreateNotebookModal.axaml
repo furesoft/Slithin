@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="using:Slithin.Controls"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="360"
              x:Class="Slithin.UI.Tools.CreateNotebookModal">
   <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding OKCommand}" MinHeight="350" MinWidth="500">
     <Grid RowDefinitions="40,40,45,35,36">
@@ -21,9 +21,11 @@
           </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <TextBox Watermark="Page Count" Margin="3" Text="{Binding PageCount}" />
+        <StackPanel Spacing="3">
+          <TextBox Watermark="Page Count" Margin="3" Text="{Binding PageCount}" />
 
-        <Button Content="Add" Command="{Binding AddPagesCommand}" />
+          <Button Content="Add" Command="{Binding AddPagesCommand}" />
+        </StackPanel>
       </StackPanel>
 
       <StackPanel HorizontalAlignment="Right" Grid.Row="0" Spacing="3">
@@ -32,13 +34,13 @@
         <TextBlock Text="Cover" />
 
         <Border BorderBrush="Black" BorderThickness="1" Width="150" Height="150">
-          <Image Source="{Binding Cover, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" Margin="5" />
+          <Image Source="{Binding Cover, Mode=TwoWay}" ToolTip.Tip="Drag a Image over or select from the list above" DragDrop.AllowDrop="True" Width="150" Height="150" Margin="5" />
         </Border>
 
         <CheckBox Content="Render Name" IsChecked="{Binding RenderName}" ToolTip.Tip="Only for Short Names" />
       </StackPanel>
 
-      <ComboBox SelectedIndex="0" Margin="3" Grid.Row="2" Items="{Binding Categories}" PlaceholderText="Category" />
+      <ComboBox SelectedIndex="0" Margin="3" Grid.Row="3" Items="{Binding Categories}" PlaceholderText="Category" />
     </Grid>
   </c:DialogControl>
 </UserControl>
