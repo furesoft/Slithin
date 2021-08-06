@@ -348,3 +348,15 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+Source/Templates/
+
+Source/templates.json
+
+LicenceKeyGenerator/
+
+Dist/Linux/
+
+Dist/MacOS/
+
+Dist/

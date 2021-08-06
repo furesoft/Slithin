@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:Slithin.Controls"
+             mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="100"
+             x:Class="Slithin.UI.ContextualMenus.NotebooksContextualMenu">
+  <DockPanel>
+    <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
+      <controls:ImageButton Text="Folder" Command="{Binding MakeFolderCommand}" Image="avares://Slithin/Resources/add.png" />
+      <Rectangle Width="3" Fill="DarkGray" Height="30" Margin="0,-20,0,0" />
+      <controls:ImageButton Text="Remove" Command="{Binding RemoveNotebookCommand}" Image="avares://Slithin/Resources/minus.png" CommandParameter="{Binding SelectedNotebook}" />
+
+      <controls:ImageButton Text="Export" IsVisible="False" Command="{Binding ExportCommand}" Image="avares://Slithin/Resources/export.png"  CommandParameter="{Binding SelectedNotebook}" />
+      <controls:ImageButton Text="Move" IsVisible="True" Command="{Binding MoveCommand}" Image="avares://Slithin/Resources/move.png"  CommandParameter="{Binding SelectedNotebook}" />
+
+      <controls:ImagePopupButton Text="Search" Image="avares://Slithin/Resources/search.png" IsVisible="False">
+        <controls:ImagePopupButton.PopupContent>
+          <Border>
+            <TextBox Watermark="Search ..." MinWidth="175" Height="35" IsVisible="True" />
+          </Border>
+        </controls:ImagePopupButton.PopupContent>
+      </controls:ImagePopupButton>
+    </StackPanel>
+  </DockPanel>
+</UserControl>

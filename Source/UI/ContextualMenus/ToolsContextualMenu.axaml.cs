@@ -1,17 +1,13 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin
+namespace Slithin.UI.ContextualMenus
 {
-    public partial class MainWindow : Window
+    public partial class ToolsContextualMenu : UserControl
     {
-        public MainWindow()
+        public ToolsContextualMenu()
         {
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()

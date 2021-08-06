@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+        xmlns:core="using:Slithin.Core"
+        xmlns:controls="using:Slithin.Controls"
+        xmlns:flyouts="using:Slithin.UI.Flyouts"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinWidth="800" MinHeight="450" WindowStartupLocation="CenterScreen"
+        x:Class="Slithin.UI.Views.MainWindow" Icon="avares:/Resources/Icon.png"
+        Title="Slithin">
+  <controls:ContentDialog controls:DialogService.IsHost="True">
+    <Grid RowDefinitions="AUTO,*,*" ColumnDefinitions="AUTO,*,150">
+      <Image Source="avares:/Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="175" Margin="0,15,15,15" Height="125" />
+
+      <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="0" MinWidth="800" MaxHeight="90" HorizontalAlignment="Left" />
+
+      <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" core:PageSelector.IsPageContainer="True" />
+
+      <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" MaxHeight="90" Image="avares:/Resources/refresh.png" Margin="0,0,12,0" HorizontalAlignment="Right">
+        <controls:ImageButton.ContextFlyout>
+          <Flyout Placement="BottomEdgeAlignedLeft">
+            <flyouts:SyncQueueFlyout />
+          </Flyout>
+        </controls:ImageButton.ContextFlyout>
+      </controls:ImageButton>
+
+      <Border Grid.Row="2" Margin="7,5,10,-3" HorizontalAlignment="Left" CornerRadius="4" Background="LightGray" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" IsVisible="{Binding IsVisible, ElementName=statusTb}">
+        <StackPanel Orientation="Horizontal" Spacing="7" Margin="5,5,5,5">
+          <progRing:ProgressRing Width="30"
+                             Height="30"
+                             IsActive="{Binding IsVisible, ElementName=statusTb}"
+                             Foreground="Black" />
+          <TextBlock Text="Status ..." FontSize="15" FontWeight="Bold" x:Name="statusTb" core:NotificationService.IsNotificationOutput="True" IsVisible="False" VerticalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </Grid>
+  </controls:ContentDialog>
+</Window>

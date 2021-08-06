@@ -1,0 +1,38 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Slithin.Controls">
+
+  <Style Selector="controls|ImagePopupButton">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="2" Margin="2">
+          <StackPanel VerticalAlignment="Center">
+            <Image Source="{TemplateBinding Image}" Width="40" Height="40" />
+            <TextBlock Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17" />
+
+            <Popup
+                   WindowManagerAddShadowHint="False"
+                   IsOpen="{TemplateBinding IsChecked, Mode=TwoWay}"
+                   PlacementTarget="Background"
+
+                   IsLightDismissEnabled="True">
+              <Border x:Name="PopupBorder"
+                      Background="{DynamicResource ComboBoxDropDownBackground}"
+                      BorderThickness="1" BorderBrush="Black"
+
+                      Padding="{DynamicResource ComboBoxDropdownBorderPadding}"
+                      HorizontalAlignment="Stretch"
+                      CornerRadius="{DynamicResource OverlayCornerRadius}">
+                <ContentPresenter Content="{TemplateBinding PopupContent}" />
+              </Border>
+            </Popup>
+          </StackPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|ImagePopupButton:pointerover">
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+</Styles>

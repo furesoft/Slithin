@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="75"
+             x:Class="Slithin.UI.Flyouts.SyncQueueFlyout">
+  <ItemsControl Items="{Binding Items}" IsHitTestVisible="True">
+    <ItemsControl.ItemTemplate>
+      <DataTemplate>
+        <Grid ColumnDefinitions="165,75,75,75,35">
+          <TextBlock Text="{Binding Data}" VerticalAlignment="Center" Grid.Column="0" TextWrapping="Wrap" />
+
+          <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <TextBlock Text="Direction:" VerticalAlignment="Center" FontSize="10" />
+            <TextBlock Text="{Binding Direction}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <StackPanel Grid.Column="2" VerticalAlignment="Center">
+            <TextBlock Text="Action:" VerticalAlignment="Center" FontSize="10" />
+            <TextBlock Text="{Binding Action}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <StackPanel Grid.Column="3" VerticalAlignment="Center">
+            <TextBlock Text="Type:" VerticalAlignment="Center" FontSize="10" />
+            <TextBlock Text="{Binding Type}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <Button Content="X" Grid.Column="4" Classes="flat" HorizontalAlignment="Right" Command="{Binding $parent[ItemsControl].DataContext.DeleteCommand}" CommandParameter="{Binding}" />
+        </Grid>
+      </DataTemplate>
+    </ItemsControl.ItemTemplate>
+  </ItemsControl>
+</UserControl>
