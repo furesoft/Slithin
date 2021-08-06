@@ -31,7 +31,7 @@ namespace Slithin.ViewModels
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/pdf.png")));
+            Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/cover.png")));
         }
 
         public ICommand AddPagesCommand { get; set; }
