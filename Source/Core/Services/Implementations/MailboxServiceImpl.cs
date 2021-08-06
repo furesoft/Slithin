@@ -14,7 +14,7 @@ using Slithin.Messages;
 
 namespace Slithin.Core.Services.Implementations
 {
-    public class MailboxService : IMailboxService
+    public class MailboxServiceImpl : IMailboxService
     {
         private readonly DeviceRepository _device;
         private readonly LocalRepository _local;
@@ -22,7 +22,7 @@ namespace Slithin.Core.Services.Implementations
         private readonly SynchronisationService _syncService;
         private MailboxProcessor<AsynchronousMessage> _mailbox;
 
-        public MailboxService(IPathManager pathManager,
+        public MailboxServiceImpl(IPathManager pathManager,
             SynchronisationService syncService, DeviceRepository device, LocalRepository local)
         {
             _pathManager = pathManager;

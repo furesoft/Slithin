@@ -1,10 +1,11 @@
 ﻿using Slithin.Core;
+using Slithin.Core.Services;
 
 namespace Slithin.ViewModels
 {
     public class DevicePageViewModel : BaseViewModel
     {
-        public DevicePageViewModel()
+        public DevicePageViewModel(IVersionService versionService)
         {
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Starting", Filename = "starting.png" });
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });
@@ -17,7 +18,7 @@ namespace Slithin.ViewModels
                 cs.Load();
             }
 
-            Version = ServiceLocator.Device.GetVersion().ToString();
+            Version = versionService.GetDeviceVersion().ToString();
 
             var str = ServiceLocator.Client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf").Result;
             str = str.Replace("BetaProgram=", "").Replace("\n", "");

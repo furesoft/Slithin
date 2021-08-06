@@ -6,6 +6,7 @@ using Avalonia.Markup.Xaml;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Sync;
+using Slithin.Core.Sync.Repositorys;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels;
 
@@ -70,7 +71,9 @@ namespace Slithin.UI.Pages
 
                         if (dc is CustomScreen cs)
                         {
-                            ServiceLocator.Local.AddScreen(filename, cs.Filename);
+                            var localRepository = ServiceLocator.Container.Resolve<LocalRepository>();
+
+                            localRepository.AddScreen(filename, cs.Filename);
 
                             var item = new SyncItem
                             {
@@ -97,7 +100,7 @@ namespace Slithin.UI.Pages
         {
             AvaloniaXamlLoader.Load(this);
 
-            DataContext = new DevicePageViewModel();
+            DataContext = ServiceLocator.Container.Resolve<DevicePageViewModel>();
 
             AddHandler(DragDrop.DropEvent, Drop);
             AddHandler(DragDrop.DragOverEvent, DragOver);

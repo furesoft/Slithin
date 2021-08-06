@@ -7,11 +7,13 @@ using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
+using Slithin.Core.Sync.Repositorys;
 
 namespace Slithin.ViewModels
 {
     public class AddTemplateModalViewModel : BaseViewModel
     {
+        private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
         private string _filename;
         private IconCodeItem _iconCode;
@@ -19,7 +21,7 @@ namespace Slithin.ViewModels
         private string _name;
         private string[] _selectedCategory;
 
-        public AddTemplateModalViewModel(IPathManager _pathManager)
+        public AddTemplateModalViewModel(IPathManager pathManager, LocalRepository localRepository)
         {
             Categories = SyncService.TemplateFilter.Categories;
             Categories.RemoveAt(0);
@@ -37,7 +39,8 @@ namespace Slithin.ViewModels
 
             AddTemplateCommand = new DelegateCommand(AddTemplate);
             AddCategoryCommand = new DelegateCommand(AddCategory);
-            this._pathManager = _pathManager;
+            this._pathManager = pathManager;
+            _localRepository = localRepository;
         }
 
         public ICommand AddCategoryCommand { get; set; }
@@ -111,7 +114,7 @@ namespace Slithin.ViewModels
 
             File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
 
-            ServiceLocator.Local.Add(template);
+            _localRepository.Add(template);
 
             template.Load();
 

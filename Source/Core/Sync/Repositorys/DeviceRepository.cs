@@ -9,11 +9,13 @@ namespace Slithin.Core.Sync.Repositorys
 {
     public class DeviceRepository : IRepository
     {
+        private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
 
-        public DeviceRepository(IPathManager pathManager)
+        public DeviceRepository(IPathManager pathManager, LocalRepository localRepository)
         {
             _pathManager = pathManager;
+            _localRepository = localRepository;
         }
 
         public void Add(Template template)
@@ -73,7 +75,7 @@ namespace Slithin.Core.Sync.Repositorys
 
             var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
             var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
-            var toSyncTemplates = templateJson.Templates.Where(_ => !ServiceLocator.Local.GetTemplates().Contains(_));
+            var toSyncTemplates = templateJson.Templates.Where(_ => !_localRepository.GetTemplates().Contains(_));
 
             foreach (var t in toSyncTemplates)
             {
@@ -84,14 +86,6 @@ namespace Slithin.Core.Sync.Repositorys
             NotificationService.Hide();
 
             return null;
-        }
-
-        public Version GetVersion()
-        {
-            var str = ServiceLocator.Client.RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf").Result;
-            str = str.Replace("REMARKABLE_RELEASE_VERSION=", "").Replace("\n", "");
-
-            return new(str);
         }
 
         public void Remove(Template template)

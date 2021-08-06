@@ -9,10 +9,12 @@ namespace Slithin.Core.Sync.Repositorys
     public class LocalRepository : IRepository
     {
         private readonly IPathManager _pathManager;
+        private readonly IVersionService _versionService;
 
-        public LocalRepository(IPathManager pathManager)
+        public LocalRepository(IPathManager pathManager, IVersionService versionService)
         {
             _pathManager = pathManager;
+            _versionService = versionService;
         }
 
         public void Add(Template template)
@@ -51,10 +53,10 @@ namespace Slithin.Core.Sync.Repositorys
         {
             if (!File.Exists(Path.Combine(_pathManager.ConfigBaseDir, ".version")))
             {
-                File.WriteAllText(Path.Combine(_pathManager.ConfigBaseDir, ".version"), ServiceLocator.Device.GetVersion().ToString());
+                File.WriteAllText(Path.Combine(_pathManager.ConfigBaseDir, ".version"), _versionService.GetDeviceVersion().ToString());
             }
 
-            return new Version(File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, ".version")));
+            return _versionService.GetLocalVersion();
         }
 
         public void Remove(Metadata md)

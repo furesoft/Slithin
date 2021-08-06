@@ -9,8 +9,6 @@ namespace Slithin.Core.Sync
 
         Template[] GetTemplates();
 
-        Version GetVersion();
-
         void Remove(Template template);
     }
 }

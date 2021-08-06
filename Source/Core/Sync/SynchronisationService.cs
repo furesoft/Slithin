@@ -9,15 +9,17 @@ using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
+using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 
 namespace Slithin.Core.Sync
 {
     public class SynchronisationService : INotifyPropertyChanged
     {
+        private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
 
-        public SynchronisationService(IPathManager pathManager, LiteDatabase db)
+        public SynchronisationService(IPathManager pathManager, LiteDatabase db, LocalRepository localRepository)
         {
             TemplateFilter = new();
             NotebooksFilter = new();
@@ -26,12 +28,13 @@ namespace Slithin.Core.Sync
             SynchronizeCommand = new DelegateCommand(Synchronize);
             SyncQueue = db.GetCollection<SyncItem>();
             _pathManager = pathManager;
+            _localRepository = localRepository;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<CustomScreen> CustomScreens { get; set; } = new();
-        public bool IsSyncNeeded => !Directory.Exists(_pathManager.TemplatesDir);
+
         public NotebooksFilter NotebooksFilter { get; set; }
         public ICommand SynchronizeCommand { get; set; }
         public ILiteCollection<SyncItem> SyncQueue { get; set; }
@@ -48,11 +51,6 @@ namespace Slithin.Core.Sync
         public void LoadTemplates()
         {
             TemplateFilter.Templates.Clear();
-
-            if (ServiceLocator.SyncService.IsSyncNeeded)
-            {
-                ServiceLocator.Device.GetTemplates();
-            }
 
             // Load local Templates
             TemplateStorage.Instance?.Load();
@@ -121,7 +119,7 @@ namespace Slithin.Core.Sync
 
             events.Invoke("beforeSync", new[] { SyncQueue.FindAll() });
 
-            if (!ServiceLocator.Local.GetTemplates().Any() && !Directory.GetFiles(_pathManager.TemplatesDir).Any())
+            if (!_localRepository.GetTemplates().Any() && !Directory.GetFiles(_pathManager.TemplatesDir).Any())
             {
                 mailboxService.Post(new InitStorageMessage());
             }

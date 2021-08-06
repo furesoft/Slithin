@@ -20,7 +20,7 @@ namespace Slithin.ViewModels
         public NotebooksPageViewModel(IPathManager _pathManager)
         {
             MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(new MakeFolderModalViewModel(_pathManager));
-            RemoveNotebookCommand = new RemoveNotebookCommand(this);
+            RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
             MoveCommand = new DelegateCommand(_ =>
             {
                 IsMoving = true;

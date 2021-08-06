@@ -7,6 +7,7 @@ using Avalonia.Markup.Xaml;
 using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Services;
+using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 using Slithin.ViewModels;
 
@@ -41,7 +42,7 @@ namespace Slithin.UI.Views
             var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
             var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
 
-            if (!ServiceLocator.Local.GetTemplates().Any())
+            if (!ServiceLocator.Container.Resolve<LocalRepository>().GetTemplates().Any())
             {
                 mailboxService.Post(new InitStorageMessage());
             }

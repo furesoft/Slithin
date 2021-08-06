@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Slithin.Core.Services;
+using Slithin.Core.Sync.Repositorys;
 
 namespace Slithin.Core.Remarkable
 {
@@ -35,7 +36,7 @@ namespace Slithin.Core.Remarkable
 
         public void Load()
         {
-            Instance.Templates = ServiceLocator.Local.GetTemplates();
+            Instance.Templates = ServiceLocator.Container.Resolve<LocalRepository>().GetTemplates();
 
             foreach (var item in Instance.Templates)
             {

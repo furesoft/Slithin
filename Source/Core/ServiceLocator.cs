@@ -13,9 +13,6 @@ namespace Slithin.Core
         public static SshClient Client;
 
         public static TinyIoCContainer Container;
-        public static DeviceRepository Device;
-
-        public static LocalRepository Local;
 
         public static ScpClient Scp;
 
@@ -32,12 +29,9 @@ namespace Slithin.Core
             pathManager.Init();
 
             Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
-            SyncService = new(pathManager, Container.Resolve<LiteDatabase>());
+            SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>());
 
             Container.Resolve<IMailboxService>().Init();
-
-            Device = Container.Resolve<DeviceRepository>();
-            Local = Container.Resolve<LocalRepository>();
         }
     }
 }
