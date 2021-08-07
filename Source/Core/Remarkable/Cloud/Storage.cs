@@ -1,30 +1,37 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Net;
+using Ionic.Zip;
 using Newtonsoft.Json;
 using RestSharp;
 
 namespace Slithin.Core.Remarkable.Cloud
 {
-    public static class Storage
+    public class Storage
     {
-        public static void Delete(Metadata md)
-        {
-            var storageUri = Api.GetStorageUrl();
+        private readonly Api _api;
+        private readonly string _storageUri;
+        private readonly string _token;
 
-            var client = new RestClient(storageUri);
+        public Storage(Api api)
+        {
+            _api = api;
+            _storageUri = _api.GetStorageUrl();
+            _token = _api.RefreshToken();
+        }
+
+        public void Delete(Metadata md)
+        {
+            var client = new RestClient(_storageUri);
             var request = new RestRequest("document-storage/json/2/upload/update-status", Method.PUT, DataFormat.Json);
 
-            var token = Api.RefreshToken();
-
-            request.AddHeader("Authorization", "Bearer " + token);
+            request.AddHeader("Authorization", "Bearer " + _token);
             request.AddJsonBody(new[] { md });
 
             client.Put(request);
         }
 
-        public static string Download(string blobUrl)
+        public string Download(string blobUrl)
         {
             var tmp = Path.GetTempFileName();
 
@@ -35,21 +42,18 @@ namespace Slithin.Core.Remarkable.Cloud
             return tmp;
         }
 
-        public static void Extract(string path, string destination)
+        public void Extract(string path, string destination)
         {
-            ZipFile.ExtractToDirectory(path, destination);
+            ZipFile.Read(path).ExtractAll(destination);
         }
 
-        public static ListItemResult[] ListItems()
+        public ListItemResult[] ListItems()
         {
-            var storageUri = Api.GetStorageUrl();
-
-            var client = new RestClient(storageUri);
+            var client = new RestClient(_storageUri);
             var request = new RestRequest("/document-storage/json/2/docs", Method.GET, DataFormat.Json);
             request.AddQueryParameter("withBlob", "true");
-            var token = Api.RefreshToken();
 
-            request.AddHeader("Authorization", "Bearer " + token);
+            request.AddHeader("Authorization", "Bearer " + _token);
 
             var response = client.Get(request);
             var obj = JsonConvert.DeserializeObject<ListItemResult[]>(response.Content);
@@ -57,7 +61,7 @@ namespace Slithin.Core.Remarkable.Cloud
             return obj;
         }
 
-        public static UploadRequestResponse RequestUpload()
+        public UploadRequestResponse RequestUpload()
         {
             var upReq = new UploadRequest
             {
@@ -66,14 +70,10 @@ namespace Slithin.Core.Remarkable.Cloud
                 Type = "DocumentType"
             };
 
-            var storageUri = Api.GetStorageUrl();
-
-            var client = new RestClient(storageUri);
+            var client = new RestClient(_storageUri);
             var request = new RestRequest("document-storage/json/2/upload/request", Method.PUT, DataFormat.Json);
 
-            var token = Api.RefreshToken();
-
-            request.AddHeader("Authorization", "Bearer " + token);
+            request.AddHeader("Authorization", "Bearer " + _token);
             request.AddJsonBody(new[] { upReq });
 
             var response = client.Put(request);
@@ -82,22 +82,18 @@ namespace Slithin.Core.Remarkable.Cloud
             return obj[0];
         }
 
-        public static void UpdateMetadata(CloudMetadata md)
+        public void UpdateMetadata(CloudMetadata md)
         {
-            var storageUri = Api.GetStorageUrl();
-
-            var client = new RestClient(storageUri);
+            var client = new RestClient(_storageUri);
             var request = new RestRequest("/document-storage/json/2/upload/update-status", Method.PUT, DataFormat.Json);
 
-            var token = Api.RefreshToken();
-
-            request.AddHeader("Authorization", "Bearer " + token);
+            request.AddHeader("Authorization", "Bearer " + _token);
             request.AddJsonBody(new[] { md });
 
             client.Put(request);
         }
 
-        public static void Upload(UploadRequestResponse requestResponse, string filename)
+        public void Upload(UploadRequestResponse requestResponse, string filename)
         {
             var client = WebRequest.Create(requestResponse.BlobURLPut);
             client.Method = "PUT";
@@ -105,24 +101,10 @@ namespace Slithin.Core.Remarkable.Cloud
 
             using (var memoryStream = new MemoryStream())
             {
-                using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+                using (var zip = new ZipFile())
                 {
-                    var pdfFile = archive.CreateEntry(requestResponse.ID + ".pdf");
-
-                    using var pdfStream = pdfFile.Open();
-                    File.OpenRead(filename).CopyTo(pdfStream);
-
-                    pdfStream.Close();
-                    var pageDataFile = archive.CreateEntry(requestResponse.ID + ".pagedata");
-
-                    using var pageDataStream = pageDataFile.Open();
-                    var sw = new StreamWriter(pageDataStream);
-                    sw.Write("");
-                    sw.Close();
-
-                    pageDataStream.Close();
-
-                    var contentFile = archive.CreateEntry(requestResponse.ID + ".content");
+                    zip.AddEntry(requestResponse.ID + ".pdf", File.OpenRead(filename));
+                    zip.AddEntry(requestResponse.ID + ".pagedata", "");
 
                     var content = new ContentFile
                     {
@@ -131,17 +113,16 @@ namespace Slithin.Core.Remarkable.Cloud
                         Pages = Array.Empty<string>()
                     };
 
-                    using var contentStream = contentFile.Open();
-                    var swContent = new StreamWriter(contentStream);
-                    swContent.Write(JsonConvert.SerializeObject(content, Formatting.Indented));
-                    swContent.Close();
+                    zip.AddEntry(requestResponse.ID + ".content", JsonConvert.SerializeObject(content, Formatting.Indented));
+
+                    zip.Save(memoryStream);
                 }
 
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 memoryStream.CopyTo(strm);
             }
 
-            var response = client.GetResponse();
+            client.GetResponse();
         }
     }
 }

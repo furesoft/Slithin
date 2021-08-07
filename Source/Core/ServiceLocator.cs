@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using LiteDB;
 using Renci.SshNet;
+using Slithin.Core.Remarkable.Cloud;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
@@ -24,6 +25,8 @@ namespace Slithin.Core
             Container.AutoRegister();
 
             Container.Register<Automation>().AsSingleton();
+            Container.Register<Api>().AsSingleton();
+            Container.Register<Storage>().AsSingleton();
 
             var pathManager = Container.Resolve<IPathManager>();
             pathManager.Init();

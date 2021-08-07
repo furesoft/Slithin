@@ -7,7 +7,7 @@
              x:Class="Slithin.UI.Tools.CreateNotebookModal">
   <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding OKCommand}" MinHeight="350" MinWidth="500">
     <Grid RowDefinitions="40,40,45,35,36">
-      <TextBox Watermark="Name" Grid.Row="0" Margin="5" HorizontalAlignment="Left" MinWidth="185" Text="{Binding Name}" />
+      <TextBox Watermark="Title" Grid.Row="0" Margin="5" HorizontalAlignment="Left" MinWidth="185" Text="{Binding Name}" />
 
       <StackPanel Orientation="Horizontal" Margin="2" Spacing="5" Grid.Row="1">
         <ComboBox SelectedIndex="0" Margin="3" Items="{Binding Templates}" PlaceholderText="Template" SelectedItem="{Binding SelectedTemplate}">
@@ -22,7 +22,7 @@
         </ComboBox>
 
         <StackPanel Spacing="3">
-          <TextBox Watermark="Page Count" Margin="3" Text="{Binding PageCount}" />
+          <TextBox Watermark="Page Count" Margin="3" Text="{Binding PageCount}" ToolTip.Tip="How many pages should the template apply?" />
 
           <Button Content="Add" Command="{Binding AddPagesCommand}" />
         </StackPanel>
@@ -37,7 +37,7 @@
           <Image Source="{Binding Cover, Mode=TwoWay}" ToolTip.Tip="Drag a Image over or select from the list above" DragDrop.AllowDrop="True" Width="150" Height="150" Margin="5" />
         </Border>
 
-        <CheckBox Content="Render Name" IsChecked="{Binding RenderName}" ToolTip.Tip="Only for Short Names" />
+        <CheckBox Content="Render Title" IsChecked="{Binding RenderName}" ToolTip.Tip="Only for short names and defaut covers" />
       </StackPanel>
 
       <ComboBox SelectedIndex="0" Margin="3" Grid.Row="3" Items="{Binding Categories}" PlaceholderText="Category" />
