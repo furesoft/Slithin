@@ -3,9 +3,7 @@
 	generate real notebook from svgs to make a copy availale on device
 
 
-- decouple dependencys with service and interfaces
-	- pathservice
-	- objectservice
+- implement toolsfilter
 
 - fix ui bug "Item already exists"
 

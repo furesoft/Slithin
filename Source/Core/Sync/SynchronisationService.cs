@@ -38,8 +38,8 @@ namespace Slithin.Core.Sync
         public NotebooksFilter NotebooksFilter { get; set; }
         public ICommand SynchronizeCommand { get; set; }
         public ILiteCollection<SyncItem> SyncQueue { get; set; }
-
         public TemplateFilter TemplateFilter { get; set; }
+        public ToolsFilter ToolsFilter { get; set; }
 
         public void LoadFromLocal()
         {
