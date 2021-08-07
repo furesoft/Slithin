@@ -1,24 +1,20 @@
-﻿using System.ComponentModel;
-using System.IO;
-using System.Runtime.CompilerServices;
+﻿using System.IO;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Slithin.Core.Services;
 
 namespace Slithin.Core
 {
-    public class CustomScreen : INotifyPropertyChanged
+    public class CustomScreen : ReactiveObject
     {
         private IImage _image;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public string Filename { get; set; }
 
         public IImage Image
         {
             get { return _image; }
-            set { _image = value; OnChange(); }
+            set { SetValue(ref _image, value); }
         }
 
         public string Title { get; set; }
@@ -37,11 +33,6 @@ namespace Slithin.Core
                     Image = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
                 }
             }
-        }
-
-        private void OnChange([CallerMemberName] string prop = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

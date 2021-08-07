@@ -10,12 +10,10 @@ namespace Slithin.Core
         {
             var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
-            .Where(x => typeof(ITool).IsAssignableFrom(x) && x.IsClass);
+            .Where(x => typeof(ITool).IsAssignableFrom(x) && x.IsClass)
+            .Select(type => (ITool)ServiceLocator.Container.Resolve(type));
 
-            foreach (var type in types)
-            {
-                yield return (ITool)ServiceLocator.Container.Resolve(type);
-            }
+            return types;
         }
     }
 }

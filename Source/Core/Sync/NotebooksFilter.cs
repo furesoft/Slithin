@@ -1,20 +1,13 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Sync
 {
-    public class NotebooksFilter : INotifyPropertyChanged
+    public class NotebooksFilter : ReactiveObject
     {
         private ObservableCollection<Metadata> _documents = new();
         private string _folder = "";
-
-        private bool _isFav;
-        private bool _isTrash;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<Metadata> Documents
         {
@@ -34,12 +27,6 @@ namespace Slithin.Core.Sync
             ordered = ordered.OrderByDescending(_ => _.VisibleName.Equals("Up .."));
 
             Documents = new ObservableCollection<Metadata>(ordered);
-        }
-
-        protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
-        {
-            field = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
     }
 }

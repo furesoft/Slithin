@@ -1,5 +1,4 @@
-﻿using System;
-using Slithin.Core.Remarkable;
+﻿using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Sync
 {
