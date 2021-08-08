@@ -11,6 +11,7 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
+using Slithin.Tools;
 
 namespace Slithin.Core.Services.Implementations
 {
@@ -143,6 +144,8 @@ namespace Slithin.Core.Services.Implementations
                 _syncService.LoadFromLocal();
 
                 _device.DownloadCustomScreens();
+
+                ServiceLocator.Container.Resolve<BackupTool>().Invoke(null);
             });
 
             MessageRouter.Register<CheckForUpdateMessage>(async _ =>
