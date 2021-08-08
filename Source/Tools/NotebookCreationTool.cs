@@ -6,6 +6,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.UI.Tools;
 using Slithin.ViewModels;
@@ -47,5 +48,17 @@ namespace Slithin.Tools
 
             DialogService.Open(modal);
         }
+    }
+
+    public class NotebookPage
+    {
+        public NotebookPage(Template template, int count)
+        {
+            Template = template;
+            Count = count;
+        }
+
+        public int Count { get; set; }
+        public Template Template { get; set; }
     }
 }

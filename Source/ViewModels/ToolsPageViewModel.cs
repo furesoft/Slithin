@@ -19,7 +19,7 @@ namespace Slithin.ViewModels
             RemoveScriptCommand = new DelegateCommand(_ =>
             {
                 Items.Remove(((ITool)_));
-            }, _ => _ is not null);
+            }, _ => false);
 
             ExecuteScriptCommand = new DelegateCommand(_ =>
             {

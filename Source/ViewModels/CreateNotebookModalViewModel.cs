@@ -16,6 +16,7 @@ using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
+using Slithin.Tools;
 
 namespace Slithin.ViewModels
 {
@@ -88,7 +89,7 @@ namespace Slithin.ViewModels
             set { SetValue(ref _pageCount, value); }
         }
 
-        public ObservableCollection<(Template, int)> Pages { get; set; } = new();
+        public ObservableCollection<NotebookPage> Pages { get; set; } = new();
 
         public bool RenderName
         {
@@ -120,7 +121,7 @@ namespace Slithin.ViewModels
 
         private void AddPages(object obj)
         {
-            Pages.Add((SelectedTemplate, int.Parse(PageCount)));
+            Pages.Add(new NotebookPage(SelectedTemplate, int.Parse(PageCount)));
 
             SelectedTemplate = null;
             PageCount = null;
@@ -170,9 +171,9 @@ namespace Slithin.ViewModels
 
             foreach (var p in Pages)
             {
-                var t = XImage.FromFile(_pathManager.TemplatesDir + "\\" + p.Item1.Filename + ".png");
+                var t = XImage.FromFile(_pathManager.TemplatesDir + "\\" + p.Template.Filename + ".png");
 
-                for (var i = 0; i < p.Item2; i++)
+                for (var i = 0; i < p.Count; i++)
                 {
                     var page = document.AddPage();
                     page.Size = PageSize.A4;
