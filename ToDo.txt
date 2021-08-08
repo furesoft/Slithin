@@ -8,3 +8,7 @@
 - fix ui bug "Item already exists"
 
 - fix "henne ei problem" syncdevicedeletions
+
+- implement restore tool
+
+- implement refreshing ui items
