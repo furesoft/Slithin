@@ -8,6 +8,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Ionic.Zip;
+using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Services;
@@ -30,13 +31,17 @@ namespace Slithin.Tools
 
     public class RestoreTool : ITool
     {
+        private readonly SshClient _client;
         private readonly IMailboxService _mailboxService;
         private readonly IPathManager _pathManager;
+        private readonly ScpClient _scp;
 
-        public RestoreTool(IPathManager pathManager, IMailboxService mailboxService)
+        public RestoreTool(IPathManager pathManager, IMailboxService mailboxService, SshClient client, ScpClient scp)
         {
             _pathManager = pathManager;
             _mailboxService = mailboxService;
+            _client = client;
+            _scp = scp;
         }
 
         public IImage Image
@@ -100,6 +105,27 @@ namespace Slithin.Tools
                             zip.ExtractAll(_pathManager.ConfigBaseDir, ExtractExistingFileAction.OverwriteSilently);
                         }
                         //upload all data
+
+                        NotificationService.Show("Removing Notebooks From Device");
+                        _client.RunCommand("rm -fr " + PathList.Documents);
+                        _client.RunCommand("mkdir " + PathList.Documents);
+
+                        NotificationService.Show("Removing Screens From Device");
+                        _client.RunCommand("rm -fr " + PathList.Screens);
+                        _client.RunCommand("mkdir " + PathList.Screens);
+
+                        NotificationService.Show("Removing Templates From Device");
+                        _client.RunCommand("rm -fr " + PathList.Templates);
+                        _client.RunCommand("mkdir " + PathList.Templates);
+
+                        NotificationService.Show("Uploading Notebooks");
+                        _scp.Upload(new DirectoryInfo(_pathManager.NotebooksDir), PathList.Documents);
+
+                        NotificationService.Show("Uploading Screens");
+                        _scp.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
+
+                        NotificationService.Show("Uploading Templates");
+                        _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
 
                         NotificationService.Show("Finished");
                         await Task.Delay(1000);
