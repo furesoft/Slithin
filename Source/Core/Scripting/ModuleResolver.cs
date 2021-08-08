@@ -7,16 +7,19 @@ using PdfSharpCore.Pdf;
 using Slithin.Controls;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
+using Slithin.Core.Sync.Repositorys;
 
 namespace Slithin.Core.Scripting
 {
     public class ModuleResolver : CachedModuleResolverBase
     {
+        private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
 
-        public ModuleResolver(IPathManager pathManager)
+        public ModuleResolver(IPathManager pathManager, LocalRepository localRepository)
         {
             _pathManager = pathManager;
+            _localRepository = localRepository;
         }
 
         public override bool TryGetModule(ModuleRequest moduleRequest, out Module result)
@@ -34,6 +37,8 @@ namespace Slithin.Core.Scripting
                 mb.AddFunction("showNotification",
                               new Action<string>((_) =>
                                   NotificationService.Show(_)));
+
+                mb.Add("version", _localRepository.GetVersion().ToString());
             }
             else if (moduleRequest.CmdArgument == "slithin.sync")
             {
@@ -42,7 +47,7 @@ namespace Slithin.Core.Scripting
                 mb.AddConstructor(typeof(SyncDirection));
                 mb.AddConstructor(typeof(SyncType));
 
-                mb.AddFunction("StartSync",
+                mb.AddFunction("startSync",
                               new Action(() =>
                                   ServiceLocator.SyncService.SynchronizeCommand.Execute(null)));
             }
