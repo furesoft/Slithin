@@ -10,10 +10,12 @@ namespace Slithin.ViewModels
     {
         private ITool _selectedScript;
 
-        public ToolsPageViewModel()
+        public ToolsPageViewModel(ToolRepository toolRepository)
         {
-            Items.Add(ServiceLocator.Container.Resolve<NotebookCreationTool>());
-            Items.Add(ServiceLocator.Container.Resolve<BackupTool>());
+            foreach (var tool in toolRepository.FindTools())
+            {
+                Items.Add(tool);
+            }
 
             ConfigurateScriptCommand = new DelegateCommand(_ => DialogService.Open(SelectedScript.GetModal()), _ => _ is ITool tool && tool.IsConfigurable);
             RemoveScriptCommand = new DelegateCommand(_ =>

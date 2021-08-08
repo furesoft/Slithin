@@ -28,7 +28,7 @@ namespace Slithin.UI.Pages
         {
             AvaloniaXamlLoader.Load(this);
 
-            DataContext = new ToolsPageViewModel();
+            DataContext = ServiceLocator.Container.Resolve<ToolsPageViewModel>();
         }
     }
 }
