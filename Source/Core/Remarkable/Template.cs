@@ -37,12 +37,6 @@ namespace Slithin.Core.Remarkable
         [JsonProperty("name")]
         public string? Name { get; set; }
 
-        [JsonIgnore]
-        public bool OnDevice { get; set; }
-
-        [JsonIgnore]
-        public bool ToDownload { get; set; }
-
         public void Load()
         {
             var templatesDir = ServiceLocator.Container.Resolve<IPathManager>().TemplatesDir;

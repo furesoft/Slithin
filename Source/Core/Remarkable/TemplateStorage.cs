@@ -40,7 +40,6 @@ namespace Slithin.Core.Remarkable
 
             foreach (var item in Instance.Templates)
             {
-                item.OnDevice = true;
                 item.Load();
             }
         }
