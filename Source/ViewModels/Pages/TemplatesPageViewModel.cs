@@ -37,16 +37,16 @@ namespace Slithin.ViewModels.Pages
         {
             base.OnLoad();
 
-            //_mailboxService.PostAction(() =>
-            //{
-            NotificationService.Show("Loading Templates");
+            _mailboxService.PostAction(() =>
+            {
+                NotificationService.Show("Loading Templates");
 
-            _loadingService.LoadTemplates();
+                _loadingService.LoadTemplates();
 
-            SyncService.TemplateFilter.SelectedCategory = "All";
+                SyncService.TemplateFilter.SelectedCategory = "All";
 
-            NotificationService.Hide();
-            //});
+                NotificationService.Hide();
+            });
         }
     }
 }

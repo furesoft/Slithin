@@ -53,8 +53,6 @@ namespace Slithin.Core.Services.Implementations
 
         public void LoadTemplates()
         {
-            ServiceLocator.SyncService.TemplateFilter.Templates.Clear();
-
             // Load local Templates
             TemplateStorage.Instance?.Load();
 
@@ -73,10 +71,7 @@ namespace Slithin.Core.Services.Implementations
                 }
             }
 
-            foreach (var item in TemplateStorage.Instance?.Templates)
-            {
-                ServiceLocator.SyncService.TemplateFilter.Templates.Add(item);
-            }
+            ServiceLocator.SyncService.TemplateFilter.Templates = new(TemplateStorage.Instance?.Templates);
         }
     }
 }

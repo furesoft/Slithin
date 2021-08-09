@@ -13,11 +13,12 @@ namespace Slithin.ViewModels.Pages
     public class NotebooksPageViewModel : BaseViewModel
     {
         private readonly ILoadingService _loadingService;
+        private readonly IMailboxService _mailboxService;
         private bool _isMoving;
         private Metadata _movingNotebook;
         private Metadata _selectedNotebook;
 
-        public NotebooksPageViewModel(ILoadingService loadingService)
+        public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
         {
             MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(
                 ServiceLocator.Container.Resolve<MakeFolderModalViewModel>());
@@ -61,6 +62,7 @@ namespace Slithin.ViewModels.Pages
             });
 
             _loadingService = loadingService;
+            _mailboxService = mailboxService;
         }
 
         public bool IsMoving
@@ -89,7 +91,10 @@ namespace Slithin.ViewModels.Pages
         {
             base.OnLoad();
 
-            _loadingService.LoadNotebooks();
+            _mailboxService.PostAction(() =>
+            {
+                _loadingService.LoadNotebooks();
+            });
         }
     }
 }

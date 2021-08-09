@@ -1,15 +1,15 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Sync
 {
-    public class TemplateFilter : INotifyPropertyChanged
+    public class TemplateFilter : ReactiveObject
     {
         private bool _landscape;
         private string _selectedCategory;
+
+        private ObservableCollection<Template> _templates;
 
         public TemplateFilter()
         {
@@ -18,8 +18,6 @@ namespace Slithin.Core.Sync
 
             Categories.Add("All");
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<string> Categories { get; set; }
 
@@ -35,12 +33,10 @@ namespace Slithin.Core.Sync
             set { SetValue(ref _selectedCategory, value); RefreshTemplates(); }
         }
 
-        public ObservableCollection<Template> Templates { get; set; }
-
-        protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
+        public ObservableCollection<Template> Templates
         {
-            field = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+            get { return _templates; }
+            set { SetValue(ref _templates, value); }
         }
 
         private void RefreshTemplates()
