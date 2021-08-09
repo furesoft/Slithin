@@ -1,20 +1,33 @@
 ﻿using Slithin.Core;
+using Slithin.Core.Scripting;
 using Slithin.Core.Services;
+using Slithin.Core.Sync.Repositorys;
+using Slithin.Messages;
 
 namespace Slithin.ViewModels.Pages
 {
     public class DevicePageViewModel : BaseViewModel
     {
+        private readonly EventStorage _events;
         private readonly ILoadingService _loadingService;
+        private readonly LocalRepository _localRepostory;
+        private readonly IMailboxService _mailboxService;
         private readonly IVersionService _versionService;
         private bool _isBeta;
 
         private string _version;
 
-        public DevicePageViewModel(IVersionService versionService, ILoadingService loadingService)
+        public DevicePageViewModel(IVersionService versionService,
+                                   ILoadingService loadingService,
+                                   EventStorage events,
+                                   IMailboxService mailboxService,
+                                   LocalRepository localRepostory)
         {
             _versionService = versionService;
             _loadingService = loadingService;
+            _events = events;
+            _mailboxService = mailboxService;
+            _localRepostory = localRepostory;
         }
 
         public bool IsBeta
@@ -47,6 +60,14 @@ namespace Slithin.ViewModels.Pages
             IsBeta = bool.Parse(str);
 
             Version = _versionService.GetDeviceVersion().ToString();
+
+            if (_versionService.GetLocalVersion() < _versionService.GetDeviceVersion())
+            {
+                _events.Invoke("newVersionAvailable");
+                _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
+            }
+
+            _mailboxService.Post(new CheckForUpdateMessage());
         }
     }
 }

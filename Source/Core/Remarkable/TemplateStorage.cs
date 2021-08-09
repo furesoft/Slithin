@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Renci.SshNet;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 
@@ -26,7 +27,7 @@ namespace Slithin.Core.Remarkable
 
         public void Apply()
         {
-            var result = ServiceLocator.Client.RunCommand("systemctl restart xochitl");
+            var result = ServiceLocator.Container.Resolve<SshClient>().RunCommand("systemctl restart xochitl");
 
             if (result.ExitStatus != 0)
             {

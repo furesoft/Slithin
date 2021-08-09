@@ -10,6 +10,7 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
+using Slithin.Core.Sync;
 using Slithin.UI.Views;
 
 namespace Slithin.ViewModels
@@ -62,7 +63,16 @@ namespace Slithin.ViewModels
 
             ServiceLocator.Client = ServiceLocator.Container.Resolve<SshClient>();
             ServiceLocator.Scp = ServiceLocator.Container.Resolve<ScpClient>();
+            //SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>(), Container.Resolve<ILoadingService>());
+            ServiceLocator.SyncService = ServiceLocator.Container.Resolve<SynchronisationService>();
+            ServiceLocator.Container.Register<Automation>().AsSingleton();
 
+            var automation = ServiceLocator.Container.Resolve<Automation>();
+
+            automation.Init();
+            automation.Evaluate("testScript");
+
+            ServiceLocator.Container.Resolve<IMailboxService>().Init();
             ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
 
             ServiceLocator.Client.ErrorOccurred += (s, _) =>

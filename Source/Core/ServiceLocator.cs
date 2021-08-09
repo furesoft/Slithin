@@ -23,7 +23,6 @@ namespace Slithin.Core
             Container = TinyIoCContainer.Current;
             Container.AutoRegister();
 
-            Container.Register<Automation>().AsSingleton();
             Container.Register<Api>().AsSingleton();
             Container.Register<Storage>().AsSingleton();
 
@@ -31,10 +30,6 @@ namespace Slithin.Core
             pathManager.Init();
 
             Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
-            //SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>(), Container.Resolve<ILoadingService>());
-            SyncService = Container.Resolve<SynchronisationService>();
-
-            Container.Resolve<IMailboxService>().Init();
         }
     }
 }
