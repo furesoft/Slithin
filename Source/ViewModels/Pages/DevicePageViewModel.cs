@@ -8,14 +8,26 @@ namespace Slithin.ViewModels.Pages
     {
         private readonly IVersionService _versionService;
 
+        private bool _isBeta;
+
+        private string _version;
+
         public DevicePageViewModel(IVersionService versionService)
         {
             _versionService = versionService;
         }
 
-        public bool IsBeta { get; set; }
+        public bool IsBeta
+        {
+            get { return _isBeta; }
+            set { SetValue(ref _isBeta, value); }
+        }
 
-        public string Version { get; set; }
+        public string Version
+        {
+            get { return _version; }
+            set { SetValue(ref _version, value); }
+        }
 
         public override void OnLoad()
         {

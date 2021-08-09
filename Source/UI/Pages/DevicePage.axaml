@@ -7,12 +7,12 @@
   <StackPanel>
     <Grid Margin="4">
       <TextBlock Text="Version" FontSize="18" />
-      <TextBlock Text="{Binding Version}" HorizontalAlignment="Right" FontSize="18" />
+      <TextBlock Text="{Binding Version, Mode=TwoWay}" HorizontalAlignment="Right" FontSize="18" />
     </Grid>
 
     <Grid Margin="4">
       <TextBlock Text="Beta" FontSize="18" />
-      <TextBlock Text="{Binding IsBeta}" HorizontalAlignment="Right" FontSize="18" />
+      <TextBlock Text="{Binding IsBeta, Mode=TwoWay}" HorizontalAlignment="Right" FontSize="18" />
     </Grid>
 
     <StackPanel>
