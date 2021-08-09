@@ -10,8 +10,6 @@ namespace Slithin.Core
 {
     public static class ServiceLocator
     {
-        public static SshClient Client;
-
         public static TinyIoCContainer Container;
 
         public static SynchronisationService SyncService;

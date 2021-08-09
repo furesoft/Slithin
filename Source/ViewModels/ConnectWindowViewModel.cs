@@ -61,7 +61,7 @@ namespace Slithin.ViewModels
             ServiceLocator.Container.Register(new SshClient(IP, 22, "root", Password));
             ServiceLocator.Container.Register(new ScpClient(IP, 22, "root", Password));
 
-            ServiceLocator.Client = ServiceLocator.Container.Resolve<SshClient>();
+            var client = ServiceLocator.Container.Resolve<SshClient>();
             //SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>(), Container.Resolve<ILoadingService>());
             ServiceLocator.SyncService = ServiceLocator.Container.Resolve<SynchronisationService>();
             ServiceLocator.Container.Register<Automation>().AsSingleton();
@@ -74,7 +74,7 @@ namespace Slithin.ViewModels
             ServiceLocator.Container.Resolve<IMailboxService>().Init();
             ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
 
-            ServiceLocator.Client.ErrorOccurred += (s, _) =>
+            client.ErrorOccurred += (s, _) =>
             {
                 DialogService.OpenError(_.Exception.ToString());
             };
@@ -83,10 +83,10 @@ namespace Slithin.ViewModels
             {
                 try
                 {
-                    ServiceLocator.Client.Connect();
+                    client.Connect();
                     ServiceLocator.Container.Resolve<ScpClient>().Connect();
 
-                    if (ServiceLocator.Client.IsConnected)
+                    if (client.IsConnected)
                     {
                         if (Remember)
                         {
