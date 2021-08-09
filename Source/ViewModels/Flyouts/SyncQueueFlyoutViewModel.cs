@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using Slithin.Core;
 using Slithin.Core.Sync;
-using Slithin.ViewModels;
 
 namespace Slithin.ViewModels.Flyouts
 {

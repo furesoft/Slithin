@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 using Slithin.Core;
-using Slithin.ViewModels;
 
 namespace Slithin.ViewModels.Modals
 {

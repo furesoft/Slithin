@@ -4,7 +4,6 @@ using Slithin.Controls;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
-using Slithin.ViewModels;
 using Slithin.ViewModels.Pages;
 
 namespace Slithin.Core.Commands

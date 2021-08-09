@@ -7,7 +7,6 @@ using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
-using Slithin.ViewModels;
 
 namespace Slithin.ViewModels.Modals
 {

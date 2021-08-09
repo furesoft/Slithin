@@ -4,7 +4,6 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using Slithin.Core;
 using Slithin.UI.Modals;
-using Slithin.ViewModels;
 using Slithin.ViewModels.Modals;
 
 namespace Slithin.Controls

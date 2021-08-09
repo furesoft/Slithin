@@ -8,7 +8,6 @@ using Slithin.Core;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.UI.ContextualMenus;
-using Slithin.ViewModels;
 using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages

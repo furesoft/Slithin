@@ -2,8 +2,6 @@
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Tools;
-using Slithin.ViewModels;
 
 namespace Slithin.ViewModels.Pages
 {

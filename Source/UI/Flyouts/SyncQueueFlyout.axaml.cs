@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Slithin.ViewModels;
 using Slithin.ViewModels.Flyouts;
 
 namespace Slithin.UI.Flyouts
