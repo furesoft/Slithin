@@ -65,7 +65,7 @@ namespace Slithin.ViewModels
 
             ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
 
-            ServiceLocator.Scp.ErrorOccurred += (s, _) =>
+            ServiceLocator.Client.ErrorOccurred += (s, _) =>
             {
                 DialogService.OpenError(_.Exception.ToString());
             };

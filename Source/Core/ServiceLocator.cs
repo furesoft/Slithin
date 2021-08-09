@@ -5,7 +5,6 @@ using Slithin.Core.Remarkable.Cloud;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
-using Slithin.Core.Sync.Repositorys;
 
 namespace Slithin.Core
 {
@@ -32,7 +31,8 @@ namespace Slithin.Core
             pathManager.Init();
 
             Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
-            SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>(), Container.Resolve<ILoadingService>());
+            //SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>(), Container.Resolve<ILoadingService>());
+            SyncService = Container.Resolve<SynchronisationService>();
 
             Container.Resolve<IMailboxService>().Init();
         }
