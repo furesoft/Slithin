@@ -5,8 +5,21 @@ namespace Slithin.ViewModels
 {
     public class DevicePageViewModel : BaseViewModel
     {
+        private readonly IVersionService _versionService;
+
         public DevicePageViewModel(IVersionService versionService)
         {
+            _versionService = versionService;
+        }
+
+        public bool IsBeta { get; set; }
+
+        public string Version { get; set; }
+
+        public override void OnLoad()
+        {
+            base.OnLoad();
+
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Starting", Filename = "starting.png" });
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Suspended", Filename = "suspended.png" });
@@ -18,15 +31,12 @@ namespace Slithin.ViewModels
                 cs.Load();
             }
 
-            Version = versionService.GetDeviceVersion().ToString();
-
             var str = ServiceLocator.Client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf").Result;
             str = str.Replace("BetaProgram=", "").Replace("\n", "");
 
             IsBeta = bool.Parse(str);
-        }
 
-        public bool IsBeta { get; set; }
-        public string Version { get; set; }
+            Version = _versionService.GetDeviceVersion().ToString();
+        }
     }
 }

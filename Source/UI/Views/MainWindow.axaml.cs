@@ -46,10 +46,6 @@ namespace Slithin.UI.Views
             {
                 mailboxService.Post(new InitStorageMessage());
             }
-            else
-            {
-                ServiceLocator.SyncService.LoadFromLocal();
-            }
 
             if (!Directory.GetFiles(notebooksDir).Any())
             {

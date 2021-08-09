@@ -26,5 +26,12 @@ namespace Slithin.ViewModels
             get { return _selectedTemplate; }
             set { SetValue(ref _selectedTemplate, value); }
         }
+
+        public override void OnLoad()
+        {
+            base.OnLoad();
+
+            ServiceLocator.SyncService.LoadFromLocal();
+        }
     }
 }
