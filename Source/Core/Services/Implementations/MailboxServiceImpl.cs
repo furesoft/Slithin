@@ -19,17 +19,19 @@ namespace Slithin.Core.Services.Implementations
     {
         private readonly DeviceRepository _device;
         private readonly LocalRepository _local;
+        private readonly MessageRouter _messageRouter;
         private readonly IPathManager _pathManager;
         private readonly SynchronisationService _syncService;
         private MailboxProcessor<AsynchronousMessage> _mailbox;
 
         public MailboxServiceImpl(IPathManager pathManager,
-            SynchronisationService syncService, DeviceRepository device, LocalRepository local)
+            SynchronisationService syncService, DeviceRepository device, LocalRepository local, MessageRouter messageRouter)
         {
             _pathManager = pathManager;
             _syncService = syncService;
             _device = device;
             _local = local;
+            _messageRouter = messageRouter;
         }
 
         public void Init()
@@ -41,7 +43,7 @@ namespace Slithin.Core.Services.Implementations
                     {
                         var msg = await _.Receive();
 
-                        MessageRouter.Route(msg);
+                        _messageRouter.Route(msg);
                     }
                 }
             );
@@ -52,7 +54,7 @@ namespace Slithin.Core.Services.Implementations
             var client = ServiceLocator.Container.Resolve<SshClient>();
             var scp = ServiceLocator.Container.Resolve<ScpClient>();
 
-            MessageRouter.Register<SyncMessage>(_ =>
+            _messageRouter.Register<SyncMessage>(_ =>
             {
                 var notebooksDir = _pathManager.NotebooksDir;
                 var customscreensDir = _pathManager.CustomScreensDir;
@@ -137,7 +139,7 @@ namespace Slithin.Core.Services.Implementations
                 }
             });
 
-            MessageRouter.Register<InitStorageMessage>(_ =>
+            _messageRouter.Register<InitStorageMessage>(_ =>
             {
                 _device.GetTemplates();
 
@@ -148,14 +150,14 @@ namespace Slithin.Core.Services.Implementations
                 ServiceLocator.Container.Resolve<BackupTool>().Invoke(null);
             });
 
-            MessageRouter.Register<CheckForUpdateMessage>(async _ =>
+            _messageRouter.Register<CheckForUpdateMessage>(async _ =>
             {
                 NotificationService.Show("Checking for Updates");
 
                 await Updater.StartUpdate();
             });
 
-            MessageRouter.Register<AttentionRequiredMessage>(async _ =>
+            _messageRouter.Register<AttentionRequiredMessage>(async _ =>
             {
                 var result = await DialogService.ShowDialog(_.Text);
 
@@ -165,12 +167,12 @@ namespace Slithin.Core.Services.Implementations
                 }
             });
 
-            MessageRouter.Register<PostActionMessage>(_ =>
+            _messageRouter.Register<PostActionMessage>(_ =>
             {
                 _.Action();
             });
 
-            MessageRouter.Register<DownloadNotebooksMessage>(_ =>
+            _messageRouter.Register<DownloadNotebooksMessage>(_ =>
             {
                 var notebooksDir = _pathManager.NotebooksDir;
 
@@ -335,12 +337,12 @@ namespace Slithin.Core.Services.Implementations
                 NotificationService.Hide();
             });
 
-            MessageRouter.Register<HideStatusMessage>(_ =>
+            _messageRouter.Register<HideStatusMessage>(_ =>
             {
                 NotificationService.Hide();
             });
 
-            MessageRouter.Register<ShowStatusMessage>(_ =>
+            _messageRouter.Register<ShowStatusMessage>(_ =>
             {
                 NotificationService.Show(_.Message);
             });

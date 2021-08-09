@@ -11,6 +11,7 @@ using Ionic.Zip;
 using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.UI.Tools;
 using Slithin.ViewModels;
@@ -83,8 +84,6 @@ namespace Slithin.Tools
                     {
                         NotificationService.Show("Restoring Backup");
 
-                        //Todo: implement restore backup
-
                         //delete local files but not backups folder
                         NotificationService.Show("Deleting Local Files - Screens");
                         Directory.Delete(_pathManager.CustomScreensDir, true);
@@ -129,6 +128,8 @@ namespace Slithin.Tools
 
                         NotificationService.Show("Finished");
                         await Task.Delay(1000);
+
+                        TemplateStorage.Instance.Apply();
 
                         NotificationService.Hide();
                     });
