@@ -1,7 +1,8 @@
 ﻿using System.Windows.Input;
 using Slithin.Core;
+using Slithin.ViewModels;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Modals
 {
     public class MessageBoxModalViewModel : BaseViewModel
     {

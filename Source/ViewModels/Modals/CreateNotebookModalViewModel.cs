@@ -17,8 +17,9 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Tools;
+using Slithin.ViewModels;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Modals
 {
     public class CreateNotebookModalViewModel : BaseViewModel
     {

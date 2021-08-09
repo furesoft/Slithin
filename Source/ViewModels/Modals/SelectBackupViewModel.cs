@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using Slithin.Core;
 using Slithin.Tools;
+using Slithin.ViewModels;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Modals
 {
     public class SelectBackupViewModel : BaseViewModel
     {

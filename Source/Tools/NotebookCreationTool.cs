@@ -10,6 +10,7 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.UI.Tools;
 using Slithin.ViewModels;
+using Slithin.ViewModels.Modals;
 
 namespace Slithin.Tools
 {

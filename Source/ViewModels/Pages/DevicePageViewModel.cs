@@ -1,7 +1,8 @@
 ﻿using Slithin.Core;
 using Slithin.Core.Services;
+using Slithin.ViewModels;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Pages
 {
     public class DevicePageViewModel : BaseViewModel
     {

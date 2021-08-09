@@ -4,8 +4,10 @@ using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
 using Slithin.UI.Modals;
+using Slithin.ViewModels.Modals;
+using Slithin.ViewModels;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Pages
 {
     public class TemplatesPageViewModel : BaseViewModel
     {

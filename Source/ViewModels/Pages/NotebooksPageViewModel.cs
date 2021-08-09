@@ -8,8 +8,10 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.UI.Modals;
+using Slithin.ViewModels.Modals;
+using Slithin.ViewModels;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Pages
 {
     public class NotebooksPageViewModel : BaseViewModel
     {
