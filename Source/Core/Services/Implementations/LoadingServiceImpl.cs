@@ -70,8 +70,6 @@ namespace Slithin.Core.Services.Implementations
                     }
                 }
             }
-
-            ServiceLocator.SyncService.TemplateFilter.Templates = new(TemplateStorage.Instance?.Templates);
         }
     }
 }

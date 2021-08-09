@@ -14,9 +14,10 @@ namespace Slithin.Core.Sync
         public TemplateFilter()
         {
             Categories = new();
-            Templates = new();
 
             Categories.Add("All");
+
+            Templates = new();
         }
 
         public ObservableCollection<string> Categories { get; set; }
@@ -37,6 +38,10 @@ namespace Slithin.Core.Sync
         {
             get { return _templates; }
             set { SetValue(ref _templates, value); }
+        }
+
+        public void Apply()
+        {
         }
 
         private void RefreshTemplates()
