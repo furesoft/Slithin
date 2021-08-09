@@ -15,13 +15,15 @@ namespace Slithin.ViewModels.Modals
     {
         private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
+        private readonly SynchronisationService _synchronisationService;
         private string _filename;
         private IconCodeItem _iconCode;
         private bool _isLandscape;
         private string _name;
         private string[] _selectedCategory;
 
-        public AddTemplateModalViewModel(IPathManager pathManager, LocalRepository localRepository)
+        public AddTemplateModalViewModel(IPathManager pathManager, LocalRepository localRepository,
+                                         SynchronisationService synchronisationService)
         {
             Categories = SyncService.TemplateFilter.Categories;
             Categories.RemoveAt(0);
@@ -41,6 +43,7 @@ namespace Slithin.ViewModels.Modals
             AddCategoryCommand = new DelegateCommand(AddCategory);
             this._pathManager = pathManager;
             _localRepository = localRepository;
+            _synchronisationService = synchronisationService;
         }
 
         public ICommand AddCategoryCommand { get; set; }
@@ -119,15 +122,15 @@ namespace Slithin.ViewModels.Modals
             template.Load();
 
             TemplateStorage.Instance.Add(template);
-            ServiceLocator.SyncService.TemplateFilter.Templates.Add(template);
+            _synchronisationService.TemplateFilter.Templates.Add(template);
 
             DialogService.Close();
 
             var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
-            ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+            _synchronisationService.SyncQueue.Insert(syncItem);
 
             var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
-            ServiceLocator.SyncService.SyncQueue.Insert(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
+            _synchronisationService.SyncQueue.Insert(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
         }
 
         private Template BuildTemplate()

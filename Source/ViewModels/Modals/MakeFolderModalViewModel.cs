@@ -13,12 +13,14 @@ namespace Slithin.ViewModels.Modals
     public class MakeFolderModalViewModel : BaseViewModel
     {
         private readonly IPathManager _pathManager;
+        private readonly SynchronisationService _synchronisationService;
         private string _name;
 
-        public MakeFolderModalViewModel(IPathManager _pathManager)
+        public MakeFolderModalViewModel(IPathManager _pathManager, SynchronisationService synchronisationService)
         {
             MakeFolderCommand = new DelegateCommand(MakeFolder);
             this._pathManager = _pathManager;
+            _synchronisationService = synchronisationService;
         }
 
         public ICommand MakeFolderCommand { get; set; }
@@ -36,7 +38,7 @@ namespace Slithin.ViewModels.Modals
             var md = new Metadata
             {
                 ID = id.ToString(),
-                Parent = ServiceLocator.SyncService.NotebooksFilter.Folder,
+                Parent = _synchronisationService.NotebooksFilter.Folder,
                 Type = "CollectionType",
                 VisibleName = Name
             };
@@ -49,8 +51,8 @@ namespace Slithin.ViewModels.Modals
                 var mdContent = JsonConvert.SerializeObject(md);
                 File.WriteAllText(path, mdContent);
 
-                ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
-                ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+                _synchronisationService.NotebooksFilter.Documents.Add(md);
+                _synchronisationService.NotebooksFilter.SortByFolder();
 
                 var syncItem = new SyncItem
                 {
@@ -60,7 +62,7 @@ namespace Slithin.ViewModels.Modals
                     Type = SyncType.Notebook
                 };
 
-                ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+                _synchronisationService.SyncQueue.Insert(syncItem);
 
                 DialogService.Close();
             }

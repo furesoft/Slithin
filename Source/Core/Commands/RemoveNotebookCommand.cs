@@ -11,10 +11,12 @@ namespace Slithin.Core.Commands
     public class RemoveNotebookCommand : ICommand
     {
         private readonly LocalRepository _localRepository;
+        private readonly SynchronisationService _synchronisationService;
 
-        public RemoveNotebookCommand(LocalRepository localRepository)
+        public RemoveNotebookCommand(LocalRepository localRepository, SynchronisationService synchronisationService)
         {
             _localRepository = localRepository;
+            _synchronisationService = synchronisationService;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -31,7 +33,7 @@ namespace Slithin.Core.Commands
                 if (await DialogService.ShowDialog($"Would you really want to delete '{tmpl.VisibleName}'?"))
                 {
                     ServiceLocator.Container.Resolve<NotebooksPageViewModel>().SelectedNotebook = null;
-                    ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(tmpl);
+                    _synchronisationService.NotebooksFilter.Documents.Remove(tmpl);
                     MetadataStorage.Local.Remove(tmpl);
                     _localRepository.Remove(tmpl);
 
@@ -43,7 +45,7 @@ namespace Slithin.Core.Commands
                         Type = SyncType.Notebook
                     };
 
-                    ServiceLocator.SyncService.SyncQueue.Insert(item);
+                    _synchronisationService.SyncQueue.Insert(item);
                 }
             }
         }

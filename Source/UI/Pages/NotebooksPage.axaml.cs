@@ -70,7 +70,7 @@ namespace Slithin.UI.Pages
                         var md = new Metadata
                         {
                             ID = id.ToString(),
-                            Parent = ServiceLocator.SyncService.NotebooksFilter.Folder,
+                            Parent = ServiceLocator.Container.Resolve<SynchronisationService>().NotebooksFilter.Folder,
                             Content = cnt,
                             Version = 1,
                             Type = "DocumentType",
@@ -78,7 +78,7 @@ namespace Slithin.UI.Pages
                         };
 
                         MetadataStorage.Local.Add(md, out var alreadyAdded);
-                        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
+                        ServiceLocator.Container.Resolve<SynchronisationService>().NotebooksFilter.Documents.Add(md);
 
                         File.Copy(filename, Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
 
@@ -93,7 +93,7 @@ namespace Slithin.UI.Pages
                             Data = md
                         };
 
-                        ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+                        ServiceLocator.Container.Resolve<SynchronisationService>().SyncQueue.Insert(syncItem);
                     }
                     else
                     {

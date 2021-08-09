@@ -15,11 +15,13 @@ namespace Slithin.Core.Scripting
     {
         private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
+        private readonly SynchronisationService _synchronisationService;
 
-        public ModuleResolver(IPathManager pathManager, LocalRepository localRepository)
+        public ModuleResolver(IPathManager pathManager, LocalRepository localRepository, SynchronisationService synchronisationService)
         {
             _pathManager = pathManager;
             _localRepository = localRepository;
+            _synchronisationService = synchronisationService;
         }
 
         public override bool TryGetModule(ModuleRequest moduleRequest, out Module result)
@@ -49,7 +51,7 @@ namespace Slithin.Core.Scripting
 
                 mb.AddFunction("startSync",
                               new Action(() =>
-                                  ServiceLocator.SyncService.SynchronizeCommand.Execute(null)));
+                                  _synchronisationService.SynchronizeCommand.Execute(null)));
             }
             else if (moduleRequest.CmdArgument == "slithin.mailbox")
             {

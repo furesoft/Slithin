@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using LiteDB;
-using Renci.SshNet;
 using Slithin.Core.Remarkable.Cloud;
-using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 

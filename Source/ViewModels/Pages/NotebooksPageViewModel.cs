@@ -13,14 +13,15 @@ namespace Slithin.ViewModels.Pages
     public class NotebooksPageViewModel : BaseViewModel
     {
         private readonly ILoadingService _loadingService;
-        private readonly IPathManager _pathManager;
         private bool _isMoving;
         private Metadata _movingNotebook;
         private Metadata _selectedNotebook;
 
-        public NotebooksPageViewModel(IPathManager pathManager, ILoadingService loadingService)
+        public NotebooksPageViewModel(ILoadingService loadingService)
         {
-            MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(new MakeFolderModalViewModel(pathManager));
+            MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(
+                ServiceLocator.Container.Resolve<MakeFolderModalViewModel>());
+
             RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
             MoveCommand = new DelegateCommand(_ =>
             {
@@ -58,7 +59,7 @@ namespace Slithin.ViewModels.Pages
 
                 SyncService.NotebooksFilter.SortByFolder();
             });
-            _pathManager = pathManager;
+
             _loadingService = loadingService;
         }
 

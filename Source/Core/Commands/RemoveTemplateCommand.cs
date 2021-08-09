@@ -11,12 +11,16 @@ namespace Slithin.Core.Commands
     public class RemoveTemplateCommand : ICommand
     {
         private readonly LocalRepository _localRepository;
+        private readonly SynchronisationService _synchronisationService;
         private readonly TemplatesPageViewModel _templatesPageViewModel;
 
-        public RemoveTemplateCommand(TemplatesPageViewModel templatesPageViewModel, LocalRepository localRepository)
+        public RemoveTemplateCommand(TemplatesPageViewModel templatesPageViewModel,
+                                     LocalRepository localRepository,
+                                     SynchronisationService synchronisationService)
         {
             _templatesPageViewModel = templatesPageViewModel;
             _localRepository = localRepository;
+            _synchronisationService = synchronisationService;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -33,7 +37,7 @@ namespace Slithin.Core.Commands
                 if (await DialogService.ShowDialog($"Would you really want to delete '{tmpl.Filename}'?"))
                 {
                     _templatesPageViewModel.SelectedTemplate = null;
-                    ServiceLocator.SyncService.TemplateFilter.Templates.Remove(tmpl);
+                    _synchronisationService.TemplateFilter.Templates.Remove(tmpl);
 
                     TemplateStorage.Instance.Remove(tmpl);
                     _localRepository.Remove(tmpl);
@@ -46,7 +50,7 @@ namespace Slithin.Core.Commands
                         Type = SyncType.Template
                     };
 
-                    ServiceLocator.SyncService.SyncQueue.Insert(item);
+                    _synchronisationService.SyncQueue.Insert(item);
                 }
             }
         }
