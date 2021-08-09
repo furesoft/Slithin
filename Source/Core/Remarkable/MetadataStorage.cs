@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using Slithin.Core.Services;
@@ -28,6 +29,11 @@ namespace Slithin.Core.Remarkable
             {
                 alreadyAdded = true;
             }
+        }
+
+        public void Clear()
+        {
+            _storage.Clear();
         }
 
         public Metadata Get(string id)
