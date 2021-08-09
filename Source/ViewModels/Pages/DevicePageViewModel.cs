@@ -6,15 +6,16 @@ namespace Slithin.ViewModels.Pages
 {
     public class DevicePageViewModel : BaseViewModel
     {
+        private readonly ILoadingService _loadingService;
         private readonly IVersionService _versionService;
-
         private bool _isBeta;
 
         private string _version;
 
-        public DevicePageViewModel(IVersionService versionService)
+        public DevicePageViewModel(IVersionService versionService, ILoadingService loadingService)
         {
             _versionService = versionService;
+            _loadingService = loadingService;
         }
 
         public bool IsBeta
@@ -39,10 +40,7 @@ namespace Slithin.ViewModels.Pages
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Rebooting", Filename = "rebooting.png" });
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Splash", Filename = "splash.png" });
 
-            foreach (var cs in ServiceLocator.SyncService.CustomScreens)
-            {
-                cs.Load();
-            }
+            _loadingService.LoadScreens();
 
             var str = ServiceLocator.Client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf").Result;
             str = str.Replace("BetaProgram=", "").Replace("\n", "");

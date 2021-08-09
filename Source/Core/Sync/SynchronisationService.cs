@@ -16,10 +16,11 @@ namespace Slithin.Core.Sync
 {
     public class SynchronisationService : INotifyPropertyChanged
     {
+        private readonly ILoadingService _loadingService;
         private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
 
-        public SynchronisationService(IPathManager pathManager, LiteDatabase db, LocalRepository localRepository)
+        public SynchronisationService(IPathManager pathManager, LiteDatabase db, LocalRepository localRepository, ILoadingService loadingService)
         {
             TemplateFilter = new();
             NotebooksFilter = new();
@@ -29,6 +30,7 @@ namespace Slithin.Core.Sync
             SyncQueue = db.GetCollection<SyncItem>();
             _pathManager = pathManager;
             _localRepository = localRepository;
+            _loadingService = loadingService;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -43,37 +45,9 @@ namespace Slithin.Core.Sync
 
         public void LoadFromLocal()
         {
-            LoadTemplates();
+            _loadingService.LoadTemplates();
 
             TemplateFilter.SelectedCategory = "All";
-        }
-
-        public void LoadTemplates()
-        {
-            TemplateFilter.Templates.Clear();
-
-            // Load local Templates
-            TemplateStorage.Instance?.Load();
-
-            // Load Category Names
-            var tempCats = TemplateStorage.Instance?.Templates.Select(_ => _.Categories);
-            TemplateFilter.Categories.Add("All");
-
-            foreach (var item in tempCats)
-            {
-                foreach (var cat in item)
-                {
-                    if (!TemplateFilter.Categories.Contains(cat))
-                    {
-                        TemplateFilter.Categories.Add(cat);
-                    }
-                }
-            }
-
-            foreach (var item in TemplateStorage.Instance?.Templates)
-            {
-                TemplateFilter.Templates.Add(item);
-            }
         }
 
         protected void SetValue<T>(ref T field, T value, [CallerMemberName] string property = null)

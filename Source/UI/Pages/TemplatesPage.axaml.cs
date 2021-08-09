@@ -13,7 +13,7 @@ namespace Slithin.UI.Pages
         {
             InitializeComponent();
 
-            DataContext = new TemplatesPageViewModel();
+            DataContext = ServiceLocator.Container.Resolve<TemplatesPageViewModel>();
         }
 
         public string Title => "Templates";

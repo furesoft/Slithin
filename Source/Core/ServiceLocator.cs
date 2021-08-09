@@ -32,7 +32,7 @@ namespace Slithin.Core
             pathManager.Init();
 
             Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
-            SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>());
+            SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>(), Container.Resolve<ILoadingService>());
 
             Container.Resolve<IMailboxService>().Init();
         }
