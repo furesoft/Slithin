@@ -9,3 +9,11 @@
 - fix "henne ei problem" syncdevicedeletions
 
 - only load notebook image on navigation
+
+- implement IImportProvider
+
+- implement ImportProvider 
+	- image files: convert automaticly to png
+		jpg, bitmap,...
+	- document files: convert automaticly to pdf
+	 txt, 
