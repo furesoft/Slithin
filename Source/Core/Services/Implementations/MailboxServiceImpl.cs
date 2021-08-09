@@ -18,6 +18,7 @@ namespace Slithin.Core.Services.Implementations
     public class MailboxServiceImpl : IMailboxService
     {
         private readonly DeviceRepository _device;
+        private readonly ILoadingService _loadingService;
         private readonly LocalRepository _local;
         private readonly MessageRouter _messageRouter;
         private readonly IPathManager _pathManager;
@@ -25,13 +26,18 @@ namespace Slithin.Core.Services.Implementations
         private MailboxProcessor<AsynchronousMessage> _mailbox;
 
         public MailboxServiceImpl(IPathManager pathManager,
-            SynchronisationService syncService, DeviceRepository device, LocalRepository local, MessageRouter messageRouter)
+                                  SynchronisationService syncService,
+                                  DeviceRepository device,
+                                  LocalRepository local,
+                                  MessageRouter messageRouter,
+                                  ILoadingService loadingService)
         {
             _pathManager = pathManager;
             _syncService = syncService;
             _device = device;
             _local = local;
             _messageRouter = messageRouter;
+            _loadingService = loadingService;
         }
 
         public void Init()
@@ -143,7 +149,7 @@ namespace Slithin.Core.Services.Implementations
             {
                 _device.GetTemplates();
 
-                _syncService.LoadFromLocal();
+                _loadingService.LoadTemplates();
 
                 _device.DownloadCustomScreens();
 

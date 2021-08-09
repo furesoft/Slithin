@@ -7,3 +7,7 @@
 
 
 - fix "henne ei problem" syncdevicedeletions
+
+- only load notebook image on navigation
+
+- cache pdf and epub image

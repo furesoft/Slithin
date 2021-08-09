@@ -40,27 +40,15 @@ namespace Slithin.Core.Sync
             set { SetValue(ref _templates, value); }
         }
 
-        public void Apply()
-        {
-        }
-
         private void RefreshTemplates()
         {
-            Templates.Clear();
-
             if (SelectedCategory == "All")
             {
-                foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => Landscape == _.Landscape))
-                {
-                    Templates.Add(item);
-                }
+                Templates = new(TemplateStorage.Instance?.Templates.Where(_ => Landscape == _.Landscape));
             }
             else
             {
-                foreach (var item in TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape))
-                {
-                    Templates.Add(item);
-                }
+                Templates = new(TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape));
             }
         }
     }
