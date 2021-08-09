@@ -1,4 +1,5 @@
-﻿using Slithin.Core;
+﻿using Renci.SshNet;
+using Slithin.Core;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
@@ -8,6 +9,7 @@ namespace Slithin.ViewModels.Pages
 {
     public class DevicePageViewModel : BaseViewModel
     {
+        private readonly SshClient _client;
         private readonly EventStorage _events;
         private readonly ILoadingService _loadingService;
         private readonly LocalRepository _localRepostory;
@@ -21,13 +23,15 @@ namespace Slithin.ViewModels.Pages
                                    ILoadingService loadingService,
                                    EventStorage events,
                                    IMailboxService mailboxService,
-                                   LocalRepository localRepostory)
+                                   LocalRepository localRepostory,
+                                   SshClient client)
         {
             _versionService = versionService;
             _loadingService = loadingService;
             _events = events;
             _mailboxService = mailboxService;
             _localRepostory = localRepostory;
+            _client = client;
         }
 
         public bool IsBeta
@@ -54,7 +58,7 @@ namespace Slithin.ViewModels.Pages
 
             _loadingService.LoadScreens();
 
-            var str = ServiceLocator.Client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf").Result;
+            var str = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf").Result;
             str = str.Replace("BetaProgram=", "").Replace("\n", "");
 
             IsBeta = bool.Parse(str);

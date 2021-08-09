@@ -62,7 +62,6 @@ namespace Slithin.ViewModels
             ServiceLocator.Container.Register(new ScpClient(IP, 22, "root", Password));
 
             ServiceLocator.Client = ServiceLocator.Container.Resolve<SshClient>();
-            ServiceLocator.Scp = ServiceLocator.Container.Resolve<ScpClient>();
             //SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>(), Container.Resolve<ILoadingService>());
             ServiceLocator.SyncService = ServiceLocator.Container.Resolve<SynchronisationService>();
             ServiceLocator.Container.Register<Automation>().AsSingleton();
@@ -85,7 +84,7 @@ namespace Slithin.ViewModels
                 try
                 {
                     ServiceLocator.Client.Connect();
-                    ServiceLocator.Scp.Connect();
+                    ServiceLocator.Container.Resolve<ScpClient>().Connect();
 
                     if (ServiceLocator.Client.IsConnected)
                     {
@@ -138,7 +137,7 @@ namespace Slithin.ViewModels
 
             var options = new PingOptions(64, true);
 
-            var reply = pingSender.Send(ServiceLocator.Scp.ConnectionInfo.Host, timeout, buffer, options);
+            var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer, options);
 
             if (reply.Status != IPStatus.Success)
             {

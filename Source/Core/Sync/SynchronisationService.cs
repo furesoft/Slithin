@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using LiteDB;
 using Newtonsoft.Json;
+using Renci.SshNet;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
@@ -16,11 +17,16 @@ namespace Slithin.Core.Sync
 {
     public class SynchronisationService : INotifyPropertyChanged
     {
+        private readonly SshClient _client;
         private readonly ILoadingService _loadingService;
         private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
 
-        public SynchronisationService(IPathManager pathManager, LiteDatabase db, LocalRepository localRepository, ILoadingService loadingService)
+        public SynchronisationService(IPathManager pathManager,
+                                      LiteDatabase db,
+                                      LocalRepository localRepository,
+                                      ILoadingService loadingService,
+                                      SshClient client)
         {
             TemplateFilter = new();
             NotebooksFilter = new();
@@ -31,6 +37,7 @@ namespace Slithin.Core.Sync
             _pathManager = pathManager;
             _localRepository = localRepository;
             _loadingService = loadingService;
+            _client = client;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -64,7 +71,7 @@ namespace Slithin.Core.Sync
         {
             var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
 
-            var deviceFiles = ServiceLocator.Client.RunCommand("ls -p " + PathList.Documents).Result
+            var deviceFiles = _client.RunCommand("ls -p " + PathList.Documents).Result
                 .Split('\n', System.StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
             var localFiles = Directory.GetFiles(_pathManager.NotebooksDir).Where(_ => _.EndsWith(".metadata")).
                 Select(_ => Path.GetFileName(_));

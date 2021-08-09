@@ -14,8 +14,6 @@ namespace Slithin.Core
 
         public static TinyIoCContainer Container;
 
-        public static ScpClient Scp;
-
         public static SynchronisationService SyncService;
 
         public static void Init()
