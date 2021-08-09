@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Renci.SshNet;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 
@@ -9,13 +10,19 @@ namespace Slithin.Core.Sync.Repositorys
 {
     public class DeviceRepository : IRepository
     {
+        private readonly SshClient _client;
+        private readonly ILoadingService _loadingService;
         private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
+        private readonly ScpClient _scp;
 
-        public DeviceRepository(IPathManager pathManager, LocalRepository localRepository)
+        public DeviceRepository(IPathManager pathManager, LocalRepository localRepository, ScpClient scp, SshClient client, ILoadingService loadingService)
         {
             _pathManager = pathManager;
             _localRepository = localRepository;
+            _scp = scp;
+            _client = client;
+            _loadingService = loadingService;
         }
 
         public void Add(Template template)
@@ -23,7 +30,7 @@ namespace Slithin.Core.Sync.Repositorys
             //1. copy template to device
             //2. add template to template.json
 
-            ServiceLocator.Scp?.Upload(File.OpenRead(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")), PathList.Templates);
+            _scp?.Upload(File.OpenRead(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")), PathList.Templates);
 
             // modifiy template.json
             var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
@@ -39,34 +46,31 @@ namespace Slithin.Core.Sync.Repositorys
 
             // upload modified template.json
             var jsonStrm = File.OpenRead(path);
-            ServiceLocator.Scp.Upload(jsonStrm, PathList.Templates + "/templates.json");
+            _scp.Upload(jsonStrm, PathList.Templates + "/templates.json");
         }
 
         public void Add(CustomScreen screen)
         {
-            ServiceLocator.Scp.Upload(new FileInfo(Path.Combine(_pathManager.CustomScreensDir, screen.Title + ".png")), PathList.Screens + screen.Title + ".png");
+            _scp.Upload(new FileInfo(Path.Combine(_pathManager.CustomScreensDir, screen.Title + ".png")), PathList.Screens + screen.Title + ".png");
         }
 
         public void DownloadCustomScreens()
         {
-            var cmd = ServiceLocator.Client.RunCommand("ls -p " + PathList.Screens);
+            var cmd = _client.RunCommand("ls -p " + PathList.Screens);
             var filenames = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".png"));
 
             // download files to custom screen dir
             foreach (var file in filenames)
             {
-                ServiceLocator.Scp.Download(PathList.Screens + file, new FileInfo(Path.Combine(_pathManager.CustomScreensDir, Path.GetFileName(file))));
+                _scp.Download(PathList.Screens + file, new FileInfo(Path.Combine(_pathManager.CustomScreensDir, Path.GetFileName(file))));
             }
 
-            foreach (var cs in ServiceLocator.SyncService.CustomScreens)
-            {
-                cs.Load();
-            }
+            _loadingService.LoadScreens();
         }
 
         public Template[] GetTemplates()
         {
-            ServiceLocator.Scp.Download(PathList.Templates + "templates.json", new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")));
+            _scp.Download(PathList.Templates + "templates.json", new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")));
             //Get template.json
             //sort out all synced templates
             //download all nonsynced templates to localrepository
@@ -79,8 +83,8 @@ namespace Slithin.Core.Sync.Repositorys
 
             foreach (var t in toSyncTemplates)
             {
-                ServiceLocator.Scp.Download(PathList.Templates + "/" + t.Filename + ".png", new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".png")));
-                ServiceLocator.Scp.Download(PathList.Templates + "/" + t.Filename + ".svg", new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".svg")));
+                _scp.Download(PathList.Templates + "/" + t.Filename + ".png", new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".png")));
+                _scp.Download(PathList.Templates + "/" + t.Filename + ".svg", new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".svg")));
             }
 
             NotificationService.Hide();
@@ -96,21 +100,21 @@ namespace Slithin.Core.Sync.Repositorys
             templateJson.Remove(template);
             templateJson.Save();
 
-            ServiceLocator.Scp.Upload(File.OpenRead(_pathManager.ConfigBaseDir + "templates.json"), Path.Combine(PathList.Templates, "templates.json"));
-            ServiceLocator.Client.RunCommand("rm -fr " + PathList.Templates + template.Filename + ".png");
+            _scp.Upload(File.OpenRead(_pathManager.ConfigBaseDir + "templates.json"), Path.Combine(PathList.Templates, "templates.json"));
+            _client.RunCommand("rm -fr " + PathList.Templates + template.Filename + ".png");
         }
 
         public void Remove(Metadata data)
         {
             if (data.Type == "DocumentType")
             {
-                var cmd = ServiceLocator.Client.RunCommand("ls " + PathList.Documents);
+                var cmd = _client.RunCommand("ls " + PathList.Documents);
                 var split = cmd.Result.Split('\n');
                 var excluded = split.Where(_ => _.Contains(data.ID));
 
                 var filenames = string.Join(' ', excluded.Select(_ => PathList.Documents + "/" + _));
 
-                ServiceLocator.Client.RunCommand("rm -fr " + filenames);
+                _client.RunCommand("rm -fr " + filenames);
             }
         }
     }

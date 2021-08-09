@@ -12,13 +12,15 @@ namespace Slithin.ViewModels.Pages
     public class TemplatesPageViewModel : BaseViewModel
     {
         private readonly ILoadingService _loadingService;
+        private readonly IMailboxService _mailboxService;
         private Template _selectedTemplate;
 
-        public TemplatesPageViewModel(ILoadingService loadingService)
+        public TemplatesPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
         {
             OpenAddModalCommand = DialogService.CreateOpenCommand<AddTemplateModal>(ServiceLocator.Container.Resolve<AddTemplateModalViewModel>());
             RemoveTemplateCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
             _loadingService = loadingService;
+            _mailboxService = mailboxService;
         }
 
         public ICommand OpenAddModalCommand { get; set; }
@@ -35,9 +37,16 @@ namespace Slithin.ViewModels.Pages
         {
             base.OnLoad();
 
+            //_mailboxService.PostAction(() =>
+            //{
+            NotificationService.Show("Loading Templates");
+
             _loadingService.LoadTemplates();
 
             SyncService.TemplateFilter.SelectedCategory = "All";
+
+            NotificationService.Hide();
+            //});
         }
     }
 }
