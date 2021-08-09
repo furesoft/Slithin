@@ -2,24 +2,25 @@
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Tools;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Pages
 {
     public class ToolsPageViewModel : BaseViewModel
     {
         private ITool _selectedScript;
 
-        public ToolsPageViewModel()
+        public ToolsPageViewModel(ToolRepository toolRepository)
         {
-            Items.Add(new NotebookCreationTool());
-            Items.Add(new BackUpTool());
+            foreach (var tool in toolRepository.FindTools())
+            {
+                Items.Add(tool);
+            }
 
             ConfigurateScriptCommand = new DelegateCommand(_ => DialogService.Open(SelectedScript.GetModal()), _ => _ is ITool tool && tool.IsConfigurable);
             RemoveScriptCommand = new DelegateCommand(_ =>
             {
                 Items.Remove(((ITool)_));
-            }, _ => _ is not null);
+            }, _ => false);
 
             ExecuteScriptCommand = new DelegateCommand(_ =>
             {

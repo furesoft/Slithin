@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Media;
@@ -13,13 +14,15 @@ using PdfSharpCore.Pdf;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Scripting;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
+using Slithin.Tools;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Modals
 {
     public class CreateNotebookModalViewModel : BaseViewModel
     {
+        private readonly IPathManager _pathManager;
         private IImage _cover;
         private string _filename;
         private string _name;
@@ -29,7 +32,7 @@ namespace Slithin.ViewModels
         private bool _renderName;
         private Template _selectedTemplate;
 
-        public CreateNotebookModalViewModel()
+        public CreateNotebookModalViewModel(IPathManager pathManager)
         {
             Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
 
@@ -43,7 +46,15 @@ namespace Slithin.ViewModels
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Cover.png")));
+            Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Covers/Folder-DBlue.png")));
+            Filename = "internal:Folder-DBlue.png";
+
+            var coverNames = GetType().Assembly.GetManifestResourceNames().
+                Where(_ => _.StartsWith("Slithin.Resources.Covers.")).
+                Select(_ => _.Replace(".png", "").Substring("Slithin.Resources.Covers.".Length));
+
+            DefaultCovers = new ObservableCollection<string>(coverNames);
+            _pathManager = pathManager;
         }
 
         public ICommand AddPagesCommand { get; set; }
@@ -55,6 +66,8 @@ namespace Slithin.ViewModels
             get { return _cover; }
             set { SetValue(ref _cover, value); }
         }
+
+        public ObservableCollection<string> DefaultCovers { get; set; }
 
         public string Filename
         {
@@ -76,7 +89,7 @@ namespace Slithin.ViewModels
             set { SetValue(ref _pageCount, value); }
         }
 
-        public ObservableCollection<(Template, int)> Pages { get; set; } = new();
+        public ObservableCollection<NotebookPage> Pages { get; set; } = new();
 
         public bool RenderName
         {
@@ -94,13 +107,21 @@ namespace Slithin.ViewModels
 
         public void LoadCover()
         {
-            using var strm = File.OpenRead(Filename);
-            Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+            if (Filename.StartsWith("custom:"))
+            {
+                using var strm = File.OpenRead(Filename.Substring("custom:".Length));
+                Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+            }
+            else
+            {
+                using var strm = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + Filename.Substring("internal:".Length) + ".png");
+                Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+            }
         }
 
         private void AddPages(object obj)
         {
-            Pages.Add((SelectedTemplate, int.Parse(PageCount)));
+            Pages.Add(new NotebookPage(SelectedTemplate, int.Parse(PageCount)));
 
             SelectedTemplate = null;
             PageCount = null;
@@ -123,8 +144,23 @@ namespace Slithin.ViewModels
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            var coverImage = XImage.FromStream(() => assets.Open(new Uri($"avares://Slithin/Resources/Cover.png")));
-            coverGfx.DrawImage(coverImage, 0, 0, coverPage.Width, coverPage.Height);
+            Stream coverStream = null;
+            if (Filename.StartsWith("custom:"))
+            {
+                coverStream = File.OpenRead(Filename.Substring("custom:".Length));
+            }
+            else
+            {
+                coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + Filename.Substring("internal:".Length) + ".png");
+            }
+
+            if (coverStream == null)
+            {
+                coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Cover.png");
+            }
+
+            var coverImage = XImage.FromStream(() => coverStream);
+            coverGfx.DrawImage(coverImage, 3, 3, coverPage.Width - 6, coverPage.Height - 6);
 
             if (RenderName)
             {
@@ -135,9 +171,9 @@ namespace Slithin.ViewModels
 
             foreach (var p in Pages)
             {
-                var t = XImage.FromFile(ServiceLocator.TemplatesDir + "\\" + p.Item1.Filename + ".png");
+                var t = XImage.FromFile(_pathManager.TemplatesDir + "\\" + p.Template.Filename + ".png");
 
-                for (var i = 0; i < p.Item2; i++)
+                for (var i = 0; i < p.Count; i++)
                 {
                     var page = document.AddPage();
                     page.Size = PageSize.A4;
@@ -159,14 +195,15 @@ namespace Slithin.ViewModels
                 Content = new() { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count }
             };
 
-            File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
-            File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(md.Content, Formatting.Indented));
+            File.WriteAllText(Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
+            File.WriteAllText(Path.Combine(_pathManager.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(md.Content, Formatting.Indented));
 
-            document.Save(ServiceLocator.NotebooksDir + $"\\{md.ID}.pdf");
+            document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
 
             MetadataStorage.Local.Add(md, out var alreadyAdded);
 
             SyncService.NotebooksFilter.Documents.Add(md);
+            SyncService.NotebooksFilter.SortByFolder();
 
             var syncItem = new SyncItem
             {

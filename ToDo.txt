@@ -3,3 +3,12 @@
 	generate real notebook from svgs to make a copy availale on device
 
 
+- implement toolsfilter
+
+- fix ui bug "Item already exists"
+
+- fix "henne ei problem" syncdevicedeletions
+
+- implement restore tool
+
+- implement refreshing ui items

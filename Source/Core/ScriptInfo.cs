@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 using Slithin.Core.Scripting;
+using Slithin.Core.Services;
 
 namespace Slithin.Core
 {
@@ -10,15 +11,19 @@ namespace Slithin.Core
 
         public void Evaluate()
         {
-            Automation.Evaluate(Name);
+            var automation = ServiceLocator.Container.Resolve<Automation>();
+
+            automation.Evaluate(Name);
         }
 
         public void Save(object configObj)
         {
             Config = configObj;
 
+            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+
             var content = JsonConvert.SerializeObject(this, Formatting.Indented);
-            var file = Path.Combine(ServiceLocator.ConfigBaseDir, "Scripts", Name + ".info");
+            var file = Path.Combine(pathManager.ConfigBaseDir, "Scripts", Name + ".info");
 
             File.WriteAllText(file, content);
         }

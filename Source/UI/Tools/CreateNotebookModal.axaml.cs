@@ -2,7 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using Slithin.ViewModels;
+using Slithin.ViewModels.Modals;
 
 namespace Slithin.UI.Tools
 {
@@ -11,6 +11,15 @@ namespace Slithin.UI.Tools
         public CreateNotebookModal()
         {
             InitializeComponent();
+        }
+
+        private void CoverSelection(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataContext is CreateNotebookModalViewModel vm)
+            {
+                vm.Filename = "internal:" + e.AddedItems[0].ToString();
+                vm.LoadCover();
+            }
         }
 
         private void DragOver(object sender, DragEventArgs e)
@@ -32,7 +41,7 @@ namespace Slithin.UI.Tools
 
                 if (DataContext is CreateNotebookModalViewModel vm)
                 {
-                    vm.Filename = filename;
+                    vm.Filename = "custom:" + filename;
                     vm.LoadCover();
                 }
             }

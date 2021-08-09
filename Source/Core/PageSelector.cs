@@ -73,6 +73,11 @@ namespace Slithin.Core
                         {
                             s_conextualMenu.Children.Clear();
 
+                            if (tab.DataContext is BaseViewModel pl)
+                            {
+                                pl.Load();
+                            }
+
                             context.DataContext = tab.DataContext;
                             s_conextualMenu.Children.Add(context);
                         }

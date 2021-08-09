@@ -1,25 +1,28 @@
-﻿using System.IO;
-using System.Windows.Input;
-using Newtonsoft.Json;
+﻿using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.UI.Modals;
+using Slithin.ViewModels.Modals;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Pages
 {
     public class NotebooksPageViewModel : BaseViewModel
     {
+        private readonly ILoadingService _loadingService;
         private bool _isMoving;
         private Metadata _movingNotebook;
         private Metadata _selectedNotebook;
 
-        public NotebooksPageViewModel()
+        public NotebooksPageViewModel(ILoadingService loadingService)
         {
-            MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(new MakeFolderModalViewModel());
-            RemoveNotebookCommand = new RemoveNotebookCommand(this);
+            MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(
+                ServiceLocator.Container.Resolve<MakeFolderModalViewModel>());
+
+            RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
             MoveCommand = new DelegateCommand(_ =>
             {
                 IsMoving = true;
@@ -30,30 +33,6 @@ namespace Slithin.ViewModels
              {
                  IsMoving = false;
              });
-
-            foreach (var md in Directory.GetFiles(ServiceLocator.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
-            {
-                var mdObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(md));
-                mdObj.ID = Path.GetFileNameWithoutExtension(md);
-
-                if (File.Exists(Path.ChangeExtension(md, ".content")))
-                {
-                    mdObj.Content = JsonConvert.DeserializeObject<ContentFile>(File.ReadAllText(Path.ChangeExtension(md, ".content")));
-                }
-                if (File.Exists(Path.ChangeExtension(md, ".pagedata")))
-                {
-                    mdObj.PageData.Parse(File.ReadAllText(Path.ChangeExtension(md, ".pagedata")));
-                }
-
-                MetadataStorage.Local.Add(mdObj, out var alreadyAdded);
-            }
-
-            foreach (var md in MetadataStorage.Local.GetByParent(""))
-            {
-                SyncService.NotebooksFilter.Documents.Add(md);
-            }
-
-            SyncService.NotebooksFilter.SortByFolder();
 
             MoveHereCommand = new DelegateCommand(_ =>
             {
@@ -80,6 +59,8 @@ namespace Slithin.ViewModels
 
                 SyncService.NotebooksFilter.SortByFolder();
             });
+
+            _loadingService = loadingService;
         }
 
         public bool IsMoving
@@ -91,14 +72,24 @@ namespace Slithin.ViewModels
         public ICommand MakeFolderCommand { get; set; }
 
         public ICommand MoveCancelCommand { get; set; }
+
         public ICommand MoveCommand { get; set; }
+
         public ICommand MoveHereCommand { get; set; }
+
         public ICommand RemoveNotebookCommand { get; set; }
 
         public Metadata SelectedNotebook
         {
             get { return _selectedNotebook; }
             set { SetValue(ref _selectedNotebook, value); }
+        }
+
+        public override void OnLoad()
+        {
+            base.OnLoad();
+
+            _loadingService.LoadNotebooks();
         }
     }
 }

@@ -3,14 +3,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="using:Slithin.Controls"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
+             mc:Ignorable="d" d:DesignWidth="515" d:DesignHeight="360"
              x:Class="Slithin.UI.Tools.CreateNotebookModal">
-  <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding OKCommand}" MinHeight="350" MinWidth="500">
-    <Grid RowDefinitions="40,40,45,35,36">
-      <TextBox Watermark="Name" Grid.Row="0" Margin="5" HorizontalAlignment="Left" MinWidth="185" Text="{Binding Name}" />
+  <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding OKCommand}" MinHeight="350" MinWidth="515">
+    <Grid RowDefinitions="40,40,45,35,36" ColumnDefinitions="*,50,*">
+      <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <TextBox Watermark="Title" Margin="5" HorizontalAlignment="Left" MinWidth="185" Text="{Binding Name}" />
+        <ComboBox SelectedIndex="0" Margin="5" Items="{Binding Categories}" PlaceholderText="Category" />
+      </StackPanel>
 
       <StackPanel Orientation="Horizontal" Margin="2" Spacing="5" Grid.Row="1">
-        <ComboBox SelectedIndex="0" Margin="3" Items="{Binding Templates}" PlaceholderText="Template" SelectedItem="{Binding SelectedTemplate}">
+        <ComboBox SelectedIndex="0" Margin="3" Items="{Binding Templates}" PlaceholderText="Template" SelectedItem="{Binding SelectedTemplate}" MaxWidth="150">
           <ComboBox.ItemTemplate>
             <DataTemplate>
               <StackPanel Orientation="Horizontal" Spacing="5">
@@ -21,30 +24,38 @@
           </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <TextBox Watermark="Page Count" Margin="3" Text="{Binding PageCount}" />
+        <StackPanel Spacing="3">
+          <TextBox Watermark="Page Count" Margin="3" Text="{Binding PageCount}" ToolTip.Tip="How many pages should the template apply?" />
 
-        <Button Content="Add" Command="{Binding AddPagesCommand}" />
+          <Button Content="Add" Command="{Binding AddPagesCommand}" />
+        </StackPanel>
       </StackPanel>
 
-      <StackPanel HorizontalAlignment="Right" Grid.Row="0" Spacing="3">
-        <ComboBox PlaceholderText="Default Cover">
-          <ComboBoxItem>Blue</ComboBoxItem>
-          <ComboBoxItem>Yellow</ComboBoxItem>
-          <ComboBoxItem>Green</ComboBoxItem>
-          <ComboBoxItem>Red</ComboBoxItem>
-          <ComboBoxItem>Purple</ComboBoxItem>
-        </ComboBox>
+      <StackPanel HorizontalAlignment="Right" Grid.Row="0" Spacing="3" Margin="15,0,0,0" Grid.Column="2">
+        <ComboBox PlaceholderText="Default Cover" SelectionChanged="CoverSelection" Items="{Binding DefaultCovers}" />
 
         <TextBlock Text="Cover" />
 
         <Border BorderBrush="Black" BorderThickness="1" Width="150" Height="150">
-          <Image Source="{Binding Cover, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" Margin="5" />
+          <Image Source="{Binding Cover, Mode=TwoWay}" ToolTip.Tip="Drag a Image over or select from the list above" DragDrop.AllowDrop="True" Width="150" Height="150" Margin="5" />
         </Border>
 
-        <CheckBox Content="Render Name" IsChecked="{Binding RenderName}" ToolTip.Tip="Only for Short Names" />
+        <CheckBox Content="Render Title" IsChecked="{Binding RenderName}" ToolTip.Tip="Only for short names and defaut covers" />
       </StackPanel>
 
-      <ComboBox SelectedIndex="0" Margin="3" Grid.Row="2" Items="{Binding Categories}" PlaceholderText="Category" />
+      <ScrollViewer Grid.Row="4">
+        <ItemsPresenter Items="{Binding Pages}">
+          <ItemsPresenter.ItemTemplate>
+            <DataTemplate>
+              <Grid ColumnDefinitions="*,*">
+                <TextBlock Text="{Binding Template.Name}" />
+
+                <TextBlock Text="{Binding Count}" HorizontalAlignment="Right" Grid.Column="1" />
+              </Grid>
+            </DataTemplate>
+          </ItemsPresenter.ItemTemplate>
+        </ItemsPresenter>
+      </ScrollViewer>
     </Grid>
   </c:DialogControl>
 </UserControl>

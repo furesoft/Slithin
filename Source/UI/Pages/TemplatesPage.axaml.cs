@@ -2,7 +2,7 @@
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
 using Slithin.UI.ContextualMenus;
-using Slithin.ViewModels;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages
 {
@@ -12,7 +12,7 @@ namespace Slithin.UI.Pages
         {
             InitializeComponent();
 
-            DataContext = new TemplatesPageViewModel();
+            DataContext = ServiceLocator.Container.Resolve<TemplatesPageViewModel>();
         }
 
         public string Title => "Templates";

@@ -7,9 +7,10 @@ using Newtonsoft.Json;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.UI.ContextualMenus;
-using Slithin.ViewModels;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages
 {
@@ -19,7 +20,7 @@ namespace Slithin.UI.Pages
         {
             InitializeComponent();
 
-            DataContext = new NotebooksPageViewModel();
+            DataContext = ServiceLocator.Container.Resolve<NotebooksPageViewModel>();
         }
 
         public string Title => "Notebooks";
@@ -52,6 +53,8 @@ namespace Slithin.UI.Pages
 
         private async void Drop(object sender, DragEventArgs e)
         {
+            var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
+
             if (e.Data.Contains(DataFormats.FileNames))
             {
                 foreach (var filename in e.Data.GetFileNames())
@@ -67,7 +70,7 @@ namespace Slithin.UI.Pages
                         var md = new Metadata
                         {
                             ID = id.ToString(),
-                            Parent = ServiceLocator.SyncService.NotebooksFilter.Folder,
+                            Parent = ServiceLocator.Container.Resolve<SynchronisationService>().NotebooksFilter.Folder,
                             Content = cnt,
                             Version = 1,
                             Type = "DocumentType",
@@ -75,12 +78,12 @@ namespace Slithin.UI.Pages
                         };
 
                         MetadataStorage.Local.Add(md, out var alreadyAdded);
-                        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
+                        ServiceLocator.Container.Resolve<SynchronisationService>().NotebooksFilter.Documents.Add(md);
 
-                        File.Copy(filename, Path.Combine(ServiceLocator.NotebooksDir, md.ID + Path.GetExtension(filename)));
+                        File.Copy(filename, Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
 
-                        File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md));
-                        File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(cnt));
+                        File.WriteAllText(Path.Combine(notebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md));
+                        File.WriteAllText(Path.Combine(notebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(cnt));
 
                         var syncItem = new SyncItem
                         {
@@ -90,7 +93,7 @@ namespace Slithin.UI.Pages
                             Data = md
                         };
 
-                        ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+                        ServiceLocator.Container.Resolve<SynchronisationService>().SyncQueue.Insert(syncItem);
                     }
                     else
                     {

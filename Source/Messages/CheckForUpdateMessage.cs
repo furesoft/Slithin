@@ -4,6 +4,5 @@ namespace Slithin.Messages
 {
     public class CheckForUpdateMessage : AsynchronousMessage
     {
-        
     }
 }

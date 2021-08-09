@@ -1,5 +1,4 @@
-﻿using System;
-using Slithin.Core.Remarkable;
+﻿using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Sync
 {
@@ -8,8 +7,6 @@ namespace Slithin.Core.Sync
         void Add(Template template);
 
         Template[] GetTemplates();
-
-        Version GetVersion();
 
         void Remove(Template template);
     }

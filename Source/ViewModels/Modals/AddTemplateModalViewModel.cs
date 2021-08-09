@@ -5,19 +5,25 @@ using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
+using Slithin.Core.Sync.Repositorys;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Modals
 {
     public class AddTemplateModalViewModel : BaseViewModel
     {
+        private readonly LocalRepository _localRepository;
+        private readonly IPathManager _pathManager;
+        private readonly SynchronisationService _synchronisationService;
         private string _filename;
         private IconCodeItem _iconCode;
         private bool _isLandscape;
         private string _name;
         private string[] _selectedCategory;
 
-        public AddTemplateModalViewModel()
+        public AddTemplateModalViewModel(IPathManager pathManager, LocalRepository localRepository,
+                                         SynchronisationService synchronisationService)
         {
             Categories = SyncService.TemplateFilter.Categories;
             Categories.RemoveAt(0);
@@ -35,6 +41,9 @@ namespace Slithin.ViewModels
 
             AddTemplateCommand = new DelegateCommand(AddTemplate);
             AddCategoryCommand = new DelegateCommand(AddCategory);
+            this._pathManager = pathManager;
+            _localRepository = localRepository;
+            _synchronisationService = synchronisationService;
         }
 
         public ICommand AddCategoryCommand { get; set; }
@@ -84,11 +93,11 @@ namespace Slithin.ViewModels
         {
             var template = BuildTemplate();
 
-            if (File.Exists(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png")))
+            if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
             {
                 if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
                 {
-                    File.Delete(Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png"));
+                    File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
                 }
                 else
                 {
@@ -106,22 +115,22 @@ namespace Slithin.ViewModels
             }
             bitmap.Dispose();
 
-            File.Copy(Filename, Path.Combine(ServiceLocator.TemplatesDir, template.Filename + ".png"));
+            File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
 
-            ServiceLocator.Local.Add(template);
+            _localRepository.Add(template);
 
             template.Load();
 
             TemplateStorage.Instance.Add(template);
-            ServiceLocator.SyncService.TemplateFilter.Templates.Add(template);
+            _synchronisationService.TemplateFilter.Templates.Add(template);
 
             DialogService.Close();
 
             var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
-            ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+            _synchronisationService.SyncQueue.Insert(syncItem);
 
-            var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
-            ServiceLocator.SyncService.SyncQueue.Insert(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
+            var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
+            _synchronisationService.SyncQueue.Insert(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
         }
 
         private Template BuildTemplate()

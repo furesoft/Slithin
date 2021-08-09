@@ -3,17 +3,20 @@ using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
-using Slithin.ViewModels;
+using Slithin.Core.Sync.Repositorys;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.Core.Commands
 {
     public class RemoveNotebookCommand : ICommand
     {
-        private readonly NotebooksPageViewModel _notebooksPageViewModel;
+        private readonly LocalRepository _localRepository;
+        private readonly SynchronisationService _synchronisationService;
 
-        public RemoveNotebookCommand(NotebooksPageViewModel templatesPageViewModel)
+        public RemoveNotebookCommand(LocalRepository localRepository, SynchronisationService synchronisationService)
         {
-            _notebooksPageViewModel = templatesPageViewModel;
+            _localRepository = localRepository;
+            _synchronisationService = synchronisationService;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -29,10 +32,10 @@ namespace Slithin.Core.Commands
             {
                 if (await DialogService.ShowDialog($"Would you really want to delete '{tmpl.VisibleName}'?"))
                 {
-                    _notebooksPageViewModel.SelectedNotebook = null;
-                    ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(tmpl);
+                    ServiceLocator.Container.Resolve<NotebooksPageViewModel>().SelectedNotebook = null;
+                    _synchronisationService.NotebooksFilter.Documents.Remove(tmpl);
                     MetadataStorage.Local.Remove(tmpl);
-                    ServiceLocator.Local.Remove(tmpl);
+                    _localRepository.Remove(tmpl);
 
                     var item = new SyncItem
                     {
@@ -42,7 +45,7 @@ namespace Slithin.Core.Commands
                         Type = SyncType.Notebook
                     };
 
-                    ServiceLocator.SyncService.SyncQueue.Insert(item);
+                    _synchronisationService.SyncQueue.Insert(item);
                 }
             }
         }

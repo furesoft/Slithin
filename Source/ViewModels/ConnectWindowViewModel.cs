@@ -4,34 +4,38 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
-using LiteDB;
+using Renci.SshNet;
 using Renci.SshNet.Common;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Scripting;
+using Slithin.Core.Services;
+using Slithin.Core.Sync;
 using Slithin.UI.Views;
 
 namespace Slithin.ViewModels
 {
     public class ConnectionWindowViewModel : BaseViewModel
     {
+        private readonly EventStorage _events;
+        private readonly ILoginService _loginService;
         private string _ipAddress;
 
         private string _password;
 
         private bool _remember;
 
-        public ConnectionWindowViewModel()
+        public ConnectionWindowViewModel(EventStorage events, ILoginService loginService, ToolRepository tools)
         {
             _ipAddress = string.Empty;
             _password = string.Empty;
             _remember = false;
 
             ConnectCommand = new DelegateCommand(Connect);
+            _events = events;
+            _loginService = loginService;
         }
 
-        public ObjectId _id { get; set; }
-
-        [BsonIgnore]
         public ICommand ConnectCommand { get; set; }
 
         public string IP
@@ -52,12 +56,25 @@ namespace Slithin.ViewModels
             set { SetValue(ref _remember, value); }
         }
 
-        private void Connect(object? obj)
+        private void Connect(object obj)
         {
-            ServiceLocator.Client = new Renci.SshNet.SshClient(IP, 22, "root", Password);
-            ServiceLocator.Scp = new Renci.SshNet.ScpClient(IP, 22, "root", Password);
+            ServiceLocator.Container.Register(new SshClient(IP, 22, "root", Password));
+            ServiceLocator.Container.Register(new ScpClient(IP, 22, "root", Password));
 
-            ServiceLocator.Scp.ErrorOccurred += (s, _) =>
+            var client = ServiceLocator.Container.Resolve<SshClient>();
+            //SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>(), Container.Resolve<ILoadingService>());
+            ServiceLocator.SyncService = ServiceLocator.Container.Resolve<SynchronisationService>();
+            ServiceLocator.Container.Register<Automation>().AsSingleton();
+
+            var automation = ServiceLocator.Container.Resolve<Automation>();
+
+            automation.Init();
+            automation.Evaluate("testScript");
+
+            ServiceLocator.Container.Resolve<IMailboxService>().Init();
+            ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
+
+            client.ErrorOccurred += (s, _) =>
             {
                 DialogService.OpenError(_.Exception.ToString());
             };
@@ -66,19 +83,21 @@ namespace Slithin.ViewModels
             {
                 try
                 {
-                    ServiceLocator.Client.Connect();
-                    ServiceLocator.Scp.Connect();
+                    client.Connect();
+                    ServiceLocator.Container.Resolve<ScpClient>().Connect();
 
-                    if (ServiceLocator.Client.IsConnected)
+                    if (client.IsConnected)
                     {
                         if (Remember)
                         {
-                            ServiceLocator.RememberLoginCredencials(this);
+                            var loginInfo = new LoginInfo(IP, Password, Remember);
+
+                            _loginService.RememberLoginCredencials(loginInfo);
                         }
 
                         if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
                         {
-                            ServiceLocator.Events.Invoke("connect");
+                            _events.Invoke("connect");
 
                             var pingTimer = new System.Timers.Timer();
                             pingTimer.Elapsed += pingTimer_ellapsed;
@@ -118,7 +137,7 @@ namespace Slithin.ViewModels
 
             var options = new PingOptions(64, true);
 
-            var reply = pingSender.Send(ServiceLocator.Scp.ConnectionInfo.Host, timeout, buffer, options);
+            var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer, options);
 
             if (reply.Status != IPStatus.Success)
             {

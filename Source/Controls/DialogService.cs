@@ -4,7 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using Slithin.Core;
 using Slithin.UI.Modals;
-using Slithin.ViewModels;
+using Slithin.ViewModels.Modals;
 
 namespace Slithin.Controls
 {
@@ -94,6 +94,29 @@ namespace Slithin.Controls
             Dispatcher.UIThread.InvokeAsync(() =>
             {
                 Open(new MessageBoxModal(), vm);
+            });
+
+            return tcs.Task;
+        }
+
+        public static Task<bool> ShowDialog(string title, object content)
+        {
+            TaskCompletionSource<bool> tcs = new();
+
+            var vm = new ShowDialogModalViewModel
+            {
+                Title = title,
+                Content = content,
+                AcceptCommand = new DelegateCommand(_ =>
+                {
+                    Close();
+                    tcs.TrySetResult(true);
+                })
+            };
+
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Open(new ShowDialogModal(), vm);
             });
 
             return tcs.Task;

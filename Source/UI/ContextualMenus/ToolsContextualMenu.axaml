@@ -9,5 +9,15 @@
     <controls:ImageButton Text="Remove" Command="{Binding RemoveScriptCommand}" Image="avares://Slithin/Resources/minus.png" CommandParameter="{Binding SelectedScript}" />
     <controls:ImageButton Text="Execute" Command="{Binding ExecuteScriptCommand}" Image="avares://Slithin/Resources/execute.png" CommandParameter="{Binding SelectedScript}" />
     <controls:ImageButton Text="Config" Command="{Binding ConfigurateScriptCommand}" Image="avares://Slithin/Resources/config.png" CommandParameter="{Binding SelectedScript}" />
+
+    <Rectangle Width="3" Fill="DarkGray" Height="30" Margin="0,-20,0,0" />
+
+    <controls:ImagePopupButton Text="Filter" Image="avares://Slithin/Resources/filter.png">
+      <controls:ImagePopupButton.PopupContent>
+        <Grid RowDefinitions="*,AUTO" Margin="4">
+          <ComboBox Grid.Row="1" Items="{Binding SyncService.ToolsFilter.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.ToolsFilter.SelectedCategory}" MinWidth="175" />
+        </Grid>
+      </controls:ImagePopupButton.PopupContent>
+    </controls:ImagePopupButton>
   </StackPanel>
 </UserControl>

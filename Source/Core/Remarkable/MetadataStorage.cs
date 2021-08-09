@@ -1,14 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable
 {
     public class MetadataStorage
     {
-        public static MetadataStorage Local = new();
+        public static MetadataStorage Local = new(ServiceLocator.Container.Resolve<IPathManager>());
 
+        private readonly IPathManager _pathManager;
         private readonly Dictionary<string?, Metadata?> _storage = new();
+
+        public MetadataStorage(IPathManager pathManager)
+        {
+            _pathManager = pathManager;
+        }
 
         public void Add(Metadata metadata, out bool alreadyAdded)
         {
@@ -21,6 +28,11 @@ namespace Slithin.Core.Remarkable
             {
                 alreadyAdded = true;
             }
+        }
+
+        public void Clear()
+        {
+            _storage.Clear();
         }
 
         public Metadata Get(string id)
@@ -58,7 +70,7 @@ namespace Slithin.Core.Remarkable
 
                 _storage[md.ID] = md; //replace metadata with changed md
 
-                File.WriteAllText(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
+                File.WriteAllText(Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
             }
         }
 

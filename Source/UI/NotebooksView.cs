@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 using Slithin.Core.Remarkable;
-using Slithin.ViewModels;
 
 using System.Collections.Generic;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI
 {

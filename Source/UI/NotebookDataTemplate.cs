@@ -8,6 +8,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 
 namespace Slithin.UI
 {
@@ -16,6 +17,7 @@ namespace Slithin.UI
         public IControl Build(object param)
         {
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+            var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
 
             var container = new StackPanel();
 
@@ -29,7 +31,7 @@ namespace Slithin.UI
             {
                 if (md.Type == "DocumentType")
                 {
-                    if (Directory.Exists(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".thumbnails")))
+                    if (Directory.Exists(Path.Combine(notebooksDir, md.ID + ".thumbnails")))
                     {
                         var filename = "";
                         if (md?.Content.CoverPageNumber == 0)
@@ -45,7 +47,7 @@ namespace Slithin.UI
 
                         if (!string.IsNullOrEmpty(filename))
                         {
-                            img.Source = new Bitmap(File.OpenRead(Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".thumbnails", filename + ".jpg")));
+                            img.Source = new Bitmap(File.OpenRead(Path.Combine(notebooksDir, md.ID + ".thumbnails", filename + ".jpg")));
                         }
 
                         if (md.Pinned)

@@ -2,6 +2,9 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Renci.SshNet;
+using Slithin.Core.Services;
+using Slithin.Core.Sync.Repositorys;
 
 namespace Slithin.Core.Remarkable
 {
@@ -24,7 +27,7 @@ namespace Slithin.Core.Remarkable
 
         public void Apply()
         {
-            var result = ServiceLocator.Client.RunCommand("systemctl restart xochitl");
+            var result = ServiceLocator.Container.Resolve<SshClient>().RunCommand("systemctl restart xochitl");
 
             if (result.ExitStatus != 0)
             {
@@ -34,11 +37,10 @@ namespace Slithin.Core.Remarkable
 
         public void Load()
         {
-            Instance.Templates = ServiceLocator.Local.GetTemplates();
+            Instance.Templates = ServiceLocator.Container.Resolve<LocalRepository>().GetTemplates();
 
             foreach (var item in Instance.Templates)
             {
-                item.OnDevice = true;
                 item.Load();
             }
         }
@@ -55,7 +57,9 @@ namespace Slithin.Core.Remarkable
 
         public void Save()
         {
-            var path = Path.Combine(ServiceLocator.ConfigBaseDir, "templates.json");
+            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+
+            var path = Path.Combine(pathManager.ConfigBaseDir, "templates.json");
             File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented));
         }
     }

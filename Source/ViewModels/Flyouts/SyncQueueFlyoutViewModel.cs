@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Slithin.Core;
 using Slithin.Core.Sync;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Flyouts
 {
     public class SyncQueueFlyoutViewModel : BaseViewModel
     {

@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Slithin.Core
 {
-    public static class MessageRouter
+    public class MessageRouter
     {
-        private static readonly Dictionary<Type, Action<object>> _handlers = new();
+        private readonly Dictionary<Type, Action<object>> _handlers = new();
 
-        public static void Register<T>(Action<T> handler)
+        public void Register<T>(Action<T> handler)
             where T : AsynchronousMessage
         {
             _handlers.Add(typeof(T), (_) => handler((T)_));
         }
 
-        public static void Route(object msg)
+        public void Route(object msg)
         {
             var msgType = msg.GetType();
 

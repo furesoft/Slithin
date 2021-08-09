@@ -5,17 +5,22 @@ using Newtonsoft.Json;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels.Modals
 {
     public class MakeFolderModalViewModel : BaseViewModel
     {
+        private readonly IPathManager _pathManager;
+        private readonly SynchronisationService _synchronisationService;
         private string _name;
 
-        public MakeFolderModalViewModel()
+        public MakeFolderModalViewModel(IPathManager _pathManager, SynchronisationService synchronisationService)
         {
             MakeFolderCommand = new DelegateCommand(MakeFolder);
+            this._pathManager = _pathManager;
+            _synchronisationService = synchronisationService;
         }
 
         public ICommand MakeFolderCommand { get; set; }
@@ -33,7 +38,7 @@ namespace Slithin.ViewModels
             var md = new Metadata
             {
                 ID = id.ToString(),
-                Parent = ServiceLocator.SyncService.NotebooksFilter.Folder,
+                Parent = _synchronisationService.NotebooksFilter.Folder,
                 Type = "CollectionType",
                 VisibleName = Name
             };
@@ -42,12 +47,12 @@ namespace Slithin.ViewModels
 
             if (!alreadyAdded)
             {
-                var path = Path.Combine(ServiceLocator.NotebooksDir, md.ID + ".metadata");
+                var path = Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata");
                 var mdContent = JsonConvert.SerializeObject(md);
                 File.WriteAllText(path, mdContent);
 
-                ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
-                ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+                _synchronisationService.NotebooksFilter.Documents.Add(md);
+                _synchronisationService.NotebooksFilter.SortByFolder();
 
                 var syncItem = new SyncItem
                 {
@@ -57,7 +62,7 @@ namespace Slithin.ViewModels
                     Type = SyncType.Notebook
                 };
 
-                ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+                _synchronisationService.SyncQueue.Insert(syncItem);
 
                 DialogService.Close();
             }

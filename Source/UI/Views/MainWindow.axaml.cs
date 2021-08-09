@@ -4,7 +4,10 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Renci.SshNet;
 using Slithin.Core;
+using Slithin.Core.Services;
+using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 using Slithin.ViewModels;
 
@@ -24,9 +27,9 @@ namespace Slithin.UI.Views
 
         private void MainWindow_Closed(object? sender, EventArgs e)
         {
-            ServiceLocator.Client?.Disconnect();
-            ServiceLocator.Scp?.Disconnect();
-            ServiceLocator.Database?.Dispose();
+            ServiceLocator.Container.Resolve<LiteDB.LiteDatabase>().Dispose();
+            ServiceLocator.Container.Resolve<SshClient>().Dispose();
+            ServiceLocator.Container.Resolve<ScpClient>().Dispose();
 
             Environment.Exit(0);
         }
@@ -35,20 +38,18 @@ namespace Slithin.UI.Views
         {
             AvaloniaXamlLoader.Load(this);
 
-            DataContext = new MainWindowViewModel();
+            DataContext = ServiceLocator.Container.Resolve<MainWindowViewModel>();
+            var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
+            var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
 
-            if (!ServiceLocator.Local.GetTemplates().Any())
+            if (!ServiceLocator.Container.Resolve<LocalRepository>().GetTemplates().Any())
             {
-                ServiceLocator.Mailbox.Post(new InitStorageMessage());
-            }
-            else
-            {
-                ServiceLocator.SyncService.LoadFromLocal();
+                mailboxService.Post(new InitStorageMessage());
             }
 
-            if (!Directory.GetFiles(ServiceLocator.NotebooksDir).Any())
+            if (!Directory.GetFiles(notebooksDir).Any())
             {
-                ServiceLocator.Mailbox.Post(new DownloadNotebooksMessage());
+                mailboxService.Post(new DownloadNotebooksMessage());
             }
         }
     }
