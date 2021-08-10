@@ -29,6 +29,22 @@ namespace Slithin.Core.Services.Implementations
 
                 File.WriteAllText(Path.Combine(ConfigBaseDir, "templates.json"), "{\"templates\": []}");
             }
+
+            InitDir(TemplatesDir);
+            InitDir(NotebooksDir);
+            InitDir(ScriptsDir);
+            InitDir(BackupsDir);
+            InitDir(CustomScreensDir);
+        }
+
+        private void InitDir(string dir)
+        {
+            var di = new DirectoryInfo(dir);
+
+            if (!di.Exists)
+            {
+                di.Create();
+            }
         }
     }
 }
