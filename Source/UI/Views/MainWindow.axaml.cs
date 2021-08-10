@@ -39,15 +39,15 @@ namespace Slithin.UI.Views
             AvaloniaXamlLoader.Load(this);
 
             DataContext = ServiceLocator.Container.Resolve<MainWindowViewModel>();
-            var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
+            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
             var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
 
-            if (!ServiceLocator.Container.Resolve<LocalRepository>().GetTemplates().Any())
+            if (!Directory.GetFiles(pathManager.TemplatesDir).Any())
             {
                 mailboxService.Post(new InitStorageMessage());
             }
 
-            if (!Directory.GetFiles(notebooksDir).Any())
+            if (!Directory.GetFiles(pathManager.NotebooksDir).Any())
             {
                 mailboxService.Post(new DownloadNotebooksMessage());
             }

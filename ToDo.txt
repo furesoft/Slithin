@@ -13,7 +13,7 @@
 - implement IImportProvider
 
 - implement ImportProvider 
-	- image files: convert automaticly to png
-		jpg, bitmap,...
-	- document files: convert automaticly to pdf
+	- document files: convert automaticly to pdf or epub
 	 txt, 
+
+- fix filenotfoundexception on initstorage
