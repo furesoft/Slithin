@@ -14,13 +14,16 @@ namespace Slithin.Core.Services.Implementations
             foreach (var provider in _providers)
             {
                 var type = provider.GetType();
-                var attr = type.GetCustomAttribute<ImportProviderBaseTypeAttribute>();
+                var attrs = type.GetCustomAttributes<ImportProviderBaseTypeAttribute>();
 
-                if (attr != null && attr.Extension == baseExtension)
+                foreach (var attr in attrs)
                 {
-                    if (provider.CanHandle(filename))
+                    if (attr.Extension == baseExtension)
                     {
-                        return provider;
+                        if (provider.CanHandle(filename))
+                        {
+                            return provider;
+                        }
                     }
                 }
             }

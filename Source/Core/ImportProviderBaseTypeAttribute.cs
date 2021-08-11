@@ -2,7 +2,7 @@
 
 namespace Slithin.Core
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ImportProviderBaseTypeAttribute : Attribute
     {
         public ImportProviderBaseTypeAttribute(string extension)
