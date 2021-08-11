@@ -8,12 +8,5 @@
 
 - fix "henne ei problem" syncdevicedeletions
 
-- only load notebook image on navigation
 
-- implement IImportProvider
-
-- implement ImportProvider 
-	- document files: convert automaticly to pdf or epub
-	 txt, 
-
-- fix filenotfoundexception on initstorage
+- fix filenotfoundexception on initstorage!
