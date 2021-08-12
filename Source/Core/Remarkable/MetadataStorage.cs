@@ -47,13 +47,17 @@ namespace Slithin.Core.Remarkable
 
         public IEnumerable<Metadata> GetByParent(string parent)
         {
+            var list = new List<Metadata>();
+
             foreach (var item in _storage)
             {
                 if (item.Value.Parent.Equals(parent))
                 {
-                    yield return item.Value;
+                    list.Add(item.Value);
                 }
             }
+
+            return list;
         }
 
         public IEnumerable<string?> GetNames()
