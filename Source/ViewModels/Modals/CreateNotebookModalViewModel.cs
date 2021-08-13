@@ -36,11 +36,6 @@ namespace Slithin.ViewModels.Modals
         {
             Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
 
-            for (var i = 1; i < SyncService.TemplateFilter.Categories.Count; i++)
-            {
-                Categories.Add(SyncService.TemplateFilter.Categories[i]);
-            }
-
             AddPagesCommand = new DelegateCommand(AddPages);
             OKCommand = new DelegateCommand(OK);
 
@@ -58,8 +53,6 @@ namespace Slithin.ViewModels.Modals
         }
 
         public ICommand AddPagesCommand { get; set; }
-
-        public ObservableCollection<string> Categories { get; set; } = new();
 
         public IImage Cover
         {
