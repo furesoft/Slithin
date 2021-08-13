@@ -47,9 +47,7 @@ namespace Slithin.ViewModels.Modals
 
             if (!alreadyAdded)
             {
-                var path = Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata");
-                var mdContent = JsonConvert.SerializeObject(md);
-                File.WriteAllText(path, mdContent);
+                md.Save();
 
                 _synchronisationService.NotebooksFilter.Documents.Add(md);
                 _synchronisationService.NotebooksFilter.SortByFolder();

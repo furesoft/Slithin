@@ -92,8 +92,7 @@ namespace Slithin.UI.Pages
                         outputStrm.Close();
                         inputStrm.Close();
 
-                        File.WriteAllText(Path.Combine(notebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md));
-                        File.WriteAllText(Path.Combine(notebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(cnt));
+                        md.Save();
 
                         var syncItem = new SyncItem
                         {

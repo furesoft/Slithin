@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using Newtonsoft.Json;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable
 {
@@ -59,6 +61,18 @@ namespace Slithin.Core.Remarkable
                                     obj.ID,
                                     obj.Deleted,
                                     obj.Content);
+        }
+
+        public void Save()
+        {
+            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+
+            File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
+
+            if (new ContentFile?(Content).HasValue)
+            {
+                File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".content"), JsonConvert.SerializeObject(md.Content, Formatting.Indented));
+            }
         }
 
         public override string ToString()

@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using Newtonsoft.Json;
 using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable
@@ -74,7 +72,7 @@ namespace Slithin.Core.Remarkable
 
                 _storage[md.ID] = md; //replace metadata with changed md
 
-                File.WriteAllText(Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
+                md.Save();
             }
         }
 

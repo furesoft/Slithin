@@ -203,8 +203,7 @@ namespace Slithin.ViewModels.Modals
                     Content = new() { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count }
                 };
 
-                File.WriteAllText(Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
-                File.WriteAllText(Path.Combine(_pathManager.NotebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(md.Content, Formatting.Indented));
+                md.Save();
 
                 document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
 
