@@ -10,7 +10,10 @@ namespace Slithin.Core
         public void Register<T>(Action<T> handler)
             where T : AsynchronousMessage
         {
-            _handlers.Add(typeof(T), (_) => handler((T)_));
+            if (!_handlers.ContainsKey(typeof(T)))
+            {
+                _handlers.Add(typeof(T), (_) => handler((T)_));
+            }
         }
 
         public void Route(object msg)

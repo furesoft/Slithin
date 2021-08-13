@@ -10,3 +10,5 @@
 
 
 - fix filenotfoundexception on initstorage!
+
+- implement validators
