@@ -11,6 +11,4 @@
 
 - fix filenotfoundexception on initstorage!
 
-- implement validators
-
-- implement save method for metadata and replace all occures
+- implement error for modals
