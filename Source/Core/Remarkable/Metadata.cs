@@ -67,11 +67,11 @@ namespace Slithin.Core.Remarkable
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
-            File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
+            File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".metadata"), JsonConvert.SerializeObject(this, Formatting.Indented));
 
             if (new ContentFile?(Content).HasValue)
             {
-                File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".content"), JsonConvert.SerializeObject(md.Content, Formatting.Indented));
+                File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".content"), JsonConvert.SerializeObject(Content, Formatting.Indented));
             }
         }
 

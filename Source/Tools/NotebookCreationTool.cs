@@ -33,7 +33,7 @@ namespace Slithin.Tools
         {
             var modal = new CreateNotebookModal
             {
-                DataContext = new CreateNotebookModalViewModel(ServiceLocator.Container.Resolve<IPathManager>())
+                DataContext = ServiceLocator.Container.Resolve<CreateNotebookModalViewModel>()
             };
 
             return modal;
@@ -43,7 +43,7 @@ namespace Slithin.Tools
         {
             var modal = new CreateNotebookModal
             {
-                DataContext = new CreateNotebookModalViewModel(ServiceLocator.Container.Resolve<IPathManager>())
+                DataContext = ServiceLocator.Container.Resolve<CreateNotebookModalViewModel>()
             };
 
             DialogService.Open(modal);
