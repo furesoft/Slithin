@@ -11,6 +11,7 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.6" />
     <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.1" />
     <PackageReference Include="DotNetZip" Version="1.15.0" />
+    <PackageReference Include="FluentValidation" Version="10.3.0" />
     <PackageReference Include="LiteDB" Version="5.0.11" />
     <PackageReference Include="NetSparkleUpdater.SparkleUpdater" Version="2.0.6" />
     <PackageReference Include="Newtonsoft.JSON" Version="13.0.1" />

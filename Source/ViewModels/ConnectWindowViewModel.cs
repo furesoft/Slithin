@@ -11,6 +11,7 @@ using Slithin.Core;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
+using Slithin.Core.Validators;
 using Slithin.UI.Views;
 
 namespace Slithin.ViewModels
@@ -19,13 +20,14 @@ namespace Slithin.ViewModels
     {
         private readonly EventStorage _events;
         private readonly ILoginService _loginService;
+        private readonly LoginInfoValidator _validator;
         private string _ipAddress;
 
         private string _password;
 
         private bool _remember;
 
-        public ConnectionWindowViewModel(EventStorage events, ILoginService loginService, ToolRepository tools)
+        public ConnectionWindowViewModel(EventStorage events, ILoginService loginService, ToolRepository tools, LoginInfoValidator validator)
         {
             _ipAddress = string.Empty;
             _password = string.Empty;
@@ -34,6 +36,7 @@ namespace Slithin.ViewModels
             ConnectCommand = new DelegateCommand(Connect);
             _events = events;
             _loginService = loginService;
+            _validator = validator;
         }
 
         public ICommand ConnectCommand { get; set; }
@@ -79,7 +82,10 @@ namespace Slithin.ViewModels
                 DialogService.OpenError(_.Exception.ToString());
             };
 
-            if (IPAddress.TryParse(IP, out var addr))
+            var loginInfo = new LoginInfo(IP, Password, Remember);
+            var validationResult = _validator.Validate(loginInfo);
+
+            if (validationResult.IsValid)
             {
                 try
                 {
@@ -90,8 +96,6 @@ namespace Slithin.ViewModels
                     {
                         if (Remember)
                         {
-                            var loginInfo = new LoginInfo(IP, Password, Remember);
-
                             _loginService.RememberLoginCredencials(loginInfo);
                         }
 
@@ -122,7 +126,7 @@ namespace Slithin.ViewModels
             }
             else
             {
-                DialogService.OpenError("The given IP was not valid");
+                DialogService.OpenError(string.Join("\n", validationResult.Errors));
             }
         }
 
