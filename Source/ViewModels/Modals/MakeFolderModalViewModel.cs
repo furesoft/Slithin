@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Input;
-using Newtonsoft.Json;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
@@ -33,40 +31,47 @@ namespace Slithin.ViewModels.Modals
 
         private void MakeFolder(object obj)
         {
-            var id = Guid.NewGuid();
-
-            var md = new Metadata
+            if (!string.IsNullOrEmpty(Name))
             {
-                ID = id.ToString(),
-                Parent = _synchronisationService.NotebooksFilter.Folder,
-                Type = "CollectionType",
-                VisibleName = Name
-            };
+                var id = Guid.NewGuid();
 
-            MetadataStorage.Local.Add(md, out var alreadyAdded);
-
-            if (!alreadyAdded)
-            {
-                md.Save();
-
-                _synchronisationService.NotebooksFilter.Documents.Add(md);
-                _synchronisationService.NotebooksFilter.SortByFolder();
-
-                var syncItem = new SyncItem
+                var md = new Metadata
                 {
-                    Action = SyncAction.Add,
-                    Data = md,
-                    Direction = SyncDirection.ToDevice,
-                    Type = SyncType.Notebook
+                    ID = id.ToString(),
+                    Parent = _synchronisationService.NotebooksFilter.Folder,
+                    Type = "CollectionType",
+                    VisibleName = Name
                 };
 
-                _synchronisationService.SyncQueue.Insert(syncItem);
+                MetadataStorage.Local.Add(md, out var alreadyAdded);
 
-                DialogService.Close();
+                if (!alreadyAdded)
+                {
+                    md.Save();
+
+                    _synchronisationService.NotebooksFilter.Documents.Add(md);
+                    _synchronisationService.NotebooksFilter.SortByFolder();
+
+                    var syncItem = new SyncItem
+                    {
+                        Action = SyncAction.Add,
+                        Data = md,
+                        Direction = SyncDirection.ToDevice,
+                        Type = SyncType.Notebook
+                    };
+
+                    _synchronisationService.SyncQueue.Insert(syncItem);
+
+                    DialogService.Close();
+                }
+                else
+                {
+                    DialogService.OpenError($"'{md.VisibleName}' already exists");
+                }
             }
             else
             {
-                DialogService.OpenError($"'{md.VisibleName}' already exists");
+                //ToDo: show error
             }
         }
     }
