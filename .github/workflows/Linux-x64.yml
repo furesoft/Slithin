@@ -1,4 +1,4 @@
-name: .NET Core Desktop - Windows x86
+name: .NET Core Desktop - Linux x64
 
 on:
   push:
@@ -46,11 +46,10 @@ jobs:
         Configuration: ${{ matrix.configuration }}
         
     - name: Publish
-      run: dotnet publish -c Release -r win-x86 --output ./Dist/Win-x86 $env:Solution_Name
+      run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-x64 $env:Solution_Name
 
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: Windows_x86
-        path: ./Dist/Win-x86
+        name: Linux_X64
+        path: ./Dist/Linux-x64
