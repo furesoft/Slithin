@@ -1,4 +1,4 @@
-name: .NET Core Desktop - MacOS x64
+name: .NET Core Desktop
 
 on:
   push:
@@ -45,7 +45,26 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
         
-    - name: Publish
+    - name: Publish Windows x86
+      run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 $env:Solution_Name
+
+    # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Windows_x86
+        path: ./Dist/Win-x86
+        
+    - name: Publish Windows x64
+      run: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true --output ./Dist/Win-x64 $env:Solution_Name
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Windows_x64
+        path: ./Dist/Win-x64
+
+    - name: Publish OSX x64
       run: dotnet publish -c Release -r osx-x64 --output ./Dist/OSX-x64 $env:Solution_Name
 
     - name: Upload build artifacts
@@ -53,3 +72,12 @@ jobs:
       with:
         name: OSX_x64
         path: ./Dist/OSX-x64
+        
+    - name: Publish Linux x64
+      run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-x64 $env:Solution_Name
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Linux_X64
+        path: ./Dist/Linux-x64
