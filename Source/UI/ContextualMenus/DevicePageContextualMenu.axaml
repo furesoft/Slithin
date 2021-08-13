@@ -4,5 +4,5 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="150"
              x:Class="Slithin.UI.ContextualMenus.DevicePageContextualMenu">
-  <TextBlock Text="Device" FontSize="30" TextAlignment="Center" VerticalAlignment="Center" />
+  <TextBlock Text="Device Information" FontSize="30" TextAlignment="Center" VerticalAlignment="Center" />
 </UserControl>
