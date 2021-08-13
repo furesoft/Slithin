@@ -46,7 +46,7 @@ jobs:
         Configuration: ${{ matrix.configuration }}
         
     - name: Publish
-      run: dotnet publish -c Release -r win-x86 --output ./Dist/Win-x86 $env:Solution_Name
+      run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 $env:Solution_Name
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
     - name: Upload build artifacts
