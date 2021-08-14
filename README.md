@@ -20,7 +20,8 @@ Slithin is a management application for your Remarkable device.
 Install .Net 5 From [Here](https://dotnet.microsoft.com/download/dotnet/5.0)
 
 # Run Instructions
-Extract the zip archive and go to the folder where the zip is extracted
+- Download the zip Archive from the [releases page](https://github.com/furesoft/Slithin/releases)
+- Extract the zip archive and go to the folder where the zip is extracted
 
 ## Windows
 Start Slithin.exe
