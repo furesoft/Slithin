@@ -51,6 +51,8 @@ namespace Slithin.UI.Views
             {
                 mailboxService.Post(new DownloadNotebooksMessage());
             }
+
+            mailboxService.Post(new CheckForUpdateMessage());
         }
     }
 }
