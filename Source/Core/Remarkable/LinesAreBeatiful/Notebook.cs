@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Slithin.Core.Remarkable.LinesAreBeatiful.Exporters;
 using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable.LinesAreBeatiful
@@ -63,6 +64,15 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful
             }
 
             return notebook;
+        }
+
+        public void Export(string path, ExportType type)
+        {
+            Directory.CreateDirectory(path);
+            foreach (var page in Pages)
+            {
+                var p = SvgExporter.RenderPage(page);
+            }
         }
 
         public void Save()
