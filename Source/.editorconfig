@@ -229,6 +229,9 @@ csharp_prefer_braces = true:silent
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
 
+# HAA0502: Explicit new reference type allocation
+dotnet_diagnostic.HAA0502.severity = none
+
 [src/CodeStyle/**.{cs,vb}]
 # warning RS0005: Do not use generic CodeAction.Create to create CodeAction
 dotnet_diagnostic.RS0005.severity = none

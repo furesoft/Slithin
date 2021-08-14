@@ -1,4 +1,5 @@
-﻿namespace Slithin.Core.Remarkable
+﻿using Slithin.Core.Remarkable;
+namespace Slithin.Core.Remarkable.Cloud
 {
     public class CloudMetadata
     {

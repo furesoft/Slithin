@@ -60,9 +60,13 @@ namespace Slithin.UI.Pages
                 foreach (var filename in e.Data.GetFileNames())
                 {
                     var id = Guid.NewGuid();
+
+                    var importProviderFactory = ServiceLocator.Container.Resolve<IImportProviderFactory>();
+                    var provider = importProviderFactory.GetImportProvider(".pdf", filename);
+
                     var cnt = new ContentFile
                     {
-                        FileType = Path.GetExtension(filename).Replace(".", "")
+                        FileType = provider == null ? "epub" : "pdf"
                     };
 
                     if (cnt.FileType == "pdf" || cnt.FileType == "epub")
@@ -80,10 +84,15 @@ namespace Slithin.UI.Pages
                         MetadataStorage.Local.Add(md, out var alreadyAdded);
                         ServiceLocator.Container.Resolve<SynchronisationService>().NotebooksFilter.Documents.Add(md);
 
-                        File.Copy(filename, Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
+                        provider = importProviderFactory.GetImportProvider($".{cnt.FileType}", filename);
+                        var inputStrm = provider.Import(File.OpenRead(filename));
+                        var outputStrm = File.OpenWrite(Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
+                        inputStrm.CopyTo(outputStrm);
 
-                        File.WriteAllText(Path.Combine(notebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md));
-                        File.WriteAllText(Path.Combine(notebooksDir, md.ID + ".content"), JsonConvert.SerializeObject(cnt));
+                        outputStrm.Close();
+                        inputStrm.Close();
+
+                        md.Save();
 
                         var syncItem = new SyncItem
                         {

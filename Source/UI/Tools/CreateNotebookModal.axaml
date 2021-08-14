@@ -9,7 +9,6 @@
     <Grid RowDefinitions="40,40,45,35,36" ColumnDefinitions="*,50,*">
       <StackPanel Grid.Row="0" Orientation="Horizontal">
         <TextBox Watermark="Title" Margin="5" HorizontalAlignment="Left" MinWidth="185" Text="{Binding Name}" />
-        <ComboBox SelectedIndex="0" Margin="5" Items="{Binding Categories}" PlaceholderText="Category" />
       </StackPanel>
 
       <StackPanel Orientation="Horizontal" Margin="2" Spacing="5" Grid.Row="1">

@@ -5,10 +5,12 @@
 
 - implement toolsfilter
 
-- fix ui bug "Item already exists"
 
 - fix "henne ei problem" syncdevicedeletions
 
-- implement restore tool
 
-- implement refreshing ui items
+- fix filenotfoundexception on initstorage!
+
+- implement error for modals
+
+- when generating ids, make them to lower case

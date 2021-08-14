@@ -8,6 +8,7 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
+using Slithin.Core.Validators;
 
 namespace Slithin.ViewModels.Modals
 {
@@ -16,14 +17,17 @@ namespace Slithin.ViewModels.Modals
         private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
         private readonly SynchronisationService _synchronisationService;
+        private readonly AddTemplateValidator _validator;
         private string _filename;
         private IconCodeItem _iconCode;
         private bool _isLandscape;
         private string _name;
         private string[] _selectedCategory;
 
-        public AddTemplateModalViewModel(IPathManager pathManager, LocalRepository localRepository,
-                                         SynchronisationService synchronisationService)
+        public AddTemplateModalViewModel(IPathManager pathManager,
+                                         LocalRepository localRepository,
+                                         SynchronisationService synchronisationService,
+                                         AddTemplateValidator validator)
         {
             Categories = SyncService.TemplateFilter.Categories;
             Categories.RemoveAt(0);
@@ -44,6 +48,7 @@ namespace Slithin.ViewModels.Modals
             this._pathManager = pathManager;
             _localRepository = localRepository;
             _synchronisationService = synchronisationService;
+            _validator = validator;
         }
 
         public ICommand AddCategoryCommand { get; set; }
@@ -86,51 +91,63 @@ namespace Slithin.ViewModels.Modals
 
         private void AddCategory(object obj)
         {
-            this.SyncService.TemplateFilter.Categories.Add(obj.ToString());
+            if (!string.IsNullOrEmpty(obj.ToString()))
+            {
+                this.SyncService.TemplateFilter.Categories.Add(obj.ToString());
+            }
         }
 
         private async void AddTemplate(object obj)
         {
-            var template = BuildTemplate();
+            var validationResult = _validator.Validate(this);
 
-            if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
+            if (validationResult.IsValid)
             {
-                if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
+                var template = BuildTemplate();
+
+                if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
                 {
-                    File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+                    if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
+                    {
+                        File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
-                else
+
+                var bitmap = Image.FromFile(Filename);
+
+                if (bitmap.Width != 1404 && bitmap.Height != 1872)
                 {
+                    await DialogService.ShowDialog("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+
                     return;
                 }
+                bitmap.Dispose();
+
+                File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+
+                _localRepository.Add(template);
+
+                template.Load();
+
+                TemplateStorage.Instance.Add(template);
+                _synchronisationService.TemplateFilter.Templates.Add(template);
+
+                DialogService.Close();
+
+                var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
+                _synchronisationService.SyncQueue.Insert(syncItem);
+
+                var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
+                _synchronisationService.SyncQueue.Insert(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
             }
-
-            var bitmap = Image.FromFile(Filename);
-
-            if (bitmap.Width != 1404 && bitmap.Height != 1872)
+            else
             {
-                await DialogService.ShowDialog("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
-
-                return;
+                //ToDo: show error
             }
-            bitmap.Dispose();
-
-            File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
-
-            _localRepository.Add(template);
-
-            template.Load();
-
-            TemplateStorage.Instance.Add(template);
-            _synchronisationService.TemplateFilter.Templates.Add(template);
-
-            DialogService.Close();
-
-            var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
-            _synchronisationService.SyncQueue.Insert(syncItem);
-
-            var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
-            _synchronisationService.SyncQueue.Insert(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
         }
 
         private Template BuildTemplate()

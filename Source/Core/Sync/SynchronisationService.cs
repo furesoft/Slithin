@@ -18,14 +18,12 @@ namespace Slithin.Core.Sync
     public class SynchronisationService : INotifyPropertyChanged
     {
         private readonly SshClient _client;
-        private readonly ILoadingService _loadingService;
         private readonly LocalRepository _localRepository;
         private readonly IPathManager _pathManager;
 
         public SynchronisationService(IPathManager pathManager,
                                       LiteDatabase db,
                                       LocalRepository localRepository,
-                                      ILoadingService loadingService,
                                       SshClient client)
         {
             TemplateFilter = new();
@@ -36,7 +34,6 @@ namespace Slithin.Core.Sync
             SyncQueue = db.GetCollection<SyncItem>();
             _pathManager = pathManager;
             _localRepository = localRepository;
-            _loadingService = loadingService;
             _client = client;
         }
 
@@ -49,13 +46,6 @@ namespace Slithin.Core.Sync
         public ILiteCollection<SyncItem> SyncQueue { get; set; }
         public TemplateFilter TemplateFilter { get; set; }
         public ToolsFilter ToolsFilter { get; set; }
-
-        public void LoadFromLocal()
-        {
-            _loadingService.LoadTemplates();
-
-            TemplateFilter.SelectedCategory = "All";
-        }
 
         protected void SetValue<T>(ref T field, T value, [CallerMemberName] string property = null)
         {

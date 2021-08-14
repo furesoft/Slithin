@@ -18,6 +18,7 @@ namespace Slithin.UI
         {
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
             var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
+            var cache = ServiceLocator.Container.Resolve<ICacheService>();
 
             var container = new StackPanel();
 
@@ -49,27 +50,15 @@ namespace Slithin.UI
                         {
                             img.Source = new Bitmap(File.OpenRead(Path.Combine(notebooksDir, md.ID + ".thumbnails", filename + ".jpg")));
                         }
-
-                        if (md.Pinned)
-                        {
-                            var pinnedImg = new Image
-                            {
-                                //pinnedImg.Source = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/star.png")));
-                                Width = 25,
-                                Height = 25
-                            };
-
-                            //container.Children.Add(pinnedImg);
-                        }
                     }
                     else
                     {
-                        img.Source = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png")));
+                        img.Source = cache.Get("notebook-" + md.Content.FileType, new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
                     }
                 }
                 else
                 {
-                    img.Source = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png")));
+                    img.Source = cache.Get("folder", new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png"))));
                 }
             }
 

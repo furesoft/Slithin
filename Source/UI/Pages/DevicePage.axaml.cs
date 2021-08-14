@@ -5,6 +5,7 @@ using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.UI.ContextualMenus;
@@ -52,20 +53,18 @@ namespace Slithin.UI.Pages
             if (e.Data.Contains(DataFormats.FileNames))
             {
                 var filename = e.Data.GetFileNames().First();
+                var provider = ServiceLocator.Container.Resolve<IImportProviderFactory>().GetImportProvider(".png", filename);
 
-                if (Path.GetExtension(filename) == ".png") //ToDo: Add Check for Image Width and Height!!
+                if (provider != null)
                 {
                     if (e.Source is Image img)
                     {
-                        var bitmap = System.Drawing.Image.FromFile(filename);
-
-                        if (bitmap.Width != 1404 && bitmap.Height != 1872)
+                        if (img.Source.Size.Width != 1404 && img.Source.Size.Height != 1872)
                         {
                             await DialogService.ShowDialog("The Screen Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
 
                             return;
                         }
-                        bitmap.Dispose();
 
                         var dc = img.Parent.DataContext;
 
@@ -73,12 +72,14 @@ namespace Slithin.UI.Pages
                         {
                             var localRepository = ServiceLocator.Container.Resolve<LocalRepository>();
 
-                            localRepository.AddScreen(filename, cs.Filename);
+                            var screenStrm = provider.Import(File.OpenRead(filename));
+
+                            localRepository.AddScreen(screenStrm, cs.Filename);
 
                             var item = new SyncItem
                             {
                                 Action = SyncAction.Add,
-                                Data = sender,
+                                Data = cs,
                                 Direction = SyncDirection.ToDevice,
                                 Type = SyncType.Screen
                             };

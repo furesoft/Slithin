@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using Newtonsoft.Json;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable
 {
@@ -37,6 +39,26 @@ namespace Slithin.Core.Remarkable
         [JsonProperty("visibleName")]
         public string? VisibleName { get; set; }
 
+        public static Metadata Load(string id)
+        {
+            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+
+            var mdObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".metadata")));
+            mdObj.ID = id;
+
+            if (File.Exists(Path.Combine(pathManager.NotebooksDir, id + ".content")))
+            {
+                mdObj.Content = JsonConvert.DeserializeObject<ContentFile>(
+                    File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".content")));
+            }
+            if (File.Exists(Path.Combine(pathManager.NotebooksDir, id + ".pagedata")))
+            {
+                mdObj.PageData.Parse(File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".pagedata")));
+            }
+
+            return mdObj;
+        }
+
         public bool Equals(Metadata x, Metadata y)
         {
             return x.Content.Equals(x.Content) &&
@@ -59,6 +81,18 @@ namespace Slithin.Core.Remarkable
                                     obj.ID,
                                     obj.Deleted,
                                     obj.Content);
+        }
+
+        public void Save()
+        {
+            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+
+            File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".metadata"), JsonConvert.SerializeObject(this, Formatting.Indented));
+
+            if (new ContentFile?(Content).HasValue)
+            {
+                File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".content"), JsonConvert.SerializeObject(Content, Formatting.Indented));
+            }
         }
 
         public override string ToString()

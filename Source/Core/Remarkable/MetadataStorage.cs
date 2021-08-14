@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using Newtonsoft.Json;
 using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable
@@ -47,13 +45,17 @@ namespace Slithin.Core.Remarkable
 
         public IEnumerable<Metadata> GetByParent(string parent)
         {
+            var list = new List<Metadata>();
+
             foreach (var item in _storage)
             {
                 if (item.Value.Parent.Equals(parent))
                 {
-                    yield return item.Value;
+                    list.Add(item.Value);
                 }
             }
+
+            return list;
         }
 
         public IEnumerable<string?> GetNames()
@@ -70,7 +72,7 @@ namespace Slithin.Core.Remarkable
 
                 _storage[md.ID] = md; //replace metadata with changed md
 
-                File.WriteAllText(Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata"), JsonConvert.SerializeObject(md, Formatting.Indented));
+                md.Save();
             }
         }
 
