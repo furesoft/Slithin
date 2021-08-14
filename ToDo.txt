@@ -12,3 +12,5 @@
 - fix filenotfoundexception on initstorage!
 
 - implement error for modals
+
+- when generating ids, make them to lower case

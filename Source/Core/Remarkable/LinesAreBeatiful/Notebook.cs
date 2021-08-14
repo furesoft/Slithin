@@ -29,16 +29,19 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful
             var notebook = new Notebook(id);
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
+            var md = Metadata.Load(id);
+            notebook.PageCount = md.Content.PageCount;
+
             for (int p = 0; p < notebook.PageCount; ++p)
             {
-                var path = Path.Combine(pathManager.NotebooksDir, id, ".rm");
+                var path = Path.Combine(pathManager.NotebooksDir, id, md.Content.Pages[p] + ".rm");
                 var strm = File.OpenRead(path);
                 var br = new BinaryReader(strm);
 
                 // skip header
                 strm.Seek(32, SeekOrigin.Begin);
 
-                var version = br.ReadByte();
+                notebook.Version = (char)br.ReadByte();
 
                 // skip 10x space padding
                 strm.Seek(10, SeekOrigin.Current);
@@ -65,16 +68,19 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful
         public void Save()
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+            var md = Metadata.Load(ID);
+
             for (var i = 0; i < Pages.Count; i++)
             {
                 var p = Pages[i];
 
-                var path = Path.Combine(pathManager.NotebooksDir, i.ToString(), ".rm");
+                var path = Path.Combine(pathManager.NotebooksDir, ID, md.Content.Pages[i] + ".rm");
+
                 var strm = File.OpenWrite(path);
                 var bw = new BinaryWriter(strm);
 
                 // write header (33 bytes)
-                bw.Write(Encoding.ASCII.GetBytes("reMarkable .lines file, version=3"));
+                bw.Write(Encoding.ASCII.GetBytes("reMarkable .lines file, version=" + (int)Version));
 
                 // write space padding
                 bw.Write(Encoding.ASCII.GetBytes("          "));
@@ -90,6 +96,8 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful
                         bw.Write((int)line.Color);
                         bw.Write(line.unknown_line_attribute);
                         bw.Write(BaseSizes.GetValue(line.BrushBaseSize));
+
+                        bw.Write(0.0f);
 
                         bw.Write(line.Points.Count);
 
@@ -149,6 +157,8 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful
 
             // brush base size: 1.875, 2.0, 2.125
             curLine.BrushBaseSize = BaseSizes.Parse(fstream.ReadSingle());
+
+            fstream.ReadSingle();
 
             var pointCount = fstream.ReadInt32();
 
