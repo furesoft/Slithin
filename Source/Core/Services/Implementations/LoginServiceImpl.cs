@@ -29,17 +29,20 @@ namespace Slithin.Core.Services.Implementations
             }
         }
 
-        public void RememberLoginCredencials(LoginInfo viewModel)
+        public void RememberLoginCredencials(LoginInfo info)
         {
             var collection = _db.GetCollection<LoginInfo>();
 
             if (collection.Count() == 1)
             {
-                //collection.Update(viewModel);
+                var old = collection.FindAll().First();
+                info._id = old._id;
+
+                collection.Update(info);
             }
             else
             {
-                collection.Insert(viewModel);
+                collection.Insert(info);
             }
         }
     }
