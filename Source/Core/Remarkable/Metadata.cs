@@ -39,6 +39,26 @@ namespace Slithin.Core.Remarkable
         [JsonProperty("visibleName")]
         public string? VisibleName { get; set; }
 
+        public static Metadata Load(string id)
+        {
+            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+
+            var mdObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".metadata")));
+            mdObj.ID = id;
+
+            if (File.Exists(Path.Combine(pathManager.NotebooksDir, id + ".content")))
+            {
+                mdObj.Content = JsonConvert.DeserializeObject<ContentFile>(
+                    File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".content")));
+            }
+            if (File.Exists(Path.Combine(pathManager.NotebooksDir, id + ".pagedata")))
+            {
+                mdObj.PageData.Parse(File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".pagedata")));
+            }
+
+            return mdObj;
+        }
+
         public bool Equals(Metadata x, Metadata y)
         {
             return x.Content.Equals(x.Content) &&
