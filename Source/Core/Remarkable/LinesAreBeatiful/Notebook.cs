@@ -15,7 +15,7 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful
             var files = Directory.GetFiles(Path.Combine(pathManager.NotebooksDir, id), "*.rm");
             PageCount = files.Length;
 
-            Version = 3;
+            Version = 5;
             ID = id;
         }
 

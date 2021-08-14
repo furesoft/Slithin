@@ -12,8 +12,8 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
             // SVG header
             sb.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
             sb.AppendLine("<svg width=\"1404\" height=\"1872\" viewBox=\"0 0 1404 1872\" ");
-            sb.AppendLine("version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" ");
-            sb.AppendLine("xmlns:xlink=\"http://www.w3.org/1999/xlink\">");
+            sb.Append("version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" ");
+            sb.Append("xmlns:xlink=\"http://www.w3.org/1999/xlink\">");
 
             for (var i = 0; i < page.Layers.Count; i++)
             {
@@ -82,28 +82,28 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
                 {
                     var mask_id_str = layer_id_str + "-mask-" + mask_id;
 
-                    sb.AppendLine("<mask id=\"" + mask_id_str + "\">");
-                    sb.AppendLine("<rect width=\"100%\" height=\"100%\" fill=\"white\" />");
+                    sb.AppendLine("\t<mask id=\"" + mask_id_str + "\">");
+                    sb.Append("\t\t<rect width=\"100%\" height=\"100%\" fill=\"white\" />");
 
                     foreach (var erasure in group.Erasures)
                     {
                         RenderLine(erasure, sb);
                     }
 
-                    sb.AppendLine("</mask>");
-                    sb.AppendLine("<g mask=\"url(#" + mask_id_str + ")\" ");
+                    sb.AppendLine("\t</mask>");
+                    sb.AppendLine("\t<g mask=\"url(#" + mask_id_str + ")\" ");
                 }
                 else
                 {
-                    sb.AppendLine("<g ");
+                    sb.AppendLine("\t<g ");
                 }
 
                 if (mask_id == 0)
                 {
-                    sb.AppendLine("id=\"" + layer_id_str + "\" ");
+                    sb.Append("id=\"" + layer_id_str + "\" ");
                 }
 
-                sb.AppendLine(">");
+                sb.Append(">");
 
                 close_groups.Push(group);
 
@@ -120,7 +120,7 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
                     RenderLine(stroke, sb);
                 }
 
-                sb.AppendLine("</g>");
+                sb.AppendLine("\t</g>");
             }
         }
 
@@ -142,54 +142,54 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
         {
             // TODO: apply brush texture, pressure and tilt parameters
 
-            sb.AppendLine("<path ");
-            sb.AppendLine("fill=\"none\" ");
-            sb.AppendLine("stroke=\"");
+            sb.AppendLine("\t<path ");
+            sb.Append("fill=\"none\" ");
+            sb.Append("stroke=\"");
 
             switch (line.Color)
             {
                 case Colors.Grey:
-                    sb.AppendLine("grey");
+                    sb.Append("grey");
                     break;
 
                 case Colors.White:
-                    sb.AppendLine("white");
+                    sb.Append("white");
                     break;
 
                 default:
-                    sb.AppendLine("black");
+                    sb.Append("black");
                     break;
             }
 
-            sb.AppendLine("\" ");
-            sb.AppendLine("stroke-width=\"");
+            sb.Append("\" ");
+            sb.Append("stroke-width=\"");
 
             switch (line.BrushType)
             {
                 case Brushes.Highlighter:
                 case Brushes.Rubber:
-                    sb.AppendLine((20 * BaseSizes.GetValue(line.BrushBaseSize)).ToString());
+                    sb.Append(20 * BaseSizes.GetValue(line.BrushBaseSize));
                     break;
 
                 default:
-                    sb.AppendLine((18 * BaseSizes.GetValue(line.BrushBaseSize) - 32).ToString());
+                    sb.Append(18 * BaseSizes.GetValue(line.BrushBaseSize) - 32);
                     break;
             }
 
-            sb.AppendLine("\" ");
+            sb.Append("\" ");
 
-            sb.AppendLine("d=\"");
+            sb.Append("d=\"");
             RenderPathData(line.Points, sb);
-            sb.AppendLine("\" ");
+            sb.Append("\" ");
 
             if (line.BrushType == Brushes.Highlighter)
             {
-                sb.AppendLine("opacity=\"0.25\" ");
+                sb.Append("opacity=\"0.25\" ");
             }
 
-            sb.AppendLine("stroke-linejoin=\"round\" ");
-            sb.AppendLine("stroke-linecap=\"round\" ");
-            sb.AppendLine("/>");
+            sb.Append("stroke-linejoin=\"round\" ");
+            sb.Append("stroke-linecap=\"round\" ");
+            sb.Append("/>");
         }
 
         private static void RenderPathData(List<Point> points, StringBuilder sb)
@@ -198,8 +198,8 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
 
             foreach (var point in points)
             {
-                sb.AppendLine(is_first ? "M" : "L");
-                sb.AppendLine(point.X + "," + point.Y);
+                sb.Append(is_first ? "M" : "L");
+                sb.Append(point.X + "," + point.Y);
 
                 is_first = false;
             }
@@ -207,12 +207,12 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
 
         private static void RenderRubberArea(Line line, StringBuilder sb)
         {
-            sb.AppendLine("<path ");
-            sb.AppendLine("fill=\"black\" ");
-            sb.AppendLine("stroke=\"none\" ");
-            sb.AppendLine("d=\"");
+            sb.AppendLine("\t<path ");
+            sb.Append("fill=\"black\" ");
+            sb.Append("stroke=\"none\" ");
+            sb.Append("d=\"");
             RenderPathData(line.Points, sb);
-            sb.AppendLine("\" />");
+            sb.Append("\" />");
         }
 
         private class RenderGroup
