@@ -66,7 +66,7 @@ namespace Slithin.Core.Remarkable.Cloud
         {
             var upReq = new UploadRequest
             {
-                ID = Guid.NewGuid().ToString(),
+                ID = Guid.NewGuid().ToString().ToLower(),
                 Version = 1,
                 Type = "DocumentType"
             };

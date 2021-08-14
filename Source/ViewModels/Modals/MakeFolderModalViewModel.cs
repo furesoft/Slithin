@@ -33,11 +33,11 @@ namespace Slithin.ViewModels.Modals
         {
             if (!string.IsNullOrEmpty(Name))
             {
-                var id = Guid.NewGuid();
+                var id = Guid.NewGuid().ToString().ToLower();
 
                 var md = new Metadata
                 {
-                    ID = id.ToString(),
+                    ID = id,
                     Parent = _synchronisationService.NotebooksFilter.Folder,
                     Type = "CollectionType",
                     VisibleName = Name

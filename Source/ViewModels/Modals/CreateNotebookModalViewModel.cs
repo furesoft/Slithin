@@ -194,7 +194,7 @@ namespace Slithin.ViewModels.Modals
 
                 var md = new Metadata
                 {
-                    ID = Guid.NewGuid().ToString(),
+                    ID = Guid.NewGuid().ToString().ToLower(),
                     VisibleName = Name,
                     Type = "DocumentType",
                     Version = 1,

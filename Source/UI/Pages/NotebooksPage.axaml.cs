@@ -59,7 +59,7 @@ namespace Slithin.UI.Pages
             {
                 foreach (var filename in e.Data.GetFileNames())
                 {
-                    var id = Guid.NewGuid();
+                    var id = Guid.NewGuid().ToString().ToLower();
 
                     var importProviderFactory = ServiceLocator.Container.Resolve<IImportProviderFactory>();
                     var provider = importProviderFactory.GetImportProvider(".pdf", filename);
@@ -73,7 +73,7 @@ namespace Slithin.UI.Pages
                     {
                         var md = new Metadata
                         {
-                            ID = id.ToString(),
+                            ID = id,
                             Parent = ServiceLocator.Container.Resolve<SynchronisationService>().NotebooksFilter.Folder,
                             Content = cnt,
                             Version = 1,
