@@ -70,8 +70,6 @@ namespace Slithin.ViewModels.Pages
                 _events.Invoke("newVersionAvailable");
                 _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
             }
-
-            _mailboxService.Post(new CheckForUpdateMessage());
         }
     }
 }

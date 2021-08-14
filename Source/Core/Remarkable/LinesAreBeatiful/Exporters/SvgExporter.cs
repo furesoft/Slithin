@@ -75,15 +75,17 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
 
             while (open_groups.Any())
             {
+                var group = open_groups.Pop();
+
                 // Create a mask group for all erasures of the group, if any
-                if (open_groups.Last().Erasures.Any())
+                if (group.Erasures.Any())
                 {
                     var mask_id_str = layer_id_str + "-mask-" + mask_id;
 
                     sb.AppendLine("<mask id=\"" + mask_id_str + "\">");
                     sb.AppendLine("<rect width=\"100%\" height=\"100%\" fill=\"white\" />");
 
-                    foreach (var erasure in open_groups.Last().Erasures)
+                    foreach (var erasure in group.Erasures)
                     {
                         RenderLine(erasure, sb);
                     }
@@ -103,8 +105,7 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
 
                 sb.AppendLine(">");
 
-                close_groups.Push(open_groups.Last());
-                open_groups.Pop();
+                close_groups.Push(group);
 
                 ++mask_id;
             }
@@ -113,13 +114,13 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
             // then close the groups.
             while (close_groups.Any())
             {
-                foreach (var stroke in close_groups.Last().Strokes)
+                var cgroup = close_groups.Pop();
+                foreach (var stroke in cgroup.Strokes)
                 {
                     RenderLine(stroke, sb);
                 }
 
                 sb.AppendLine("</g>");
-                close_groups.Pop();
             }
         }
 
