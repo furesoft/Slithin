@@ -214,14 +214,15 @@ namespace Slithin.Core.Services.Implementations
                     }
 
                     var mdObj = JsonConvert.DeserializeObject<Metadata>(mdContent);
+
                     var contentObj = JsonConvert.DeserializeObject<ContentFile>(contentContent);
                     Metadata mdLocalObj;
 
-                    try
+                    if (File.Exists(Path.Combine(notebooksDir, md)))
                     {
                         mdLocalObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(notebooksDir, md)));
                     }
-                    catch
+                    else
                     {
                         mdLocalObj = new();
                         mdLocalObj.Version = 0;
