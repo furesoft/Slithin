@@ -36,3 +36,6 @@ Type in Terminal:
 ## MacOS
 Type in Terminal:
 ```dotnet Slithin.dll```
+
+This project is not affiliated to, nor endorsed by, reMarkable AS. I am not responsible for any damage done to your device or your data due to the use of this software.
+Please make a backup before you use it in this developement stage.
