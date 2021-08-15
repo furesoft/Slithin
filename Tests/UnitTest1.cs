@@ -10,10 +10,10 @@ namespace Tests
         [TestMethod]
         public void Parse_Should_Pass()
         {
-            var result = PageRange.Parse("1-3;7;9-");
+            var result = PageRange.Parse("1-3;7;9-;5;5;5");
             var indices = PageRange.ToIndices(result.AsT0, 15);
 
-            Debug.WriteLine("1-3;7;9-");
+            Debug.WriteLine("1-3;7;9-;5;5;5");
             Debug.WriteLine(string.Join(",", indices));
         }
 
