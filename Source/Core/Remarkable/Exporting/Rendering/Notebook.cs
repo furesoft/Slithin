@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using Slithin.Core.Services;
 using Slithin.Core.Remarkable.Rendering;
+using System;
 
 namespace Slithin.Core.Remarkable.Rendering
 {
@@ -77,6 +78,28 @@ namespace Slithin.Core.Remarkable.Rendering
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
             var md = Metadata.Load(ID);
+
+            var newContent = md.Content;
+
+            if (md.Content.Pages.Length < Pages.Count)
+            {
+                var difference = Pages.Count - md.Content.Pages.Length;
+
+                var pages = new List<string>(md.Content.Pages);
+
+                for (int i = 0; i < difference; i++)
+                {
+                    pages.Add(Guid.NewGuid().ToString().ToLower());
+                }
+
+                newContent.Pages = pages.ToArray();
+            }
+
+            newContent.PageCount = Pages.Count;
+
+            md.Content = newContent;
+
+            md.Save();
 
             for (var i = 0; i < Pages.Count; i++)
             {
