@@ -73,16 +73,6 @@ namespace Slithin.Core.Remarkable.Rendering
             return notebook;
         }
 
-        public void Export(string path)
-        {
-            Directory.CreateDirectory(path);
-            for (var i = 0; i < Pages.Count; i++)
-            {
-                var page = Pages[i];
-                var p = SvgRenderer.RenderPage(page, i, _md);
-            }
-        }
-
         public void Save()
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
