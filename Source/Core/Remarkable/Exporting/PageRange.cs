@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OneOf;
 
 namespace Slithin.Core.Remarkable.Exporting
@@ -17,7 +18,7 @@ namespace Slithin.Core.Remarkable.Exporting
                 {
                     var match = PageRange.ParseSingle(part);
 
-                    if (!match.AsT1)
+                    if (!match.IsT1)
                     {
                         result.Add(match.AsT0);
                     }
@@ -26,6 +27,8 @@ namespace Slithin.Core.Remarkable.Exporting
                         return true;
                     }
                 }
+
+                return result;
             }
 
             return true;
@@ -76,6 +79,29 @@ namespace Slithin.Core.Remarkable.Exporting
                     return true;
                 }
             }
+        }
+
+        public static IEnumerable<int> ToIndices(List<PageRange> ranges, int max)
+        {
+            var result = new List<int>();
+
+            foreach (var range in ranges)
+            {
+                if (range.From == range.To)
+                {
+                    result.Add(range.From - 1);
+                }
+                else if (range.To == -1)
+                {
+                    result.AddRange(Enumerable.Range(range.From - 1, max - range.From + 1));
+                }
+                else
+                {
+                    result.AddRange(Enumerable.Range(range.From - 1, range.To));
+                }
+            }
+
+            return result;
         }
     }
 }
