@@ -1,7 +1,7 @@
 ﻿using System;
 using Slithin.Core.Remarkable.Rendering;
 
-namespace Slithin.Core.Remarkable.LinesAreBeatiful
+namespace Slithin.Core.Remarkable.Rendering
 {
     public enum BrushBaseSize
     {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Slithin.Core.Remarkable.LinesAreBeatiful.Exporters;
 using Slithin.Core.Services;
+using Slithin.Core.Remarkable.Rendering;
 
-namespace Slithin.Core.Remarkable.LinesAreBeatiful
+namespace Slithin.Core.Remarkable.Rendering
 {
     public class Notebook
     {

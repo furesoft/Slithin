@@ -1,5 +1,4 @@
 ﻿using System;
-using Slithin.Core.Remarkable.LinesAreBeatiful;
 
 namespace Slithin.Core.Remarkable.Rendering
 {
