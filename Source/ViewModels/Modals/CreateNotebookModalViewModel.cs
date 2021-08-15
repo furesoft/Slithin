@@ -34,8 +34,13 @@ namespace Slithin.ViewModels.Modals
         private bool _renderName;
         private Template _selectedTemplate;
 
-        public CreateNotebookModalViewModel(IPathManager pathManager, CreateNotebookValidator validator)
+        public CreateNotebookModalViewModel(IPathManager pathManager, CreateNotebookValidator validator, ILoadingService loadingService)
         {
+            if (TemplateStorage.Instance.Templates == null)
+            {
+                loadingService.LoadTemplates();
+            }
+
             Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
 
             AddPagesCommand = new DelegateCommand(AddPages);

@@ -55,6 +55,14 @@ namespace Slithin.Core.Remarkable
             {
                 mdObj.PageData.Parse(File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".pagedata")));
             }
+            else
+            {
+                var data = new[] { "Blank" };
+                var pg = new PageData();
+                pg.Data = data;
+
+                mdObj.PageData = pg;
+            }
 
             return mdObj;
         }

@@ -8,15 +8,18 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful
 {
     public class Notebook
     {
-        public Notebook(string id)
+        private Metadata _md;
+
+        public Notebook(Metadata md)
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
-            var files = Directory.GetFiles(Path.Combine(pathManager.NotebooksDir, id), "*.rm");
+            var files = Directory.GetFiles(Path.Combine(pathManager.NotebooksDir, md.ID), "*.rm");
             PageCount = files.Length;
 
             Version = 5;
-            ID = id;
+            ID = md.ID;
+            _md = md;
         }
 
         public string ID { get; set; }
@@ -27,15 +30,19 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful
 
         public static Notebook Load(string id)
         {
-            var notebook = new Notebook(id);
+            return Load(MetadataStorage.Local.Get(id));
+        }
+
+        public static Notebook Load(Metadata md)
+        {
+            var notebook = new Notebook(md);
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
-            var md = Metadata.Load(id);
             notebook.PageCount = md.Content.PageCount;
 
             for (int p = 0; p < notebook.PageCount; ++p)
             {
-                var path = Path.Combine(pathManager.NotebooksDir, id, md.Content.Pages[p] + ".rm");
+                var path = Path.Combine(pathManager.NotebooksDir, md.ID, md.Content.Pages[p] + ".rm");
                 var strm = File.OpenRead(path);
                 var br = new BinaryReader(strm);
 
@@ -69,9 +76,10 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful
         public void Export(string path, ExportType type)
         {
             Directory.CreateDirectory(path);
-            foreach (var page in Pages)
+            for (var i = 0; i < Pages.Count; i++)
             {
-                var p = SvgExporter.RenderPage(page);
+                var page = Pages[i];
+                var p = SvgExporter.RenderPage(page, i, _md);
             }
         }
 

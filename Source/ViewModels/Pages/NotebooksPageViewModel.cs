@@ -1,8 +1,10 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.LinesAreBeatiful;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.UI.Modals;
@@ -94,6 +96,10 @@ namespace Slithin.ViewModels.Pages
             _mailboxService.PostAction(() =>
             {
                 _loadingService.LoadNotebooks();
+
+                var notebook = Notebook.Load("aa69f2cc-7af8-4f6e-9977-d9ffc902c1d2");
+                var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test-export";
+                notebook.Export(path, ExportType.SVG);
             });
         }
     }
