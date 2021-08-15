@@ -10,3 +10,5 @@
 
 
 - implement error for modals
+
+- implement svg one layer one path
