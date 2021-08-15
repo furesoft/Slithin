@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Slithin.Core.Remarkable.LinesAreBeatiful;
 
-namespace Slithin.Core.Remarkable.LinesAreBeatiful
+namespace Slithin.Core.Remarkable.Rendering
 {
     public class Layer
     {
