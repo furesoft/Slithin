@@ -73,13 +73,13 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful
             return notebook;
         }
 
-        public void Export(string path, ExportType type)
+        public void Export(string path)
         {
             Directory.CreateDirectory(path);
             for (var i = 0; i < Pages.Count; i++)
             {
                 var page = Pages[i];
-                var p = SvgExporter.RenderPage(page, i, _md);
+                var p = SvgRenderer.RenderPage(page, i, _md);
             }
         }
 
