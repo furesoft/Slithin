@@ -26,7 +26,7 @@ namespace Slithin.Core
                 {
                     _handlers[msgType](msg);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }

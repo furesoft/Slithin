@@ -20,17 +20,7 @@ namespace Slithin.Core.Services.Implementations
 
             foreach (var md in Directory.GetFiles(_pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
             {
-                var mdObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(md));
-                mdObj.ID = Path.GetFileNameWithoutExtension(md);
-
-                if (File.Exists(Path.ChangeExtension(md, ".content")))
-                {
-                    mdObj.Content = JsonConvert.DeserializeObject<ContentFile>(File.ReadAllText(Path.ChangeExtension(md, ".content")));
-                }
-                if (File.Exists(Path.ChangeExtension(md, ".pagedata")))
-                {
-                    mdObj.PageData.Parse(File.ReadAllText(Path.ChangeExtension(md, ".pagedata")));
-                }
+                var mdObj = Metadata.Load(Path.GetFileNameWithoutExtension(md));
 
                 MetadataStorage.Local.Add(mdObj, out var alreadyAdded);
             }
