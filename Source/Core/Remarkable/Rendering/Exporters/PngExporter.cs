@@ -1,11 +1,13 @@
-﻿using System.IO;
+﻿using System.Drawing.Imaging;
+using System.IO;
+using Svg;
 
 namespace Slithin.Core.Remarkable.Rendering.Exporters
 {
-    public class SvgExporter : IExportProvider
+    public class PngExporter : IExportProvider
     {
         public bool ExportSingleDocument => false;
-        public string Title => "SVG Graphics";
+        public string Title => "PNG Graphics";
 
         public void Export(Notebook notebook, Metadata metadata, string outputPath)
         {
@@ -14,12 +16,12 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
                 var page = notebook.Pages[i];
 
                 var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
-                var outputStrm = File.OpenWrite(Path.Combine(outputPath, i + ".svg"));
 
-                svgStrm.CopyTo(outputStrm);
+                var doc = SvgDocument.Open<SvgDocument>(svgStrm);
+                var bitmap = doc.Draw();
+                bitmap.Save(Path.Combine(outputPath, i + ".png"), ImageFormat.Png);
 
                 svgStrm.Close();
-                outputStrm.Close();
             }
         }
     }

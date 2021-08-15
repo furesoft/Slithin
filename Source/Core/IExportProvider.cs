@@ -5,7 +5,8 @@ namespace Slithin.Core
 {
     public interface IExportProvider
     {
-        string Extension { get; }
+        bool ExportSingleDocument { get; }
+        string Title { get; }
 
         void Export(Notebook notebook, Metadata metadata, string outputPath);
     }
