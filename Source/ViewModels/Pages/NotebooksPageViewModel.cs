@@ -98,7 +98,9 @@ namespace Slithin.ViewModels.Pages
             {
                 _loadingService.LoadNotebooks();
 
-                var notebook = Notebook.Load("aa69f2cc-7af8-4f6e-9977-d9ffc902c1d2");
+                var notebook = Notebook.Load("0d1541a9-2d85-4f0f-a0b5-010013ee1eff");
+                var rr = SvgRenderer.RenderPage(notebook.Pages[0], 0, notebook.Metadata);
+
                 var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test-export";
 
                 var pag = new Page();
