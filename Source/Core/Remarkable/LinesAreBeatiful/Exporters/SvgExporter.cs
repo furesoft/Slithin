@@ -29,7 +29,10 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
             {
                 foreach (var line in layer.Lines)
                 {
-                    RenderLine(line, group);
+                    if (line.BrushType != Brushes.Eraseall && line.BrushType != Brushes.Rubber)
+                    {
+                        RenderLine(line, group);
+                    }
                 }
             }
 
@@ -72,6 +75,40 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
             var path = new SvgPath();
 
             path.PathData = GeneratePathData(line.Points);
+
+            switch (line.Color)
+            {
+                case Colors.Grey:
+                    path.Stroke = new SvgColourServer(Color.Gray);
+                    break;
+
+                case Colors.White:
+                    path.Stroke = new SvgColourServer(Color.White);
+                    break;
+
+                default:
+                    path.Stroke = new SvgColourServer(Color.Black);
+                    break;
+            }
+
+            switch (line.BrushType)
+            {
+                case Brushes.Highlighter:
+                case Brushes.Rubber:
+                    path.StrokeWidth = new SvgUnit(20 * BaseSizes.GetValue(line.BrushBaseSize));
+                    break;
+
+                default:
+                    path.StrokeWidth = new SvgUnit(18 * BaseSizes.GetValue(line.BrushBaseSize) - 32);
+                    break;
+            }
+
+            if (line.BrushType == Brushes.Highlighter)
+            {
+                path.Opacity = 0.25f;
+            }
+            path.StrokeLineJoin = SvgStrokeLineJoin.Round;
+            path.StrokeLineCap = SvgStrokeLineCap.Round;
 
             group.Children.Add(path);
         }
