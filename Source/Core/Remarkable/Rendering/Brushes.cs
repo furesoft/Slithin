@@ -1,4 +1,5 @@
-﻿namespace Slithin.Core.Remarkable.LinesAreBeatiful
+﻿using Slithin.Core.Remarkable.LinesAreBeatiful;
+namespace Slithin.Core.Remarkable.Rendering
 {
     public enum Brushes
     {

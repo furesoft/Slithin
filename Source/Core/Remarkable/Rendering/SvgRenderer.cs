@@ -5,6 +5,7 @@ using System.IO;
 using Slithin.Core.Services;
 using Svg;
 using Svg.Pathing;
+using Slithin.Core.Remarkable.Rendering;
 
 namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
 {
