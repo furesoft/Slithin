@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using Slithin.Core.Services;
 using Svg;
 using Svg.Pathing;
 
 namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
 {
-    public static class SvgExporter
+    public static class SvgRenderer
     {
-        public static string RenderPage(Page page, int index, Metadata md)
+        public static Stream RenderPage(Page page, int index, Metadata md)
         {
             var svgDoc = new SvgDocument
             {
@@ -39,7 +38,7 @@ namespace Slithin.Core.Remarkable.LinesAreBeatiful.Exporters
             var stream = new MemoryStream();
             svgDoc.Write(stream);
 
-            return Encoding.UTF8.GetString(stream.GetBuffer());
+            return stream;
         }
 
         private static SvgPathSegmentList GeneratePathData(List<Point> points)
