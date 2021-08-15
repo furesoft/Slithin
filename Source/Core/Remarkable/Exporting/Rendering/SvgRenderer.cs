@@ -106,6 +106,7 @@ namespace Slithin.Core.Remarkable.Rendering
             if (line.BrushType == Brushes.Highlighter)
             {
                 path.Opacity = 0.25f;
+                path.Stroke = new SvgColourServer(Color.Yellow);
             }
             path.StrokeLineJoin = SvgStrokeLineJoin.Round;
             path.StrokeLineCap = SvgStrokeLineCap.Round;

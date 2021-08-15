@@ -9,8 +9,6 @@ namespace Slithin.Core.Remarkable.Rendering
 {
     public class Notebook
     {
-        private Metadata _md;
-
         public Notebook(Metadata md)
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
@@ -20,10 +18,11 @@ namespace Slithin.Core.Remarkable.Rendering
 
             Version = 5;
             ID = md.ID;
-            _md = md;
+            Metadata = md;
         }
 
         public string ID { get; set; }
+        public Metadata Metadata { get; set; }
         public int PageCount { get; set; }
         public List<Page> Pages { get; set; } = new();
 
