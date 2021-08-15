@@ -26,6 +26,9 @@ namespace Slithin.Core
             var importProviderFactory = Container.Resolve<IImportProviderFactory>();
             importProviderFactory.Init();
 
+            var exportProviderFactory = Container.Resolve<IExportProviderFactory>();
+            exportProviderFactory.Init();
+
             Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
         }
     }
