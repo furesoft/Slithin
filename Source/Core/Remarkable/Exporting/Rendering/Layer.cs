@@ -5,6 +5,6 @@ namespace Slithin.Core.Remarkable.Rendering
 {
     public class Layer
     {
-        public List<Line> Lines { get; set; }
+        public List<Line> Lines { get; set; } = new();
     }
 }

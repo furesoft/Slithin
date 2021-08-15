@@ -9,6 +9,7 @@ using Slithin.Core.Sync;
 using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
 using Slithin.Core.Remarkable.Rendering;
+using System.Collections.Generic;
 
 namespace Slithin.ViewModels.Pages
 {
@@ -99,6 +100,31 @@ namespace Slithin.ViewModels.Pages
 
                 var notebook = Notebook.Load("aa69f2cc-7af8-4f6e-9977-d9ffc902c1d2");
                 var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test-export";
+
+                var pag = new Page();
+                var layer = new Layer();
+
+                var pdata = "m53.6,435.4l7.4,-362.4l503,0l-362,135l462,-9c0.6,0.4 -396.4,358.4 -396.4,358.4c0,0 -214,-122 -214,-122z";
+                Svg.SvgPathBuilder b = new Svg.SvgPathBuilder();
+                var r = (Svg.Pathing.SvgPathSegmentList)b.ConvertFromString(pdata);
+                var line = new Line();
+                var points = new List<Point>();
+
+                foreach (var p in r)
+                {
+                    points.Add(new Point() { X = p.Start.X, Y = p.Start.Y, Pressure = 1, Direction = 2, Width = 2 });
+                    points.Add(new Point() { X = p.End.X, Y = p.End.Y, Pressure = 1, Direction = 2, Width = 2 });
+                }
+
+                line.Points = points;
+
+                layer.Lines.Add(line);
+
+                pag.Layers = new List<Layer>(new[] { layer });
+
+                notebook.Pages.Add(pag);
+
+                notebook.Save();
             });
         }
     }
