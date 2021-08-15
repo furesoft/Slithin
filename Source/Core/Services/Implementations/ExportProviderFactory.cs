@@ -27,7 +27,7 @@ namespace Slithin.Core.Services.Implementations
 
             foreach (var provider in providers)
             {
-                _providers.Add(provider.Extension, provider);
+                _providers.Add(provider.Title, provider);
             }
         }
     }
