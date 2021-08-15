@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Rendering;
 
 namespace Slithin.Core
 {
@@ -6,6 +7,6 @@ namespace Slithin.Core
     {
         string Extension { get; }
 
-        Stream Export(Stream svgStream);
+        void Export(Notebook notebook, Metadata metadata, string outputPath);
     }
 }
