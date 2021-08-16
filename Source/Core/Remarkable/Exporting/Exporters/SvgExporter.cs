@@ -7,20 +7,29 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
         public bool ExportSingleDocument => false;
         public string Title => "SVG Graphics";
 
-        public void Export(Notebook notebook, Metadata metadata, string outputPath)
+        public bool Export(ExportOptions options, Metadata metadata, string outputPath)
         {
-            for (var i = 0; i < notebook.Pages.Count; i++)
+            if (options.Document.IsT1)
             {
-                var page = notebook.Pages[i];
+                var notebook = options.Document.AsT1;
 
-                var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
-                var outputStrm = File.OpenWrite(Path.Combine(outputPath, i + ".svg"));
+                for (var i = 0; i < notebook.Pages.Count; i++)
+                {
+                    var page = notebook.Pages[i];
 
-                svgStrm.CopyTo(outputStrm);
+                    var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
+                    var outputStrm = File.OpenWrite(Path.Combine(outputPath, i + ".svg"));
 
-                svgStrm.Close();
-                outputStrm.Close();
+                    svgStrm.CopyTo(outputStrm);
+
+                    svgStrm.Close();
+                    outputStrm.Close();
+                }
+
+                return true;
             }
+
+            return false;
         }
     }
 }

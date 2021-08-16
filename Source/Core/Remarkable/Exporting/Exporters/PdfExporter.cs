@@ -19,7 +19,7 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
         public bool ExportSingleDocument => true;
         public string Title => "PDF Document";
 
-        public void Export(ExportOptions options, Metadata metadata, string outputPath)
+        public bool Export(ExportOptions options, Metadata metadata, string outputPath)
         {
             if (options.Document.IsT1)
             {
@@ -46,13 +46,18 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
                 }
 
                 document.Save(outputPath);
+
+                return true;
             }
             else if (options.Document.IsT0)
             {
                 var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
 
                 //render rm files to pdf
+                return false;
             }
+
+            return false;
         }
     }
 }
