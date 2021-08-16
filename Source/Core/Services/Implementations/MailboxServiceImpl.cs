@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -147,11 +147,11 @@ namespace Slithin.Core.Services.Implementations
 
             _messageRouter.Register<InitStorageMessage>(_ =>
             {
+                _device.DownloadCustomScreens();
+
                 _device.GetTemplates();
 
                 _loadingService.LoadTemplates();
-
-                _device.DownloadCustomScreens();
 
                 ServiceLocator.Container.Resolve<BackupTool>().Invoke(null);
             });
