@@ -110,7 +110,7 @@ namespace Slithin.Core.Remarkable.Rendering
                 var bw = new BinaryWriter(strm);
 
                 // write header (33 bytes)
-                bw.Write(Encoding.ASCII.GetBytes("reMarkable .lines file, version=" + (int)Version));
+                bw.Write(Encoding.ASCII.GetBytes("reMarkable .lines file, version=" + (char)Version));
 
                 // write space padding
                 bw.Write(Encoding.ASCII.GetBytes("          "));
