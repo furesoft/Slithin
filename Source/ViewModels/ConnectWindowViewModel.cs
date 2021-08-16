@@ -20,6 +20,7 @@ namespace Slithin.ViewModels
     {
         private readonly EventStorage _events;
         private readonly ILoginService _loginService;
+        private readonly ISettingsService _settingsService;
         private readonly LoginInfoValidator _validator;
         private string _ipAddress;
 
@@ -27,7 +28,11 @@ namespace Slithin.ViewModels
 
         private bool _remember;
 
-        public ConnectionWindowViewModel(EventStorage events, ILoginService loginService, ToolRepository tools, LoginInfoValidator validator)
+        public ConnectionWindowViewModel(EventStorage events,
+                                         ILoginService loginService,
+                                         ToolRepository tools,
+                                         LoginInfoValidator validator,
+                                         ISettingsService settingsService)
         {
             _ipAddress = string.Empty;
             _password = string.Empty;
@@ -37,6 +42,7 @@ namespace Slithin.ViewModels
             _events = events;
             _loginService = loginService;
             _validator = validator;
+            _settingsService = settingsService;
         }
 
         public ICommand ConnectCommand { get; set; }
@@ -112,6 +118,17 @@ namespace Slithin.ViewModels
                             desktop.MainWindow = new MainWindow();
 
                             desktop.MainWindow.Show();
+
+                            var settings = _settingsService.Get();
+                            if (!settings.HasFirstGalleryShown)
+                            {
+                                var galleryWindow = new GalleryWindow();
+                                //galleryWindow.DataContext = some images
+                                settings.HasFirstGalleryShown = true;
+                                //_settingsService.Save(settings);
+
+                                galleryWindow.Show();
+                            }
                         }
                     }
                     else
