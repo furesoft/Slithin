@@ -1,5 +1,8 @@
-﻿using Renci.SshNet;
+﻿using System.IO;
+using Renci.SshNet;
+using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Remarkable;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
@@ -14,6 +17,9 @@ namespace Slithin.ViewModels.Pages
         private readonly ILoadingService _loadingService;
         private readonly LocalRepository _localRepostory;
         private readonly IMailboxService _mailboxService;
+        private readonly IPathManager _pathManager;
+        private readonly ScpClient _scp;
+        private readonly ISettingsService _settingsService;
         private readonly IVersionService _versionService;
         private bool _isBeta;
 
@@ -24,7 +30,10 @@ namespace Slithin.ViewModels.Pages
                                    EventStorage events,
                                    IMailboxService mailboxService,
                                    LocalRepository localRepostory,
-                                   SshClient client)
+                                   SshClient client,
+                                   ScpClient scp,
+                                   IPathManager pathManager,
+                                   ISettingsService settingsService)
         {
             _versionService = versionService;
             _loadingService = loadingService;
@@ -32,6 +41,9 @@ namespace Slithin.ViewModels.Pages
             _mailboxService = mailboxService;
             _localRepostory = localRepostory;
             _client = client;
+            _scp = scp;
+            _pathManager = pathManager;
+            _settingsService = settingsService;
         }
 
         public bool IsBeta
@@ -46,7 +58,7 @@ namespace Slithin.ViewModels.Pages
             set { SetValue(ref _version, value); }
         }
 
-        public override void OnLoad()
+        public override async void OnLoad()
         {
             base.OnLoad();
 
@@ -69,7 +81,34 @@ namespace Slithin.ViewModels.Pages
             {
                 _events.Invoke("newVersionAvailable");
                 _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
+
+                if (!_settingsService.Get().AutomaticTemplateRecovery)
+                {
+                    var result = await DialogService.ShowDialog("A new version has been installed to your device. Would you upload your custom templates?");
+                    if (result)
+                    {
+                        UploadTemplates();
+                    }
+                }
+                else
+                {
+                    UploadTemplates();
+                }
             }
+        }
+
+        private void UploadTemplates()
+        {
+            _mailboxService.PostAction(() =>
+            {
+                //upload template folder
+                NotificationService.Show("Uploading Templates");
+
+                _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
+
+                TemplateStorage.Instance.Apply();
+                NotificationService.Hide();
+            });
         }
     }
 }
