@@ -48,7 +48,16 @@ namespace Slithin.UI
 
                         if (!string.IsNullOrEmpty(filename))
                         {
-                            img.Source = new Bitmap(File.OpenRead(Path.Combine(notebooksDir, md.ID + ".thumbnails", filename + ".jpg")));
+                            var thumbnail = Path.Combine(notebooksDir, md.ID + ".thumbnails", filename + ".jpg");
+
+                            if (File.Exists(thumbnail))
+                            {
+                                img.Source = new Bitmap(File.OpenRead(thumbnail));
+                            }
+                            else
+                            {
+                                img.Source = cache.Get("notebook-" + md.Content.FileType, new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
+                            }
                         }
                     }
                     else
