@@ -44,33 +44,38 @@ namespace Slithin.Core.Remarkable.Rendering
             {
                 var path = Path.Combine(pathManager.NotebooksDir, md.ID, md.Content.Pages[p] + ".rm");
                 var strm = File.OpenRead(path);
-                var br = new BinaryReader(strm);
-
-                // skip header
-                strm.Seek(32, SeekOrigin.Begin);
-
-                notebook.Version = (char)br.ReadByte();
-
-                // skip 10x space padding
-                strm.Seek(10, SeekOrigin.Current);
-
-                // layers
-                Page curPage = new();
-                curPage.Layers = new();
-
-                var layerCount = br.ReadInt32();
-
-                for (int nlay = 0; nlay < layerCount; ++nlay)
-                {
-                    ReadLayer(br, curPage);
-                }
-
-                br.Close();
+                var curPage = LoadPage(strm);
 
                 notebook.Pages.Add(curPage);
             }
 
             return notebook;
+        }
+
+        public static Page LoadPage(Stream strm)
+        {
+            var br = new BinaryReader(strm);
+
+            // skip header
+            strm.Seek(33, SeekOrigin.Begin);
+
+            // skip 10x space padding
+            strm.Seek(10, SeekOrigin.Current);
+
+            // layers
+            Page curPage = new();
+            curPage.Layers = new();
+
+            var layerCount = br.ReadInt32();
+
+            for (int nlay = 0; nlay < layerCount; ++nlay)
+            {
+                ReadLayer(br, curPage);
+            }
+
+            br.Close();
+
+            return curPage;
         }
 
         public void Save()

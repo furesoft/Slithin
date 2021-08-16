@@ -6,3 +6,5 @@
 
 
 - implement error for modals
+
+- render rm file to pdf

@@ -47,6 +47,9 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
                     bitmap.Save(pngStrm, ImageFormat.Png);
 
                     svgStrm.Close();
+
+                    pngStrm.Seek(0, SeekOrigin.Begin);
+
                     graphics.DrawImage(XImage.FromStream(() => pngStrm), new XPoint(0, 0));
                 }
 
@@ -57,9 +60,45 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
             else if (options.Document.IsT0)
             {
                 var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
+                var doc = new PdfDocument(filename);
+                var result = new PdfDocument();
 
-                //render rm files to pdf
-                return false;
+                //wenn notiz in range dann rendern, ansonsen pdf kopieren
+                for (var i = 0; i < options.PagesIndices.Count; i++)
+                {
+                    var rm = metadata.Content.Pages[i];
+                    var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
+
+                    if (File.Exists(rmPath))
+                    {
+                        //render
+                        var page = Notebook.LoadPage(File.OpenRead(rmPath));
+                        var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
+                        var pngStrm = new MemoryStream();
+
+                        var d = SvgDocument.Open<SvgDocument>(svgStrm);
+                        var bitmap = d.Draw();
+                        bitmap.Save(pngStrm, ImageFormat.Png);
+
+                        svgStrm.Close();
+
+                        var p = result.AddPage();
+                        var graphics = XGraphics.FromPdfPage(p);
+
+                        pngStrm.Seek(0, SeekOrigin.Begin);
+
+                        graphics.DrawImage(XImage.FromStream(() => pngStrm), new XPoint(0, 0));
+                    }
+                    else
+                    {
+                        //copy
+                        result.AddPage(doc.Pages[i], AnnotationCopyingType.DeepCopy);
+                    }
+                }
+
+                result.Save(outputPath);
+
+                return true;
             }
 
             return false;
