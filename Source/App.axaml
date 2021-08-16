@@ -14,6 +14,7 @@
     <StyleInclude Source="/Styles/ButtonStyle.axaml" />
     <StyleInclude Source="/Styles/GalleryControl.axaml" />
     <StyleInclude Source="/Styles/IndicatorStyle.axaml" />
+    <StyleInclude Source="/Styles/LinkStyle.axaml" />
 
     <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
   </Application.Styles>
