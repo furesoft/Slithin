@@ -1,7 +1,9 @@
 ﻿using System.Drawing.Imaging;
 using System.IO;
+using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using PdfSharpCore.Pdf.IO;
 using Slithin.Core.Services;
 using Svg;
 
@@ -32,6 +34,8 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
 
                 var document = new PdfDocument();
 
+                document.Info.Title = metadata.VisibleName;
+
                 for (var i = 0; i < options.PagesIndices.Count; i++)
                 {
                     var pdfPage = document.AddPage();
@@ -41,6 +45,8 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
 
                     var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
                     var pngStrm = new MemoryStream();
+
+                    svgStrm.Seek(0, SeekOrigin.Begin);
 
                     var doc = SvgDocument.Open<SvgDocument>(svgStrm);
                     var bitmap = doc.Draw();
@@ -60,21 +66,30 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
             else if (options.Document.IsT0)
             {
                 var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
-                var doc = new PdfDocument(filename);
+                var doc = PdfReader.Open(File.OpenRead(filename), PdfDocumentOpenMode.Import);
                 var result = new PdfDocument();
 
-                //wenn notiz in range dann rendern, ansonsen pdf kopieren
+                result.Info.Title = metadata.VisibleName;
+
                 for (var i = 0; i < options.PagesIndices.Count; i++)
                 {
                     var rm = metadata.Content.Pages[i];
                     var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
 
+                    //todo: figure out index
+
                     if (File.Exists(rmPath))
                     {
+                        var p = result.AddPage();
+
                         //render
                         var page = Notebook.LoadPage(File.OpenRead(rmPath));
-                        var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
+
+                        var psize = PageSizeConverter.ToSize(PageSize.A4);
+                        var svgStrm = SvgRenderer.RenderPage(page, i, metadata, (int)psize.Width, (int)psize.Height);
                         var pngStrm = new MemoryStream();
+
+                        svgStrm.Seek(0, SeekOrigin.Begin);
 
                         var d = SvgDocument.Open<SvgDocument>(svgStrm);
                         var bitmap = d.Draw();
@@ -82,7 +97,8 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
 
                         svgStrm.Close();
 
-                        var p = result.AddPage();
+                        p.Size = doc.Pages[0].Size;
+
                         var graphics = XGraphics.FromPdfPage(p);
 
                         pngStrm.Seek(0, SeekOrigin.Begin);
@@ -92,7 +108,7 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
                     else
                     {
                         //copy
-                        result.AddPage(doc.Pages[i], AnnotationCopyingType.DeepCopy);
+                        var p = result.AddPage(doc.Pages[i], AnnotationCopyingType.DeepCopy);
                     }
                 }
 
