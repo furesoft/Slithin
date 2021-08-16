@@ -5,9 +5,14 @@
         xmlns:controls="using:Slithin.Controls"
         mc:Ignorable="d" d:DesignWidth="377" d:DesignHeight="554"
         x:Class="Slithin.UI.Views.GalleryWindow" WindowStartupLocation="CenterScreen" Width="377" Height="554"
-        Title="GalleryWindow">
+        Title="Welcome To Slithin">
   <Grid Margin="12">
-    <controls:GalleryControl />
+    <controls:GalleryControl>
+      <Image Source="/Resources/add.png" />
+      <Image Source="/Resources/backup.png" />
+      <Image Source="/Resources/Cover.png" />
+      <Image Source="/Resources/Covers/Folder-DBlue.png" />
+    </controls:GalleryControl>
 
     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
       <Button Content="OK" Classes="flat" />
