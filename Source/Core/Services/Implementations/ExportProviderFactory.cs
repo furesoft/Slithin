@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Services.Implementations
 {
@@ -8,14 +9,14 @@ namespace Slithin.Core.Services.Implementations
     {
         private readonly Dictionary<string, IExportProvider> _providers = new();
 
-        public string[] GetAvailableExtensions()
+        public IExportProvider[] GetAvailableProviders(Metadata md)
         {
-            return _providers.Keys.ToArray();
+            return _providers.Values.Where(_ => _.CanHandle(md)).ToArray();
         }
 
-        public IExportProvider GetExportProvider(string extension)
+        public IExportProvider GetExportProvider(string format)
         {
-            return _providers[extension];
+            return _providers[format];
         }
 
         public void Init()

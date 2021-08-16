@@ -1,8 +1,10 @@
-﻿namespace Slithin.Core.Services
+﻿using Slithin.Core.Remarkable;
+
+namespace Slithin.Core.Services
 {
     public interface IExportProviderFactory
     {
-        string[] GetAvailableExtensions();
+        IExportProvider[] GetAvailableProviders(Metadata md);
 
         IExportProvider GetExportProvider(string extension);
 
