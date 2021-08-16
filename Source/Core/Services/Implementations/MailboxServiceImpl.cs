@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -341,6 +341,35 @@ namespace Slithin.Core.Services.Implementations
                     }
                     notebook++;
                 }
+
+                NotificationService.Hide();
+            });
+
+            _messageRouter.Register<InitNotebookMessage>(_ =>
+            {
+                var notebooksDir = _pathManager.NotebooksDir;
+                NotificationService.Show("Downloading Notebooks");
+
+                var cmd = client.RunCommand("ls -p " + PathList.Documents);
+                var allNodes = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => !_.EndsWith(".zip") && !_.EndsWith(".zip.part"));
+
+                scp.Downloading += OnDownloading;
+
+                foreach (var node in allNodes)
+                {
+                    if (node.EndsWith("/"))
+                    {
+                        Directory.CreateDirectory(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1)));
+
+                        scp.Download(PathList.Documents + "/" + node, new DirectoryInfo(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1))));
+                    }
+                    else
+                    {
+                        scp.Download(PathList.Documents + "/" + node, new FileInfo(Path.Combine(notebooksDir, node)));
+                    }
+                }
+
+                scp.Downloading -= OnDownloading;
 
                 NotificationService.Hide();
             });
