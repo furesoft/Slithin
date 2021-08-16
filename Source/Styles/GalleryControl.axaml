@@ -5,7 +5,6 @@
     <controls:GalleryControl>
       <Image Source="/Resources/add.png" />
       <Image Source="/Resources/backup.png" />
-      <Image Source="/Resources/remove.png" />
       <Image Source="/Resources/Cover.png" />
     </controls:GalleryControl>
   </Design.PreviewWith>

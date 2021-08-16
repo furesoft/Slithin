@@ -1,6 +1,8 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Core;
+using Slithin.ViewModels;
 
 namespace Slithin.UI.Views
 {
@@ -17,6 +19,9 @@ namespace Slithin.UI.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+
+            DataContext = ServiceLocator.Container.Resolve<GalleryWindowViewModel>();
+            ((BaseViewModel)DataContext).OnRequestClose += () => this.Close();
         }
     }
 }
