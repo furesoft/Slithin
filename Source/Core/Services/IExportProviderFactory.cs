@@ -6,7 +6,7 @@ namespace Slithin.Core.Services
     {
         IExportProvider[] GetAvailableProviders(Metadata md);
 
-        IExportProvider GetExportProvider(string extension);
+        IExportProvider GetExportProvider(string type);
 
         void Init();
     }
