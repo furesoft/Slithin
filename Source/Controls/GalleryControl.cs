@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -6,15 +7,28 @@ using Avalonia.Media;
 
 namespace Slithin.Controls
 {
-    public class GalleryControl : TemplatedControl
+    public class GalleryControl : ItemsControl
     {
-        public static StyledProperty<ObservableCollection<IImage>> ImagesProperty =
-            AvaloniaProperty.Register<GalleryControl, ObservableCollection<IImage>>(nameof(Images));
+        public static StyledProperty<ObservableCollection<object>> IndicatorsProperty =
+            AvaloniaProperty.Register<GalleryControl, ObservableCollection<object>>(nameof(Indicators), new());
 
-        public ObservableCollection<IImage> Images
+        public GalleryControl()
         {
-            get { return GetValue(ImagesProperty); }
-            set { SetValue(ImagesProperty, value); }
+        }
+
+        public ObservableCollection<object> Indicators
+        {
+            get { return GetValue(IndicatorsProperty); }
+            set { SetValue(IndicatorsProperty, value); }
+        }
+
+        protected override void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Indicators = new();
+            for (int i = 0; i < ItemCount; i++)
+            {
+                Indicators.Add(i);
+            }
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
