@@ -97,36 +97,6 @@ namespace Slithin.ViewModels.Pages
             _mailboxService.PostAction(() =>
             {
                 _loadingService.LoadNotebooks();
-
-                var notebook = Notebook.Load("0d1541a9-2d85-4f0f-a0b5-010013ee1eff");
-                var rr = SvgRenderer.RenderPage(notebook.Pages[0], 0, notebook.Metadata);
-
-                var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test-export";
-
-                var pag = new Page();
-                var layer = new Layer();
-
-                var pdata = "m53.6,435.4l7.4,-362.4l503,0l-362,135l462,-9c0.6,0.4 -396.4,358.4 -396.4,358.4c0,0 -214,-122 -214,-122z";
-                Svg.SvgPathBuilder b = new Svg.SvgPathBuilder();
-                var r = (Svg.Pathing.SvgPathSegmentList)b.ConvertFromString(pdata);
-                var line = new Line();
-                var points = new List<Point>();
-
-                foreach (var p in r)
-                {
-                    points.Add(new Point() { X = p.Start.X, Y = p.Start.Y, Pressure = 1, Direction = 2, Width = 2 });
-                    points.Add(new Point() { X = p.End.X, Y = p.End.Y, Pressure = 1, Direction = 2, Width = 2 });
-                }
-
-                line.Points = points;
-
-                layer.Lines.Add(line);
-
-                pag.Layers = new List<Layer>(new[] { layer });
-
-                notebook.Pages.Add(pag);
-
-                notebook.Save();
             });
         }
     }
