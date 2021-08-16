@@ -7,10 +7,11 @@
   </Design.PreviewWith>
 
   <Style Selector="Button.flat">
+    <Setter Property="Background" Value="White" />
     <Setter Property="Template">
       <ControlTemplate>
-        <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3">
-          <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" TextBlock.FontSize="22"  Margin="5" />
+        <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3" Background="{TemplateBinding Background}">
+          <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" TextBlock.FontSize="22" Margin="5" />
         </Border>
       </ControlTemplate>
     </Setter>
@@ -18,12 +19,6 @@
 
   <Style Selector="Button.flat:pointerover">
     <Setter Property="Cursor" Value="Hand" />
-    <Setter Property="Template">
-      <ControlTemplate>
-        <Border BorderBrush="Black" BorderThickness="1" Margin="2" CornerRadius="3" Background="LightGray">
-          <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" TextBlock.FontSize="22"  Margin="5" />
-        </Border>
-      </ControlTemplate>
-    </Setter>
+    <Setter Property="Background" Value="LightGray" />
   </Style>
 </Styles>

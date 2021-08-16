@@ -32,6 +32,7 @@
    <ItemGroup>
      <None Remove="Resources\backup.png" />
      <None Remove="Resources\config.png" />
+     <None Remove="Resources\right-arrow.png" />
      <EmbeddedResource Include="Resources\Cover.png" />
      <None Remove="Resources\Covers\Folder-DBlue.png" />
      <None Remove="Resources\Covers\Folder-Green.png" />
