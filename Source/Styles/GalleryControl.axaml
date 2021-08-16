@@ -24,19 +24,19 @@
             <Path Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" Fill="Black" />
           </Button>
 
-          <ItemsControl Items="{TemplateBinding Indicators}" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center">
-            <ItemsControl.ItemTemplate>
+          <ListBox Items="{TemplateBinding Indicators}" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" SelectedIndex="{Binding ElementName=PART_CAROUSEL, Path=SelectedIndex}}">
+            <ListBox.ItemTemplate>
               <DataTemplate>
                 <Border Width="15" Height="7" Background="Gray" CornerRadius="4" />
               </DataTemplate>
-            </ItemsControl.ItemTemplate>
+            </ListBox.ItemTemplate>
 
-            <ItemsControl.ItemsPanel>
+            <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" Spacing="15" />
               </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-          </ItemsControl>
+            </ListBox.ItemsPanel>
+          </ListBox>
         </Grid>
       </ControlTemplate>
     </Setter>
