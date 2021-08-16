@@ -1,0 +1,34 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Slithin.Controls">
+  <Design.PreviewWith>
+    <controls:GalleryControl />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|GalleryControl">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid>
+          <Button Name="PART_LEFT" Classes="flat" VerticalAlignment="Center" Padding="20" ZIndex="100">
+            <Path Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" Fill="Black" />
+          </Button>
+
+          <Carousel Margin="3">
+            <Carousel.PageTransition>
+              <PageSlide Duration="0.25" Orientation="Horizontal" />
+            </Carousel.PageTransition>
+
+            <Image Source="/Resources/add.png" MaxWidth="250" />
+            <Image Source="/Resources/backup.png" />
+            <Image Source="/Resources/Cover.png" />
+          </Carousel>
+
+          <Button Name="PART_RIGHT"  Classes="flat" VerticalAlignment="Center" Padding="20">
+            <Path Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" Fill="Black" />
+          </Button>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>
