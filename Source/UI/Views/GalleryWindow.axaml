@@ -3,11 +3,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="using:Slithin.Controls"
-        mc:Ignorable="d" d:DesignWidth="377" d:DesignHeight="554"
+        mc:Ignorable="d" d:DesignWidth="377" d:DesignHeight="554" MinWidth="500" MinHeight="563" MaxHeight="563" MaxWidth="500"
         x:Class="Slithin.UI.Views.GalleryWindow" WindowStartupLocation="CenterScreen" Width="500" Height="563"
         Title="Welcome To Slithin">
   <Grid Margin="12">
-    <controls:GalleryControl>
+    <controls:GalleryControl MinHeight="500">
       <Image Source="/Resources/add.png" />
       <Image Source="/Resources/backup.png" />
       <Image Source="/Resources/Cover.png" />
