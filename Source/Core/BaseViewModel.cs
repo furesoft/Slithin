@@ -1,10 +1,13 @@
-﻿using LiteDB;
+﻿using System;
+using LiteDB;
 using Slithin.Core.Sync;
 
 namespace Slithin.Core
 {
     public abstract class BaseViewModel : ReactiveObject
     {
+        public event Action OnRequestClose;
+
         public bool IsLoaded { get; set; }
 
         [BsonIgnore]
@@ -21,6 +24,11 @@ namespace Slithin.Core
         public virtual void OnLoad()
         {
             IsLoaded = true;
+        }
+
+        protected void RequestClose()
+        {
+            OnRequestClose?.Invoke();
         }
     }
 }
