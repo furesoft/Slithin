@@ -6,7 +6,3 @@
 
 
 - implement error for modals
-
-- implement GalleryControl with two buttons < >
-
-- implement GalleryWindow with automatic switch of image

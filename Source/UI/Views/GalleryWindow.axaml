@@ -7,7 +7,7 @@
         x:Class="Slithin.UI.Views.GalleryWindow" WindowStartupLocation="CenterScreen" Width="500" Height="563"
         Title="Welcome To Slithin">
   <Grid Margin="12" RowDefinitions="*,50">
-    <controls:GalleryControl MinHeight="500">
+    <controls:GalleryControl MinHeight="450">
       <Image Source="/Resources/add.png" />
       <Image Source="/Resources/backup.png" />
       <Image Source="/Resources/Cover.png" />
