@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -38,14 +39,18 @@ namespace Slithin.ViewModels
             _password = string.Empty;
             _remember = false;
 
-            ConnectCommand = new DelegateCommand(Connect);
             _events = events;
             _loginService = loginService;
             _validator = validator;
             _settingsService = settingsService;
+
+            ConnectCommand = new DelegateCommand(Connect);
+            HelpCommand = new DelegateCommand(Help);
         }
 
         public ICommand ConnectCommand { get; set; }
+
+        public ICommand HelpCommand { get; set; }
 
         public string IP
         {
@@ -145,6 +150,11 @@ namespace Slithin.ViewModels
             {
                 DialogService.OpenError(string.Join("\n", validationResult.Errors));
             }
+        }
+
+        private void Help(object obj)
+        {
+            Utils.OpenUrl("http://www.remarkablewiki.com/");
         }
 
         private void pingTimer_ellapsed(object sender, System.Timers.ElapsedEventArgs e)
