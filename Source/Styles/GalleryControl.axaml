@@ -34,11 +34,11 @@
               </ListBox.ItemsPanel>
             </ListBox>
           </StackPanel>
-          <Button Name="PART_LEFT" Classes="indicator" VerticalAlignment="Center">
+          <Button Name="PART_LEFT" Classes="indicator" VerticalAlignment="Center" IsVisible="{Binding AreButtonsVisible}">
             <Image Source="avares://Slithin/Resources/left-arrow.png" />
           </Button>
 
-          <Button Name="PART_RIGHT" Classes="indicator" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
+          <Button Name="PART_RIGHT" Classes="indicator" Grid.Column="2" IsVisible="{Binding AreButtonsVisible}" HorizontalAlignment="Right" VerticalAlignment="Center">
             <Image Source="avares://Slithin/Resources/right-arrow.png" />
           </Button>
         </Grid>

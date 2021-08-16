@@ -5,15 +5,23 @@ using System.Timers;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using System.Linq;
 using Avalonia.Threading;
 
 namespace Slithin.Controls
 {
     public class GalleryControl : ItemsControl
     {
+        public static StyledProperty<bool> AreButtonsVisibleProperty =
+           AvaloniaProperty.Register<GalleryControl, bool>(nameof(AreButtonsVisible), true);
+
         public static StyledProperty<ObservableCollection<Indicator>> IndicatorsProperty =
-            AvaloniaProperty.Register<GalleryControl, ObservableCollection<Indicator>>(nameof(Indicators), new());
+                    AvaloniaProperty.Register<GalleryControl, ObservableCollection<Indicator>>(nameof(Indicators), new());
+
+        public bool AreButtonsVisible
+        {
+            get { return GetValue(AreButtonsVisibleProperty); }
+            set { SetValue(AreButtonsVisibleProperty, value); }
+        }
 
         public ObservableCollection<Indicator> Indicators
         {
