@@ -49,7 +49,7 @@ namespace Slithin.UI.Views
 
             if (!Directory.GetFiles(pathManager.NotebooksDir).Any())
             {
-                mailboxService.Post(new DownloadNotebooksMessage());
+                mailboxService.Post(new InitNotebookMessage());
             }
 
             mailboxService.Post(new CheckForUpdateMessage());
