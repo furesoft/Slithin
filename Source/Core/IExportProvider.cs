@@ -8,6 +8,6 @@ namespace Slithin.Core
         bool ExportSingleDocument { get; }
         string Title { get; }
 
-        void Export(Notebook notebook, Metadata metadata, string outputPath);
+        void Export(ExportOptions options, Metadata metadata, string outputPath);
     }
 }
