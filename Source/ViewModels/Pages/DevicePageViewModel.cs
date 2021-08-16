@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using PdfSharpCore.Pdf;
 using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Rendering;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
@@ -14,6 +17,7 @@ namespace Slithin.ViewModels.Pages
     {
         private readonly SshClient _client;
         private readonly EventStorage _events;
+        private readonly IExportProviderFactory _exportProviderFactory;
         private readonly ILoadingService _loadingService;
         private readonly LocalRepository _localRepostory;
         private readonly IMailboxService _mailboxService;
@@ -33,7 +37,8 @@ namespace Slithin.ViewModels.Pages
                                    SshClient client,
                                    ScpClient scp,
                                    IPathManager pathManager,
-                                   ISettingsService settingsService)
+                                   ISettingsService settingsService,
+                                   IExportProviderFactory exportProviderFactory)
         {
             _versionService = versionService;
             _loadingService = loadingService;
@@ -44,6 +49,7 @@ namespace Slithin.ViewModels.Pages
             _scp = scp;
             _pathManager = pathManager;
             _settingsService = settingsService;
+            _exportProviderFactory = exportProviderFactory;
         }
 
         public bool IsBeta
@@ -58,9 +64,25 @@ namespace Slithin.ViewModels.Pages
             set { SetValue(ref _version, value); }
         }
 
+        public void export()
+        {
+            var id = "f27773a7-b054-4782-bbcf-a9acbf045977";
+            var ep = _exportProviderFactory.GetExportProvider("PDF Document");
+
+            var doc = new PdfDocument(File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf"));
+
+            var opts = ExportOptions.Create(doc, "1-120");
+            var md = Metadata.Load(id);
+            var outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.pdf";
+
+            ep.Export(opts, md, outputPath);
+        }
+
         public override async void OnLoad()
         {
             base.OnLoad();
+
+            export();
 
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Starting", Filename = "starting.png" });
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });

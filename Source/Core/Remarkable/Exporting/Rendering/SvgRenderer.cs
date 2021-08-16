@@ -5,25 +5,30 @@ using System.IO;
 using Slithin.Core.Services;
 using Svg;
 using Svg.Pathing;
-using Slithin.Core.Remarkable.Rendering;
 
 namespace Slithin.Core.Remarkable.Rendering
 {
     public static class SvgRenderer
     {
-        public static Stream RenderPage(Page page, int index, Metadata md)
+        //ToDo: need to use original size dimension
+        public static Stream RenderPage(Page page, int index, Metadata md, int width = 1404, int height = 1872)
         {
             var svgDoc = new SvgDocument
             {
-                Width = 1404,
-                Height = 1872,
+                Width = width,
+                Height = height,
                 ViewBox = new SvgViewBox(0, 0, 1404, 1872),
             };
 
             var group = new SvgGroup();
             svgDoc.Children.Add(group);
 
-            group.Children.Add(new SvgImage { Href = "data:image/png;base64," + GetBase64Template(index, md), X = 0, Y = 0 });
+            var template = GetBase64Template(index, md);
+
+            if (template != null)
+            {
+                group.Children.Add(new SvgImage { Href = "data:image/png;base64," + template, X = 0, Y = 0 });
+            }
 
             foreach (var layer in page.Layers)
             {
@@ -63,6 +68,11 @@ namespace Slithin.Core.Remarkable.Rendering
 
         private static string GetBase64Template(int i, Metadata md)
         {
+            if (md.PageData.Data == null)
+            {
+                return null;
+            }
+
             var filename = md.PageData.Data[i];
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
             var buffer = File.ReadAllBytes(Path.Combine(pathManager.TemplatesDir, filename + ".png"));
