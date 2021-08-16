@@ -5,17 +5,17 @@ using System.Timers;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Media;
+using System.Linq;
 using Avalonia.Threading;
 
 namespace Slithin.Controls
 {
     public class GalleryControl : ItemsControl
     {
-        public static StyledProperty<ObservableCollection<object>> IndicatorsProperty =
-            AvaloniaProperty.Register<GalleryControl, ObservableCollection<object>>(nameof(Indicators), new());
+        public static StyledProperty<ObservableCollection<Indicator>> IndicatorsProperty =
+            AvaloniaProperty.Register<GalleryControl, ObservableCollection<Indicator>>(nameof(Indicators), new());
 
-        public ObservableCollection<object> Indicators
+        public ObservableCollection<Indicator> Indicators
         {
             get { return GetValue(IndicatorsProperty); }
             set { SetValue(IndicatorsProperty, value); }
@@ -23,11 +23,7 @@ namespace Slithin.Controls
 
         protected override void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Indicators = new();
-            for (int i = 0; i < ItemCount; i++)
-            {
-                Indicators.Add(i);
-            }
+            Indicators.Add(new());
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -81,5 +77,9 @@ namespace Slithin.Controls
 
             timer.Start();
         }
+    }
+
+    public class Indicator
+    {
     }
 }

@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="using:Slithin.Controls"
         mc:Ignorable="d" d:DesignWidth="377" d:DesignHeight="554"
-        x:Class="Slithin.UI.Views.GalleryWindow" WindowStartupLocation="CenterScreen" Width="377" Height="554"
+        x:Class="Slithin.UI.Views.GalleryWindow" WindowStartupLocation="CenterScreen" Width="500" Height="563"
         Title="Welcome To Slithin">
   <Grid Margin="12">
     <controls:GalleryControl>
