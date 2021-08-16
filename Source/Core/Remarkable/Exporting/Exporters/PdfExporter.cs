@@ -19,6 +19,11 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
         public bool ExportSingleDocument => true;
         public string Title => "PDF Document";
 
+        public bool CanHandle(Metadata md)
+        {
+            return md.Content.FileType == "notebook";
+        }
+
         public bool Export(ExportOptions options, Metadata metadata, string outputPath)
         {
             if (options.Document.IsT1)
@@ -27,12 +32,12 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
 
                 var document = new PdfDocument();
 
-                for (var i = 0; i < notebook.Pages.Count; i++)
+                for (var i = 0; i < options.PagesIndices.Count; i++)
                 {
                     var pdfPage = document.AddPage();
                     var graphics = XGraphics.FromPdfPage(pdfPage);
 
-                    var page = notebook.Pages[i];
+                    var page = notebook.Pages[options.PagesIndices[i]];
 
                     var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
                     var pngStrm = new MemoryStream();
