@@ -1,9 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Timers;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
+using Avalonia.Threading;
 
 namespace Slithin.Controls
 {
@@ -11,10 +14,6 @@ namespace Slithin.Controls
     {
         public static StyledProperty<ObservableCollection<object>> IndicatorsProperty =
             AvaloniaProperty.Register<GalleryControl, ObservableCollection<object>>(nameof(Indicators), new());
-
-        public GalleryControl()
-        {
-        }
 
         public ObservableCollection<object> Indicators
         {
@@ -39,6 +38,26 @@ namespace Slithin.Controls
             var part_carousel = e.NameScope.Find<Carousel>("PART_CAROUSEL");
             var part_right = e.NameScope.Find<Button>("PART_RIGHT");
 
+            var timer = new Timer();
+            timer.Elapsed += async (s, e) =>
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    if (part_carousel.SelectedIndex < part_carousel.ItemCount - 1)
+                    {
+                        part_carousel.SelectedIndex++;
+                    }
+                    else
+                    {
+                        timer.Stop();
+                    }
+
+                    part_right.IsEnabled = part_carousel.SelectedIndex < part_carousel.ItemCount - 1;
+                    part_left.IsEnabled = true;
+                });
+            };
+            timer.Interval = TimeSpan.FromSeconds(5).TotalMilliseconds;
+
             part_left.Click += (s, e) =>
             {
                 if (part_carousel.SelectedIndex != 0)
@@ -59,6 +78,8 @@ namespace Slithin.Controls
                 part_right.IsEnabled = part_carousel.SelectedIndex < part_carousel.ItemCount - 1;
                 part_left.IsEnabled = true;
             };
+
+            timer.Start();
         }
     }
 }
