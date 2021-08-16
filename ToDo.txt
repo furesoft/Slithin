@@ -1,8 +1,4 @@
 
-- generate clipart notebook?
-	generate real notebook from svgs to make a copy availale on device
-
-
 - implement toolsfilter
 
 
@@ -11,4 +7,6 @@
 
 - implement error for modals
 
-- implement svg one layer one path
+- implement GalleryControl with two buttons < >
+
+- implement GalleryWindow with automatic switch of image
