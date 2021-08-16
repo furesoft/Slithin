@@ -147,6 +147,7 @@ namespace Slithin.Core.Services.Implementations
 
             _messageRouter.Register<InitStorageMessage>(_ =>
             {
+                NotificationService.Show("Downloading Screens");
                 _device.DownloadCustomScreens();
 
                 _device.GetTemplates();
