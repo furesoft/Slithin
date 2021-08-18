@@ -10,6 +10,7 @@ using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
 using Slithin.Core.Remarkable.Rendering;
 using System.Collections.Generic;
+using ReactiveUI.Fody.Helpers;
 
 namespace Slithin.ViewModels.Pages
 {
@@ -17,9 +18,7 @@ namespace Slithin.ViewModels.Pages
     {
         private readonly ILoadingService _loadingService;
         private readonly IMailboxService _mailboxService;
-        private bool _isMoving;
         private Metadata _movingNotebook;
-        private Metadata _selectedNotebook;
 
         public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
         {
@@ -68,11 +67,8 @@ namespace Slithin.ViewModels.Pages
             _mailboxService = mailboxService;
         }
 
-        public bool IsMoving
-        {
-            get { return _isMoving; }
-            set { SetValue(ref _isMoving, value); }
-        }
+        [Reactive]
+        public bool IsMoving { get; set; }
 
         public ICommand MakeFolderCommand { get; set; }
 
@@ -84,11 +80,8 @@ namespace Slithin.ViewModels.Pages
 
         public ICommand RemoveNotebookCommand { get; set; }
 
-        public Metadata SelectedNotebook
-        {
-            get { return _selectedNotebook; }
-            set { SetValue(ref _selectedNotebook, value); }
-        }
+        [Reactive]
+        public Metadata SelectedNotebook { get; set; }
 
         public override void OnLoad()
         {

@@ -6,6 +6,7 @@ using Slithin.Core.Remarkable;
 using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
 using Slithin.Core.Services;
+using ReactiveUI.Fody.Helpers;
 
 namespace Slithin.ViewModels.Pages
 {
@@ -13,7 +14,6 @@ namespace Slithin.ViewModels.Pages
     {
         private readonly ILoadingService _loadingService;
         private readonly IMailboxService _mailboxService;
-        private Template _selectedTemplate;
 
         public TemplatesPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
         {
@@ -27,11 +27,8 @@ namespace Slithin.ViewModels.Pages
 
         public ICommand RemoveTemplateCommand { get; set; }
 
-        public Template SelectedTemplate
-        {
-            get { return _selectedTemplate; }
-            set { SetValue(ref _selectedTemplate, value); }
-        }
+        [Reactive]
+        public Template SelectedTemplate { get; set; }
 
         public override void OnLoad()
         {

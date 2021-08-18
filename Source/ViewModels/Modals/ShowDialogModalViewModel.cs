@@ -1,25 +1,17 @@
 ﻿using System.Windows.Input;
+using ReactiveUI.Fody.Helpers;
 using Slithin.Core;
 
 namespace Slithin.ViewModels.Modals
 {
     public class ShowDialogModalViewModel : BaseViewModel
     {
-        private object _content;
-        private string _title;
-
         public ICommand AcceptCommand { get; set; }
 
-        public object Content
-        {
-            get { return _content; }
-            set { SetValue(ref _content, value); }
-        }
+        [Reactive]
+        public object Content { get; set; }
 
-        public string Title
-        {
-            get { return _title; }
-            set { SetValue(ref _title, value); }
-        }
+        [Reactive]
+        public string Title { get; set; }
     }
 }

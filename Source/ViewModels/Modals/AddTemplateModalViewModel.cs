@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Input;
+using ReactiveUI.Fody.Helpers;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
@@ -18,11 +19,6 @@ namespace Slithin.ViewModels.Modals
         private readonly IPathManager _pathManager;
         private readonly SynchronisationService _synchronisationService;
         private readonly AddTemplateValidator _validator;
-        private string _filename;
-        private IconCodeItem _iconCode;
-        private bool _isLandscape;
-        private string _name;
-        private string[] _selectedCategory;
 
         public AddTemplateModalViewModel(IPathManager pathManager,
                                          LocalRepository localRepository,
@@ -30,7 +26,6 @@ namespace Slithin.ViewModels.Modals
                                          AddTemplateValidator validator)
         {
             Categories = SyncService.TemplateFilter.Categories;
-            Categories.RemoveAt(0);
 
             foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
             {
@@ -57,37 +52,22 @@ namespace Slithin.ViewModels.Modals
 
         public ObservableCollection<string> Categories { get; set; }
 
-        public string Filename
-        {
-            get { return _filename; }
-            set { SetValue(ref _filename, value); }
-        }
+        [Reactive]
+        public string Filename { get; set; }
 
-        public IconCodeItem IconCode
-        {
-            get { return _iconCode; }
-            set { SetValue(ref _iconCode, value); }
-        }
+        [Reactive]
+        public IconCodeItem IconCode { get; set; }
 
         public ObservableCollection<IconCodeItem> IconCodes { get; set; } = new();
 
-        public bool IsLandscape
-        {
-            get { return _isLandscape; }
-            set { SetValue(ref _isLandscape, value); }
-        }
+        [Reactive]
+        public bool IsLandscape { get; set; }
 
-        public string Name
-        {
-            get { return _name; }
-            set { SetValue(ref _name, value); }
-        }
+        [Reactive]
+        public string Name { get; set; }
 
-        public string[] SelectedCategory
-        {
-            get { return _selectedCategory; }
-            set { SetValue(ref _selectedCategory, value); }
-        }
+        [Reactive]
+        public string[] SelectedCategory { get; set; }
 
         private void AddCategory(object obj)
         {

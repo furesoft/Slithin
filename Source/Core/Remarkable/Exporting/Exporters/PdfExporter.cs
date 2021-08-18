@@ -97,8 +97,6 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
 
                         svgStrm.Close();
 
-                        p.Size = doc.Pages[0].Size;
-
                         var graphics = XGraphics.FromPdfPage(p);
 
                         pngStrm.Seek(0, SeekOrigin.Begin);
