@@ -1,19 +1,19 @@
 ﻿using Avalonia;
 using Avalonia.Controls.Primitives;
-using Avalonia.Media;
+using Material.Icons;
 
 namespace Slithin.Controls
 {
     public class ImagePopupButton : ToggleButton
     {
-        public static StyledProperty<IImage> ImageProperty = AvaloniaProperty.Register<ImagePopupButton, IImage>("Image");
+        public static StyledProperty<MaterialIconKind> KindProperty = AvaloniaProperty.Register<ImageButton, MaterialIconKind>("Kind");
         public static StyledProperty<object> PopupContentProperty = AvaloniaProperty.Register<ImagePopupButton, object>("PopupContent");
         public static StyledProperty<string> TextProperty = AvaloniaProperty.Register<ImagePopupButton, string>("Text");
 
-        public IImage Image
+        public MaterialIconKind Kind
         {
-            get { return GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
+            get { return GetValue(KindProperty); }
+            set { SetValue(KindProperty, value); }
         }
 
         public object PopupContent

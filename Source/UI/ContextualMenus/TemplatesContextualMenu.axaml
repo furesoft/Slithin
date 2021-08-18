@@ -7,10 +7,10 @@
              x:Class="Slithin.UI.ContextualMenus.TemplatesContextualMenu">
   <DockPanel>
     <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-      <controls:ImageButton Text="Add" Command="{Binding OpenAddModalCommand}" Image="avares://Slithin/Resources/add.png" />
-      <controls:ImageButton Text="Remove" Command="{Binding RemoveTemplateCommand}" Image="avares://Slithin/Resources/minus.png" CommandParameter="{Binding SelectedTemplate}" />
+      <controls:ImageButton Text="Add" Command="{Binding OpenAddModalCommand}" Kind="Add" />
+      <controls:ImageButton Text="Remove" Command="{Binding RemoveTemplateCommand}" Kind="Minus" CommandParameter="{Binding SelectedTemplate}" />
 
-      <controls:ImagePopupButton Text="Filter" Image="avares://Slithin/Resources/filter.png">
+      <controls:ImagePopupButton Text="Filter" Kind="FilterMenu">
         <controls:ImagePopupButton.PopupContent>
           <Grid RowDefinitions="*,AUTO" Margin="4">
             <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,0,10" IsVisible="False" />
