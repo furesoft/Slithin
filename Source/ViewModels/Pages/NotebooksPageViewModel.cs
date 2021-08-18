@@ -18,7 +18,9 @@ namespace Slithin.ViewModels.Pages
     {
         private readonly ILoadingService _loadingService;
         private readonly IMailboxService _mailboxService;
+        private bool _isMoving;
         private Metadata _movingNotebook;
+        private Metadata _selectedNotebook;
 
         public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
         {
@@ -33,9 +35,9 @@ namespace Slithin.ViewModels.Pages
             }, (_) => SelectedNotebook != null && !IsMoving);
 
             MoveCancelCommand = new DelegateCommand(_ =>
-             {
-                 IsMoving = false;
-             });
+            {
+                IsMoving = false;
+            });
 
             MoveHereCommand = new DelegateCommand(_ =>
             {
@@ -67,8 +69,11 @@ namespace Slithin.ViewModels.Pages
             _mailboxService = mailboxService;
         }
 
-        [Reactive]
-        public bool IsMoving { get; set; }
+        public bool IsMoving
+        {
+            get { return _isMoving; }
+            set { SetValue(ref _isMoving, value); }
+        }
 
         public ICommand MakeFolderCommand { get; set; }
 
@@ -80,8 +85,11 @@ namespace Slithin.ViewModels.Pages
 
         public ICommand RemoveNotebookCommand { get; set; }
 
-        [Reactive]
-        public Metadata SelectedNotebook { get; set; }
+        public Metadata SelectedNotebook
+        {
+            get { return _selectedNotebook; }
+            set { SetValue(ref _selectedNotebook, value); }
+        }
 
         public override void OnLoad()
         {
