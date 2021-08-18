@@ -8,7 +8,6 @@
         Title="Welcome To Slithin">
   <Grid Margin="12" RowDefinitions="*,50">
     <controls:GalleryControl MinHeight="450">
-      <Image Source="/Resources/add.png" />
       <Image Source="/Resources/backup.png" />
       <Image Source="/Resources/Cover.png" />
       <Image Source="/Resources/Covers/Folder-DBlue.png" />

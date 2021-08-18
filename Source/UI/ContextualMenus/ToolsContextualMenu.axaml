@@ -6,13 +6,13 @@
              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="100"
              x:Class="Slithin.UI.ContextualMenus.ToolsContextualMenu">
   <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-    <controls:ImageButton Text="Remove" Command="{Binding RemoveScriptCommand}" Image="avares://Slithin/Resources/minus.png" CommandParameter="{Binding SelectedScript}" />
-    <controls:ImageButton Text="Execute" Command="{Binding ExecuteScriptCommand}" Image="avares://Slithin/Resources/execute.png" CommandParameter="{Binding SelectedScript}" />
-    <controls:ImageButton Text="Config" Command="{Binding ConfigurateScriptCommand}" Image="avares://Slithin/Resources/config.png" CommandParameter="{Binding SelectedScript}" />
+    <controls:ImageButton Text="Remove" Command="{Binding RemoveScriptCommand}" Kind="Minus" CommandParameter="{Binding SelectedScript}" />
+    <controls:ImageButton Text="Execute" Command="{Binding ExecuteScriptCommand}" Kind="HexagonMultiple" CommandParameter="{Binding SelectedScript}" />
+    <controls:ImageButton Text="Config" Command="{Binding ConfigurateScriptCommand}" Kind="CogOutline" CommandParameter="{Binding SelectedScript}" />
 
     <Rectangle Width="3" Fill="DarkGray" Height="30" Margin="0,-20,0,0" />
 
-    <controls:ImagePopupButton Text="Filter" Image="avares://Slithin/Resources/filter.png">
+    <controls:ImagePopupButton Text="Filter" Kind="FilterMenu">
       <controls:ImagePopupButton.PopupContent>
         <Grid RowDefinitions="*,AUTO" Margin="4">
           <ComboBox Grid.Row="1" Items="{Binding SyncService.ToolsFilter.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.ToolsFilter.SelectedCategory}" MinWidth="175" />

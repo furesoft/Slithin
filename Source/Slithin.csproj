@@ -13,6 +13,7 @@
     <PackageReference Include="DotNetZip" Version="1.15.0" />
     <PackageReference Include="FluentValidation" Version="10.3.0" />
     <PackageReference Include="LiteDB" Version="5.0.11" />
+    <PackageReference Include="Material.Icons.Avalonia" Version="1.0.2" />
     <PackageReference Include="NetSparkleUpdater.SparkleUpdater" Version="2.0.6" />
     <PackageReference Include="Newtonsoft.JSON" Version="13.0.1" />
     <PackageReference Include="NiL.JS" Version="2.5.1514" />
@@ -32,8 +33,6 @@
 
    <ItemGroup>
      <None Remove="Resources\backup.png" />
-     <None Remove="Resources\config.png" />
-     <None Remove="Resources\right-arrow.png" />
      <EmbeddedResource Include="Resources\Cover.png" />
      <None Remove="Resources\Covers\Folder-DBlue.png" />
      <None Remove="Resources\Covers\Folder-Green.png" />
@@ -48,17 +47,9 @@
      <None Remove="Resources\Covers\Folder-White.png" />
      <None Remove="Resources\Covers\Folder-Yellow.png" />
      <None Remove="Resources\epub.png" />
-     <None Remove="Resources\execute.png" />
-     <None Remove="Resources\export.png" />
-     <None Remove="Resources\filter.png" />
      <None Remove="Resources\folder.png" />
-     <None Remove="Resources\import.png" />
-     <None Remove="Resources\move.png" />
      <None Remove="Resources\pdf.png" />
      <None Remove="Resources\restore.png" />
-     <None Remove="Resources\search.png" />
-     <None Remove="Resources\star.png" />
-     <None Remove="Resources\trash-can.png" />
    </ItemGroup>
 
    <ItemGroup>

@@ -1,9 +1,9 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:controls="using:Slithin.Controls">
   <Design.PreviewWith>
     <controls:GalleryControl>
-      <Image Source="/Resources/add.png" />
       <Image Source="/Resources/backup.png" />
       <Image Source="/Resources/Cover.png" />
     </controls:GalleryControl>
@@ -35,11 +35,11 @@
             </ListBox>
           </StackPanel>
           <Button Name="PART_LEFT" Classes="indicator" VerticalAlignment="Center" IsVisible="{Binding AreButtonsVisible}">
-            <Image Source="avares://Slithin/Resources/left-arrow.png" />
+            <mi:MaterialIcon Kind="ChevronLeft" Width="40" Height="40" />
           </Button>
 
           <Button Name="PART_RIGHT" Classes="indicator" Grid.Column="2" IsVisible="{Binding AreButtonsVisible}" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Image Source="avares://Slithin/Resources/right-arrow.png" />
+            <mi:MaterialIcon Kind="ChevronRight" Width="40" Height="40" />
           </Button>
         </Grid>
       </ControlTemplate>

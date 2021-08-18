@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.ToolsPage">
   <ListBox Items="{Binding Items, Mode=TwoWay}" Margin="16,0,0,0" SelectedItem="{Binding SelectedScript, Mode=TwoWay}">
@@ -22,11 +23,11 @@
 
               <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="4">
                 <Button Command="{Binding $parent[ListBox].DataContext.ConfigurateScriptCommand}" IsHitTestVisible="True" IsVisible="{Binding IsConfigurable}"  CommandParameter="{Binding}">
-                  <Image Source="/Resources/config.png" Width="15" />
+                  <mi:MaterialIcon Kind="CogOutline" Width="15" />
                 </Button>
 
                 <Button Command="{Binding $parent[ListBox].DataContext.ExecuteScriptCommand}" IsHitTestVisible="True"  CommandParameter="{Binding}">
-                  <Image Source="/Resources/execute.png" Width="15" />
+                  <mi:MaterialIcon Kind="HexagonMultiple" Width="15" />
                 </Button>
               </StackPanel>
             </Grid>
