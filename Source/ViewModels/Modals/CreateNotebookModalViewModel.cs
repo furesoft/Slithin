@@ -7,10 +7,10 @@ using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Newtonsoft.Json;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using ReactiveUI.Fody.Helpers;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
@@ -25,14 +25,6 @@ namespace Slithin.ViewModels.Modals
     {
         private readonly IPathManager _pathManager;
         private readonly CreateNotebookValidator _validator;
-        private IImage _cover;
-        private string _filename;
-        private string _name;
-
-        private string _pageCount;
-
-        private bool _renderName;
-        private Template _selectedTemplate;
 
         public CreateNotebookModalViewModel(IPathManager pathManager, CreateNotebookValidator validator, ILoadingService loadingService)
         {
@@ -62,47 +54,29 @@ namespace Slithin.ViewModels.Modals
 
         public ICommand AddPagesCommand { get; set; }
 
-        public IImage Cover
-        {
-            get { return _cover; }
-            set { SetValue(ref _cover, value); }
-        }
+        [Reactive]
+        public IImage Cover { get; set; }
 
         public ObservableCollection<string> DefaultCovers { get; set; }
 
-        public string Filename
-        {
-            get { return _filename; }
-            set { SetValue(ref _filename, value); }
-        }
+        [Reactive]
+        public string Filename { get; set; }
 
-        public string Name
-        {
-            get { return _name; }
-            set { SetValue(ref _name, value); }
-        }
+        [Reactive]
+        public string Name { get; set; }
 
         public ICommand OKCommand { get; set; }
 
-        public string PageCount
-        {
-            get { return _pageCount; }
-            set { SetValue(ref _pageCount, value); }
-        }
+        [Reactive]
+        public string PageCount { get; set; }
 
         public ObservableCollection<NotebookPage> Pages { get; set; } = new();
 
-        public bool RenderName
-        {
-            get { return _renderName; }
-            set { SetValue(ref _renderName, value); }
-        }
+        [Reactive]
+        public bool RenderName { get; set; }
 
-        public Template SelectedTemplate
-        {
-            get { return _selectedTemplate; }
-            set { SetValue(ref _selectedTemplate, value); }
-        }
+        [Reactive]
+        public Template SelectedTemplate { get; set; }
 
         public ObservableCollection<Template> Templates { get; set; } = new();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using PdfSharpCore.Pdf;
+using ReactiveUI.Fody.Helpers;
 using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
@@ -25,9 +26,6 @@ namespace Slithin.ViewModels.Pages
         private readonly ScpClient _scp;
         private readonly ISettingsService _settingsService;
         private readonly IVersionService _versionService;
-        private bool _isBeta;
-
-        private string _version;
 
         public DevicePageViewModel(IVersionService versionService,
                                    ILoadingService loadingService,
@@ -52,17 +50,11 @@ namespace Slithin.ViewModels.Pages
             _exportProviderFactory = exportProviderFactory;
         }
 
-        public bool IsBeta
-        {
-            get { return _isBeta; }
-            set { SetValue(ref _isBeta, value); }
-        }
+        [Reactive]
+        public bool IsBeta { get; set; }
 
-        public string Version
-        {
-            get { return _version; }
-            set { SetValue(ref _version, value); }
-        }
+        [Reactive]
+        public string Version { get; set; }
 
         public void export()
         {
@@ -81,8 +73,6 @@ namespace Slithin.ViewModels.Pages
         public override async void OnLoad()
         {
             base.OnLoad();
-
-            export();
 
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Starting", Filename = "starting.png" });
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });

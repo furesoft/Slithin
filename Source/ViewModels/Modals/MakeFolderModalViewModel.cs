@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using ReactiveUI.Fody.Helpers;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
@@ -10,24 +11,18 @@ namespace Slithin.ViewModels.Modals
 {
     public class MakeFolderModalViewModel : BaseViewModel
     {
-        private readonly IPathManager _pathManager;
         private readonly SynchronisationService _synchronisationService;
-        private string _name;
 
-        public MakeFolderModalViewModel(IPathManager _pathManager, SynchronisationService synchronisationService)
+        public MakeFolderModalViewModel(SynchronisationService synchronisationService)
         {
             MakeFolderCommand = new DelegateCommand(MakeFolder);
-            this._pathManager = _pathManager;
             _synchronisationService = synchronisationService;
         }
 
         public ICommand MakeFolderCommand { get; set; }
 
-        public string Name
-        {
-            get { return _name; }
-            set { SetValue(ref _name, value); }
-        }
+        [Reactive]
+        public string Name { get; set; }
 
         private void MakeFolder(object obj)
         {
