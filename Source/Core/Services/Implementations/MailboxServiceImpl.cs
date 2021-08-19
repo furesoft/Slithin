@@ -162,6 +162,8 @@ namespace Slithin.Core.Services.Implementations
                 NotificationService.Show("Checking for Updates");
 
                 await Updater.StartUpdate();
+
+                NotificationService.Hide();
             });
 
             _messageRouter.Register<AttentionRequiredMessage>(async _ =>
@@ -190,6 +192,8 @@ namespace Slithin.Core.Services.Implementations
                 var mds = new List<Metadata>();
                 var mdFilenames = allFilenames.Where(_ => _.EndsWith(".metadata")).ToArray();
                 var mdLocals = new Dictionary<string, Metadata>();
+
+                //todo: if a new thumbnails folder is available download it
 
                 for (var i = 0; i < mdFilenames.Length; i++)
                 {

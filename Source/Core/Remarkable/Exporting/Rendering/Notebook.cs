@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using Slithin.Core.Services;
-using Slithin.Core.Remarkable.Rendering;
 using System;
 
 namespace Slithin.Core.Remarkable.Rendering

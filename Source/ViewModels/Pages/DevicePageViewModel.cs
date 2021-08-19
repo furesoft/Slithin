@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using PdfSharpCore.Pdf;
-using ReactiveUI.Fody.Helpers;
 using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
@@ -10,7 +9,6 @@ using Slithin.Core.Remarkable.Rendering;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
-using Slithin.Messages;
 
 namespace Slithin.ViewModels.Pages
 {
@@ -27,8 +25,12 @@ namespace Slithin.ViewModels.Pages
         private readonly ISettingsService _settingsService;
         private readonly IVersionService _versionService;
 
+        private bool _isBeta;
+
+        private string _version;
+
         public DevicePageViewModel(IVersionService versionService,
-                                   ILoadingService loadingService,
+                                                   ILoadingService loadingService,
                                    EventStorage events,
                                    IMailboxService mailboxService,
                                    LocalRepository localRepostory,
@@ -50,11 +52,17 @@ namespace Slithin.ViewModels.Pages
             _exportProviderFactory = exportProviderFactory;
         }
 
-        [Reactive]
-        public bool IsBeta { get; set; }
+        public bool IsBeta
+        {
+            get { return _isBeta; }
+            set { SetValue(ref _isBeta, value); }
+        }
 
-        [Reactive]
-        public string Version { get; set; }
+        public string Version
+        {
+            get { return _version; }
+            set { SetValue(ref _version, value); }
+        }
 
         public void export()
         {

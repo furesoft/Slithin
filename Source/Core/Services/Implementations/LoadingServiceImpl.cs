@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Services.Implementations

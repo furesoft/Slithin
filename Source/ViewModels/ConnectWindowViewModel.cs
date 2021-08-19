@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
-using ReactiveUI.Fody.Helpers;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using Slithin.Controls;
@@ -25,8 +22,14 @@ namespace Slithin.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly LoginInfoValidator _validator;
 
+        private string _ip;
+
+        private string _password;
+
+        private bool _remember;
+
         public ConnectionWindowViewModel(EventStorage events,
-                                         ILoginService loginService,
+                                                                 ILoginService loginService,
                                          ToolRepository tools,
                                          LoginInfoValidator validator,
                                          ISettingsService settingsService)
@@ -44,14 +47,23 @@ namespace Slithin.ViewModels
 
         public ICommand HelpCommand { get; set; }
 
-        [Reactive]
-        public string IP { get; set; }
+        public string IP
+        {
+            get { return _ip; }
+            set { SetValue(ref _ip, value); }
+        }
 
-        [Reactive]
-        public string Password { get; set; }
+        public string Password
+        {
+            get { return _password; }
+            set { SetValue(ref _password, value); }
+        }
 
-        [Reactive]
-        public bool Remember { get; set; }
+        public bool Remember
+        {
+            get { return _remember; }
+            set { SetValue(ref _remember, value); }
+        }
 
         private void Connect(object obj)
         {

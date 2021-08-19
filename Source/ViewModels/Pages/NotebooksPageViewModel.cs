@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
@@ -8,9 +7,6 @@ using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
-using Slithin.Core.Remarkable.Rendering;
-using System.Collections.Generic;
-using ReactiveUI.Fody.Helpers;
 
 namespace Slithin.ViewModels.Pages
 {

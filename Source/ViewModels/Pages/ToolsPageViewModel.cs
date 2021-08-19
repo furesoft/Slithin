@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using ReactiveUI.Fody.Helpers;
 using Slithin.Controls;
 using Slithin.Core;
 
@@ -8,6 +7,8 @@ namespace Slithin.ViewModels.Pages
 {
     public class ToolsPageViewModel : BaseViewModel
     {
+        private ITool _selectedScript;
+
         public ToolsPageViewModel(ToolRepository toolRepository)
         {
             foreach (var tool in toolRepository.FindTools())
@@ -32,7 +33,10 @@ namespace Slithin.ViewModels.Pages
         public ObservableCollection<ITool> Items { get; set; } = new();
         public ICommand RemoveScriptCommand { get; set; }
 
-        [Reactive]
-        public ITool SelectedScript { get; set; }
+        public ITool SelectedScript
+        {
+            get { return _selectedScript; }
+            set { SetValue(ref _selectedScript, value); }
+        }
     }
 }
