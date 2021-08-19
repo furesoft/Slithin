@@ -1,65 +1,26 @@
 ﻿using System;
-using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
-using NetSparkleUpdater;
-using NetSparkleUpdater.Enums;
-using NetSparkleUpdater.Events;
-using NetSparkleUpdater.SignatureVerifiers;
-using Slithin.Controls;
+using Octokit;
+using Slithin.Core.Scripting;
 
 namespace Slithin.Core
 {
     public static class Updater
     {
-        public static SparkleUpdater _netSparkle = new("http://furesoft.ml/app_updates/Slithin/appcast.xml", new DSAChecker(SecurityMode.UseIfPossible));
-
-        private static UpdateInfo _updateInfo;
-
         public static async Task StartUpdate()
         {
-            _updateInfo = await _netSparkle.CheckForUpdatesQuietly();
+            var client = new GitHubClient(new ProductHeaderValue("SomeName"));
+            var releases = await client.Repository.Release.GetAll("furesoft", "Slithin");
 
-            if (_updateInfo.Status == UpdateStatus.UpdateAvailable)
+            var latestGitHubVersion = new Version(releases[0].TagName);
+            var localVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+            //Compare the Versions
+            var versionComparison = localVersion.CompareTo(latestGitHubVersion);
+            if (versionComparison < 0)
             {
-                _netSparkle.DownloadFinished -= Sparkle_FinishedDownloading;
-                _netSparkle.DownloadFinished += Sparkle_FinishedDownloading;
-
-                _netSparkle.DownloadHadError -= Sparkle_DownloadError;
-                _netSparkle.DownloadHadError += Sparkle_DownloadError;
-
-                _netSparkle.DownloadMadeProgress += Sparkle_DownloadMadeProgress;
-
-                await _netSparkle.InitAndBeginDownload(_updateInfo.Updates.First());
-            }
-            else
-            {
-                NotificationService.Hide();
-            }
-        }
-
-        private static void Sparkle_CloseApplication()
-        {
-            Environment.Exit(0);
-        }
-
-        private static void Sparkle_DownloadError(AppCastItem item, string path, Exception exception)
-        {
-            NotificationService.Show("We had an error during the download process -- " + exception.Message);
-        }
-
-        private static void Sparkle_DownloadMadeProgress(object sender, AppCastItem item, ItemDownloadProgressEventArgs e)
-        {
-            NotificationService.Show($"Downloading Update {e.ProgressPercentage} %");
-        }
-
-        private static async void Sparkle_FinishedDownloading(AppCastItem item, string path)
-        {
-            var ok = await DialogService.ShowDialog("The Update downloaded. Would you install it?");
-
-            if (ok)
-            {
-                _netSparkle.CloseApplication += Sparkle_CloseApplication;
-                _netSparkle.InstallUpdate(_updateInfo.Updates.First());
+                Utils.OpenUrl("https://github.com/furesoft/Slithin/releases");
             }
         }
     }
