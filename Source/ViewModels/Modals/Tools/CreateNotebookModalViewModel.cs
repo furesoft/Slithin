@@ -26,7 +26,9 @@ namespace Slithin.ViewModels.Modals
         private readonly IPathManager _pathManager;
         private readonly CreateNotebookValidator _validator;
 
-        public CreateNotebookModalViewModel(IPathManager pathManager, CreateNotebookValidator validator, ILoadingService loadingService)
+        public CreateNotebookModalViewModel(IPathManager pathManager,
+                                            CreateNotebookValidator validator,
+                                            ILoadingService loadingService)
         {
             if (TemplateStorage.Instance.Templates == null)
             {
