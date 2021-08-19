@@ -2,9 +2,12 @@
 - implement toolsfilter
 
 
-- fix "henne ei problem" syncdevicedeletions
-
-
 - implement error for modals
 
 - render rm file to pdf
+
+- tools:
+	rss crawler
+
+
+- macrosystem: man kann ein tool in ein makro verwandeln mit vordefinierten eigentschaften - wird als neues tool angezeigt, führt ursprüngliches tool mit den definierten eigenschaften auf
