@@ -22,6 +22,10 @@ namespace Slithin.UI
 
             var container = new StackPanel();
 
+            container.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+            container.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
+            container.MaxHeight = 275;
+
             var img = new Image
             {
                 MinWidth = 25,
