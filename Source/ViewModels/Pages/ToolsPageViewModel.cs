@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Scripting;
 
 namespace Slithin.ViewModels.Pages
 {
@@ -9,9 +10,9 @@ namespace Slithin.ViewModels.Pages
     {
         private ITool _selectedScript;
 
-        public ToolsPageViewModel(ToolRepository toolRepository)
+        public ToolsPageViewModel()
         {
-            foreach (var tool in toolRepository.FindTools())
+            foreach (var tool in Utils.Find<ITool>())
             {
                 Items.Add(tool);
             }

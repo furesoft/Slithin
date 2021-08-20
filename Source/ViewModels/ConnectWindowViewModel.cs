@@ -29,8 +29,7 @@ namespace Slithin.ViewModels
         private bool _remember;
 
         public ConnectionWindowViewModel(EventStorage events,
-                                                                 ILoginService loginService,
-                                         ToolRepository tools,
+                                         ILoginService loginService,
                                          LoginInfoValidator validator,
                                          ISettingsService settingsService)
         {
