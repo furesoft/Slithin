@@ -93,7 +93,10 @@ namespace Slithin.ViewModels.Pages
             var str = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf").Result;
             str = str.Replace("BetaProgram=", "").Replace("\n", "");
 
-            IsBeta = bool.Parse(str);
+            if (!string.IsNullOrEmpty(str))
+            {
+                IsBeta = bool.Parse(str);
+            }
 
             Version = _versionService.GetDeviceVersion().ToString();
 

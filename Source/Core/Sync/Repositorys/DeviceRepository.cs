@@ -114,9 +114,9 @@ namespace Slithin.Core.Sync.Repositorys
 
                 var filenames = string.Join(' ', excluded.Select(_ => PathList.Documents + _));
 
-                foreach (var filename in filenames)
+                foreach (var filename in excluded.Select(_ => PathList.Documents + _))
                 {
-                    _client.RunCommand("rm -fr " + filename);
+                    var cr = _client.RunCommand("rm -fr " + filename);
                 }
             }
         }
