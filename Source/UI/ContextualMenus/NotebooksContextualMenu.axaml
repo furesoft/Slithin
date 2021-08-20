@@ -8,14 +8,14 @@
              x:Class="Slithin.UI.ContextualMenus.NotebooksContextualMenu">
   <DockPanel>
     <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-      <controls:ImageButton Text="Folder" Command="{Binding MakeFolderCommand}" Kind="Add" />
-      <Rectangle Width="3" Fill="DarkGray" Height="30" Margin="0,-20,0,0" />
-      <controls:ImageButton Text="Remove" Command="{Binding RemoveNotebookCommand}" Kind="Minus" CommandParameter="{Binding SelectedNotebook}" />
+      <controls:ImageButton MinHeight="60" Classes="Flat" Text="Folder" Command="{Binding MakeFolderCommand}" Kind="Add" />
 
-      <controls:ImageButton Text="Export" IsVisible="False" Command="{Binding ExportCommand}" Kind="ExportVariant"  CommandParameter="{Binding SelectedNotebook}" />
-      <controls:ImageButton Text="Move" IsVisible="True" Command="{Binding MoveCommand}" Kind="FolderMove" CommandParameter="{Binding SelectedNotebook}" />
+      <controls:ImageButton MinHeight="60" Classes="Flat" Text="Remove" Command="{Binding RemoveNotebookCommand}" Kind="Minus" CommandParameter="{Binding SelectedNotebook}" />
 
-      <controls:ImagePopupButton Text="Search" Kind="Magnify" IsVisible="False">
+      <controls:ImageButton MinHeight="60" Classes="Flat" Text="Export" IsVisible="False" Command="{Binding ExportCommand}" Kind="ExportVariant"  CommandParameter="{Binding SelectedNotebook}" />
+      <controls:ImageButton MinHeight="60" Classes="Flat" Text="Move" IsVisible="True" Command="{Binding MoveCommand}" Kind="FolderMove" CommandParameter="{Binding SelectedNotebook}" />
+
+      <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="Search" Kind="Magnify" IsVisible="False">
         <controls:ImagePopupButton.PopupContent>
           <Border>
             <TextBox Watermark="Search ..." MinWidth="175" Height="35" IsVisible="True" />

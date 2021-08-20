@@ -2,7 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         xmlns:core="using:Slithin.Core"
         xmlns:controls="using:Slithin.Controls"
         xmlns:flyouts="using:Slithin.UI.Flyouts"
@@ -10,30 +11,44 @@
         x:Class="Slithin.UI.Views.MainWindow" Icon="avares:/Resources/Icon.png"
         Title="Slithin">
   <controls:ContentDialog controls:DialogService.IsHost="True">
-    <Grid RowDefinitions="AUTO,*,*" ColumnDefinitions="AUTO,*,150">
-      <Image Source="avares:/Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="175" Margin="0,15,15,15" Height="125" />
+    <styles:ColorZone Mode="Light" Height="{Binding $parent[Window].Height}">
+      <Grid RowDefinitions="AUTO,*,*" ColumnDefinitions="AUTO,*,130">
+        <Image Source="avares:/Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="175" Margin="0,15,15,15" Height="125" />
 
-      <Grid core:PageSelector.IsContextualContainer="True" Grid.Row="0" Grid.Column="1" Margin="0" MinWidth="800" MaxHeight="90" HorizontalAlignment="Left" />
+        <styles:Card Grid.Row="0" Grid.Column="1" MinWidth="800" MaxHeight="90" HorizontalAlignment="Left" Content="{Binding ContextualMenu, Mode=TwoWay}" />
 
-      <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" core:PageSelector.IsPageContainer="True" />
+        <ListBox Items="{Binding Menu}" SelectedItem="{Binding SelectedTab}" Classes="Drawer" Name="Drawer" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid Height="48">
+                <TextBlock Text="{Binding Header}" Classes="Body1" VerticalAlignment="Center" FontSize="25" />
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
 
-      <controls:ImageButton Text="Synchronize" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" MaxHeight="90" Kind="Refresh" Margin="0,0,12,0" HorizontalAlignment="Right">
-        <controls:ImageButton.ContextFlyout>
-          <Flyout Placement="BottomEdgeAlignedLeft">
-            <flyouts:SyncQueueFlyout />
-          </Flyout>
-        </controls:ImageButton.ContextFlyout>
-      </controls:ImageButton>
+        <Carousel Grid.Column="1" Grid.Row="1" SelectedIndex="{Binding #Drawer.SelectedIndex}" Items="{Binding Tabs}" Grid.ColumnSpan="2" Grid.RowSpan="2" />
 
-      <Border Grid.Row="2" Margin="7,5,10,-3" HorizontalAlignment="Left" CornerRadius="4" Background="LightGray" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" IsVisible="{Binding IsVisible, ElementName=statusTb}">
-        <StackPanel Orientation="Horizontal" Spacing="7" Margin="5,5,5,5">
-          <progRing:ProgressRing Width="30"
-                             Height="30"
-                             IsActive="{Binding IsVisible, ElementName=statusTb}"
-                             Foreground="Black" />
-          <TextBlock Text="Status ..." FontSize="15" FontWeight="Bold" x:Name="statusTb" core:NotificationService.IsNotificationOutput="True" IsVisible="False" VerticalAlignment="Center" />
-        </StackPanel>
-      </Border>
-    </Grid>
+        <Button Classes="Flat" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" MaxHeight="90" Margin="0,0,12,0" HorizontalAlignment="Right">
+          <StackPanel>
+            <avalonia:MaterialIcon Kind="Refresh" Width="48" Height="48" />
+            <TextBlock Text="Synchronize" />
+          </StackPanel>
+
+          <Button.ContextFlyout>
+            <Flyout Placement="BottomEdgeAlignedLeft">
+              <flyouts:SyncQueueFlyout />
+            </Flyout>
+          </Button.ContextFlyout>
+        </Button>
+
+        <Border Grid.Row="2" Margin="7,5,10,-3" HorizontalAlignment="Left" CornerRadius="4" Background="LightGray" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" IsVisible="{Binding IsVisible, ElementName=statusTb}">
+          <StackPanel Orientation="Horizontal" Spacing="7" Margin="5,5,5,5">
+            <ProgressBar Classes="Circle" IsVisible="{Binding IsVisible, ElementName=statusTb}" Foreground="Black" IsIndeterminate="True" ShowProgressText="True" />
+            <TextBlock Text="Status ..." FontSize="15" FontWeight="Bold" x:Name="statusTb" core:NotificationService.IsNotificationOutput="True" IsVisible="False" VerticalAlignment="Center" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </styles:ColorZone>
   </controls:ContentDialog>
 </Window>
