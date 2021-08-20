@@ -2,24 +2,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+        xmlns:wpf="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
         xmlns:controls="using:Slithin.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="520"
         x:Class="Slithin.UI.Views.ConnectWindow" Icon="avares:/Resources/Icon.png"
-        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" Height="390" MinHeight="415" MinWidth="342" MaxWidth="342" MaxHeight="415">
+        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" MinHeight="470" MinWidth="342" MaxWidth="342" MaxHeight="425">
   <controls:ContentDialog controls:DialogService.IsHost="True">
-    <Grid RowDefinitions="250,35,35,20,65" ColumnDefinitions="*,AUTO" Margin="5">
-      <Image Source="avares:/Resources/new_logo.png" Grid.ColumnSpan="2" Margin="0,0,0,3" />
+    <styles:ColorZone Mode="Light" Height="470">
+      <Grid RowDefinitions="250,45,45,20,30,65" ColumnDefinitions="*,AUTO" Margin="5">
+        <Image Source="avares:/Resources/new_logo.png" Grid.ColumnSpan="2" Margin="0,0,0,3" />
 
-      <TextBox Watermark="IP Address" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding IP}" />
-      <TextBox Watermark="Password" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding Password}" PasswordChar="*" />
+        <TextBox UseFloatingWatermark="True" wpf:TextFieldAssist.Label="IP Address" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding IP}" />
+        <TextBox UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding Password}"
+                                         wpf:TextFieldAssist.Label="Password" PasswordChar="*" />
 
-      <controls:Link Title="Where can I find the information?" Grid.ColumnSpan="2" Grid.Row="3" Command="{Binding HelpCommand}" />
+        <controls:Link Title="Where can I find the information?" Grid.ColumnSpan="2" Grid.Row="4" Command="{Binding HelpCommand}" />
 
-      <CheckBox Grid.Row="5" Grid.Column="0" IsChecked="{Binding Remember}">Remember</CheckBox>
+        <CheckBox Grid.Row="5" Grid.Column="0" IsChecked="{Binding Remember}">Remember</CheckBox>
 
-      <Button Grid.Row="4" Grid.Column="1" Classes="flat" Command="{Binding ConnectCommand}" IsDefault="True" Width="150">
-        <TextBlock Text="Connect" HorizontalAlignment="Center" FontSize="25" />
-      </Button>
-    </Grid>
+        <Button Classes="Dark" Grid.Row="5" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150" Margin="5" Content="Connect" />
+      </Grid>
+    </styles:ColorZone>
   </controls:ContentDialog>
 </Window>
