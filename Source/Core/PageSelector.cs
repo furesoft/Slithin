@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
+using Material.Styles;
 
 namespace Slithin.Core
 {
     public static class PageSelector
     {
-        private static Grid? s_conextualMenu;
+        private static Card? s_conextualMenu;
         private static TabControl? s_container;
 
         public static void CollectPages()
@@ -54,7 +55,7 @@ namespace Slithin.Core
             return s_container == control;
         }
 
-        public static void SetIsContextualContainer(Grid control, bool value)
+        public static void SetIsContextualContainer(Card control, bool value)
         {
             s_conextualMenu = control;
         }
@@ -71,19 +72,17 @@ namespace Slithin.Core
                     {
                         if (s_conextualMenu is not null && tab.Tag is Control context && control is not null)
                         {
-                            s_conextualMenu.Children.Clear();
-
                             if (tab.DataContext is BaseViewModel pl)
                             {
                                 pl.Load();
                             }
 
                             context.DataContext = tab.DataContext;
-                            s_conextualMenu.Children.Add(context);
+                            s_conextualMenu.Content = context;
                         }
                         else
                         {
-                            s_conextualMenu?.Children.Clear();
+                            s_conextualMenu.Content = null;
                         }
                     }
                 }

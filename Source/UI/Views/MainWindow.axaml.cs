@@ -4,6 +4,7 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Material.Styles;
 using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Services;
