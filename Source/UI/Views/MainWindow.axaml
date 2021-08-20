@@ -20,8 +20,8 @@
         <ListBox Items="{Binding Menu}" SelectedItem="{Binding SelectedTab}" Classes="Drawer" Name="Drawer" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
           <ListBox.ItemTemplate>
             <DataTemplate>
-              <Grid>
-                <TextBlock Text="{Binding Header}" Classes="Body2" Height="48" VerticalAlignment="Center" FontSize="25" />
+              <Grid Height="48">
+                <TextBlock Text="{Binding Header}" Classes="Body1" VerticalAlignment="Center" FontSize="25" />
               </Grid>
             </DataTemplate>
           </ListBox.ItemTemplate>
