@@ -193,6 +193,18 @@ namespace Slithin.Core.Services.Implementations
                 var mdFilenames = allFilenames.Where(_ => _.EndsWith(".metadata")).ToArray();
                 var mdLocals = new Dictionary<string, Metadata>();
 
+                var thumbnailFolders = allFilenames.Where(_ => _.EndsWith(".thumbnails/"));
+                var thumbnailFoldersToSync = thumbnailFolders.Where(_ => !Directory.Exists(Path.Combine(notebooksDir, _.Substring(0, _.Length - 1))));
+
+                foreach (var thumbnailFolder in thumbnailFoldersToSync)
+                {
+                    NotificationService.Show("Downloading Notebook Thumbnails");
+                    var path = Path.Combine(notebooksDir, thumbnailFolder.Substring(0, thumbnailFolder.Length - 1));
+                    Directory.CreateDirectory(path);
+
+                    scp.Download(PathList.Documents + thumbnailFolder, new DirectoryInfo(path));
+                }
+
                 //todo: if a new thumbnails folder is available download it
 
                 for (var i = 0; i < mdFilenames.Length; i++)
