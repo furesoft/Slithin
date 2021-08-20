@@ -17,8 +17,9 @@
 
 
 
-- if a new thumbnail folder is available or a new version download thumbnails folder on sync
-
+- move to material
+	- add snackbar and show errors on it
+	   - good for modals
 
 
 

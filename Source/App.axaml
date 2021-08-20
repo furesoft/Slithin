@@ -5,7 +5,6 @@
   <Application.Styles>
     <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
 
-    <StyleInclude Source="/Styles/TabItemStyle.axaml" />
     <StyleInclude Source="/Styles/ImageButton.axaml" />
     <StyleInclude Source="/Styles/ImagePopupButtonStyle.axaml" />
     <StyleInclude Source="/Styles/ContentDialogStyle.axaml" />

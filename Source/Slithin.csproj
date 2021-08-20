@@ -54,10 +54,6 @@
    </ItemGroup>
 
    <ItemGroup>
-     <AvaloniaResource Include="Styles\TabItemStyle.axaml" />
-   </ItemGroup>
-
-   <ItemGroup>
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>

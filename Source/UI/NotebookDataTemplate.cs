@@ -30,7 +30,8 @@ namespace Slithin.UI
             var img = new Image
             {
                 MinWidth = 25,
-                MinHeight = 25
+                MinHeight = 25,
+                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center
             };
 
             if (param is Metadata md)

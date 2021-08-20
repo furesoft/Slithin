@@ -21,7 +21,7 @@
 
         <CheckBox Grid.Row="5" Grid.Column="0" IsChecked="{Binding Remember}">Remember</CheckBox>
 
-        <Button Classes="Dark" Grid.Row="5" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150" Margin="5" Content="Connect" />
+        <Button Classes="Dark" Grid.Row="5" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150" Margin="10" Content="Connect" />
       </Grid>
     </styles:ColorZone>
   </controls:ContentDialog>

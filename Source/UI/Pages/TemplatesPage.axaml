@@ -2,25 +2,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.TemplatesPage">
   <Grid>
-    <ListBox Background="Gray" Items="{Binding SyncService.TemplateFilter.Templates, Mode=TwoWay}" Margin="16,0,0,0" x:Name="templatesListBox" SelectedItem="{Binding SelectedTemplate}">
+    <ListBox Items="{Binding SyncService.TemplateFilter.Templates, Mode=TwoWay}" Margin="16,0,0,0" x:Name="templatesListBox" SelectedItem="{Binding SelectedTemplate}">
       <ListBox.ItemTemplate>
         <DataTemplate>
-          <Grid>
-            <Border Margin="3" HorizontalAlignment="Center">
-              <StackPanel Orientation="Vertical">
-                <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                  <Grid>
-                    <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
-                  </Grid>
-                </Border>
+          <styles:Card Background="Gray" Margin="3" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical">
+              <Border Margin="5" BorderThickness="1" BorderBrush="Black">
+                <Grid>
+                  <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
+                </Grid>
+              </Border>
 
-                <TextBlock Text="{Binding Filename}" TextAlignment="Center" />
-              </StackPanel>
-            </Border>
-          </Grid>
+              <TextBlock Text="{Binding Filename}" TextAlignment="Center" />
+            </StackPanel>
+          </styles:Card>
         </DataTemplate>
       </ListBox.ItemTemplate>
 
