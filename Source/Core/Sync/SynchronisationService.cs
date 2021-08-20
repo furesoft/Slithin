@@ -82,7 +82,7 @@ namespace Slithin.Core.Sync
                 mailboxService.Post(new InitStorageMessage());
             }
 
-            mailboxService.Post(new ShowStatusMessage { Message = "Syncing ..." });
+            NotificationService.Show("Syncing ...");
 
             mailboxService.Post(new DownloadNotebooksMessage());
 
