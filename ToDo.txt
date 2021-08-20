@@ -2,8 +2,6 @@
 - implement toolsfilter
 
 
-- implement error for modals
-
 - render rm file to pdf
 
 - tools:
@@ -18,14 +16,5 @@
 
 
 - move to material
-	- add snackbar and show errors on it
-	   - good for modals
-
-
-
-
-
-
-
 
 - macrosystem: man kann ein tool in ein makro verwandeln mit vordefinierten eigentschaften - wird als neues tool angezeigt, führt ursprüngliches tool mit den definierten eigenschaften auf
