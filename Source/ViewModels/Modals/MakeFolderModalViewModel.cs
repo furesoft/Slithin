@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Material.Styles;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
@@ -69,7 +70,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                //ToDo: show error
+                SnackbarHost.Post("Foldername cannot be empty");
             }
         }
     }

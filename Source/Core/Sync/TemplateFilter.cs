@@ -15,8 +15,6 @@ namespace Slithin.Core.Sync
         {
             Categories = new();
 
-            Categories.Add("All");
-
             Templates = new();
         }
 
@@ -42,14 +40,7 @@ namespace Slithin.Core.Sync
 
         private void RefreshTemplates()
         {
-            if (SelectedCategory == "All")
-            {
-                Templates = new(TemplateStorage.Instance?.Templates.Where(_ => Landscape == _.Landscape));
-            }
-            else
-            {
-                Templates = new(TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape));
-            }
+            Templates = new(TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape));
         }
     }
 }

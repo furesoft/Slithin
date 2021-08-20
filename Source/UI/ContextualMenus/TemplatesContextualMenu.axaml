@@ -12,9 +12,9 @@
 
       <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="Filter" Kind="FilterMenu">
         <controls:ImagePopupButton.PopupContent>
-          <Grid RowDefinitions="*,AUTO" Margin="4">
+          <Grid RowDefinitions="*,AUTO" Margin="4" Background="Gray">
             <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,0,10" IsVisible="False" />
-            <ToggleSwitch OnContent="Landscape" OffContent="Portrait" IsChecked="{Binding SyncService.TemplateFilter.Landscape, Mode=TwoWay}" />
+            <CheckBox Content="Is Landscape"  IsChecked="{Binding SyncService.TemplateFilter.Landscape, Mode=TwoWay}" />
             <ComboBox Grid.Row="1" Items="{Binding SyncService.TemplateFilter.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.TemplateFilter.SelectedCategory}" MinWidth="175" />
           </Grid>
         </controls:ImagePopupButton.PopupContent>

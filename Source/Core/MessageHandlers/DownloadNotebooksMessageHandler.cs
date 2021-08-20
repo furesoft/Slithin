@@ -54,8 +54,6 @@ namespace Slithin.Core.MessageHandlers
                 _scp.Download(PathList.Documents + thumbnailFolder, new DirectoryInfo(path));
             }
 
-            //todo: if a new thumbnails folder is available download it
-
             for (var i = 0; i < mdFilenames.Length; i++)
             {
                 var md = mdFilenames[i];

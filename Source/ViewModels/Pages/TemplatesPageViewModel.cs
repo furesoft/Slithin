@@ -44,7 +44,7 @@ namespace Slithin.ViewModels.Pages
 
                 _loadingService.LoadTemplates();
 
-                SyncService.TemplateFilter.SelectedCategory = "All";
+                SyncService.TemplateFilter.SelectedCategory = "Grids";
 
                 NotificationService.Hide();
             });

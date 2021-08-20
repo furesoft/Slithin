@@ -7,6 +7,7 @@ using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Material.Styles;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
@@ -136,13 +137,12 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                //ToDo: show error
+                SnackbarHost.Post("Page Count must be a number and a template need to be selected");
             }
         }
 
         private void OK(object obj)
         {
-            //ToDo: use validator
             var validationResult = _validator.Validate(this);
 
             if (validationResult.IsValid)
@@ -236,7 +236,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                //ToDo: show error
+                SnackbarHost.Post(validationResult.Errors.First().ToString());
             }
         }
     }

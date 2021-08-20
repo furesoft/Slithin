@@ -47,7 +47,6 @@ namespace Slithin.Core.Services.Implementations
 
             // Load Category Names
             var tempCats = TemplateStorage.Instance?.Templates.Select(_ => _.Categories);
-            ServiceLocator.SyncService.TemplateFilter.Categories.Add("All");
 
             foreach (var item in tempCats)
             {
