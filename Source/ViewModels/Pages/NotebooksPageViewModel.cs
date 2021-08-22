@@ -93,7 +93,11 @@ namespace Slithin.ViewModels.Pages
 
             _mailboxService.PostAction(() =>
             {
+                NotificationService.Show("Loading Notebooks");
+
                 _loadingService.LoadNotebooks();
+
+                NotificationService.Hide();
             });
         }
     }

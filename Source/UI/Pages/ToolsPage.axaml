@@ -22,11 +22,11 @@
               </Border>
 
               <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="4">
-                <Button Command="{Binding $parent[ListBox].DataContext.ConfigurateScriptCommand}" IsHitTestVisible="True" IsVisible="{Binding IsConfigurable}"  CommandParameter="{Binding}">
+                <Button Classes="Flat" Command="{Binding $parent[ListBox].DataContext.ConfigurateScriptCommand}" IsHitTestVisible="True" IsVisible="{Binding IsConfigurable}"  CommandParameter="{Binding}">
                   <mi:MaterialIcon Kind="CogOutline" Width="15" />
                 </Button>
 
-                <Button Command="{Binding $parent[ListBox].DataContext.ExecuteScriptCommand}" IsHitTestVisible="True"  CommandParameter="{Binding}">
+                <Button Classes="Flat" Command="{Binding $parent[ListBox].DataContext.ExecuteScriptCommand}" IsHitTestVisible="True"  CommandParameter="{Binding}">
                   <mi:MaterialIcon Kind="HexagonMultiple" Width="15" />
                 </Button>
               </StackPanel>

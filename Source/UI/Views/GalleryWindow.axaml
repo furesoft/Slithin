@@ -13,6 +13,6 @@
       <Image Source="/Resources/Covers/Folder-DBlue.png" />
     </controls:GalleryControl>
 
-    <Button Content="Start Using Slithin" Classes="flat" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding StartCommand}" />
+    <Button Content="Start Using Slithin" Classes="Flat" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding StartCommand}" />
   </Grid>
 </Window>

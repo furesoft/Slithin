@@ -20,14 +20,14 @@
               <Rectangle Grid.Row="3" Fill="Gray" VerticalAlignment="Bottom" />
 
               <Grid Classes="single" Grid.Row="5" VerticalAlignment="Bottom">
-                <Button HorizontalAlignment="Stretch" Height="40" Classes="base flat" VerticalContentAlignment="Bottom" IsDefault="True" Command="{TemplateBinding Command}">
+                <Button HorizontalAlignment="Stretch" Height="40" Classes="base Flat" VerticalContentAlignment="Bottom" IsDefault="True" Command="{TemplateBinding Command}">
                   <ContentPresenter HorizontalAlignment="Center" Content="{TemplateBinding CommandText, Mode=TwoWay}" />
                 </Button>
               </Grid>
 
               <StackPanel Classes="both" Orientation="Horizontal" Spacing="5" Grid.Row="5" Margin="2,0,2,5" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Button Classes="base flat" MinWidth="75" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsCancel="True"  IsVisible="{TemplateBinding IsCancelEnabled}" Content="CANCEL" Command="{TemplateBinding CancelCommand}" />
-                <Button Classes="base flat" MinWidth="75" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsDefault="True"  Content="{TemplateBinding CommandText, Mode=TwoWay}" Command="{TemplateBinding Command}" />
+                <Button Classes="base Flat" MinWidth="75" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsCancel="True"  IsVisible="{TemplateBinding IsCancelEnabled}" Content="CANCEL" Command="{TemplateBinding CancelCommand}" />
+                <Button Classes="base Flat" MinWidth="75" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsDefault="True"  Content="{TemplateBinding CommandText, Mode=TwoWay}" Command="{TemplateBinding Command}" />
               </StackPanel>
             </Grid>
           </styles:SnackbarHost>

@@ -10,7 +10,7 @@
       <ControlTemplate>
         <Grid ColumnDefinitions="*,AUTO">
           <TextBox Text="{TemplateBinding ShortFilename}" Grid.Column="0" Watermark="{TemplateBinding Watermark}" />
-          <Button Content="..." Command="{TemplateBinding BrowseCommand}" Margin="5,0,0,0" Grid.Column="1" />
+          <Button Content="..." Classes="Flat" Command="{TemplateBinding BrowseCommand}" Margin="5,0,0,0" Grid.Column="1" />
         </Grid>
       </ControlTemplate>
     </Setter>
