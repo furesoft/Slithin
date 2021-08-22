@@ -86,8 +86,6 @@ namespace Slithin.Core.Sync
 
             mailboxService.Post(new DownloadNotebooksMessage());
 
-            mailboxService.Post(new DownloadNotebooksMessage());
-
             SyncDeviceDeletions();
 
             foreach (var item in SyncQueue.FindAll())

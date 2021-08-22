@@ -86,6 +86,20 @@ namespace Slithin.ViewModels.Pages
             ep.Export(opts, md, outputPath);
         }
 
+        public void export()
+        {
+            var id = "f27773a7-b054-4782-bbcf-a9acbf045977";
+            var ep = _exportProviderFactory.GetExportProvider("PDF Document");
+
+            var doc = new PdfDocument(File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf"));
+
+            var opts = ExportOptions.Create(doc, "1-120");
+            var md = Metadata.Load(id);
+            var outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.pdf";
+
+            ep.Export(opts, md, outputPath);
+        }
+
         public override async void OnLoad()
         {
             base.OnLoad();
