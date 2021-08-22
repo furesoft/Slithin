@@ -119,12 +119,12 @@ namespace Slithin.ViewModels
                             desktop.MainWindow.Show();
 
                             var settings = _settingsService.Get();
-                            if (!settings.HasFirstGalleryShown)
+                            if (settings.HasFirstGalleryShown)
                             {
                                 var galleryWindow = new GalleryWindow();
-                                //galleryWindow.DataContext = some images
+
                                 settings.HasFirstGalleryShown = true;
-                                //_settingsService.Save(settings);
+                                _settingsService.Save(settings);
 
                                 galleryWindow.Show();
                             }
