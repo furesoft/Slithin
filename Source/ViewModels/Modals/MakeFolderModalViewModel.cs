@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
-using ReactiveUI.Fody.Helpers;
+using Material.Styles;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Services;
 using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels.Modals
@@ -12,6 +11,8 @@ namespace Slithin.ViewModels.Modals
     public class MakeFolderModalViewModel : BaseViewModel
     {
         private readonly SynchronisationService _synchronisationService;
+
+        private string _name;
 
         public MakeFolderModalViewModel(SynchronisationService synchronisationService)
         {
@@ -21,8 +22,11 @@ namespace Slithin.ViewModels.Modals
 
         public ICommand MakeFolderCommand { get; set; }
 
-        [Reactive]
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
 
         private void MakeFolder(object obj)
         {
@@ -66,7 +70,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                //ToDo: show error
+                SnackbarHost.Post("Foldername cannot be empty");
             }
         }
     }

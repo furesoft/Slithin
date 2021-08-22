@@ -62,9 +62,7 @@ namespace Slithin.Core.Scripting
 
                 mb.AddConstructor(typeof(Messages.AttentionRequiredMessage));
                 mb.AddConstructor(typeof(Messages.DownloadNotebooksMessage));
-                mb.AddConstructor(typeof(Messages.HideStatusMessage));
                 mb.AddConstructor(typeof(Messages.InitStorageMessage));
-                mb.AddConstructor(typeof(Messages.ShowStatusMessage));
             }
             else if (moduleRequest.CmdArgument == "pdf")
             {

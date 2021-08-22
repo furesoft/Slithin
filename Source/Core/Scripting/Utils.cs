@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json.Linq;
 using NiL.JS.Core;
@@ -25,6 +29,16 @@ namespace Slithin.Core.Scripting
             }
 
             return o;
+        }
+
+        public static IEnumerable<T> Find<T>()
+        {
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(s => s.GetTypes())
+            .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass)
+            .Select(type => (T)ServiceLocator.Container.Resolve(type));
+
+            return types;
         }
 
         public static void OpenUrl(string url)

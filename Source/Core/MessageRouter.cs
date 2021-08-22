@@ -16,6 +16,15 @@ namespace Slithin.Core
             }
         }
 
+        public void Register<T>(IMessageHandler<T> handler)
+            where T : AsynchronousMessage
+        {
+            if (!_handlers.ContainsKey(typeof(T)))
+            {
+                _handlers.Add(typeof(T), (_) => handler.HandleMessage((T)_));
+            }
+        }
+
         public void Route(object msg)
         {
             var msgType = msg.GetType();

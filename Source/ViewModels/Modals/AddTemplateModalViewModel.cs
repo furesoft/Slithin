@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
-using ReactiveUI.Fody.Helpers;
+using Material.Styles;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
@@ -19,6 +20,16 @@ namespace Slithin.ViewModels.Modals
         private readonly IPathManager _pathManager;
         private readonly SynchronisationService _synchronisationService;
         private readonly AddTemplateValidator _validator;
+
+        private string _filename;
+
+        private IconCodeItem _iconCode;
+
+        private bool _isLandscape;
+
+        private string _name;
+
+        private string[] _selectedCategory;
 
         public AddTemplateModalViewModel(IPathManager pathManager,
                                          LocalRepository localRepository,
@@ -75,6 +86,10 @@ namespace Slithin.ViewModels.Modals
             {
                 this.SyncService.TemplateFilter.Categories.Add(obj.ToString());
             }
+            else
+            {
+                SnackbarHost.Post("Category name has to be set!");
+            }
         }
 
         private async void AddTemplate(object obj)
@@ -126,7 +141,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                //ToDo: show error
+                SnackbarHost.Post(validationResult.Errors.First().ToString());
             }
         }
 

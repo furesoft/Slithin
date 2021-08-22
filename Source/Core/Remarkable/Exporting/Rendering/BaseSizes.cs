@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Slithin.Core.Remarkable.Rendering;
 
 namespace Slithin.Core.Remarkable.Rendering

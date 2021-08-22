@@ -8,7 +8,7 @@
   </Design.PreviewWith>
 
   <Style Selector="controls|Link">
-    <Setter Property="Foreground" Value="DarkBlue" />
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}" />
     <Setter Property="Template">
       <ControlTemplate>
         <TextBlock Text="{TemplateBinding Title}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" TextDecorations="{TemplateBinding TextDecorations}" />

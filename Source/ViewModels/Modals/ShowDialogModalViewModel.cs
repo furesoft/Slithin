@@ -6,6 +6,8 @@ namespace Slithin.ViewModels.Modals
 {
     public class ShowDialogModalViewModel : BaseViewModel
     {
+        private object _content;
+        private string _title;
         public ICommand AcceptCommand { get; set; }
 
         [Reactive]

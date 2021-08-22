@@ -30,7 +30,7 @@
         </ComboBox.ItemsPanel>
       </ComboBox>
 
-      <ToggleSwitch Grid.Column="0" Grid.Row="3" OnContent="Landscape" OffContent="Portrait" IsChecked="{Binding IsLandscape}" />
+      <CheckBox Grid.Column="0" Grid.Row="3" Content="Is Landscape" IsChecked="{Binding IsLandscape}" />
     </Grid>
   </c:DialogControl>
 </UserControl>

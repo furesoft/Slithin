@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
@@ -25,9 +23,14 @@ namespace Slithin.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly LoginInfoValidator _validator;
 
+        private string _ip;
+
+        private string _password;
+
+        private bool _remember;
+
         public ConnectionWindowViewModel(EventStorage events,
                                          ILoginService loginService,
-                                         ToolRepository tools,
                                          LoginInfoValidator validator,
                                          ISettingsService settingsService)
         {
@@ -43,6 +46,12 @@ namespace Slithin.ViewModels
         public ICommand ConnectCommand { get; set; }
 
         public ICommand HelpCommand { get; set; }
+
+        public string IP
+        {
+            get { return _ip; }
+            set { SetValue(ref _ip, value); }
+        }
 
         [Reactive]
         public string IP { get; set; }

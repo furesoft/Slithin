@@ -15,7 +15,7 @@ using Slithin.Messages;
 
 namespace Slithin.Core.Sync
 {
-    public class SynchronisationService : INotifyPropertyChanged
+    public class SynchronisationService : ReactiveObject
     {
         private readonly SshClient _client;
         private readonly LocalRepository _localRepository;
@@ -29,15 +29,12 @@ namespace Slithin.Core.Sync
             TemplateFilter = new();
             NotebooksFilter = new();
 
-            PropertyChanged += OnPropertyChanged;
             SynchronizeCommand = new DelegateCommand(Synchronize);
             SyncQueue = db.GetCollection<SyncItem>();
             _pathManager = pathManager;
             _localRepository = localRepository;
             _client = client;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<CustomScreen> CustomScreens { get; set; } = new();
 
@@ -46,16 +43,6 @@ namespace Slithin.Core.Sync
         public ILiteCollection<SyncItem> SyncQueue { get; set; }
         public TemplateFilter TemplateFilter { get; set; }
         public ToolsFilter ToolsFilter { get; set; }
-
-        protected void SetValue<T>(ref T field, T value, [CallerMemberName] string property = null)
-        {
-            field = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-        }
 
         private void SyncDeviceDeletions()
         {
@@ -95,7 +82,9 @@ namespace Slithin.Core.Sync
                 mailboxService.Post(new InitStorageMessage());
             }
 
-            mailboxService.Post(new ShowStatusMessage { Message = "Syncing ..." });
+            NotificationService.Show("Syncing ...");
+
+            mailboxService.Post(new DownloadNotebooksMessage());
 
             mailboxService.Post(new DownloadNotebooksMessage());
 

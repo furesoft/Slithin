@@ -9,7 +9,10 @@ namespace Slithin.ViewModels.Modals
     {
         public ObservableCollection<Backup> Backups { get; set; } = new();
 
-        [Reactive]
-        public Backup SelectedBackup { get; set; }
+        public Backup SelectedBackup
+        {
+            get { return _selectedBackup; }
+            set { SetValue(ref _selectedBackup, value); }
+        }
     }
 }

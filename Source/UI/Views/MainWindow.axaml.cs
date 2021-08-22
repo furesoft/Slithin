@@ -7,7 +7,6 @@ using Avalonia.Markup.Xaml;
 using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Services;
-using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 using Slithin.ViewModels;
 

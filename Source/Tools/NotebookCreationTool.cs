@@ -7,7 +7,6 @@ using Avalonia.Platform;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Services;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals;
 

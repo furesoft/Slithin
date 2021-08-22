@@ -25,7 +25,14 @@ namespace Slithin.Core.Services.Implementations
 
         public Version GetLocalVersion()
         {
-            return new Version(File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, ".version")));
+            var path = Path.Combine(_pathManager.ConfigBaseDir, ".version");
+
+            if (File.Exists(path))
+            {
+                return new Version(File.ReadAllText(path));
+            }
+
+            return new Version(0, 0, 0, 0);
         }
     }
 }

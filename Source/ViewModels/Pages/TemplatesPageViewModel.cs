@@ -15,6 +15,8 @@ namespace Slithin.ViewModels.Pages
         private readonly ILoadingService _loadingService;
         private readonly IMailboxService _mailboxService;
 
+        private Template _selectedTemplate;
+
         public TemplatesPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
         {
             OpenAddModalCommand = DialogService.CreateOpenCommand<AddTemplateModal>(ServiceLocator.Container.Resolve<AddTemplateModalViewModel>());
@@ -27,8 +29,11 @@ namespace Slithin.ViewModels.Pages
 
         public ICommand RemoveTemplateCommand { get; set; }
 
-        [Reactive]
-        public Template SelectedTemplate { get; set; }
+        public Template SelectedTemplate
+        {
+            get { return _selectedTemplate; }
+            set { _selectedTemplate = value; }
+        }
 
         public override void OnLoad()
         {
@@ -40,7 +45,7 @@ namespace Slithin.ViewModels.Pages
 
                 _loadingService.LoadTemplates();
 
-                SyncService.TemplateFilter.SelectedCategory = "All";
+                SyncService.TemplateFilter.SelectedCategory = "Grids";
 
                 NotificationService.Hide();
             });

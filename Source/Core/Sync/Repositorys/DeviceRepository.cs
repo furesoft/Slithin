@@ -112,9 +112,12 @@ namespace Slithin.Core.Sync.Repositorys
                 var split = cmd.Result.Split('\n');
                 var excluded = split.Where(_ => _.Contains(data.ID));
 
-                var filenames = string.Join(' ', excluded.Select(_ => PathList.Documents + "/" + _));
+                var filenames = string.Join(' ', excluded.Select(_ => PathList.Documents + _));
 
-                _client.RunCommand("rm -fr " + filenames);
+                foreach (var filename in excluded.Select(_ => PathList.Documents + _))
+                {
+                    var cr = _client.RunCommand("rm -fr " + filename);
+                }
             }
         }
     }

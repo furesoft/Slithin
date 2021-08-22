@@ -3,14 +3,17 @@ using System.Windows.Input;
 using ReactiveUI.Fody.Helpers;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Scripting;
 
 namespace Slithin.ViewModels.Pages
 {
     public class ToolsPageViewModel : BaseViewModel
     {
-        public ToolsPageViewModel(ToolRepository toolRepository)
+        private ITool _selectedScript;
+
+        public ToolsPageViewModel()
         {
-            foreach (var tool in toolRepository.FindTools())
+            foreach (var tool in Utils.Find<ITool>())
             {
                 Items.Add(tool);
             }

@@ -6,6 +6,7 @@ namespace Slithin.ViewModels.Modals
 {
     public class MessageBoxModalViewModel : BaseViewModel
     {
+        private string _message;
         public ICommand AcceptCommand { get; set; }
 
         [Reactive]

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using PdfSharpCore.Pdf;
-using ReactiveUI.Fody.Helpers;
 using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
@@ -10,7 +9,6 @@ using Slithin.Core.Remarkable.Rendering;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
-using Slithin.Messages;
 
 namespace Slithin.ViewModels.Pages
 {
@@ -27,8 +25,12 @@ namespace Slithin.ViewModels.Pages
         private readonly ISettingsService _settingsService;
         private readonly IVersionService _versionService;
 
+        private bool _isBeta;
+
+        private string _version;
+
         public DevicePageViewModel(IVersionService versionService,
-                                   ILoadingService loadingService,
+                                                   ILoadingService loadingService,
                                    EventStorage events,
                                    IMailboxService mailboxService,
                                    LocalRepository localRepostory,
@@ -70,6 +72,20 @@ namespace Slithin.ViewModels.Pages
             ep.Export(opts, md, outputPath);
         }
 
+        public void export()
+        {
+            var id = "f27773a7-b054-4782-bbcf-a9acbf045977";
+            var ep = _exportProviderFactory.GetExportProvider("PDF Document");
+
+            var doc = new PdfDocument(File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf"));
+
+            var opts = ExportOptions.Create(doc, "1-120");
+            var md = Metadata.Load(id);
+            var outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.pdf";
+
+            ep.Export(opts, md, outputPath);
+        }
+
         public override async void OnLoad()
         {
             base.OnLoad();
@@ -85,7 +101,10 @@ namespace Slithin.ViewModels.Pages
             var str = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf").Result;
             str = str.Replace("BetaProgram=", "").Replace("\n", "");
 
-            IsBeta = bool.Parse(str);
+            if (!string.IsNullOrEmpty(str))
+            {
+                IsBeta = bool.Parse(str);
+            }
 
             Version = _versionService.GetDeviceVersion().ToString();
 

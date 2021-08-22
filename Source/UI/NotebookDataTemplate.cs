@@ -6,6 +6,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Material.Styles;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
@@ -20,12 +21,17 @@ namespace Slithin.UI
             var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
             var cache = ServiceLocator.Container.Resolve<ICacheService>();
 
-            var container = new StackPanel();
+            var stackPanel = new StackPanel();
+
+            stackPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+            stackPanel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
+            stackPanel.MaxHeight = 275;
 
             var img = new Image
             {
                 MinWidth = 25,
-                MinHeight = 25
+                MinHeight = 25,
+                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center
             };
 
             if (param is Metadata md)
@@ -71,7 +77,7 @@ namespace Slithin.UI
                 }
             }
 
-            container.Children.Add(img);
+            stackPanel.Children.Add(img);
 
             var title = new TextBlock
             {
@@ -81,9 +87,9 @@ namespace Slithin.UI
             title.TextAlignment = Avalonia.Media.TextAlignment.Center;
             title.TextWrapping = Avalonia.Media.TextWrapping.Wrap;
 
-            container.Children.Add(title);
+            stackPanel.Children.Add(title);
 
-            return container;
+            return new Card { Content = stackPanel };
         }
 
         public bool Match(object data)
