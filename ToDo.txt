@@ -13,8 +13,9 @@
 	start bash
 	exit application
 
+- render rm file to pdf
 
 
 - move to material
 
-- macrosystem: man kann ein tool in ein makro verwandeln mit vordefinierten eigentschaften - wird als neues tool angezeigt, führt ursprüngliches tool mit den definierten eigenschaften auf
+- macrosystem: man kann ein tool in ein makro verwandeln mit vordefinierten eigentschaften - wird als neues tool angezeigt, fï¿½hrt ursprï¿½ngliches tool mit den definierten eigenschaften auf

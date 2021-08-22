@@ -6,6 +6,7 @@ using Slithin.Core.Remarkable;
 using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
 using Slithin.Core.Services;
+using ReactiveUI.Fody.Helpers;
 
 namespace Slithin.ViewModels.Pages
 {

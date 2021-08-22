@@ -3,6 +3,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
+using ReactiveUI.Fody.Helpers;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using Slithin.Controls;
@@ -52,17 +53,14 @@ namespace Slithin.ViewModels
             set { SetValue(ref _ip, value); }
         }
 
-        public string Password
-        {
-            get { return _password; }
-            set { SetValue(ref _password, value); }
-        }
+        [Reactive]
+        public string IP { get; set; }
 
-        public bool Remember
-        {
-            get { return _remember; }
-            set { SetValue(ref _remember, value); }
-        }
+        [Reactive]
+        public string Password { get; set; }
+
+        [Reactive]
+        public bool Remember { get; set; }
 
         private void Connect(object obj)
         {
