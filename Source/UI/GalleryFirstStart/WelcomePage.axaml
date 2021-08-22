@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="563"
+             x:Class="Slithin.UI.GalleryFirstStart.WelcomePage">
+  <Grid RowDefinitions="*,*">
+    <StackPanel Spacing="3">
+      <TextBlock Text="Welcome to Slithin" Classes="Headline4" TextAlignment="Center" />
+      <TextBlock Text="Start your journey with a better tool for your remarkable device." TextWrapping="Wrap" />
+
+      <StackPanel Spacing="5">
+        <TextBlock Text="Features:" />
+
+        <StackPanel Orientation="Horizontal" Spacing="5">
+          <mi:MaterialIcon Kind="Circle" Width="15" Height="15" />
+
+          <TextBlock Text="Manage your Templates/Notebooks/Screens" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="5">
+          <mi:MaterialIcon Kind="Circle" Width="15" Height="15" />
+
+          <TextBlock Text="Backupmanagement" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="5">
+          <mi:MaterialIcon Kind="Circle" Width="15" Height="15" />
+
+          <TextBlock Text="Create PDF Notebook based on Templates" VerticalAlignment="Center" />
+        </StackPanel>
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</UserControl>
