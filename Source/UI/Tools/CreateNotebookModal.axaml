@@ -6,13 +6,13 @@
              mc:Ignorable="d" d:DesignWidth="515" d:DesignHeight="360"
              x:Class="Slithin.UI.Tools.CreateNotebookModal">
   <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding OKCommand}" MinHeight="350" MinWidth="515">
-    <Grid RowDefinitions="40,40,45,35,36" ColumnDefinitions="*,50,*">
+    <Grid RowDefinitions="40,40,45,35,35,36" ColumnDefinitions="*,50,*">
       <StackPanel Grid.Row="0" Orientation="Horizontal">
         <TextBox Watermark="Title" Margin="5" HorizontalAlignment="Left" MinWidth="185" Text="{Binding Name}" />
       </StackPanel>
 
-      <StackPanel Orientation="Horizontal" Margin="2" Spacing="5" Grid.Row="1">
-        <ComboBox SelectedIndex="0" Margin="3" Items="{Binding Templates}" PlaceholderText="Template" SelectedItem="{Binding SelectedTemplate}" MaxWidth="150">
+      <StackPanel Orientation="Horizontal" Margin="3" Spacing="5" Grid.Row="1">
+        <ComboBox Classes="Filled" SelectedIndex="0" Margin="3" Items="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}" Width="150">
           <ComboBox.ItemTemplate>
             <DataTemplate>
               <StackPanel Orientation="Horizontal" Spacing="5">
@@ -24,9 +24,9 @@
         </ComboBox>
 
         <StackPanel Spacing="3">
-          <TextBox Watermark="Page Count" Margin="3" Text="{Binding PageCount}" ToolTip.Tip="How many pages should the template apply?" />
+          <TextBox Watermark="Page Count" Text="{Binding PageCount}" ToolTip.Tip="How many pages should the template apply?" />
 
-          <Button Content="Add" Command="{Binding AddPagesCommand}" />
+          <Button Content="Add" Classes="Flat" Command="{Binding AddPagesCommand}" />
         </StackPanel>
       </StackPanel>
 
