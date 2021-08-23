@@ -28,7 +28,7 @@
         <StackPanel Orientation="Horizontal" Spacing="5">
           <mi:MaterialIcon Kind="Circle" Width="15" Height="15" />
 
-          <TextBlock Text="Create PDF Notebook based on Templates" VerticalAlignment="Center" />
+          <TextBlock Text="Create PDF Notebooks based on Templates" VerticalAlignment="Center" />
         </StackPanel>
       </StackPanel>
     </StackPanel>
