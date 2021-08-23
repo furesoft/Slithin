@@ -3,10 +3,8 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Ionic.Zip;
 using Octokit;
-using Slithin.Core.Scripting;
 
 namespace Slithin.Core
 {
@@ -20,7 +18,7 @@ namespace Slithin.Core
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                return $"Linux_X64.zip";
+                return $"Linux_x64.zip";
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
