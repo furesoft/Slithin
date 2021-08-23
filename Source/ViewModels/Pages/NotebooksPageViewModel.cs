@@ -23,6 +23,11 @@ namespace Slithin.ViewModels.Pages
             MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(
                 ServiceLocator.Container.Resolve<MakeFolderModalViewModel>());
 
+            RenameCommand = new DelegateCommand(_ =>
+            {
+                DialogService.Open(new RenameModal(), new RenameModalViewModel((Metadata)_));
+            });
+
             RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
             MoveCommand = new DelegateCommand(_ =>
             {
@@ -72,14 +77,11 @@ namespace Slithin.ViewModels.Pages
         }
 
         public ICommand MakeFolderCommand { get; set; }
-
         public ICommand MoveCancelCommand { get; set; }
-
         public ICommand MoveCommand { get; set; }
-
         public ICommand MoveHereCommand { get; set; }
-
         public ICommand RemoveNotebookCommand { get; set; }
+        public ICommand RenameCommand { get; set; }
 
         public Metadata SelectedNotebook
         {

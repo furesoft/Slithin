@@ -112,6 +112,8 @@ namespace Slithin.Core.MessageHandlers
                     }
                 }
             }
+
+            NotificationService.Hide();
         }
     }
 }

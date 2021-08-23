@@ -7,8 +7,10 @@ using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable
 {
-    public class Metadata : IEqualityComparer<Metadata>
+    public class Metadata : ReactiveObject, IEqualityComparer<Metadata>
     {
+        private string? _visibleName;
+
         [JsonIgnore]
         public ContentFile Content { get; set; }
 
@@ -37,7 +39,11 @@ namespace Slithin.Core.Remarkable
         public int Version { get; set; }
 
         [JsonProperty("visibleName")]
-        public string? VisibleName { get; set; }
+        public string? VisibleName
+        {
+            get { return _visibleName; }
+            set { SetValue(ref _visibleName, value); }
+        }
 
         public static Metadata Load(string id)
         {
