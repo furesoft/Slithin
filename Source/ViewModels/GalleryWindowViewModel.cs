@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Slithin.Core;
 
 namespace Slithin.ViewModels
@@ -13,6 +14,7 @@ namespace Slithin.ViewModels
             });
         }
 
+        public ObservableCollection<object> Slides { get; set; } = new();
         public ICommand StartCommand { get; set; }
     }
 }
