@@ -89,7 +89,7 @@ namespace Slithin.ViewModels.Modals
 
         public ObservableCollection<string> DefaultCovers { get; set; }
 
-        public string Name
+        public string Title
         {
             get { return _name; }
             set { SetValue(ref _name, value); }
@@ -168,7 +168,7 @@ namespace Slithin.ViewModels.Modals
                     PageMode = PdfPageMode.FullScreen
                 };
                 document.Info.Author = "Slithin";
-                document.Info.Title = Name;
+                document.Info.Title = Title;
 
                 var size = PageSizeConverter.ToSize(PageSize.A4);
 
@@ -198,8 +198,8 @@ namespace Slithin.ViewModels.Modals
                 if (RenderName)
                 {
                     var font = new XFont("Arial", 125);
-                    var fontSize = coverGfx.MeasureString(Name, font);
-                    coverGfx.DrawString(Name, font, XBrushes.Black, new XPoint(coverPage.Width / 2 - fontSize.Width / 2, 260));
+                    var fontSize = coverGfx.MeasureString(Title, font);
+                    coverGfx.DrawString(Title, font, XBrushes.Black, new XPoint(coverPage.Width / 2 - fontSize.Width / 2, 260));
                 }
 
                 foreach (var p in Pages)
@@ -232,7 +232,7 @@ namespace Slithin.ViewModels.Modals
                 var md = new Metadata
                 {
                     ID = Guid.NewGuid().ToString().ToLower(),
-                    VisibleName = Name,
+                    VisibleName = Title,
                     Type = "DocumentType",
                     Version = 1,
                     Parent = "",
