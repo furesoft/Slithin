@@ -61,8 +61,11 @@ namespace Slithin.Controls
             var window = App.Current.ApplicationLifetime as ClassicDesktopStyleApplicationLifetime;
             var filenames = await ofd.ShowAsync(window.MainWindow);
 
-            Filename = filenames[0];
-            ShortFilename = Path.GetFileName(Filename);
+            if (filenames != null)
+            {
+                Filename = filenames[0]; //Todo: Fix
+                ShortFilename = Path.GetFileName(Filename);
+            }
         }
     }
 }

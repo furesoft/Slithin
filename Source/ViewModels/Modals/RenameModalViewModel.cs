@@ -15,10 +15,10 @@ namespace Slithin.ViewModels.Modals
 
         public RenameModalViewModel(Metadata md)
         {
-            RenameCommand = new DelegateCommand(Rename);
+            RenameCommand = new DelegateCommand(Rename, (_) => md != null);
             _synchronisationService = ServiceLocator.SyncService;
             _md = md;
-            Name = md.VisibleName;
+            Name = md?.VisibleName;
         }
 
         public string Name

@@ -31,8 +31,10 @@ namespace Slithin.ViewModels.Modals
 
         private string[] _selectedCategory;
 
+        private object _selection;
+
         public AddTemplateModalViewModel(IPathManager pathManager,
-                                         LocalRepository localRepository,
+                                                 LocalRepository localRepository,
                                          SynchronisationService synchronisationService,
                                          AddTemplateValidator validator)
         {
@@ -97,7 +99,7 @@ namespace Slithin.ViewModels.Modals
 
         private void AddCategory(object obj)
         {
-            if (!string.IsNullOrEmpty(obj.ToString()))
+            if (!string.IsNullOrEmpty(obj?.ToString()))
             {
                 this.SyncService.TemplateFilter.Categories.Add(obj.ToString());
             }
