@@ -78,6 +78,10 @@ namespace Slithin.Core
                         File.Delete(fileName);
 
                         NotificationService.Hide();
+
+                        UpdateScriptGenerator.ApplyUpdate(Path.Combine(tmp, "SlithinUpdate"), Environment.CurrentDirectory);
+
+                        Environment.Exit(0);
                     };
                 }
             }

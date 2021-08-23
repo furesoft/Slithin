@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
-    <Version>0.5</Version>
+    <Version>0.4</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Actress" Version="0.2.1" />
