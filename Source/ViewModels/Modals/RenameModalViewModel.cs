@@ -18,6 +18,7 @@ namespace Slithin.ViewModels.Modals
             RenameCommand = new DelegateCommand(Rename);
             _synchronisationService = ServiceLocator.SyncService;
             _md = md;
+            Name = md.VisibleName;
         }
 
         public string Name
