@@ -2,13 +2,13 @@
 
 namespace Slithin.Core.MessageHandlers
 {
-    public class CheckForUpdatesMessageHandler : IMessageHandler<InitStorageMessage>
+    public class CheckForUpdatesMessageHandler : IMessageHandler<CheckForUpdateMessage>
     {
-        public async void HandleMessage(InitStorageMessage message)
+        public void HandleMessage(CheckForUpdateMessage message)
         {
             NotificationService.Show("Checking for Updates");
 
-            await Updater.StartUpdate();
+            Updater.StartUpdate();
 
             NotificationService.Hide();
         }
