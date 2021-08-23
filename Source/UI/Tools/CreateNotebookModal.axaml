@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:Slithin.Controls"
              xmlns:c="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="515" d:DesignHeight="360"
              x:Class="Slithin.UI.Tools.CreateNotebookModal">
@@ -12,16 +13,20 @@
       </StackPanel>
 
       <StackPanel Orientation="Horizontal" Margin="3" Spacing="5" Grid.Row="1">
-        <ComboBox Classes="Filled" SelectedIndex="0" Margin="3" Items="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}" Width="150">
-          <ComboBox.ItemTemplate>
-            <DataTemplate>
-              <StackPanel Orientation="Horizontal" Spacing="5">
-                <TextBlock Text="{Binding Name}" />
-                <TextBlock Text="Landscape" IsVisible="{Binding Landscape}" />
-              </StackPanel>
-            </DataTemplate>
-          </ComboBox.ItemTemplate>
-        </ComboBox>
+        <Grid Margin="3" Width="150">
+          <ComboBox IsVisible="{Binding !#customImage.IsChecked}" Classes="Filled" SelectedIndex="0"  Items="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                  <TextBlock Text="{Binding Name}" />
+                  <TextBlock Text="Landscape" IsVisible="{Binding Landscape}" />
+                </StackPanel>
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+
+          <controls:FileChooser IsVisible="{Binding #customImage.IsChecked}" Filename="{Binding CustomTemplateFilename}" />
+        </Grid>
 
         <StackPanel Spacing="3">
           <TextBox Watermark="Page Count" Text="{Binding PageCount}" ToolTip.Tip="How many pages should the template apply?" />
@@ -29,6 +34,8 @@
           <Button Content="Add" Classes="Flat" Command="{Binding AddPagesCommand}" />
         </StackPanel>
       </StackPanel>
+
+      <CheckBox Grid.Row="2" Margin="3" Name="customImage" Content="Use Custom Image" />
 
       <StackPanel HorizontalAlignment="Right" Grid.Row="0" Spacing="3" Margin="15,0,0,0" Grid.Column="2">
         <ComboBox PlaceholderText="Default Cover" SelectionChanged="CoverSelection" Items="{Binding DefaultCovers}" />

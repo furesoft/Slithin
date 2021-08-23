@@ -49,6 +49,18 @@ namespace Slithin.Tools
         }
     }
 
+    public class NotebookCustomPage
+    {
+        public NotebookCustomPage(string filename, int count)
+        {
+            Filename = filename;
+            Count = count;
+        }
+
+        public int Count { get; set; }
+        public string Filename { get; set; }
+    }
+
     public class NotebookPage
     {
         public NotebookPage(Template template, int count)

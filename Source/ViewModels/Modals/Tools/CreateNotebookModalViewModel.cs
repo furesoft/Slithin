@@ -28,6 +28,7 @@ namespace Slithin.ViewModels.Modals
 
         private IImage _cover;
 
+        private string _customTemplateFilename;
         private string _filename;
 
         private string _name;
@@ -55,7 +56,7 @@ namespace Slithin.ViewModels.Modals
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
             Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Covers/Folder-DBlue.png")));
-            Filename = "internal:Folder-DBlue.png";
+            CoverFilename = "internal:Folder-DBlue.png";
 
             var coverNames = GetType().Assembly.GetManifestResourceNames().
                 Where(_ => _.StartsWith("Slithin.Resources.Covers.")).
@@ -74,13 +75,19 @@ namespace Slithin.ViewModels.Modals
             set { SetValue(ref _cover, value); }
         }
 
-        public ObservableCollection<string> DefaultCovers { get; set; }
-
-        public string Filename
+        public string CoverFilename
         {
             get { return _filename; }
             set { SetValue(ref _filename, value); }
         }
+
+        public string CustomTemplateFilename
+        {
+            get { return _customTemplateFilename; }
+            set { SetValue(ref _customTemplateFilename, value); }
+        }
+
+        public ObservableCollection<string> DefaultCovers { get; set; }
 
         public string Name
         {
@@ -96,7 +103,7 @@ namespace Slithin.ViewModels.Modals
             set { SetValue(ref _pageCount, value); }
         }
 
-        public ObservableCollection<NotebookPage> Pages { get; set; } = new();
+        public ObservableCollection<object> Pages { get; set; } = new();
 
         public bool RenderName
         {
@@ -114,14 +121,14 @@ namespace Slithin.ViewModels.Modals
 
         public void LoadCover()
         {
-            if (Filename.StartsWith("custom:"))
+            if (CoverFilename.StartsWith("custom:"))
             {
-                using var strm = File.OpenRead(Filename.Substring("custom:".Length));
+                using var strm = File.OpenRead(CoverFilename.Substring("custom:".Length));
                 Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
             }
             else
             {
-                using var strm = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + Filename.Substring("internal:".Length) + ".png");
+                using var strm = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) + ".png");
                 Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
             }
         }
@@ -130,10 +137,18 @@ namespace Slithin.ViewModels.Modals
         {
             if (int.TryParse(PageCount, out var pcount) && SelectedTemplate != null)
             {
-                Pages.Add(new NotebookPage(SelectedTemplate, int.Parse(PageCount)));
+                if (!string.IsNullOrEmpty(CustomTemplateFilename))
+                {
+                    Pages.Add(new NotebookCustomPage(CustomTemplateFilename, pcount));
+                }
+                else
+                {
+                    Pages.Add(new NotebookPage(SelectedTemplate, pcount));
+                }
 
                 SelectedTemplate = null;
                 PageCount = null;
+                CustomTemplateFilename = null;
             }
             else
             {
@@ -163,13 +178,13 @@ namespace Slithin.ViewModels.Modals
                 var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
                 Stream coverStream = null;
-                if (Filename.StartsWith("custom:"))
+                if (CoverFilename.StartsWith("custom:"))
                 {
-                    coverStream = File.OpenRead(Filename.Substring("custom:".Length));
+                    coverStream = File.OpenRead(CoverFilename.Substring("custom:".Length));
                 }
                 else
                 {
-                    coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + Filename.Substring("internal:".Length) + ".png");
+                    coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) + ".png");
                 }
 
                 if (coverStream == null)
@@ -189,16 +204,28 @@ namespace Slithin.ViewModels.Modals
 
                 foreach (var p in Pages)
                 {
-                    var t = XImage.FromFile(_pathManager.TemplatesDir + "\\" + p.Template.Filename + ".png");
+                    XImage image = null;
+                    int count = 0;
 
-                    for (var i = 0; i < p.Count; i++)
+                    if (p is NotebookPage nbp)
+                    {
+                        count = nbp.Count;
+                        image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
+                    }
+                    else if (p is NotebookCustomPage nbcp)
+                    {
+                        image = XImage.FromFile(nbcp.Filename);
+                        count = nbcp.Count;
+                    }
+
+                    for (var i = 0; i < count; i++)
                     {
                         var page = document.AddPage();
                         page.Size = PageSize.A4;
 
                         var gfx = XGraphics.FromPdfPage(page);
 
-                        gfx.DrawImage(t, 0, 0, page.Width, page.Height);
+                        gfx.DrawImage(image, 0, 0, page.Width, page.Height);
                     }
                 }
 
