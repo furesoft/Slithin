@@ -3,6 +3,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
+using Material.Styles;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using Slithin.Controls;
@@ -166,7 +167,7 @@ namespace Slithin.ViewModels
 
             if (reply.Status != IPStatus.Success)
             {
-                NotificationService.Show("Your remarkable is not reachable. Please check your connection and restart Slithin");
+                SnackbarHost.Post("Your remarkable is not reachable. Please check your connection and restart Slithin");
             }
         }
     }
