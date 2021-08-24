@@ -132,5 +132,29 @@ namespace Slithin.Controls
 
             return tcs.Task;
         }
+
+        public static Task<string> ShowPrompt(string header, string watermark)
+        {
+            TaskCompletionSource<string> tcs = new();
+
+            var vm = new PromptModalViewModel
+            {
+                Header = header,
+                Watermark = watermark
+            };
+
+            vm.AcceptCommand = new DelegateCommand(_ =>
+            {
+                Close();
+                tcs.TrySetResult(vm.Input);
+            });
+
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Open(new PromptModal(), vm);
+            });
+
+            return tcs.Task;
+        }
     }
 }
