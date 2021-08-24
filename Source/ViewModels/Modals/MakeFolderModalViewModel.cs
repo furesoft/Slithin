@@ -14,10 +14,10 @@ namespace Slithin.ViewModels.Modals
 
         private string _name;
 
-        public MakeFolderModalViewModel(SynchronisationService synchronisationService)
+        public MakeFolderModalViewModel()
         {
             MakeFolderCommand = new DelegateCommand(MakeFolder);
-            _synchronisationService = synchronisationService;
+            _synchronisationService = ServiceLocator.SyncService;
         }
 
         public ICommand MakeFolderCommand { get; set; }
@@ -60,6 +60,8 @@ namespace Slithin.ViewModels.Modals
                     };
 
                     _synchronisationService.SyncQueue.Insert(syncItem);
+
+                    Name = null;
 
                     DialogService.Close();
                 }

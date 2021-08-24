@@ -13,9 +13,6 @@
 
 
 # BUGS
-- make folder - does not appear in list after adding
-- after delete no refresh of list
-- make folder wrong parent
 
 - notebook creator:
    - checkbox move!

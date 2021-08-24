@@ -36,6 +36,7 @@ namespace Slithin.UI
                     if (md.VisibleName.Equals("Up .."))
                     {
                         id = _lastFolderIDs.Pop();
+                        vm.SyncService.NotebooksFilter.Folder = id;
                     }
                     else
                     {

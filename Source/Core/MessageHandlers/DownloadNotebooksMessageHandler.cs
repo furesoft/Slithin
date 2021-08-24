@@ -21,13 +21,12 @@ namespace Slithin.Core.MessageHandlers
 
         public DownloadNotebooksMessageHandler(IPathManager pathManager,
                                                SshClient client,
-                                               ScpClient scp,
-                                               SynchronisationService synchronisationService)
+                                               ScpClient scp)
         {
             _pathManager = pathManager;
             _client = client;
             _scp = scp;
-            _synchronisationService = synchronisationService;
+            _synchronisationService = ServiceLocator.SyncService;
         }
 
         public void HandleMessage(DownloadNotebooksMessage message)

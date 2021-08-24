@@ -15,12 +15,11 @@ namespace Slithin.Core.Commands
         private readonly TemplatesPageViewModel _templatesPageViewModel;
 
         public RemoveTemplateCommand(TemplatesPageViewModel templatesPageViewModel,
-                                     LocalRepository localRepository,
-                                     SynchronisationService synchronisationService)
+                                     LocalRepository localRepository)
         {
             _templatesPageViewModel = templatesPageViewModel;
             _localRepository = localRepository;
-            _synchronisationService = synchronisationService;
+            _synchronisationService = ServiceLocator.SyncService;
         }
 
         public event EventHandler CanExecuteChanged;

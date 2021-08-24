@@ -73,7 +73,7 @@ namespace Slithin.UI.Pages
                         var md = new Metadata
                         {
                             ID = id,
-                            Parent = ServiceLocator.Container.Resolve<SynchronisationService>().NotebooksFilter.Folder,
+                            Parent = ServiceLocator.SyncService.NotebooksFilter.Folder,
                             Content = cnt,
                             Version = 1,
                             Type = "DocumentType",
@@ -81,7 +81,7 @@ namespace Slithin.UI.Pages
                         };
 
                         MetadataStorage.Local.Add(md, out var alreadyAdded);
-                        ServiceLocator.Container.Resolve<SynchronisationService>().NotebooksFilter.Documents.Add(md);
+                        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
 
                         provider = importProviderFactory.GetImportProvider($".{cnt.FileType}", filename);
                         var inputStrm = provider.Import(File.OpenRead(filename));
@@ -101,7 +101,7 @@ namespace Slithin.UI.Pages
                             Data = md
                         };
 
-                        ServiceLocator.Container.Resolve<SynchronisationService>().SyncQueue.Insert(syncItem);
+                        ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
                     }
                     else
                     {
