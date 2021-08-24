@@ -28,18 +28,17 @@ namespace Slithin.ViewModels.Modals
         private IImage _cover;
 
         private string _customTemplateFilename;
+        private ObservableCollection<string> _defaultCovers;
         private string _filename;
 
-        private string _name;
-
         private string _pageCount;
-
         private bool _renderName;
-
         private Template _selectedTemplate;
+        private ObservableCollection<Template> _templates = new();
+        private string _title;
 
         public CreateNotebookModalViewModel(IPathManager pathManager,
-                                            CreateNotebookValidator validator,
+                                                    CreateNotebookValidator validator,
                                             ILoadingService loadingService)
         {
             AddPagesCommand = new DelegateCommand(AddPages);
@@ -70,7 +69,11 @@ namespace Slithin.ViewModels.Modals
             set { SetValue(ref _customTemplateFilename, value); }
         }
 
-        public ObservableCollection<string> DefaultCovers { get; set; }
+        public ObservableCollection<string> DefaultCovers
+        {
+            get { return _defaultCovers; }
+            set { SetValue(ref _defaultCovers, value); }
+        }
 
         public ICommand OKCommand { get; set; }
 
@@ -94,12 +97,16 @@ namespace Slithin.ViewModels.Modals
             set { SetValue(ref _selectedTemplate, value); }
         }
 
-        public ObservableCollection<Template> Templates { get; set; } = new();
+        public ObservableCollection<Template> Templates
+        {
+            get { return _templates; }
+            set { SetValue(ref _templates, value); }
+        }
 
         public string Title
         {
-            get { return _name; }
-            set { SetValue(ref _name, value); }
+            get { return _title; }
+            set { SetValue(ref _title, value); }
         }
 
         public void LoadCover()

@@ -73,7 +73,7 @@ namespace Slithin.ViewModels
             ServiceLocator.Container.Register(new ScpClient(IP, 22, "root", Password));
 
             var client = ServiceLocator.Container.Resolve<SshClient>();
-            //SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>(), Container.Resolve<ILoadingService>());
+
             ServiceLocator.SyncService = ServiceLocator.Container.Resolve<SynchronisationService>();
             ServiceLocator.Container.Register<Automation>().AsSingleton();
 
