@@ -14,10 +14,6 @@
 
 # BUGS
 
-- notebook creator:
-   - checkbox move!
-   - set pagecount maxwidth
-   - pagelist: implement template for custom
 
 - addtemplatemodal:
 	- selectedcarteogy is null

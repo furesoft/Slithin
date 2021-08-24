@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -30,22 +31,14 @@ namespace Slithin.Tools
 
         public Control GetModal()
         {
-            var modal = new CreateNotebookModal
-            {
-                DataContext = ServiceLocator.Container.Resolve<CreateNotebookModalViewModel>()
-            };
-
-            return modal;
+            return null;
         }
 
         public void Invoke(object data)
         {
-            var modal = new CreateNotebookModal
-            {
-                DataContext = ServiceLocator.Container.Resolve<CreateNotebookModalViewModel>()
-            };
+            var modal = new CreateNotebookModal();
 
-            DialogService.Open(modal);
+            DialogService.Open(modal, ServiceLocator.Container.Resolve<CreateNotebookModalViewModel>());
         }
     }
 
@@ -55,10 +48,12 @@ namespace Slithin.Tools
         {
             Filename = filename;
             Count = count;
+            ShortName = Path.GetFileName(filename);
         }
 
         public int Count { get; set; }
         public string Filename { get; set; }
+        public string ShortName { get; set; }
     }
 
     public class NotebookPage

@@ -40,7 +40,7 @@ namespace Slithin.ViewModels.Modals
         private Template _selectedTemplate;
 
         public CreateNotebookModalViewModel(IPathManager pathManager,
-                                                                                            CreateNotebookValidator validator,
+                                            CreateNotebookValidator validator,
                                             ILoadingService loadingService)
         {
             if (TemplateStorage.Instance.Templates == null)
