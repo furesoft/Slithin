@@ -8,7 +8,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="520"
         x:Class="Slithin.UI.Views.ConnectWindow" Icon="avares:/Resources/Icon.png"
         Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" MinHeight="470" MinWidth="342" MaxWidth="342" MaxHeight="425">
-  <controls:ContentDialog controls:DialogService.IsHost="True">
+  <styles:SnackbarHost HostName="connect">
     <styles:ColorZone Mode="Light" Height="470">
       <Grid RowDefinitions="250,45,45,20,30,65" ColumnDefinitions="*,AUTO" Margin="5">
         <Image Source="avares:/Resources/new_logo.png" Grid.ColumnSpan="2" Margin="0,0,0,3" />
@@ -24,5 +24,5 @@
         <Button Classes="Flat" Grid.Row="5" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150" Margin="10" Content="Connect" />
       </Grid>
     </styles:ColorZone>
-  </controls:ContentDialog>
+  </styles:SnackbarHost>
 </Window>

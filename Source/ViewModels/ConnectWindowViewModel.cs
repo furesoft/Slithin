@@ -133,17 +133,17 @@ namespace Slithin.ViewModels
                     }
                     else
                     {
-                        DialogService.OpenError("Could not connect to host");
+                        SnackbarHost.Post("Could not connect to host");
                     }
                 }
-                catch (SshException ex)
+                catch (Exception ex)
                 {
-                    DialogService.OpenError(ex.Message);
+                    SnackbarHost.Post(ex.Message);
                 }
             }
             else
             {
-                DialogService.OpenError(string.Join("\n", validationResult.Errors));
+                SnackbarHost.Post(string.Join("\n", validationResult.Errors));
             }
         }
 
