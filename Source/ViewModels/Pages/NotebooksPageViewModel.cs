@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
@@ -14,18 +15,25 @@ namespace Slithin.ViewModels.Pages
     {
         private readonly ILoadingService _loadingService;
         private readonly IMailboxService _mailboxService;
+        private readonly SynchronisationService _synchronisationService;
         private bool _isMoving;
         private Metadata _movingNotebook;
         private Metadata _selectedNotebook;
 
         public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
         {
-            MakeFolderCommand = DialogService.CreateOpenCommand<MakeFolderModal>(
-                ServiceLocator.Container.Resolve<MakeFolderModalViewModel>());
+            _synchronisationService = ServiceLocator.SyncService;
 
-            RenameCommand = new DelegateCommand(_ =>
+            MakeFolderCommand = new DelegateCommand(async (_) =>
             {
-                DialogService.Open(new RenameModal(), new RenameModalViewModel((Metadata)_));
+                var name = await DialogService.ShowPrompt("Make Folder", "Foldername");
+                MakeFolder(name);
+            });
+
+            RenameCommand = new DelegateCommand(async _ =>
+            {
+                var name = await DialogService.ShowPrompt("Rename " + ((Metadata)_).VisibleName, "Name", ((Metadata)_).VisibleName);
+                Rename(((Metadata)_), name);
             }, _ => _ != null && _ is Metadata md && md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
 
             RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
@@ -77,10 +85,15 @@ namespace Slithin.ViewModels.Pages
         }
 
         public ICommand MakeFolderCommand { get; set; }
+
         public ICommand MoveCancelCommand { get; set; }
+
         public ICommand MoveCommand { get; set; }
+
         public ICommand MoveHereCommand { get; set; }
+
         public ICommand RemoveNotebookCommand { get; set; }
+
         public ICommand RenameCommand { get; set; }
 
         public Metadata SelectedNotebook
@@ -101,6 +114,84 @@ namespace Slithin.ViewModels.Pages
 
                 NotificationService.Hide();
             });
+        }
+
+        private void MakeFolder(string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                var id = Guid.NewGuid().ToString().ToLower();
+
+                var md = new Metadata
+                {
+                    ID = id,
+                    Parent = _synchronisationService.NotebooksFilter.Folder,
+                    Type = "CollectionType",
+                    VisibleName = name
+                };
+
+                MetadataStorage.Local.Add(md, out var alreadyAdded);
+
+                if (!alreadyAdded)
+                {
+                    md.Save();
+
+                    _synchronisationService.NotebooksFilter.Documents.Add(md);
+                    _synchronisationService.NotebooksFilter.SortByFolder();
+
+                    var syncItem = new SyncItem
+                    {
+                        Action = SyncAction.Add,
+                        Data = md,
+                        Direction = SyncDirection.ToDevice,
+                        Type = SyncType.Notebook
+                    };
+
+                    _synchronisationService.SyncQueue.Insert(syncItem);
+
+                    DialogService.Close();
+                }
+                else
+                {
+                    DialogService.OpenError($"'{md.VisibleName}' already exists");
+                }
+            }
+            else
+            {
+                DialogService.OpenDialogError("Foldername cannot be empty");
+            }
+        }
+
+        private void Rename(Metadata md, string newName)
+        {
+            if (!string.IsNullOrEmpty(newName))
+            {
+                md.VisibleName = newName;
+
+                MetadataStorage.Local.Remove(md);
+                MetadataStorage.Local.Add(md, out var alreadyAdded);
+
+                if (!alreadyAdded)
+                {
+                    md.Save();
+
+                    var syncItem = new SyncItem
+                    {
+                        Action = SyncAction.Update,
+                        Data = md,
+                        Direction = SyncDirection.ToDevice,
+                        Type = SyncType.Notebook
+                    };
+
+                    _synchronisationService.SyncQueue.Insert(syncItem);
+
+                    DialogService.Close();
+                }
+            }
+            else
+            {
+                DialogService.OpenDialogError("Name cannot be empty");
+            }
         }
     }
 }

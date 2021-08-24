@@ -1,6 +1,3 @@
-
-- implement toolsfilter
-
 - render rm file to pdf
 
 - tools:
@@ -8,7 +5,10 @@
 
 - macrosystem: man kann ein tool in ein makro verwandeln mit vordefinierten eigentschaften - wird als neues tool angezeigt, führt ursprüngliches tool mit den definierten eigenschaften auf
 
-- add showprompt to dialogservice and replace all possible replacements - make folder 
-																		- rename
+- syncqueue, aufhebende elemente beide löschen:
+	add something
+	remove something
+
+	-> nichts tun
 
 # BUGS

@@ -133,7 +133,7 @@ namespace Slithin.Controls
             return tcs.Task;
         }
 
-        public static Task<string> ShowPrompt(string header, string watermark)
+        public static Task<string> ShowPrompt(string header, string watermark, string defaultValue = null)
         {
             TaskCompletionSource<string> tcs = new();
 
