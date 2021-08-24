@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using Avalonia.Collections;
 using Material.Styles;
 using Slithin.Controls;
 using Slithin.Core;
@@ -29,7 +30,7 @@ namespace Slithin.ViewModels.Modals
 
         private string _name;
 
-        private string[] _selectedCategory;
+        private AvaloniaList<string> _selectedCategory;
 
         public AddTemplateModalViewModel(IPathManager pathManager,
                                          LocalRepository localRepository,
@@ -50,7 +51,7 @@ namespace Slithin.ViewModels.Modals
 
             AddTemplateCommand = new DelegateCommand(AddTemplate);
             AddCategoryCommand = new DelegateCommand(AddCategory);
-            this._pathManager = pathManager;
+            _pathManager = pathManager;
             _localRepository = localRepository;
             _synchronisationService = ServiceLocator.SyncService;
             _validator = validator;
@@ -88,7 +89,7 @@ namespace Slithin.ViewModels.Modals
             set { SetValue(ref _name, value); }
         }
 
-        public string[] SelectedCategory
+        public AvaloniaList<string> SelectedCategory
         {
             get { return _selectedCategory; }
             set { SetValue(ref _selectedCategory, value); }
@@ -163,7 +164,7 @@ namespace Slithin.ViewModels.Modals
         {
             return new Template
             {
-                Categories = SelectedCategory,
+                Categories = SelectedCategory.ToArray(),
                 Filename = Path.GetFileNameWithoutExtension(Filename),
                 Name = Name,
                 IconCode = @"\" + "u" + IconCode.Name,

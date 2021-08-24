@@ -15,5 +15,3 @@
 # BUGS
 
 
-- addtemplatemodal:
-	- selectedcarteogy is null
