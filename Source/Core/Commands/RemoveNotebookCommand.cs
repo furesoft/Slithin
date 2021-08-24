@@ -13,39 +13,50 @@ namespace Slithin.Core.Commands
         private readonly LocalRepository _localRepository;
         private readonly SynchronisationService _synchronisationService;
 
-        public RemoveNotebookCommand(LocalRepository localRepository, SynchronisationService synchronisationService)
+        public RemoveNotebookCommand(LocalRepository localRepository)
         {
             _localRepository = localRepository;
-            _synchronisationService = synchronisationService;
+            _synchronisationService = ServiceLocator.SyncService;
         }
 
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {
-            return parameter != null && parameter is Metadata md && md.VisibleName != "Quick sheets";
+            return parameter != null && parameter is Metadata md && md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..";
         }
 
         public async void Execute(object parameter)
         {
-            if (parameter is Metadata tmpl)
+            if (parameter is Metadata md)
             {
-                if (await DialogService.ShowDialog($"Would you really want to delete '{tmpl.VisibleName}'?"))
+                if (await DialogService.ShowDialog($"Would you really want to delete '{md.VisibleName}'?"))
                 {
                     ServiceLocator.Container.Resolve<NotebooksPageViewModel>().SelectedNotebook = null;
-                    _synchronisationService.NotebooksFilter.Documents.Remove(tmpl);
-                    MetadataStorage.Local.Remove(tmpl);
-                    _localRepository.Remove(tmpl);
+                    _synchronisationService.NotebooksFilter.Documents.Clear();
+                    MetadataStorage.Local.Remove(md);
+                    _localRepository.Remove(md);
 
                     var item = new SyncItem
                     {
                         Action = SyncAction.Remove,
                         Direction = SyncDirection.ToDevice,
-                        Data = tmpl,
+                        Data = md,
                         Type = SyncType.Notebook
                     };
 
                     _synchronisationService.SyncQueue.Insert(item);
+
+                    foreach (var mds in MetadataStorage.Local.GetByParent(md.Parent))
+                    {
+                        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(mds);
+                    }
+                    if (md.Parent != "")
+                    {
+                        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
+                    }
+
+                    ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
                 }
             }
         }

@@ -20,7 +20,10 @@ namespace Slithin.UI.Views
         {
             AvaloniaXamlLoader.Load(this);
 
-            DataContext = ServiceLocator.Container.Resolve<GalleryWindowViewModel>();
+            var vm = new GalleryWindowViewModel();
+            vm.Slides.Add(new GalleryFirstStart.WelcomePage());
+
+            DataContext = vm;
             ((BaseViewModel)DataContext).OnRequestClose += () => this.Close();
         }
     }

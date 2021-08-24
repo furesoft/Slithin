@@ -79,5 +79,5 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: Linux_X64
+        name: Linux_x64
         path: ./Dist/Linux-x64

@@ -14,7 +14,7 @@
       <ControlTemplate>
         <Grid ColumnDefinitions="35,*,35" RowDefinitions="*,35">
           <StackPanel Spacing="2" Grid.Column="1">
-            <Carousel Margin="3" Name="PART_CAROUSEL" MaxWidth="250" Grid.Column="1" Items="{TemplateBinding Items}" MinHeight="{TemplateBinding MinHeight}">
+            <Carousel Margin="3" Name="PART_CAROUSEL" MaxWidth="420" Grid.Column="1" Items="{TemplateBinding Items}" MinHeight="{TemplateBinding MinHeight}">
               <Carousel.PageTransition>
                 <PageSlide Duration="0.25" Orientation="Horizontal" />
               </Carousel.PageTransition>

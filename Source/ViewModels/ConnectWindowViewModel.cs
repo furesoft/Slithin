@@ -3,6 +3,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
+using Material.Styles;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using Slithin.Controls;
@@ -122,9 +123,9 @@ namespace Slithin.ViewModels
                             if (!settings.HasFirstGalleryShown)
                             {
                                 var galleryWindow = new GalleryWindow();
-                                //galleryWindow.DataContext = some images
+
                                 settings.HasFirstGalleryShown = true;
-                                //_settingsService.Save(settings);
+                                _settingsService.Save(settings);
 
                                 galleryWindow.Show();
                             }
@@ -132,17 +133,17 @@ namespace Slithin.ViewModels
                     }
                     else
                     {
-                        DialogService.OpenError("Could not connect to host");
+                        SnackbarHost.Post("Could not connect to host");
                     }
                 }
-                catch (SshException ex)
+                catch (Exception ex)
                 {
-                    DialogService.OpenError(ex.Message);
+                    SnackbarHost.Post(ex.Message);
                 }
             }
             else
             {
-                DialogService.OpenError(string.Join("\n", validationResult.Errors));
+                SnackbarHost.Post(string.Join("\n", validationResult.Errors));
             }
         }
 

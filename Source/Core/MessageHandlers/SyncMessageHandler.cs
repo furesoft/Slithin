@@ -19,14 +19,13 @@ namespace Slithin.Core.MessageHandlers
         public SyncMessageHandler(IPathManager pathManager,
                                   DeviceRepository device,
                                   ScpClient scp,
-                                  LocalRepository local,
-                                  SynchronisationService synchronisationService)
+                                  LocalRepository local)
         {
             _pathManager = pathManager;
             _device = device;
             _scp = scp;
             _local = local;
-            _synchronisationService = synchronisationService;
+            _synchronisationService = ServiceLocator.SyncService;
         }
 
         public void HandleMessage(SyncMessage message)
@@ -112,6 +111,8 @@ namespace Slithin.Core.MessageHandlers
                     }
                 }
             }
+
+            NotificationService.Hide();
         }
     }
 }

@@ -8,10 +8,10 @@
   <Style Selector="controls|FileChooser">
     <Setter Property="Template">
       <ControlTemplate>
-        <Grid ColumnDefinitions="*,AUTO">
-          <TextBox Text="{TemplateBinding ShortFilename}" Grid.Column="0" Watermark="{TemplateBinding Watermark}" />
-          <Button Content="..." Classes="Flat" Command="{TemplateBinding BrowseCommand}" Margin="5,0,0,0" Grid.Column="1" />
-        </Grid>
+        <StackPanel Orientation="Horizontal" Spacing="5">
+          <TextBox Text="{TemplateBinding ShortFilename, Mode=TwoWay}" Height="35" Width="100" Watermark="{TemplateBinding Watermark}" />
+          <Button Content="..." Classes="Flat" Command="{TemplateBinding BrowseCommand}" MinHeight="35" />
+        </StackPanel>
       </ControlTemplate>
     </Setter>
   </Style>

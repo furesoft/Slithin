@@ -17,11 +17,11 @@ namespace Slithin.Core.Scripting
         private readonly IPathManager _pathManager;
         private readonly SynchronisationService _synchronisationService;
 
-        public ModuleResolver(IPathManager pathManager, LocalRepository localRepository, SynchronisationService synchronisationService)
+        public ModuleResolver(IPathManager pathManager, LocalRepository localRepository)
         {
             _pathManager = pathManager;
             _localRepository = localRepository;
-            _synchronisationService = synchronisationService;
+            _synchronisationService = ServiceLocator.SyncService;
         }
 
         public override bool TryGetModule(ModuleRequest moduleRequest, out Module result)

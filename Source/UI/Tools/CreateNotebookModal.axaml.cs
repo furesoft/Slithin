@@ -17,7 +17,7 @@ namespace Slithin.UI.Tools
         {
             if (DataContext is CreateNotebookModalViewModel vm)
             {
-                vm.Filename = "internal:" + e.AddedItems[0].ToString();
+                vm.CoverFilename = "internal:" + e.AddedItems[0].ToString();
                 vm.LoadCover();
             }
         }
@@ -41,7 +41,7 @@ namespace Slithin.UI.Tools
 
                 if (DataContext is CreateNotebookModalViewModel vm)
                 {
-                    vm.Filename = "custom:" + filename;
+                    vm.CoverFilename = "custom:" + filename;
                     vm.LoadCover();
                 }
             }

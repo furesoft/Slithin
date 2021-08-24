@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using Avalonia.Collections;
 using Material.Styles;
 using Slithin.Controls;
 using Slithin.Core;
@@ -29,31 +30,19 @@ namespace Slithin.ViewModels.Modals
 
         private string _name;
 
-        private string[] _selectedCategory;
+        private object _selectedCategory;
 
         public AddTemplateModalViewModel(IPathManager pathManager,
-                                         LocalRepository localRepository,
-                                         SynchronisationService synchronisationService,
+                                                 LocalRepository localRepository,
                                          AddTemplateValidator validator)
         {
             Categories = SyncService.TemplateFilter.Categories;
 
-            foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
-            {
-                if (res.StartsWith("Slithin.Resources.IconTiles."))
-                {
-                    var item = new IconCodeItem { Name = res.Split('.')[^2] };
-                    item.Load();
-
-                    IconCodes.Add(item);
-                }
-            }
-
             AddTemplateCommand = new DelegateCommand(AddTemplate);
             AddCategoryCommand = new DelegateCommand(AddCategory);
-            this._pathManager = pathManager;
+            _pathManager = pathManager;
             _localRepository = localRepository;
-            _synchronisationService = synchronisationService;
+            _synchronisationService = ServiceLocator.SyncService;
             _validator = validator;
         }
 
@@ -89,21 +78,37 @@ namespace Slithin.ViewModels.Modals
             set { SetValue(ref _name, value); }
         }
 
-        public string[] SelectedCategory
+        public object SelectedCategory
         {
             get { return _selectedCategory; }
             set { SetValue(ref _selectedCategory, value); }
         }
 
+        public override void OnLoad()
+        {
+            base.OnLoad();
+
+            foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
+            {
+                if (res.StartsWith("Slithin.Resources.IconTiles."))
+                {
+                    var item = new IconCodeItem { Name = res.Split('.')[^2] };
+                    item.Load();
+
+                    IconCodes.Add(item);
+                }
+            }
+        }
+
         private void AddCategory(object obj)
         {
-            if (!string.IsNullOrEmpty(obj.ToString()))
+            if (!string.IsNullOrEmpty(obj?.ToString()))
             {
                 this.SyncService.TemplateFilter.Categories.Add(obj.ToString());
             }
             else
             {
-                SnackbarHost.Post("Category name has to be set!");
+                DialogService.OpenDialogError("Category name has to be set!");
             }
         }
 
@@ -131,7 +136,7 @@ namespace Slithin.ViewModels.Modals
 
                 if (bitmap.Width != 1404 && bitmap.Height != 1872)
                 {
-                    await DialogService.ShowDialog("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+                    DialogService.OpenDialogError("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
 
                     return;
                 }
@@ -156,7 +161,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                SnackbarHost.Post(validationResult.Errors.First().ToString());
+                DialogService.OpenDialogError(validationResult.Errors.First().ToString());
             }
         }
 
@@ -164,7 +169,7 @@ namespace Slithin.ViewModels.Modals
         {
             return new Template
             {
-                Categories = SelectedCategory,
+                Categories = ((AvaloniaList<object>)SelectedCategory).Select(_ => _.ToString()).ToArray(),
                 Filename = Path.GetFileNameWithoutExtension(Filename),
                 Name = Name,
                 IconCode = @"\" + "u" + IconCode.Name,

@@ -64,23 +64,17 @@ namespace Slithin.Core.Sync.Repositorys
 
         public void Remove(Metadata md)
         {
-            if (md.Type == "DocumentType")
-            {
-                var files = Directory.GetFiles(_pathManager.NotebooksDir, md.ID + ".*");
-                foreach (var file in files)
-                {
-                    File.Delete(file);
-                }
+            var files = Directory.GetFiles(_pathManager.NotebooksDir, md.ID + "*");
 
-                var di = new DirectoryInfo(Path.Combine(_pathManager.NotebooksDir, md.ID));
-                if (di.Exists)
-                {
-                    di.Delete(true);
-                }
-            }
-            else
+            foreach (var file in files)
             {
-                File.Delete(Path.Combine(_pathManager.NotebooksDir, md.ID + ".metadata"));
+                File.Delete(file);
+            }
+
+            var di = new DirectoryInfo(Path.Combine(_pathManager.NotebooksDir, md.ID));
+            if (di.Exists)
+            {
+                di.Delete(true);
             }
         }
 
