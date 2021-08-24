@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Slithin.Core;
+using Slithin.Models;
 
 namespace Slithin.ViewModels
 {
@@ -83,12 +84,5 @@ namespace Slithin.ViewModels
                 ContextualMenu = null;
             }
         }
-    }
-
-    public class Page
-    {
-        public object DataContext { get; set; }
-        public string Header { get; set; }
-        public object Tag { get; set; }
     }
 }

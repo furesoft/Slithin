@@ -7,7 +7,6 @@ using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Material.Styles;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
@@ -17,7 +16,7 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Validators;
-using Slithin.Tools;
+using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals
 {

@@ -6,7 +6,6 @@ using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
 using Material.Styles;
 using Renci.SshNet;
-using Renci.SshNet.Common;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Scripting;
