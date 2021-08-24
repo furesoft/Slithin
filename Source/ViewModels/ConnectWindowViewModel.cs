@@ -124,11 +124,10 @@ namespace Slithin.ViewModels
                             var settings = _settingsService.Get();
                             if (!settings.HasFirstGalleryShown)
                             {
-                                var galleryWindow = new GalleryWindow();
                                 var vm = new GalleryWindowViewModel();
                                 vm.Slides.Add(new WelcomePage());
 
-                                galleryWindow.DataContext = vm;
+                                var galleryWindow = new GalleryWindow(vm);
 
                                 settings.HasFirstGalleryShown = true;
                                 _settingsService.Save(settings);
@@ -138,11 +137,10 @@ namespace Slithin.ViewModels
 
                             if (Environment.GetCommandLineArgs().Contains("-updateInstalled"))
                             {
-                                var galleryWindow = new GalleryWindow();
                                 var vm = new GalleryWindowViewModel();
                                 vm.Slides.Add(new UpdateInstalledPage());
 
-                                galleryWindow.DataContext = vm;
+                                var galleryWindow = new GalleryWindow(vm);
 
                                 galleryWindow.Show();
                             }

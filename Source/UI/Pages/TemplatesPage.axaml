@@ -17,7 +17,7 @@
                 </Grid>
               </Border>
 
-              <TextBlock Text="{Binding Filename}" TextAlignment="Center" />
+              <TextBlock Text="{Binding Name}" TextAlignment="Center" />
             </StackPanel>
           </styles:Card>
         </DataTemplate>

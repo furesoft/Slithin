@@ -9,7 +9,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel Orientation="Horizontal" Spacing="5">
-          <TextBox Text="{TemplateBinding ShortFilename, Mode=TwoWay}" Height="35" Width="100" Watermark="{TemplateBinding Watermark}" />
+          <TextBox Text="{TemplateBinding ShortFilename, Mode=TwoWay}" IsReadOnly="True" Height="35" Width="100" Watermark="{TemplateBinding Watermark}" />
           <Button Content="..." Classes="Flat" Command="{TemplateBinding BrowseCommand}" MinHeight="35" />
         </StackPanel>
       </ControlTemplate>

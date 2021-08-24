@@ -7,6 +7,13 @@ namespace Slithin.UI.Views
 {
     public partial class GalleryWindow : Window
     {
+        public GalleryWindow(BaseViewModel viewModel)
+        {
+            DataContext = viewModel;
+
+            InitializeComponent();
+        }
+
         public GalleryWindow()
         {
             InitializeComponent();
@@ -19,7 +26,6 @@ namespace Slithin.UI.Views
         {
             AvaloniaXamlLoader.Load(this);
 
-            
             ((BaseViewModel)DataContext).OnRequestClose += () => this.Close();
         }
     }

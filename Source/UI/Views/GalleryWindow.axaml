@@ -8,7 +8,7 @@
         x:Class="Slithin.UI.Views.GalleryWindow" WindowStartupLocation="CenterScreen" Width="500" Height="563"
         Title="Welcome To Slithin">
   <Grid Margin="12" RowDefinitions="*,50">
-    <controls:GalleryControl MinHeight="450" Items="{Binding Slides}" />
+    <controls:GalleryControl MinHeight="450" Items="{Binding Slides, Mode=TwoWay}" />
 
     <Button Content="Start Using Slithin" Classes="Flat" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding StartCommand}" />
   </Grid>
