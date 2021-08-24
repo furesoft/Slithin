@@ -16,7 +16,7 @@
 
       <c:CommandTextBox Grid.Column="2" Grid.Row="4" CommandText="+" Watermark="New Category" Command="{Binding AddCategoryCommand}" />
 
-      <ComboBox Grid.Column="0" Grid.Row="2" MinWidth="150" PlaceholderText="IconCode" Margin="0,7,0,0" Items="{Binding IconCodes, Mode=TwoWay}" SelectedItem="{Binding IconCode}">
+      <ComboBox Classes="Filled" Grid.Column="0" Grid.Row="2" MinWidth="150" PlaceholderText="IconCode" Margin="0,7,0,0" Items="{Binding IconCodes, Mode=TwoWay}" SelectedItem="{Binding IconCode}">
         <ComboBox.ItemTemplate>
           <DataTemplate>
             <StackPanel Spacing="3">
