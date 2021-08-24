@@ -38,17 +38,6 @@ namespace Slithin.ViewModels.Modals
         {
             Categories = SyncService.TemplateFilter.Categories;
 
-            foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
-            {
-                if (res.StartsWith("Slithin.Resources.IconTiles."))
-                {
-                    var item = new IconCodeItem { Name = res.Split('.')[^2] };
-                    item.Load();
-
-                    IconCodes.Add(item);
-                }
-            }
-
             AddTemplateCommand = new DelegateCommand(AddTemplate);
             AddCategoryCommand = new DelegateCommand(AddCategory);
             _pathManager = pathManager;
@@ -93,6 +82,22 @@ namespace Slithin.ViewModels.Modals
         {
             get { return _selectedCategory; }
             set { SetValue(ref _selectedCategory, value); }
+        }
+
+        public override void OnLoad()
+        {
+            base.OnLoad();
+
+            foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
+            {
+                if (res.StartsWith("Slithin.Resources.IconTiles."))
+                {
+                    var item = new IconCodeItem { Name = res.Split('.')[^2] };
+                    item.Load();
+
+                    IconCodes.Add(item);
+                }
+            }
         }
 
         private void AddCategory(object obj)

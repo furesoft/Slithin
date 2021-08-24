@@ -48,6 +48,11 @@ namespace Slithin.Controls
         {
             content.DataContext = viewModel;
 
+            if (content.DataContext is BaseViewModel vm)
+            {
+                vm.Load();
+            }
+
             Open(content);
         }
 

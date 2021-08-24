@@ -23,9 +23,9 @@ namespace Slithin.ViewModels.Modals
 {
     public class CreateNotebookModalViewModel : BaseViewModel
     {
+        private readonly ILoadingService _loadingService;
         private readonly IPathManager _pathManager;
         private readonly CreateNotebookValidator _validator;
-
         private IImage _cover;
 
         private string _customTemplateFilename;
@@ -43,28 +43,12 @@ namespace Slithin.ViewModels.Modals
                                             CreateNotebookValidator validator,
                                             ILoadingService loadingService)
         {
-            if (TemplateStorage.Instance.Templates == null)
-            {
-                loadingService.LoadTemplates();
-            }
-
-            Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
-
             AddPagesCommand = new DelegateCommand(AddPages);
             OKCommand = new DelegateCommand(OK);
 
-            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-            Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Covers/Folder-DBlue.png")));
-            CoverFilename = "internal:Folder-DBlue.png";
-
-            var coverNames = GetType().Assembly.GetManifestResourceNames().
-                Where(_ => _.StartsWith("Slithin.Resources.Covers.")).
-                Select(_ => _.Replace(".png", "")["Slithin.Resources.Covers.".Length..]);
-
-            DefaultCovers = new ObservableCollection<string>(coverNames);
             _pathManager = pathManager;
             _validator = validator;
+            _loadingService = loadingService;
         }
 
         public ICommand AddPagesCommand { get; set; }
@@ -131,6 +115,29 @@ namespace Slithin.ViewModels.Modals
                 using var strm = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) + ".png");
                 Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
             }
+        }
+
+        public override void OnLoad()
+        {
+            base.OnLoad();
+
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+
+            Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Covers/Folder-DBlue.png")));
+            CoverFilename = "internal:Folder-DBlue.png";
+
+            var coverNames = GetType().Assembly.GetManifestResourceNames().
+                Where(_ => _.StartsWith("Slithin.Resources.Covers.")).
+                Select(_ => _.Replace(".png", "")["Slithin.Resources.Covers.".Length..]);
+
+            DefaultCovers = new ObservableCollection<string>(coverNames);
+
+            if (TemplateStorage.Instance.Templates == null)
+            {
+                _loadingService.LoadTemplates();
+            }
+
+            Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
         }
 
         private void AddPages(object obj)
