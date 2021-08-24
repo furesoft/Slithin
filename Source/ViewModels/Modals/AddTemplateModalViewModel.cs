@@ -136,7 +136,7 @@ namespace Slithin.ViewModels.Modals
 
                 if (bitmap.Width != 1404 && bitmap.Height != 1872)
                 {
-                    await DialogService.ShowDialog("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+                    DialogService.OpenDialogError("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
 
                     return;
                 }
