@@ -14,7 +14,7 @@
 
       <StackPanel Orientation="Horizontal" Margin="3" Spacing="5" Grid.Row="1">
         <Grid Margin="3" Width="150">
-          <ComboBox IsVisible="{Binding !#customImage.IsChecked}" Classes="Filled" SelectedIndex="0"  Items="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}">
+          <ComboBox IsVisible="{Binding !#customImage.IsChecked}" Classes="Filled" SelectedIndex="0" Items="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}">
             <ComboBox.ItemTemplate>
               <DataTemplate>
                 <StackPanel Orientation="Horizontal" Spacing="5">
@@ -25,17 +25,17 @@
             </ComboBox.ItemTemplate>
           </ComboBox>
 
-          <controls:FileChooser IsVisible="{Binding #customImage.IsChecked}" Filename="{Binding CustomTemplateFilename}" />
+          <controls:FileChooser Height="100" IsVisible="{Binding #customImage.IsChecked}" Filename="{Binding CustomTemplateFilename}" />
         </Grid>
 
         <StackPanel Spacing="3">
-          <TextBox Watermark="Page Count" Text="{Binding PageCount}" ToolTip.Tip="How many pages should the template apply?" />
+          <TextBox Watermark="Page Count" Text="{Binding PageCount}" Width="100" ToolTip.Tip="How many pages should the template apply?" />
 
           <Button Content="Add" Classes="Flat" Command="{Binding AddPagesCommand}" />
         </StackPanel>
       </StackPanel>
 
-      <CheckBox Grid.Row="2" Margin="3" Name="customImage" Content="Use Custom Image" />
+      <CheckBox Grid.Row="3" Margin="3" Name="customImage" Content="Use Custom Image" />
 
       <StackPanel HorizontalAlignment="Right" Grid.Row="0" Spacing="3" Margin="15,0,0,0" Grid.Column="2">
         <ComboBox PlaceholderText="Default Cover" SelectionChanged="CoverSelection" Items="{Binding DefaultCovers}" />

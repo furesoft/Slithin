@@ -60,7 +60,7 @@ namespace Slithin.ViewModels.Modals
 
             var coverNames = GetType().Assembly.GetManifestResourceNames().
                 Where(_ => _.StartsWith("Slithin.Resources.Covers.")).
-                Select(_ => _.Replace(".png", "").Substring("Slithin.Resources.Covers.".Length));
+                Select(_ => _.Replace(".png", "")["Slithin.Resources.Covers.".Length..]);
 
             DefaultCovers = new ObservableCollection<string>(coverNames);
             _pathManager = pathManager;
@@ -89,12 +89,6 @@ namespace Slithin.ViewModels.Modals
 
         public ObservableCollection<string> DefaultCovers { get; set; }
 
-        public string Title
-        {
-            get { return _name; }
-            set { SetValue(ref _name, value); }
-        }
-
         public ICommand OKCommand { get; set; }
 
         public string PageCount
@@ -119,6 +113,12 @@ namespace Slithin.ViewModels.Modals
 
         public ObservableCollection<Template> Templates { get; set; } = new();
 
+        public string Title
+        {
+            get { return _name; }
+            set { SetValue(ref _name, value); }
+        }
+
         public void LoadCover()
         {
             if (CoverFilename.StartsWith("custom:"))
@@ -135,7 +135,7 @@ namespace Slithin.ViewModels.Modals
 
         private void AddPages(object obj)
         {
-            if (int.TryParse(PageCount, out var pcount) && SelectedTemplate != null)
+            if (int.TryParse(PageCount, out var pcount) && (SelectedTemplate != null || !string.IsNullOrEmpty(CustomTemplateFilename)))
             {
                 if (!string.IsNullOrEmpty(CustomTemplateFilename))
                 {

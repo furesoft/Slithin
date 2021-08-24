@@ -63,7 +63,7 @@ namespace Slithin.Controls
 
             if (filenames != null)
             {
-                Filename = filenames[0]; //Todo: Fix
+                Filename = filenames[0];
                 ShortFilename = Path.GetFileName(Filename);
             }
         }
