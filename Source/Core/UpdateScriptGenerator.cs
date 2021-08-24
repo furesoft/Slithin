@@ -25,7 +25,7 @@ namespace Slithin.Core
 
         public static void ApplyUpdateWindows(string sourceFolder, string destinationFolder)
         {
-            Process.Start(new ProcessStartInfo("cmd", $"/c " + GetWindowsScript(sourceFolder, destinationFolder) + $" & start {destinationFolder}\\Slithin.exe -updateInstalled") { CreateNoWindow = true });
+            Process.Start(new ProcessStartInfo("cmd", $"/c " + GetWindowsScript(sourceFolder, destinationFolder) + $" & start \"{destinationFolder}\\Slithin.exe -updateInstalled\"") { CreateNoWindow = true });
         }
 
         public static string GetOtherScript(string sourceFolder, string destinationFolder)

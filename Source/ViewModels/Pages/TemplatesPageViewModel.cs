@@ -7,6 +7,7 @@ using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
+using Slithin.Core.Validators;
 
 namespace Slithin.ViewModels.Pages
 {
@@ -17,9 +18,17 @@ namespace Slithin.ViewModels.Pages
 
         private Template _selectedTemplate;
 
-        public TemplatesPageViewModel(ILoadingService loadingService, IMailboxService mailboxService, LocalRepository localRepository)
+        public TemplatesPageViewModel(ILoadingService loadingService,
+                                        IMailboxService mailboxService,
+                                        LocalRepository localRepository,
+                                        IPathManager pathManager,
+                                        AddTemplateValidator validator)
         {
-            OpenAddModalCommand = DialogService.CreateOpenCommand<AddTemplateModal>(ServiceLocator.Container.Resolve<AddTemplateModalViewModel>());
+            OpenAddModalCommand = new DelegateCommand(_ =>
+            {
+                DialogService.Open(new AddTemplateModal(), new AddTemplateModalViewModel(pathManager, localRepository, validator));
+            });
+
             RemoveTemplateCommand = new RemoveTemplateCommand(this, localRepository);
             _loadingService = loadingService;
             _mailboxService = mailboxService;

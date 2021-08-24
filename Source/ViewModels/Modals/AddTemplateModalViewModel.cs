@@ -162,6 +162,8 @@ namespace Slithin.ViewModels.Modals
             {
                 DialogService.OpenDialogError(validationResult.Errors.First().ToString());
             }
+
+            DialogService.Close();
         }
 
         private Template BuildTemplate()

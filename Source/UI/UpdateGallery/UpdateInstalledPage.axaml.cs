@@ -10,7 +10,7 @@ namespace Slithin.UI.UpdateGallery
         public UpdateInstalledPage()
         {
             var versionService = ServiceLocator.Container.Resolve<IVersionService>();
-            Title = "Release " + versionService.GetLocalVersion().ToString();
+            Title = "Release " + versionService.GetSlithinVersion().ToString();
 
             InitializeComponent();
         }

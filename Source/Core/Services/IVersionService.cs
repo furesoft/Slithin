@@ -7,5 +7,7 @@ namespace Slithin.Core.Services
         Version GetDeviceVersion();
 
         Version GetLocalVersion();
+
+        Version GetSlithinVersion();
     }
 }

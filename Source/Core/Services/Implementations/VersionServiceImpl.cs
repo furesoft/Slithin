@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using Renci.SshNet;
 
 namespace Slithin.Core.Services.Implementations
@@ -33,6 +34,11 @@ namespace Slithin.Core.Services.Implementations
             }
 
             return new Version(0, 0, 0, 0);
+        }
+
+        public Version GetSlithinVersion()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version;
         }
     }
 }
