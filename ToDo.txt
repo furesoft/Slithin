@@ -8,4 +8,9 @@
 
 - macrosystem: man kann ein tool in ein makro verwandeln mit vordefinierten eigentschaften - wird als neues tool angezeigt, führt ursprüngliches tool mit den definierten eigenschaften auf
 
+- add showprompt to dialogservice and replace all possible replacements - make folder 
+									- rename
+
+- move possible models to models directory and cleanup namespaces
+
 # BUGS

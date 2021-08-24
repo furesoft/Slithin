@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
@@ -12,6 +13,8 @@ using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Validators;
+using Slithin.UI.GalleryFirstStart;
+using Slithin.UI.UpdateGallery;
 using Slithin.UI.Views;
 
 namespace Slithin.ViewModels
@@ -123,9 +126,24 @@ namespace Slithin.ViewModels
                             if (!settings.HasFirstGalleryShown)
                             {
                                 var galleryWindow = new GalleryWindow();
+                                var vm = new GalleryWindowViewModel();
+                                vm.Slides.Add(new WelcomePage());
+
+                                galleryWindow.DataContext = vm;
 
                                 settings.HasFirstGalleryShown = true;
                                 _settingsService.Save(settings);
+
+                                galleryWindow.Show();
+                            }
+
+                            if (Environment.GetCommandLineArgs().Contains("-updateInstalled"))
+                            {
+                                var galleryWindow = new GalleryWindow();
+                                var vm = new GalleryWindowViewModel();
+                                vm.Slides.Add(new UpdateInstalledPage());
+
+                                galleryWindow.DataContext = vm;
 
                                 galleryWindow.Show();
                             }
