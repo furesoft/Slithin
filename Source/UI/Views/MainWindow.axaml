@@ -15,7 +15,7 @@
       <Grid RowDefinitions="AUTO,*,*" ColumnDefinitions="AUTO,*,130">
         <Image Source="avares:/Resources/new_logo.png" Grid.Row="0" Grid.Column="0" Width="175" Margin="0,15,15,15" Height="125" />
 
-        <styles:Card Grid.Row="0" Grid.Column="1" MinWidth="800" MaxHeight="90" HorizontalAlignment="Left" Content="{Binding ContextualMenu, Mode=TwoWay}" />
+        <styles:Card Grid.Row="0" Grid.Column="1" MinWidth="800" MaxHeight="100" HorizontalAlignment="Left" Content="{Binding ContextualMenu, Mode=TwoWay}" />
 
         <ListBox Items="{Binding Menu}" SelectedItem="{Binding SelectedTab}" Classes="Drawer" Name="Drawer" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
           <ListBox.ItemTemplate>
