@@ -57,7 +57,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                SnackbarHost.Post("Name cannot be empty");
+                DialogService.OpenDialogError("Name cannot be empty");
             }
         }
     }

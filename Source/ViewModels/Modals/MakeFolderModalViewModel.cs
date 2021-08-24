@@ -72,7 +72,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                SnackbarHost.Post("Foldername cannot be empty");
+                DialogService.OpenDialogError("Foldername cannot be empty");
             }
         }
     }

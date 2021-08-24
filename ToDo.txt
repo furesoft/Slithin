@@ -10,8 +10,6 @@
 
 - macrosystem: man kann ein tool in ein makro verwandeln mit vordefinierten eigentschaften - wird als neues tool angezeigt, führt ursprüngliches tool mit den definierten eigenschaften auf
 
-
+- add OnLoad to modals
 
 # BUGS
-
-

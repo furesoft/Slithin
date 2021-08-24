@@ -30,10 +30,10 @@ namespace Slithin.ViewModels.Modals
 
         private string _name;
 
-        private AvaloniaList<string> _selectedCategory;
+        private object _selectedCategory;
 
         public AddTemplateModalViewModel(IPathManager pathManager,
-                                         LocalRepository localRepository,
+                                                 LocalRepository localRepository,
                                          AddTemplateValidator validator)
         {
             Categories = SyncService.TemplateFilter.Categories;
@@ -89,7 +89,7 @@ namespace Slithin.ViewModels.Modals
             set { SetValue(ref _name, value); }
         }
 
-        public AvaloniaList<string> SelectedCategory
+        public object SelectedCategory
         {
             get { return _selectedCategory; }
             set { SetValue(ref _selectedCategory, value); }
@@ -103,7 +103,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                SnackbarHost.Post("Category name has to be set!");
+                DialogService.OpenDialogError("Category name has to be set!");
             }
         }
 
@@ -156,7 +156,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                SnackbarHost.Post(validationResult.Errors.First().ToString());
+                DialogService.OpenDialogError(validationResult.Errors.First().ToString());
             }
         }
 
@@ -164,7 +164,7 @@ namespace Slithin.ViewModels.Modals
         {
             return new Template
             {
-                Categories = SelectedCategory.ToArray(),
+                Categories = ((AvaloniaList<object>)SelectedCategory).Select(_ => _.ToString()).ToArray(),
                 Filename = Path.GetFileNameWithoutExtension(Filename),
                 Name = Name,
                 IconCode = @"\" + "u" + IconCode.Name,

@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Threading;
+using Material.Styles;
 using Slithin.Core;
 using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
@@ -56,6 +57,11 @@ namespace Slithin.Controls
             {
                 _host.IsOpened = true;
             }
+        }
+
+        public static void OpenDialogError(string message)
+        {
+            SnackbarHost.Post(message, "dialogError");
         }
 
         public static void OpenError(string msg)

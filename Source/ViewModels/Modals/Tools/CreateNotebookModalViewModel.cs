@@ -152,7 +152,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                SnackbarHost.Post("Page Count must be a number and a template need to be selected");
+                DialogService.OpenDialogError("Page Count must be a number and a template need to be selected");
             }
         }
 
@@ -263,7 +263,7 @@ namespace Slithin.ViewModels.Modals
             }
             else
             {
-                SnackbarHost.Post(validationResult.Errors.First().ToString());
+                DialogService.OpenDialogError(validationResult.Errors.First().ToString());
             }
         }
     }
