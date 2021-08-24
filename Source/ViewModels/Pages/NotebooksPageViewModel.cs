@@ -26,14 +26,14 @@ namespace Slithin.ViewModels.Pages
             RenameCommand = new DelegateCommand(_ =>
             {
                 DialogService.Open(new RenameModal(), new RenameModalViewModel((Metadata)_));
-            });
+            }, _ => _ != null && _ is Metadata md && md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
 
             RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
             MoveCommand = new DelegateCommand(_ =>
             {
                 IsMoving = true;
                 _movingNotebook = SelectedNotebook;
-            }, (_) => SelectedNotebook != null && !IsMoving);
+            }, (_) => _ != null && _ is Metadata md && SelectedNotebook != null && !IsMoving && md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
 
             MoveCancelCommand = new DelegateCommand(_ =>
             {

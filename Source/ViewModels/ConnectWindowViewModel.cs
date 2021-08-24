@@ -167,7 +167,7 @@ namespace Slithin.ViewModels
 
             if (reply.Status != IPStatus.Success)
             {
-                SnackbarHost.Post("Your remarkable is not reachable. Please check your connection and restart Slithin");
+                NotificationService.Show("Your remarkable is not reachable. Please check your connection and restart Slithin");
             }
         }
     }

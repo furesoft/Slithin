@@ -13,15 +13,14 @@
 
 
 # BUGS
-- rename is clickable without selection
 - make folder - does not appear in list after adding
 - after delete no refresh of list
 - make folder wrong parent
-- not rename/delete "Up.."
+
 - notebook creator:
    - checkbox move!
    - set pagecount maxwidth
    - pagelist: implement template for custom
-- error snack should appear on modal!
+
 - addtemplatemodal:
 	- selectedcarteogy is null
