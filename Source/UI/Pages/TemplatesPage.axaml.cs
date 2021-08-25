@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
@@ -57,14 +58,25 @@ namespace Slithin.UI.Pages
 
                 if (provider != null)
                 {
-                    var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
-                    var localRepository = ServiceLocator.Container.Resolve<LocalRepository>();
-                    var validator = ServiceLocator.Container.Resolve<AddTemplateValidator>();
+                    if (e.Source is Image img)
+                    {
+                        if (img.Source.Size.Width != 1404 && img.Source.Size.Height != 1872)
+                        {
+                            DialogService.OpenError("The Screen Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
 
-                    var vm = new AddTemplateModalViewModel(pathManager, localRepository, validator);
-                    vm.Filename = filename;
+                            return;
+                        }
 
-                    DialogService.Open(new AddTemplateModal(), vm);
+                        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+                        var localRepository = ServiceLocator.Container.Resolve<LocalRepository>();
+                        var validator = ServiceLocator.Container.Resolve<AddTemplateValidator>();
+
+                        var vm = new AddTemplateModalViewModel(pathManager, localRepository, validator);
+                        vm.Filename = filename;
+                        vm.Name = Path.GetFileNameWithoutExtension(filename);
+
+                        DialogService.Open(new AddTemplateModal(), vm);
+                    }
                 }
                 else
                 {
