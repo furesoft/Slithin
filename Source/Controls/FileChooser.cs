@@ -13,7 +13,6 @@ namespace Slithin.Controls
         public static StyledProperty<ICommand> BrowseCommandProperty = AvaloniaProperty.Register<FileChooser, ICommand>("BrowseCommand");
         public static StyledProperty<string> FilenameProperty = AvaloniaProperty.Register<FileChooser, string>("Filename");
         public static StyledProperty<string> FilterProperty = AvaloniaProperty.Register<FileChooser, string>("Filter");
-        public static StyledProperty<string> ShortFilenameProperty = AvaloniaProperty.Register<FileChooser, string>("ShortFilename");
         public static StyledProperty<string> WatermarkProperty = AvaloniaProperty.Register<FileChooser, string>("Watermark");
 
         public FileChooser()
@@ -30,19 +29,16 @@ namespace Slithin.Controls
         public string Filename
         {
             get { return GetValue(FilenameProperty); }
-            set { SetValue(FilenameProperty, value); }
+            set
+            {
+                SetValue(FilenameProperty, value);
+            }
         }
 
         public string Filter
         {
             get { return GetValue(FilterProperty); }
             set { SetValue(FilterProperty, value); }
-        }
-
-        public string ShortFilename
-        {
-            get { return GetValue(ShortFilenameProperty); }
-            set { SetValue(ShortFilenameProperty, value); }
         }
 
         public string Watermark
@@ -64,7 +60,6 @@ namespace Slithin.Controls
             if (filenames != null)
             {
                 Filename = filenames[0];
-                ShortFilename = Path.GetFileName(Filename);
             }
         }
     }
