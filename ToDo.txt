@@ -11,7 +11,5 @@
 
 	-> nichts tun
 
-- dragdrop for templates - open addtemplatedialog and preselect filename
-
 
 # BUGS
