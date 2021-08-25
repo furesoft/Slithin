@@ -60,7 +60,9 @@ namespace Slithin.UI.Pages
                 {
                     if (e.Source is Image img)
                     {
-                        if (img.Source.Size.Width != 1404 && img.Source.Size.Height != 1872)
+                        var bitmap = System.Drawing.Image.FromFile(filename);
+
+                        if (bitmap.Width != 1404 && bitmap.Height != 1872)
                         {
                             DialogService.OpenError("The Screen Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
 

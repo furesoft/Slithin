@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Slithin.Core;
+using Slithin.Core.Services;
 using Slithin.Models;
 
 namespace Slithin.ViewModels
@@ -11,9 +12,13 @@ namespace Slithin.ViewModels
         private object _contextualMenu;
         private Page _selectedTab;
 
-        public MainWindowViewModel()
+        private string _title;
+
+        public MainWindowViewModel(IVersionService versionService)
         {
             LoadMenu();
+
+            Title = $"Slithin {versionService.GetSlithinVersion()}";
         }
 
         public object ContextualMenu
@@ -35,6 +40,12 @@ namespace Slithin.ViewModels
         }
 
         public ObservableCollection<object> Tabs { get; set; } = new();
+
+        public string Title
+        {
+            get { return _title; }
+            set { SetValue(ref _title, value); }
+        }
 
         private void LoadMenu()
         {

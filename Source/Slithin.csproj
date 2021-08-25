@@ -54,6 +54,9 @@
    </ItemGroup>
 
    <ItemGroup>
+     <Compile Update="UI\Pages\SharablesPage.axaml.cs">
+       <DependentUpon>SharablesPage.axaml</DependentUpon>
+     </Compile>
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>

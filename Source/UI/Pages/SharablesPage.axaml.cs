@@ -4,14 +4,14 @@ using Slithin.Core;
 
 namespace Slithin.UI.Pages
 {
-    public partial class MarketPage : UserControl, IPage
+    public partial class SharablesPage : UserControl, IPage
     {
-        public MarketPage()
+        public SharablesPage()
         {
             InitializeComponent();
         }
 
-        public string Title => "Market";
+        public string Title => "Sharables";
 
         public Control GetContextualMenu() => null;
 
