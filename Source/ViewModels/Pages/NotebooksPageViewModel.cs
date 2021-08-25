@@ -118,79 +118,65 @@ namespace Slithin.ViewModels.Pages
 
         private void MakeFolder(string name)
         {
-            if (!string.IsNullOrEmpty(name))
-            {
-                var id = Guid.NewGuid().ToString().ToLower();
+            var id = Guid.NewGuid().ToString().ToLower();
 
-                var md = new Metadata
+            var md = new Metadata
+            {
+                ID = id,
+                Parent = _synchronisationService.NotebooksFilter.Folder,
+                Type = "CollectionType",
+                VisibleName = name
+            };
+
+            MetadataStorage.Local.Add(md, out var alreadyAdded);
+
+            if (!alreadyAdded)
+            {
+                md.Save();
+
+                _synchronisationService.NotebooksFilter.Documents.Add(md);
+                _synchronisationService.NotebooksFilter.SortByFolder();
+
+                var syncItem = new SyncItem
                 {
-                    ID = id,
-                    Parent = _synchronisationService.NotebooksFilter.Folder,
-                    Type = "CollectionType",
-                    VisibleName = name
+                    Action = SyncAction.Add,
+                    Data = md,
+                    Direction = SyncDirection.ToDevice,
+                    Type = SyncType.Notebook
                 };
 
-                MetadataStorage.Local.Add(md, out var alreadyAdded);
+                _synchronisationService.SyncQueue.Insert(syncItem);
 
-                if (!alreadyAdded)
-                {
-                    md.Save();
-
-                    _synchronisationService.NotebooksFilter.Documents.Add(md);
-                    _synchronisationService.NotebooksFilter.SortByFolder();
-
-                    var syncItem = new SyncItem
-                    {
-                        Action = SyncAction.Add,
-                        Data = md,
-                        Direction = SyncDirection.ToDevice,
-                        Type = SyncType.Notebook
-                    };
-
-                    _synchronisationService.SyncQueue.Insert(syncItem);
-
-                    DialogService.Close();
-                }
-                else
-                {
-                    DialogService.OpenError($"'{md.VisibleName}' already exists");
-                }
+                DialogService.Close();
             }
             else
             {
-                DialogService.OpenDialogError("Foldername cannot be empty");
+                DialogService.OpenError($"'{md.VisibleName}' already exists");
             }
         }
 
         private void Rename(Metadata md, string newName)
         {
-            if (!string.IsNullOrEmpty(newName))
+            md.VisibleName = newName;
+
+            MetadataStorage.Local.Remove(md);
+            MetadataStorage.Local.Add(md, out var alreadyAdded);
+
+            if (!alreadyAdded)
             {
-                md.VisibleName = newName;
+                md.Save();
 
-                MetadataStorage.Local.Remove(md);
-                MetadataStorage.Local.Add(md, out var alreadyAdded);
-
-                if (!alreadyAdded)
+                var syncItem = new SyncItem
                 {
-                    md.Save();
+                    Action = SyncAction.Update,
+                    Data = md,
+                    Direction = SyncDirection.ToDevice,
+                    Type = SyncType.Notebook
+                };
 
-                    var syncItem = new SyncItem
-                    {
-                        Action = SyncAction.Update,
-                        Data = md,
-                        Direction = SyncDirection.ToDevice,
-                        Type = SyncType.Notebook
-                    };
+                _synchronisationService.SyncQueue.Insert(syncItem);
 
-                    _synchronisationService.SyncQueue.Insert(syncItem);
-
-                    DialogService.Close();
-                }
-            }
-            else
-            {
-                DialogService.OpenDialogError("Name cannot be empty");
+                DialogService.Close();
             }
         }
     }

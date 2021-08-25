@@ -145,8 +145,15 @@ namespace Slithin.Controls
 
             vm.AcceptCommand = new DelegateCommand(_ =>
             {
-                Close();
-                tcs.TrySetResult(vm.Input);
+                if (!string.IsNullOrEmpty(vm.Input))
+                {
+                    Close();
+                    tcs.TrySetResult(vm.Input);
+                }
+                else
+                {
+                    OpenDialogError($"{vm.Watermark} cannot be empty");
+                }
             });
 
             Dispatcher.UIThread.InvokeAsync(() =>
