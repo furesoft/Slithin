@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
     <Version>0.6</Version>
+	<RuntimeIdentifiers>win-x64;win-x86;linux-x64;macos-x64</RuntimeIdentifiers>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Actress" Version="0.2.1" />
@@ -61,4 +62,10 @@
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>
    </ItemGroup>
+   
+   <ItemGroup>
+    <Content Include="linux.desktop" CopyToPublishDirectory="PreserveNewest">
+      <LinuxPath>~/.local/share/applications/Slithin.desktop</LinuxPath>
+    </Content>
+  </ItemGroup>
 </Project>
