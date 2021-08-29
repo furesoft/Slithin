@@ -164,7 +164,7 @@ namespace Slithin.ViewModels
 
         private void Help(object obj)
         {
-            Utils.OpenUrl("http://www.remarkablewiki.com/");
+            Utils.OpenUrl("https://tinyurl.com/remarkable-ssh");
         }
 
         private void pingTimer_ellapsed(object sender, System.Timers.ElapsedEventArgs e)
