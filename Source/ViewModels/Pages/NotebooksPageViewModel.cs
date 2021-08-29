@@ -91,8 +91,6 @@ namespace Slithin.ViewModels.Pages
         public ICommand RemoveNotebookCommand { get; set; }
         public ICommand RenameCommand { get; set; }
 
-        public ICommand RenameCommand { get; set; }
-
         public Metadata SelectedNotebook
         {
             get { return _selectedNotebook; }
