@@ -68,7 +68,7 @@ jobs:
       env:
         AppxBundle: Never
         BuildMode: SideLoadOnly
-        Configuration: Debug
+        Configuration: ${{ matrix.configuration }}
         AppxBundlePlatforms: x86|x64
         
 
