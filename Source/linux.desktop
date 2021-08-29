@@ -13,7 +13,7 @@ Name=Slithin
 Comment=Remarkable Management Application
 
 # The path to the folder in which the executable is run
-Path=/opt/jmemorise
+Path= /usr/share/Slithin
 
 # The executable of the application, possibly with arguments.
 Exec=Slithin
