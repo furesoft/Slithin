@@ -86,7 +86,7 @@ jobs:
       run: dotnet tool install --global dotnet-deb
       
     - name: Set Dotnet-Deb Reference
-      run: dotnet deb install
+      run: cd Source & dotnet deb install
       
     - name: Creating Deb-Package
       run: dotnet deb -r linux-x64 -c Release -o ./Dist/Linux-x64-Deb
