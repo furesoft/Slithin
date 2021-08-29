@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages
 {
@@ -17,7 +18,7 @@ namespace Slithin.UI.Pages
 
         bool IPage.IsEnabled()
         {
-            return false;
+            return true;
         }
 
         public bool UseContextualMenu() => false;
@@ -25,6 +26,8 @@ namespace Slithin.UI.Pages
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+
+            DataContext = ServiceLocator.Container.Resolve<SharablesPageViewModel>();
         }
     }
 }

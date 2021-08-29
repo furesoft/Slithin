@@ -2,7 +2,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.UI.Pages.Sharables">
-  Welcome to Avalonia!
+             x:Class="Slithin.UI.Pages.SharablesPage">
+  <Grid>
+    <ItemsControl Items="{Binding Items, Mode=TwoWay}" Margin="16,0,0,0">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <styles:Card Background="Gray" Margin="3" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical">
+              <TextBlock Text="{Binding Name}" TextAlignment="Center" FontSize="17" FontWeight="Medium" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
+
+              <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
+
+              <Grid>
+                <TextBlock Text="{Binding Author}" VerticalAlignment="Center" />
+
+                <Button IsVisible="{Binding !IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right">
+                  <mi:MaterialIcon Kind="Download" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
+                </Button>
+
+                <Button IsVisible="{Binding IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right">
+                  <mi:MaterialIcon Kind="Remove" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="Black" />
+                </Button>
+              </Grid>
+            </StackPanel>
+          </styles:Card>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <UniformGrid Columns="5" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+    </ItemsControl>
+  </Grid>
 </UserControl>
