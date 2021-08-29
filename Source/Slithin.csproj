@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
     <Version>0.6</Version>
-	<RuntimeIdentifiers>win-x64;win-x86;linux-x64;macos-x64</RuntimeIdentifiers>
+	  <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Actress" Version="0.2.1" />

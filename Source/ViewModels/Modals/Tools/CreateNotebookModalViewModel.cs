@@ -75,8 +75,6 @@ namespace Slithin.ViewModels.Modals
             set { SetValue(ref _defaultCovers, value); }
         }
 
-        public ObservableCollection<string> DefaultCovers { get; set; }
-
         public ICommand OKCommand { get; set; }
 
         public string PageCount
@@ -109,12 +107,6 @@ namespace Slithin.ViewModels.Modals
         {
             get { return _title; }
             set { SetValue(ref _title, value); }
-        }
-
-        public string Title
-        {
-            get { return _name; }
-            set { SetValue(ref _name, value); }
         }
 
         public void LoadCover()
