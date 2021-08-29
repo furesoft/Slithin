@@ -86,7 +86,8 @@ jobs:
       run: dotnet tool install --global dotnet-deb
       
     - name: Creating Deb-Package
-      run: dotnet msbuild $env:Solution_Name /t:CreateDeb /p:RuntimeIdentifier=linux-x64 /p:Configuration=Release /p:Output=./Dist/Linux-x64-Deb
+      run: dotnet deb -r linux-x64 -c Release -o ./Dist/Linux-x64-Deb
+      working-directory: Source/
     
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
