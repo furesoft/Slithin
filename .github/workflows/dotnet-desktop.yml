@@ -56,6 +56,11 @@ jobs:
         [xml]$manifest = get-content ".\$env:Wap_Project_Directory\Package.appxmanifest"
         $manifest.Package.Identity.Version = "$env:NBGV_SimpleVersion.0"
         $manifest.save(".\$env:Wap_Project_Directory\Package.appxmanifest")
+    
+    - name: Restore the application
+      run: msbuild $env:Wap_Project_Directory /t:Restore /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
         
     # Build the Windows Application Packaging project
     - name: Build the Windows Application Packaging Project (wapproj) 
@@ -66,8 +71,6 @@ jobs:
         Configuration: Debug
         AppxBundlePlatforms: x86|x64
         
-    - name: Remove the .pfx
-      run: Remove-Item -path $env:Wap_Project_Directory\$env:SigningCertificate
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
     - name: Upload build artifacts
