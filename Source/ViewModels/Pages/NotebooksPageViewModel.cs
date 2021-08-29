@@ -85,14 +85,11 @@ namespace Slithin.ViewModels.Pages
         }
 
         public ICommand MakeFolderCommand { get; set; }
-
         public ICommand MoveCancelCommand { get; set; }
-
         public ICommand MoveCommand { get; set; }
-
         public ICommand MoveHereCommand { get; set; }
-
         public ICommand RemoveNotebookCommand { get; set; }
+        public ICommand RenameCommand { get; set; }
 
         public ICommand RenameCommand { get; set; }
 
