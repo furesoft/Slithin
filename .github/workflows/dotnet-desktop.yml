@@ -81,3 +81,19 @@ jobs:
       with:
         name: Linux_x64
         path: ./Dist/Linux-x64
+        
+    - name: Installing dotnet-packaging
+      run: dotnet tool install --global dotnet-deb
+      
+    - name: Creating Deb-Package
+      run: dotnet msbuild $env:Solution_Name /t:CreateDeb /p:RuntimeIdentifier=linux-x64 /p:Configuration=Release /p:Output=./Dist/Linux-x64-Deb
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Linux_x64
+        path: ./Dist/Linux-x64-Deb
+
+      
+      
+      
