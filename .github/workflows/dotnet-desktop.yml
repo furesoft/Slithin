@@ -46,47 +46,6 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
         
-    - name: Use Nerdbank.GitVersioning to set version variables
-      uses: aarnott/nbgv@v0.3
-      with:
-        setAllVars: true
-
-    
-    - name: Update manifest version
-      run: |
-        [xml]$manifest = get-content ".\$env:Wap_Project_Directory\Package.appxmanifest"
-        $manifest.Package.Identity.Version = "$env:NBGV_SimpleVersion.0"
-        $manifest.save(".\$env:Wap_Project_Directory\Package.appxmanifest")
-    
-    - name: Restore the application
-      run: msbuild $env:Wap_Project_Directory /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
-        
-    - name: Decode the Pfx
-      run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-        $currentDirectory = Get-Location
-        $certificatePath = Join-Path -Path $currentDirectory -ChildPath $env:Wap_Project_Directory -AdditionalChildPath Certificate.pfx
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-        
-    # Build the Windows Application Packaging project
-    - name: Build the Windows Application Packaging Project (wapproj) 
-      run: msbuild $env:Wap_Project_Directory /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle /p:PackageCertificateKeyFile=$env:SigningCertificate /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
-      env:
-        AppxBundle: Never
-        BuildMode: SideLoadOnly
-        Configuration: ${{ matrix.configuration }}
-        AppxBundlePlatforms: x86|x64
-        
-
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: MSIX Package
-        path: $env:Wap_Project_Directory\AppPackages
-        
     - name: Publish Windows x86
       run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 $env:Solution_Name
 
