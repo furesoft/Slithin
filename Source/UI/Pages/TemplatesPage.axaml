@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.TemplatesPage">
   <Grid>
-    <ListBox Items="{Binding SyncService.TemplateFilter.Templates, Mode=TwoWay}" Margin="16,0,0,0" x:Name="templatesListBox" SelectedItem="{Binding SelectedTemplate}">
+    <ListBox DragDrop.AllowDrop="True" Items="{Binding SyncService.TemplateFilter.Templates, Mode=TwoWay}" Margin="16,0,0,0" x:Name="templatesListBox" SelectedItem="{Binding SelectedTemplate}">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <styles:Card Background="Gray" Margin="3" HorizontalAlignment="Center">
@@ -17,7 +17,7 @@
                 </Grid>
               </Border>
 
-              <TextBlock Text="{Binding Filename}" TextAlignment="Center" />
+              <TextBlock Text="{Binding Name}" TextAlignment="Center" />
             </StackPanel>
           </styles:Card>
         </DataTemplate>

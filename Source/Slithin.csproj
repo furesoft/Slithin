@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
     <Version>0.6</Version>
+	<RuntimeIdentifiers>win-x64;win-x86;linux-x64;macos-x64</RuntimeIdentifiers>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Actress" Version="0.2.1" />
@@ -12,7 +13,7 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.7" />
     <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.1" />
     <PackageReference Include="DotNetZip" Version="1.15.0" />
-    <PackageReference Include="FluentValidation" Version="10.3.1" />
+    <PackageReference Include="FluentValidation" Version="10.3.3" />
     <PackageReference Include="LiteDB" Version="5.0.11" />
     <PackageReference Include="Material.Avalonia" Version="2.3.0" />
     <PackageReference Include="Material.Icons.Avalonia" Version="1.0.2" />
@@ -54,8 +55,17 @@
    </ItemGroup>
 
    <ItemGroup>
+     <Compile Update="UI\Pages\SharablesPage.axaml.cs">
+       <DependentUpon>SharablesPage.axaml</DependentUpon>
+     </Compile>
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>
    </ItemGroup>
+   
+   <ItemGroup>
+    <Content Include="linux.desktop" CopyToPublishDirectory="PreserveNewest">
+      <LinuxPath>~/.local/share/applications/Slithin.desktop</LinuxPath>
+    </Content>
+  </ItemGroup>
 </Project>

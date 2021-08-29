@@ -9,7 +9,7 @@
   <DockPanel>
     <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
       <controls:ImageButton MinHeight="60" Classes="Flat" Text="Add" Command="{Binding OpenAddModalCommand}" Kind="Add" />
-      <controls:ImageButton MinHeight="60" Classes="Flat" Text="Remove" Command="{Binding RemoveTemplateCommand}" Kind="Minus" CommandParameter="{Binding SelectedTemplate}" />
+      <controls:ImageButton MinHeight="60" Classes="Flat" Text="Remove" Command="{Binding RemoveTemplateCommand}" Kind="Minus" CommandParameter="{Binding SelectedTemplate, Mode=TwoWay}" />
 
       <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="Filter" Kind="FilterMenu">
         <controls:ImagePopupButton.PopupContent>

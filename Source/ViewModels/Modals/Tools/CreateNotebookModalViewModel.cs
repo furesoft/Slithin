@@ -7,7 +7,6 @@ using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Material.Styles;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
@@ -17,7 +16,7 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Validators;
-using Slithin.Tools;
+using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals
 {
@@ -29,18 +28,17 @@ namespace Slithin.ViewModels.Modals
         private IImage _cover;
 
         private string _customTemplateFilename;
+        private ObservableCollection<string> _defaultCovers;
         private string _filename;
 
-        private string _name;
-
         private string _pageCount;
-
         private bool _renderName;
-
         private Template _selectedTemplate;
+        private ObservableCollection<Template> _templates = new();
+        private string _title;
 
         public CreateNotebookModalViewModel(IPathManager pathManager,
-                                            CreateNotebookValidator validator,
+                                                    CreateNotebookValidator validator,
                                             ILoadingService loadingService)
         {
             AddPagesCommand = new DelegateCommand(AddPages);
@@ -71,6 +69,12 @@ namespace Slithin.ViewModels.Modals
             set { SetValue(ref _customTemplateFilename, value); }
         }
 
+        public ObservableCollection<string> DefaultCovers
+        {
+            get { return _defaultCovers; }
+            set { SetValue(ref _defaultCovers, value); }
+        }
+
         public ObservableCollection<string> DefaultCovers { get; set; }
 
         public ICommand OKCommand { get; set; }
@@ -95,7 +99,17 @@ namespace Slithin.ViewModels.Modals
             set { SetValue(ref _selectedTemplate, value); }
         }
 
-        public ObservableCollection<Template> Templates { get; set; } = new();
+        public ObservableCollection<Template> Templates
+        {
+            get { return _templates; }
+            set { SetValue(ref _templates, value); }
+        }
+
+        public string Title
+        {
+            get { return _title; }
+            set { SetValue(ref _title, value); }
+        }
 
         public string Title
         {

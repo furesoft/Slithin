@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
 using Material.Styles;
 using Renci.SshNet;
-using Renci.SshNet.Common;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Validators;
+using Slithin.UI.GalleryFirstStart;
+using Slithin.UI.UpdateGallery;
 using Slithin.UI.Views;
 
 namespace Slithin.ViewModels
@@ -71,7 +73,7 @@ namespace Slithin.ViewModels
             ServiceLocator.Container.Register(new ScpClient(IP, 22, "root", Password));
 
             var client = ServiceLocator.Container.Resolve<SshClient>();
-            //SyncService = new(pathManager, Container.Resolve<LiteDatabase>(), Container.Resolve<LocalRepository>(), Container.Resolve<ILoadingService>());
+
             ServiceLocator.SyncService = ServiceLocator.Container.Resolve<SynchronisationService>();
             ServiceLocator.Container.Register<Automation>().AsSingleton();
 
@@ -122,10 +124,23 @@ namespace Slithin.ViewModels
                             var settings = _settingsService.Get();
                             if (!settings.HasFirstGalleryShown)
                             {
-                                var galleryWindow = new GalleryWindow();
+                                var vm = new GalleryWindowViewModel();
+                                vm.Slides.Add(new WelcomePage());
+
+                                var galleryWindow = new GalleryWindow(vm);
 
                                 settings.HasFirstGalleryShown = true;
                                 _settingsService.Save(settings);
+
+                                galleryWindow.Show();
+                            }
+
+                            if (Environment.GetCommandLineArgs().Contains("-updateInstalled"))
+                            {
+                                var vm = new GalleryWindowViewModel();
+                                vm.Slides.Add(new UpdateInstalledPage());
+
+                                var galleryWindow = new GalleryWindow(vm);
 
                                 galleryWindow.Show();
                             }
@@ -149,7 +164,7 @@ namespace Slithin.ViewModels
 
         private void Help(object obj)
         {
-            Utils.OpenUrl("http://www.remarkablewiki.com/");
+            Utils.OpenUrl("https://tinyurl.com/remarkable-ssh");
         }
 
         private void pingTimer_ellapsed(object sender, System.Timers.ElapsedEventArgs e)

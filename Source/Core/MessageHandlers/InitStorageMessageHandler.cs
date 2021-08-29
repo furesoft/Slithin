@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Slithin.Core.Services;
+﻿using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 using Slithin.Tools;

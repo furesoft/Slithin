@@ -1,11 +1,15 @@
-
-- implement toolsfilter
-
 - render rm file to pdf
 
 - tools:
 	rss crawler
 
 - macrosystem: man kann ein tool in ein makro verwandeln mit vordefinierten eigentschaften - wird als neues tool angezeigt, führt ursprüngliches tool mit den definierten eigenschaften auf
+
+- syncqueue, aufhebende elemente beide löschen:
+	add something
+	remove something
+
+	-> nichts tun
+
 
 # BUGS

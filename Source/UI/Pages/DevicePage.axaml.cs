@@ -59,9 +59,11 @@ namespace Slithin.UI.Pages
                 {
                     if (e.Source is Image img)
                     {
-                        if (img.Source.Size.Width != 1404 && img.Source.Size.Height != 1872)
+                        var bitmap = System.Drawing.Image.FromFile(filename);
+
+                        if (bitmap.Width != 1404 && bitmap.Height != 1872)
                         {
-                            await DialogService.ShowDialog("The Screen Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+                            DialogService.OpenError("The Screen Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
 
                             return;
                         }
@@ -92,7 +94,7 @@ namespace Slithin.UI.Pages
                 }
                 else
                 {
-                    await DialogService.ShowDialog($"The file '{filename}' has the wrong Filetype");
+                    DialogService.OpenError($"The file '{filename}' has the wrong Filetype");
                 }
             }
         }

@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using Slithin.Tools;
+using Slithin.Models;
 
 namespace Slithin.UI
 {

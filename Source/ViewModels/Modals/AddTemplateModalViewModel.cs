@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Avalonia.Collections;
-using Material.Styles;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;

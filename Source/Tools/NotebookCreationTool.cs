@@ -7,7 +7,6 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Core.Remarkable;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals;
 
@@ -40,31 +39,5 @@ namespace Slithin.Tools
 
             DialogService.Open(modal, ServiceLocator.Container.Resolve<CreateNotebookModalViewModel>());
         }
-    }
-
-    public class NotebookCustomPage
-    {
-        public NotebookCustomPage(string filename, int count)
-        {
-            Filename = filename;
-            Count = count;
-            ShortName = Path.GetFileName(filename);
-        }
-
-        public int Count { get; set; }
-        public string Filename { get; set; }
-        public string ShortName { get; set; }
-    }
-
-    public class NotebookPage
-    {
-        public NotebookPage(Template template, int count)
-        {
-            Template = template;
-            Count = count;
-        }
-
-        public int Count { get; set; }
-        public Template Template { get; set; }
     }
 }

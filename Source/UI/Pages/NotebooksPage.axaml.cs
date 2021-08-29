@@ -84,28 +84,36 @@ namespace Slithin.UI.Pages
                         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
 
                         provider = importProviderFactory.GetImportProvider($".{cnt.FileType}", filename);
-                        var inputStrm = provider.Import(File.OpenRead(filename));
-                        var outputStrm = File.OpenWrite(Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
-                        inputStrm.CopyTo(outputStrm);
 
-                        outputStrm.Close();
-                        inputStrm.Close();
-
-                        md.Save();
-
-                        var syncItem = new SyncItem
+                        if (provider != null)
                         {
-                            Action = SyncAction.Add,
-                            Direction = SyncDirection.ToDevice,
-                            Type = SyncType.Notebook,
-                            Data = md
-                        };
+                            var inputStrm = provider.Import(File.OpenRead(filename));
+                            var outputStrm = File.OpenWrite(Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
+                            inputStrm.CopyTo(outputStrm);
 
-                        ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+                            outputStrm.Close();
+                            inputStrm.Close();
+
+                            md.Save();
+
+                            var syncItem = new SyncItem
+                            {
+                                Action = SyncAction.Add,
+                                Direction = SyncDirection.ToDevice,
+                                Type = SyncType.Notebook,
+                                Data = md
+                            };
+
+                            ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+                        }
+                        else
+                        {
+                            DialogService.OpenError($"The filetype '{Path.GetExtension(filename)}' is not supported");
+                        }
                     }
                     else
                     {
-                        await DialogService.ShowDialog($"The filetype '{cnt.FileType}' is not supported");
+                        DialogService.OpenError($"The filetype '{Path.GetExtension(filename)}' is not supported");
                     }
                 }
             }

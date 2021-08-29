@@ -1,11 +1,12 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace Slithin.UI.Modals
 {
-    public partial class MakeFolderModal : UserControl
+    public partial class PromptModal : UserControl
     {
-        public MakeFolderModal()
+        public PromptModal()
         {
             InitializeComponent();
         }
