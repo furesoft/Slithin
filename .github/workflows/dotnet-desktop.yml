@@ -50,7 +50,13 @@ jobs:
       uses: aarnott/nbgv@v0.3
       with:
         setAllVars: true
-        
+
+    - name: Install semPack
+      run: dotnet tool install --global sempack --version 1.1.7057.22950
+      
+    - name: Increment Version
+      run: sempack -f $env:Solution_Name --build-version
+    
     - name: Update manifest version
       run: |
         [xml]$manifest = get-content ".\$env:Wap_Project_Directory\Package.appxmanifest"
@@ -61,6 +67,13 @@ jobs:
       run: msbuild $env:Wap_Project_Directory /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
+        
+    - name: Decode the Pfx
+      run: |
+        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
+        $currentDirectory = Get-Location
+        $certificatePath = Join-Path -Path $currentDirectory -ChildPath $env:Wap_Project_Directory -AdditionalChildPath $env:SigningCertificate
+        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
         
     # Build the Windows Application Packaging project
     - name: Build the Windows Application Packaging Project (wapproj) 
