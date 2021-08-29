@@ -36,3 +36,4 @@
       <CheckBox Grid.Column="0" Grid.Row="4" Content="Is Landscape" IsChecked="{Binding IsLandscape}" />
     </Grid>
   </c:DialogControl>
+</UserControl>
