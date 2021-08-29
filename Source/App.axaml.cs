@@ -1,4 +1,9 @@
-﻿using Avalonia;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
@@ -16,6 +21,14 @@ namespace Slithin
         public override void OnFrameworkInitializationCompleted()
         {
             ServiceLocator.Init();
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Environment.GetCommandLineArgs().Contains("--install"))
+            {
+                var copyCmd = UpdateScriptGenerator.GetWindowsScript(Environment.CurrentDirectory, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Slithin"));
+
+                Process.Start(new ProcessStartInfo("cmd", $"/c " + copyCmd) { CreateNoWindow = true });
+                Environment.Exit(0);
+            }
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
