@@ -2,8 +2,9 @@
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Slithin.Core.Services;
+using Slithin.Core;
 
-namespace Slithin.Core
+namespace Slithin.Models
 {
     public class CustomScreen : ReactiveObject
     {

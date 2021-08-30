@@ -42,6 +42,7 @@ namespace Slithin.ViewModels.Modals
             _validator = validator;
             _loadingService = loadingService;
             _mailboxService = mailboxService;
+
             AddPagesCommand = new DelegateCommand(AddPages);
             OKCommand = new DelegateCommand(OK);
         }
@@ -84,16 +85,22 @@ namespace Slithin.ViewModels.Modals
 
         public override void OnLoad()
         {
-            base.OnLoad();
-
             if (TemplateStorage.Instance.Templates == null)
             {
                 _mailboxService.PostAction(() =>
                 {
+                    NotificationService.Show("Loading Templates");
+
                     _loadingService.LoadTemplates();
 
                     Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
+
+                    NotificationService.Hide();
                 });
+            }
+            else
+            {
+                Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
             }
         }
 

@@ -11,6 +11,7 @@ using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Core.Validators;
+using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals
 {

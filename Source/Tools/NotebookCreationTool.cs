@@ -9,6 +9,7 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals;
+using Slithin.Models;
 
 namespace Slithin.Tools
 {

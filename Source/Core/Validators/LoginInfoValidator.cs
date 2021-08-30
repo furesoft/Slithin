@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Slithin.Models;
 
 namespace Slithin.Core.Validators
 {

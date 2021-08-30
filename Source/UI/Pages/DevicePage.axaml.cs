@@ -10,6 +10,7 @@ using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
+using Slithin.Models;
 
 namespace Slithin.UI.Pages
 {

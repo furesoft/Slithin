@@ -11,6 +11,7 @@ using Slithin.Core.Remarkable;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals;
 using Slithin.Core.ItemContext;
+using Slithin.Models;
 
 namespace Slithin.Tools
 {

@@ -15,6 +15,7 @@ using Slithin.Core.Validators;
 using Slithin.UI.GalleryFirstStart;
 using Slithin.UI.UpdateGallery;
 using Slithin.UI.Views;
+using Slithin.Models;
 
 namespace Slithin.ViewModels
 {

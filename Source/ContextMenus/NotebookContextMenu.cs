@@ -1,3 +1,7 @@
+﻿using System.Collections.Generic;
+using Avalonia.Controls;
+using Slithin.Core.ItemContext;
+using Slithin.Core.Remarkable;
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +11,6 @@ using Avalonia.Controls;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin;
-using Slithin.Core;
-using Slithin.ViewModels.Pages;
 
 namespace Slithin.ContextMenus
 {
@@ -26,7 +28,7 @@ namespace Slithin.ContextMenus
         {
             if (ParentViewModel is NotebooksPageViewModel n)
             {
-                yield return new MenuItem { Header = "Copy ID" }; //ToDo: implement copy id
+                yield return new MenuItem { Header = "Copy ID", Command = new DelegateCommand(async _ => await App.Current.Clipboard.SetTextAsync(((Metadata)obj).ID)) };
                 yield return new MenuItem { Header = "Remove", Command = new DelegateCommand(_ => n.RemoveNotebookCommand.Execute(obj)) };
                 yield return new MenuItem { Header = "Rename", Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj)) };
             }

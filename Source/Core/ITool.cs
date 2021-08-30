@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media;
+using Slithin.Models;
 
 namespace Slithin.Core
 {
