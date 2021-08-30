@@ -2,15 +2,21 @@
 using Avalonia.Controls;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
-﻿using System;
+using System;
+
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Avalonia.Controls;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
+
 using Slithin;
+using Slithin.Core;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.ContextMenus
 {
