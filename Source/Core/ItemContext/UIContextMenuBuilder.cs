@@ -1,6 +1,7 @@
 ﻿using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using Slithin.Core.Services;
@@ -18,11 +19,15 @@ namespace Slithin.Core.ItemContext
         {
             target.Initialized += (s, e) =>
             {
-                if (s is Control c)
-                {
-                    var contextProvider = ServiceLocator.Container.Resolve<IContextMenuProvider>();
+                var contextProvider = ServiceLocator.Container.Resolve<IContextMenuProvider>();
 
-                    c.ContextMenu = contextProvider.BuildMenu(context, c.DataContext, c.Parent.Parent.DataContext);
+                if (s is ItemsControl ic)
+                {
+                    ic.ContextMenu = contextProvider.BuildMenu(context, ic.DataContext, ic.Parent.Parent.DataContext);
+                }
+                else if (s is Control c)
+                {
+                    c.ContextMenu = contextProvider.BuildMenu(context, ic.DataContext, ic.Parent.DataContext);
                 }
             };
         }
