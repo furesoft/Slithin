@@ -9,7 +9,7 @@
   <styles:SnackbarHost HostName="prompt">
     <c:DialogControl Header="{Binding Header}" CommandText="OK" IsCancelEnabled="True" Command="{Binding AcceptCommand}" MaxHeight="160" MinHeight="160" MaxWidth="150">
       <Grid>
-        <TextBox Text="{Binding Input, Mode=TwoWay}" Watermark="{Binding Watermark}" Height="35" />
+        <TextBox Text="{Binding Input, Mode=TwoWay}" Watermark="{Binding Watermark}" TextWrapping="Wrap" Height="35" />
       </Grid>
     </c:DialogControl>
   </styles:SnackbarHost>
