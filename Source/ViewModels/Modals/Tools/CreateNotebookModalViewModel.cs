@@ -128,8 +128,6 @@ namespace Slithin.ViewModels.Modals
 
         public override void OnLoad()
         {
-            base.OnLoad();
-
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
             Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Covers/Folder-DBlue.png")));
@@ -145,10 +143,18 @@ namespace Slithin.ViewModels.Modals
             {
                 _mailboxService.PostAction(() =>
                 {
+                    NotificationService.Show("Loading Templates");
+
                     _loadingService.LoadTemplates();
 
                     Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
+
+                    NotificationService.Hide();
                 });
+            }
+            else
+            {
+                Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
             }
         }
 

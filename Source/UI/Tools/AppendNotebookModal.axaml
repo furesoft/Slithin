@@ -24,12 +24,12 @@
           </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <c:FileChooser VerticalAlignment="Center" Width="150" Height="100" IsVisible="{Binding #customImage.IsChecked}" Filename="{Binding CustomTemplateFilename, Mode=TwoWay}" />
+        <c:FileChooser VerticalAlignment="Center" Height="100" IsVisible="{Binding #customImage.IsChecked}" Filename="{Binding CustomTemplateFilename, Mode=TwoWay}" />
       </Grid>
 
       <CheckBox Grid.Row="3" Margin="3" Name="customImage" Content="Use Custom Image" />
 
-      <StackPanel Spacing="3" Grid.Row="1" HorizontalAlignment="Left" Grid.Column="1">
+      <StackPanel Spacing="3" Grid.Row="1" HorizontalAlignment="Left" Grid.Column="2">
         <TextBox Watermark="Page Count" Text="{Binding PageCount, Mode=TwoWay}" Width="100" ToolTip.Tip="How many pages should the template apply?" />
 
         <Button Content="Add" Classes="Flat" Command="{Binding AddPagesCommand}" />
