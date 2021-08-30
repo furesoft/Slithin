@@ -9,6 +9,7 @@ using NiL.JS.Core.Functions;
 using NiL.JS.Extensions;
 using Slithin.Core.Scripting.Extensions;
 using Slithin.Core.Services;
+using Slithin.Models;
 
 namespace Slithin.Core.Scripting
 {

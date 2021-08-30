@@ -4,7 +4,6 @@ using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core;
 using Slithin.ViewModels.Pages;
-using System.Windows;
 
 namespace Slithin.ContextMenus
 {

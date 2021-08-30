@@ -9,6 +9,7 @@ using Avalonia.Platform;
 using Ionic.Zip;
 using Slithin.Core;
 using Slithin.Core.Services;
+using Slithin.Models;
 
 namespace Slithin.Tools
 {

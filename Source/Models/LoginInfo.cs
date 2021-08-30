@@ -1,6 +1,7 @@
 ﻿using LiteDB;
+using Slithin.Core;
 
-namespace Slithin.Core
+namespace Slithin.Models
 {
     public record LoginInfo(string IP, string Password, bool Remember)
     {

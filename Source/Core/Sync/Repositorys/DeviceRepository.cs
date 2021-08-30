@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Renci.SshNet;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
+using Slithin.Models;
 
 namespace Slithin.Core.Sync.Repositorys
 {

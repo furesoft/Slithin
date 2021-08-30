@@ -9,6 +9,7 @@ using Slithin.Core.Remarkable.Rendering;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
+using Slithin.Models;
 
 namespace Slithin.ViewModels.Pages
 {

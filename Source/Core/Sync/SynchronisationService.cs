@@ -10,6 +10,7 @@ using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
+using Slithin.Models;
 
 namespace Slithin.Core.Sync
 {
