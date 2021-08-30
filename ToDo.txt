@@ -10,8 +10,3 @@
 	remove something
 
 	-> nichts tun
-
-- add ability to tools to be executed in contextmenu on notebookspage, if a predicate is true
-	- pdf notebooks only appear menuitem if selected notebook is pdf
-	- if contextmenu click, give metadata as argument
-		- on tool: if metadata is given, select file automaticly in modals

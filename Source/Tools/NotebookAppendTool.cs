@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -6,10 +7,15 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Remarkable;
+using Slithin.UI.Tools;
+using Slithin.ViewModels.Modals;
+using Slithin.Core.ItemContext;
 
 namespace Slithin.Tools
 {
-    public class NotebookAppendTool : ITool
+    [Context(UIContext.Notebook)]
+    public class NotebookAppendTool : ITool, IContextProvider
     {
         public IImage Image
         {
@@ -25,6 +31,22 @@ namespace Slithin.Tools
 
         public bool IsConfigurable => false;
 
+        public object ParentViewModel { get; set; }
+
+        public bool CanHandle(object obj) => obj is Metadata md && md.Content.FileType == "pdf";
+
+        public IEnumerable<MenuItem> GetMenu(object obj)
+        {
+            yield return new MenuItem
+            {
+                Header = "Append Pages",
+                Command = new DelegateCommand((_) =>
+                {
+                    Invoke(obj);
+                })
+            };
+        }
+
         public Control GetModal()
         {
             return null;
@@ -33,8 +55,14 @@ namespace Slithin.Tools
         public void Invoke(object data)
         {
             var modal = new AppendNotebookModal();
+            var vm = ServiceLocator.Container.Resolve<AppendNotebookModalViewModel>();
 
-            DialogService.Open(modal, ServiceLocator.Container.Resolve<AppendNotebookModalViewModel>());
+            if (data is Metadata md)
+            {
+                vm.ID = md.ID; //Pre select the notebook, if it is executed from contextmenu
+            }
+
+            DialogService.Open(modal, vm);
         }
     }
 }

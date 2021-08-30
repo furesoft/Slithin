@@ -20,22 +20,23 @@ namespace Slithin.UI
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
             var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
             var cache = ServiceLocator.Container.Resolve<ICacheService>();
-
-            var stackPanel = new StackPanel();
-
-            stackPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
-            stackPanel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
-            stackPanel.MaxHeight = 275;
-
-            var img = new Image
-            {
-                MinWidth = 25,
-                MinHeight = 25,
-                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center
-            };
+            var contextProvider = ServiceLocator.Container.Resolve<IContextMenuProvider>();
 
             if (param is Metadata md)
             {
+                var stackPanel = new StackPanel();
+
+                stackPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+                stackPanel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
+                stackPanel.MaxHeight = 275;
+
+                var img = new Image
+                {
+                    MinWidth = 25,
+                    MinHeight = 25,
+                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center
+                };
+
                 if (md.Type == "DocumentType")
                 {
                     if (Directory.Exists(Path.Combine(notebooksDir, md.ID + ".thumbnails")))
@@ -75,21 +76,30 @@ namespace Slithin.UI
                 {
                     img.Source = cache.Get("folder", new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png"))));
                 }
+
+                stackPanel.Children.Add(img);
+
+                var title = new TextBlock
+                {
+                    [!TextBlock.TextProperty] = new Binding("VisibleName")
+                };
+
+                title.TextAlignment = Avalonia.Media.TextAlignment.Center;
+                title.TextWrapping = Avalonia.Media.TextWrapping.Wrap;
+
+                stackPanel.Children.Add(title);
+
+                var card = new Card { Content = stackPanel };
+
+                card.Initialized += (s, e) =>
+                 {
+                     card.ContextMenu = contextProvider.BuildMenu(Core.ItemContext.UIContext.Notebook, md, card.Parent.Parent.DataContext);
+                 };
+
+                return card;
             }
 
-            stackPanel.Children.Add(img);
-
-            var title = new TextBlock
-            {
-                [!TextBlock.TextProperty] = new Binding("VisibleName")
-            };
-
-            title.TextAlignment = Avalonia.Media.TextAlignment.Center;
-            title.TextWrapping = Avalonia.Media.TextWrapping.Wrap;
-
-            stackPanel.Children.Add(title);
-
-            return new Card { Content = stackPanel };
+            return null;
         }
 
         public bool Match(object data)

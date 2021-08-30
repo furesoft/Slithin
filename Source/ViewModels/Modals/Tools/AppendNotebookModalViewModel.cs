@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,7 @@ using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
+using Slithin.Core.Validators;
 using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals
@@ -22,21 +24,24 @@ namespace Slithin.ViewModels.Modals
     public class AppendNotebookModalViewModel : BaseViewModel
     {
         private readonly ILoadingService _loadingService;
+        private readonly IMailboxService _mailboxService;
         private readonly IPathManager _pathManager;
         private readonly AppendNotebookValidator _validator;
         private string _customTemplateFilename;
+        private string _id;
         private string _pageCount;
         private Template _selectedTemplate;
         private ObservableCollection<Template> _templates = new();
 
         public AppendNotebookModalViewModel(IPathManager pathManager,
                                             AppendNotebookValidator validator,
-                                            ILoadingService loadingService)
+                                            ILoadingService loadingService,
+                                            IMailboxService mailboxService)
         {
             _pathManager = pathManager;
             _validator = validator;
             _loadingService = loadingService;
-
+            _mailboxService = mailboxService;
             AddPagesCommand = new DelegateCommand(AddPages);
             OKCommand = new DelegateCommand(OK);
         }
@@ -47,6 +52,12 @@ namespace Slithin.ViewModels.Modals
         {
             get { return _customTemplateFilename; }
             set { SetValue(ref _customTemplateFilename, value); }
+        }
+
+        public string ID
+        {
+            get { return _id; }
+            set { _id = value; }
         }
 
         public ICommand OKCommand { get; set; }
@@ -77,10 +88,13 @@ namespace Slithin.ViewModels.Modals
 
             if (TemplateStorage.Instance.Templates == null)
             {
-                _loadingService.LoadTemplates();
-            }
+                _mailboxService.PostAction(() =>
+                {
+                    _loadingService.LoadTemplates();
 
-            Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
+                    Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
+                });
+            }
         }
 
         private void AddPages(object obj)
@@ -112,12 +126,17 @@ namespace Slithin.ViewModels.Modals
 
             if (validationResult.IsValid)
             {
-                var document = PdfReader.Open();
+                var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, ID + ".pdf"));
+                var md = MetadataStorage.Local.Get(ID);
+                var pages = new List<string>(md.Content.Pages);
+                int pageCount = md.Content.PageCount;
 
                 foreach (var p in Pages)
                 {
                     XImage image = null;
                     int count = 0;
+
+                    pageCount++;
 
                     if (p is NotebookPage nbp)
                     {
@@ -138,19 +157,17 @@ namespace Slithin.ViewModels.Modals
                         var gfx = XGraphics.FromPdfPage(page);
 
                         gfx.DrawImage(image, 0, 0, page.Width, page.Height);
+
+                        Guid pageID = Guid.NewGuid();
+                        pages.Add(pageID.ToString());
                     }
                 }
 
-                var md = new Metadata
-                {
-                    ID = Guid.NewGuid().ToString().ToLower(),
-                    VisibleName = Title,
-                    Type = "DocumentType",
-                    Version = 1,
-                    Parent = "",
+                var content = md.Content;
+                content.PageCount = pageCount;
+                content.Pages = pages.ToArray();
 
-                    Content = new() { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count }
-                };
+                md.Content = content;
 
                 md.Save();
 
