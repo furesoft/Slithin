@@ -27,7 +27,7 @@ namespace Slithin.Core.ItemContext
                 }
                 else if (s is Control c)
                 {
-                    c.ContextMenu = contextProvider.BuildMenu(context, ic.DataContext, ic.Parent.DataContext);
+                    c.ContextMenu = contextProvider.BuildMenu(context, c.DataContext, c.Parent.DataContext);
                 }
             };
         }
