@@ -6,6 +6,8 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.UI.Tools;
+using Slithin.ViewModels.Modals;
 
 namespace Slithin.Tools
 {
