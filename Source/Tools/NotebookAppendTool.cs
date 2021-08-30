@@ -57,9 +57,9 @@ namespace Slithin.Tools
             var modal = new AppendNotebookModal();
             var vm = ServiceLocator.Container.Resolve<AppendNotebookModalViewModel>();
 
-            if (data != null)
+            if (data is Metadata md)
             {
-                vm.ID = ((Metadata)data).ID; //Pre select the notebook, if it is executed from contextmenu
+                vm.ID = md.ID; //Pre select the notebook, if it is executed from contextmenu
             }
 
             DialogService.Open(modal, vm);

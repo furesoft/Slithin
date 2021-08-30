@@ -23,6 +23,7 @@ namespace Slithin.ViewModels.Modals
     public class CreateNotebookModalViewModel : BaseViewModel
     {
         private readonly ILoadingService _loadingService;
+        private readonly IMailboxService _mailboxService;
         private readonly IPathManager _pathManager;
         private readonly CreateNotebookValidator _validator;
         private IImage _cover;
@@ -38,8 +39,9 @@ namespace Slithin.ViewModels.Modals
         private string _title;
 
         public CreateNotebookModalViewModel(IPathManager pathManager,
-                                                    CreateNotebookValidator validator,
-                                            ILoadingService loadingService)
+                                            CreateNotebookValidator validator,
+                                            ILoadingService loadingService,
+                                            IMailboxService mailboxService)
         {
             AddPagesCommand = new DelegateCommand(AddPages);
             OKCommand = new DelegateCommand(OK);
@@ -47,6 +49,7 @@ namespace Slithin.ViewModels.Modals
             _pathManager = pathManager;
             _validator = validator;
             _loadingService = loadingService;
+            _mailboxService = mailboxService;
         }
 
         public ICommand AddPagesCommand { get; set; }
@@ -140,10 +143,13 @@ namespace Slithin.ViewModels.Modals
 
             if (TemplateStorage.Instance.Templates == null)
             {
-                _loadingService.LoadTemplates();
-            }
+                _mailboxService.PostAction(() =>
+                {
+                    _loadingService.LoadTemplates();
 
-            Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
+                    Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
+                });
+            }
         }
 
         private void AddPages(object obj)
