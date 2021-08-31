@@ -14,3 +14,5 @@ Slithin is a better cross-platform managent tool for your Remarkable Device
 * Regular updates
 * Share your assets with other users
 * Create custom tools
+
+# This is a alpha, so use it on your own risk
