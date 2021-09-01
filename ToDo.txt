@@ -9,4 +9,10 @@
 	add something
 	remove something
 
-	-> nichts tun
+	-> do nothing
+
+- improve export algortihm and integrate in ui
+
+- fix contextmenu background
+
+- fix syncservice ui and bug

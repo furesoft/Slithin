@@ -11,8 +11,8 @@ namespace Slithin.UI
         {
             var grid = new Grid();
 
-            grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
-            grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+            grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Auto));
+            grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Auto));
 
             TextBlock title;
             if (param is NotebookPage)
