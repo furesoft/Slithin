@@ -6,7 +6,7 @@
              xmlns:ui="using:Slithin.UI"
              mc:Ignorable="d" d:DesignWidth="515" d:DesignHeight="450"
              x:Class="Slithin.UI.Tools.AppendNotebookModal">
-  <c:DialogControl Header="Append PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding OKCommand}" MinHeight="350" MinWidth="515">
+  <c:DialogControl Header="Append PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding OKCommand}" MinHeight="350" MaxWidth="400">
     <Grid RowDefinitions="40,40,45,35,35,36" ColumnDefinitions="*,50,*">
       <StackPanel Grid.Row="0" Orientation="Horizontal">
         <TextBox Watermark="ID" Margin="5" MinWidth="185" Text="{Binding ID}" />
