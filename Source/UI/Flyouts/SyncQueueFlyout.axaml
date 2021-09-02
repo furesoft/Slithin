@@ -9,25 +9,25 @@
     <ItemsControl Items="{Binding Items}" IsHitTestVisible="True">
       <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <Grid ColumnDefinitions="165,75,75,75,35">
-            <TextBlock Text="{Binding Data}" VerticalAlignment="Center" Grid.Column="0" TextWrapping="Wrap" />
+          <Grid ColumnDefinitions="165,75,75,75,45">
+            <TextBlock Text="{Binding Data}" Foreground="Black" VerticalAlignment="Center" Grid.Column="0" TextWrapping="Wrap" />
 
             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-              <TextBlock Text="Direction:" VerticalAlignment="Center" FontSize="10" />
-              <TextBlock Text="{Binding Direction}" VerticalAlignment="Center" />
+              <TextBlock Text="Direction:" VerticalAlignment="Center" FontSize="10" Foreground="Black" />
+              <TextBlock Text="{Binding Direction}" VerticalAlignment="Center" Foreground="Black" />
             </StackPanel>
 
             <StackPanel Grid.Column="2" VerticalAlignment="Center">
-              <TextBlock Text="Action:" VerticalAlignment="Center" FontSize="10" />
-              <TextBlock Text="{Binding Action}" VerticalAlignment="Center" />
+              <TextBlock Text="Action:" VerticalAlignment="Center" FontSize="10" Foreground="Black" />
+              <TextBlock Text="{Binding Action}" VerticalAlignment="Center" Foreground="Black" />
             </StackPanel>
 
             <StackPanel Grid.Column="3" VerticalAlignment="Center">
-              <TextBlock Text="Type:" VerticalAlignment="Center" FontSize="10" />
-              <TextBlock Text="{Binding Type}" VerticalAlignment="Center" />
+              <TextBlock Text="Type:" VerticalAlignment="Center" FontSize="10" Foreground="Black" />
+              <TextBlock Text="{Binding Type}" VerticalAlignment="Center" Foreground="Black" />
             </StackPanel>
 
-            <Button Content="X" Grid.Column="4" Classes="flat" HorizontalAlignment="Right" Command="{Binding $parent[ItemsControl].DataContext.DeleteCommand}" CommandParameter="{Binding}" />
+            <Button Content="X" Grid.Column="4" Classes="Flat" HorizontalAlignment="Right" Command="{Binding $parent[ItemsControl].DataContext.DeleteCommand}" CommandParameter="{Binding}" />
           </Grid>
         </DataTemplate>
       </ItemsControl.ItemTemplate>
