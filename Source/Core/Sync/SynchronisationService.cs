@@ -29,19 +29,37 @@ namespace Slithin.Core.Sync
             NotebooksFilter = new();
 
             SynchronizeCommand = new DelegateCommand(Synchronize);
-            SyncQueue = db.GetCollection<SyncItem>();
+            PersistentSyncQueue = db.GetCollection<SyncItem>();
             _pathManager = pathManager;
             _localRepository = localRepository;
             _client = client;
+
+            foreach (var item in PersistentSyncQueue.FindAll())
+            {
+                SyncQueue.Add(item);
+            }
         }
 
         public ObservableCollection<CustomScreen> CustomScreens { get; set; } = new();
 
         public NotebooksFilter NotebooksFilter { get; set; }
+        public ILiteCollection<SyncItem> PersistentSyncQueue { get; set; }
         public ICommand SynchronizeCommand { get; set; }
-        public ILiteCollection<SyncItem> SyncQueue { get; set; }
+        public ObservableCollection<SyncItem> SyncQueue { get; set; } = new();
         public TemplateFilter TemplateFilter { get; set; }
         public ToolsFilter ToolsFilter { get; set; }
+
+        public void AddToSyncQueue(SyncItem item)
+        {
+            SyncQueue.Add(item);
+            PersistentSyncQueue.Insert(item);
+        }
+
+        public void RemoveFromSyncQueue(SyncItem item)
+        {
+            SyncQueue.Remove(item);
+            PersistentSyncQueue.Delete(item._id);
+        }
 
         private void SyncDeviceDeletions()
         {
@@ -74,7 +92,7 @@ namespace Slithin.Core.Sync
             var events = ServiceLocator.Container.Resolve<EventStorage>();
             var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
 
-            events.Invoke("beforeSync", new[] { SyncQueue.FindAll() });
+            events.Invoke("beforeSync", new[] { PersistentSyncQueue.FindAll() });
 
             if (!_localRepository.GetTemplates().Any() && !Directory.GetFiles(_pathManager.TemplatesDir).Any())
             {
@@ -87,14 +105,14 @@ namespace Slithin.Core.Sync
 
             SyncDeviceDeletions();
 
-            foreach (var item in SyncQueue.FindAll())
+            foreach (var item in PersistentSyncQueue.FindAll())
             {
                 mailboxService.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
             }
 
-            SyncQueue.AnalyseAndAppend();
+            PersistentSyncQueue.AnalyseAndAppend();
 
-            SyncQueue.DeleteAll();
+            PersistentSyncQueue.DeleteAll();
 
             events.Invoke("afterSync");
         }

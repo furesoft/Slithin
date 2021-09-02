@@ -154,10 +154,10 @@ namespace Slithin.ViewModels.Modals
                 DialogService.Close();
 
                 var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
-                _synchronisationService.SyncQueue.Insert(syncItem);
+                _synchronisationService.AddToSyncQueue(syncItem);
 
                 var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
-                _synchronisationService.SyncQueue.Insert(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
+                _synchronisationService.AddToSyncQueue(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
             }
             else
             {

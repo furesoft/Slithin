@@ -61,7 +61,7 @@ namespace Slithin.ViewModels.Pages
                     Action = SyncAction.Update
                 };
 
-                SyncService.SyncQueue.Insert(item);
+                SyncService.AddToSyncQueue(item);
 
                 SyncService.NotebooksFilter.Documents.Clear();
                 foreach (var md in MetadataStorage.Local.GetByParent(SyncService.NotebooksFilter.Folder))
@@ -140,7 +140,7 @@ namespace Slithin.ViewModels.Pages
                     Type = SyncType.Notebook
                 };
 
-                _synchronisationService.SyncQueue.Insert(syncItem);
+                _synchronisationService.AddToSyncQueue(syncItem);
 
                 DialogService.Close();
             }
@@ -169,7 +169,7 @@ namespace Slithin.ViewModels.Pages
                     Type = SyncType.Notebook
                 };
 
-                _synchronisationService.SyncQueue.Insert(syncItem);
+                _synchronisationService.AddToSyncQueue(syncItem);
 
                 DialogService.Close();
             }

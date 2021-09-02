@@ -9,10 +9,7 @@ namespace Slithin.ViewModels.Flyouts
     {
         public SyncQueueFlyoutViewModel()
         {
-            foreach (var item in SyncService.SyncQueue.FindAll())
-            {
-                Items.Add(item);
-            }
+            Items = SyncService.SyncQueue;
 
             DeleteCommand = new DelegateCommand(Delete);
         }
@@ -25,8 +22,7 @@ namespace Slithin.ViewModels.Flyouts
         {
             var item = (SyncItem)obj;
 
-            Items.Remove(item);
-            this.SyncService.SyncQueue.Delete(item._id);
+            SyncService.RemoveFromSyncQueue(item);
         }
     }
 }

@@ -104,7 +104,7 @@ namespace Slithin.UI.Pages
                                 Data = md
                             };
 
-                            ServiceLocator.SyncService.SyncQueue.Insert(syncItem);
+                            ServiceLocator.SyncService.AddToSyncQueue(syncItem);
                         }
                         else
                         {
