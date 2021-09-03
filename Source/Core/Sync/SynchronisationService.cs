@@ -5,6 +5,7 @@ using System.Windows.Input;
 using LiteDB;
 using Newtonsoft.Json;
 using Renci.SshNet;
+using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
@@ -16,23 +17,14 @@ namespace Slithin.Core.Sync
 {
     public class SynchronisationService : ReactiveObject
     {
-        private readonly SshClient _client;
-        private readonly LocalRepository _localRepository;
-        private readonly IPathManager _pathManager;
-
-        public SynchronisationService(IPathManager pathManager,
-                                      LiteDatabase db,
-                                      LocalRepository localRepository,
-                                      SshClient client)
+        public SynchronisationService(LiteDatabase db)
         {
             TemplateFilter = new();
             NotebooksFilter = new();
 
-            SynchronizeCommand = new DelegateCommand(Synchronize);
+            SynchronizeCommand = ServiceLocator.Container.Resolve<SynchronizeCommand>();
+
             PersistentSyncQueue = db.GetCollection<SyncItem>();
-            _pathManager = pathManager;
-            _localRepository = localRepository;
-            _client = client;
 
             foreach (var item in PersistentSyncQueue.FindAll())
             {
@@ -44,7 +36,7 @@ namespace Slithin.Core.Sync
 
         public NotebooksFilter NotebooksFilter { get; set; }
         public ILiteCollection<SyncItem> PersistentSyncQueue { get; set; }
-        public ICommand SynchronizeCommand { get; set; }
+        public SynchronizeCommand SynchronizeCommand { get; set; }
         public ObservableCollection<SyncItem> SyncQueue { get; set; } = new();
         public TemplateFilter TemplateFilter { get; set; }
         public ToolsFilter ToolsFilter { get; set; }
@@ -53,68 +45,14 @@ namespace Slithin.Core.Sync
         {
             SyncQueue.Add(item);
             PersistentSyncQueue.Insert(item);
+            SynchronizeCommand.RaiseExecuteChanged();
         }
 
         public void RemoveFromSyncQueue(SyncItem item)
         {
             SyncQueue.Remove(item);
             PersistentSyncQueue.Delete(item._id);
-        }
-
-        private void SyncDeviceDeletions()
-        {
-            var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
-
-            var deviceFiles = _client.RunCommand("ls -p " + PathList.Documents).Result
-                .Split('\n', System.StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
-            var localFiles = Directory.GetFiles(_pathManager.NotebooksDir).Where(_ => _.EndsWith(".metadata")).
-                Select(_ => Path.GetFileName(_));
-
-            var deltaLocalFiles = localFiles.Except(deviceFiles);
-
-            foreach (var file in deltaLocalFiles)
-            {
-                var item = new SyncItem
-                {
-                    Data = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(_pathManager.NotebooksDir, file))),
-                    Direction = SyncDirection.ToLocal,
-                    Action = SyncAction.Remove
-                };
-
-                ((Metadata)item.Data).ID = Path.GetFileNameWithoutExtension(file);
-
-                mailboxService.Post(new SyncMessage { Item = item });
-            }
-        }
-
-        private void Synchronize(object obj)
-        {
-            var events = ServiceLocator.Container.Resolve<EventStorage>();
-            var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
-
-            events.Invoke("beforeSync", new[] { PersistentSyncQueue.FindAll() });
-
-            if (!_localRepository.GetTemplates().Any() && !Directory.GetFiles(_pathManager.TemplatesDir).Any())
-            {
-                mailboxService.Post(new InitStorageMessage());
-            }
-
-            NotificationService.Show("Syncing ...");
-
-            mailboxService.Post(new DownloadNotebooksMessage());
-
-            SyncDeviceDeletions();
-
-            foreach (var item in PersistentSyncQueue.FindAll())
-            {
-                mailboxService.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
-            }
-
-            PersistentSyncQueue.AnalyseAndAppend();
-
-            PersistentSyncQueue.DeleteAll();
-
-            events.Invoke("afterSync");
+            SynchronizeCommand.RaiseExecuteChanged();
         }
     }
 }
