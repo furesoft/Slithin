@@ -23,6 +23,7 @@ namespace Slithin.ViewModels.Pages
         public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
         {
             _synchronisationService = ServiceLocator.SyncService;
+            ExportCommand = ServiceLocator.Container.Resolve<ExportCommand>();
 
             MakeFolderCommand = new DelegateCommand(async (_) =>
             {
@@ -77,6 +78,8 @@ namespace Slithin.ViewModels.Pages
             _loadingService = loadingService;
             _mailboxService = mailboxService;
         }
+
+        public ICommand ExportCommand { get; set; }
 
         public bool IsMoving
         {
