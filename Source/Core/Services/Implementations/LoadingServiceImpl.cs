@@ -16,6 +16,7 @@ namespace Slithin.Core.Services.Implementations
         public void LoadNotebooks()
         {
             MetadataStorage.Local.Clear();
+            ServiceLocator.SyncService.NotebooksFilter.Documents.Clear();
 
             foreach (var md in Directory.GetFiles(_pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
             {
@@ -42,6 +43,8 @@ namespace Slithin.Core.Services.Implementations
 
         public void LoadTemplates()
         {
+            ServiceLocator.SyncService.TemplateFilter.Templates.Clear();
+
             // Load local Templates
             TemplateStorage.Instance?.Load();
 
@@ -57,6 +60,12 @@ namespace Slithin.Core.Services.Implementations
                         ServiceLocator.SyncService.TemplateFilter.Categories.Add(cat);
                     }
                 }
+            }
+
+            foreach (var t in TemplateStorage.Instance.Templates)
+            {
+                ServiceLocator.SyncService.TemplateFilter.Templates.Add(t);
+                t.Load();
             }
         }
     }
