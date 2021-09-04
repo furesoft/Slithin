@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
-    <Version>0.6</Version>
+    <Version>1.0.0.1</Version>
 	  <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
     <PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
   </PropertyGroup>
