@@ -16,3 +16,4 @@ Slithin is a better cross-platform managent tool for your Remarkable Device
 * Create custom tools
 
 [![Store](https://developer.microsoft.com/store/badges/images/English_get-it-from-MS.png)](http:///www.microsoft.com/store/apps/9PKXTCBN8MQ8?cid=storebadge&ocid=badge)
+# This is a alpha, so use it on your own risk
