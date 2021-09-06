@@ -19,9 +19,9 @@
         <Image Height="250" Source="/Resources/Covers/Folder-Grey.png" />
       </c:GalleryControl>
 
-      <c:StoreCardCollection Cards="{Binding Items}" Category="Templates" />
-      <c:StoreCardCollection Cards="{Binding Items}" Category="Tools" />
-      <c:StoreCardCollection Cards="{Binding Items}" Category="Notebooks" />
+      <c:StoreCardCollection Cards="{Binding Items}" Category="Templates" MoreCommand="{Binding ViewMoreCommand}" />
+      <c:StoreCardCollection Cards="{Binding Items}" Category="Tools" MoreCommand="{Binding ViewMoreCommand}" />
+      <c:StoreCardCollection Cards="{Binding Items}" Category="Notebooks" MoreCommand="{Binding ViewMoreCommand}" />
     </StackPanel>
   </ScrollViewer>
 </UserControl>
