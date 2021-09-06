@@ -42,7 +42,7 @@ namespace Slithin.Core.Commands
 
         public bool CanExecute(object parameter)
         {
-            return ServiceLocator.SyncService.SyncQueue.Any();
+            return true;
         }
 
         public void Execute(object parameter)
@@ -56,7 +56,7 @@ namespace Slithin.Core.Commands
 
             NotificationService.Show("Syncing ...");
 
-            _mailboxService.Post(new DownloadNotebooksMessage());
+            _mailboxService.Post(new CollectSyncNotebooksMessage());
 
             SyncDeviceDeletions();
 
