@@ -61,7 +61,7 @@ namespace Slithin.Core.Scripting
                              new Action<AsynchronousMessage>(mailboxService.Post));
 
                 mb.AddConstructor(typeof(Messages.AttentionRequiredMessage));
-                mb.AddConstructor(typeof(Messages.DownloadNotebooksMessage));
+                mb.AddConstructor(typeof(Messages.CollectSyncNotebooksMessage));
                 mb.AddConstructor(typeof(Messages.InitStorageMessage));
             }
             else if (moduleRequest.CmdArgument == "pdf")

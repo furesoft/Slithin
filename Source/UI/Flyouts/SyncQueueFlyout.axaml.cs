@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Core;
 using Slithin.ViewModels.Flyouts;
 
 namespace Slithin.UI.Flyouts
@@ -20,7 +21,7 @@ namespace Slithin.UI.Flyouts
 
         private void SyncQueueFlyout_Initialized(object sender, System.EventArgs e)
         {
-            DataContext = new SyncQueueFlyoutViewModel();
+            DataContext = ServiceLocator.Container.Resolve<SyncQueueFlyoutViewModel>();
         }
     }
 }

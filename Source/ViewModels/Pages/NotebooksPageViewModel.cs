@@ -23,6 +23,7 @@ namespace Slithin.ViewModels.Pages
         public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
         {
             _synchronisationService = ServiceLocator.SyncService;
+            ExportCommand = ServiceLocator.Container.Resolve<ExportCommand>();
 
             MakeFolderCommand = new DelegateCommand(async (_) =>
             {
@@ -61,7 +62,7 @@ namespace Slithin.ViewModels.Pages
                     Action = SyncAction.Update
                 };
 
-                SyncService.SyncQueue.Insert(item);
+                SyncService.AddToSyncQueue(item);
 
                 SyncService.NotebooksFilter.Documents.Clear();
                 foreach (var md in MetadataStorage.Local.GetByParent(SyncService.NotebooksFilter.Folder))
@@ -77,6 +78,8 @@ namespace Slithin.ViewModels.Pages
             _loadingService = loadingService;
             _mailboxService = mailboxService;
         }
+
+        public ICommand ExportCommand { get; set; }
 
         public bool IsMoving
         {
@@ -140,7 +143,7 @@ namespace Slithin.ViewModels.Pages
                     Type = SyncType.Notebook
                 };
 
-                _synchronisationService.SyncQueue.Insert(syncItem);
+                _synchronisationService.AddToSyncQueue(syncItem);
 
                 DialogService.Close();
             }
@@ -169,7 +172,7 @@ namespace Slithin.ViewModels.Pages
                     Type = SyncType.Notebook
                 };
 
-                _synchronisationService.SyncQueue.Insert(syncItem);
+                _synchronisationService.AddToSyncQueue(syncItem);
 
                 DialogService.Close();
             }

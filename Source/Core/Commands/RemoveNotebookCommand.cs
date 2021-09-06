@@ -45,7 +45,7 @@ namespace Slithin.Core.Commands
                         Type = SyncType.Notebook
                     };
 
-                    _synchronisationService.SyncQueue.Insert(item);
+                    _synchronisationService.AddToSyncQueue(item);
 
                     foreach (var mds in MetadataStorage.Local.GetByParent(md.Parent))
                     {

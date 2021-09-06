@@ -50,7 +50,7 @@ namespace Slithin.ViewModels.Modals
                         Type = SyncType.Notebook
                     };
 
-                    _synchronisationService.SyncQueue.Insert(syncItem);
+                    _synchronisationService.AddToSyncQueue(syncItem);
 
                     DialogService.Close();
                 }

@@ -12,8 +12,9 @@ namespace Slithin.Core.Sync
         {
             var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
 
-            var templates = queue.FindAll().Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Template);
-            var importedNotebooks = queue.FindAll().Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Notebook);
+            var items = queue.FindAll();
+            var templates = items.Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Template);
+            var importedNotebooks = items.Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Notebook);
 
             if (templates.Any() || importedNotebooks.Any())
             {

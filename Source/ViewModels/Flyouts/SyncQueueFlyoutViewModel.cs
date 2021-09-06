@@ -1,20 +1,22 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Slithin.Core;
+using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels.Flyouts
 {
     public class SyncQueueFlyoutViewModel : BaseViewModel
     {
-        public SyncQueueFlyoutViewModel()
+        private readonly ILoadingService _loadingService;
+
+        public SyncQueueFlyoutViewModel(ILoadingService loadingService)
         {
-            foreach (var item in SyncService.SyncQueue.FindAll())
-            {
-                Items.Add(item);
-            }
+            Items = SyncService.SyncQueue;
 
             DeleteCommand = new DelegateCommand(Delete);
+            _loadingService = loadingService;
         }
 
         public ICommand DeleteCommand { get; set; }
@@ -25,8 +27,22 @@ namespace Slithin.ViewModels.Flyouts
         {
             var item = (SyncItem)obj;
 
-            Items.Remove(item);
-            this.SyncService.SyncQueue.Delete(item._id);
+            SyncService.RemoveFromSyncQueue(item);
+
+            //recover item
+
+            if (item.Data is Metadata md)
+            {
+                md.Save();
+
+                _loadingService.LoadNotebooks();
+            }
+            else if (item.Data is Template t)
+            {
+                TemplateStorage.Instance.Add(t);
+
+                _loadingService.LoadTemplates();
+            }
         }
     }
 }

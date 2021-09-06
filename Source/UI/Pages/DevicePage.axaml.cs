@@ -87,7 +87,7 @@ namespace Slithin.UI.Pages
                                 Type = SyncType.Screen
                             };
 
-                            ServiceLocator.SyncService.SyncQueue.Insert(item);
+                            ServiceLocator.SyncService.AddToSyncQueue(item);
 
                             cs.Load();
                         }

@@ -49,7 +49,7 @@ namespace Slithin.Core.Commands
                         Type = SyncType.Template
                     };
 
-                    _synchronisationService.SyncQueue.Insert(item);
+                    _synchronisationService.AddToSyncQueue(item);
                 }
             }
         }

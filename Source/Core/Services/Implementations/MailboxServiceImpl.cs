@@ -42,9 +42,11 @@ namespace Slithin.Core.Services.Implementations
 
             _messageRouter.Register(ServiceLocator.Container.Resolve<PostActionMessageHandler>());
 
-            _messageRouter.Register(ServiceLocator.Container.Resolve<DownloadNotebooksMessageHandler>());
+            _messageRouter.Register(ServiceLocator.Container.Resolve<CollectSyncNotebooksMessageHandler>());
 
             _messageRouter.Register(ServiceLocator.Container.Resolve<InitNotebookMessageHandler>());
+
+            _messageRouter.Register(ServiceLocator.Container.Resolve<DownloadSyncNotebooksMessageHandler>());
         }
 
         public void Post(AsynchronousMessage msg)
