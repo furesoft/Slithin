@@ -36,6 +36,13 @@
      <EmbeddedResource Include="Resources\Covers\**" />
    </ItemGroup>
 
+  <PropertyGroup>
+    <RestoreSources>
+      https://www.myget.org/F/avalonia-ci/api/v2;
+      https://api.nuget.org/v3/index.json;
+    </RestoreSources>
+  </PropertyGroup>
+
    <ItemGroup>
      <None Remove="Resources\backup.png" />
      <EmbeddedResource Include="Resources\Cover.png" />
