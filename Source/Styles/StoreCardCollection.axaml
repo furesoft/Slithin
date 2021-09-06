@@ -18,7 +18,7 @@
           <StackPanel Orientation="Horizontal" Spacing="15">
             <TextBlock Text="{TemplateBinding Category}" FontSize="22" FontWeight="Bold" Margin="3" />
 
-            <c:Link Title="More" CommandParameter="{TemplateBinding Category}" VerticalAlignment="Center" />
+            <c:Link Title="More" CommandParameter="{TemplateBinding Category}" Command="{TemplateBinding MoreCommand}" VerticalAlignment="Center" />
           </StackPanel>
 
           <ItemsControl Items="{TemplateBinding Cards, Mode=TwoWay}" VerticalAlignment="Top">
@@ -33,11 +33,11 @@
                     <Grid>
                       <TextBlock Text="{Binding Author}" VerticalAlignment="Center" />
 
-                      <Button IsVisible="{Binding !IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right">
+                      <Button IsVisible="{Binding !IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right" Command="{TemplateBinding InstallCommand}" CommandParameter="{Binding}">
                         <mi:MaterialIcon Kind="Download" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
                       </Button>
 
-                      <Button IsVisible="{Binding IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right">
+                      <Button IsVisible="{Binding IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right" Command="{TemplateBinding UninstallCommand}" CommandParameter="{Binding}">
                         <mi:MaterialIcon Kind="Remove" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="Black" />
                       </Button>
                     </Grid>
@@ -48,7 +48,7 @@
 
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
-                <UniformGrid Columns="5" />
+                <UniformGrid Columns="5" Rows="1" />
               </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
           </ItemsControl>
