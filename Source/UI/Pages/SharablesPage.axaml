@@ -9,6 +9,8 @@
              x:Class="Slithin.UI.Pages.SharablesPage">
   <ScrollViewer>
     <StackPanel Spacing="5" Margin="2">
+      <TextBlock Text="Featured" FontSize="22" FontWeight="Bold" Margin="3" />
+
       <c:GalleryControl>
         <Image Height="250" Source="/Resources/Cover.png" />
         <Image Height="250" Source="/Resources/Covers/Folder-DBlue.png" />
