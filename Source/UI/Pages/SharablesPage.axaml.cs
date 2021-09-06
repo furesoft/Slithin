@@ -18,7 +18,11 @@ namespace Slithin.UI.Pages
 
         bool IPage.IsEnabled()
         {
+#if DEBUG
             return true;
+#else
+            return false;
+#endif
         }
 
         public bool UseContextualMenu() => false;
