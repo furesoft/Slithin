@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
+using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages
@@ -14,14 +15,18 @@ namespace Slithin.UI.Pages
 
         public string Title => "Sharables";
 
-        public Control GetContextualMenu() => null;
+        public Control GetContextualMenu() => new SharablesContextualMenu();
 
         bool IPage.IsEnabled()
         {
+#if DEBUG
             return true;
+#else
+            return false;
+#endif
         }
 
-        public bool UseContextualMenu() => false;
+        public bool UseContextualMenu() => true;
 
         private void InitializeComponent()
         {

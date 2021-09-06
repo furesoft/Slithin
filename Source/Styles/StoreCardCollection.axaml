@@ -1,0 +1,59 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="using:Slithin.Controls"
+        xmlns:controls="using:Slithin.Controls">
+  <Design.PreviewWith>
+    <controls:StoreCardCollection />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|StoreCardCollection">
+    <Setter Property="MinWidth" Value="350" />
+    <Setter Property="MinHeight" Value="250" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel Spacing="5">
+          <StackPanel Orientation="Horizontal" Spacing="15">
+            <TextBlock Text="{TemplateBinding Category}" FontSize="22" FontWeight="Bold" Margin="3" />
+
+            <c:Link Title="More" CommandParameter="{TemplateBinding Category}" Command="{TemplateBinding MoreCommand}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <ItemsControl Items="{TemplateBinding Cards, Mode=TwoWay}" VerticalAlignment="Top">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <styles:Card Background="Gray" Margin="3" HorizontalAlignment="Center" MaxHeight="275">
+                  <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Name}" Margin="0,0,0,5" TextAlignment="Center" FontSize="17" FontWeight="Medium" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
+
+                    <Image Source="{Binding Image, Mode=TwoWay}" Margin="2" />
+
+                    <Grid>
+                      <TextBlock Text="{Binding Author}" VerticalAlignment="Center" />
+
+                      <Button IsVisible="{Binding !IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right" Command="{TemplateBinding InstallCommand}" CommandParameter="{Binding}">
+                        <mi:MaterialIcon Kind="Download" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
+                      </Button>
+
+                      <Button IsVisible="{Binding IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right" Command="{TemplateBinding UninstallCommand}" CommandParameter="{Binding}">
+                        <mi:MaterialIcon Kind="Remove" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="Black" />
+                      </Button>
+                    </Grid>
+                  </StackPanel>
+                </styles:Card>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <UniformGrid Columns="5" Rows="1" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+          </ItemsControl>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>
