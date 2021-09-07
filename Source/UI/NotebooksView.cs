@@ -37,6 +37,16 @@ namespace Slithin.UI
                     {
                         id = _lastFolderIDs.Pop();
                         vm.SyncService.NotebooksFilter.Folder = id;
+
+                        if (id == "")
+                        {
+                            vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Trash" });
+                        }
+                    }
+                    else if (md.VisibleName == "Trash")
+                    {
+                        id = "trash";
+                        _lastFolderIDs.Push("");
                     }
                     else
                     {
