@@ -25,7 +25,7 @@ namespace Slithin.Core.Services.Implementations
                 MetadataStorage.Local.Add(mdObj, out var alreadyAdded);
             }
 
-            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Trash" });
+            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Trash", ID = "trash" });
 
             foreach (var md in MetadataStorage.Local.GetByParent(""))
             {

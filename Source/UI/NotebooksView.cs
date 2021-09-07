@@ -40,7 +40,7 @@ namespace Slithin.UI
 
                         if (id == "")
                         {
-                            vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Trash" });
+                            vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Trash", ID = "trash" });
                         }
                     }
                     else if (md.VisibleName == "Trash")
