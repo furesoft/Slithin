@@ -2,17 +2,9 @@
 using Avalonia.Controls;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia.Controls;
-using Slithin.Core.ItemContext;
-using Slithin.Core.Remarkable;
-using Slithin;
 using Slithin.Core;
 using Slithin.ViewModels.Pages;
+using Slithin.Core.Sync;
 
 namespace Slithin.ContextMenus
 {
@@ -33,6 +25,25 @@ namespace Slithin.ContextMenus
                 yield return new MenuItem { Header = "Copy ID", Command = new DelegateCommand(async _ => await App.Current.Clipboard.SetTextAsync(((Metadata)obj).ID)) };
                 yield return new MenuItem { Header = "Remove", Command = new DelegateCommand(_ => n.RemoveNotebookCommand.Execute(obj)) };
                 yield return new MenuItem { Header = "Rename", Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj)) };
+                yield return new MenuItem { Header = "Move to Trash", Command = new DelegateCommand(_ => MoveToTrash(obj)) };
+            }
+        }
+
+        private void MoveToTrash(object obj)
+        {
+            if (obj is Metadata md)
+            {
+                MetadataStorage.Local.Move(md, "trash");
+
+                var syncItem = new SyncItem
+                {
+                    Action = SyncAction.Update,
+                    Direction = SyncDirection.ToDevice,
+                    Data = md,
+                    Type = SyncType.Notebook
+                };
+
+                ServiceLocator.SyncService.AddToSyncQueue(syncItem);
             }
         }
     }

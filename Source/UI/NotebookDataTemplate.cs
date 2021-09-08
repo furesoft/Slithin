@@ -72,6 +72,10 @@ namespace Slithin.UI
                         img.Source = cache.Get("notebook-" + md.Content.FileType, new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
                     }
                 }
+                else if (md.ID == "trash")
+                {
+                    img.Source = cache.Get("trash", new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/trash.png"))));
+                }
                 else
                 {
                     img.Source = cache.Get("folder", new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png"))));

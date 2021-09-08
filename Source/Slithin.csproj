@@ -45,6 +45,7 @@
 
    <ItemGroup>
      <None Remove="Resources\backup.png" />
+     <None Remove="Resources\trash.png" />
      <EmbeddedResource Include="Resources\Cover.png" />
      <None Remove="Resources\Covers\Folder-DBlue.png" />
      <None Remove="Resources\Covers\Folder-Green.png" />
