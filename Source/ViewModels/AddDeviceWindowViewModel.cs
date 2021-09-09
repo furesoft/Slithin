@@ -43,6 +43,7 @@ namespace Slithin.ViewModels
             if (result.IsValid)
             {
                 ParentViewModel.LoginCredentials.Add(SelectedLogin);
+                ParentViewModel.SelectedLogin = SelectedLogin;
 
                 _loginService.RememberLoginCredencials(SelectedLogin);
 

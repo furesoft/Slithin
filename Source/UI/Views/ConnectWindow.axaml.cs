@@ -1,6 +1,9 @@
-﻿using Avalonia;
+﻿using System;
+using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using LiteDB;
 using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.ViewModels;
@@ -33,11 +36,18 @@ namespace Slithin.UI.Views
                 }
             }
 
-            cvm.SelectedLogin = li[0];
+            cvm.SelectedLogin = li.FirstOrDefault();
 
             cvm.LoginCredentials = new(li);
 
             DataContext = cvm;
+
+            Closed += (s, e) =>
+            {
+                var db = ServiceLocator.Container.Resolve<LiteDatabase>();
+
+                db.Dispose();
+            };
         }
     }
 }
