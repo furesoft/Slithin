@@ -14,7 +14,7 @@
         <Image Source="avares:/Resources/new_logo.png" Grid.ColumnSpan="2" Margin="0,0,0,3" />
 
         <Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="*,45">
-          <ComboBox Margin="1" Items="{Binding LoginCredentials}" SelectedItem="{Binding SelectedLogin}" />
+          <ComboBox PlaceholderText="Device" Items="{Binding LoginCredentials}" SelectedItem="{Binding SelectedLogin}" />
 
           <Button Classes="Flat" Content="+" Width="45" Grid.Column="1" />
         </Grid>
