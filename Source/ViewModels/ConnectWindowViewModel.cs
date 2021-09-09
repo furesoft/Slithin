@@ -16,6 +16,7 @@ using Slithin.UI.GalleryFirstStart;
 using Slithin.UI.UpdateGallery;
 using Slithin.UI.Views;
 using Slithin.Models;
+using System.Collections.ObjectModel;
 
 namespace Slithin.ViewModels
 {
@@ -26,14 +27,12 @@ namespace Slithin.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly LoginInfoValidator _validator;
 
-        private string _ip;
+        private ObservableCollection<LoginInfo> _loginCredentials;
 
-        private string _password;
-
-        private bool _remember;
+        private LoginInfo _selectedLogin;
 
         public ConnectionWindowViewModel(EventStorage events,
-                                         ILoginService loginService,
+                                                 ILoginService loginService,
                                          LoginInfoValidator validator,
                                          ISettingsService settingsService)
         {
@@ -50,28 +49,22 @@ namespace Slithin.ViewModels
 
         public ICommand HelpCommand { get; set; }
 
-        public string IP
+        public ObservableCollection<LoginInfo> LoginCredentials
         {
-            get { return _ip; }
-            set { SetValue(ref _ip, value); }
+            get { return _loginCredentials; }
+            set { SetValue(ref _loginCredentials, value); }
         }
 
-        public string Password
+        public LoginInfo SelectedLogin
         {
-            get { return _password; }
-            set { SetValue(ref _password, value); }
-        }
-
-        public bool Remember
-        {
-            get { return _remember; }
-            set { SetValue(ref _remember, value); }
+            get { return _selectedLogin; }
+            set { SetValue(ref _selectedLogin, value); }
         }
 
         private void Connect(object obj)
         {
-            ServiceLocator.Container.Register(new SshClient(IP, 22, "root", Password));
-            ServiceLocator.Container.Register(new ScpClient(IP, 22, "root", Password));
+            ServiceLocator.Container.Register(new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
+            ServiceLocator.Container.Register(new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
 
             var client = ServiceLocator.Container.Resolve<SshClient>();
 
@@ -91,7 +84,7 @@ namespace Slithin.ViewModels
                 DialogService.OpenError(_.Exception.ToString());
             };
 
-            var loginInfo = new LoginInfo(IP, Password, Remember);
+            var loginInfo = new LoginInfo(SelectedLogin.IP, SelectedLogin.Password, "default");
             var validationResult = _validator.Validate(loginInfo);
 
             if (validationResult.IsValid)
@@ -103,11 +96,6 @@ namespace Slithin.ViewModels
 
                     if (client.IsConnected)
                     {
-                        if (Remember)
-                        {
-                            _loginService.RememberLoginCredencials(loginInfo);
-                        }
-
                         if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
                         {
                             _events.Invoke("connect");

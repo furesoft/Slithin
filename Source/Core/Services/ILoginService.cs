@@ -4,7 +4,7 @@ namespace Slithin.Core.Services
 {
     public interface ILoginService
     {
-        LoginInfo GetLoginCredentials();
+        LoginInfo[] GetLoginCredentials();
 
         void RememberLoginCredencials(LoginInfo viewModel);
     }
