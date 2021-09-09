@@ -25,6 +25,16 @@ namespace Slithin.UI.Views
             var li = ServiceLocator.Container.Resolve<ILoginService>().GetLoginCredentials();
             var cvm = ServiceLocator.Container.Resolve<ConnectionWindowViewModel>();
 
+            for (int i = 0; i < li.Length; i++)
+            {
+                if (string.IsNullOrEmpty(li[i].Name))
+                {
+                    li[i].Name = "Device " + (i + 1);
+                }
+            }
+
+            cvm.SelectedLogin = li[0];
+
             cvm.LoginCredentials = new(li);
 
             DataContext = cvm;

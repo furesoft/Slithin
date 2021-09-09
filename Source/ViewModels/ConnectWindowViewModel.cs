@@ -32,7 +32,7 @@ namespace Slithin.ViewModels
         private LoginInfo _selectedLogin;
 
         public ConnectionWindowViewModel(EventStorage events,
-                                                 ILoginService loginService,
+                                         ILoginService loginService,
                                          LoginInfoValidator validator,
                                          ISettingsService settingsService)
         {
@@ -43,6 +43,8 @@ namespace Slithin.ViewModels
 
             ConnectCommand = new DelegateCommand(Connect);
             HelpCommand = new DelegateCommand(Help);
+
+            SelectedLogin = new("", "");
         }
 
         public ICommand ConnectCommand { get; set; }
@@ -63,32 +65,31 @@ namespace Slithin.ViewModels
 
         private void Connect(object obj)
         {
-            ServiceLocator.Container.Register(new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
-            ServiceLocator.Container.Register(new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
-
-            var client = ServiceLocator.Container.Resolve<SshClient>();
-
-            ServiceLocator.SyncService = ServiceLocator.Container.Resolve<SynchronisationService>();
-            ServiceLocator.Container.Register<Automation>().AsSingleton();
-
-            var automation = ServiceLocator.Container.Resolve<Automation>();
-
-            automation.Init();
-            automation.Evaluate("testScript");
-
-            ServiceLocator.Container.Resolve<IMailboxService>().Init();
-            ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
-
-            client.ErrorOccurred += (s, _) =>
-            {
-                DialogService.OpenError(_.Exception.ToString());
-            };
-
-            var loginInfo = new LoginInfo(SelectedLogin.IP, SelectedLogin.Password, "default");
-            var validationResult = _validator.Validate(loginInfo);
+            var validationResult = _validator.Validate(SelectedLogin);
 
             if (validationResult.IsValid)
             {
+                ServiceLocator.Container.Register(new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
+                ServiceLocator.Container.Register(new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
+
+                var client = ServiceLocator.Container.Resolve<SshClient>();
+
+                ServiceLocator.SyncService = ServiceLocator.Container.Resolve<SynchronisationService>();
+                ServiceLocator.Container.Register<Automation>().AsSingleton();
+
+                var automation = ServiceLocator.Container.Resolve<Automation>();
+
+                automation.Init();
+                automation.Evaluate("testScript");
+
+                ServiceLocator.Container.Resolve<IMailboxService>().Init();
+                ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
+
+                client.ErrorOccurred += (s, _) =>
+                {
+                    DialogService.OpenError(_.Exception.ToString());
+                };
+
                 try
                 {
                     client.Connect();
