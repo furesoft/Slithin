@@ -43,12 +43,12 @@ namespace Slithin.ViewModels
 
             ConnectCommand = new DelegateCommand(Connect);
             HelpCommand = new DelegateCommand(Help);
+            OpenAddDeviceCommand = new DelegateCommand(OpenAddDevice);
 
-            SelectedLogin = new("", "");
+            SelectedLogin = new();
         }
 
         public ICommand ConnectCommand { get; set; }
-
         public ICommand HelpCommand { get; set; }
 
         public ObservableCollection<LoginInfo> LoginCredentials
@@ -56,6 +56,8 @@ namespace Slithin.ViewModels
             get { return _loginCredentials; }
             set { SetValue(ref _loginCredentials, value); }
         }
+
+        public ICommand OpenAddDeviceCommand { get; set; }
 
         public LoginInfo SelectedLogin
         {
@@ -155,6 +157,19 @@ namespace Slithin.ViewModels
         private void Help(object obj)
         {
             Utils.OpenUrl("https://tinyurl.com/remarkable-ssh");
+        }
+
+        private void OpenAddDevice(object obj)
+        {
+            var wndw = new AddDeviceWindow();
+            var vm = ServiceLocator.Container.Resolve<AddDeviceWindowViewModel>();
+            vm.ParentViewModel = this;
+
+            wndw.DataContext = vm;
+
+            vm.OnRequestClose += () => wndw.Close();
+
+            wndw.Show();
         }
 
         private void pingTimer_ellapsed(object sender, System.Timers.ElapsedEventArgs e)

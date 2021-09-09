@@ -6,6 +6,6 @@ namespace Slithin.Core.Services
     {
         LoginInfo[] GetLoginCredentials();
 
-        void RememberLoginCredencials(LoginInfo viewModel);
+        void RememberLoginCredencials(LoginInfo loginInfo);
     }
 }

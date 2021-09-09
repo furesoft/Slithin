@@ -27,17 +27,7 @@ namespace Slithin.Core.Services.Implementations
         {
             var collection = _db.GetCollection<LoginInfo>();
 
-            if (collection.Count() == 1)
-            {
-                var old = collection.FindAll().First();
-                info._id = old._id;
-
-                collection.Update(info);
-            }
-            else
-            {
-                collection.Insert(info);
-            }
+            collection.Insert(info);
         }
     }
 }

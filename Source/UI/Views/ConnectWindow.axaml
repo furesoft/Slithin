@@ -16,7 +16,7 @@
         <Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="*,45">
           <ComboBox PlaceholderText="Device" Items="{Binding LoginCredentials}" SelectedItem="{Binding SelectedLogin}" />
 
-          <Button Classes="Flat" Content="+" Width="45" Grid.Column="1" />
+          <Button Classes="Flat" Content="+" Width="45" Grid.Column="1" Command="{Binding OpenAddDeviceCommand}" />
         </Grid>
 
         <TextBox UseFloatingWatermark="True" wpf:TextFieldAssist.Label="IP Address" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.IP}" />
