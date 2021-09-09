@@ -51,6 +51,11 @@ namespace Slithin.Core
                 NotificationService.Show("Downloading Update");
                 var fileName = Path.Combine(tmp, Path.GetFileName(asset.BrowserDownloadUrl));
 
+                if (File.Exists(fileName))
+                {
+                    File.Delete(fileName);
+                }
+
                 if (!File.Exists(fileName))
                 {
                     wc.DownloadProgressChanged += (s, e) =>
