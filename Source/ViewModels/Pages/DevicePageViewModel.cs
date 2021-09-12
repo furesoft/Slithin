@@ -88,6 +88,7 @@ namespace Slithin.ViewModels.Pages
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Suspended", Filename = "suspended.png" });
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Rebooting", Filename = "rebooting.png" });
             SyncService.CustomScreens.Add(new CustomScreen { Title = "Splash", Filename = "splash.png" });
+            SyncService.CustomScreens.Add(new CustomScreen { Title = "Battery Empty", Filename = "batteryempty.png" });
 
             _loadingService.LoadScreens();
 

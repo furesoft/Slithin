@@ -17,6 +17,7 @@ using Slithin.UI.UpdateGallery;
 using Slithin.UI.Views;
 using Slithin.Models;
 using System.Collections.ObjectModel;
+using LiteDB;
 
 namespace Slithin.ViewModels
 {
@@ -76,7 +77,7 @@ namespace Slithin.ViewModels
 
                 var client = ServiceLocator.Container.Resolve<SshClient>();
 
-                ServiceLocator.SyncService = ServiceLocator.Container.Resolve<SynchronisationService>();
+                ServiceLocator.SyncService = new SynchronisationService(ServiceLocator.Container.Resolve<LiteDatabase>());
                 ServiceLocator.Container.Register<Automation>().AsSingleton();
 
                 var automation = ServiceLocator.Container.Resolve<Automation>();

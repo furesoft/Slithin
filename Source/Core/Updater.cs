@@ -41,14 +41,11 @@ namespace Slithin.Core
 
             if (versionComparison < 0)
             {
-                // Utils.OpenUrl("https://github.com/furesoft/Slithin/releases");
-
                 var asset = GetAsset(releases[0]);
                 var wc = new WebClient();
 
                 var tmp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-                NotificationService.Show("Downloading Update");
                 var fileName = Path.Combine(tmp, Path.GetFileName(asset.BrowserDownloadUrl));
 
                 if (File.Exists(fileName))
