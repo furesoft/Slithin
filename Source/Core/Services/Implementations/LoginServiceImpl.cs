@@ -16,35 +16,18 @@ namespace Slithin.Core.Services.Implementations
             _events = events;
         }
 
-        public LoginInfo GetLoginCredentials()
+        public LoginInfo[] GetLoginCredentials()
         {
             var collection = _db.GetCollection<LoginInfo>();
 
-            if (collection.Count() == 1)
-            {
-                return collection.FindAll().First();
-            }
-            else
-            {
-                return new(null, null, false);
-            }
+            return collection.FindAll().ToArray();
         }
 
         public void RememberLoginCredencials(LoginInfo info)
         {
             var collection = _db.GetCollection<LoginInfo>();
 
-            if (collection.Count() == 1)
-            {
-                var old = collection.FindAll().First();
-                info._id = old._id;
-
-                collection.Update(info);
-            }
-            else
-            {
-                collection.Insert(info);
-            }
+            collection.Insert(info);
         }
     }
 }

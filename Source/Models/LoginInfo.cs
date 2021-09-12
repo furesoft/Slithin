@@ -1,10 +1,19 @@
 ﻿using LiteDB;
-using Slithin.Core;
 
 namespace Slithin.Models
 {
-    public record LoginInfo(string IP, string Password, bool Remember)
+    public record LoginInfo
     {
         public ObjectId _id { get; set; }
+
+        public string Name { get; set; }
+        public string Password { get; set; }
+
+        public string IP { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

@@ -5,23 +5,27 @@
         xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         xmlns:wpf="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
         xmlns:controls="using:Slithin.Controls"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="520"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
         x:Class="Slithin.UI.Views.ConnectWindow" Icon="avares:/Resources/Icon.png"
-        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" MinHeight="470" MinWidth="342" MaxWidth="342" MaxHeight="425">
+        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" MinHeight="500" MinWidth="342" MaxWidth="342" MaxHeight="500">
   <styles:SnackbarHost HostName="connect">
-    <styles:ColorZone Mode="Light" Height="470">
-      <Grid RowDefinitions="250,45,45,20,30,65" ColumnDefinitions="*,AUTO" Margin="5">
+    <styles:ColorZone Mode="Light" Height="500">
+      <Grid RowDefinitions="250,45,45,45,20,30,65" ColumnDefinitions="*,AUTO" Margin="5">
         <Image Source="avares:/Resources/new_logo.png" Grid.ColumnSpan="2" Margin="0,0,0,3" />
 
-        <TextBox UseFloatingWatermark="True" wpf:TextFieldAssist.Label="IP Address" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding IP}" />
-        <TextBox UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding Password}"
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="*,45">
+          <ComboBox PlaceholderText="No Device Saved" Items="{Binding LoginCredentials}" SelectedItem="{Binding SelectedLogin}" />
+
+          <Button Classes="Flat" Content="+" Width="45" Grid.Column="1" Command="{Binding OpenAddDeviceCommand}" />
+        </Grid>
+
+        <TextBox UseFloatingWatermark="True" wpf:TextFieldAssist.Label="IP Address" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.IP}" />
+        <TextBox UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.Password}"
                                          wpf:TextFieldAssist.Label="Password" PasswordChar="*" />
 
-        <controls:Link Title="Where can I find the information?" Grid.ColumnSpan="2" Grid.Row="4" Command="{Binding HelpCommand}" />
+        <controls:Link Title="Where can I find the information?" Grid.ColumnSpan="2" Grid.Row="5" Command="{Binding HelpCommand}" />
 
-        <CheckBox Grid.Row="5" Grid.Column="0" IsChecked="{Binding Remember}">Remember</CheckBox>
-
-        <Button Classes="Flat" Grid.Row="5" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150" Margin="10" Content="Connect" />
+        <Button Classes="Flat" Grid.Row="6" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150" Margin="10" Content="Connect" />
       </Grid>
     </styles:ColorZone>
   </styles:SnackbarHost>
