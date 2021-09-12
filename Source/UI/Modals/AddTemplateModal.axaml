@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
              xmlns:c="using:Slithin.Controls"
              x:Class="Slithin.UI.Modals.AddTemplateModal">
-  <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True" Command="{Binding AddTemplateCommand}" MinHeight="300">
+  <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True" Command="{Binding AddTemplateCommand}" MinHeight="300" MaxWidth="500">
     <Grid ColumnDefinitions="*,50,*" RowDefinitions="40,40,45,35,35,36">
       <TextBox Grid.Column="0" Grid.Row="0" Watermark="Name" Text="{Binding Name}" Margin="0,0,0,7" />
       <c:FileChooser Grid.Column="0" Grid.Row="1" Filename="{Binding Filename, Mode=TwoWay}" Watermark="Template File" />

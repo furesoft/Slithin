@@ -18,25 +18,27 @@
     <StackPanel>
       <TextBlock Text="Screens" Margin="4" FontSize="18" />
 
-      <ItemsControl Items="{Binding SyncService.CustomScreens, Mode=TwoWay}" Margin="16,0,0,0">
-        <ItemsControl.ItemTemplate>
-          <DataTemplate>
-            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center">
-              <StackPanel Orientation="Vertical" Margin="2">
-                <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,0,0,5" FontSize="17" FontWeight="Medium" />
+      <ScrollViewer>
+        <ItemsControl Items="{Binding SyncService.CustomScreens, Mode=TwoWay}" Margin="16,0,0,0">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Margin="2">
+                <StackPanel Orientation="Vertical" Margin="2">
+                  <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,0,0,5" FontSize="17" FontWeight="Medium" />
 
-                <Image Source="{Binding Image, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" />
-              </StackPanel>
-            </Border>
-          </DataTemplate>
-        </ItemsControl.ItemTemplate>
+                  <Image Source="{Binding Image, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
 
-        <ItemsControl.ItemsPanel>
-          <ItemsPanelTemplate>
-            <UniformGrid Columns="5" />
-          </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-      </ItemsControl>
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <UniformGrid Columns="5" Margin="3" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </ScrollViewer>
     </StackPanel>
   </StackPanel>
 </UserControl>
