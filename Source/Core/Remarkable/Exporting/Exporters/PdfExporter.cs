@@ -27,7 +27,7 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
         }
 
         public bool Export(ExportOptions options, Metadata metadata, string outputPath)
-        {
+        { 
             if (options.Document.IsT1)
             {
                 var notebook = options.Document.AsT1;
@@ -39,17 +39,17 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
                 for (var i = 0; i < options.PagesIndices.Count; i++)
                 {
                     var pdfPage = document.AddPage();
-                    var graphics = XGraphics.FromPdfPage(pdfPage);
+                    using var graphics = XGraphics.FromPdfPage(pdfPage); //Dipose?
 
                     var page = notebook.Pages[options.PagesIndices[i]];
 
-                    var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
-                    var pngStrm = new MemoryStream();
+                    using var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
+                    using var pngStrm = new MemoryStream();
 
                     svgStrm.Seek(0, SeekOrigin.Begin);
 
-                    var doc = SvgDocument.Open<SvgDocument>(svgStrm);
-                    var bitmap = doc.Draw();
+                    var svgDoc = SvgDocument.Open<SvgDocument>(svgStrm);
+                    using var bitmap = svgDoc.Draw();
                     bitmap.Save(pngStrm, ImageFormat.Png);
 
                     svgStrm.Close();
@@ -63,59 +63,57 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
 
                 return true;
             }
-            else if (options.Document.IsT0)
+
+
+            if (!options.Document.IsT0)
+                return false;
+
+            var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
+            var doc = PdfReader.Open(File.OpenRead(filename), PdfDocumentOpenMode.Import);
+            var result = new PdfDocument();
+
+            result.Info.Title = metadata.VisibleName;
+
+            for (var i = 0; i < options.PagesIndices.Count; i++)
             {
-                var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
-                var doc = PdfReader.Open(File.OpenRead(filename), PdfDocumentOpenMode.Import);
-                var result = new PdfDocument();
+                var rm = metadata.Content.Pages[i];
+                var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
 
-                result.Info.Title = metadata.VisibleName;
-
-                for (var i = 0; i < options.PagesIndices.Count; i++)
+                //todo: figure out index
+                PdfPage p;
+                if (!File.Exists(rmPath))
                 {
-                    var rm = metadata.Content.Pages[i];
-                    var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
-
-                    //todo: figure out index
-
-                    if (File.Exists(rmPath))
-                    {
-                        var p = result.AddPage();
-
-                        //render
-                        var page = Notebook.LoadPage(File.OpenRead(rmPath));
-
-                        var psize = PageSizeConverter.ToSize(PageSize.A4);
-                        var svgStrm = SvgRenderer.RenderPage(page, i, metadata, (int)psize.Width, (int)psize.Height);
-                        var pngStrm = new MemoryStream();
-
-                        svgStrm.Seek(0, SeekOrigin.Begin);
-
-                        var d = SvgDocument.Open<SvgDocument>(svgStrm);
-                        var bitmap = d.Draw();
-                        bitmap.Save(pngStrm, ImageFormat.Png);
-
-                        svgStrm.Close();
-
-                        var graphics = XGraphics.FromPdfPage(p);
-
-                        pngStrm.Seek(0, SeekOrigin.Begin);
-
-                        graphics.DrawImage(XImage.FromStream(() => pngStrm), new XPoint(0, 0));
-                    }
-                    else
-                    {
-                        //copy
-                        var p = result.AddPage(doc.Pages[i], AnnotationCopyingType.DeepCopy);
-                    }
+                    //copy
+                    p = result.AddPage(doc.Pages[i], AnnotationCopyingType.DeepCopy);
+                    continue;
                 }
+                p = result.AddPage();
 
-                result.Save(outputPath);
+                //render
+                var page = Notebook.LoadPage(File.OpenRead(rmPath));
 
-                return true;
+                var psize = PageSizeConverter.ToSize(PageSize.A4);
+                using var svgStrm = SvgRenderer.RenderPage(page, i, metadata, (int)psize.Width, (int)psize.Height);
+                using var pngStrm = new MemoryStream();
+
+                svgStrm.Seek(0, SeekOrigin.Begin);
+
+                var d = SvgDocument.Open<SvgDocument>(svgStrm);
+                using var bitmap = d.Draw();
+                bitmap.Save(pngStrm, ImageFormat.Png);
+
+                svgStrm.Close();
+
+                var graphics = XGraphics.FromPdfPage(p);
+
+                pngStrm.Seek(0, SeekOrigin.Begin);
+
+                graphics.DrawImage(XImage.FromStream(() => pngStrm), new XPoint(0, 0));
             }
 
-            return false;
+            result.Save(outputPath);
+
+            return true;
         }
     }
 }

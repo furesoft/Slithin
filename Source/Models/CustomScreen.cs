@@ -14,8 +14,8 @@ namespace Slithin.Models
 
         public IImage Image
         {
-            get { return _image; }
-            set { SetValue(ref _image, value); }
+            get => _image;
+            set => SetValue(ref _image, value);
         }
 
         public string Title { get; set; }
@@ -24,16 +24,16 @@ namespace Slithin.Models
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
-            if (Directory.Exists(pathManager.CustomScreensDir))
-            {
-                var path = Path.Combine(pathManager.CustomScreensDir, Filename);
+            if (!Directory.Exists(pathManager.CustomScreensDir))
+                return;
 
-                if (File.Exists(path))
-                {
-                    using var strm = File.OpenRead(path);
-                    Image = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
-                }
-            }
+            var path = Path.Combine(pathManager.CustomScreensDir, Filename);
+
+            if (!File.Exists(path))
+                return;
+
+            using var strm = File.OpenRead(path);
+            Image = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
         }
     }
 }

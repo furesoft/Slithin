@@ -15,18 +15,18 @@ namespace Slithin.Controls
            AvaloniaProperty.Register<GalleryControl, bool>(nameof(AreButtonsVisible), true);
 
         public static StyledProperty<ObservableCollection<Indicator>> IndicatorsProperty =
-                    AvaloniaProperty.Register<GalleryControl, ObservableCollection<Indicator>>(nameof(Indicators), new());
+            AvaloniaProperty.Register<GalleryControl, ObservableCollection<Indicator>>(nameof(Indicators), new());
 
         public bool AreButtonsVisible
         {
-            get { return GetValue(AreButtonsVisibleProperty); }
-            set { SetValue(AreButtonsVisibleProperty, value); }
+            get => GetValue(AreButtonsVisibleProperty);
+            set => SetValue(AreButtonsVisibleProperty, value);
         }
 
         public ObservableCollection<Indicator> Indicators
         {
-            get { return GetValue(IndicatorsProperty); }
-            set { SetValue(IndicatorsProperty, value); }
+            get => GetValue(IndicatorsProperty);
+            set => SetValue(IndicatorsProperty, value);
         }
 
         protected override void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -42,7 +42,7 @@ namespace Slithin.Controls
             var part_carousel = e.NameScope.Find<Carousel>("PART_CAROUSEL");
             var part_right = e.NameScope.Find<Button>("PART_RIGHT");
 
-            var timer = new Timer();
+            var timer = new Timer(); //Disposing?!
             timer.Elapsed += async (s, e) =>
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>

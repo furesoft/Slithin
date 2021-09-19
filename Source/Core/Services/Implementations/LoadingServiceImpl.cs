@@ -51,7 +51,7 @@ namespace Slithin.Core.Services.Implementations
             TemplateStorage.Instance?.Load();
 
             // Load Category Names
-            var tempCats = TemplateStorage.Instance?.Templates.Select(_ => _.Categories);
+            var tempCats = TemplateStorage.Instance?.Templates.Select(x => x.Categories);
 
             foreach (var item in tempCats)
             {

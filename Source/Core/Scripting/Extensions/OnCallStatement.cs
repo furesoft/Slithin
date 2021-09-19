@@ -32,7 +32,7 @@ namespace Slithin.Core.Scripting.Extensions
                 throw new JSException(new SyntaxError("Unexpected char at " + CodeCoordinates.FromTextPosition(state.Code, position, 0)));
             }
 
-            var eventName = state.Code.Substring(start, position - start);
+            var eventName = state.Code[start..position];
 
             while (char.IsWhiteSpace(state.Code, position))
                 position++;

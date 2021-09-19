@@ -39,28 +39,27 @@ namespace Slithin.Core.Scripting
         {
             Module result = null;
 
-            if (_defaultExport == null)
-            {
-                var items = _values.Keys;
-                var typeNames = _ctors.Select(_ => _.Name);
-
-                var exports = $"export {{ {string.Join(" , ", items.Concat(typeNames))} }};";
-
-                result = new Module(cmdArgument, exports);
-
-                foreach (var item in _values)
-                {
-                    result.Context.DefineVariable(item.Key).Assign(item.Value);
-                }
-                foreach (var ctor in _ctors)
-                {
-                    result.Context.DefineConstructor(ctor);
-                }
-            }
-            else
+            if (_defaultExport != null)
             {
                 result = new Module(cmdArgument, "export default ns;");
                 result.Context.DefineVariable("ns").Assign(_defaultExport);
+                return result;
+            }
+
+            var items = _values.Keys;
+            var typeNames = _ctors.Select(_ => _.Name);
+
+            var exports = $"export {{ {string.Join(" , ", items.Concat(typeNames))} }};";
+
+            result = new Module(cmdArgument, exports);
+
+            foreach (var item in _values)
+            {
+                result.Context.DefineVariable(item.Key).Assign(item.Value);
+            }
+            foreach (var ctor in _ctors)
+            {
+                result.Context.DefineConstructor(ctor);
             }
 
             return result;

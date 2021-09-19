@@ -12,6 +12,9 @@ namespace Slithin.Core.Sync
 
         protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
         {
+            if (field.Equals(value))
+                return;
+
             field = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }

@@ -7,7 +7,7 @@ namespace Slithin.Core.Services
     {
         void Add(IContextProvider provider);
 
-        ContextMenu BuildMenu(UIContext context, object item, object parent = null);
+        ContextMenu BuildMenu<T>(UIContext context, T item, object parent = null);
 
         void Init();
     }

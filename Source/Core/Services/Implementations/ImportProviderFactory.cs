@@ -18,13 +18,11 @@ namespace Slithin.Core.Services.Implementations
 
                 foreach (var attr in attrs)
                 {
-                    if (attr.Extension == baseExtension)
-                    {
-                        if (provider.CanHandle(filename))
-                        {
-                            return provider;
-                        }
-                    }
+                    if (attr.Extension != baseExtension)
+                        continue;
+
+                    if (provider.CanHandle(filename))
+                        return provider;
                 }
             }
 

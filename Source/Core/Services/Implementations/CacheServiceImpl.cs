@@ -17,13 +17,10 @@ namespace Slithin.Core.Services.Implementations
             {
                 return (T)_cache[name];
             }
-            else
+            if (obj != null)
             {
-                if (obj != null)
-                {
-                    Add(name, obj);
-                    return obj;
-                }
+                Add(name, obj);
+                return obj;
             }
 
             return default;

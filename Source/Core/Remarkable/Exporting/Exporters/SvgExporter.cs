@@ -14,27 +14,25 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
 
         public bool Export(ExportOptions options, Metadata metadata, string outputPath)
         {
-            if (options.Document.IsT1)
+            if (!options.Document.IsT1)
+                return false;
+
+            var notebook = options.Document.AsT1;
+
+            for (var i = 0; i < options.PagesIndices.Count; i++)
             {
-                var notebook = options.Document.AsT1;
+                var page = notebook.Pages[options.PagesIndices[i]];
 
-                for (var i = 0; i < options.PagesIndices.Count; i++)
-                {
-                    var page = notebook.Pages[options.PagesIndices[i]];
+                var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
+                var outputStrm = File.OpenWrite(Path.Combine(outputPath, i + ".svg"));
 
-                    var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
-                    var outputStrm = File.OpenWrite(Path.Combine(outputPath, i + ".svg"));
+                svgStrm.CopyTo(outputStrm);
 
-                    svgStrm.CopyTo(outputStrm);
-
-                    svgStrm.Close();
-                    outputStrm.Close();
-                }
-
-                return true;
+                svgStrm.Close();
+                outputStrm.Close();
             }
 
-            return false;
+            return true;
         }
     }
 }

@@ -51,36 +51,36 @@ namespace Slithin.ViewModels.Modals
 
         public string CustomTemplateFilename
         {
-            get { return _customTemplateFilename; }
-            set { SetValue(ref _customTemplateFilename, value); }
+            get => _customTemplateFilename;
+            set => SetValue(ref _customTemplateFilename, value);
         }
 
         public string ID
         {
-            get { return _id; }
-            set { _id = value; }
+            get => _id;
+            set => _id = value; //Why no SetValue for id?
         }
 
         public ICommand OKCommand { get; set; }
 
         public string PageCount
         {
-            get { return _pageCount; }
-            set { SetValue(ref _pageCount, value); }
+            get => _pageCount;
+            set => SetValue(ref _pageCount, value);
         }
 
         public ObservableCollection<object> Pages { get; set; } = new();
 
         public Template SelectedTemplate
         {
-            get { return _selectedTemplate; }
-            set { SetValue(ref _selectedTemplate, value); }
+            get => _selectedTemplate;
+            set => SetValue(ref _selectedTemplate, value);
         }
 
         public ObservableCollection<Template> Templates
         {
-            get { return _templates; }
-            set { SetValue(ref _templates, value); }
+            get => _templates;
+            set => SetValue(ref _templates, value);
         }
 
         public override void OnLoad()
@@ -131,71 +131,70 @@ namespace Slithin.ViewModels.Modals
         {
             var validationResult = _validator.Validate(this);
 
-            if (validationResult.IsValid)
-            {
-                var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, ID + ".pdf"));
-                var md = MetadataStorage.Local.Get(ID);
-                var pages = new List<string>(md.Content.Pages);
-                int pageCount = md.Content.PageCount;
-
-                foreach (var p in Pages)
-                {
-                    XImage image = null;
-                    int count = 0;
-
-                    pageCount++;
-
-                    if (p is NotebookPage nbp)
-                    {
-                        count = nbp.Count;
-                        image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
-                    }
-                    else if (p is NotebookCustomPage nbcp)
-                    {
-                        image = XImage.FromFile(nbcp.Filename);
-                        count = nbcp.Count;
-                    }
-
-                    for (var i = 0; i < count; i++)
-                    {
-                        var page = document.AddPage();
-                        page.Size = PageSize.A4;
-
-                        var gfx = XGraphics.FromPdfPage(page);
-
-                        gfx.DrawImage(image, 0, 0, page.Width, page.Height);
-
-                        Guid pageID = Guid.NewGuid();
-                        pages.Add(pageID.ToString());
-                    }
-                }
-
-                var content = md.Content;
-                content.PageCount = pageCount;
-                content.Pages = pages.ToArray();
-
-                md.Content = content;
-
-                md.Save();
-
-                document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
-
-                var syncItem = new SyncItem
-                {
-                    Action = SyncAction.Update,
-                    Data = md,
-                    Direction = SyncDirection.ToDevice,
-                    Type = SyncType.Notebook
-                };
-
-                SyncService.AddToSyncQueue(syncItem);
-
-                DialogService.Close();
-            }
-            else
+            if (!validationResult.IsValid)
             {
                 DialogService.OpenDialogError(validationResult.Errors.First().ToString());
+                return;
             }
+            var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, ID + ".pdf"));
+            var md = MetadataStorage.Local.Get(ID);
+            var pages = new List<string>(md.Content.Pages);
+            int pageCount = md.Content.PageCount;
+
+            foreach (var p in Pages)
+            {
+                XImage image = null;
+                int count = 0;
+
+                pageCount++;
+
+                switch (p)
+                {
+                    case NotebookPage nbp:
+                        count = nbp.Count;
+                        image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
+                        break;
+                    case NotebookCustomPage nbcp:
+                        image = XImage.FromFile(nbcp.Filename);
+                        count = nbcp.Count;
+                        break;
+                }
+
+                for (var i = 0; i < count; i++)
+                {
+                    var page = document.AddPage();
+                    page.Size = PageSize.A4;
+
+                    var gfx = XGraphics.FromPdfPage(page);
+
+                    gfx.DrawImage(image, 0, 0, page.Width, page.Height);
+
+                    Guid pageID = Guid.NewGuid();
+                    pages.Add(pageID.ToString());
+                }
+            }
+
+            var content = md.Content;
+            content.PageCount = pageCount;
+            content.Pages = pages.ToArray();
+
+            md.Content = content;
+
+            md.Save();
+
+            document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
+
+            var syncItem = new SyncItem
+            {
+                Action = SyncAction.Update,
+                Data = md,
+                Direction = SyncDirection.ToDevice,
+                Type = SyncType.Notebook
+            };
+
+            SyncService.AddToSyncQueue(syncItem);
+
+            DialogService.Close();
         }
     }
 }

@@ -40,8 +40,8 @@ namespace Slithin.ViewModels.Pages
 
         public Template SelectedTemplate
         {
-            get { return _selectedTemplate; }
-            set { SetValue(ref _selectedTemplate, value); }
+            get => _selectedTemplate;
+            set => SetValue(ref _selectedTemplate, value);
         }
 
         public override void OnLoad()

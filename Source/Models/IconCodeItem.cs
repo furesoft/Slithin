@@ -12,12 +12,12 @@ namespace Slithin.Models
 
         public void Load()
         {
-            if (Image is null)
-            {
-                var imageStrm = typeof(IconCodeItem).Assembly.GetManifestResourceStream("Slithin.Resources.IconTiles." + Name + ".png");
+            if (Image is not null)
+                return;
 
-                Image = Bitmap.DecodeToWidth(imageStrm, 32, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.Default);
-            }
+            var imageStrm = typeof(IconCodeItem).Assembly.GetManifestResourceStream("Slithin.Resources.IconTiles." + Name + ".png");
+
+            Image = Bitmap.DecodeToWidth(imageStrm, 32, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.Default);
         }
 
         public override string ToString() => Name;

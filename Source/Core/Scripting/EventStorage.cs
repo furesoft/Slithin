@@ -15,21 +15,22 @@ namespace Slithin.Core.Scripting
             {
                 foreach (var callback in _callbacks[name])
                 {
-                    if (callback.Is<Function>())
+                    if (!callback.Is<Function>())
                     {
-                        var func = callback.As<Function>();
-                        var a = new Arguments();
-
-                        if (args is not null)
-                        {
-                            foreach (var item in args)
-                            {
-                                a.Add(item);
-                            }
-                        }
-
-                        func.Call(a);
+                        continue;
                     }
+                    var func = callback.As<Function>();
+                    var a = new Arguments();
+
+                    if (args is not null)
+                    {
+                        foreach (var item in args)
+                        {
+                            a.Add(item);
+                        }
+                    }
+
+                    func.Call(a);
                 }
             }
         }
@@ -39,14 +40,12 @@ namespace Slithin.Core.Scripting
             if (_callbacks.ContainsKey(name))
             {
                 _callbacks[name].Add(callback);
+                return;
             }
-            else
-            {
-                var tmp = new List<JSValue>();
-                tmp.Add(callback);
+            var tmp = new List<JSValue>();
+            tmp.Add(callback);
 
-                _callbacks.Add(name, tmp);
-            }
+            _callbacks.Add(name, tmp);
         }
     }
 }

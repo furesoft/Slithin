@@ -11,8 +11,8 @@ namespace Slithin.ViewModels.Modals
 
         public Backup SelectedBackup
         {
-            get { return _selectedBackup; }
-            set { SetValue(ref _selectedBackup, value); }
+            get => _selectedBackup;
+            set => SetValue(ref _selectedBackup, value);
         }
     }
 }

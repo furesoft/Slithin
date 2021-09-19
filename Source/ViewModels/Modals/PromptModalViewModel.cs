@@ -12,20 +12,20 @@ namespace Slithin.ViewModels.Modals
 
         public string Header
         {
-            get { return _header; }
-            set { SetValue(ref _header, value); }
+            get => _header;
+            set => SetValue(ref _header, value);
         }
 
         public string Input
         {
-            get { return _input; }
-            set { _input = value; }
+            get => _input;
+            set => _input = value;
         }
 
         public string Watermark
         {
-            get { return _watermark; }
-            set { SetValue(ref _watermark, value); }
+            get => _watermark;
+            set => SetValue(ref _watermark, value);
         }
     }
 }

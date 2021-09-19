@@ -39,54 +39,54 @@ namespace Slithin.Core
             //Compare the Versions
             var versionComparison = localVersion.CompareTo(latestGitHubVersion);
 
-            if (versionComparison < 0)
+            if (versionComparison >= 0)
+                return;
+
+            var asset = GetAsset(releases[0]);
+            using var wc = new WebClient();
+            
+            var tmp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            var fileName = Path.Combine(tmp, Path.GetFileName(asset.BrowserDownloadUrl));
+
+            if (File.Exists(fileName))
             {
-                var asset = GetAsset(releases[0]);
-                var wc = new WebClient();
-
-                var tmp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-                var fileName = Path.Combine(tmp, Path.GetFileName(asset.BrowserDownloadUrl));
-
-                if (File.Exists(fileName))
-                {
-                    File.Delete(fileName);
-                }
-
-                if (!File.Exists(fileName))
-                {
-                    wc.DownloadProgressChanged += (s, e) =>
-                    {
-                        NotificationService.Show($"Downloading {asset.Name} ({e.ProgressPercentage} %)");
-                    };
-
-                    wc.DownloadFileAsync(new Uri(asset.BrowserDownloadUrl), fileName);
-                    wc.DownloadFileCompleted += (s, e) =>
-                    {
-                        NotificationService.Show("Extracting Update");
-                        using (var zip = new ZipFile(fileName))
-                        {
-                            zip.ExtractProgress += (zs, ze) =>
-                            {
-                                if (ze.EventType == ZipProgressEventType.Extracting_BeforeExtractEntry)
-                                {
-                                    NotificationService.Show($"Extracting {Path.GetFileName(ze.ArchiveName)} ({Math.Round((float)ze.EntriesExtracted / (float)ze.EntriesTotal * 100)} %)");
-                                }
-                            };
-
-                            zip.ExtractAll(Path.Combine(tmp, "SlithinUpdate"), ExtractExistingFileAction.OverwriteSilently);
-                        }
-
-                        File.Delete(fileName);
-
-                        NotificationService.Hide();
-
-                        UpdateScriptGenerator.ApplyUpdate(Path.Combine(tmp, "SlithinUpdate"), Environment.CurrentDirectory);
-
-                        Environment.Exit(0);
-                    };
-                }
+                File.Delete(fileName);
             }
+
+            if (File.Exists(fileName))
+                return;
+
+            wc.DownloadProgressChanged += (s, e) =>
+            {
+                NotificationService.Show($"Downloading {asset.Name} ({e.ProgressPercentage} %)");
+            };
+
+            wc.DownloadFileAsync(new Uri(asset.BrowserDownloadUrl), fileName);
+            wc.DownloadFileCompleted += (s, e) =>
+            {
+                NotificationService.Show("Extracting Update");
+                using (var zip = new ZipFile(fileName))
+                {
+                    zip.ExtractProgress += (zs, ze) =>
+                    {
+                        if (ze.EventType == ZipProgressEventType.Extracting_BeforeExtractEntry)
+                        {
+                            NotificationService.Show($"Extracting {Path.GetFileName(ze.ArchiveName)} ({Math.Round((float)ze.EntriesExtracted / (float)ze.EntriesTotal * 100)} %)");
+                        }
+                    };
+
+                    zip.ExtractAll(Path.Combine(tmp, "SlithinUpdate"), ExtractExistingFileAction.OverwriteSilently);
+                }
+
+                File.Delete(fileName);
+
+                NotificationService.Hide();
+
+                UpdateScriptGenerator.ApplyUpdate(Path.Combine(tmp, "SlithinUpdate"), Environment.CurrentDirectory);
+
+                Environment.Exit(0);
+            };
         }
 
         private static ReleaseAsset GetAsset(Release release)

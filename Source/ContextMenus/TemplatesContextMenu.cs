@@ -17,12 +17,15 @@ namespace Slithin.ContextMenus
             return obj is Template;
         }
 
-        public IEnumerable<MenuItem> GetMenu(object obj)
+        public ICollection<MenuItem> GetMenu(object obj)
         {
-            if (ParentViewModel is TemplatesPageViewModel t)
-            {
-                yield return new MenuItem { Header = "Remove", Command = new DelegateCommand(_ => t.RemoveTemplateCommand.Execute(obj)) };
-            }
+            List<MenuItem> menu = new List<MenuItem>();
+            if (ParentViewModel is not TemplatesPageViewModel t)
+                return menu;
+
+            menu.Add(new MenuItem { Header = "Remove", Command = new DelegateCommand(_ => t.RemoveTemplateCommand.Execute(obj)) });
+            return menu;
+
         }
     }
 }

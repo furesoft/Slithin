@@ -23,42 +23,43 @@ namespace Slithin.Core.Commands
 
         public bool CanExecute(object parameter)
         {
-            return parameter != null && parameter is Metadata md && md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..";
+            return parameter != null
+                && parameter is Metadata md
+                && md.VisibleName != "Quick sheets"
+                && md.VisibleName != "Up ..";
         }
 
         public async void Execute(object parameter)
         {
-            if (parameter is Metadata md)
+            if (parameter is not Metadata md
+                || !await DialogService.ShowDialog($"Would you really want to delete '{md.VisibleName}'?"))
+                return;
+
+            ServiceLocator.Container.Resolve<NotebooksPageViewModel>().SelectedNotebook = null;
+            _synchronisationService.NotebooksFilter.Documents.Clear();
+            MetadataStorage.Local.Remove(md);
+            _localRepository.Remove(md);
+
+            var item = new SyncItem
             {
-                if (await DialogService.ShowDialog($"Would you really want to delete '{md.VisibleName}'?"))
-                {
-                    ServiceLocator.Container.Resolve<NotebooksPageViewModel>().SelectedNotebook = null;
-                    _synchronisationService.NotebooksFilter.Documents.Clear();
-                    MetadataStorage.Local.Remove(md);
-                    _localRepository.Remove(md);
+                Action = SyncAction.Remove,
+                Direction = SyncDirection.ToDevice,
+                Data = md,
+                Type = SyncType.Notebook
+            };
 
-                    var item = new SyncItem
-                    {
-                        Action = SyncAction.Remove,
-                        Direction = SyncDirection.ToDevice,
-                        Data = md,
-                        Type = SyncType.Notebook
-                    };
+            _synchronisationService.AddToSyncQueue(item);
 
-                    _synchronisationService.AddToSyncQueue(item);
-
-                    foreach (var mds in MetadataStorage.Local.GetByParent(md.Parent))
-                    {
-                        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(mds);
-                    }
-                    if (md.Parent != "")
-                    {
-                        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
-                    }
-
-                    ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
-                }
+            foreach (var mds in MetadataStorage.Local.GetByParent(md.Parent))
+            {
+                ServiceLocator.SyncService.NotebooksFilter.Documents.Add(mds);
             }
+            if (md.Parent != "")
+            {
+                ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
+            }
+
+            ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
         }
     }
 }
