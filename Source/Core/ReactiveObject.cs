@@ -9,7 +9,7 @@ namespace Slithin.Core
 
         protected void SetValue<T>(ref T field, T value, [CallerMemberName] string property = null) //Duplicate?
         {
-            if (field.Equals(value))
+            if (Equals(field, value))
                 return;
             field = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));

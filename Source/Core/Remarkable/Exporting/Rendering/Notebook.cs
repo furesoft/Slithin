@@ -89,14 +89,14 @@ namespace Slithin.Core.Remarkable.Rendering
             {
                 var difference = Pages.Count - md.Content.Pages.Length;
 
-                var pages = md.Content.Pages.ToArray();
+                var pages = new List<string>(md.Content.Pages);
 
                 for (int i = 0; i < difference; i++)
                 {
-                    pages[i] = Guid.NewGuid().ToString().ToLower();
+                    pages.Add(Guid.NewGuid().ToString().ToLower());
                 }
 
-                newContent.Pages = pages;
+                newContent.Pages = pages.ToArray();
             }
 
             newContent.PageCount = Pages.Count;

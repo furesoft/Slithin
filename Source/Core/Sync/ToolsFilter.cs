@@ -12,7 +12,7 @@ namespace Slithin.Core.Sync
 
         protected void SetValue<T>(ref T field, T value, [CallerMemberName] string? property = null)
         {
-            if (field.Equals(value))
+            if (Equals(field, value))
                 return;
 
             field = value;
