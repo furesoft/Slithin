@@ -10,18 +10,18 @@ namespace Slithin.Core.Remarkable
 {
     public class Template : INotifyPropertyChanged
     {
-        private IImage? _image;
+        private IImage _image;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         [JsonProperty("categories")]
-        public string[]? Categories { get; set; }
+        public string[] Categories { get; set; }
 
         [JsonProperty("filename")]
-        public string? Filename { get; set; }
+        public string Filename { get; set; }
 
         [JsonProperty("iconCode")]
-        public string? IconCode { get; set; }
+        public string IconCode { get; set; }
 
         [JsonIgnore]
         [BsonIgnore]
@@ -32,7 +32,7 @@ namespace Slithin.Core.Remarkable
             {
                 if (_image == value)
                     return;
-                _image = value; 
+                _image = value;
                 PropertyChanged?.Invoke(this, new(nameof(Image)));
             }
         }
@@ -41,7 +41,7 @@ namespace Slithin.Core.Remarkable
         public bool Landscape { get; set; }
 
         [JsonProperty("name")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public void Load()
         {
@@ -53,7 +53,7 @@ namespace Slithin.Core.Remarkable
 
             if (!File.Exists(path + ".png"))
                 return;
-   
+
             Image = Bitmap.DecodeToWidth(File.OpenRead(path + ".png"), 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
         }
     }

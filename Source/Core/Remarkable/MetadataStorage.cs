@@ -1,19 +1,12 @@
 ﻿using System.Collections.Generic;
-using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable
 {
     public class MetadataStorage
     {
-        public static MetadataStorage Local = new(ServiceLocator.Container.Resolve<IPathManager>());
+        public static MetadataStorage Local = new();
 
-        private readonly IPathManager _pathManager;
-        private readonly Dictionary<string?, Metadata?> _storage = new();
-
-        public MetadataStorage(IPathManager pathManager)
-        {
-            _pathManager = pathManager;
-        }
+        private readonly Dictionary<string, Metadata> _storage = new();
 
         public void Add(Metadata metadata, out bool alreadyAdded)
         {
@@ -56,7 +49,7 @@ namespace Slithin.Core.Remarkable
             return list;
         }
 
-        public IEnumerable<string?> GetNames()
+        public IEnumerable<string> GetNames()
         {
             return _storage.Keys;
         }

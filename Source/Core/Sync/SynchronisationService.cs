@@ -15,7 +15,7 @@ using Slithin.Models;
 
 namespace Slithin.Core.Sync
 {
-    public class SynchronisationService : ReactiveObject
+    public class SynchronisationService : NotifyObject
     {
         public SynchronisationService(LiteDatabase db)
         {

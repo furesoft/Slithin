@@ -8,9 +8,9 @@ using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
+using Slithin.Models;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
-using Slithin.Models;
 
 namespace Slithin.UI.Pages
 {
@@ -49,7 +49,7 @@ namespace Slithin.UI.Pages
                 e.DragEffects = DragDropEffects.None;
         }
 
-        private async void Drop(object sender, DragEventArgs e)
+        private void Drop(object sender, DragEventArgs e)
         {
             if (e.Data.Contains(DataFormats.FileNames))
             {
@@ -60,7 +60,7 @@ namespace Slithin.UI.Pages
                 {
                     if (e.Source is Image img)
                     {
-                        var bitmap = System.Drawing.Image.FromFile(filename);
+                        using var bitmap = System.Drawing.Image.FromFile(filename);
 
                         if (bitmap.Width != 1404 && bitmap.Height != 1872)
                         {
@@ -75,7 +75,7 @@ namespace Slithin.UI.Pages
                         {
                             var localRepository = ServiceLocator.Container.Resolve<LocalRepository>();
 
-                            var screenStrm = provider.Import(File.OpenRead(filename));
+                            using var screenStrm = provider.Import(File.OpenRead(filename));
 
                             localRepository.AddScreen(screenStrm, cs.Filename);
 

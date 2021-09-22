@@ -10,10 +10,10 @@ namespace Slithin.Core.Remarkable
 {
     public class TemplateStorage
     {
-        public static TemplateStorage? Instance = new();
+        public static TemplateStorage Instance = new();
 
         [JsonProperty("templates")]
-        public Template[]? Templates { get; set; }
+        public Template[] Templates { get; set; }
 
         public void Add(Template template)
         {
@@ -27,7 +27,7 @@ namespace Slithin.Core.Remarkable
 
         public void Apply()
         {
-            var result = ServiceLocator.Container.Resolve<SshClient>().RunCommand("systemctl restart xochitl");
+            using var result = ServiceLocator.Container.Resolve<SshClient>().RunCommand("systemctl restart xochitl");
 
             if (result.ExitStatus != 0)
             {

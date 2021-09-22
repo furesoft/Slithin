@@ -50,7 +50,7 @@ namespace Slithin.UI.Pages
                 e.DragEffects = DragDropEffects.None;
         }
 
-        private async void Drop(object sender, DragEventArgs e)
+        private void Drop(object sender, DragEventArgs e)
         {
             var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
 
@@ -79,16 +79,15 @@ namespace Slithin.UI.Pages
                             Type = "DocumentType",
                             VisibleName = Path.GetFileNameWithoutExtension(filename)
                         };
-
-                        MetadataStorage.Local.Add(md, out var alreadyAdded);
+                        MetadataStorage.Local.Add(md, out _);
                         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
 
                         provider = importProviderFactory.GetImportProvider($".{cnt.FileType}", filename);
 
                         if (provider != null)
                         {
-                            var inputStrm = provider.Import(File.OpenRead(filename));
-                            var outputStrm = File.OpenWrite(Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
+                            using var inputStrm = provider.Import(File.OpenRead(filename));
+                            using var outputStrm = File.OpenWrite(Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
                             inputStrm.CopyTo(outputStrm);
 
                             outputStrm.Close();

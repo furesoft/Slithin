@@ -13,9 +13,9 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
+using Slithin.Models;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals;
-using Slithin.Models;
 
 namespace Slithin.Tools
 {
@@ -107,16 +107,16 @@ namespace Slithin.Tools
                         //upload all data
 
                         NotificationService.Show("Removing Notebooks From Device");
-                        _client.RunCommand("rm -fr " + PathList.Documents);
-                        _client.RunCommand("mkdir " + PathList.Documents);
+                        _client.RunCommand("rm -fr " + PathList.Documents).Dispose();
+                        _client.RunCommand("mkdir " + PathList.Documents).Dispose();
 
                         NotificationService.Show("Removing Screens From Device");
-                        _client.RunCommand("rm -fr " + PathList.Screens);
-                        _client.RunCommand("mkdir " + PathList.Screens);
+                        _client.RunCommand("rm -fr " + PathList.Screens).Dispose();
+                        _client.RunCommand("mkdir " + PathList.Screens).Dispose();
 
                         NotificationService.Show("Removing Templates From Device");
-                        _client.RunCommand("rm -fr " + PathList.Templates);
-                        _client.RunCommand("mkdir " + PathList.Templates);
+                        _client.RunCommand("rm -fr " + PathList.Templates).Dispose();
+                        _client.RunCommand("mkdir " + PathList.Templates).Dispose();
 
                         NotificationService.Show("Uploading Notebooks");
                         _scp.Upload(new DirectoryInfo(_pathManager.NotebooksDir), PathList.Documents);

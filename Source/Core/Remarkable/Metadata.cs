@@ -7,9 +7,9 @@ using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable
 {
-    public class Metadata : ReactiveObject, IEqualityComparer<Metadata>
+    public class Metadata : NotifyObject, IEqualityComparer<Metadata>
     {
-        private string? _visibleName;
+        private string _visibleName;
 
         [JsonIgnore]
         public ContentFile Content { get; set; }
@@ -27,7 +27,7 @@ namespace Slithin.Core.Remarkable
         public PageData PageData { get; set; } = new();
 
         [JsonProperty("parent")]
-        public string? Parent { get; set; }
+        public string Parent { get; set; }
 
         [JsonProperty("pinned")]
         public bool Pinned { get; set; }
@@ -39,7 +39,7 @@ namespace Slithin.Core.Remarkable
         public int Version { get; set; }
 
         [JsonProperty("visibleName")]
-        public string? VisibleName
+        public string VisibleName
         {
             get => _visibleName;
             set => SetValue(ref _visibleName, value);
@@ -64,8 +64,10 @@ namespace Slithin.Core.Remarkable
             else
             {
                 var data = new[] { "Blank" };
-                var pg = new PageData();
-                pg.Data = data;
+                var pg = new PageData
+                {
+                    Data = data
+                };
 
                 mdObj.PageData = pg;
             }

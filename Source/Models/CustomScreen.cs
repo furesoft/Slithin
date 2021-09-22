@@ -6,7 +6,7 @@ using Slithin.Core;
 
 namespace Slithin.Models
 {
-    public class CustomScreen : ReactiveObject
+    public class CustomScreen : NotifyObject
     {
         private IImage _image;
 
