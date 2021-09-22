@@ -11,14 +11,14 @@ namespace Slithin.Core.Sync
 
         public ObservableCollection<Metadata> Documents
         {
-            get { return _documents; }
-            set { SetValue(ref _documents, value); }
+            get => _documents;
+            set => SetValue(ref _documents, value);
         }
 
         public string Folder
         {
-            get { return _folder; }
-            set { SetValue(ref _folder, value); }
+            get => _folder;
+            set => SetValue(ref _folder, value);
         }
 
         public void SortByFolder()

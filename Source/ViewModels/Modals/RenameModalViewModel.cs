@@ -23,42 +23,40 @@ namespace Slithin.ViewModels.Modals
 
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get => _name;
+            set => _name = value;
         }
 
         public ICommand RenameCommand { get; set; }
 
         private void Rename(object obj)
         {
-            if (!string.IsNullOrEmpty(Name))
-            {
-                _md.VisibleName = Name;
-
-                MetadataStorage.Local.Remove(_md);
-                MetadataStorage.Local.Add(_md, out var alreadyAdded);
-
-                if (!alreadyAdded)
-                {
-                    _md.Save();
-
-                    var syncItem = new SyncItem
-                    {
-                        Action = SyncAction.Update,
-                        Data = _md,
-                        Direction = SyncDirection.ToDevice,
-                        Type = SyncType.Notebook
-                    };
-
-                    _synchronisationService.AddToSyncQueue(syncItem);
-
-                    DialogService.Close();
-                }
-            }
-            else
+            if (string.IsNullOrEmpty(Name))
             {
                 DialogService.OpenDialogError("Name cannot be empty");
+                return;
             }
+            _md.VisibleName = Name;
+
+            MetadataStorage.Local.Remove(_md);
+            MetadataStorage.Local.Add(_md, out var alreadyAdded);
+
+            if (alreadyAdded)
+                return;
+
+            _md.Save();
+
+            var syncItem = new SyncItem
+            {
+                Action = SyncAction.Update,
+                Data = _md,
+                Direction = SyncDirection.ToDevice,
+                Type = SyncType.Notebook
+            };
+
+            _synchronisationService.AddToSyncQueue(syncItem);
+
+            DialogService.Close();
         }
     }
 }

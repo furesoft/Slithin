@@ -10,8 +10,8 @@ namespace Slithin.ViewModels.Modals
 
         public string Message
         {
-            get { return _message; }
-            set { SetValue(ref _message, value); }
+            get => _message;
+            set => SetValue(ref _message, value);
         }
     }
 }

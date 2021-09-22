@@ -21,42 +21,36 @@ namespace Slithin.Core.Services.Implementations
                 if (_providers.ContainsKey(attr.Context))
                 {
                     _providers[attr.Context].Add(provider);
+                    continue;
                 }
-                else
-                {
-                    var list = new List<IContextProvider>();
-                    list.Add(provider);
+                var list = new List<IContextProvider>();
+                list.Add(provider);
 
-                    _providers.Add(attr.Context, list);
-                }
+                _providers.Add(attr.Context, list);
             }
         }
 
-        public ContextMenu BuildMenu(UIContext context, object item, object parent = null)
+        public ContextMenu BuildMenu<T>(UIContext context, T item, object parent = null)
         {
-            if (_providers.ContainsKey(context))
-            {
-                var providersForContext = _providers[context];
-                var availableContexts = providersForContext.Where(_ => _.CanHandle(item));
-
-                if (availableContexts.Any())
-                {
-                    var menu = new ContextMenu();
-
-                    menu.Items = availableContexts.SelectMany(_ =>
-                    {
-                        _.ParentViewModel = parent;
-
-                        return _.GetMenu(item);
-                    });
-
-                    return menu;
-                }
-
+            if (!_providers.ContainsKey(context))
                 return null;
-            }
 
-            return null;
+            var providersForContext = _providers[context];
+            var availableContexts = providersForContext.Where(p => p.CanHandle(item));
+
+            if (!availableContexts.Any())
+                return null;
+
+            var menu = new ContextMenu();
+
+            menu.Items = availableContexts.SelectMany(c =>
+            {
+                c.ParentViewModel = parent;
+
+                return c.GetMenu(item);
+            });
+
+            return menu;
         }
 
         public void Init()

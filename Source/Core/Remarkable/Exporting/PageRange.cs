@@ -8,30 +8,28 @@ namespace Slithin.Core.Remarkable.Exporting
     {
         public static OneOf<List<PageRange>, bool> Parse(string src)
         {
-            if (!string.IsNullOrEmpty(src))
+            if (string.IsNullOrEmpty(src))
+                return true;
+
+            src = src.Replace(" ", "").Replace("\t", "");
+            var spl = src.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
+            var result = new List<PageRange>();
+
+            foreach (var part in spl)
             {
-                src = src.Replace(" ", "").Replace("\t", "");
-                var spl = src.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
-                var result = new List<PageRange>();
+                var match = PageRange.ParseSingle(part);
 
-                foreach (var part in spl)
+                if (!match.IsT1)
                 {
-                    var match = PageRange.ParseSingle(part);
-
-                    if (!match.IsT1)
-                    {
-                        result.Add(match.AsT0);
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    result.Add(match.AsT0);
                 }
-
-                return result;
+                else
+                {
+                    return true;
+                }
             }
 
-            return true;
+            return result;
         }
 
         //"1-5" Sites 1,2,3,4,5
@@ -41,44 +39,31 @@ namespace Slithin.Core.Remarkable.Exporting
         {
             //page starts at index 1, need to translate to coding index!
 
-            if (src.Contains("-"))
+            if (!src.Contains("-"))
             {
-                var split = src.Split('-', System.StringSplitOptions.RemoveEmptyEntries);
+                return int.TryParse(src, out var page) ? new PageRange(page, page) : true;
+            }
 
-                if (split.Length == 1)
+            var split = src.Split('-', System.StringSplitOptions.RemoveEmptyEntries);
+
+            if (split.Length == 1)
+            {
+                if (int.TryParse(split[0], out var page))
                 {
-                    if (int.TryParse(split[0], out var page))
-                    {
-                        return new PageRange(page, -1);//to the end of the document
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    return new PageRange(page, -1);//to the end of the document
                 }
-                else
-                {
-                    if (int.TryParse(split[0], out var leftPart) && int.TryParse(split[1], out var rightPart))
-                    {
-                        return new PageRange(leftPart, rightPart);
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
+
             }
             else
             {
-                if (int.TryParse(src, out var page))
+                if (int.TryParse(split[0], out var leftPart) && int.TryParse(split[1], out var rightPart))
                 {
-                    return new PageRange(page, page);
+                    return new PageRange(leftPart, rightPart);
                 }
-                else
-                {
-                    return true;
-                }
+
             }
+            return true;
+
         }
 
         public static IEnumerable<int> ToIndices(List<PageRange> ranges, int max)

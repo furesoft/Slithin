@@ -9,6 +9,6 @@ namespace Slithin.Core.ItemContext
 
         bool CanHandle(object obj);
 
-        IEnumerable<MenuItem> GetMenu(object obj);
+        ICollection<MenuItem> GetMenu(object obj);
     }
 }

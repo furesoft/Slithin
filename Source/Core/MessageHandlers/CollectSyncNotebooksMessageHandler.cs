@@ -33,20 +33,31 @@ namespace Slithin.Core.MessageHandlers
             _synchronisationService = ServiceLocator.SyncService;
         }
 
-        public void HandleMessage(CollectSyncNotebooksMessage message)
+        public void HandleMessage(CollectSyncNotebooksMessage message) //Maybe refactor to multiple smaller Methods? 
         {
             var notebooksDir = _pathManager.NotebooksDir;
 
             NotificationService.Show("Collecting Filenames");
 
             var cmd = _client.RunCommand("ls -p " + PathList.Documents);
-            var allFilenames = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => !_.EndsWith(".zip") && !_.EndsWith(".zip.part"));
+            var allFilenames
+                = cmd.Result
+                .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                .Where(f => !f.EndsWith(".zip") && !f.EndsWith(".zip.part"))
+                .ToList(); //Because multiple iterations are happening, so lazy loading is not needed
             var mds = new List<Metadata>();
-            var mdFilenames = allFilenames.Where(_ => _.EndsWith(".metadata")).ToArray();
+            var mdFilenames
+                = allFilenames
+                .Where(x => x.EndsWith(".metadata"))
+                .ToArray();
             var mdLocals = new Dictionary<string, Metadata>();
 
-            var thumbnailFolders = allFilenames.Where(_ => _.EndsWith(".thumbnails/"));
-            var thumbnailFoldersToSync = thumbnailFolders.Where(_ => !Directory.Exists(Path.Combine(notebooksDir, _.Substring(0, _.Length - 1))));
+            var thumbnailFolders
+                = allFilenames
+                .Where(x => x.EndsWith(".thumbnails/"));
+            var thumbnailFoldersToSync
+                = thumbnailFolders
+                .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x.Substring(0, x.Length - 1))));
 
             var thumbnailsSync = new SyncNotebook();
             thumbnailsSync.Directories = thumbnailFoldersToSync;
@@ -65,16 +76,20 @@ namespace Slithin.Core.MessageHandlers
                 var contentContent = "{}";
                 var pageDataContent = "";
 
-                if (allFilenames.Contains(Path.ChangeExtension(md, ".content")))
+                var mdDotContent = Path.ChangeExtension(md, ".content");
+                var fileNamesContainDotContent = allFilenames.Contains(mdDotContent);
+                if (fileNamesContainDotContent)
                 {
-                    contentContent = _client.RunCommand("cat " + PathList.Documents + "/" + Path.ChangeExtension(md, ".content")).Result;
+                    contentContent = _client.RunCommand("cat " + PathList.Documents + "/" + mdDotContent).Result;
                 }
-                if (allFilenames.Contains(Path.ChangeExtension(md, ".pagedata")))
+                var mdDotPagedata = Path.ChangeExtension(md, ".pagedata");
+                var fileNamesContaintDotPagedata = allFilenames.Contains(mdDotPagedata);
+                if (fileNamesContaintDotPagedata)
                 {
-                    pageDataContent = _client.RunCommand("cat " + PathList.Documents + "/" + Path.ChangeExtension(md, ".pagedata")).Result;
+                    pageDataContent = _client.RunCommand("cat " + PathList.Documents + "/" + mdDotPagedata).Result;
                 }
 
-                if (string.IsNullOrEmpty(mdContent))
+                if (string.IsNullOrEmpty(mdContent)) //What happends if only whitespaces?
                 {
                     continue;
                 }
@@ -82,17 +97,10 @@ namespace Slithin.Core.MessageHandlers
                 var mdObj = JsonConvert.DeserializeObject<Metadata>(mdContent);
 
                 var contentObj = JsonConvert.DeserializeObject<ContentFile>(contentContent);
-                Metadata mdLocalObj;
-
-                if (File.Exists(Path.Combine(notebooksDir, md)))
-                {
-                    mdLocalObj = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(notebooksDir, md)));
-                }
-                else
-                {
-                    mdLocalObj = new();
-                    mdLocalObj.Version = 0;
-                }
+                var mdLocalObj
+                    = File.Exists(Path.Combine(notebooksDir, md))
+                    ? JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(notebooksDir, md)))
+                    : (new() { Version = 0 });
 
                 mdObj.ID = Path.GetFileNameWithoutExtension(md);
                 mdObj.Content = contentObj;
@@ -102,26 +110,16 @@ namespace Slithin.Core.MessageHandlers
 
                 if (File.Exists(Path.Combine(notebooksDir, md)))
                 {
-                    if (!mdObj.Deleted)
+                    if (!mdObj.Deleted && mdObj.Version > mdLocalObj.Version)
                     {
-                        if (mdObj.Version > mdLocalObj.Version)
-                        {
-                            if (mdObj.Type == "DocumentType")
-                            {
-                                mds.Add(mdObj);
-                            }
+                        if (mdObj.Type == "DocumentType")
+                            mds.Add(mdObj);
+                        File.WriteAllText(Path.Combine(notebooksDir, md), mdContent);
 
-                            File.WriteAllText(Path.Combine(notebooksDir, md), mdContent);
-
-                            if (allFilenames.Contains(Path.ChangeExtension(md, ".content")))
-                            {
-                                File.WriteAllText(Path.Combine(notebooksDir, Path.ChangeExtension(md, ".content")), contentContent);
-                            }
-                            if (allFilenames.Contains(Path.ChangeExtension(md, ".pageData")))
-                            {
-                                File.WriteAllText(Path.Combine(notebooksDir, Path.ChangeExtension(md, ".pageData")), pageDataContent);
-                            }
-                        }
+                        if (fileNamesContainDotContent)
+                            File.WriteAllText(Path.Combine(notebooksDir, mdDotContent), contentContent);
+                        if (fileNamesContaintDotPagedata)
+                            File.WriteAllText(Path.Combine(notebooksDir, mdDotPagedata), pageDataContent);
                     }
                 }
                 else
@@ -133,13 +131,13 @@ namespace Slithin.Core.MessageHandlers
 
                     File.WriteAllText(Path.Combine(notebooksDir, md), mdContent);
 
-                    if (allFilenames.Contains(Path.ChangeExtension(md, ".content")))
+                    if (fileNamesContainDotContent)
                     {
-                        File.WriteAllText(Path.Combine(notebooksDir, Path.ChangeExtension(md, ".content")), contentContent);
+                        File.WriteAllText(Path.Combine(notebooksDir, mdDotContent), contentContent);
                     }
-                    if (allFilenames.Contains(Path.ChangeExtension(md, ".pageData")))
+                    if (fileNamesContaintDotPagedata)
                     {
-                        File.WriteAllText(Path.Combine(notebooksDir, Path.ChangeExtension(md, ".pageData")), pageDataContent);
+                        File.WriteAllText(Path.Combine(notebooksDir, mdDotPagedata), pageDataContent);
                     }
                 }
 
@@ -176,16 +174,10 @@ namespace Slithin.Core.MessageHandlers
                     for (var i = 0; i < otherfiles.Length; i++)
                     {
                         var fi = new FileInfo(Path.Combine(notebooksDir, otherfiles[i]));
-                        if (!md.Deleted)
-                        {
-                            if (md.Version > mdLocals[md.ID].Version)
-                            {
-                                if (!fi.Exists)
-                                {
-                                    _syncNotebooks.Add(sn);
-                                }
-                            }
-                        }
+                        if (!md.Deleted
+                            && md.Version > mdLocals[md.ID].Version
+                            && !fi.Exists)
+                            _syncNotebooks.Add(sn);
                     }
                 }
 

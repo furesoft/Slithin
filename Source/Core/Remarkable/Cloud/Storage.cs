@@ -35,7 +35,7 @@ namespace Slithin.Core.Remarkable.Cloud
         {
             var tmp = Path.GetTempFileName();
 
-            var wc = new WebClient();
+            var wc = new WebClient(); //Dispose!
 
             wc.DownloadFile(blobUrl, tmp);
 

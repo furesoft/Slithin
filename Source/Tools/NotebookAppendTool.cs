@@ -36,16 +36,15 @@ namespace Slithin.Tools
 
         public bool CanHandle(object obj) => obj is Metadata md && md.Content.FileType == "pdf";
 
-        public IEnumerable<MenuItem> GetMenu(object obj)
+        public ICollection<MenuItem> GetMenu(object obj)
         {
-            yield return new MenuItem
+            var menu = new List<MenuItem>()
             {
-                Header = "Append Pages",
-                Command = new DelegateCommand((_) =>
-                {
-                    Invoke(obj);
-                })
+                new MenuItem{Header = "Append Pages",Command = new DelegateCommand((_) =>{Invoke(obj);})}
             };
+
+            return menu;
+
         }
 
         public Control GetModal()

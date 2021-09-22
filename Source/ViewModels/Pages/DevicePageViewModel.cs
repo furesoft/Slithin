@@ -55,14 +55,14 @@ namespace Slithin.ViewModels.Pages
 
         public bool IsBeta
         {
-            get { return _isBeta; }
-            set { SetValue(ref _isBeta, value); }
+            get => _isBeta;
+            set => SetValue(ref _isBeta, value);
         }
 
         public string Version
         {
-            get { return _version; }
-            set { SetValue(ref _version, value); }
+            get => _version;
+            set => SetValue(ref _version, value);
         }
 
         public void export()
@@ -70,7 +70,7 @@ namespace Slithin.ViewModels.Pages
             var id = "f27773a7-b054-4782-bbcf-a9acbf045977";
             var ep = _exportProviderFactory.GetExportProvider("PDF Document");
 
-            var doc = new PdfDocument(File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf"));
+            using var doc = new PdfDocument(File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf"));
 
             var opts = ExportOptions.Create(doc, "1-120");
             var md = Metadata.Load(id);
@@ -102,23 +102,21 @@ namespace Slithin.ViewModels.Pages
 
             Version = _versionService.GetDeviceVersion().ToString();
 
-            if (_versionService.GetLocalVersion() < _versionService.GetDeviceVersion())
-            {
-                _events.Invoke("newVersionAvailable");
-                _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
+            if (_versionService.GetLocalVersion() >= _versionService.GetDeviceVersion())
+                return;
 
-                if (!_settingsService.Get().AutomaticTemplateRecovery)
-                {
-                    var result = await DialogService.ShowDialog("A new version has been installed to your device. Would you upload your custom templates?");
-                    if (result)
-                    {
-                        UploadTemplates();
-                    }
-                }
-                else
-                {
-                    UploadTemplates();
-                }
+            _events.Invoke("newVersionAvailable");
+            _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
+
+            if (_settingsService.Get().AutomaticTemplateRecovery)
+            {
+                UploadTemplates();
+                return;
+            }
+            var result = await DialogService.ShowDialog("A new version has been installed to your device. Would you upload your custom templates?");
+            if (result)
+            {
+                UploadTemplates();
             }
         }
 

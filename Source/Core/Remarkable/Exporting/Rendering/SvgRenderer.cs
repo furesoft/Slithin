@@ -86,32 +86,19 @@ namespace Slithin.Core.Remarkable.Rendering
 
             path.PathData = GeneratePathData(line.Points);
 
-            switch (line.Color)
-            {
-                case Colors.Grey:
-                    path.Stroke = new SvgColourServer(Color.Gray);
-                    break;
-
-                case Colors.White:
-                    path.Stroke = new SvgColourServer(Color.White);
-                    break;
-
-                default:
-                    path.Stroke = new SvgColourServer(Color.Black);
-                    break;
-            }
-
-            switch (line.BrushType)
-            {
-                case Brushes.Highlighter:
-                case Brushes.Rubber:
-                    path.StrokeWidth = new SvgUnit(20 * BaseSizes.GetValue(line.BrushBaseSize));
-                    break;
-
-                default:
-                    path.StrokeWidth = new SvgUnit(18 * BaseSizes.GetValue(line.BrushBaseSize) - 32);
-                    break;
-            }
+            path.Stroke
+                = line.Color switch
+                {
+                    Colors.Grey => new SvgColourServer(Color.Gray),
+                    Colors.White => new SvgColourServer(Color.White),
+                    _ => new SvgColourServer(Color.Black),
+                };
+            path.StrokeWidth
+                = line.BrushType switch
+                {
+                    Brushes.Highlighter or Brushes.Rubber => new SvgUnit(20 * BaseSizes.GetValue(line.BrushBaseSize)),
+                    _ => new SvgUnit(18 * BaseSizes.GetValue(line.BrushBaseSize) - 32),
+                };
 
             if (line.BrushType == Brushes.Highlighter)
             {

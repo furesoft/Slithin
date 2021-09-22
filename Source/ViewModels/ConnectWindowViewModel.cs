@@ -54,104 +54,100 @@ namespace Slithin.ViewModels
 
         public ObservableCollection<LoginInfo> LoginCredentials
         {
-            get { return _loginCredentials; }
-            set { SetValue(ref _loginCredentials, value); }
+            get => _loginCredentials;
+            set => SetValue(ref _loginCredentials, value);
         }
 
         public ICommand OpenAddDeviceCommand { get; set; }
 
         public LoginInfo SelectedLogin
         {
-            get { return _selectedLogin; }
-            set { SetValue(ref _selectedLogin, value); }
+            get => _selectedLogin;
+            set => SetValue(ref _selectedLogin, value);
         }
 
         private void Connect(object obj)
         {
             var validationResult = _validator.Validate(SelectedLogin);
 
-            if (validationResult.IsValid)
-            {
-                ServiceLocator.Container.Register(new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
-                ServiceLocator.Container.Register(new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
-
-                var client = ServiceLocator.Container.Resolve<SshClient>();
-
-                ServiceLocator.SyncService = new SynchronisationService(ServiceLocator.Container.Resolve<LiteDatabase>());
-                ServiceLocator.Container.Register<Automation>().AsSingleton();
-
-                var automation = ServiceLocator.Container.Resolve<Automation>();
-
-                automation.Init();
-                automation.Evaluate("testScript");
-
-                ServiceLocator.Container.Resolve<IMailboxService>().Init();
-                ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
-
-                client.ErrorOccurred += (s, _) =>
-                {
-                    DialogService.OpenError(_.Exception.ToString());
-                };
-
-                try
-                {
-                    client.Connect();
-                    ServiceLocator.Container.Resolve<ScpClient>().Connect();
-
-                    if (client.IsConnected)
-                    {
-                        if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                        {
-                            _events.Invoke("connect");
-
-                            var pingTimer = new System.Timers.Timer();
-                            pingTimer.Elapsed += pingTimer_ellapsed;
-                            pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
-                            pingTimer.Start();
-
-                            desktop.MainWindow.Hide();
-                            desktop.MainWindow = new MainWindow();
-
-                            desktop.MainWindow.Show();
-
-                            var settings = _settingsService.Get();
-                            if (!settings.HasFirstGalleryShown)
-                            {
-                                var vm = new GalleryWindowViewModel();
-                                vm.Slides.Add(new WelcomePage());
-
-                                var galleryWindow = new GalleryWindow(vm);
-
-                                settings.HasFirstGalleryShown = true;
-                                _settingsService.Save(settings);
-
-                                galleryWindow.Show();
-                            }
-
-                            if (Environment.GetCommandLineArgs().Contains("-updateInstalled"))
-                            {
-                                var vm = new GalleryWindowViewModel();
-                                vm.Slides.Add(new UpdateInstalledPage());
-
-                                var galleryWindow = new GalleryWindow(vm);
-
-                                galleryWindow.Show();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SnackbarHost.Post("Could not connect to host");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    SnackbarHost.Post(ex.Message);
-                }
-            }
-            else
+            if (!validationResult.IsValid)
             {
                 SnackbarHost.Post(string.Join("\n", validationResult.Errors));
+                return;
+            }
+            ServiceLocator.Container.Register(new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
+            ServiceLocator.Container.Register(new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
+
+            var client = ServiceLocator.Container.Resolve<SshClient>();
+
+            ServiceLocator.SyncService = new SynchronisationService(ServiceLocator.Container.Resolve<LiteDatabase>());
+            ServiceLocator.Container.Register<Automation>().AsSingleton();
+
+            var automation = ServiceLocator.Container.Resolve<Automation>();
+
+            automation.Init();
+            automation.Evaluate("testScript");
+
+            ServiceLocator.Container.Resolve<IMailboxService>().Init();
+            ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
+
+            client.ErrorOccurred += (s, _) =>
+            {
+                DialogService.OpenError(_.Exception.ToString());
+            };
+
+            try
+            {
+                client.Connect();
+                ServiceLocator.Container.Resolve<ScpClient>().Connect();
+
+                if (!client.IsConnected)
+                {
+                    SnackbarHost.Post("Could not connect to host");
+                    return;
+                }
+                if (App.Current.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
+                    return;
+
+                _events.Invoke("connect");
+
+                var pingTimer = new System.Timers.Timer();
+                pingTimer.Elapsed += pingTimer_ellapsed;
+                pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
+                pingTimer.Start();
+
+                desktop.MainWindow.Hide();
+                desktop.MainWindow = new MainWindow();
+
+                desktop.MainWindow.Show();
+
+                var settings = _settingsService.Get();
+                if (!settings.HasFirstGalleryShown)
+                {
+                    var vm = new GalleryWindowViewModel();
+                    vm.Slides.Add(new WelcomePage());
+
+                    var galleryWindow = new GalleryWindow(vm);
+
+                    settings.HasFirstGalleryShown = true;
+                    _settingsService.Save(settings);
+
+                    galleryWindow.Show();
+                }
+
+                if (Environment.GetCommandLineArgs().Contains("-updateInstalled"))
+                {
+                    var vm = new GalleryWindowViewModel();
+                    vm.Slides.Add(new UpdateInstalledPage());
+
+                    var galleryWindow = new GalleryWindow(vm);
+
+                    galleryWindow.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                SnackbarHost.Post(ex.Message);
             }
         }
 

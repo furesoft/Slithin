@@ -41,8 +41,8 @@ namespace Slithin.Core.Remarkable
         [JsonProperty("visibleName")]
         public string? VisibleName
         {
-            get { return _visibleName; }
-            set { SetValue(ref _visibleName, value); }
+            get => _visibleName;
+            set => SetValue(ref _visibleName, value);
         }
 
         public static Metadata Load(string id)
@@ -75,14 +75,14 @@ namespace Slithin.Core.Remarkable
 
         public bool Equals(Metadata x, Metadata y)
         {
-            return x.Content.Equals(x.Content) &&
-                x.Deleted == y.Deleted &&
-                x.ID.Equals(y.ID) &&
-                x.LastOpenedPage == y.LastOpenedPage &&
-                x.Parent.Equals(y.Parent) &&
-                x.Type.Equals(y.Type) &&
-                x.Version == y.Version &&
-                x.VisibleName.Equals(y.VisibleName);
+            return x.Content.Equals(x.Content)
+                && x.Deleted == y.Deleted
+                && x.ID.Equals(y.ID)
+                && x.LastOpenedPage == y.LastOpenedPage
+                && x.Parent.Equals(y.Parent)
+                && x.Type.Equals(y.Type)
+                && x.Version == y.Version
+                && x.VisibleName.Equals(y.VisibleName);
         }
 
         public int GetHashCode([DisallowNull] Metadata obj)
@@ -103,7 +103,7 @@ namespace Slithin.Core.Remarkable
 
             File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".metadata"), JsonConvert.SerializeObject(this, Formatting.Indented));
 
-            if (new ContentFile?(Content).HasValue)
+            //if (new ContentFile?(Content).HasValue) //Das kann niemals false sein!
             {
                 File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".content"), JsonConvert.SerializeObject(Content, Formatting.Indented));
             }
