@@ -33,7 +33,7 @@ namespace Slithin.Core.MessageHandlers
             _synchronisationService = ServiceLocator.SyncService;
         }
 
-        public void HandleMessage(CollectSyncNotebooksMessage message) //Maybe refactor to multiple smaller Methods? 
+        public void HandleMessage(CollectSyncNotebooksMessage message) //Maybe refactor to multiple smaller Methods?
         {
             var notebooksDir = _pathManager.NotebooksDir;
 
@@ -110,7 +110,7 @@ namespace Slithin.Core.MessageHandlers
 
                 if (File.Exists(Path.Combine(notebooksDir, md)))
                 {
-                    if (!mdObj.Deleted && mdObj.Version > mdLocalObj.Version)
+                    if (!mdObj.Deleted && mdObj.Version > mdLocalObj.Version || mdObj.Parent != mdLocalObj.Parent)
                     {
                         if (mdObj.Type == "DocumentType")
                             mds.Add(mdObj);
