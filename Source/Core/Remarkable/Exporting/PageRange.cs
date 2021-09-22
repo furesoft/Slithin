@@ -8,7 +8,10 @@ namespace Slithin.Core.Remarkable.Exporting
     {
         public static OneOf<List<PageRange>, bool> Parse(string src)
         {
-            if (string.IsNullOrEmpty(src))
+            if (string.IsNullOrEmpty(src) || string.IsNullOrWhiteSpace(src))
+                return true;
+
+            if (src == "-")
                 return true;
 
             src = src.Replace(" ", "").Replace("\t", "");
@@ -52,7 +55,6 @@ namespace Slithin.Core.Remarkable.Exporting
                 {
                     return new PageRange(page, -1);//to the end of the document
                 }
-
             }
             else
             {
@@ -60,10 +62,8 @@ namespace Slithin.Core.Remarkable.Exporting
                 {
                     return new PageRange(leftPart, rightPart);
                 }
-
             }
             return true;
-
         }
 
         public static IEnumerable<int> ToIndices(List<PageRange> ranges, int max)
