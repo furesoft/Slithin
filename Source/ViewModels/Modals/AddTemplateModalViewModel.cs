@@ -54,34 +54,34 @@ namespace Slithin.ViewModels.Modals
 
         public string Filename
         {
-            get { return _filename; }
-            set { SetValue(ref _filename, value); }
+            get => _filename;
+            set => SetValue(ref _filename, value);
         }
 
         public IconCodeItem IconCode
         {
-            get { return _iconCode; }
-            set { SetValue(ref _iconCode, value); }
+            get => _iconCode;
+            set => SetValue(ref _iconCode, value);
         }
 
         public ObservableCollection<IconCodeItem> IconCodes { get; set; } = new();
 
         public bool IsLandscape
         {
-            get { return _isLandscape; }
-            set { SetValue(ref _isLandscape, value); }
+            get => _isLandscape;
+            set => SetValue(ref _isLandscape, value);
         }
 
         public string Name
         {
-            get { return _name; }
-            set { SetValue(ref _name, value); }
+            get => _name;
+            set => SetValue(ref _name, value);
         }
 
         public object SelectedCategory
         {
-            get { return _selectedCategory; }
-            set { SetValue(ref _selectedCategory, value); }
+            get => _selectedCategory;
+            set => SetValue(ref _selectedCategory, value);
         }
 
         public override void OnLoad()
@@ -90,13 +90,13 @@ namespace Slithin.ViewModels.Modals
 
             foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
             {
-                if (res.StartsWith("Slithin.Resources.IconTiles."))
-                {
-                    var item = new IconCodeItem { Name = res.Split('.')[^2] };
-                    item.Load();
+                if (!res.StartsWith("Slithin.Resources.IconTiles."))
+                    continue;
 
-                    IconCodes.Add(item);
-                }
+                var item = new IconCodeItem { Name = res.Split('.')[^2] };
+                item.Load();
+
+                IconCodes.Add(item);
             }
         }
 
@@ -116,53 +116,51 @@ namespace Slithin.ViewModels.Modals
         {
             var validationResult = _validator.Validate(this);
 
-            if (validationResult.IsValid)
-            {
-                var template = BuildTemplate();
-
-                if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
-                {
-                    if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
-                    {
-                        File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-
-                var bitmap = Image.FromFile(Filename);
-
-                if (bitmap.Width != 1404 && bitmap.Height != 1872)
-                {
-                    DialogService.OpenDialogError("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
-
-                    return;
-                }
-                bitmap.Dispose();
-
-                File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
-
-                _localRepository.Add(template);
-
-                template.Load();
-
-                TemplateStorage.Instance.Add(template);
-                _synchronisationService.TemplateFilter.Templates.Add(template);
-
-                DialogService.Close();
-
-                var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
-                _synchronisationService.AddToSyncQueue(syncItem);
-
-                var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
-                _synchronisationService.AddToSyncQueue(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
-            }
-            else
+            if (!validationResult.IsValid)
             {
                 DialogService.OpenDialogError(validationResult.Errors.First().ToString());
+                return;
             }
+            var template = BuildTemplate();
+
+            if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
+            {
+                if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
+                {
+                    File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+
+            using var bitmap = Image.FromFile(Filename);
+
+            if (bitmap.Width != 1404 && bitmap.Height != 1872)
+            {
+                DialogService.OpenDialogError("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+
+                return;
+            }
+
+            File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+
+            _localRepository.Add(template);
+
+            template.Load();
+
+            TemplateStorage.Instance.Add(template);
+            _synchronisationService.TemplateFilter.Templates.Add(template);
+
+            DialogService.Close();
+
+            var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
+            _synchronisationService.AddToSyncQueue(syncItem);
+
+            var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
+            _synchronisationService.AddToSyncQueue(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
         }
 
         private Template BuildTemplate()

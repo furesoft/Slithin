@@ -15,14 +15,13 @@ namespace Slithin.Controls
 
         public object DialogContent
         {
-            get { return GetValue(DialogContentProperty); }
-            set { SetValue(DialogContentProperty, value); }
+            get => GetValue(DialogContentProperty); set => SetValue(DialogContentProperty, value);
         }
 
         public bool IsOpened
         {
-            get { return GetValue<bool>(IsOpenedProperty); }
-            set { SetValue(IsOpenedProperty, value); }
+            get => GetValue(IsOpenedProperty);
+            set => SetValue(IsOpenedProperty, value);
         }
 
         Type IStyleable.StyleKey => typeof(ContentDialog);

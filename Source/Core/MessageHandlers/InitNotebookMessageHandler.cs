@@ -29,22 +29,23 @@ namespace Slithin.Core.MessageHandlers
             NotificationService.Show("Downloading Notebooks");
 
             var cmd = _client.RunCommand("ls -p " + PathList.Documents);
-            var allNodes = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => !_.EndsWith(".zip") && !_.EndsWith(".zip.part"));
+            var allNodes
+                = cmd.Result
+                .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                .Where(_ => !_.EndsWith(".zip") && !_.EndsWith(".zip.part"));
 
             _scp.Downloading += OnDownloading;
 
             foreach (var node in allNodes)
             {
-                if (node.EndsWith("/"))
-                {
-                    Directory.CreateDirectory(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1)));
-
-                    _scp.Download(PathList.Documents + "/" + node, new DirectoryInfo(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1))));
-                }
-                else
+                if (!node.EndsWith("/"))
                 {
                     _scp.Download(PathList.Documents + "/" + node, new FileInfo(Path.Combine(notebooksDir, node)));
+                    break;
                 }
+
+                Directory.CreateDirectory(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1)));
+                _scp.Download(PathList.Documents + "/" + node, new DirectoryInfo(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1))));
             }
 
             _scp.Downloading -= OnDownloading;

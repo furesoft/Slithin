@@ -7,13 +7,9 @@ namespace Slithin.Core.ImportProviders
     public class NotebookImportProvider : IImportProvider
     {
         public bool CanHandle(string filename)
-        {
-            return Path.GetExtension(filename) == ".pdf" || Path.GetExtension(filename) == ".epub";
-        }
+            => Path.GetExtension(filename) is ".pdf" or ".epub";
 
         public Stream Import(Stream source)
-        {
-            return source;
-        }
+            => source;
     }
 }

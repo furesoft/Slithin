@@ -1,6 +1,5 @@
 ﻿using System;
 using Avalonia;
-using Avalonia.Dialogs;
 
 namespace Slithin
 {
@@ -13,7 +12,6 @@ namespace Slithin
                 .With(new X11PlatformOptions { EnableMultiTouch = true, UseDBusMenu = true })
                 .With(new Win32PlatformOptions { EnableMultitouch = true, AllowEglInitialization = true })
                 .UseSkia()
-                .UseManagedSystemDialogs()
                 .LogToTrace();
 
         // Initialization code. Don't use any Avalonia, third-party APIs or any

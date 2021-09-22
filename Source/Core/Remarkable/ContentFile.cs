@@ -24,9 +24,9 @@ namespace Slithin.Core.Remarkable
 
         public bool Equals(ContentFile x, ContentFile y)
         {
-            return x.CoverPageNumber == y.CoverPageNumber &&
-                x.FileType == y.FileType &&
-                x.Pages == y.Pages;
+            return x.CoverPageNumber == y.CoverPageNumber
+                && x.FileType == y.FileType
+                && x.Pages == y.Pages;
         }
 
         public int GetHashCode([DisallowNull] ContentFile obj)

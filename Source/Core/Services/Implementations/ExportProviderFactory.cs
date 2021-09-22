@@ -22,9 +22,9 @@ namespace Slithin.Core.Services.Implementations
         public void Init()
         {
             var providers = AppDomain.CurrentDomain.GetAssemblies()
-           .SelectMany(s => s.GetTypes())
-           .Where(x => typeof(IExportProvider).IsAssignableFrom(x) && x.IsClass)
-           .Select(type => (IExportProvider)ServiceLocator.Container.Resolve(type));
+                .SelectMany(s => s.GetTypes())
+                .Where(x => typeof(IExportProvider).IsAssignableFrom(x) && x.IsClass)
+                .Select(type => (IExportProvider)ServiceLocator.Container.Resolve(type));
 
             foreach (var provider in providers)
             {

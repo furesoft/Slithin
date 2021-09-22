@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using Slithin.Core.Services;
 using System;
+using System.Linq;
 
 namespace Slithin.Core.Remarkable.Rendering
 {
@@ -53,7 +54,7 @@ namespace Slithin.Core.Remarkable.Rendering
 
         public static Page LoadPage(Stream strm)
         {
-            var br = new BinaryReader(strm);
+            using var br = new BinaryReader(strm, Encoding.UTF8, leaveOpen:true );
 
             // skip header
             strm.Seek(33, SeekOrigin.Begin);
@@ -110,14 +111,14 @@ namespace Slithin.Core.Remarkable.Rendering
 
                 var path = Path.Combine(pathManager.NotebooksDir, ID, md.Content.Pages[i] + ".rm");
 
-                var strm = File.OpenWrite(path);
-                var bw = new BinaryWriter(strm);
+                using var strm = File.OpenWrite(path);
+                using var bw = new BinaryWriter(strm);
 
                 // write header (33 bytes)
                 bw.Write(Encoding.ASCII.GetBytes("reMarkable .lines file, version=" + (char)Version));
 
                 // write space padding
-                bw.Write(Encoding.ASCII.GetBytes("          "));
+                bw.Write(Encoding.ASCII.GetBytes("".PadRight(10, ' ')));
 
                 bw.Write(p.Layers.Count);
                 foreach (var layer in p.Layers)

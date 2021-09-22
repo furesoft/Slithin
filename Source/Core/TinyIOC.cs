@@ -578,8 +578,8 @@ namespace Slithin.Core
         /// <param name="genericTypes">Generic types to use to make the method generic</param>
         /// <param name="parameterTypes">Method parameters</param>
         /// <returns>MethodInfo or null if no matches found</returns>
-        /// <exception cref="System.Reflection.AmbiguousMatchException"/>
-        /// <exception cref="System.ArgumentException"/>
+        /// <exception cref="AmbiguousMatchException"/>
+        /// <exception cref="ArgumentException"/>
         public static MethodInfo GetGenericMethod(this Type sourceType, BindingFlags bindingFlags, string methodName, Type[] genericTypes, Type[] parameterTypes)
         {
             MethodInfo method;
@@ -3727,7 +3727,7 @@ namespace Slithin.Core
 
         private void RegisterDefaultTypes()
         {
-            Register<TinyIoCContainer>(this);
+            Register(this);
 
 #if TINYMESSENGER
 			// Only register the TinyMessenger singleton if we are the root container

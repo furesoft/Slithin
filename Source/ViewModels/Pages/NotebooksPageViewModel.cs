@@ -83,8 +83,8 @@ namespace Slithin.ViewModels.Pages
 
         public bool IsMoving
         {
-            get { return _isMoving; }
-            set { SetValue(ref _isMoving, value); }
+            get => _isMoving;
+            set => SetValue(ref _isMoving, value);
         }
 
         public ICommand MakeFolderCommand { get; set; }
@@ -96,8 +96,8 @@ namespace Slithin.ViewModels.Pages
 
         public Metadata SelectedNotebook
         {
-            get { return _selectedNotebook; }
-            set { SetValue(ref _selectedNotebook, value); }
+            get => _selectedNotebook;
+            set => SetValue(ref _selectedNotebook, value);
         }
 
         public override void OnLoad()
@@ -128,29 +128,27 @@ namespace Slithin.ViewModels.Pages
 
             MetadataStorage.Local.Add(md, out var alreadyAdded);
 
-            if (!alreadyAdded)
-            {
-                md.Save();
-
-                _synchronisationService.NotebooksFilter.Documents.Add(md);
-                _synchronisationService.NotebooksFilter.SortByFolder();
-
-                var syncItem = new SyncItem
-                {
-                    Action = SyncAction.Add,
-                    Data = md,
-                    Direction = SyncDirection.ToDevice,
-                    Type = SyncType.Notebook
-                };
-
-                _synchronisationService.AddToSyncQueue(syncItem);
-
-                DialogService.Close();
-            }
-            else
+            if (alreadyAdded)
             {
                 DialogService.OpenError($"'{md.VisibleName}' already exists");
+                return;
             }
+            md.Save();
+
+            _synchronisationService.NotebooksFilter.Documents.Add(md);
+            _synchronisationService.NotebooksFilter.SortByFolder();
+
+            var syncItem = new SyncItem
+            {
+                Action = SyncAction.Add,
+                Data = md,
+                Direction = SyncDirection.ToDevice,
+                Type = SyncType.Notebook
+            };
+
+            _synchronisationService.AddToSyncQueue(syncItem);
+
+            DialogService.Close();
         }
 
         private void Rename(Metadata md, string newName)
@@ -160,22 +158,22 @@ namespace Slithin.ViewModels.Pages
             MetadataStorage.Local.Remove(md);
             MetadataStorage.Local.Add(md, out var alreadyAdded);
 
-            if (!alreadyAdded)
+            if (alreadyAdded)
+                return;
+
+            md.Save();
+
+            var syncItem = new SyncItem
             {
-                md.Save();
+                Action = SyncAction.Update,
+                Data = md,
+                Direction = SyncDirection.ToDevice,
+                Type = SyncType.Notebook
+            };
 
-                var syncItem = new SyncItem
-                {
-                    Action = SyncAction.Update,
-                    Data = md,
-                    Direction = SyncDirection.ToDevice,
-                    Type = SyncType.Notebook
-                };
+            _synchronisationService.AddToSyncQueue(syncItem);
 
-                _synchronisationService.AddToSyncQueue(syncItem);
-
-                DialogService.Close();
-            }
+            DialogService.Close();
         }
     }
 }

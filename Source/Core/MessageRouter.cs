@@ -35,7 +35,7 @@ namespace Slithin.Core
                 {
                     _handlers[msgType](msg);
                 }
-                catch (Exception ex)
+                catch (Exception ex) //Catch all without logging or anything?
                 {
                 }
             }

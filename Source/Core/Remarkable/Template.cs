@@ -27,8 +27,14 @@ namespace Slithin.Core.Remarkable
         [BsonIgnore]
         public IImage Image
         {
-            get { return _image; }
-            set { _image = value; PropertyChanged?.Invoke(this, new(nameof(Image))); }
+            get => _image;
+            set
+            {
+                if (_image == value)
+                    return;
+                _image = value; 
+                PropertyChanged?.Invoke(this, new(nameof(Image)));
+            }
         }
 
         [JsonProperty("landscape")]
@@ -41,18 +47,14 @@ namespace Slithin.Core.Remarkable
         {
             var templatesDir = ServiceLocator.Container.Resolve<IPathManager>().TemplatesDir;
 
-            if (Directory.Exists(templatesDir))
-            {
-                var path = Path.Combine(templatesDir, Filename);
+            if (!Directory.Exists(templatesDir) || Image is not null)
+                return;
+            var path = Path.Combine(templatesDir, Filename);
 
-                if (Image is null)
-                {
-                    if (File.Exists(path + ".png"))
-                    {
-                        Image = Bitmap.DecodeToWidth(File.OpenRead(path + ".png"), 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
-                    }
-                }
-            }
+            if (!File.Exists(path + ".png"))
+                return;
+   
+            Image = Bitmap.DecodeToWidth(File.OpenRead(path + ".png"), 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
         }
     }
 }

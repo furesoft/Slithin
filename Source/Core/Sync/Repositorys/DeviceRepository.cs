@@ -107,18 +107,18 @@ namespace Slithin.Core.Sync.Repositorys
 
         public void Remove(Metadata data)
         {
-            if (data.Type == "DocumentType")
+            if (data.Type != "DocumentType")
+                return;
+
+            using var cmd = _client.RunCommand("ls " + PathList.Documents);
+            var split = cmd.Result.Split('\n');
+            var excluded = split.Where(_ => _.Contains(data.ID));
+
+            var filenames = string.Join(' ', excluded.Select(_ => PathList.Documents + _));
+
+            foreach (var filename in excluded.Select(_ => PathList.Documents + _))
             {
-                var cmd = _client.RunCommand("ls " + PathList.Documents);
-                var split = cmd.Result.Split('\n');
-                var excluded = split.Where(_ => _.Contains(data.ID));
-
-                var filenames = string.Join(' ', excluded.Select(_ => PathList.Documents + _));
-
-                foreach (var filename in excluded.Select(_ => PathList.Documents + _))
-                {
-                    var cr = _client.RunCommand("rm -fr " + filename);
-                }
+                using var cr = _client.RunCommand("rm -fr " + filename);
             }
         }
     }

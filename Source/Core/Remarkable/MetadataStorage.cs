@@ -17,15 +17,13 @@ namespace Slithin.Core.Remarkable
 
         public void Add(Metadata metadata, out bool alreadyAdded)
         {
-            if (!_storage.ContainsKey(metadata.ID))
-            {
-                _storage.Add(metadata.ID, metadata);
-                alreadyAdded = false;
-            }
-            else
+            if (_storage.ContainsKey(metadata.ID))
             {
                 alreadyAdded = true;
+                return;
             }
+            _storage.Add(metadata.ID, metadata);
+            alreadyAdded = false;
         }
 
         public void Clear()
@@ -65,15 +63,15 @@ namespace Slithin.Core.Remarkable
 
         public void Move(Metadata md, string folder)
         {
-            if (md.Type == "DocumentType")
-            {
-                md.Parent = folder;
-                md.Version++;
+            if (md.Type != "DocumentType")
+                return;
 
-                _storage[md.ID] = md; //replace metadata with changed md
+            md.Parent = folder;
+            md.Version++;
 
-                md.Save();
-            }
+            _storage[md.ID] = md; //replace metadata with changed md
+
+            md.Save();
         }
 
         public void Remove(Metadata tmpl)

@@ -20,7 +20,8 @@ namespace Slithin.Core.Commands
 
         public bool CanExecute(object parameter)
         {
-            return parameter is Metadata md && md.Type == "DocumentType"
+            return parameter is Metadata md
+                && md.Type == "DocumentType"
                 && _exportProviderFactory.GetAvailableProviders(md).Any();
         }
 

@@ -36,8 +36,8 @@ namespace Slithin.ViewModels.Pages
 
         public ITool SelectedScript
         {
-            get { return _selectedScript; }
-            set { SetValue(ref _selectedScript, value); }
+            get => _selectedScript;
+            set => SetValue(ref _selectedScript, value);
         }
     }
 }

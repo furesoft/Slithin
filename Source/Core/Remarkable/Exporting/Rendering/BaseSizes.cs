@@ -13,34 +13,22 @@
         public const float Mid = 2.0f;
         public const float Small = 1.875f;
 
-        public static float GetValue(BrushBaseSize size)
-        {
-            switch (size)
+        public static float GetValue(BrushBaseSize size) 
+            => size switch
             {
-                case BrushBaseSize.Small:
-                    return Small;
+                BrushBaseSize.Small => Small,
+                BrushBaseSize.Mid => Mid,
+                BrushBaseSize.Large => Large,
+                _ => Small,
+            };
 
-                case BrushBaseSize.Mid:
-                    return Mid;
-
-                case BrushBaseSize.Large:
-                    return Large;
-
-                default:
-                    return Small;
-            }
-        }
-
-        public static BrushBaseSize Parse(float value)
-        {
-            switch (value)
+        public static BrushBaseSize Parse(float value) 
+            => value switch
             {
-                case Small: return BrushBaseSize.Small;
-                case Mid: return BrushBaseSize.Mid;
-                case Large: return BrushBaseSize.Large;
-            }
-
-            return BrushBaseSize.Small;
-        }
+                Small => BrushBaseSize.Small,
+                Mid => BrushBaseSize.Mid,
+                Large => BrushBaseSize.Large,
+                _ => BrushBaseSize.Small,
+            };
     }
 }

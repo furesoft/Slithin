@@ -22,19 +22,19 @@ namespace Slithin.Core.Sync
 
         public bool Landscape
         {
-            get { return _landscape; }
+            get => _landscape;
             set { SetValue(ref _landscape, value); RefreshTemplates(); }
         }
 
         public string SelectedCategory
         {
-            get { return _selectedCategory; }
+            get => _selectedCategory;
             set { SetValue(ref _selectedCategory, value); RefreshTemplates(); }
         }
 
         public ObservableCollection<Template> Templates
         {
-            get { return _templates; }
+            get => _templates;
             set { SetValue(ref _templates, value); }
         }
 
