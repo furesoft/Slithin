@@ -39,7 +39,7 @@ namespace Slithin.Core.MessageHandlers
 
             NotificationService.Show("Collecting Filenames");
 
-            var cmd = _client.RunCommand("ls -p " + PathList.Documents);
+            using var cmd = _client.RunCommand("ls -p " + PathList.Documents);
             var allFilenames
                 = cmd.Result
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries)
@@ -57,10 +57,12 @@ namespace Slithin.Core.MessageHandlers
                 .Where(x => x.EndsWith(".thumbnails/"));
             var thumbnailFoldersToSync
                 = thumbnailFolders
-                .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x.Substring(0, x.Length - 1))));
+                .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[0..^1])));
 
-            var thumbnailsSync = new SyncNotebook();
-            thumbnailsSync.Directories = thumbnailFoldersToSync;
+            var thumbnailsSync = new SyncNotebook
+            {
+                Directories = thumbnailFoldersToSync
+            };
 
             if (thumbnailFolders.Any())
             {
@@ -72,7 +74,8 @@ namespace Slithin.Core.MessageHandlers
                 var md = mdFilenames[i];
                 NotificationService.Show($"Downloading Notebook Metadata {i} / {mdFilenames.Length}");
 
-                var mdContent = _client.RunCommand("cat " + PathList.Documents + "/" + md).Result;
+                using var sshCommand = _client.RunCommand("cat " + PathList.Documents + "/" + md);
+                var mdContent = sshCommand.Result;
                 var contentContent = "{}";
                 var pageDataContent = "";
 

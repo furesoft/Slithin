@@ -76,7 +76,8 @@ namespace Slithin.Core.Commands
 
         private void SyncDeviceDeletions()
         {
-            var deviceFiles = _client.RunCommand("ls -p " + PathList.Documents).Result
+            using var sshCommand = _client.RunCommand("ls -p " + PathList.Documents);
+            var deviceFiles = sshCommand.Result
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
             var localFiles = Directory.GetFiles(_pathManager.NotebooksDir).Where(_ => _.EndsWith(".metadata")).
                 Select(_ => Path.GetFileName(_));

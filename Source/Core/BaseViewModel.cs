@@ -4,7 +4,7 @@ using Slithin.Core.Sync;
 
 namespace Slithin.Core
 {
-    public abstract class BaseViewModel : ReactiveObject
+    public abstract class BaseViewModel : NotifyObject
     {
         public event Action OnRequestClose;
 

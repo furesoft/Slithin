@@ -4,7 +4,7 @@ using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Sync
 {
-    public class NotebooksFilter : ReactiveObject
+    public class NotebooksFilter : NotifyObject
     {
         private ObservableCollection<Metadata> _documents = new();
         private string _folder = "";

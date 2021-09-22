@@ -27,12 +27,12 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
         }
 
         public bool Export(ExportOptions options, Metadata metadata, string outputPath)
-        { 
+        {
             if (options.Document.IsT1)
             {
                 var notebook = options.Document.AsT1;
 
-                var document = new PdfDocument();
+                using var document = new PdfDocument();
 
                 document.Info.Title = metadata.VisibleName;
 
@@ -64,13 +64,13 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
                 return true;
             }
 
-
             if (!options.Document.IsT0)
                 return false;
 
             var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
-            var doc = PdfReader.Open(File.OpenRead(filename), PdfDocumentOpenMode.Import);
-            var result = new PdfDocument();
+            using var pdfStream = File.OpenRead(filename);
+            using var doc = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Import);
+            using var result = new PdfDocument();
 
             result.Info.Title = metadata.VisibleName;
 
@@ -90,7 +90,8 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
                 p = result.AddPage();
 
                 //render
-                var page = Notebook.LoadPage(File.OpenRead(rmPath));
+                using var notebookStream = File.OpenRead(rmPath);
+                var page = Notebook.LoadPage(notebookStream);
 
                 var psize = PageSizeConverter.ToSize(PageSize.A4);
                 using var svgStrm = SvgRenderer.RenderPage(page, i, metadata, (int)psize.Width, (int)psize.Height);
@@ -104,11 +105,12 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
 
                 svgStrm.Close();
 
-                var graphics = XGraphics.FromPdfPage(p);
+                using var graphics = XGraphics.FromPdfPage(p);
 
                 pngStrm.Seek(0, SeekOrigin.Begin);
+                using var pngImage = XImage.FromStream(() => pngStrm);
 
-                graphics.DrawImage(XImage.FromStream(() => pngStrm), new XPoint(0, 0));
+                graphics.DrawImage(pngImage, new XPoint(0, 0));
             }
 
             result.Save(outputPath);

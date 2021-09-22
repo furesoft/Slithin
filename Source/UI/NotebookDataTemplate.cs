@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using Avalonia;
 using Avalonia.Controls;
@@ -25,11 +25,12 @@ namespace Slithin.UI
             if (param is not Metadata md)
                 return null;
 
-            var stackPanel = new StackPanel();
-
-            stackPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
-            stackPanel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
-            stackPanel.MaxHeight = 275;
+            var stackPanel = new StackPanel
+            {
+                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+                VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+                MaxHeight = 275
+            };
 
             var img = new Image
             {

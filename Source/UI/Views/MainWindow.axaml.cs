@@ -24,7 +24,7 @@ namespace Slithin.UI.Views
             this.Closed += MainWindow_Closed;
         }
 
-        private void MainWindow_Closed(object? sender, EventArgs e)
+        private void MainWindow_Closed(object sender, EventArgs e)
         {
             ServiceLocator.Container.Resolve<LiteDB.LiteDatabase>().Dispose();
             ServiceLocator.Container.Resolve<SshClient>().Dispose();

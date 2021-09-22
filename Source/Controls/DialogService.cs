@@ -140,7 +140,8 @@ namespace Slithin.Controls
             var vm = new PromptModalViewModel
             {
                 Header = header,
-                Watermark = watermark
+                Watermark = watermark,
+                Input = defaultValue
             };
 
             vm.AcceptCommand = new DelegateCommand(_ =>

@@ -31,13 +31,7 @@ namespace Slithin.Core
 
             if (_handlers.ContainsKey(msgType))
             {
-                try
-                {
-                    _handlers[msgType](msg);
-                }
-                catch (Exception ex) //Catch all without logging or anything?
-                {
-                }
+                _handlers[msgType](msg);
             }
         }
     }

@@ -4,7 +4,7 @@ using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Sync
 {
-    public class TemplateFilter : ReactiveObject
+    public class TemplateFilter : NotifyObject
     {
         private bool _landscape;
         private string _selectedCategory;
