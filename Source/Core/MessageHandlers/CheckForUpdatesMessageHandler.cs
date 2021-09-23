@@ -6,11 +6,15 @@ namespace Slithin.Core.MessageHandlers
     {
         public void HandleMessage(CheckForUpdateMessage message)
         {
-            NotificationService.Show("Checking for Updates");
+            DesktopBridge.Helpers helpers = new DesktopBridge.Helpers();
+            if (!helpers.IsRunningAsUwp())
+            {
+                NotificationService.Show("Checking for Updates");
 
-            Updater.StartUpdate();
+                Updater.StartUpdate();
 
-            NotificationService.Hide();
+                NotificationService.Hide();
+            }
         }
     }
 }
