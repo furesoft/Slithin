@@ -7,11 +7,11 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
+using Slithin.Models;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals;
-using Slithin.Core.ItemContext;
-using Slithin.Models;
 
 namespace Slithin.Tools
 {
@@ -28,7 +28,7 @@ namespace Slithin.Tools
             }
         }
 
-        public ScriptInfo Info => new("Notebook Appendor", "PDF", "Append Pages To PDF");
+        public ScriptInfo Info => new("pdf_append", "Notebook Appendor", "PDF", "Append Pages To PDF");
 
         public bool IsConfigurable => false;
 
@@ -44,7 +44,6 @@ namespace Slithin.Tools
             };
 
             return menu;
-
         }
 
         public Control GetModal()

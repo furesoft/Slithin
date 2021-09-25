@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -7,9 +6,9 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Models;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals;
-using Slithin.Models;
 
 namespace Slithin.Tools
 {
@@ -25,7 +24,7 @@ namespace Slithin.Tools
             }
         }
 
-        public ScriptInfo Info => new("Notebook Creator", "PDF", "Build PDF Notebooks");
+        public ScriptInfo Info => new("pdf_creator", "Notebook Creator", "PDF", "Build PDF Notebooks");
 
         public bool IsConfigurable => false;
 

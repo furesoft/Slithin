@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
+using Slithin.Core;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
-using Slithin.Core;
 
 namespace Slithin.Models
 {
-    public record ScriptInfo(string Name, string Category, string Description)
+    public record ScriptInfo(string ID, string Name, string Category, string Description)
     {
         public object Config { get; set; }
 
