@@ -19,18 +19,6 @@ using Slithin.ViewModels.Modals;
 
 namespace Slithin.Tools
 {
-    public class Backup
-    {
-        public Backup(string name, string filename)
-        {
-            Name = name;
-            Filename = filename;
-        }
-
-        public string Filename { get; set; }
-        public string Name { get; set; }
-    }
-
     public class RestoreTool : ITool
     {
         private readonly SshClient _client;
@@ -72,6 +60,7 @@ namespace Slithin.Tools
                 Backups = new(Directory.GetFiles(_pathManager.BackupsDir, "*.zip")
                 .Select(_ => new Backup(Path.GetFileNameWithoutExtension(_).Replace("Backup_from_", ""), _)))
             };
+            //ToDo: implement call from script
 
             var result = await DialogService.ShowDialog("Select Backup", new SelectBackupModal { DataContext = vm });
 

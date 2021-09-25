@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Slithin.Core.Services;
 using Slithin.Core;
+using Slithin.Core.Services;
 
 namespace Slithin.Models
 {

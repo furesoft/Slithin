@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -35,9 +37,23 @@ namespace Slithin.Tools
 
         public void Invoke(object data)
         {
-            var modal = new CreateNotebookModal();
+            var vm = ServiceLocator.Container.Resolve<CreateNotebookModalViewModel>();
 
-            DialogService.Open(modal, ServiceLocator.Container.Resolve<CreateNotebookModalViewModel>());
+            if (data is ToolProperties props)
+            {
+                vm.Title = props["title"].ToString();
+                vm.CoverFilename = props["coverFilename"].ToString();
+                vm.Pages = new ObservableCollection<object>((IEnumerable<object>)props["pages"]);
+                vm.RenderName = (bool)props["renderName"];
+
+                vm.OKCommand.Execute(null);
+            }
+            else
+            {
+                var modal = new CreateNotebookModal();
+
+                DialogService.Open(modal, vm);
+            }
         }
     }
 }

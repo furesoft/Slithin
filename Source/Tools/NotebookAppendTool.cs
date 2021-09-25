@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -40,7 +41,7 @@ namespace Slithin.Tools
         {
             var menu = new List<MenuItem>()
             {
-                new MenuItem{Header = "Append Pages",Command = new DelegateCommand((_) =>{Invoke(obj);})}
+                new MenuItem{Header = "Append Pages", Command = new DelegateCommand((_) =>{Invoke(obj);})}
             };
 
             return menu;
@@ -56,12 +57,22 @@ namespace Slithin.Tools
             var modal = new AppendNotebookModal();
             var vm = ServiceLocator.Container.Resolve<AppendNotebookModalViewModel>();
 
-            if (data is Metadata md)
+            if (data is ToolProperties props)
             {
-                vm.ID = md.ID; //Pre select the notebook, if it is executed from contextmenu
-            }
+                vm.ID = props["id"].ToString();
+                vm.Pages = new ObservableCollection<object>((IEnumerable<object>)props["pages"]);
 
-            DialogService.Open(modal, vm);
+                vm.OKCommand.Execute(null);
+            }
+            else
+            {
+                if (data is Metadata md)
+                {
+                    vm.ID = md.ID; //Pre select the notebook, if it is executed from contextmenu
+                }
+
+                DialogService.Open(modal, vm);
+            }
         }
     }
 }

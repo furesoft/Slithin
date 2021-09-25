@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Slithin.Core;
-using Slithin.Tools;
+using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals
 {
