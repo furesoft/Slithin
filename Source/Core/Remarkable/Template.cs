@@ -12,7 +12,7 @@ namespace Slithin.Core.Remarkable
     {
         private IImage _image;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [JsonProperty("categories")]
         public string[] Categories { get; set; }
