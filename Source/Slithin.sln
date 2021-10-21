@@ -7,7 +7,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{19714095-490C-41EE-B64E-C0046D452830}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		..\ToDo.txt = ..\ToDo.txt
 	EndProjectSection
 EndProject
 Project("{13B669BE-BB05-4DDF-9536-439F39A36129}") = "WebApi", "..\Api\WebApi.msbuildproj", "{83BEED4C-6014-4260-A62A-AE02616E7CF6}"

@@ -26,7 +26,7 @@ namespace Slithin.Tools
             }
         }
 
-        public ScriptInfo Info => new("pdf_creator", "Notebook Creator", "PDF", "Build PDF Notebooks");
+        public ScriptInfo Info => new("pdf_creator", "Notebook Creator", "PDF", "Build PDF Notebooks", true);
 
         public bool IsConfigurable => false;
 

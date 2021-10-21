@@ -29,7 +29,7 @@ namespace Slithin.Tools
             }
         }
 
-        public ScriptInfo Info => new("pdf_append", "Notebook Appendor", "PDF", "Append Pages To PDF");
+        public ScriptInfo Info => new("pdf_append", "Notebook Appendor", "PDF", "Append Pages To PDF", true);
 
         public bool IsConfigurable => false;
 

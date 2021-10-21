@@ -44,7 +44,7 @@ namespace Slithin.Tools
             }
         }
 
-        public ScriptInfo Info => new("restore", "Restore", "Internal", "Restore a Backup");
+        public ScriptInfo Info => new("restore", "Restore", "Internal", "Restore a Backup", false);
 
         public bool IsConfigurable => false;
 
