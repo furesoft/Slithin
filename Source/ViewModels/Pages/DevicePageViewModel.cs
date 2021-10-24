@@ -20,6 +20,7 @@ namespace Slithin.ViewModels.Pages
         private readonly IExportProviderFactory _exportProviderFactory;
         private readonly ILoadingService _loadingService;
         private readonly LocalRepository _localRepostory;
+        private readonly ILoginService _loginService;
         private readonly IMailboxService _mailboxService;
         private readonly IPathManager _pathManager;
         private readonly ScpClient _scp;
@@ -31,7 +32,7 @@ namespace Slithin.ViewModels.Pages
         private string _version;
 
         public DevicePageViewModel(IVersionService versionService,
-                                                   ILoadingService loadingService,
+                                   ILoadingService loadingService,
                                    EventStorage events,
                                    IMailboxService mailboxService,
                                    LocalRepository localRepostory,
@@ -39,7 +40,8 @@ namespace Slithin.ViewModels.Pages
                                    ScpClient scp,
                                    IPathManager pathManager,
                                    ISettingsService settingsService,
-                                   IExportProviderFactory exportProviderFactory)
+                                   IExportProviderFactory exportProviderFactory,
+                                   ILoginService loginService)
         {
             _versionService = versionService;
             _loadingService = loadingService;
@@ -51,6 +53,7 @@ namespace Slithin.ViewModels.Pages
             _pathManager = pathManager;
             _settingsService = settingsService;
             _exportProviderFactory = exportProviderFactory;
+            _loginService = loginService;
         }
 
         public bool IsBeta
@@ -110,11 +113,14 @@ namespace Slithin.ViewModels.Pages
             _events.Invoke("newVersionAvailable");
             _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
 
+            _loginService.UpdateIPAfterUpdate();
+
             if (_settingsService.Get().AutomaticTemplateRecovery)
             {
                 UploadTemplates();
                 return;
             }
+
             var result = await DialogService.ShowDialog("A new version has been installed to your device. Would you upload your custom templates?");
             if (result)
             {

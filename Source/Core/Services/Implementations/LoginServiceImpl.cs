@@ -9,6 +9,7 @@ namespace Slithin.Core.Services.Implementations
     {
         private readonly LiteDatabase _db;
         private readonly EventStorage _events;
+        private LoginInfo _selectedLoginCredential;
 
         public LoginServiceImpl(LiteDatabase db, EventStorage events)
         {
@@ -28,6 +29,18 @@ namespace Slithin.Core.Services.Implementations
             var collection = _db.GetCollection<LoginInfo>();
 
             collection.Insert(info);
+        }
+
+        public void SetLoginCredential(LoginInfo loginInfo)
+        {
+            _selectedLoginCredential = loginInfo;
+        }
+
+        public void UpdateIPAfterUpdate()
+        {
+            var collection = _db.GetCollection<LoginInfo>();
+
+            collection.Update(_selectedLoginCredential);
         }
     }
 }
