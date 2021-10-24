@@ -7,10 +7,10 @@
         xmlns:controls="using:Slithin.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
         x:Class="Slithin.UI.Views.ConnectWindow" Icon="avares:/Resources/Icon.png"
-        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" MinHeight="500" MinWidth="342" MaxWidth="342" MaxHeight="500">
+        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" MinHeight="515" MinWidth="342" MaxWidth="342" MaxHeight="515">
   <styles:SnackbarHost HostName="connect">
-    <styles:ColorZone Mode="Light" Height="500">
-      <Grid RowDefinitions="250,45,45,45,20,30,65" ColumnDefinitions="*,AUTO" Margin="5">
+    <styles:ColorZone Mode="Light" Height="515">
+      <Grid RowDefinitions="250,45,55,55,15,15,35" ColumnDefinitions="*,AUTO" Margin="5">
         <Image Source="avares:/Resources/new_logo.png" Grid.ColumnSpan="2" Margin="0,0,0,3" />
 
         <Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="*,45">
@@ -25,7 +25,7 @@
 
         <controls:Link Title="Where can I find the information?" Grid.ColumnSpan="2" Grid.Row="5" Command="{Binding HelpCommand}" />
 
-        <Button Classes="Flat" Grid.Row="6" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150" Margin="10" Content="Connect" />
+        <Button Classes="Flat" Grid.Row="6" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150" Margin="2" Content="Connect" />
       </Grid>
     </styles:ColorZone>
   </styles:SnackbarHost>
