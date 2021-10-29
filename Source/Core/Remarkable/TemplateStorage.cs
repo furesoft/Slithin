@@ -59,8 +59,11 @@ namespace Slithin.Core.Remarkable
         {
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
+
             var path = Path.Combine(pathManager.ConfigBaseDir, "templates.json");
-            File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented));
+            File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, serializerSettings));
         }
     }
 }

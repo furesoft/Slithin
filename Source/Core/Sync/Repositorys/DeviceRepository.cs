@@ -43,7 +43,10 @@ namespace Slithin.Core.Sync.Repositorys
 
             templateJson.Templates = templates;
 
-            File.WriteAllText(path, JsonConvert.SerializeObject(templateJson));
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
+
+            File.WriteAllText(path, JsonConvert.SerializeObject(templateJson, serializerSettings));
 
             // upload modified template.json
             var jsonStrm = File.OpenRead(path);
