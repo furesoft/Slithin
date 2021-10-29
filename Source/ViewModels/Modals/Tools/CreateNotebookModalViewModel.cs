@@ -116,12 +116,12 @@ namespace Slithin.ViewModels.Modals
         {
             if (CoverFilename.StartsWith("custom:"))
             {
-                using var strm = File.OpenRead(CoverFilename.Substring("custom:".Length));
+                var strm = File.OpenRead(CoverFilename.Substring("custom:".Length));
                 Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
             }
             else
             {
-                using var strm = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) + ".png");
+                var strm = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) + ".png");
                 Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
             }
         }

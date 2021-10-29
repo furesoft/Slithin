@@ -43,8 +43,8 @@ namespace Slithin.Core
                 return;
 
             var asset = GetAsset(releases[0]);
-            using var wc = new WebClient();
-            
+            var wc = new WebClient();
+
             var tmp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
             var fileName = Path.Combine(tmp, Path.GetFileName(asset.BrowserDownloadUrl));

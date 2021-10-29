@@ -27,7 +27,7 @@ namespace Slithin.Core.Remarkable
 
         public void Apply()
         {
-            using var result = ServiceLocator.Container.Resolve<SshClient>().RunCommand("systemctl restart xochitl");
+            var result = ServiceLocator.Container.Resolve<SshClient>().RunCommand("systemctl restart xochitl");
 
             if (result.ExitStatus != 0)
             {

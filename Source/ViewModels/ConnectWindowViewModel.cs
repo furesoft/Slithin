@@ -116,6 +116,8 @@ namespace Slithin.ViewModels
                 var toolInvoker = ServiceLocator.Container.Resolve<ToolInvoker>();
                 toolInvoker.Init();
 
+                _loginService.SetLoginCredential(SelectedLogin);
+
                 desktop.MainWindow.Hide();
                 desktop.MainWindow = new MainWindow();
 

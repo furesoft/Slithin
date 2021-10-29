@@ -60,7 +60,7 @@ namespace Slithin.UI.Pages
                 {
                     if (e.Source is Image img)
                     {
-                        using var bitmap = System.Drawing.Image.FromFile(filename);
+                        var bitmap = System.Drawing.Image.FromFile(filename);
 
                         if (bitmap.Width != 1404 && bitmap.Height != 1872)
                         {
@@ -75,7 +75,7 @@ namespace Slithin.UI.Pages
                         {
                             var localRepository = ServiceLocator.Container.Resolve<LocalRepository>();
 
-                            using var screenStrm = provider.Import(File.OpenRead(filename));
+                            var screenStrm = provider.Import(File.OpenRead(filename));
 
                             localRepository.AddScreen(screenStrm, cs.Filename);
 

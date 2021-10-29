@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using LiteDB;
 using Slithin.Core;
 using Slithin.Core.Services;
 
@@ -12,6 +13,7 @@ namespace Slithin.Models
 
         public string Filename { get; set; }
 
+        [BsonIgnore]
         public IImage Image
         {
             get => _image;

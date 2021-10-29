@@ -73,8 +73,8 @@ namespace Slithin.ViewModels.Pages
             var id = "f27773a7-b054-4782-bbcf-a9acbf045977";
             var ep = _exportProviderFactory.GetExportProvider("PDF Document");
 
-            using var outputStream = File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf");
-            using var doc = new PdfDocument(outputStream);
+            var outputStream = File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf");
+            var doc = new PdfDocument(outputStream);
 
             var opts = ExportOptions.Create(doc, "1-120");
             var md = Metadata.Load(id);
@@ -96,7 +96,7 @@ namespace Slithin.ViewModels.Pages
 
             _loadingService.LoadScreens();
 
-            using var sshCommand = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf");
+            var sshCommand = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf");
             var str = sshCommand.Result;
             str = str.Replace("BetaProgram=", "").Replace("\n", "");
 

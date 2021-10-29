@@ -32,24 +32,24 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
             {
                 var notebook = options.Document.AsT1;
 
-                using var document = new PdfDocument();
+                var document = new PdfDocument();
 
                 document.Info.Title = metadata.VisibleName;
 
                 for (var i = 0; i < options.PagesIndices.Count; i++)
                 {
                     var pdfPage = document.AddPage();
-                    using var graphics = XGraphics.FromPdfPage(pdfPage); //Dipose?
+                    var graphics = XGraphics.FromPdfPage(pdfPage); //Dipose?
 
                     var page = notebook.Pages[options.PagesIndices[i]];
 
-                    using var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
-                    using var pngStrm = new MemoryStream();
+                    var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
+                    var pngStrm = new MemoryStream();
 
                     svgStrm.Seek(0, SeekOrigin.Begin);
 
                     var svgDoc = SvgDocument.Open<SvgDocument>(svgStrm);
-                    using var bitmap = svgDoc.Draw();
+                    var bitmap = svgDoc.Draw();
                     bitmap.Save(pngStrm, ImageFormat.Png);
 
                     svgStrm.Close();
@@ -68,9 +68,9 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
                 return false;
 
             var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
-            using var pdfStream = File.OpenRead(filename);
-            using var doc = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Import);
-            using var result = new PdfDocument();
+            var pdfStream = File.OpenRead(filename);
+            var doc = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Import);
+            var result = new PdfDocument();
 
             result.Info.Title = metadata.VisibleName;
 
@@ -90,25 +90,25 @@ namespace Slithin.Core.Remarkable.Rendering.Exporters
                 p = result.AddPage();
 
                 //render
-                using var notebookStream = File.OpenRead(rmPath);
+                var notebookStream = File.OpenRead(rmPath);
                 var page = Notebook.LoadPage(notebookStream);
 
                 var psize = PageSizeConverter.ToSize(PageSize.A4);
-                using var svgStrm = SvgRenderer.RenderPage(page, i, metadata, (int)psize.Width, (int)psize.Height);
-                using var pngStrm = new MemoryStream();
+                var svgStrm = SvgRenderer.RenderPage(page, i, metadata, (int)psize.Width, (int)psize.Height);
+                var pngStrm = new MemoryStream();
 
                 svgStrm.Seek(0, SeekOrigin.Begin);
 
                 var d = SvgDocument.Open<SvgDocument>(svgStrm);
-                using var bitmap = d.Draw();
+                var bitmap = d.Draw();
                 bitmap.Save(pngStrm, ImageFormat.Png);
 
                 svgStrm.Close();
 
-                using var graphics = XGraphics.FromPdfPage(p);
+                var graphics = XGraphics.FromPdfPage(p);
 
                 pngStrm.Seek(0, SeekOrigin.Begin);
-                using var pngImage = XImage.FromStream(() => pngStrm);
+                var pngImage = XImage.FromStream(() => pngStrm);
 
                 graphics.DrawImage(pngImage, new XPoint(0, 0));
             }

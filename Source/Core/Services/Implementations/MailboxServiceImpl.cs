@@ -1,5 +1,6 @@
 ﻿using System;
 using Actress;
+using Slithin.Controls;
 using Slithin.Core.MessageHandlers;
 using Slithin.Messages;
 
@@ -24,7 +25,18 @@ namespace Slithin.Core.Services.Implementations
                     {
                         var msg = await _.Receive();
 
-                        _messageRouter.Route(msg);
+                        if (!_messageRouter.Route(msg))
+                        {
+                            if (msg is AttentionRequiredMessage a)
+                            {
+                                var result = await DialogService.ShowDialog(a.Text);
+
+                                if (result)
+                                {
+                                    a.Action(a);
+                                }
+                            }
+                        }
                     }
                 }
             );
@@ -38,7 +50,7 @@ namespace Slithin.Core.Services.Implementations
 
             _messageRouter.Register(ServiceLocator.Container.Resolve<CheckForUpdatesMessageHandler>());
 
-            _messageRouter.Register(ServiceLocator.Container.Resolve<AttentionRequiredMessageHandler>());
+            //_messageRouter.Register(ServiceLocator.Container.Resolve<AttentionRequiredMessageHandler>());
 
             _messageRouter.Register(ServiceLocator.Container.Resolve<PostActionMessageHandler>());
 

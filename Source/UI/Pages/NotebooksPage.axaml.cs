@@ -86,8 +86,8 @@ namespace Slithin.UI.Pages
 
                         if (provider != null)
                         {
-                            using var inputStrm = provider.Import(File.OpenRead(filename));
-                            using var outputStrm = File.OpenWrite(Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
+                            var inputStrm = provider.Import(File.OpenRead(filename));
+                            var outputStrm = File.OpenWrite(Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
                             inputStrm.CopyTo(outputStrm);
 
                             outputStrm.Close();

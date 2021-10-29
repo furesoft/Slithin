@@ -39,7 +39,7 @@ namespace Slithin.Core.MessageHandlers
 
             NotificationService.Show("Collecting Filenames");
 
-            using var cmd = _client.RunCommand("ls -p " + PathList.Documents);
+            var cmd = _client.RunCommand("ls -p " + PathList.Documents);
             var allFilenames
                 = cmd.Result
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries)
@@ -74,7 +74,7 @@ namespace Slithin.Core.MessageHandlers
                 var md = mdFilenames[i];
                 NotificationService.Show($"Downloading Notebook Metadata {i} / {mdFilenames.Length}");
 
-                using var sshCommand = _client.RunCommand("cat " + PathList.Documents + "/" + md);
+                var sshCommand = _client.RunCommand("cat " + PathList.Documents + "/" + md);
                 var mdContent = sshCommand.Result;
                 var contentContent = "{}";
                 var pageDataContent = "";

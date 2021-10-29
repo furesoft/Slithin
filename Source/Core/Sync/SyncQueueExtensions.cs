@@ -25,6 +25,8 @@ namespace Slithin.Core.Sync
 
                 mailboxService.Post(new AttentionRequiredMessage { Title = "Apply Changes", Text = "All files are synced. Would you like to apply all changes?", Action = applyTemplateAction });
             }
+
+            mailboxService.PostAction(() => NotificationService.Hide());
         }
     }
 }

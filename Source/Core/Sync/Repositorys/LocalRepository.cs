@@ -43,7 +43,7 @@ namespace Slithin.Core.Sync.Repositorys
         public void AddScreen(Stream strm, string localfilename)
         {
             File.Delete(Path.Combine(_pathManager.CustomScreensDir, localfilename));
-            using var outputStrm = File.OpenWrite(Path.Combine(_pathManager.CustomScreensDir, localfilename));
+            var outputStrm = File.OpenWrite(Path.Combine(_pathManager.CustomScreensDir, localfilename));
 
             strm.CopyTo(outputStrm);
             strm.Dispose();
