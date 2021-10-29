@@ -60,7 +60,6 @@ namespace Slithin.Tools
                 Backups = new(Directory.GetFiles(_pathManager.BackupsDir, "*.zip")
                 .Select(_ => new Backup(Path.GetFileNameWithoutExtension(_).Replace("Backup_from_", ""), _)))
             };
-            //ToDo: implement call from script
 
             var result = await DialogService.ShowDialog("Select Backup", new SelectBackupModal { DataContext = vm });
 

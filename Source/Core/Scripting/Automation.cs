@@ -72,6 +72,7 @@ namespace Slithin.Core.Scripting
         {
             Parser.DefineCustomCodeFragment(typeof(UsingStatement));
             Parser.DefineCustomCodeFragment(typeof(OnCallStatement));
+            Parser.DefineCustomCodeFragment(typeof(InvokeToolStatement));
 
             Parser.DefineCustomCodeFragment(typeof(KeysOfOperator));
         }

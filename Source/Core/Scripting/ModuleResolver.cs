@@ -41,6 +41,8 @@ namespace Slithin.Core.Scripting
                                   NotificationService.Show(_)));
 
                 mb.Add("version", _localRepository.GetVersion().ToString());
+
+                mb.AddConstructor(typeof(ToolProperties));
             }
             else if (moduleRequest.CmdArgument == "slithin.sync")
             {
