@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
@@ -8,13 +9,12 @@ namespace Slithin.Core.Sync
 {
     public static class SyncQueueExtensions
     {
-        public static void AnalyseAndAppend(this LiteDB.ILiteCollection<SyncItem> queue)
+        public static void AnalyseAndAppend(this ObservableCollection<SyncItem> queue)
         {
             var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
 
-            var items = queue.FindAll();
-            var templates = items.Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Template);
-            var importedNotebooks = items.Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Notebook);
+            var templates = queue.Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Template);
+            var importedNotebooks = queue.Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Notebook);
 
             if (templates.Any() || importedNotebooks.Any())
             {

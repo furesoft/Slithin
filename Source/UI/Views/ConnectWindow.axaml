@@ -10,7 +10,7 @@
         Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" MinHeight="485" MinWidth="342" MaxWidth="342" MaxHeight="485">
     <styles:SnackbarHost HostName="connect">
         <styles:ColorZone Mode="Light" Height="485">
-            <Grid RowDefinitions="250,45,55,55,15,15,35" ColumnDefinitions="*,AUTO" Margin="5">
+            <Grid RowDefinitions="250,45,55,55,7,15,40" ColumnDefinitions="*,AUTO" Margin="5">
                 <Image Source="avares:/Resources/new_logo.png" Grid.ColumnSpan="2" Margin="0,0,0,3" />
 
                 <Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="*,45">

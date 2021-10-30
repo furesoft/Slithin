@@ -81,7 +81,7 @@ namespace Slithin.Core.Commands
                 _mailboxService.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
             }
 
-            ServiceLocator.SyncService.PersistentSyncQueue.AnalyseAndAppend();
+            ServiceLocator.SyncService.SyncQueue.AnalyseAndAppend();
 
             ServiceLocator.SyncService.PersistentSyncQueue.DeleteAll();
             ServiceLocator.SyncService.SyncQueue.Clear();
