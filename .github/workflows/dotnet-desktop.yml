@@ -2,7 +2,7 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
   pull_request:
     branches: [ main ]
 
@@ -100,11 +100,11 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: Linux_x64_Installer
+        name: Linux_x64_DEB_Installer
         path: ./Dist/Linux-x64-Deb
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: Linux_x64_Installer
+        name: Linux_x64_RPM_Installer
         path: ./Dist/Linux-x64-Rpm
