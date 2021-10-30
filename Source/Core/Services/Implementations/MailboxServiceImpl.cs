@@ -26,11 +26,6 @@ namespace Slithin.Core.Services.Implementations
                         var msg = await _.Receive();
 
                         _messageRouter.Route(msg);
-
-                        foreach (var err in _.Errors)
-                        {
-                            NotificationService.Show(err.Message);
-                        }
                     }
                 }
             );

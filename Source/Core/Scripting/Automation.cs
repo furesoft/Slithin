@@ -45,7 +45,9 @@ namespace Slithin.Core.Scripting
             var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
             var file = Path.Combine(pathManager.ConfigBaseDir, "Scripts", scriptName + ".info");
-            return JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(file));
+            var scriptInfoContent = File.ReadAllText(file);
+
+            return JsonConvert.DeserializeObject<ScriptInfo>(scriptInfoContent);
         }
 
         public IEnumerable<ScriptInfo> GetScriptInfos()

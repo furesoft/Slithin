@@ -82,11 +82,11 @@ namespace Slithin.ViewModels
 
             var automation = ServiceLocator.Container.Resolve<Automation>();
 
-            automation.Init();
-            automation.Evaluate("testScript");
-
             ServiceLocator.Container.Resolve<IMailboxService>().Init();
             ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
+
+            automation.Init();
+            //automation.Evaluate("testScript");
 
             client.ErrorOccurred += (s, _) =>
             {
