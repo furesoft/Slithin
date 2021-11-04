@@ -84,4 +84,8 @@
       <LinuxPath>/usr/share/icons/hicolor/48x48/apps/Slithin.png</LinuxPath>
     </Content>
   </ItemGroup>
+   
+   <ItemGroup>
+     <ProjectReference Include="..\Slithin.ModuleSystem\Slithin.ModuleSystem.csproj" />
+   </ItemGroup>
 </Project>
