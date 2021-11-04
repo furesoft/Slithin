@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -92,7 +92,7 @@ namespace Slithin.Core.MessageHandlers
                     pageDataContent = _client.RunCommand("cat " + PathList.Documents + "/" + mdDotPagedata).Result;
                 }
 
-                if (string.IsNullOrEmpty(mdContent)) //What happends if only whitespaces?
+                if (string.IsNullOrEmpty(mdContent) || string.IsNullOrWhiteSpace(mdContent))
                 {
                     continue;
                 }

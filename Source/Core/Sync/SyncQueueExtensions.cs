@@ -16,7 +16,7 @@ namespace Slithin.Core.Sync
             var templates = queue.Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Template);
             var importedNotebooks = queue.Where(_ => _.Direction == SyncDirection.ToDevice && _.Type == SyncType.Notebook);
 
-            if (templates.Any() || importedNotebooks.Any())
+            // if (templates.Any() || importedNotebooks.Any())
             {
                 var applyTemplateAction = new Action<object>(_ =>
                 {
