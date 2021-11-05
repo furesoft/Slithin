@@ -11,9 +11,48 @@ namespace Slithin.ModuleSystem
 {
     public static class ModuleImporter
     {
+        public static List<Type> Types = new();
+
+        public static void Export(Type type)
+        {
+            foreach (var field in type.GetFields())
+            {
+                if (field.IsStatic)
+                {
+                    var fiattr = field.GetCustomAttribute<WasmImportValueAttribute>();
+
+                    if (fiattr != null)
+                    {
+                        var mem = Sg_wasm.__mem + fiattr.Offset;
+
+                        if (field.FieldType.IsValueType)
+                        {
+                            object value = null;
+                            if (field.FieldType == typeof(byte))
+                            {
+                                value = Marshal.PtrToStructure<byte>(mem);
+                            }
+                            else if (field.FieldType == typeof(int))
+                            {
+                                value = Marshal.PtrToStructure<int>(mem);
+                            }
+                            else if (field.FieldType == typeof(float))
+                            {
+                                value = Marshal.PtrToStructure<float>(mem);
+                            }
+
+                            field.SetValue(null, value);
+                        }
+                    }
+                }
+            }
+        }
+
         public static void Import(Type type, ImportDictionary imports)
         {
             var attr = type.GetCustomAttribute<WasmExportAttribute>();
+
+            Types.Add(type);
 
             if (attr != null)
             {

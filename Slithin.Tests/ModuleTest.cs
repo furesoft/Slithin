@@ -14,17 +14,23 @@ namespace Slithin.Tests
 
             ModuleImporter.Import(typeof(Mod), imports);
 
-            var compiled = m.Compile<dynamic>();
-            var instance = compiled(imports);
+            var instance = ActionModule.Compile(m, imports);
 
-            var mem = instance.Exports.memory;
-            var id = instance.Exports._start();
+            // var mem = instance.memory;
+            var id = instance._start();
+
+            ActionModule.RunExports();
+
+            var jk = Mod.k;
         }
 
         private static class Mod
         {
             [WasmExportValue(50)]
             public static Point hello = new Point(12, 42);
+
+            [WasmImportValue(125)]
+            public static byte k;
 
             [WasmExportValue(125)]
             public static string world = "Hello World";
