@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Slithin.ModuleSystem.WASInterface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using WebAssembly.Runtime;
 
 namespace Slithin.ModuleSystem
@@ -27,6 +29,32 @@ namespace Slithin.ModuleSystem
                 }
 
                 ImportFunctions(type, dict);
+            }
+
+            foreach (var field in type.GetFields())
+            {
+                if (field.IsStatic)
+                {
+                    var fattr = field.GetCustomAttribute<WasmExportValueAttribute>();
+
+                    if (fattr != null)
+                    {
+                        var value = field.GetValue(null);
+
+                        var mem = Sg_wasm.__mem + fattr.Offset;
+
+                        if (field.FieldType.IsValueType)
+                        {
+                            Marshal.StructureToPtr(value, mem, false);
+                        }
+                        else if (value is string str)
+                        {
+                            var utf8 = Util.ToUtf8(str);
+
+                            Marshal.Copy(utf8, 0, mem, str.Length);
+                        }
+                    }
+                }
             }
         }
 
