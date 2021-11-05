@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Slithin.ActionCompiler\Slithin.ActionCompiler.csproj" />
     <ProjectReference Include="..\Slithin.ModuleSystem\Slithin.ModuleSystem.csproj" />
     <ProjectReference Include="..\Source\Slithin.csproj" />
   </ItemGroup>

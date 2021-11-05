@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Slithin.ActionCompiler;
 using Slithin.ModuleSystem;
 using System.Drawing;
 
@@ -7,6 +8,12 @@ namespace Slithin.Tests
     [NUnit.Framework.TestFixture]
     public static class ModuleTest
     {
+        [Test]
+        public static void Compile()
+        {
+            ModuleCompiler.Compile("testScript", "testScript.info", "testScript.ui");
+        }
+
         [Test]
         public static void Import()
         {

@@ -26,6 +26,7 @@ namespace Slithin.ModuleSystem
                         var mem = Sg_wasm.__mem + fiattr.Offset;
 
                         object value = null;
+
                         if (field.FieldType.IsValueType)
                         {
                             value = Marshal.PtrToStructure(mem, field.FieldType);
