@@ -10,6 +10,7 @@ namespace Slithin.ModuleSystem
             Offset = offset;
         }
 
-        public int Offset { get; set; }
+        public int Length { get; init; }
+        public int Offset { get; init; }
     }
 }

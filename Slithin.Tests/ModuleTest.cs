@@ -30,7 +30,7 @@ namespace Slithin.Tests
             public static Point hello = new Point(12, 42);
 
             [WasmImportValue(125)]
-            public static byte k;
+            public static string k;
 
             [WasmExportValue(125)]
             public static string world = "Hello World";

@@ -13,7 +13,7 @@ namespace Slithin.ModuleSystem
     {
         public static List<Type> Types = new();
 
-        public static void Export(Type type)
+        public unsafe static void Export(Type type)
         {
             foreach (var field in type.GetFields())
             {
@@ -25,24 +25,32 @@ namespace Slithin.ModuleSystem
                     {
                         var mem = Sg_wasm.__mem + fiattr.Offset;
 
-                        if (field.FieldType.IsValueType)
+                        object value = null;
+                        if (field.FieldType == typeof(byte))
                         {
-                            object value = null;
-                            if (field.FieldType == typeof(byte))
-                            {
-                                value = Marshal.PtrToStructure<byte>(mem);
-                            }
-                            else if (field.FieldType == typeof(int))
-                            {
-                                value = Marshal.PtrToStructure<int>(mem);
-                            }
-                            else if (field.FieldType == typeof(float))
-                            {
-                                value = Marshal.PtrToStructure<float>(mem);
-                            }
-
-                            field.SetValue(null, value);
+                            value = Marshal.PtrToStructure<byte>(mem);
                         }
+                        else if (field.FieldType == typeof(int))
+                        {
+                            value = Marshal.PtrToStructure<int>(mem);
+                        }
+                        else if (field.FieldType == typeof(float))
+                        {
+                            value = Marshal.PtrToStructure<float>(mem);
+                        }
+                        else if (field.FieldType == typeof(string))
+                        {
+                            if (fiattr.Length != default)
+                            {
+                                value = Marshal.PtrToStringUTF8(mem, fiattr.Length);
+                            }
+                            else
+                            {
+                                value = Marshal.PtrToStringUTF8(mem);
+                            }
+                        }
+
+                        field.SetValue(null, value);
                     }
                 }
             }
