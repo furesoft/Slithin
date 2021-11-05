@@ -21,7 +21,7 @@ namespace Slithin.Tests
 
             ActionModule.RunExports();
 
-            var jk = Mod.k;
+            var jk = Mod.kc;
         }
 
         private static class Mod
@@ -31,6 +31,9 @@ namespace Slithin.Tests
 
             [WasmImportValue(125)]
             public static string k;
+
+            [WasmImportValue(125)]
+            public static char kc;
 
             [WasmExportValue(125)]
             public static string world = "Hello World";
