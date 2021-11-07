@@ -87,24 +87,24 @@ jobs:
       run: dotnet tool install --global dotnet-deb
       
     - name: Creating Deb-Package
-      run: dotnet deb -r linux-x64 -c Release -o ../Dist/Linux-x64-Deb
+      run: dotnet deb -r linux-x64 -c Release -o ./Dist/Linux-x64-Deb
       working-directory: Source/Slithin
     
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Linux_x64_Installer
-        path: ../Dist/Linux-x64-Deb
+        path: ./Dist/Linux-x64-Deb
         
     - name: Installing dotnet-packaging rpm
       run: dotnet tool install --global dotnet-rpm
       
     - name: Creating Rpm-Package
-      run: dotnet rpm -r linux-x64 -c Release -o ../Dist/Linux-x64-Rpm
+      run: dotnet rpm -r linux-x64 -c Release -o ./Dist/Linux-x64-Rpm
       working-directory: Source/Slithin
     
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Linux_x64_Rpm
-        path: ../Dist/Linux-x64-Rpm
+        path: ./Dist/Linux-x64-Rpm
