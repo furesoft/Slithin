@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="75"
+             x:Class="Slithin.UI.Flyouts.SyncQueueFlyout">
+  <styles:Card>
+    <ItemsControl Items="{Binding Items}" IsHitTestVisible="True">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="165,75,75,75,45">
+            <TextBlock Text="{Binding Data}" Foreground="Black" VerticalAlignment="Center" Grid.Column="0" TextWrapping="Wrap" />
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+              <TextBlock Text="Direction:" VerticalAlignment="Center" FontSize="10" Foreground="Black" />
+              <TextBlock Text="{Binding Direction}" VerticalAlignment="Center" Foreground="Black" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+              <TextBlock Text="Action:" VerticalAlignment="Center" FontSize="10" Foreground="Black" />
+              <TextBlock Text="{Binding Action}" VerticalAlignment="Center" Foreground="Black" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="3" VerticalAlignment="Center">
+              <TextBlock Text="Type:" VerticalAlignment="Center" FontSize="10" Foreground="Black" />
+              <TextBlock Text="{Binding Type}" VerticalAlignment="Center" Foreground="Black" />
+            </StackPanel>
+
+            <Button Content="X" Grid.Column="4" Classes="Flat" HorizontalAlignment="Right" Command="{Binding $parent[ItemsControl].DataContext.DeleteCommand}" CommandParameter="{Binding}" />
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </styles:Card>
+</UserControl>

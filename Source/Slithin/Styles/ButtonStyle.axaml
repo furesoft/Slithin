@@ -1,0 +1,12 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <Button Content="Login" Classes="Flat" />
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="Button:pointerover">
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+</Styles>
