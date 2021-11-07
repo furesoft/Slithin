@@ -72,21 +72,9 @@ namespace Slithin.ViewModels
                 SnackbarHost.Post(string.Join("\n", validationResult.Errors));
                 return;
             }
-            ServiceLocator.Container.Register(new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
-            ServiceLocator.Container.Register(new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password));
 
-            var client = ServiceLocator.Container.Resolve<SshClient>();
-
-            ServiceLocator.SyncService = new SynchronisationService(ServiceLocator.Container.Resolve<LiteDatabase>());
-            ServiceLocator.Container.Register<Automation>().AsSingleton();
-
-            var automation = ServiceLocator.Container.Resolve<Automation>();
-
-            ServiceLocator.Container.Resolve<IMailboxService>().Init();
-            ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
-
-            automation.Init();
-            //automation.Evaluate("testScript");
+            var client = new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password);
+            var scp = new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password);
 
             client.ErrorOccurred += (s, _) =>
             {
@@ -96,7 +84,7 @@ namespace Slithin.ViewModels
             try
             {
                 client.Connect();
-                ServiceLocator.Container.Resolve<ScpClient>().Connect();
+                scp.Connect();
 
                 if (!client.IsConnected)
                 {
@@ -105,6 +93,19 @@ namespace Slithin.ViewModels
                 }
                 if (App.Current.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
                     return;
+
+                ServiceLocator.Container.Register(client);
+                ServiceLocator.Container.Register(scp);
+
+                ServiceLocator.SyncService = new SynchronisationService(ServiceLocator.Container.Resolve<LiteDatabase>());
+                ServiceLocator.Container.Register<Automation>().AsSingleton();
+
+                var automation = ServiceLocator.Container.Resolve<Automation>();
+
+                ServiceLocator.Container.Resolve<IMailboxService>().Init();
+                ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
+
+                automation.Init();
 
                 _events.Invoke("connect");
 
