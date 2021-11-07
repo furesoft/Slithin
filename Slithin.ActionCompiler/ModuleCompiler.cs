@@ -8,7 +8,7 @@ namespace Slithin.ActionCompiler
 {
     public class ModuleCompiler
     {
-        public static Module Compile(string scriptFilename, string infoFilename, string uiFilename)
+        public static Module Compile(string scriptFilename, string infoFilename, string uiFilename = null, string imageFilename = null)
         {
             var m = new Module();
 
@@ -17,6 +17,12 @@ namespace Slithin.ActionCompiler
             var infoBytes = MessagePackSerializer.Serialize(info);
 
             m.CustomSections.Add(new CustomSection { Name = ".info", Content = new List<byte>(infoBytes) });
+
+            if (imageFilename != null)
+            {
+                m.CustomSections.Add(new CustomSection { Name = ".image", Content = new List<byte>(File.ReadAllBytes(imageFilename)) });
+            }
+
             m.Types.Add(new WebAssemblyType() { });
 
             m.Exports.Add(new Export("_start"));

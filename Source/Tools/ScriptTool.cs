@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -23,13 +25,26 @@ namespace Slithin.Tools
             _module = module;
         }
 
+        //ToDo: enable custom image
         public IImage Image
         {
             get
             {
                 var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-                return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/cubes.png")));
+                var imageSection = _module.CustomSections.FirstOrDefault(_ => _.Name == ".image");
+
+                Stream imageStream;
+                if (imageSection != null)
+                {
+                    imageStream = new MemoryStream(imageSection.Content.ToArray());
+                }
+                else
+                {
+                    imageStream = assets.Open(new Uri($"avares://Slithin/Resources/cubes.png"))
+                }
+
+                return new Bitmap(imageStream);
             }
         }
 
