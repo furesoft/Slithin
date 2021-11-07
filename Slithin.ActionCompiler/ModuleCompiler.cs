@@ -1,26 +1,23 @@
-﻿using Newtonsoft.Json;
+﻿using MessagePack;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using WebAssembly;
 
 namespace Slithin.ActionCompiler
 {
-    public struct ScriptInfo
-    {
-        //
-    }
-
     public class ModuleCompiler
     {
         public static Module Compile(string scriptFilename, string infoFilename, string uiFilename)
         {
             var m = new Module();
-            m.Imports.Add(new Import.Memory("env", "memory"));
+            //  m.Imports.Add(new Import.Memory("env", "memory"));
 
             //serialize scriptinfo into data segment
             var info = JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(infoFilename));
-            var infoBytes = Utils.GetBytes(info);
+            var infoBytes = MessagePackSerializer.Serialize(info);
 
-            m.Data.Add(new Data() { Index = 0, RawData = infoBytes, InitializerExpression = new[] { new WebAssembly.Instructions.Int32Constant() { Value = 1 } } });
+            m.CustomSections.Add(new CustomSection { Name = ".info", Content = new List<byte>(infoBytes) });
 
             return m;
         }

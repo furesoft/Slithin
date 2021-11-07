@@ -1,4 +1,7 @@
-﻿using WebAssembly;
+﻿using MessagePack;
+using Slithin.ActionCompiler;
+using System.Linq;
+using WebAssembly;
 using WebAssembly.Runtime;
 
 namespace Slithin.ModuleSystem
@@ -11,6 +14,13 @@ namespace Slithin.ModuleSystem
             var instance = compiled(imports);
 
             return instance.Exports;
+        }
+
+        public static ScriptInfo GetScriptInfo(Module module)
+        {
+            var section = module.CustomSections.First(_ => _.Name == ".info");
+
+            return MessagePackSerializer.Deserialize<ScriptInfo>(section.Content.ToArray());
         }
 
         public static Module LoadModule(string path, out ImportDictionary imports)

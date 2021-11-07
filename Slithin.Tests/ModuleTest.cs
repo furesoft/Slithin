@@ -2,6 +2,7 @@
 using Slithin.ActionCompiler;
 using Slithin.ModuleSystem;
 using System.Drawing;
+using System.IO;
 
 namespace Slithin.Tests
 {
@@ -11,7 +12,9 @@ namespace Slithin.Tests
         [Test]
         public static void Compile()
         {
-            ModuleCompiler.Compile("testScript", "testScript.info", "testScript.ui");
+            var m = ModuleCompiler.Compile("testScript", "testScript.info", "testScript.ui");
+
+            m.WriteToBinary(File.OpenWrite("testScript.wasm"));
         }
 
         [Test]
