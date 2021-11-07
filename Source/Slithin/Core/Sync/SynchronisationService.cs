@@ -11,6 +11,7 @@ namespace Slithin.Core.Sync
         {
             TemplateFilter = new();
             NotebooksFilter = new();
+            ToolsFilter = new();
 
             SynchronizeCommand = ServiceLocator.Container.Resolve<SynchronizeCommand>();
 

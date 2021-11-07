@@ -4,41 +4,39 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.DevicePage">
-  <StackPanel>
-    <Grid Margin="4">
-      <TextBlock Text="Version" FontSize="18" />
-      <TextBlock Text="{Binding Version, Mode=TwoWay}" HorizontalAlignment="Right" FontSize="18" />
-    </Grid>
-
-    <Grid Margin="4">
-      <TextBlock Text="Beta" FontSize="18" />
-      <TextBlock Text="{Binding IsBeta, Mode=TwoWay}" HorizontalAlignment="Right" FontSize="18" />
-    </Grid>
-
     <StackPanel>
-      <TextBlock Text="Screens" Margin="4" FontSize="18" />
+        <Grid Margin="4">
+            <TextBlock Text="Version" FontSize="18" />
+            <TextBlock Text="{Binding Version, Mode=TwoWay}" HorizontalAlignment="Right" FontSize="18" />
+        </Grid>
 
-      <ScrollViewer>
-        <ItemsControl Items="{Binding SyncService.CustomScreens, Mode=TwoWay}" Margin="16,0,0,0">
-          <ItemsControl.ItemTemplate>
-            <DataTemplate>
-              <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Margin="2">
-                <StackPanel Orientation="Vertical" Margin="2">
-                  <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,0,0,5" FontSize="17" FontWeight="Medium" />
+        <Grid Margin="4,4,8,4">
+            <TextBlock Text="Beta" FontSize="18" />
+            <TextBlock Text="{Binding IsBeta, Mode=TwoWay}" HorizontalAlignment="Right" FontSize="18" />
+        </Grid>
 
-                  <Image Source="{Binding Image, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" />
-                </StackPanel>
-              </Border>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
+        <StackPanel>
+            <TextBlock Text="Screens" Margin="4" FontSize="18" />
 
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <UniformGrid Columns="5" Margin="3" />
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
-        </ItemsControl>
-      </ScrollViewer>
+            <ItemsControl Items="{Binding SyncService.CustomScreens, Mode=TwoWay}" Margin="16,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Margin="2">
+                            <StackPanel Orientation="Vertical" Margin="2">
+                                <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,0,0,5" FontSize="17" FontWeight="Medium" />
+
+                                <Image Source="{Binding Image, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="5" Margin="3" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
     </StackPanel>
-  </StackPanel>
 </UserControl>

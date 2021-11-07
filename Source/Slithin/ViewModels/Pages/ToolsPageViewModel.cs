@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Linq;
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
@@ -15,7 +15,8 @@ namespace Slithin.ViewModels.Pages
             ConfigurateScriptCommand = new DelegateCommand(_ => DialogService.Open(SelectedScript.GetModal()), _ => _ is ITool tool && tool.IsConfigurable);
             RemoveScriptCommand = new DelegateCommand(_ =>
             {
-                Items.Remove(((ITool)_));
+                SyncService.ToolsFilter.Tools.Remove(((ITool)_));
+                //ToDo: implement removing WASM Module Files
             }, _ => false);
 
             ExecuteScriptCommand = new DelegateCommand(_ =>
@@ -30,8 +31,6 @@ namespace Slithin.ViewModels.Pages
 
         public ICommand ExecuteScriptCommand { get; set; }
 
-        public ObservableCollection<ITool> Items { get; set; } = new();
-
         public ICommand RemoveScriptCommand { get; set; }
 
         public ITool SelectedScript
@@ -44,10 +43,12 @@ namespace Slithin.ViewModels.Pages
         {
             base.OnLoad();
 
-            foreach (var tool in _invoker.Tools)
-            {
-                Items.Add(tool.Value);
-            }
+            SyncService.ToolsFilter.AllTools = _invoker.Tools.Values.ToList();
+            SyncService.ToolsFilter.Tools = new(SyncService.ToolsFilter.AllTools);
+
+            var categories = _invoker.Tools.Select(_ => _.Value.Info.Category);
+
+            SyncService.ToolsFilter.Categories = new(categories.Distinct());
         }
     }
 }
