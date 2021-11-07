@@ -1,6 +1,6 @@
 ﻿using MessagePack;
 
-namespace Slithin.ActionCompiler
+namespace Slithin.ModuleSystem
 {
     [MessagePackObject]
     public class ScriptInfo

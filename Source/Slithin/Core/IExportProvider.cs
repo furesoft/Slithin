@@ -1,5 +1,5 @@
 ﻿using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Rendering;
+using Slithin.Core.Remarkable.Exporting.Rendering;
 
 namespace Slithin.Core
 {

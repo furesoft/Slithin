@@ -6,7 +6,7 @@ using Slithin.Core.Services;
 using Svg;
 using Svg.Pathing;
 
-namespace Slithin.Core.Remarkable.Rendering
+namespace Slithin.Core.Remarkable.Exporting.Rendering
 {
     public static class SvgRenderer
     {

@@ -1,9 +1,4 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
-using Avalonia.Data;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
 using Slithin.Core.Services;
 
 namespace Slithin.Core.ItemContext

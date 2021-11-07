@@ -1,8 +1,10 @@
 ﻿using System.Drawing.Imaging;
 using System.IO;
+using Slithin.Core.Remarkable.Exporting.Rendering;
 using Svg;
+using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
 
-namespace Slithin.Core.Remarkable.Rendering.Exporters
+namespace Slithin.Core.Remarkable.Exporting.Exporters
 {
     public class PngExporter : IExportProvider
     {

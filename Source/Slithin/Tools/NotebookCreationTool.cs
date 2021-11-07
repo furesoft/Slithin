@@ -10,7 +10,7 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Models;
 using Slithin.UI.Tools;
-using Slithin.ViewModels.Modals;
+using Slithin.ViewModels.Modals.Tools;
 
 namespace Slithin.Tools
 {

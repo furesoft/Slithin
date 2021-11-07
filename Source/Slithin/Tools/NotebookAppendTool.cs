@@ -12,7 +12,7 @@ using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Models;
 using Slithin.UI.Tools;
-using Slithin.ViewModels.Modals;
+using Slithin.ViewModels.Modals.Tools;
 
 namespace Slithin.Tools
 {

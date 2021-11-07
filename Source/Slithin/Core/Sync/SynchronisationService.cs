@@ -1,16 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Windows.Input;
 using LiteDB;
-using Newtonsoft.Json;
-using Renci.SshNet;
 using Slithin.Core.Commands;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Scripting;
-using Slithin.Core.Services;
-using Slithin.Core.Sync.Repositorys;
-using Slithin.Messages;
 using Slithin.Models;
 
 namespace Slithin.Core.Sync

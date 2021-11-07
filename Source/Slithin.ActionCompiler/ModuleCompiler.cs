@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using WebAssembly;
+using Slithin.ModuleSystem;
 
 namespace Slithin.ActionCompiler
 {

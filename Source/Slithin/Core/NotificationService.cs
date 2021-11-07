@@ -1,7 +1,6 @@
 ﻿using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Threading;
-using Material.Styles;
 
 namespace Slithin.Core
 {

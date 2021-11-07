@@ -18,7 +18,7 @@ using Slithin.Core.Sync;
 using Slithin.Core.Validators;
 using Slithin.Models;
 
-namespace Slithin.ViewModels.Modals
+namespace Slithin.ViewModels.Modals.Tools
 {
     public class CreateNotebookModalViewModel : BaseViewModel
     {

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Slithin.ViewModels.Modals;
+using Slithin.ViewModels.Modals.Tools;
 
 namespace Slithin.Core.Validators
 {

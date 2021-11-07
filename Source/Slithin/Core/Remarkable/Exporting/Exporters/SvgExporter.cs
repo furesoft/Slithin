@@ -1,6 +1,7 @@
 ﻿using System.IO;
+using Slithin.Core.Remarkable.Exporting.Rendering;
 
-namespace Slithin.Core.Remarkable.Rendering.Exporters
+namespace Slithin.Core.Remarkable.Exporting.Exporters
 {
     public class SvgExporter : IExportProvider
     {

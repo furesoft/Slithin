@@ -2,9 +2,8 @@
 using System.Linq;
 using OneOf;
 using PdfSharpCore.Pdf;
-using Slithin.Core.Remarkable.Exporting;
 
-namespace Slithin.Core.Remarkable.Rendering
+namespace Slithin.Core.Remarkable.Exporting.Rendering
 {
     public class ExportOptions
     {

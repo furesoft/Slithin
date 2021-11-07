@@ -4,12 +4,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using Avalonia;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
-using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
 using Slithin.Controls;
 using Slithin.Core;
@@ -19,7 +15,7 @@ using Slithin.Core.Sync;
 using Slithin.Core.Validators;
 using Slithin.Models;
 
-namespace Slithin.ViewModels.Modals
+namespace Slithin.ViewModels.Modals.Tools
 {
     public class AppendNotebookModalViewModel : BaseViewModel
     {

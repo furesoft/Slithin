@@ -1,5 +1,4 @@
 ﻿using MessagePack;
-using Slithin.ActionCompiler;
 using System.Linq;
 using WebAssembly;
 using WebAssembly.Runtime;

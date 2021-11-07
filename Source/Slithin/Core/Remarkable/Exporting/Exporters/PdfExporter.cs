@@ -4,10 +4,12 @@ using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
+using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
 using Svg;
+using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
 
-namespace Slithin.Core.Remarkable.Rendering.Exporters
+namespace Slithin.Core.Remarkable.Exporting.Exporters
 {
     public class PdfExporter : IExportProvider
     {

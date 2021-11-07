@@ -1,4 +1,4 @@
-﻿namespace Slithin.Core.Remarkable.Rendering
+﻿namespace Slithin.Core.Remarkable.Exporting.Rendering
 {
     public enum Colors
     {

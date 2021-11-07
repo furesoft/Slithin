@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using Slithin.Core.Services;
 
-namespace Slithin.Core.Remarkable.Rendering
+namespace Slithin.Core.Remarkable.Exporting.Rendering
 {
     public class Notebook
     {

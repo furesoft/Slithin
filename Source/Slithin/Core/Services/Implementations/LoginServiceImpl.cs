@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using LiteDB;
-using Slithin.Core.Scripting;
 using Slithin.Models;
 
 namespace Slithin.Core.Services.Implementations

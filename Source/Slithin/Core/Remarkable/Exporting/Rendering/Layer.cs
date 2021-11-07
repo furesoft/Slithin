@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Slithin.Core.Remarkable.Rendering
+namespace Slithin.Core.Remarkable.Exporting.Rendering
 {
     public class Layer
     {

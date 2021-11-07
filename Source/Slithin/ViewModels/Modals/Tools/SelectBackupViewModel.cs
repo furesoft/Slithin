@@ -2,7 +2,7 @@
 using Slithin.Core;
 using Slithin.Models;
 
-namespace Slithin.ViewModels.Modals
+namespace Slithin.ViewModels.Modals.Tools
 {
     public class SelectBackupViewModel : BaseViewModel
     {

@@ -1,7 +1,5 @@
 ﻿using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Slithin.Models;
-using Slithin.Core;
 
 namespace Slithin.Models
 {

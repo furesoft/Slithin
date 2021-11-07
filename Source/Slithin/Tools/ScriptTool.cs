@@ -9,7 +9,6 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Core.Scripting;
-using Slithin.Models;
 using Slithin.ModuleSystem;
 using WebAssembly;
 
@@ -17,11 +16,11 @@ namespace Slithin.Tools
 {
     public class ScriptTool : ITool
     {
-        private readonly ActionCompiler.ScriptInfo _info;
+        private readonly Slithin.ModuleSystem.ScriptInfo _info;
         private readonly Module _module;
         private readonly CustomSection uiSection;
 
-        public ScriptTool(ActionCompiler.ScriptInfo info, Module module)
+        public ScriptTool(Slithin.ModuleSystem.ScriptInfo info, Module module)
         {
             _info = info;
             _module = module;
@@ -52,7 +51,7 @@ namespace Slithin.Tools
             }
         }
 
-        public ScriptInfo Info => new(_info.ID, _info.Name, _info.Category, _info.Description, false);
+        public Models.ScriptInfo Info => new(_info.ID, _info.Name, _info.Category, _info.Description, false);
 
         public bool IsConfigurable => uiSection != null;
 

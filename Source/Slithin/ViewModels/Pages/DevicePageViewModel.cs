@@ -5,11 +5,10 @@ using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Rendering;
-using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Models;
+using Slithin.Core.Remarkable.Exporting.Rendering;
 
 namespace Slithin.ViewModels.Pages
 {
