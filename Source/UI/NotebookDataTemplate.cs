@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using Avalonia;
 using Avalonia.Controls;
@@ -36,6 +36,7 @@ namespace Slithin.UI
             {
                 MinWidth = 25,
                 MinHeight = 25,
+                MaxHeight = 150,
                 HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center
             };
 

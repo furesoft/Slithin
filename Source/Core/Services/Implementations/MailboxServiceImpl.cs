@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Linq;
 using Actress;
 using Slithin.Core.MessageHandlers;
 using Slithin.Messages;

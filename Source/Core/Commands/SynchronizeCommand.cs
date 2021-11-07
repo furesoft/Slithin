@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text;
 using System.Windows.Input;
 using Newtonsoft.Json;
 using Renci.SshNet;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
@@ -43,7 +44,25 @@ namespace Slithin.Core.Commands
 
         public void Execute(object parameter)
         {
-            _eventStorage.Invoke("beforeSync", new[] { ServiceLocator.SyncService.PersistentSyncQueue.FindAll() });
+            var pingSender = new Ping();
+
+            var data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            var buffer = Encoding.ASCII.GetBytes(data);
+
+            var timeout = 10000;
+
+            var options = new PingOptions(64, true);
+
+            var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer, options);
+
+            if (reply.Status != IPStatus.Success)
+            {
+                NotificationService.Show("Your remarkable is not reachable. Please check your connection and restart Slithin");
+
+                return;
+            }
+
+            //_eventStorage.Invoke("beforeSync", new[] { ServiceLocator.SyncService.PersistentSyncQueue.FindAll() });
 
             if (!_localRepository.GetTemplates().Any() && !Directory.GetFiles(_pathManager.TemplatesDir).Any())
             {
@@ -61,7 +80,7 @@ namespace Slithin.Core.Commands
                 _mailboxService.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
             }
 
-            ServiceLocator.SyncService.PersistentSyncQueue.AnalyseAndAppend();
+            ServiceLocator.SyncService.SyncQueue.AnalyseAndAppend();
 
             ServiceLocator.SyncService.PersistentSyncQueue.DeleteAll();
             ServiceLocator.SyncService.SyncQueue.Clear();
@@ -76,7 +95,7 @@ namespace Slithin.Core.Commands
 
         private void SyncDeviceDeletions()
         {
-            using var sshCommand = _client.RunCommand("ls -p " + PathList.Documents);
+            var sshCommand = _client.RunCommand("ls -p " + PathList.Documents);
             var deviceFiles = sshCommand.Result
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
             var localFiles = Directory.GetFiles(_pathManager.NotebooksDir).Where(_ => _.EndsWith(".metadata")).

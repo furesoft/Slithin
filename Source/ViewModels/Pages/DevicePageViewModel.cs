@@ -20,6 +20,7 @@ namespace Slithin.ViewModels.Pages
         private readonly IExportProviderFactory _exportProviderFactory;
         private readonly ILoadingService _loadingService;
         private readonly LocalRepository _localRepostory;
+        private readonly ILoginService _loginService;
         private readonly IMailboxService _mailboxService;
         private readonly IPathManager _pathManager;
         private readonly ScpClient _scp;
@@ -31,7 +32,7 @@ namespace Slithin.ViewModels.Pages
         private string _version;
 
         public DevicePageViewModel(IVersionService versionService,
-                                                   ILoadingService loadingService,
+                                   ILoadingService loadingService,
                                    EventStorage events,
                                    IMailboxService mailboxService,
                                    LocalRepository localRepostory,
@@ -39,7 +40,8 @@ namespace Slithin.ViewModels.Pages
                                    ScpClient scp,
                                    IPathManager pathManager,
                                    ISettingsService settingsService,
-                                   IExportProviderFactory exportProviderFactory)
+                                   IExportProviderFactory exportProviderFactory,
+                                   ILoginService loginService)
         {
             _versionService = versionService;
             _loadingService = loadingService;
@@ -51,6 +53,7 @@ namespace Slithin.ViewModels.Pages
             _pathManager = pathManager;
             _settingsService = settingsService;
             _exportProviderFactory = exportProviderFactory;
+            _loginService = loginService;
         }
 
         public bool IsBeta
@@ -70,8 +73,8 @@ namespace Slithin.ViewModels.Pages
             var id = "f27773a7-b054-4782-bbcf-a9acbf045977";
             var ep = _exportProviderFactory.GetExportProvider("PDF Document");
 
-            using var outputStream = File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf");
-            using var doc = new PdfDocument(outputStream);
+            var outputStream = File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf");
+            var doc = new PdfDocument(outputStream);
 
             var opts = ExportOptions.Create(doc, "1-120");
             var md = Metadata.Load(id);
@@ -93,7 +96,7 @@ namespace Slithin.ViewModels.Pages
 
             _loadingService.LoadScreens();
 
-            using var sshCommand = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf");
+            var sshCommand = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf");
             var str = sshCommand.Result;
             str = str.Replace("BetaProgram=", "").Replace("\n", "");
 
@@ -110,11 +113,14 @@ namespace Slithin.ViewModels.Pages
             _events.Invoke("newVersionAvailable");
             _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
 
+            _loginService.UpdateIPAfterUpdate();
+
             if (_settingsService.Get().AutomaticTemplateRecovery)
             {
                 UploadTemplates();
                 return;
             }
+
             var result = await DialogService.ShowDialog("A new version has been installed to your device. Would you upload your custom templates?");
             if (result)
             {

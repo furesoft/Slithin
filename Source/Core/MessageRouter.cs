@@ -25,14 +25,18 @@ namespace Slithin.Core
             }
         }
 
-        public void Route(object msg)
+        public bool Route(object msg)
         {
             var msgType = msg.GetType();
 
             if (_handlers.ContainsKey(msgType))
             {
                 _handlers[msgType](msg);
+
+                return true;
             }
+
+            return false;
         }
     }
 }

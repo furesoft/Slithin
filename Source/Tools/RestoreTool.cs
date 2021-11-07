@@ -19,18 +19,6 @@ using Slithin.ViewModels.Modals;
 
 namespace Slithin.Tools
 {
-    public class Backup
-    {
-        public Backup(string name, string filename)
-        {
-            Name = name;
-            Filename = filename;
-        }
-
-        public string Filename { get; set; }
-        public string Name { get; set; }
-    }
-
     public class RestoreTool : ITool
     {
         private readonly SshClient _client;
@@ -56,7 +44,7 @@ namespace Slithin.Tools
             }
         }
 
-        public ScriptInfo Info => new("Restore", "Internal", "Restore a Backup");
+        public ScriptInfo Info => new("restore", "Restore", "Internal", "Restore a Backup", false);
 
         public bool IsConfigurable => false;
 

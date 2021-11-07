@@ -31,7 +31,8 @@ namespace Slithin.Core.Sync.Repositorys
             //1. copy template to device
             //2. add template to template.json
 
-            _scp?.Upload(File.OpenRead(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")), PathList.Templates);
+            var deviceTemplatePath = Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png");
+            _scp?.Upload(File.OpenRead(deviceTemplatePath), PathList.Templates + template.Filename + ".png");
 
             // modifiy template.json
             var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
@@ -43,7 +44,10 @@ namespace Slithin.Core.Sync.Repositorys
 
             templateJson.Templates = templates;
 
-            File.WriteAllText(path, JsonConvert.SerializeObject(templateJson));
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
+
+            File.WriteAllText(path, JsonConvert.SerializeObject(templateJson, serializerSettings));
 
             // upload modified template.json
             var jsonStrm = File.OpenRead(path);
@@ -110,7 +114,7 @@ namespace Slithin.Core.Sync.Repositorys
             if (data.Type != "DocumentType")
                 return;
 
-            using var cmd = _client.RunCommand("ls " + PathList.Documents);
+            var cmd = _client.RunCommand("ls " + PathList.Documents);
             var split = cmd.Result.Split('\n');
             var excluded = split.Where(_ => _.Contains(data.ID));
 
@@ -118,7 +122,7 @@ namespace Slithin.Core.Sync.Repositorys
 
             foreach (var filename in excluded.Select(_ => PathList.Documents + _))
             {
-                using var cr = _client.RunCommand("rm -fr " + filename);
+                var cr = _client.RunCommand("rm -fr " + filename);
             }
         }
     }

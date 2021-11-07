@@ -34,7 +34,7 @@ namespace Slithin.Tools
             }
         }
 
-        public ScriptInfo Info => new("Backup", "Internal", "Backup all your files");
+        public ScriptInfo Info => new("backup", "Backup", "Internal", "Backup all your files", true);
 
         public bool IsConfigurable => false;
 

@@ -7,5 +7,9 @@ namespace Slithin.Core.Services
         LoginInfo[] GetLoginCredentials();
 
         void RememberLoginCredencials(LoginInfo loginInfo);
+
+        void SetLoginCredential(LoginInfo loginInfo);
+
+        void UpdateIPAfterUpdate();
     }
 }

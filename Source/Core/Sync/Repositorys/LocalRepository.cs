@@ -34,13 +34,16 @@ namespace Slithin.Core.Sync.Repositorys
 
             templateJson.Templates = templates;
 
-            File.WriteAllText(path, JsonConvert.SerializeObject(templateJson, Formatting.Indented));
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
+
+            File.WriteAllText(path, JsonConvert.SerializeObject(templateJson, Formatting.Indented, serializerSettings));
         }
 
         public void AddScreen(Stream strm, string localfilename)
         {
             File.Delete(Path.Combine(_pathManager.CustomScreensDir, localfilename));
-            using var outputStrm = File.OpenWrite(Path.Combine(_pathManager.CustomScreensDir, localfilename));
+            var outputStrm = File.OpenWrite(Path.Combine(_pathManager.CustomScreensDir, localfilename));
 
             strm.CopyTo(outputStrm);
             strm.Dispose();
@@ -49,6 +52,7 @@ namespace Slithin.Core.Sync.Repositorys
         public Template[] GetTemplates()
         {
             var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
+
             return JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path)).Templates;
         }
 

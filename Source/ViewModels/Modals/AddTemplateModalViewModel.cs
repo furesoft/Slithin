@@ -135,8 +135,7 @@ namespace Slithin.ViewModels.Modals
                 }
             }
 
-
-            using var bitmap = Image.FromFile(Filename);
+            var bitmap = Image.FromFile(Filename);
 
             if (bitmap.Width != 1404 && bitmap.Height != 1872)
             {

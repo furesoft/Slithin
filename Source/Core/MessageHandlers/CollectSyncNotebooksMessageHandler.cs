@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,7 +39,7 @@ namespace Slithin.Core.MessageHandlers
 
             NotificationService.Show("Collecting Filenames");
 
-            using var cmd = _client.RunCommand("ls -p " + PathList.Documents);
+            var cmd = _client.RunCommand("ls -p " + PathList.Documents);
             var allFilenames
                 = cmd.Result
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries)
@@ -74,7 +74,7 @@ namespace Slithin.Core.MessageHandlers
                 var md = mdFilenames[i];
                 NotificationService.Show($"Downloading Notebook Metadata {i} / {mdFilenames.Length}");
 
-                using var sshCommand = _client.RunCommand("cat " + PathList.Documents + "/" + md);
+                var sshCommand = _client.RunCommand("cat " + PathList.Documents + "/" + md);
                 var mdContent = sshCommand.Result;
                 var contentContent = "{}";
                 var pageDataContent = "";
@@ -92,7 +92,7 @@ namespace Slithin.Core.MessageHandlers
                     pageDataContent = _client.RunCommand("cat " + PathList.Documents + "/" + mdDotPagedata).Result;
                 }
 
-                if (string.IsNullOrEmpty(mdContent)) //What happends if only whitespaces?
+                if (string.IsNullOrEmpty(mdContent) || string.IsNullOrWhiteSpace(mdContent))
                 {
                     continue;
                 }

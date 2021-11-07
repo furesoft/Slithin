@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
 using Avalonia.Controls.ApplicationLifetimes;
+using LiteDB;
 using Material.Styles;
 using Renci.SshNet;
 using Slithin.Controls;
@@ -12,12 +13,8 @@ using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Validators;
-using Slithin.UI.GalleryFirstStart;
-using Slithin.UI.UpdateGallery;
-using Slithin.UI.Views;
 using Slithin.Models;
-using System.Collections.ObjectModel;
-using LiteDB;
+using Slithin.UI.Views;
 
 namespace Slithin.ViewModels
 {
@@ -85,11 +82,11 @@ namespace Slithin.ViewModels
 
             var automation = ServiceLocator.Container.Resolve<Automation>();
 
-            automation.Init();
-            automation.Evaluate("testScript");
-
             ServiceLocator.Container.Resolve<IMailboxService>().Init();
             ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
+
+            automation.Init();
+            //automation.Evaluate("testScript");
 
             client.ErrorOccurred += (s, _) =>
             {
@@ -116,34 +113,15 @@ namespace Slithin.ViewModels
                 pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
                 pingTimer.Start();
 
+                var toolInvoker = ServiceLocator.Container.Resolve<ToolInvoker>();
+                toolInvoker.Init();
+
+                _loginService.SetLoginCredential(SelectedLogin);
+
                 desktop.MainWindow.Hide();
                 desktop.MainWindow = new MainWindow();
 
                 desktop.MainWindow.Show();
-
-                var settings = _settingsService.Get();
-                if (!settings.HasFirstGalleryShown)
-                {
-                    var vm = new GalleryWindowViewModel();
-                    vm.Slides.Add(new WelcomePage());
-
-                    var galleryWindow = new GalleryWindow(vm);
-
-                    settings.HasFirstGalleryShown = true;
-                    _settingsService.Save(settings);
-
-                    galleryWindow.Show();
-                }
-
-                if (Environment.GetCommandLineArgs().Contains("-updateInstalled"))
-                {
-                    var vm = new GalleryWindowViewModel();
-                    vm.Slides.Add(new UpdateInstalledPage());
-
-                    var galleryWindow = new GalleryWindow(vm);
-
-                    galleryWindow.Show();
-                }
             }
             catch (Exception ex)
             {
