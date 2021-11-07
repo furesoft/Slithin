@@ -2,6 +2,8 @@
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.UI.Modals;
+using Slithin.ViewModels.Modals;
 
 namespace Slithin.ViewModels.Pages
 {
@@ -13,6 +15,7 @@ namespace Slithin.ViewModels.Pages
         public ToolsPageViewModel(ToolInvoker invoker)
         {
             ConfigurateScriptCommand = new DelegateCommand(_ => DialogService.Open(SelectedScript.GetModal()), _ => _ is ITool tool && tool.IsConfigurable);
+            NewScriptCommand = new DelegateCommand(_ => DialogService.Open(new NewScriptModal(), new NewScriptModalViewModel()));
 
             ExecuteScriptCommand = new DelegateCommand(_ =>
             {
@@ -23,8 +26,8 @@ namespace Slithin.ViewModels.Pages
         }
 
         public ICommand ConfigurateScriptCommand { get; set; }
-
         public ICommand ExecuteScriptCommand { get; set; }
+        public ICommand NewScriptCommand { get; set; }
 
         public ITool SelectedScript
         {
