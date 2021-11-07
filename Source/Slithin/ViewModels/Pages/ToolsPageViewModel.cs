@@ -13,11 +13,6 @@ namespace Slithin.ViewModels.Pages
         public ToolsPageViewModel(ToolInvoker invoker)
         {
             ConfigurateScriptCommand = new DelegateCommand(_ => DialogService.Open(SelectedScript.GetModal()), _ => _ is ITool tool && tool.IsConfigurable);
-            RemoveScriptCommand = new DelegateCommand(_ =>
-            {
-                SyncService.ToolsFilter.Tools.Remove(((ITool)_));
-                //ToDo: implement removing WASM Module Files
-            }, _ => false);
 
             ExecuteScriptCommand = new DelegateCommand(_ =>
             {
@@ -30,8 +25,6 @@ namespace Slithin.ViewModels.Pages
         public ICommand ConfigurateScriptCommand { get; set; }
 
         public ICommand ExecuteScriptCommand { get; set; }
-
-        public ICommand RemoveScriptCommand { get; set; }
 
         public ITool SelectedScript
         {
