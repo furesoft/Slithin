@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -18,11 +19,14 @@ namespace Slithin.Tools
     {
         private readonly ActionCompiler.ScriptInfo _info;
         private readonly Module _module;
+        private readonly CustomSection uiSection;
 
         public ScriptTool(ActionCompiler.ScriptInfo info, Module module)
         {
             _info = info;
             _module = module;
+
+            uiSection = _module.CustomSections.FirstOrDefault(_ => _.Name == ".ui");
         }
 
         //ToDo: enable custom image
@@ -41,7 +45,7 @@ namespace Slithin.Tools
                 }
                 else
                 {
-                    imageStream = assets.Open(new Uri($"avares://Slithin/Resources/cubes.png"))
+                    imageStream = assets.Open(new Uri($"avares://Slithin/Resources/cubes.png"));
                 }
 
                 return new Bitmap(imageStream);
@@ -50,11 +54,16 @@ namespace Slithin.Tools
 
         public ScriptInfo Info => new(_info.ID, _info.Name, _info.Category, _info.Description, false);
 
-        public bool IsConfigurable => false;
+        public bool IsConfigurable => uiSection != null;
 
         public Control GetModal()
         {
-            throw new NotImplementedException();
+            if (uiSection == null)
+                return null;
+
+            return Avalonia.Markup.Xaml.AvaloniaRuntimeXamlLoader.Parse<Control>(
+                Encoding.ASCII.GetString(uiSection.Content.ToArray())
+                );
         }
 
         public void Invoke(object data)

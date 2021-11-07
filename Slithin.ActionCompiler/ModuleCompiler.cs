@@ -22,6 +22,10 @@ namespace Slithin.ActionCompiler
             {
                 m.CustomSections.Add(new CustomSection { Name = ".image", Content = new List<byte>(File.ReadAllBytes(imageFilename)) });
             }
+            if (uiFilename != null)
+            {
+                m.CustomSections.Add(new CustomSection { Name = ".ui", Content = new List<byte>(File.ReadAllBytes(uiFilename)) });
+            }
 
             m.Types.Add(new WebAssemblyType() { });
 
