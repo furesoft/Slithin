@@ -5,10 +5,10 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Core;
+using Slithin.Core.Scripting;
 using Slithin.Models;
 using Slithin.ModuleSystem;
 using WebAssembly;
-using WebAssembly.Runtime;
 
 namespace Slithin.Tools
 {
@@ -44,11 +44,13 @@ namespace Slithin.Tools
 
         public void Invoke(object data)
         {
-            var imports = new ImportDictionary();
+            var automation = ServiceLocator.Container.Resolve<Automation>();
+            var imports = automation.Imports;
+
             var instance = ActionModule.Compile(_module, imports);
 
             // var mem = instance.memory;
-            var id = instance._start();
+            instance._start();
 
             ActionModule.RunExports();
         }
