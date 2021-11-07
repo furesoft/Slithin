@@ -7,7 +7,6 @@ using System.Windows.Input;
 using Newtonsoft.Json;
 using Renci.SshNet;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
@@ -63,7 +62,7 @@ namespace Slithin.Core.Commands
                 return;
             }
 
-            _eventStorage.Invoke("beforeSync", new[] { ServiceLocator.SyncService.PersistentSyncQueue.FindAll() });
+            //_eventStorage.Invoke("beforeSync", new[] { ServiceLocator.SyncService.PersistentSyncQueue.FindAll() });
 
             if (!_localRepository.GetTemplates().Any() && !Directory.GetFiles(_pathManager.TemplatesDir).Any())
             {
