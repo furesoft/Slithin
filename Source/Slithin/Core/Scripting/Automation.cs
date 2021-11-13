@@ -8,9 +8,9 @@ namespace Slithin.Core.Scripting
 {
     public class Automation
     {
-        public List<WebAssembly.Module> Modules = new();
         private static ImportDictionary _imports = new();
         private readonly IPathManager _pathManager;
+        public List<WebAssembly.Module> Modules = new();
 
         public Automation(IPathManager pathManager)
         {
@@ -18,11 +18,6 @@ namespace Slithin.Core.Scripting
         }
 
         public ImportDictionary Imports { get => _imports; }
-
-        //ToDo: Convert to WASM
-        public void Evaluate(string scriptname)
-        {
-        }
 
         public void Init()
         {

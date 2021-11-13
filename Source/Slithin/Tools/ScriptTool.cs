@@ -28,7 +28,6 @@ namespace Slithin.Tools
             uiSection = _module.CustomSections.FirstOrDefault(_ => _.Name == ".ui");
         }
 
-        //ToDo: enable custom image
         public IImage Image
         {
             get
@@ -62,7 +61,7 @@ namespace Slithin.Tools
 
             return Avalonia.Markup.Xaml.AvaloniaRuntimeXamlLoader.Parse<Control>(
                 Encoding.ASCII.GetString(uiSection.Content.ToArray())
-                );
+            );
         }
 
         public void Invoke(object data)
