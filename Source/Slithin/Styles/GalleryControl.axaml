@@ -20,7 +20,7 @@
               </Carousel.PageTransition>
             </Carousel>
 
-            <ListBox Classes="indicator" Items="{TemplateBinding Indicators}" HorizontalAlignment="Center" SelectedIndex="{Binding ElementName=PART_CAROUSEL, Path=SelectedIndex}}">
+            <ListBox Classes="indicator" Items="{TemplateBinding Indicators}" HorizontalAlignment="Center" SelectedIndex="{Binding ElementName=PART_CAROUSEL, Path=SelectedIndex}">
               <ListBox.ItemTemplate>
                 <DataTemplate>
                   <Border Width="15" Height="7" Background="Gray" CornerRadius="4" />
