@@ -19,12 +19,14 @@ namespace Slithin.Tools
     [Context(UIContext.Notebook)]
     public class NotebookAppendTool : ITool, IContextProvider
     {
+      
+        
         public IImage Image
         {
             get
             {
                 var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
+                
                 return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/pdf_append.png")));
             }
         }
