@@ -3,11 +3,11 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
-using Slithin.UI.Modals;
-using Slithin.ViewModels.Modals;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Core.Validators;
+using Slithin.UI.Modals;
+using Slithin.ViewModels.Modals;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -26,7 +26,8 @@ public class TemplatesPageViewModel : BaseViewModel
     {
         OpenAddModalCommand = new DelegateCommand(_ =>
         {
-            DialogService.Open(new AddTemplateModal(), new AddTemplateModalViewModel(pathManager, localRepository, validator));
+            DialogService.Open(new AddTemplateModal(),
+                new AddTemplateModalViewModel(pathManager, localRepository, validator));
         });
 
         RemoveTemplateCommand = new RemoveTemplateCommand(this, localRepository);

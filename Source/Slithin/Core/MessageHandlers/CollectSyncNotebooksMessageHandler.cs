@@ -57,12 +57,9 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
                 .Where(x => x.EndsWith(".thumbnails/"));
         var thumbnailFoldersToSync
             = thumbnailFolders
-                .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[0..^1])));
+                .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[..^1])));
 
-        var thumbnailsSync = new SyncNotebook
-        {
-            Directories = thumbnailFoldersToSync
-        };
+        var thumbnailsSync = new SyncNotebook {Directories = thumbnailFoldersToSync};
 
         if (thumbnailFolders.Any())
         {
@@ -85,6 +82,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             {
                 contentContent = _client.RunCommand("cat " + PathList.Documents + "/" + mdDotContent).Result;
             }
+
             var mdDotPagedata = Path.ChangeExtension(md, ".pagedata");
             var fileNamesContaintDotPagedata = allFilenames.Contains(mdDotPagedata);
             if (fileNamesContaintDotPagedata)
@@ -103,7 +101,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             var mdLocalObj
                 = File.Exists(Path.Combine(notebooksDir, md))
                     ? JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(notebooksDir, md)))
-                    : (new() { Version = 0 });
+                    : new Metadata {Version = 0};
 
             mdObj.ID = Path.GetFileNameWithoutExtension(md);
             mdObj.Content = contentObj;
@@ -116,13 +114,21 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
                 if (!mdObj.Deleted && mdObj.Version > mdLocalObj.Version || mdObj.Parent != mdLocalObj.Parent)
                 {
                     if (mdObj.Type == "DocumentType")
+                    {
                         mds.Add(mdObj);
+                    }
+
                     File.WriteAllText(Path.Combine(notebooksDir, md), mdContent);
 
                     if (fileNamesContainDotContent)
+                    {
                         File.WriteAllText(Path.Combine(notebooksDir, mdDotContent), contentContent);
+                    }
+
                     if (fileNamesContaintDotPagedata)
+                    {
                         File.WriteAllText(Path.Combine(notebooksDir, mdDotPagedata), pageDataContent);
+                    }
                 }
             }
             else
@@ -138,6 +144,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
                 {
                     File.WriteAllText(Path.Combine(notebooksDir, mdDotContent), contentContent);
                 }
+
                 if (fileNamesContaintDotPagedata)
                 {
                     File.WriteAllText(Path.Combine(notebooksDir, mdDotPagedata), pageDataContent);
@@ -170,7 +177,8 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             }
             else
             {
-                var otherfiles = allFilenames.Where(_ => !_.EndsWith(".metadata") && !_.EndsWith("/") && _.StartsWith(md.ID)).ToArray();
+                var otherfiles = allFilenames
+                    .Where(_ => !_.EndsWith(".metadata") && !_.EndsWith("/") && _.StartsWith(md.ID)).ToArray();
 
                 sn.Files = otherfiles;
 
@@ -180,7 +188,9 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
                     if (!md.Deleted
                         && md.Version > mdLocals[md.ID].Version
                         && !fi.Exists)
+                    {
                         _syncNotebooks.Add(sn);
+                    }
                 }
             }
 

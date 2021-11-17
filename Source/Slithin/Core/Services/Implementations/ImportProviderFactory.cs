@@ -19,10 +19,14 @@ public class ImportProviderFactory : IImportProviderFactory
             foreach (var attr in attrs)
             {
                 if (attr.Extension != baseExtension)
+                {
                     continue;
+                }
 
                 if (provider.CanHandle(filename))
+                {
                     return provider;
+                }
             }
         }
 

@@ -27,14 +27,18 @@ public class CustomScreen : NotifyObject
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
         if (!Directory.Exists(pathManager.CustomScreensDir))
+        {
             return;
+        }
 
         var path = Path.Combine(pathManager.CustomScreensDir, Filename);
 
         if (!File.Exists(path))
+        {
             return;
+        }
 
         using var strm = File.OpenRead(path);
-        Image = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+        Image = Bitmap.DecodeToWidth(strm, 150);
     }
 }

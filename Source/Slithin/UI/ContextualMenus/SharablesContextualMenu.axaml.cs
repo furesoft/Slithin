@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace Slithin.UI.ContextualMenus;
 
-public partial class SharablesContextualMenu : UserControl
+public class SharablesContextualMenu : UserControl
 {
     public SharablesContextualMenu()
     {
