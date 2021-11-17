@@ -1,34 +1,33 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Slithin.Core
+namespace Slithin.Core;
+
+public class DelegateCommand : ICommand
 {
-    public class DelegateCommand : ICommand
+    private readonly Func<object, bool> _canExecuteHandler;
+    private readonly Action<object> _handler;
+
+    public DelegateCommand(Action<object> handler, Func<object, bool> canExecuteHandler = null)
     {
-        private readonly Func<object, bool> _canExecuteHandler;
-        private readonly Action<object> _handler;
+        _handler = handler;
+        _canExecuteHandler = canExecuteHandler;
+    }
 
-        public DelegateCommand(Action<object> handler, Func<object, bool> canExecuteHandler = null)
+    public event EventHandler CanExecuteChanged;
+
+    public bool CanExecute(object parameter)
+    {
+        if (_canExecuteHandler != null)
         {
-            _handler = handler;
-            _canExecuteHandler = canExecuteHandler;
+            return _canExecuteHandler(parameter);
         }
 
-        public event EventHandler CanExecuteChanged;
+        return true;
+    }
 
-        public bool CanExecute(object parameter)
-        {
-            if (_canExecuteHandler != null)
-            {
-                return _canExecuteHandler(parameter);
-            }
-
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            _handler(parameter);
-        }
+    public void Execute(object parameter)
+    {
+        _handler(parameter);
     }
 }

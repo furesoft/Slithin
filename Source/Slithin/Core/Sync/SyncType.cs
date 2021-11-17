@@ -1,10 +1,9 @@
-﻿namespace Slithin.Core.Sync
+﻿namespace Slithin.Core.Sync;
+
+public enum SyncType
 {
-    public enum SyncType
-    {
-        Template,
-        TemplateConfig,
-        Notebook,
-        Screen,
-    }
+    Template,
+    TemplateConfig,
+    Notebook,
+    Screen,
 }

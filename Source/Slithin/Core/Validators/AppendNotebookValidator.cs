@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
 using Slithin.ViewModels.Modals.Tools;
 
-namespace Slithin.Core.Validators
+namespace Slithin.Core.Validators;
+
+public class AppendNotebookValidator : AbstractValidator<AppendNotebookModalViewModel>
 {
-    public class AppendNotebookValidator : AbstractValidator<AppendNotebookModalViewModel>
+    public AppendNotebookValidator()
     {
-        public AppendNotebookValidator()
-        {
-            RuleFor(x => x.Pages).Must(_ => _.Count > 0).WithMessage("You have to add at least 1 new page");
-        }
+        RuleFor(x => x.Pages).Must(_ => _.Count > 0).WithMessage("You have to add at least 1 new page");
     }
 }

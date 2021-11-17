@@ -2,49 +2,48 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Slithin.Core.Sync
+namespace Slithin.Core.Sync;
+
+public class ToolsFilter : NotifyObject
 {
-    public class ToolsFilter : NotifyObject
+    private List<ITool> _allTools;
+    private string _selectedCategory;
+
+    private ObservableCollection<ITool> _tools;
+
+    public ToolsFilter()
     {
-        private List<ITool> _allTools;
-        private string _selectedCategory;
+        Categories = new();
 
-        private ObservableCollection<ITool> _tools;
+        Tools = new();
+    }
 
-        public ToolsFilter()
+    public List<ITool> AllTools
+    {
+        get => _allTools;
+        set
         {
-            Categories = new();
-
-            Tools = new();
+            _allTools = value;
+            RefreshTools();
         }
+    }
 
-        public List<ITool> AllTools
-        {
-            get => _allTools;
-            set
-            {
-                _allTools = value;
-                RefreshTools();
-            }
-        }
+    public ObservableCollection<string> Categories { get; set; }
 
-        public ObservableCollection<string> Categories { get; set; }
+    public string SelectedCategory
+    {
+        get => _selectedCategory;
+        set { SetValue(ref _selectedCategory, value); RefreshTools(); }
+    }
 
-        public string SelectedCategory
-        {
-            get => _selectedCategory;
-            set { SetValue(ref _selectedCategory, value); RefreshTools(); }
-        }
+    public ObservableCollection<ITool> Tools
+    {
+        get => _tools;
+        set { SetValue(ref _tools, value); }
+    }
 
-        public ObservableCollection<ITool> Tools
-        {
-            get => _tools;
-            set { SetValue(ref _tools, value); }
-        }
-
-        private void RefreshTools()
-        {
-            Tools = new(AllTools.Where(_ => _.Info.Category == SelectedCategory));
-        }
+    private void RefreshTools()
+    {
+        Tools = new(AllTools.Where(_ => _.Info.Category == SelectedCategory));
     }
 }

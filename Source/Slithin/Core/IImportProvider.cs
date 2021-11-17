@@ -1,11 +1,10 @@
 ﻿using System.IO;
 
-namespace Slithin.Core
-{
-    public interface IImportProvider
-    {
-        bool CanHandle(string filename);
+namespace Slithin.Core;
 
-        Stream Import(Stream source);
-    }
+public interface IImportProvider
+{
+    bool CanHandle(string filename);
+
+    Stream Import(Stream source);
 }

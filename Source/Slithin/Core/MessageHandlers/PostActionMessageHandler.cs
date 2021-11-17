@@ -1,12 +1,11 @@
 ﻿using Slithin.Messages;
 
-namespace Slithin.Core.MessageHandlers
+namespace Slithin.Core.MessageHandlers;
+
+public class PostActionMessageHandler : IMessageHandler<PostActionMessage>
 {
-    public class PostActionMessageHandler : IMessageHandler<PostActionMessage>
+    public void HandleMessage(PostActionMessage message)
     {
-        public void HandleMessage(PostActionMessage message)
-        {
-            message.Action();
-        }
+        message.Action();
     }
 }

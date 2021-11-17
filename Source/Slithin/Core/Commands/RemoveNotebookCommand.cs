@@ -6,60 +6,59 @@ using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.ViewModels.Pages;
 
-namespace Slithin.Core.Commands
+namespace Slithin.Core.Commands;
+
+public class RemoveNotebookCommand : ICommand
 {
-    public class RemoveNotebookCommand : ICommand
+    private readonly LocalRepository _localRepository;
+    private readonly SynchronisationService _synchronisationService;
+
+    public RemoveNotebookCommand(LocalRepository localRepository)
     {
-        private readonly LocalRepository _localRepository;
-        private readonly SynchronisationService _synchronisationService;
+        _localRepository = localRepository;
+        _synchronisationService = ServiceLocator.SyncService;
+    }
 
-        public RemoveNotebookCommand(LocalRepository localRepository)
+    public event EventHandler CanExecuteChanged;
+
+    public bool CanExecute(object parameter)
+    {
+        return parameter != null
+               && parameter is Metadata md
+               && md.VisibleName != "Quick sheets"
+               && md.VisibleName != "Up ..";
+    }
+
+    public async void Execute(object parameter)
+    {
+        if (parameter is not Metadata md
+            || !await DialogService.ShowDialog($"Would you really want to delete '{md.VisibleName}'?"))
+            return;
+
+        ServiceLocator.Container.Resolve<NotebooksPageViewModel>().SelectedNotebook = null;
+        _synchronisationService.NotebooksFilter.Documents.Clear();
+        MetadataStorage.Local.Remove(md);
+        _localRepository.Remove(md);
+
+        var item = new SyncItem
         {
-            _localRepository = localRepository;
-            _synchronisationService = ServiceLocator.SyncService;
+            Action = SyncAction.Remove,
+            Direction = SyncDirection.ToDevice,
+            Data = md,
+            Type = SyncType.Notebook
+        };
+
+        _synchronisationService.AddToSyncQueue(item);
+
+        foreach (var mds in MetadataStorage.Local.GetByParent(md.Parent))
+        {
+            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(mds);
+        }
+        if (md.Parent != "")
+        {
+            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
         }
 
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return parameter != null
-                && parameter is Metadata md
-                && md.VisibleName != "Quick sheets"
-                && md.VisibleName != "Up ..";
-        }
-
-        public async void Execute(object parameter)
-        {
-            if (parameter is not Metadata md
-                || !await DialogService.ShowDialog($"Would you really want to delete '{md.VisibleName}'?"))
-                return;
-
-            ServiceLocator.Container.Resolve<NotebooksPageViewModel>().SelectedNotebook = null;
-            _synchronisationService.NotebooksFilter.Documents.Clear();
-            MetadataStorage.Local.Remove(md);
-            _localRepository.Remove(md);
-
-            var item = new SyncItem
-            {
-                Action = SyncAction.Remove,
-                Direction = SyncDirection.ToDevice,
-                Data = md,
-                Type = SyncType.Notebook
-            };
-
-            _synchronisationService.AddToSyncQueue(item);
-
-            foreach (var mds in MetadataStorage.Local.GetByParent(md.Parent))
-            {
-                ServiceLocator.SyncService.NotebooksFilter.Documents.Add(mds);
-            }
-            if (md.Parent != "")
-            {
-                ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
-            }
-
-            ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
-        }
+        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
     }
 }

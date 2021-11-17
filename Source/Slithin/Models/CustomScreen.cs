@@ -5,37 +5,36 @@ using LiteDB;
 using Slithin.Core;
 using Slithin.Core.Services;
 
-namespace Slithin.Models
+namespace Slithin.Models;
+
+public class CustomScreen : NotifyObject
 {
-    public class CustomScreen : NotifyObject
+    private IImage _image;
+
+    public string Filename { get; set; }
+
+    [BsonIgnore]
+    public IImage Image
     {
-        private IImage _image;
+        get => _image;
+        set => SetValue(ref _image, value);
+    }
 
-        public string Filename { get; set; }
+    public string Title { get; set; }
 
-        [BsonIgnore]
-        public IImage Image
-        {
-            get => _image;
-            set => SetValue(ref _image, value);
-        }
+    public void Load()
+    {
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
-        public string Title { get; set; }
+        if (!Directory.Exists(pathManager.CustomScreensDir))
+            return;
 
-        public void Load()
-        {
-            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+        var path = Path.Combine(pathManager.CustomScreensDir, Filename);
 
-            if (!Directory.Exists(pathManager.CustomScreensDir))
-                return;
+        if (!File.Exists(path))
+            return;
 
-            var path = Path.Combine(pathManager.CustomScreensDir, Filename);
-
-            if (!File.Exists(path))
-                return;
-
-            using var strm = File.OpenRead(path);
-            Image = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
-        }
+        using var strm = File.OpenRead(path);
+        Image = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
     }
 }

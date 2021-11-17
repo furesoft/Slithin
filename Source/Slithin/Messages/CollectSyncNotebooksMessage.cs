@@ -1,8 +1,7 @@
 ﻿using Slithin.Core;
 
-namespace Slithin.Messages
+namespace Slithin.Messages;
+
+public class CollectSyncNotebooksMessage : AsynchronousMessage
 {
-    public class CollectSyncNotebooksMessage : AsynchronousMessage
-    {
-    }
 }

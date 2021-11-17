@@ -3,42 +3,41 @@ using System.IO;
 using System.Reflection;
 using Renci.SshNet;
 
-namespace Slithin.Core.Services.Implementations
+namespace Slithin.Core.Services.Implementations;
+
+public class VersionServiceImpl : IVersionService
 {
-    public class VersionServiceImpl : IVersionService
+    private readonly IPathManager _pathManager;
+    private readonly SshClient _sshClient;
+
+    public VersionServiceImpl(IPathManager pathManager, SshClient sshClient)
     {
-        private readonly IPathManager _pathManager;
-        private readonly SshClient _sshClient;
+        _pathManager = pathManager;
+        _sshClient = sshClient;
+    }
 
-        public VersionServiceImpl(IPathManager pathManager, SshClient sshClient)
+    public Version GetDeviceVersion()
+    {
+        var str = _sshClient.RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf").Result;
+        str = str.Replace("REMARKABLE_RELEASE_VERSION=", "").Replace("\n", "");
+
+        return new(str);
+    }
+
+    public Version GetLocalVersion()
+    {
+        var path = Path.Combine(_pathManager.ConfigBaseDir, ".version");
+
+        if (File.Exists(path))
         {
-            _pathManager = pathManager;
-            _sshClient = sshClient;
+            return new Version(File.ReadAllText(path));
         }
 
-        public Version GetDeviceVersion()
-        {
-            var str = _sshClient.RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf").Result;
-            str = str.Replace("REMARKABLE_RELEASE_VERSION=", "").Replace("\n", "");
+        return new Version(0, 0, 0, 0);
+    }
 
-            return new(str);
-        }
-
-        public Version GetLocalVersion()
-        {
-            var path = Path.Combine(_pathManager.ConfigBaseDir, ".version");
-
-            if (File.Exists(path))
-            {
-                return new Version(File.ReadAllText(path));
-            }
-
-            return new Version(0, 0, 0, 0);
-        }
-
-        public Version GetSlithinVersion()
-        {
-            return Assembly.GetExecutingAssembly().GetName().Version;
-        }
+    public Version GetSlithinVersion()
+    {
+        return Assembly.GetExecutingAssembly().GetName().Version;
     }
 }

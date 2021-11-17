@@ -6,64 +6,63 @@ using Renci.SshNet;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 
-namespace Slithin.Core.Remarkable
+namespace Slithin.Core.Remarkable;
+
+public class TemplateStorage
 {
-    public class TemplateStorage
+    public static TemplateStorage Instance = new();
+
+    [JsonProperty("templates")]
+    public Template[] Templates { get; set; }
+
+    public void Add(Template template)
     {
-        public static TemplateStorage Instance = new();
+        var tmp = new Template[Templates.Length + 1];
+        Array.Copy(Templates, tmp, Templates.Length);
 
-        [JsonProperty("templates")]
-        public Template[] Templates { get; set; }
+        tmp[^1] = template;
 
-        public void Add(Template template)
+        Templates = tmp;
+    }
+
+    public void Apply()
+    {
+        var result = ServiceLocator.Container.Resolve<SshClient>().RunCommand("systemctl restart xochitl");
+
+        if (result.ExitStatus != 0)
         {
-            var tmp = new Template[Templates.Length + 1];
-            Array.Copy(Templates, tmp, Templates.Length);
-
-            tmp[^1] = template;
-
-            Templates = tmp;
+            System.Console.WriteLine(result.Error);
         }
+    }
 
-        public void Apply()
+    public void Load()
+    {
+        Instance.Templates = ServiceLocator.Container.Resolve<LocalRepository>().GetTemplates();
+
+        foreach (var item in Instance.Templates)
         {
-            var result = ServiceLocator.Container.Resolve<SshClient>().RunCommand("systemctl restart xochitl");
-
-            if (result.ExitStatus != 0)
-            {
-                System.Console.WriteLine(result.Error);
-            }
+            item.Load();
         }
+    }
 
-        public void Load()
-        {
-            Instance.Templates = ServiceLocator.Container.Resolve<LocalRepository>().GetTemplates();
+    public void Remove(Template tmpl)
+    {
+        var tmp = Templates.ToList();
+        tmp.Remove(tmpl);
 
-            foreach (var item in Instance.Templates)
-            {
-                item.Load();
-            }
-        }
+        Templates = tmp.ToArray();
 
-        public void Remove(Template tmpl)
-        {
-            var tmp = Templates.ToList();
-            tmp.Remove(tmpl);
+        Save();
+    }
 
-            Templates = tmp.ToArray();
+    public void Save()
+    {
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
-            Save();
-        }
+        var serializerSettings = new JsonSerializerSettings();
+        serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
 
-        public void Save()
-        {
-            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
-
-            var serializerSettings = new JsonSerializerSettings();
-            serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
-
-            var path = Path.Combine(pathManager.ConfigBaseDir, "templates.json");
-            File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, serializerSettings));
-        }
+        var path = Path.Combine(pathManager.ConfigBaseDir, "templates.json");
+        File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, serializerSettings));
     }
 }

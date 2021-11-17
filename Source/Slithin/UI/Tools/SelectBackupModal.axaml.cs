@@ -1,18 +1,17 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.UI.Tools
-{
-    public partial class SelectBackupModal : UserControl
-    {
-        public SelectBackupModal()
-        {
-            InitializeComponent();
-        }
+namespace Slithin.UI.Tools;
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+public partial class SelectBackupModal : UserControl
+{
+    public SelectBackupModal()
+    {
+        InitializeComponent();
+    }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
     }
 }

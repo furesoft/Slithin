@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using Avalonia.Controls;
 
-namespace Slithin.Core.ItemContext
+namespace Slithin.Core.ItemContext;
+
+public interface IContextProvider
 {
-    public interface IContextProvider
-    {
-        object ParentViewModel { get; set; }
+    object ParentViewModel { get; set; }
 
-        bool CanHandle(object obj);
+    bool CanHandle(object obj);
 
-        ICollection<MenuItem> GetMenu(object obj);
-    }
+    ICollection<MenuItem> GetMenu(object obj);
 }

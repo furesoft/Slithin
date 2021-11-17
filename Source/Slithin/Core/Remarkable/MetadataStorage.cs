@@ -1,75 +1,74 @@
 ﻿using System.Collections.Generic;
 
-namespace Slithin.Core.Remarkable
+namespace Slithin.Core.Remarkable;
+
+public class MetadataStorage
 {
-    public class MetadataStorage
+    public static MetadataStorage Local = new();
+
+    private readonly Dictionary<string, Metadata> _storage = new();
+
+    public void Add(Metadata metadata, out bool alreadyAdded)
     {
-        public static MetadataStorage Local = new();
-
-        private readonly Dictionary<string, Metadata> _storage = new();
-
-        public void Add(Metadata metadata, out bool alreadyAdded)
+        if (_storage.ContainsKey(metadata.ID))
         {
-            if (_storage.ContainsKey(metadata.ID))
+            alreadyAdded = true;
+            return;
+        }
+        _storage.Add(metadata.ID, metadata);
+        alreadyAdded = false;
+    }
+
+    public void Clear()
+    {
+        _storage.Clear();
+    }
+
+    public Metadata Get(string id)
+    {
+        return _storage[id];
+    }
+
+    public IEnumerable<Metadata> GetAll()
+    {
+        return _storage.Values;
+    }
+
+    public IEnumerable<Metadata> GetByParent(string parent)
+    {
+        var list = new List<Metadata>();
+
+        foreach (var item in _storage)
+        {
+            if (item.Value.Parent.Equals(parent))
             {
-                alreadyAdded = true;
-                return;
+                list.Add(item.Value);
             }
-            _storage.Add(metadata.ID, metadata);
-            alreadyAdded = false;
         }
 
-        public void Clear()
-        {
-            _storage.Clear();
-        }
+        return list;
+    }
 
-        public Metadata Get(string id)
-        {
-            return _storage[id];
-        }
+    public IEnumerable<string> GetNames()
+    {
+        return _storage.Keys;
+    }
 
-        public IEnumerable<Metadata> GetAll()
-        {
-            return _storage.Values;
-        }
+    public void Move(Metadata md, string folder)
+    {
+        if (md.Type != "DocumentType")
+            return;
 
-        public IEnumerable<Metadata> GetByParent(string parent)
-        {
-            var list = new List<Metadata>();
+        md.Parent = folder;
+        md.Version++;
 
-            foreach (var item in _storage)
-            {
-                if (item.Value.Parent.Equals(parent))
-                {
-                    list.Add(item.Value);
-                }
-            }
+        _storage[md.ID] = md; //replace metadata with changed md
 
-            return list;
-        }
+        md.Save();
+    }
 
-        public IEnumerable<string> GetNames()
-        {
-            return _storage.Keys;
-        }
-
-        public void Move(Metadata md, string folder)
-        {
-            if (md.Type != "DocumentType")
-                return;
-
-            md.Parent = folder;
-            md.Version++;
-
-            _storage[md.ID] = md; //replace metadata with changed md
-
-            md.Save();
-        }
-
-        public void Remove(Metadata tmpl)
-        {
-            _storage.Remove(tmpl.ID);
-        }
+    public void Remove(Metadata tmpl)
+    {
+        _storage.Remove(tmpl.ID);
     }
 }

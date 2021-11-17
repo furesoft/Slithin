@@ -4,31 +4,30 @@ using Slithin.Core;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
 
-namespace Slithin.UI.Pages
+namespace Slithin.UI.Pages;
+
+public partial class ToolsPage : UserControl, IPage
 {
-    public partial class ToolsPage : UserControl, IPage
+    public ToolsPage()
     {
-        public ToolsPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        public string Title => "Tools";
+    public string Title => "Tools";
 
-        public Control GetContextualMenu() => new ToolsContextualMenu();
+    public Control GetContextualMenu() => new ToolsContextualMenu();
 
-        bool IPage.IsEnabled()
-        {
-            return true;
-        }
+    bool IPage.IsEnabled()
+    {
+        return true;
+    }
 
-        public bool UseContextualMenu() => true;
+    public bool UseContextualMenu() => true;
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
 
-            DataContext = ServiceLocator.Container.Resolve<ToolsPageViewModel>();
-        }
+        DataContext = ServiceLocator.Container.Resolve<ToolsPageViewModel>();
     }
 }

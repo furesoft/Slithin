@@ -10,48 +10,47 @@ using Slithin.Core.Services;
 using Slithin.Messages;
 using Slithin.ViewModels;
 
-namespace Slithin.UI.Views
+namespace Slithin.UI.Views;
+
+public partial class MainWindow : Window
 {
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
+        InitializeComponent();
 #if DEBUG
-            this.AttachDevTools();
+        this.AttachDevTools();
 #endif
 
-            this.Closed += MainWindow_Closed;
-        }
+        this.Closed += MainWindow_Closed;
+    }
 
-        private void MainWindow_Closed(object sender, EventArgs e)
+    private void MainWindow_Closed(object sender, EventArgs e)
+    {
+        ServiceLocator.Container.Resolve<LiteDB.LiteDatabase>().Dispose();
+        ServiceLocator.Container.Resolve<SshClient>().Dispose();
+        ServiceLocator.Container.Resolve<ScpClient>().Dispose();
+
+        Environment.Exit(0);
+    }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
+
+        DataContext = ServiceLocator.Container.Resolve<MainWindowViewModel>();
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+        var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
+
+        if (!Directory.GetFiles(pathManager.TemplatesDir).Any())
         {
-            ServiceLocator.Container.Resolve<LiteDB.LiteDatabase>().Dispose();
-            ServiceLocator.Container.Resolve<SshClient>().Dispose();
-            ServiceLocator.Container.Resolve<ScpClient>().Dispose();
-
-            Environment.Exit(0);
+            mailboxService.Post(new InitStorageMessage());
         }
 
-        private void InitializeComponent()
+        if (!Directory.GetFiles(pathManager.NotebooksDir).Any())
         {
-            AvaloniaXamlLoader.Load(this);
-
-            DataContext = ServiceLocator.Container.Resolve<MainWindowViewModel>();
-            var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
-            var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
-
-            if (!Directory.GetFiles(pathManager.TemplatesDir).Any())
-            {
-                mailboxService.Post(new InitStorageMessage());
-            }
-
-            if (!Directory.GetFiles(pathManager.NotebooksDir).Any())
-            {
-                mailboxService.Post(new InitNotebookMessage());
-            }
-
-            mailboxService.Post(new CheckForUpdateMessage());
+            mailboxService.Post(new InitNotebookMessage());
         }
+
+        mailboxService.Post(new CheckForUpdateMessage());
     }
 }

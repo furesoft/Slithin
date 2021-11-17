@@ -1,23 +1,22 @@
 ﻿using Avalonia.Media;
 using Avalonia.Media.Imaging;
 
-namespace Slithin.Models
+namespace Slithin.Models;
+
+public class IconCodeItem
 {
-    public class IconCodeItem
+    public IImage Image { get; set; }
+    public string Name { get; set; }
+
+    public void Load()
     {
-        public IImage Image { get; set; }
-        public string Name { get; set; }
+        if (Image is not null)
+            return;
 
-        public void Load()
-        {
-            if (Image is not null)
-                return;
+        var imageStrm = typeof(IconCodeItem).Assembly.GetManifestResourceStream("Slithin.Resources.IconTiles." + Name + ".png");
 
-            var imageStrm = typeof(IconCodeItem).Assembly.GetManifestResourceStream("Slithin.Resources.IconTiles." + Name + ".png");
-
-            Image = Bitmap.DecodeToWidth(imageStrm, 32, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.Default);
-        }
-
-        public override string ToString() => Name;
+        Image = Bitmap.DecodeToWidth(imageStrm, 32, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.Default);
     }
+
+    public override string ToString() => Name;
 }

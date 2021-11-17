@@ -4,35 +4,34 @@ using Slithin.Core;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
 
-namespace Slithin.UI.Pages
+namespace Slithin.UI.Pages;
+
+public partial class SharablesPage : UserControl, IPage
 {
-    public partial class SharablesPage : UserControl, IPage
+    public SharablesPage()
     {
-        public SharablesPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        public string Title => "Sharables";
+    public string Title => "Sharables";
 
-        public Control GetContextualMenu() => new SharablesContextualMenu();
+    public Control GetContextualMenu() => new SharablesContextualMenu();
 
-        bool IPage.IsEnabled()
-        {
+    bool IPage.IsEnabled()
+    {
 #if DEBUG
-            return true;
+        return true;
 #else
             return false;
 #endif
-        }
+    }
 
-        public bool UseContextualMenu() => true;
+    public bool UseContextualMenu() => true;
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
 
-            DataContext = ServiceLocator.Container.Resolve<SharablesPageViewModel>();
-        }
+        DataContext = ServiceLocator.Container.Resolve<SharablesPageViewModel>();
     }
 }

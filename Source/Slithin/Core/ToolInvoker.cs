@@ -4,40 +4,39 @@ using Slithin.Core.Scripting;
 using Slithin.ModuleSystem;
 using Slithin.Tools;
 
-namespace Slithin.Core
+namespace Slithin.Core;
+
+public class ToolInvoker
 {
-    public class ToolInvoker
+    private static readonly Dictionary<string, ITool> _tools = new();
+    private readonly Automation _automation;
+
+    public ToolInvoker(Automation automation)
     {
-        private static readonly Dictionary<string, ITool> _tools = new();
-        private readonly Automation _automation;
+        _automation = automation;
+    }
 
-        public ToolInvoker(Automation automation)
+    public Dictionary<string, ITool> Tools => _tools;
+
+    public void Init()
+    {
+        foreach (var tool in Utils.Find<ITool>().Where(_ => _ is not ScriptTool))
         {
-            _automation = automation;
+            Tools.Add(tool.Info.ID, tool);
         }
-
-        public Dictionary<string, ITool> Tools => _tools;
-
-        public void Init()
+        foreach (var tool in _automation.Modules)
         {
-            foreach (var tool in Utils.Find<ITool>().Where(_ => _ is not ScriptTool))
-            {
-                Tools.Add(tool.Info.ID, tool);
-            }
-            foreach (var tool in _automation.Modules)
-            {
-                var info = ActionModule.GetScriptInfo(tool);
+            var info = ActionModule.GetScriptInfo(tool);
 
-                Tools.Add(info.ID, new ScriptTool(info, tool));
-            }
+            Tools.Add(info.ID, new ScriptTool(info, tool));
         }
+    }
 
-        public void Invoke(string id, ToolProperties props)
+    public void Invoke(string id, ToolProperties props)
+    {
+        if (Tools.ContainsKey(id))
         {
-            if (Tools.ContainsKey(id))
-            {
-                Tools[id].Invoke(props);
-            }
+            Tools[id].Invoke(props);
         }
     }
 }

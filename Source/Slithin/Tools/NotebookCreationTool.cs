@@ -12,48 +12,47 @@ using Slithin.Models;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals.Tools;
 
-namespace Slithin.Tools
+namespace Slithin.Tools;
+
+public class NotebookCreationTool : ITool
 {
-    public class NotebookCreationTool : ITool
+    public IImage Image
     {
-        public IImage Image
+        get
         {
-            get
-            {
-                var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-                return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/pdf.png")));
-            }
+            return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/pdf.png")));
         }
+    }
 
-        public ScriptInfo Info => new("pdf_creator", "Notebook Creator", "PDF", "Build PDF Notebooks", true);
+    public ScriptInfo Info => new("pdf_creator", "Notebook Creator", "PDF", "Build PDF Notebooks", true);
 
-        public bool IsConfigurable => false;
+    public bool IsConfigurable => false;
 
-        public Control GetModal()
+    public Control GetModal()
+    {
+        return null;
+    }
+
+    public void Invoke(object data)
+    {
+        var vm = ServiceLocator.Container.Resolve<CreateNotebookModalViewModel>();
+
+        if (data is ToolProperties props)
         {
-            return null;
+            vm.Title = props["title"].ToString();
+            vm.CoverFilename = props["coverFilename"].ToString();
+            vm.Pages = new ObservableCollection<object>((IEnumerable<object>)props["pages"]);
+            vm.RenderName = (bool)props["renderName"];
+
+            vm.OKCommand.Execute(null);
         }
-
-        public void Invoke(object data)
+        else
         {
-            var vm = ServiceLocator.Container.Resolve<CreateNotebookModalViewModel>();
+            var modal = new CreateNotebookModal();
 
-            if (data is ToolProperties props)
-            {
-                vm.Title = props["title"].ToString();
-                vm.CoverFilename = props["coverFilename"].ToString();
-                vm.Pages = new ObservableCollection<object>((IEnumerable<object>)props["pages"]);
-                vm.RenderName = (bool)props["renderName"];
-
-                vm.OKCommand.Execute(null);
-            }
-            else
-            {
-                var modal = new CreateNotebookModal();
-
-                DialogService.Open(modal, vm);
-            }
+            DialogService.Open(modal, vm);
         }
     }
 }

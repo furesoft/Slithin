@@ -2,33 +2,32 @@
 using LiteDB;
 using Slithin.Core.Sync;
 
-namespace Slithin.Core
+namespace Slithin.Core;
+
+public abstract class BaseViewModel : NotifyObject
 {
-    public abstract class BaseViewModel : NotifyObject
+    public event Action OnRequestClose;
+
+    public bool IsLoaded { get; set; }
+
+    [BsonIgnore]
+    public SynchronisationService SyncService => ServiceLocator.SyncService;
+
+    public void Load()
     {
-        public event Action OnRequestClose;
-
-        public bool IsLoaded { get; set; }
-
-        [BsonIgnore]
-        public SynchronisationService SyncService => ServiceLocator.SyncService;
-
-        public void Load()
+        if (!IsLoaded)
         {
-            if (!IsLoaded)
-            {
-                OnLoad();
-            }
+            OnLoad();
         }
+    }
 
-        public virtual void OnLoad()
-        {
-            IsLoaded = true;
-        }
+    public virtual void OnLoad()
+    {
+        IsLoaded = true;
+    }
 
-        protected void RequestClose()
-        {
-            OnRequestClose?.Invoke();
-        }
+    protected void RequestClose()
+    {
+        OnRequestClose?.Invoke();
     }
 }

@@ -1,10 +1,9 @@
 ﻿using Slithin.Core;
 using Slithin.Core.Sync;
 
-namespace Slithin.Messages
+namespace Slithin.Messages;
+
+public class SyncMessage : AsynchronousMessage
 {
-    public class SyncMessage : AsynchronousMessage
-    {
-        public SyncItem Item { get; set; }
-    }
+    public SyncItem Item { get; set; }
 }

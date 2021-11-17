@@ -12,69 +12,68 @@ using Slithin.Core.Scripting;
 using Slithin.ModuleSystem;
 using WebAssembly;
 
-namespace Slithin.Tools
+namespace Slithin.Tools;
+
+public class ScriptTool : ITool
 {
-    public class ScriptTool : ITool
+    private readonly Slithin.ModuleSystem.ScriptInfo _info;
+    private readonly Module _module;
+    private readonly CustomSection uiSection;
+
+    public ScriptTool(Slithin.ModuleSystem.ScriptInfo info, Module module)
     {
-        private readonly Slithin.ModuleSystem.ScriptInfo _info;
-        private readonly Module _module;
-        private readonly CustomSection uiSection;
+        _info = info;
+        _module = module;
 
-        public ScriptTool(Slithin.ModuleSystem.ScriptInfo info, Module module)
+        uiSection = _module.CustomSections.FirstOrDefault(_ => _.Name == ".ui");
+    }
+
+    public IImage Image
+    {
+        get
         {
-            _info = info;
-            _module = module;
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            uiSection = _module.CustomSections.FirstOrDefault(_ => _.Name == ".ui");
-        }
+            var imageSection = _module.CustomSections.FirstOrDefault(_ => _.Name == ".image");
 
-        public IImage Image
-        {
-            get
+            Stream imageStream;
+            if (imageSection != null)
             {
-                var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-                var imageSection = _module.CustomSections.FirstOrDefault(_ => _.Name == ".image");
-
-                Stream imageStream;
-                if (imageSection != null)
-                {
-                    imageStream = new MemoryStream(imageSection.Content.ToArray());
-                }
-                else
-                {
-                    imageStream = assets.Open(new Uri($"avares://Slithin/Resources/cubes.png"));
-                }
-
-                return new Bitmap(imageStream);
+                imageStream = new MemoryStream(imageSection.Content.ToArray());
             }
+            else
+            {
+                imageStream = assets.Open(new Uri($"avares://Slithin/Resources/cubes.png"));
+            }
+
+            return new Bitmap(imageStream);
         }
+    }
 
-        public Models.ScriptInfo Info => new(_info.ID, _info.Name, _info.Category, _info.Description, false);
+    public Models.ScriptInfo Info => new(_info.ID, _info.Name, _info.Category, _info.Description, false);
 
-        public bool IsConfigurable => uiSection != null;
+    public bool IsConfigurable => uiSection != null;
 
-        public Control GetModal()
-        {
-            if (uiSection == null)
-                return null;
+    public Control GetModal()
+    {
+        if (uiSection == null)
+            return null;
 
-            return Avalonia.Markup.Xaml.AvaloniaRuntimeXamlLoader.Parse<Control>(
-                Encoding.ASCII.GetString(uiSection.Content.ToArray())
-            );
-        }
+        return Avalonia.Markup.Xaml.AvaloniaRuntimeXamlLoader.Parse<Control>(
+            Encoding.ASCII.GetString(uiSection.Content.ToArray())
+        );
+    }
 
-        public void Invoke(object data)
-        {
-            var automation = ServiceLocator.Container.Resolve<Automation>();
-            var imports = automation.Imports;
+    public void Invoke(object data)
+    {
+        var automation = ServiceLocator.Container.Resolve<Automation>();
+        var imports = automation.Imports;
 
-            var instance = ActionModule.Compile(_module, imports);
+        var instance = ActionModule.Compile(_module, imports);
 
-            // var mem = instance.memory;
-            instance._start();
+        // var mem = instance.memory;
+        instance._start();
 
-            ActionModule.RunExports();
-        }
+        ActionModule.RunExports();
     }
 }

@@ -7,46 +7,45 @@ using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.ViewModels;
 
-namespace Slithin.UI.Views
+namespace Slithin.UI.Views;
+
+public partial class ConnectWindow : Window
 {
-    public partial class ConnectWindow : Window
+    public ConnectWindow()
     {
-        public ConnectWindow()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
 #if DEBUG
-            this.AttachDevTools();
+        this.AttachDevTools();
 #endif
-        }
+    }
 
-        private void InitializeComponent()
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
+
+        var li = ServiceLocator.Container.Resolve<ILoginService>().GetLoginCredentials();
+        var cvm = ServiceLocator.Container.Resolve<ConnectionWindowViewModel>();
+
+        for (int i = 0; i < li.Length; i++)
         {
-            AvaloniaXamlLoader.Load(this);
-
-            var li = ServiceLocator.Container.Resolve<ILoginService>().GetLoginCredentials();
-            var cvm = ServiceLocator.Container.Resolve<ConnectionWindowViewModel>();
-
-            for (int i = 0; i < li.Length; i++)
+            if (string.IsNullOrEmpty(li[i].Name))
             {
-                if (string.IsNullOrEmpty(li[i].Name))
-                {
-                    li[i].Name = "Device " + (i + 1);
-                }
+                li[i].Name = "Device " + (i + 1);
             }
-
-            cvm.SelectedLogin = li.FirstOrDefault();
-
-            cvm.LoginCredentials = new(li);
-
-            DataContext = cvm;
-
-            Closed += (s, e) =>
-            {
-                var db = ServiceLocator.Container.Resolve<LiteDatabase>();
-
-                db.Dispose();
-            };
         }
+
+        cvm.SelectedLogin = li.FirstOrDefault();
+
+        cvm.LoginCredentials = new(li);
+
+        DataContext = cvm;
+
+        Closed += (s, e) =>
+        {
+            var db = ServiceLocator.Container.Resolve<LiteDatabase>();
+
+            db.Dispose();
+        };
     }
 }

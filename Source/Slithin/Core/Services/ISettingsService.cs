@@ -1,9 +1,8 @@
-﻿namespace Slithin.Core.Services
-{
-    public interface ISettingsService
-    {
-        Settings Get();
+﻿namespace Slithin.Core.Services;
 
-        void Save(Settings settings);
-    }
+public interface ISettingsService
+{
+    Settings Get();
+
+    void Save(Settings settings);
 }

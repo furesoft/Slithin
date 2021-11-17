@@ -1,9 +1,8 @@
-﻿namespace Slithin.Core.ItemContext
+﻿namespace Slithin.Core.ItemContext;
+
+public enum UIContext
 {
-    public enum UIContext
-    {
-        Notebook,
-        Tool,
-        Template
-    }
+    Notebook,
+    Tool,
+    Template
 }

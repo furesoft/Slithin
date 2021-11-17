@@ -1,6 +1,5 @@
-﻿namespace Slithin.Core
+﻿namespace Slithin.Core;
+
+public interface IService
 {
-    public interface IService
-    {
-    }
 }

@@ -16,155 +16,154 @@ using Slithin.Core.Validators;
 using Slithin.Models;
 using Slithin.UI.Views;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels;
+
+public class ConnectionWindowViewModel : BaseViewModel
 {
-    public class ConnectionWindowViewModel : BaseViewModel
+    private readonly EventStorage _events;
+    private readonly ILoginService _loginService;
+    private readonly ISettingsService _settingsService;
+    private readonly LoginInfoValidator _validator;
+
+    private ObservableCollection<LoginInfo> _loginCredentials;
+
+    private LoginInfo _selectedLogin;
+
+    public ConnectionWindowViewModel(EventStorage events,
+        ILoginService loginService,
+        LoginInfoValidator validator,
+        ISettingsService settingsService)
     {
-        private readonly EventStorage _events;
-        private readonly ILoginService _loginService;
-        private readonly ISettingsService _settingsService;
-        private readonly LoginInfoValidator _validator;
+        _events = events;
+        _loginService = loginService;
+        _validator = validator;
+        _settingsService = settingsService;
 
-        private ObservableCollection<LoginInfo> _loginCredentials;
+        ConnectCommand = new DelegateCommand(Connect);
+        HelpCommand = new DelegateCommand(Help);
+        OpenAddDeviceCommand = new DelegateCommand(OpenAddDevice);
 
-        private LoginInfo _selectedLogin;
+        SelectedLogin = new();
+    }
 
-        public ConnectionWindowViewModel(EventStorage events,
-                                         ILoginService loginService,
-                                         LoginInfoValidator validator,
-                                         ISettingsService settingsService)
+    public ICommand ConnectCommand { get; set; }
+    public ICommand HelpCommand { get; set; }
+
+    public ObservableCollection<LoginInfo> LoginCredentials
+    {
+        get => _loginCredentials;
+        set => SetValue(ref _loginCredentials, value);
+    }
+
+    public ICommand OpenAddDeviceCommand { get; set; }
+
+    public LoginInfo SelectedLogin
+    {
+        get => _selectedLogin;
+        set => SetValue(ref _selectedLogin, value);
+    }
+
+    private void Connect(object obj)
+    {
+        var validationResult = _validator.Validate(SelectedLogin);
+
+        if (!validationResult.IsValid)
         {
-            _events = events;
-            _loginService = loginService;
-            _validator = validator;
-            _settingsService = settingsService;
-
-            ConnectCommand = new DelegateCommand(Connect);
-            HelpCommand = new DelegateCommand(Help);
-            OpenAddDeviceCommand = new DelegateCommand(OpenAddDevice);
-
-            SelectedLogin = new();
+            SnackbarHost.Post(string.Join("\n", validationResult.Errors));
+            return;
         }
 
-        public ICommand ConnectCommand { get; set; }
-        public ICommand HelpCommand { get; set; }
+        var client = new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password);
+        var scp = new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password);
 
-        public ObservableCollection<LoginInfo> LoginCredentials
+        client.ErrorOccurred += (s, _) =>
         {
-            get => _loginCredentials;
-            set => SetValue(ref _loginCredentials, value);
-        }
+            DialogService.OpenError(_.Exception.ToString());
+        };
 
-        public ICommand OpenAddDeviceCommand { get; set; }
-
-        public LoginInfo SelectedLogin
+        try
         {
-            get => _selectedLogin;
-            set => SetValue(ref _selectedLogin, value);
-        }
+            client.Connect();
+            scp.Connect();
 
-        private void Connect(object obj)
-        {
-            var validationResult = _validator.Validate(SelectedLogin);
-
-            if (!validationResult.IsValid)
+            if (!client.IsConnected)
             {
-                SnackbarHost.Post(string.Join("\n", validationResult.Errors));
+                SnackbarHost.Post("Could not connect to host");
                 return;
             }
+            if (App.Current.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
+                return;
 
-            var client = new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password);
-            var scp = new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password);
+            ServiceLocator.Container.Register(client);
+            ServiceLocator.Container.Register(scp);
 
-            client.ErrorOccurred += (s, _) =>
-            {
-                DialogService.OpenError(_.Exception.ToString());
-            };
+            ServiceLocator.SyncService = new SynchronisationService(ServiceLocator.Container.Resolve<LiteDatabase>());
+            ServiceLocator.Container.Register<Automation>().AsSingleton();
 
-            try
-            {
-                client.Connect();
-                scp.Connect();
+            var automation = ServiceLocator.Container.Resolve<Automation>();
 
-                if (!client.IsConnected)
-                {
-                    SnackbarHost.Post("Could not connect to host");
-                    return;
-                }
-                if (App.Current.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
-                    return;
+            ServiceLocator.Container.Resolve<IMailboxService>().Init();
+            ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
 
-                ServiceLocator.Container.Register(client);
-                ServiceLocator.Container.Register(scp);
+            automation.Init();
 
-                ServiceLocator.SyncService = new SynchronisationService(ServiceLocator.Container.Resolve<LiteDatabase>());
-                ServiceLocator.Container.Register<Automation>().AsSingleton();
+            _events.Invoke("connect");
 
-                var automation = ServiceLocator.Container.Resolve<Automation>();
+            var pingTimer = new System.Timers.Timer();
+            pingTimer.Elapsed += pingTimer_ellapsed;
+            pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
+            pingTimer.Start();
 
-                ServiceLocator.Container.Resolve<IMailboxService>().Init();
-                ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
+            var toolInvoker = ServiceLocator.Container.Resolve<ToolInvoker>();
+            toolInvoker.Init();
 
-                automation.Init();
+            _loginService.SetLoginCredential(SelectedLogin);
 
-                _events.Invoke("connect");
+            desktop.MainWindow.Hide();
+            desktop.MainWindow = new MainWindow();
 
-                var pingTimer = new System.Timers.Timer();
-                pingTimer.Elapsed += pingTimer_ellapsed;
-                pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
-                pingTimer.Start();
-
-                var toolInvoker = ServiceLocator.Container.Resolve<ToolInvoker>();
-                toolInvoker.Init();
-
-                _loginService.SetLoginCredential(SelectedLogin);
-
-                desktop.MainWindow.Hide();
-                desktop.MainWindow = new MainWindow();
-
-                desktop.MainWindow.Show();
-            }
-            catch (Exception ex)
-            {
-                SnackbarHost.Post(ex.Message);
-            }
+            desktop.MainWindow.Show();
         }
-
-        private void Help(object obj)
+        catch (Exception ex)
         {
-            Utils.OpenUrl("https://tinyurl.com/remarkable-ssh");
+            SnackbarHost.Post(ex.Message);
         }
+    }
 
-        private void OpenAddDevice(object obj)
+    private void Help(object obj)
+    {
+        Utils.OpenUrl("https://tinyurl.com/remarkable-ssh");
+    }
+
+    private void OpenAddDevice(object obj)
+    {
+        var wndw = new AddDeviceWindow();
+        var vm = ServiceLocator.Container.Resolve<AddDeviceWindowViewModel>();
+        vm.ParentViewModel = this;
+
+        wndw.DataContext = vm;
+
+        vm.OnRequestClose += () => wndw.Close();
+
+        wndw.Show();
+    }
+
+    private void pingTimer_ellapsed(object sender, System.Timers.ElapsedEventArgs e)
+    {
+        var pingSender = new Ping();
+
+        var data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        var buffer = Encoding.ASCII.GetBytes(data);
+
+        var timeout = 10000;
+
+        var options = new PingOptions(64, true);
+
+        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer, options);
+
+        if (reply.Status != IPStatus.Success)
         {
-            var wndw = new AddDeviceWindow();
-            var vm = ServiceLocator.Container.Resolve<AddDeviceWindowViewModel>();
-            vm.ParentViewModel = this;
-
-            wndw.DataContext = vm;
-
-            vm.OnRequestClose += () => wndw.Close();
-
-            wndw.Show();
-        }
-
-        private void pingTimer_ellapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            var pingSender = new Ping();
-
-            var data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-            var buffer = Encoding.ASCII.GetBytes(data);
-
-            var timeout = 10000;
-
-            var options = new PingOptions(64, true);
-
-            var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer, options);
-
-            if (reply.Status != IPStatus.Success)
-            {
-                NotificationService.Show("Your remarkable is not reachable. Please check your connection and restart Slithin");
-            }
+            NotificationService.Show("Your remarkable is not reachable. Please check your connection and restart Slithin");
         }
     }
 }
