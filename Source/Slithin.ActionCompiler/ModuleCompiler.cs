@@ -1,44 +1,44 @@
-﻿using MessagePack;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using WebAssembly;
+using MessagePack;
+using Newtonsoft.Json;
 using Slithin.ModuleSystem;
+using WebAssembly;
+using WebAssembly.Instructions;
 
-namespace Slithin.ActionCompiler
+namespace Slithin.ActionCompiler;
+
+public class ModuleCompiler
 {
-    public class ModuleCompiler
+    public static Module Compile(string scriptFilename, string infoFilename, string uiFilename = null,
+        string imageFilename = null)
     {
-        public static Module Compile(string scriptFilename, string infoFilename, string uiFilename = null, string imageFilename = null)
-        {
-            var m = new Module();
+        var m = new Module();
 
-            //serialize scriptinfo into data segment
-            var info = JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(infoFilename));
-            var infoBytes = MessagePackSerializer.Serialize(info);
+        //serialize scriptinfo into data segment
+        var info = JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(infoFilename));
+        var infoBytes = MessagePackSerializer.Serialize(info);
 
-            m.CustomSections.Add(new CustomSection { Name = ".info", Content = new List<byte>(infoBytes) });
+        m.CustomSections.Add(new CustomSection {Name = ".info", Content = new List<byte>(infoBytes)});
 
-            if (imageFilename != null)
-            {
-                m.CustomSections.Add(new CustomSection { Name = ".image", Content = new List<byte>(File.ReadAllBytes(imageFilename)) });
-            }
-            if (uiFilename != null)
-            {
-                m.CustomSections.Add(new CustomSection { Name = ".ui", Content = new List<byte>(File.ReadAllBytes(uiFilename)) });
-            }
+        if (imageFilename != null)
+            m.CustomSections.Add(new CustomSection
+                {Name = ".image", Content = new List<byte>(File.ReadAllBytes(imageFilename))});
 
-            m.Types.Add(new WebAssemblyType() { });
+        if (uiFilename != null)
+            m.CustomSections.Add(new CustomSection
+                {Name = ".ui", Content = new List<byte>(File.ReadAllBytes(uiFilename))});
 
-            m.Exports.Add(new Export("_start"));
+        m.Types.Add(new WebAssemblyType());
 
-            m.Functions.Add(new Function(0));
-            m.Codes.Add(new FunctionBody(new WebAssembly.Instructions.End()));
+        m.Exports.Add(new Export("_start"));
 
-            m.Imports.Add(new Import.Memory("env", "memory", new Memory(1, 25)));
+        m.Functions.Add(new Function(0));
+        m.Codes.Add(new FunctionBody(new End()));
 
-            return m;
-        }
+        m.Imports.Add(new Import.Memory("env", "memory", new Memory(1, 25)));
+
+        return m;
     }
 }
 
