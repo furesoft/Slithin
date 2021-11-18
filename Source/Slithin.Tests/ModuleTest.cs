@@ -33,12 +33,13 @@ public static class ModuleTest
             }
         });
         var rrr = rr.Exports._start();
+        
     }
 
     [Test]
     public static void Import()
     {
-        var m = ActionModule.LoadModule("main.wasm", out var imports);
+        var m = ActionModule.LoadModule("testScript.wasm", out var imports);
 
         ModuleImporter.Import(typeof(Mod), imports);
 
