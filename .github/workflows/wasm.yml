@@ -18,10 +18,10 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
     - name: npm install
-      working-directory: /WASM/
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
+        cd WASM
         npm install
         npm run asbuild
 
