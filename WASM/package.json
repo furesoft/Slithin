@@ -5,8 +5,8 @@
   "main": "index.as",
   "scripts": {
     "test": "node tests",
-    "asbuild:untouched": "asc assembly/index.ts --target debug",
-    "asbuild:optimized": "asc assembly/index.ts --target release",
+    "asbuild:untouched": "asc assembly/index.ts --target debug --importMemory --runtime stub",
+    "asbuild:optimized": "asc assembly/index.ts --target release --importMemory --runtime stub",
     "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized"
   },
   "author": "",
