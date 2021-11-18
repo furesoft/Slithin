@@ -2,7 +2,7 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main, develop ]
   pull_request:
     branches: [ main ]
 
@@ -86,25 +86,26 @@ jobs:
     - name: Installing dotnet-packaging deb
       run: dotnet tool install --global dotnet-deb
       
-    - name: Creating Deb-Package
-      run: dotnet deb -r linux-x64 -c Release -o /Dist/Linux-x64-Deb
-      working-directory: Source/Slithin
-    
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Linux_x64_Installer
-        path: /Dist/Linux-x64-Deb
-        
     - name: Installing dotnet-packaging rpm
       run: dotnet tool install --global dotnet-rpm
       
+    - name: Creating Deb-Package
+      run: dotnet deb -r linux-x64 -c Release -o ../Dist/Linux-x64-Deb
+      working-directory: Source/
+      
     - name: Creating Rpm-Package
-      run: dotnet rpm -r linux-x64 -c Release -o /Dist/Linux-x64-Rpm
-      working-directory: Source/Slithin
+      run: dotnet rpm -r linux-x64 -c Release -o ../Dist/Linux-x64-Rpm
+      working-directory: Source/
     
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: Linux_x64_Rpm
-        path: /Dist/Linux-x64-Rpm
+        name: Linux_x64_DEB_Installer
+        path: ./Dist/Linux-x64-Deb
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Linux_x64_RPM_Installer
+        path: ./Dist/Linux-x64-Rpm
+
