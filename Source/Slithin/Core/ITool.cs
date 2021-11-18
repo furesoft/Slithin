@@ -2,17 +2,16 @@
 using Avalonia.Media;
 using Slithin.Models;
 
-namespace Slithin.Core
+namespace Slithin.Core;
+
+public interface ITool
 {
-    public interface ITool
-    {
-        IImage Image { get; }
-        ScriptInfo Info { get; }
+    IImage Image { get; }
+    ScriptInfo Info { get; }
 
-        bool IsConfigurable { get; }
+    bool IsConfigurable { get; }
 
-        Control GetModal();
+    Control GetModal();
 
-        void Invoke(object data);
-    }
+    void Invoke(object data);
 }

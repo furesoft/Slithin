@@ -2,17 +2,16 @@
 using Slithin.Core;
 using Slithin.Models;
 
-namespace Slithin.ViewModels.Modals.Tools
-{
-    public class SelectBackupViewModel : BaseViewModel
-    {
-        private Backup _selectedBackup;
-        public ObservableCollection<Backup> Backups { get; set; } = new();
+namespace Slithin.ViewModels.Modals.Tools;
 
-        public Backup SelectedBackup
-        {
-            get => _selectedBackup;
-            set => SetValue(ref _selectedBackup, value);
-        }
+public class SelectBackupViewModel : BaseViewModel
+{
+    private Backup _selectedBackup;
+    public ObservableCollection<Backup> Backups { get; set; } = new();
+
+    public Backup SelectedBackup
+    {
+        get => _selectedBackup;
+        set => SetValue(ref _selectedBackup, value);
     }
 }

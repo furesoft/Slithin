@@ -1,20 +1,19 @@
-﻿namespace Slithin.Core.Remarkable.Exporting.Rendering
+﻿namespace Slithin.Core.Remarkable.Exporting.Rendering;
+
+public enum Colors
 {
-    public enum Colors
-    {
-        /**
+    /**
          * Black color.
          */
-        Black = 0,
+    Black = 0,
 
-        /**
+    /**
          * Grey color.
          */
-        Grey = 1,
+    Grey = 1,
 
-        /**
+    /**
          * White color.
          */
-        White = 2
-    }
+    White = 2
 }

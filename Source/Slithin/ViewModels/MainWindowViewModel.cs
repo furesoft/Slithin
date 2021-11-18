@@ -5,93 +5,92 @@ using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.Models;
 
-namespace Slithin.ViewModels
+namespace Slithin.ViewModels;
+
+public class MainWindowViewModel : BaseViewModel
 {
-    public class MainWindowViewModel : BaseViewModel
+    private object _contextualMenu;
+    private Page _selectedTab;
+
+    private string _title;
+
+    public MainWindowViewModel(IVersionService versionService)
     {
-        private object _contextualMenu;
-        private Page _selectedTab;
+        LoadMenu();
 
-        private string _title;
+        Title = $"Slithin {versionService.GetSlithinVersion()}";
+    }
 
-        public MainWindowViewModel(IVersionService versionService)
+    public object ContextualMenu
+    {
+        get => _contextualMenu;
+        set => SetValue(ref _contextualMenu, value);
+    }
+
+    public ObservableCollection<Page> Menu { get; set; } = new();
+
+    public Page SelectedTab
+    {
+        get => _selectedTab;
+        set
         {
-            LoadMenu();
-
-            Title = $"Slithin {versionService.GetSlithinVersion()}";
+            SetValue(ref _selectedTab, value);
+            Refresh();
         }
+    }
 
-        public object ContextualMenu
+    public ObservableCollection<object> Tabs { get; set; } = new();
+
+    public string Title
+    {
+        get => _title;
+        set => SetValue(ref _title, value);
+    }
+
+    private void LoadMenu()
+    {
+        foreach (var type in typeof(App).Assembly.GetTypes())
         {
-            get => _contextualMenu;
-            set => SetValue(ref _contextualMenu, value);
-        }
+            if (!typeof(IPage).IsAssignableFrom(type) || type.IsInterface)
 
-        public ObservableCollection<Page> Menu { get; set; } = new();
+                continue;
 
-        public Page SelectedTab
-        {
-            get => _selectedTab;
-            set
+            var instance = Activator.CreateInstance(type);
+
+            if (instance is not IPage pageInstance || !pageInstance.IsEnabled() || instance is not Control controlInstance)
+                continue;
+
+            var page = new Page
             {
-                SetValue(ref _selectedTab, value);
-                Refresh();
-            }
-        }
+                Header = pageInstance?.Title,
+                DataContext = controlInstance.DataContext //Possible null ref!
+            };
 
-        public ObservableCollection<object> Tabs { get; set; } = new();
-
-        public string Title
-        {
-            get => _title;
-            set => SetValue(ref _title, value);
-        }
-
-        private void LoadMenu()
-        {
-            foreach (var type in typeof(App).Assembly.GetTypes())
+            if (pageInstance.UseContextualMenu()) //Possible Null Ref!
             {
-                if (!typeof(IPage).IsAssignableFrom(type) || type.IsInterface)
-
-                    continue;
-
-                var instance = Activator.CreateInstance(type);
-
-                if (instance is not IPage pageInstance || !pageInstance.IsEnabled() || instance is not Control controlInstance)
-                    continue;
-
-                var page = new Page
-                {
-                    Header = pageInstance?.Title,
-                    DataContext = controlInstance.DataContext //Possible null ref!
-                };
-
-                if (pageInstance.UseContextualMenu()) //Possible Null Ref!
-                {
-                    page.Tag = pageInstance.GetContextualMenu();
-                }
-
-                Tabs.Add(controlInstance);
-
-                Menu.Add(page);
-            }
-        }
-
-        private void Refresh()
-        {
-            if (SelectedTab.Tag is not Control context)
-            {
-                ContextualMenu = null;
-                return;
+                page.Tag = pageInstance.GetContextualMenu();
             }
 
-            if (SelectedTab.DataContext is BaseViewModel pl)
-            {
-                pl.Load();
-            }
+            Tabs.Add(controlInstance);
 
-            context.DataContext = SelectedTab.DataContext;
-            ContextualMenu = context;
+            Menu.Add(page);
         }
+    }
+
+    private void Refresh()
+    {
+        if (SelectedTab.Tag is not Control context)
+        {
+            ContextualMenu = null;
+            return;
+        }
+
+        if (SelectedTab.DataContext is BaseViewModel pl)
+        {
+            pl.Load();
+        }
+
+        context.DataContext = SelectedTab.DataContext;
+        ContextualMenu = context;
     }
 }

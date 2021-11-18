@@ -14,65 +14,66 @@ using Slithin.Models;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals.Tools;
 
-namespace Slithin.Tools
+namespace Slithin.Tools;
+
+[Context(UIContext.Notebook)]
+public class NotebookAppendTool : ITool, IContextProvider
 {
-    [Context(UIContext.Notebook)]
-    public class NotebookAppendTool : ITool, IContextProvider
+      
+        
+    public IImage Image
     {
-        public IImage Image
+        get
         {
-            get
-            {
-                var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-                return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/pdf_append.png")));
-            }
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+                
+            return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/pdf_append.png")));
         }
+    }
 
-        public ScriptInfo Info => new("pdf_append", "Notebook Appendor", "PDF", "Append Pages To PDF", true);
+    public ScriptInfo Info => new("pdf_append", "Notebook Appendor", "PDF", "Append Pages To PDF", true);
 
-        public bool IsConfigurable => false;
+    public bool IsConfigurable => false;
 
-        public object ParentViewModel { get; set; }
+    public object ParentViewModel { get; set; }
 
-        public bool CanHandle(object obj) => obj is Metadata md && md.Content.FileType == "pdf";
+    public bool CanHandle(object obj) => obj is Metadata md && md.Content.FileType == "pdf";
 
-        public ICollection<MenuItem> GetMenu(object obj)
+    public ICollection<MenuItem> GetMenu(object obj)
+    {
+        var menu = new List<MenuItem>()
         {
-            var menu = new List<MenuItem>()
-            {
-                new MenuItem{Header = "Append Pages", Command = new DelegateCommand((_) =>{Invoke(obj);})}
-            };
+            new MenuItem{Header = "Append Pages", Command = new DelegateCommand((_) =>{Invoke(obj);})}
+        };
 
-            return menu;
+        return menu;
+    }
+
+    public Control GetModal()
+    {
+        return null;
+    }
+
+    public void Invoke(object data)
+    {
+        var modal = new AppendNotebookModal();
+        var vm = ServiceLocator.Container.Resolve<AppendNotebookModalViewModel>();
+
+        if (data is ToolProperties props)
+        {
+            vm.ID = props["id"].ToString();
+            vm.Pages = new ObservableCollection<object>((IEnumerable<object>)props["pages"]);
+
+            vm.OKCommand.Execute(null);
         }
-
-        public Control GetModal()
+        else
         {
-            return null;
-        }
-
-        public void Invoke(object data)
-        {
-            var modal = new AppendNotebookModal();
-            var vm = ServiceLocator.Container.Resolve<AppendNotebookModalViewModel>();
-
-            if (data is ToolProperties props)
+            if (data is Metadata md)
             {
-                vm.ID = props["id"].ToString();
-                vm.Pages = new ObservableCollection<object>((IEnumerable<object>)props["pages"]);
-
-                vm.OKCommand.Execute(null);
+                vm.ID = md.ID; //Pre select the notebook, if it is executed from contextmenu
             }
-            else
-            {
-                if (data is Metadata md)
-                {
-                    vm.ID = md.ID; //Pre select the notebook, if it is executed from contextmenu
-                }
 
-                DialogService.Open(modal, vm);
-            }
+            DialogService.Open(modal, vm);
         }
     }
 }

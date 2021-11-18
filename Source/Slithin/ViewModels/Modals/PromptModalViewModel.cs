@@ -1,31 +1,30 @@
 ﻿using System.Windows.Input;
 using Slithin.Core;
 
-namespace Slithin.ViewModels.Modals
+namespace Slithin.ViewModels.Modals;
+
+public class PromptModalViewModel : BaseViewModel
 {
-    public class PromptModalViewModel : BaseViewModel
+    private string _header;
+    private string _input;
+    private string _watermark;
+    public ICommand AcceptCommand { get; set; }
+
+    public string Header
     {
-        private string _header;
-        private string _input;
-        private string _watermark;
-        public ICommand AcceptCommand { get; set; }
+        get => _header;
+        set => SetValue(ref _header, value);
+    }
 
-        public string Header
-        {
-            get => _header;
-            set => SetValue(ref _header, value);
-        }
+    public string Input
+    {
+        get => _input;
+        set => _input = value;
+    }
 
-        public string Input
-        {
-            get => _input;
-            set => _input = value;
-        }
-
-        public string Watermark
-        {
-            get => _watermark;
-            set => SetValue(ref _watermark, value);
-        }
+    public string Watermark
+    {
+        get => _watermark;
+        set => SetValue(ref _watermark, value);
     }
 }

@@ -2,54 +2,46 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Slithin.ModuleSystem.WASInterface
+namespace Slithin.ModuleSystem.WASInterface;
+
+public static class Util
 {
-    public static class Util
+    public static string FromUtf8(IntPtr nativeString, int size)
     {
-        public static string FromUtf8(IntPtr nativeString, int size)
-        {
-            string result = null;
+        string result = null;
 
-            if (nativeString != IntPtr.Zero)
-            {
-                var array = new byte[size];
-                Marshal.Copy(nativeString, array, 0, size);
-                result = Encoding.UTF8.GetString(array, 0, array.Length);
-            }
+        if (nativeString == IntPtr.Zero) return result;
 
-            return result;
-        }
+        var array = new byte[size];
+        Marshal.Copy(nativeString, array, 0, size);
+        result = Encoding.UTF8.GetString(array, 0, array.Length);
 
-        public static byte[] ToUtf8(string sourceText)
-        {
-            if (sourceText == null)
-            {
-                return null;
-            }
+        return result;
+    }
 
-            int nlen = Encoding.UTF8.GetByteCount(sourceText);
+    public static byte[] ToUtf8(string sourceText)
+    {
+        if (sourceText == null) return null;
 
-            var byteArray = new byte[nlen];
-            nlen = Encoding.UTF8.GetBytes(sourceText, 0, sourceText.Length, byteArray, 0);
+        var nlen = Encoding.UTF8.GetByteCount(sourceText);
 
-            return byteArray;
-        }
+        var byteArray = new byte[nlen];
+        nlen = Encoding.UTF8.GetBytes(sourceText, 0, sourceText.Length, byteArray, 0);
 
-        public static byte[] ToUtf8Z(string sourceText)
-        {
-            if (sourceText == null)
-            {
-                return null;
-            }
+        return byteArray;
+    }
 
-            int nlen = Encoding.UTF8.GetByteCount(sourceText) + 1;
+    public static byte[] ToUtf8Z(string sourceText)
+    {
+        if (sourceText == null) return null;
 
-            var byteArray = new byte[nlen];
-            byteArray = new byte[nlen];
-            nlen = Encoding.UTF8.GetBytes(sourceText, 0, sourceText.Length, byteArray, 0);
-            byteArray[nlen] = 0;
+        var nlen = Encoding.UTF8.GetByteCount(sourceText) + 1;
 
-            return byteArray;
-        }
+        var byteArray = new byte[nlen];
+        byteArray = new byte[nlen];
+        nlen = Encoding.UTF8.GetBytes(sourceText, 0, sourceText.Length, byteArray, 0);
+        byteArray[nlen] = 0;
+
+        return byteArray;
     }
 }

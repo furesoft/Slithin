@@ -1,15 +1,14 @@
 ﻿using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 
-namespace Slithin.Core
+namespace Slithin.Core;
+
+public interface IExportProvider
 {
-    public interface IExportProvider
-    {
-        bool ExportSingleDocument { get; }
-        string Title { get; }
+    bool ExportSingleDocument { get; }
+    string Title { get; }
 
-        bool CanHandle(Metadata md);
+    bool CanHandle(Metadata md);
 
-        bool Export(ExportOptions options, Metadata metadata, string outputPath);
-    }
+    bool Export(ExportOptions options, Metadata metadata, string outputPath);
 }

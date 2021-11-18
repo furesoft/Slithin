@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace Slithin.ModuleSystem.WASInterface
-{
-    public class ProcExitException : Exception
-    {
-        public ProcExitException(int rc)
-        {
-            ReturnCode = rc;
-        }
+namespace Slithin.ModuleSystem.WASInterface;
 
-        public int ReturnCode { get; private set; }
+public class ProcExitException : Exception
+{
+    public ProcExitException(int rc)
+    {
+        ReturnCode = rc;
     }
+
+    public int ReturnCode { get; }
 }

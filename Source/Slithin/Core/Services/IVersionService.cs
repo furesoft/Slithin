@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace Slithin.Core.Services
+namespace Slithin.Core.Services;
+
+public interface IVersionService
 {
-    public interface IVersionService
-    {
-        Version GetDeviceVersion();
+    Version GetDeviceVersion();
 
-        Version GetLocalVersion();
+    Version GetLocalVersion();
 
-        Version GetSlithinVersion();
-    }
+    Version GetSlithinVersion();
 }

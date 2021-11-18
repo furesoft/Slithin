@@ -1,9 +1,8 @@
-﻿namespace Slithin.Core.Sync
+﻿namespace Slithin.Core.Sync;
+
+public enum SyncAction
 {
-    public enum SyncAction
-    {
-        Add,
-        Remove,
-        Update
-    }
+    Add,
+    Remove,
+    Update
 }

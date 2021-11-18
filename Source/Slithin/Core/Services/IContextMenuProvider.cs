@@ -1,14 +1,13 @@
 ﻿using Avalonia.Controls;
 using Slithin.Core.ItemContext;
 
-namespace Slithin.Core.Services
+namespace Slithin.Core.Services;
+
+public interface IContextMenuProvider
 {
-    public interface IContextMenuProvider
-    {
-        void Add(IContextProvider provider);
+    void Add(IContextProvider provider);
 
-        ContextMenu BuildMenu<T>(UIContext context, T item, object parent = null);
+    ContextMenu BuildMenu<T>(UIContext context, T item, object parent = null);
 
-        void Init();
-    }
+    void Init();
 }

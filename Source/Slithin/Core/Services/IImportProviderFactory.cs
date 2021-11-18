@@ -1,9 +1,8 @@
-﻿namespace Slithin.Core.Services
-{
-    public interface IImportProviderFactory
-    {
-        IImportProvider GetImportProvider(string baseExtension, string filename);
+﻿namespace Slithin.Core.Services;
 
-        void Init();
-    }
+public interface IImportProviderFactory
+{
+    IImportProvider GetImportProvider(string baseExtension, string filename);
+
+    void Init();
 }

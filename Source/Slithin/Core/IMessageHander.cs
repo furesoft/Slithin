@@ -1,8 +1,7 @@
-﻿namespace Slithin.Core
+﻿namespace Slithin.Core;
+
+public interface IMessageHandler<in T>
+    where T : AsynchronousMessage
 {
-    public interface IMessageHandler<in T>
-        where T : AsynchronousMessage
-    {
-        void HandleMessage(T message);
-    }
+    void HandleMessage(T message);
 }

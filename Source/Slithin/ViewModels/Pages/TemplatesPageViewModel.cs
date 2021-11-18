@@ -3,61 +3,61 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
-using Slithin.UI.Modals;
-using Slithin.ViewModels.Modals;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Core.Validators;
+using Slithin.UI.Modals;
+using Slithin.ViewModels.Modals;
 
-namespace Slithin.ViewModels.Pages
+namespace Slithin.ViewModels.Pages;
+
+public class TemplatesPageViewModel : BaseViewModel
 {
-    public class TemplatesPageViewModel : BaseViewModel
+    private readonly ILoadingService _loadingService;
+    private readonly IMailboxService _mailboxService;
+
+    private Template _selectedTemplate;
+
+    public TemplatesPageViewModel(ILoadingService loadingService,
+        IMailboxService mailboxService,
+        LocalRepository localRepository,
+        IPathManager pathManager,
+        AddTemplateValidator validator)
     {
-        private readonly ILoadingService _loadingService;
-        private readonly IMailboxService _mailboxService;
-
-        private Template _selectedTemplate;
-
-        public TemplatesPageViewModel(ILoadingService loadingService,
-                                        IMailboxService mailboxService,
-                                        LocalRepository localRepository,
-                                        IPathManager pathManager,
-                                        AddTemplateValidator validator)
+        OpenAddModalCommand = new DelegateCommand(_ =>
         {
-            OpenAddModalCommand = new DelegateCommand(_ =>
-            {
-                DialogService.Open(new AddTemplateModal(), new AddTemplateModalViewModel(pathManager, localRepository, validator));
-            });
+            DialogService.Open(new AddTemplateModal(),
+                new AddTemplateModalViewModel(pathManager, localRepository, validator));
+        });
 
-            RemoveTemplateCommand = new RemoveTemplateCommand(this, localRepository);
-            _loadingService = loadingService;
-            _mailboxService = mailboxService;
-        }
+        RemoveTemplateCommand = new RemoveTemplateCommand(this, localRepository);
+        _loadingService = loadingService;
+        _mailboxService = mailboxService;
+    }
 
-        public ICommand OpenAddModalCommand { get; set; }
+    public ICommand OpenAddModalCommand { get; set; }
 
-        public ICommand RemoveTemplateCommand { get; set; }
+    public ICommand RemoveTemplateCommand { get; set; }
 
-        public Template SelectedTemplate
+    public Template SelectedTemplate
+    {
+        get => _selectedTemplate;
+        set => SetValue(ref _selectedTemplate, value);
+    }
+
+    public override void OnLoad()
+    {
+        base.OnLoad();
+
+        _mailboxService.PostAction(() =>
         {
-            get => _selectedTemplate;
-            set => SetValue(ref _selectedTemplate, value);
-        }
+            NotificationService.Show("Loading Templates");
 
-        public override void OnLoad()
-        {
-            base.OnLoad();
+            _loadingService.LoadTemplates();
 
-            _mailboxService.PostAction(() =>
-            {
-                NotificationService.Show("Loading Templates");
+            SyncService.TemplateFilter.SelectedCategory = "Grids";
 
-                _loadingService.LoadTemplates();
-
-                SyncService.TemplateFilter.SelectedCategory = "Grids";
-
-                NotificationService.Hide();
-            });
-        }
+            NotificationService.Hide();
+        });
     }
 }

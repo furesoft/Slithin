@@ -1,10 +1,9 @@
-﻿namespace Slithin.Core
+﻿namespace Slithin.Core;
+
+//ToDo: Implement EventStorage
+public class EventStorage
 {
-    //ToDo: Implement EventStorage
-    public class EventStorage
+    public void Invoke(string name)
     {
-        public void Invoke(string name)
-        {
-        }
     }
 }

@@ -1,18 +1,17 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.UI.ContextualMenus
-{
-    public partial class ToolsContextualMenu : UserControl
-    {
-        public ToolsContextualMenu()
-        {
-            InitializeComponent();
-        }
+namespace Slithin.UI.ContextualMenus;
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+public partial class ToolsContextualMenu : UserControl
+{
+    public ToolsContextualMenu()
+    {
+        InitializeComponent();
+    }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
     }
 }

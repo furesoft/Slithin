@@ -1,6 +1,5 @@
-﻿namespace Slithin.Core
+﻿namespace Slithin.Core;
+
+public class AsynchronousMessage
 {
-    public class AsynchronousMessage
-    {
-    }
 }

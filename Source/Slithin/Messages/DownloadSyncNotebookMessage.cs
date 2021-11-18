@@ -2,15 +2,14 @@
 using Slithin.Core;
 using Slithin.Models;
 
-namespace Slithin.Messages
-{
-    public class DownloadSyncNotebookMessage : AsynchronousMessage
-    {
-        public DownloadSyncNotebookMessage(List<SyncNotebook> notebooks)
-        {
-            Notebooks = notebooks;
-        }
+namespace Slithin.Messages;
 
-        public List<SyncNotebook> Notebooks { get; set; }
+public class DownloadSyncNotebookMessage : AsynchronousMessage
+{
+    public DownloadSyncNotebookMessage(List<SyncNotebook> notebooks)
+    {
+        Notebooks = notebooks;
     }
+
+    public List<SyncNotebook> Notebooks { get; set; }
 }

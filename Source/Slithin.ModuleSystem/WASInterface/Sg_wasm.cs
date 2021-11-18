@@ -1,18 +1,17 @@
 ﻿using System;
 
-namespace Slithin.ModuleSystem.WASInterface
-{
-    public static class Sg_wasm
-    {
-        public static IntPtr __mem;
-        public static int __mem_size;
+namespace Slithin.ModuleSystem.WASInterface;
 
-        public static Span<byte> GetSpan(int addr, int len)
+public static class Sg_wasm
+{
+    public static IntPtr Mem;
+    public static int MemSize;
+
+    public static Span<byte> GetSpan(int addr, int len)
+    {
+        unsafe
         {
-            unsafe
-            {
-                return new Span<byte>((Sg_wasm.__mem + (int)addr).ToPointer(), len);
-            }
+            return new Span<byte>((Mem + addr).ToPointer(), len);
         }
     }
 }

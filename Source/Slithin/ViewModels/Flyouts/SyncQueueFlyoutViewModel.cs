@@ -5,44 +5,43 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 
-namespace Slithin.ViewModels.Flyouts
+namespace Slithin.ViewModels.Flyouts;
+
+public class SyncQueueFlyoutViewModel : BaseViewModel
 {
-    public class SyncQueueFlyoutViewModel : BaseViewModel
+    private readonly ILoadingService _loadingService;
+
+    public SyncQueueFlyoutViewModel(ILoadingService loadingService)
     {
-        private readonly ILoadingService _loadingService;
+        Items = SyncService.SyncQueue;
 
-        public SyncQueueFlyoutViewModel(ILoadingService loadingService)
+        DeleteCommand = new DelegateCommand(Delete);
+        _loadingService = loadingService;
+    }
+
+    public ICommand DeleteCommand { get; set; }
+
+    public ObservableCollection<SyncItem> Items { get; set; } = new();
+
+    private void Delete(object obj)
+    {
+        var item = (SyncItem)obj;
+
+        SyncService.RemoveFromSyncQueue(item);
+
+        //recover item
+
+        if (item.Data is Metadata md)
         {
-            Items = SyncService.SyncQueue;
+            md.Save();
 
-            DeleteCommand = new DelegateCommand(Delete);
-            _loadingService = loadingService;
+            _loadingService.LoadNotebooks();
         }
-
-        public ICommand DeleteCommand { get; set; }
-
-        public ObservableCollection<SyncItem> Items { get; set; } = new();
-
-        private void Delete(object obj)
+        else if (item.Data is Template t)
         {
-            var item = (SyncItem)obj;
+            TemplateStorage.Instance.Add(t);
 
-            SyncService.RemoveFromSyncQueue(item);
-
-            //recover item
-
-            if (item.Data is Metadata md)
-            {
-                md.Save();
-
-                _loadingService.LoadNotebooks();
-            }
-            else if (item.Data is Template t)
-            {
-                TemplateStorage.Instance.Add(t);
-
-                _loadingService.LoadTemplates();
-            }
+            _loadingService.LoadTemplates();
         }
     }
 }

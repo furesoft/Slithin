@@ -1,46 +1,45 @@
 ﻿using System.Linq;
 using LiteDB;
 
-namespace Slithin.Core.Services.Implementations
+namespace Slithin.Core.Services.Implementations;
+
+public class SettingsService : ISettingsService
 {
-    public class SettingsService : ISettingsService
+    private readonly LiteDatabase _db;
+
+    public SettingsService(LiteDatabase db)
     {
-        private readonly LiteDatabase _db;
+        _db = db;
+    }
 
-        public SettingsService(LiteDatabase db)
+    public Settings Get()
+    {
+        var collection = _db.GetCollection<Settings>();
+
+        if (collection.Count() == 1)
         {
-            _db = db;
+            return collection.FindAll().First();
         }
-
-        public Settings Get()
+        else
         {
-            var collection = _db.GetCollection<Settings>();
-
-            if (collection.Count() == 1)
-            {
-                return collection.FindAll().First();
-            }
-            else
-            {
-                return new();
-            }
+            return new();
         }
+    }
 
-        public void Save(Settings settings)
+    public void Save(Settings settings)
+    {
+        var collection = _db.GetCollection<Settings>();
+
+        if (collection.Count() == 1)
         {
-            var collection = _db.GetCollection<Settings>();
+            var old = collection.FindAll().First();
+            settings._id = old._id;
 
-            if (collection.Count() == 1)
-            {
-                var old = collection.FindAll().First();
-                settings._id = old._id;
-
-                collection.Update(settings);
-            }
-            else
-            {
-                collection.Insert(settings);
-            }
+            collection.Update(settings);
+        }
+        else
+        {
+            collection.Insert(settings);
         }
     }
 }

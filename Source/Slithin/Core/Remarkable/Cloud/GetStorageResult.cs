@@ -1,8 +1,7 @@
-﻿namespace Slithin.Core.Remarkable.Cloud
+﻿namespace Slithin.Core.Remarkable.Cloud;
+
+public class GetStorageResult
 {
-    public class GetStorageResult
-    {
-        public string Host { get; set; }
-        public string Status { get; set; }
-    }
+    public string Host { get; set; }
+    public string Status { get; set; }
 }

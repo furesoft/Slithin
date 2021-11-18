@@ -1,15 +1,14 @@
 ﻿using Slithin.Models;
 
-namespace Slithin.Core.Services
+namespace Slithin.Core.Services;
+
+public interface ILoginService
 {
-    public interface ILoginService
-    {
-        LoginInfo[] GetLoginCredentials();
+    LoginInfo[] GetLoginCredentials();
 
-        void RememberLoginCredencials(LoginInfo loginInfo);
+    void RememberLoginCredencials(LoginInfo loginInfo);
 
-        void SetLoginCredential(LoginInfo loginInfo);
+    void SetLoginCredential(LoginInfo loginInfo);
 
-        void UpdateIPAfterUpdate();
-    }
+    void UpdateIPAfterUpdate();
 }

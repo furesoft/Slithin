@@ -1,13 +1,12 @@
 ﻿using Slithin.Core.Remarkable;
 
-namespace Slithin.Core.Services
+namespace Slithin.Core.Services;
+
+public interface IExportProviderFactory
 {
-    public interface IExportProviderFactory
-    {
-        IExportProvider[] GetAvailableProviders(Metadata md);
+    IExportProvider[] GetAvailableProviders(Metadata md);
 
-        IExportProvider GetExportProvider(string type);
+    IExportProvider GetExportProvider(string type);
 
-        void Init();
-    }
+    void Init();
 }

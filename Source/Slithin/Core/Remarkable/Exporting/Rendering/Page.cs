@@ -2,56 +2,55 @@
 using Svg;
 using Svg.Pathing;
 
-namespace Slithin.Core.Remarkable.Exporting.Rendering
+namespace Slithin.Core.Remarkable.Exporting.Rendering;
+
+public struct Page
 {
-    public struct Page
-    {
-        /**
+    /**
          * All the layers of this page, from the bottom to the top of the
          * layer stack.
          */
-        public List<Layer> Layers;
+    public List<Layer> Layers;
 
-        public static Page FromSvg(SvgDocument doc)
+    public static Page FromSvg(SvgDocument doc)
+    {
+        var pag = new Page();
+
+        pag.Layers = new List<Layer>();
+
+        var paths = doc.Children.FindSvgElementsOf<SvgPath>();
+
+        foreach (var path in paths)
         {
-            var pag = new Page();
+            var layer = new Layer();
 
-            pag.Layers = new List<Layer>();
+            var line = new Line();
+            line.BrushBaseSize = BrushBaseSize.Mid;
+            line.BrushType = Brushes.Brush;
+            line.Color = Colors.Black;
 
-            var paths = doc.Children.FindSvgElementsOf<SvgPath>();
+            var points = new List<Point>();
 
-            foreach (var path in paths)
+            foreach (var p in path.PathData)
             {
-                var layer = new Layer();
+                int width = 2;
 
-                var line = new Line();
-                line.BrushBaseSize = BrushBaseSize.Mid;
-                line.BrushType = Brushes.Brush;
-                line.Color = Colors.Black;
-
-                var points = new List<Point>();
-
-                foreach (var p in path.PathData)
+                if (p is SvgMoveToSegment)
                 {
-                    int width = 2;
-
-                    if (p is SvgMoveToSegment)
-                    {
-                        width = 0;
-                    }
-
-                    points.Add(new Point() { X = p.Start.X, Y = p.Start.Y, Pressure = 2, Direction = 2, Width = width });
-                    points.Add(new Point() { X = p.End.X, Y = p.End.Y, Pressure = 2, Direction = 2, Width = width });
+                    width = 0;
                 }
 
-                line.Points = points;
-
-                layer.Lines = new List<Line>(new[] { line });
-
-                pag.Layers.Add(layer);
+                points.Add(new Point() { X = p.Start.X, Y = p.Start.Y, Pressure = 2, Direction = 2, Width = width });
+                points.Add(new Point() { X = p.End.X, Y = p.End.Y, Pressure = 2, Direction = 2, Width = width });
             }
 
-            return pag;
+            line.Points = points;
+
+            layer.Lines = new List<Line>(new[] { line });
+
+            pag.Layers.Add(layer);
         }
-    };
-}
+
+        return pag;
+    }
+};

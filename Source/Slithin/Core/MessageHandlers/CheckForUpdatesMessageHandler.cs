@@ -1,20 +1,19 @@
 ﻿using Slithin.Messages;
 
-namespace Slithin.Core.MessageHandlers
+namespace Slithin.Core.MessageHandlers;
+
+public class CheckForUpdatesMessageHandler : IMessageHandler<CheckForUpdateMessage>
 {
-    public class CheckForUpdatesMessageHandler : IMessageHandler<CheckForUpdateMessage>
+    public void HandleMessage(CheckForUpdateMessage message)
     {
-        public void HandleMessage(CheckForUpdateMessage message)
+        DesktopBridge.Helpers helpers = new DesktopBridge.Helpers();
+        if (!helpers.IsRunningAsUwp())
         {
-            DesktopBridge.Helpers helpers = new DesktopBridge.Helpers();
-            if (!helpers.IsRunningAsUwp())
-            {
-                NotificationService.Show("Checking for Updates");
+            NotificationService.Show("Checking for Updates");
 
-                Updater.StartUpdate();
+            Updater.StartUpdate();
 
-                NotificationService.Hide();
-            }
+            NotificationService.Hide();
         }
     }
 }

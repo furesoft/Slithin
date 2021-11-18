@@ -1,29 +1,28 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Slithin.Core.Services.Implementations
+namespace Slithin.Core.Services.Implementations;
+
+public class CacheServiceImpl : ICacheService
 {
-    public class CacheServiceImpl : ICacheService
+    private readonly ConcurrentDictionary<string, object> _cache = new();
+
+    public void Add<T>(string name, T obj)
     {
-        private readonly ConcurrentDictionary<string, object> _cache = new();
+        _cache.AddOrUpdate(name, obj, (_, __) => obj);
+    }
 
-        public void Add<T>(string name, T obj)
+    public T Get<T>(string name, T obj = default)
+    {
+        if (_cache.ContainsKey(name))
         {
-            _cache.AddOrUpdate(name, obj, (_, __) => obj);
+            return (T)_cache[name];
+        }
+        if (obj != null)
+        {
+            Add(name, obj);
+            return obj;
         }
 
-        public T Get<T>(string name, T obj = default)
-        {
-            if (_cache.ContainsKey(name))
-            {
-                return (T)_cache[name];
-            }
-            if (obj != null)
-            {
-                Add(name, obj);
-                return obj;
-            }
-
-            return default;
-        }
+        return default;
     }
 }

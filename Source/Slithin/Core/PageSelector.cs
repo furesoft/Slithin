@@ -1,6 +1,5 @@
-﻿namespace Slithin.Core
+﻿namespace Slithin.Core;
+
+public static class PageSelector
 {
-    public static class PageSelector
-    {
-    }
 }

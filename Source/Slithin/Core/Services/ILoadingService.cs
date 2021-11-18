@@ -1,11 +1,10 @@
-﻿namespace Slithin.Core.Services
+﻿namespace Slithin.Core.Services;
+
+public interface ILoadingService
 {
-    public interface ILoadingService
-    {
-        void LoadNotebooks();
+    void LoadNotebooks();
 
-        void LoadScreens();
+    void LoadScreens();
 
-        void LoadTemplates();
-    }
+    void LoadTemplates();
 }

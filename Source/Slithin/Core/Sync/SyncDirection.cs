@@ -1,8 +1,7 @@
-﻿namespace Slithin.Core.Sync
+﻿namespace Slithin.Core.Sync;
+
+public enum SyncDirection
 {
-    public enum SyncDirection
-    {
-        ToDevice,
-        ToLocal
-    }
+    ToDevice,
+    ToLocal
 }

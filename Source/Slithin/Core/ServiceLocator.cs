@@ -4,35 +4,34 @@ using Slithin.Core.Remarkable.Cloud;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 
-namespace Slithin.Core
+namespace Slithin.Core;
+
+public static class ServiceLocator
 {
-    public static class ServiceLocator
+    public static TinyIoCContainer Container;
+
+    public static SynchronisationService SyncService;
+
+    public static void Init()
     {
-        public static TinyIoCContainer Container;
+        Container = TinyIoCContainer.Current;
+        Container.AutoRegister();
 
-        public static SynchronisationService SyncService;
+        Container.Register<Api>().AsSingleton();
+        Container.Register<Storage>().AsSingleton();
 
-        public static void Init()
-        {
-            Container = TinyIoCContainer.Current;
-            Container.AutoRegister();
+        var pathManager = Container.Resolve<IPathManager>();
+        pathManager.Init();
 
-            Container.Register<Api>().AsSingleton();
-            Container.Register<Storage>().AsSingleton();
+        var importProviderFactory = Container.Resolve<IImportProviderFactory>();
+        importProviderFactory.Init();
 
-            var pathManager = Container.Resolve<IPathManager>();
-            pathManager.Init();
+        var exportProviderFactory = Container.Resolve<IExportProviderFactory>();
+        exportProviderFactory.Init();
 
-            var importProviderFactory = Container.Resolve<IImportProviderFactory>();
-            importProviderFactory.Init();
+        var contextMenuProvider = Container.Resolve<IContextMenuProvider>();
+        contextMenuProvider.Init();
 
-            var exportProviderFactory = Container.Resolve<IExportProviderFactory>();
-            exportProviderFactory.Init();
-
-            var contextMenuProvider = Container.Resolve<IContextMenuProvider>();
-            contextMenuProvider.Init();
-
-            Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
-        }
+        Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
     }
 }
