@@ -21,7 +21,8 @@ jobs:
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
-        ls
+        npm install --save @assemblyscript/loader
+        npm install --save-dev assemblyscript
         cd WASM
         npm install
         npm run asbuild
