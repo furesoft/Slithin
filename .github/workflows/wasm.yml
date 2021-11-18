@@ -21,6 +21,7 @@ jobs:
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
+        ls
         cd WASM
         npm install
         npm run asbuild
