@@ -53,7 +53,7 @@ public static class ModuleTest
 
         ActionModule.RunExports();
 
-        var jk = Mod.world;
+        var jk = Mod.k;
     }
 
     private static class Mod

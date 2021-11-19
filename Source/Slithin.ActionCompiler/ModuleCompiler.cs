@@ -37,7 +37,7 @@ public class ModuleCompiler
 
         m.Types.Add(new WebAssemblyType {Returns = new List<WebAssemblyValueType> {WebAssemblyValueType.Int32}});
 
-        m.Exports.Add(new Export("_start"));
+        
         m.Imports.Add(new Import.Memory("env", "memory", new Memory(1, 25)));
 
         m.Types.Add(new WebAssemblyType
@@ -60,10 +60,15 @@ public class ModuleCompiler
         exprBody.Add(new Int32Constant(42));
         exprBody.Add(new Int32Constant(125));
 
-        exprBody.Add(new Call(1));
+        exprBody.Add(new Call(0));
+        exprBody.Add(new Int32Constant(0));
+
+        exprBody.Add(new Return());
         exprBody.Add(new End());
 
         m.Codes.Add(new FunctionBody(exprBody.ToArray()));
+
+        m.Exports.Add(new Export("_start", 1));
 
         return m;
     }
