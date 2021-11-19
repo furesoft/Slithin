@@ -44,6 +44,7 @@ public static class ModuleTest
 
         ModuleImporter.Import(typeof(Mod), imports);
         ModuleImporter.Import(typeof(ConversionsImplementation), imports);
+        ModuleImporter.Import(typeof(Allocator), imports);
 
 
         var instance = ActionModule.Compile(m, imports);
