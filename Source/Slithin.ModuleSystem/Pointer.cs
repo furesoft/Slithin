@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Slithin.ModuleSystem.WASInterface;
 
@@ -47,6 +48,7 @@ public struct Pointer
     public void Write(string value, int offset = 0)
     {
         var utf8 = Util.ToUtf8(value);
+        utf8 = utf8.Append((byte) 0).ToArray();
 
         Marshal.Copy(utf8, 0, Sg_wasm.Mem + Base + offset, utf8.Length);
     }

@@ -49,7 +49,7 @@ public static class ModuleTest
         var instance = ActionModule.Compile(m, imports);
 
         // var mem = instance.memory;
-        var id = instance._start();
+        instance._start();
 
         ActionModule.RunExports();
 

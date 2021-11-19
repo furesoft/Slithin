@@ -35,9 +35,8 @@ public class ModuleCompiler
             m.CustomSections.Add(new CustomSection
                 {Name = ".ui", Content = new List<byte>(File.ReadAllBytes(uiFilename))});
 
-        m.Types.Add(new WebAssemblyType {Returns = new List<WebAssemblyValueType> {WebAssemblyValueType.Int32}});
+        m.Types.Add(new WebAssemblyType());
 
-        
         m.Imports.Add(new Import.Memory("env", "memory", new Memory(1, 25)));
 
         m.Types.Add(new WebAssemblyType
@@ -61,9 +60,7 @@ public class ModuleCompiler
         exprBody.Add(new Int32Constant(125));
 
         exprBody.Add(new Call(0));
-        exprBody.Add(new Int32Constant(0));
 
-        exprBody.Add(new Return());
         exprBody.Add(new End());
 
         m.Codes.Add(new FunctionBody(exprBody.ToArray()));
