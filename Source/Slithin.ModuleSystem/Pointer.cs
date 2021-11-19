@@ -63,8 +63,18 @@ public struct Pointer
         return new Pointer(ptr.Base + 1);
     }
 
+    public static implicit operator int(Pointer ptr)
+    {
+        return ptr.Base;
+    }
+
     public static Pointer operator --(Pointer ptr)
     {
         return new Pointer(ptr.Base - 1);
+    }
+
+    public string ReadString(int strlen)
+    {
+        return Util.FromUtf8(new IntPtr(Base), strlen);
     }
 }
