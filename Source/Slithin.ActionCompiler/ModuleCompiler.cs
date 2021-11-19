@@ -67,6 +67,10 @@ public class ModuleCompiler
 
         m.Exports.Add(new Export("_start", 1));
 
+        m.Globals.Add(new Global(WebAssemblyValueType.Int32)
+            {IsMutable = false, InitializerExpression = new List<Instruction> {new Int32Constant(1024), new End()}});
+        m.Exports.Add(new Export("_heap_base", 0, ExternalKind.Global));
+
         return m;
     }
 }

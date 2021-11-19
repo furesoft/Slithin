@@ -13,7 +13,7 @@ public static class ModuleImporter
 {
     public static readonly List<Type> Types = new();
 
-    public static void Export(Type type)
+    public static void Export(Type type, dynamic instance)
     {
         foreach (var field in type.GetFields())
         {
@@ -21,20 +21,31 @@ public static class ModuleImporter
 
             var fiattr = field.GetCustomAttribute<WasmImportValueAttribute>();
 
-            if (fiattr == null) continue;
+            if (fiattr != null)
+            {
+                var mem = Sg_wasm.Mem + fiattr.Offset;
 
-            var mem = Sg_wasm.Mem + fiattr.Offset;
+                object value = null;
 
-            object value = null;
+                if (field.FieldType.IsValueType)
+                    value = Marshal.PtrToStructure(mem, field.FieldType);
+                else if (field.FieldType == typeof(string))
+                    value = fiattr.Length != default
+                        ? Marshal.PtrToStringUTF8(mem, fiattr.Length)
+                        : Marshal.PtrToStringUTF8(mem);
 
-            if (field.FieldType.IsValueType)
-                value = Marshal.PtrToStructure(mem, field.FieldType);
-            else if (field.FieldType == typeof(string))
-                value = fiattr.Length != default
-                    ? Marshal.PtrToStringUTF8(mem, fiattr.Length)
-                    : Marshal.PtrToStringUTF8(mem);
+                field.SetValue(null, value);
+            }
 
-            field.SetValue(null, value);
+            var giattr = field.GetCustomAttribute<WasmImportGlobalAttribute>();
+
+            if (giattr != null)
+            {
+                Type instanceType = instance.GetType();
+                foreach (var prop in instanceType.GetProperties())
+                    if (giattr.Name == prop.Name)
+                        field.SetValue(null, prop.GetValue(instance));
+            }
         }
     }
 
