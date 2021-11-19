@@ -4,8 +4,9 @@
 public class ConversionsImplementation
 {
     [WasmExport("intToString")]
-    public static void IntToString(int value, Pointer dst)
+    public static void IntToString(int value, int dstAddress)
     {
+        var dst = new Pointer(dstAddress);
         dst.Write(value.ToString());
     }
 }

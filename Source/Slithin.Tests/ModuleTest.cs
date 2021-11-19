@@ -4,6 +4,7 @@ using System.IO;
 using NUnit.Framework;
 using Slithin.ActionCompiler;
 using Slithin.ModuleSystem;
+using Slithin.ModuleSystem.StdLib;
 using WebAssembly;
 using WebAssembly.Runtime;
 
@@ -42,6 +43,8 @@ public static class ModuleTest
         var m = ActionModule.LoadModule("../testScript.wasm", out var imports);
 
         ModuleImporter.Import(typeof(Mod), imports);
+        ModuleImporter.Import(typeof(ConversionsImplementation), imports);
+
 
         var instance = ActionModule.Compile(m, imports);
 
