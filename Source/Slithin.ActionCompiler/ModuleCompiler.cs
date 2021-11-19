@@ -40,6 +40,12 @@ public class ModuleCompiler
         m.Exports.Add(new Export("_start"));
         m.Imports.Add(new Import.Memory("env", "memory", new Memory(1, 25)));
 
+        m.Types.Add(new WebAssemblyType
+        {
+            Parameters = new List<WebAssemblyValueType> {WebAssemblyValueType.Int32, WebAssemblyValueType.Int32}
+        });
+
+        m.Imports.Add(new Import.Function("conversions", "intToString", 1));
 
         m.Functions.Add(new Function(0));
 
@@ -49,10 +55,15 @@ public class ModuleCompiler
         tree = PassManager.Process(tree);
 
         var exprBody = ExpressionEmitter.Emit(tree.GetChildren<Expression>().First(), null);
+        exprBody.Clear();
+
+        exprBody.Add(new Int32Constant(42));
+        exprBody.Add(new Int32Constant(125));
+
+        exprBody.Add(new Call(1));
         exprBody.Add(new End());
 
         m.Codes.Add(new FunctionBody(exprBody.ToArray()));
-
 
         return m;
     }
