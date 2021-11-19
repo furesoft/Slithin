@@ -55,9 +55,10 @@ public static class ModuleImporter
 
         Types.Add(type);
 
+        IDictionary<string, RuntimeImport> dict = null;
+
         if (attr != null)
         {
-            IDictionary<string, RuntimeImport> dict;
             if (imports.ContainsKey(attr.Name))
             {
                 dict = imports[attr.Name];
@@ -76,21 +77,29 @@ public static class ModuleImporter
             if (!field.IsStatic) continue;
             var fattr = field.GetCustomAttribute<WasmExportValueAttribute>();
 
-            if (fattr == null) continue;
-
-            var value = field.GetValue(null);
-
-            var mem = Sg_wasm.Mem + fattr.Offset;
-
-            if (field.FieldType.IsValueType)
+            if (fattr != null)
             {
-                Marshal.StructureToPtr(value, mem, false);
+                var value = field.GetValue(null);
+
+                var mem = Sg_wasm.Mem + fattr.Offset;
+
+                if (field.FieldType.IsValueType)
+                {
+                    Marshal.StructureToPtr(value, mem, false);
+                }
+                else if (value is string str)
+                {
+                    var utf8 = Util.ToUtf8(str);
+
+                    Marshal.Copy(utf8, 0, mem, str.Length);
+                }
             }
-            else if (value is string str)
-            {
-                var utf8 = Util.ToUtf8(str);
 
-                Marshal.Copy(utf8, 0, mem, str.Length);
+            var gattr = field.GetCustomAttribute<WasmExportGlobalAttribute>();
+            if (gattr != null)
+            {
+                var value = field.GetValue(null);
+                dict.Add(gattr.Name, new GlobalImport(() => (int) value, _ => field.SetValue(null, _)));
             }
         }
     }
