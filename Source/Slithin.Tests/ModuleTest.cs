@@ -17,7 +17,8 @@ public static class ModuleTest
     {
         var m = ModuleCompiler.Compile("testScript", "testScript.info");
 
-        m.WriteToBinary(File.OpenWrite("testScript.wasm"));
+        using var fileStream = File.Create("../testScript.wasm");
+        m.WriteToBinary(fileStream);
     }
 
     [Test]
@@ -33,13 +34,12 @@ public static class ModuleTest
             }
         });
         var rrr = rr.Exports._start();
-        
     }
 
     [Test]
     public static void Import()
     {
-        var m = ActionModule.LoadModule("testScript.wasm", out var imports);
+        var m = ActionModule.LoadModule("../testScript.wasm", out var imports);
 
         ModuleImporter.Import(typeof(Mod), imports);
 
@@ -50,7 +50,7 @@ public static class ModuleTest
 
         ActionModule.RunExports();
 
-        var jk = Mod.kc;
+        var jk = Mod.world;
     }
 
     private static class Mod
@@ -61,6 +61,6 @@ public static class ModuleTest
 
         [WasmImportValue(125)] public static char kc;
 
-        [WasmExportValue(125)] public static string world = "Hello World";
+        [WasmExportValue(125)] public static readonly string world = "Hello World";
     }
 }
