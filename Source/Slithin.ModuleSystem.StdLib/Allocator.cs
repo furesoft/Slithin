@@ -4,14 +4,15 @@
 public class Allocator
 {
     [WasmExport("malloc")]
-    public static Pointer Allocate(int size)
+    public static int Allocate(int size)
     {
-        return default;
+        return new Pointer(0);
     }
 
     [WasmExport("free")]
-    public static void Free(Pointer ptr)
+    public static void Free(int addr)
     {
+        var ptr = new Pointer(addr);
     }
 
     public static Pointer AllocateString(int length)

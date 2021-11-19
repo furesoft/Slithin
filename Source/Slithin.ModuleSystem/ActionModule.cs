@@ -33,8 +33,8 @@ public class ActionModule
         return m;
     }
 
-    public static void RunExports()
+    public static void RunExports(dynamic instance)
     {
-        foreach (var type in ModuleImporter.Types) ModuleImporter.Export(type);
+        foreach (var type in ModuleImporter.Types) ModuleImporter.Export(type, instance);
     }
 }

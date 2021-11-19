@@ -38,7 +38,7 @@ public class StringImplementation
 
         var split = str.Split(seperatorPtr.ReadString(Strlen(seperatorAddress)));
 
-        var newPtr = Allocator.Allocate(split.Select(_ => _.Length + 1).Sum());
+        var newPtr = (Pointer) Allocator.Allocate(split.Select(_ => _.Length + 1).Sum());
         foreach (var s in split)
         {
             newPtr.Write(s);

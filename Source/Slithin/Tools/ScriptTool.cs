@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -16,11 +17,11 @@ namespace Slithin.Tools;
 
 public class ScriptTool : ITool
 {
-    private readonly Slithin.ModuleSystem.ScriptInfo _info;
+    private readonly ScriptInfo _info;
     private readonly Module _module;
     private readonly CustomSection uiSection;
 
-    public ScriptTool(Slithin.ModuleSystem.ScriptInfo info, Module module)
+    public ScriptTool(ScriptInfo info, Module module)
     {
         _info = info;
         _module = module;
@@ -43,7 +44,7 @@ public class ScriptTool : ITool
             }
             else
             {
-                imageStream = assets.Open(new Uri($"avares://Slithin/Resources/cubes.png"));
+                imageStream = assets.Open(new Uri("avares://Slithin/Resources/cubes.png"));
             }
 
             return new Bitmap(imageStream);
@@ -57,9 +58,11 @@ public class ScriptTool : ITool
     public Control GetModal()
     {
         if (uiSection == null)
+        {
             return null;
+        }
 
-        return Avalonia.Markup.Xaml.AvaloniaRuntimeXamlLoader.Parse<Control>(
+        return AvaloniaRuntimeXamlLoader.Parse<Control>(
             Encoding.ASCII.GetString(uiSection.Content.ToArray())
         );
     }
@@ -74,6 +77,6 @@ public class ScriptTool : ITool
         // var mem = instance.memory;
         instance._start();
 
-        ActionModule.RunExports();
+        ActionModule.RunExports(instance);
     }
 }

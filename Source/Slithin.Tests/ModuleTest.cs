@@ -49,12 +49,13 @@ public static class ModuleTest
 
         var instance = ActionModule.Compile(m, imports);
 
+
         // var mem = instance.memory;
         instance._start();
 
-        ActionModule.RunExports();
+        ActionModule.RunExports(instance);
 
-        var jk = Mod.k;
+        var jk = Mod.heapBase;
     }
 
     private static class Mod
@@ -66,5 +67,7 @@ public static class ModuleTest
         [WasmImportValue(125)] public static char kc;
 
         [WasmExportValue(125)] public static readonly string world = "Hello World";
+
+        [WasmImportGlobal("_heap_base")] public static int heapBase;
     }
 }
