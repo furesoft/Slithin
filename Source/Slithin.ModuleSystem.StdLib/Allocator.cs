@@ -3,6 +3,8 @@
 [WasmExport("std")]
 public class Allocator
 {
+    [WasmImportGlobal("_heap_base")] public static int HeapBaseAddress;
+
     [WasmExport("malloc")]
     public static int Allocate(int size)
     {
