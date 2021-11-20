@@ -97,7 +97,8 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Linux_x64_DEB_Installer
-        path: ./Dist/Linux-x64-Deb
+        path: Source/Slithin/Dist/Linux-x64-Deb
+      
       
     - name: Creating Rpm-Package
       run: dotnet rpm -r linux-x64 -c Release -o ./Dist/Linux-x64-Rpm
@@ -107,5 +108,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Linux_x64_RPM_Installer
-        path: ./Dist/Linux-x64-Rpm
+        path: Source/Slithin/Dist/Linux-x64-Rpm
 
