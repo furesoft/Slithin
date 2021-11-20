@@ -34,7 +34,8 @@ public static class ModuleTest
                 ["memory"] = new MemoryImport(() => new UnmanagedMemory(1, 2))
             }
         });
-        var rrr = rr.Exports._start();
+
+        rr.Exports._start();
     }
 
     [Test]
@@ -46,6 +47,7 @@ public static class ModuleTest
         ModuleImporter.Import(typeof(ConversionsImplementation), imports);
         ModuleImporter.Import(typeof(StringImplementation), imports);
         ModuleImporter.Import(typeof(Allocator), imports);
+        ModuleImporter.Import(typeof(ModuleSystem.StdLib.Core), imports);
 
 
         var instance = ActionModule.Compile(m, imports);
