@@ -93,15 +93,15 @@ jobs:
       run: dotnet deb -r linux-x64 -c Release -o ./Dist/Linux-x64-Deb
       working-directory: Source/Slithin/
       
-    - name: Creating Rpm-Package
-      run: dotnet rpm -r linux-x64 -c Release -o ./Dist/Linux-x64-Rpm
-      working-directory: Source/Slithin/
-    
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Linux_x64_DEB_Installer
         path: ./Dist/Linux-x64-Deb
+      
+    - name: Creating Rpm-Package
+      run: dotnet rpm -r linux-x64 -c Release -o ./Dist/Linux-x64-Rpm
+      working-directory: Source/Slithin/
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
