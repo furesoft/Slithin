@@ -4,7 +4,7 @@
 public class StringImplementation
 {
     [WasmExport("length")]
-    public static int Strlen(int ptrAddress)
+    public static int Length(int ptrAddress)
     {
         var ptr = new Pointer(ptrAddress);
 
@@ -17,12 +17,12 @@ public class StringImplementation
     [WasmExport("trim")]
     public static int Trim(int ptrAddress)
     {
-        var ptr = new Pointer(ptrAddress);
-        var length = Strlen(ptrAddress);
-        var str = ptr.ReadString(length);
+        var str = Utils.StringFromPtr(ptrAddress);
 
-        var newPtr = Allocator.AllocateString(length + 1);
-        newPtr.Write(str.Trim());
+        var value = str.Trim();
+
+        var newPtr = Allocator.AllocateString(value.Length + 1);
+        newPtr.Write(value);
 
         return newPtr;
     }
@@ -30,16 +30,12 @@ public class StringImplementation
     [WasmExport("replace")]
     public static int Replace(int ptrAddress, int replacementAddress)
     {
-        var ptr = new Pointer(ptrAddress);
-        var length = Strlen(ptrAddress);
-        var str = ptr.ReadString(length);
+        var str = Utils.StringFromPtr(ptrAddress);
+        var strReplacement = Utils.StringFromPtr(replacementAddress);
 
-        var ptrReplacement = new Pointer(ptrAddress);
-        var lengthReplacement = Strlen(ptrAddress);
-        var strReplacement = ptr.ReadString(length);
-
-        var newPtr = Allocator.AllocateString(length + 1);
-        newPtr.Write(str.Replace(str, strReplacement));
+        var replace = str.Replace(str, strReplacement);
+        var newPtr = Allocator.AllocateString(replace.Length + 1);
+        newPtr.Write(replace);
 
         return newPtr;
     }
@@ -47,13 +43,10 @@ public class StringImplementation
     [WasmExport("split")]
     public static int Split(int ptrAddress, int seperatorAddress)
     {
-        var ptr = new Pointer(ptrAddress);
-        var seperatorPtr = new Pointer(seperatorAddress);
+        var seperator = Utils.StringFromPtr(seperatorAddress);
+        var str = Utils.StringFromPtr(ptrAddress);
 
-        var length = Strlen(ptrAddress);
-        var str = ptr.ReadString(length);
-
-        var split = str.Split(seperatorPtr.ReadString(Strlen(seperatorAddress)));
+        var split = str.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
 
         var newPtr = (Pointer) Allocator.Allocate(split.Select(_ => _.Length + 1).Sum());
         foreach (var s in split)
@@ -68,9 +61,7 @@ public class StringImplementation
     [WasmExport("substr")]
     public static int Substr(int ptrAddress, int start, int count)
     {
-        var ptr = new Pointer(ptrAddress);
-        var length = Strlen(ptrAddress);
-        var str = ptr.ReadString(length);
+        var str = Utils.StringFromPtr(ptrAddress);
 
         var newPtr = Allocator.AllocateString(count + 2);
         newPtr.Write(str.Substring(start, count));
@@ -81,15 +72,10 @@ public class StringImplementation
     [WasmExport("compare")]
     public static int Compare(int lhsAddress, int rhsAddress)
     {
-        var ptr = new Pointer(lhsAddress);
-        var length = Strlen(lhsAddress);
-        var str = ptr.ReadString(length);
+        var str = Utils.StringFromPtr(lhsAddress);
+        var strRhs = Utils.StringFromPtr(rhsAddress);
 
-        var ptrRhs = new Pointer(rhsAddress);
-        var lengthRhs = Strlen(rhsAddress);
-        var strRhs = ptrRhs.ReadString(lengthRhs);
-
-        var result = str.CompareTo(strRhs);
+        var result = string.Compare(str, strRhs, StringComparison.Ordinal);
 
         return result;
     }
