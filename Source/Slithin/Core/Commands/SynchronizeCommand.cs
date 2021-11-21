@@ -86,7 +86,7 @@ public class SynchronizeCommand : ICommand
         ServiceLocator.SyncService.PersistentSyncQueue.DeleteAll();
         ServiceLocator.SyncService.SyncQueue.Clear();
 
-        _moduleEventStorage.Invoke("afterSync");
+        _moduleEventStorage.Invoke("afterSync", 0);
     }
 
     public void RaiseExecuteChanged()
