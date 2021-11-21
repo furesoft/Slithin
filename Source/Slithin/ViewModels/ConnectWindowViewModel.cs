@@ -9,6 +9,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using LiteDB;
 using Material.Styles;
 using Renci.SshNet;
+using Serilog;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Scripting;
@@ -69,6 +70,8 @@ public class ConnectionWindowViewModel : BaseViewModel
     {
         ServiceLocator.Container.Resolve<LogInitalizer>().Init();
 
+        var logger = ServiceLocator.Container.Resolve<ILogger>();
+
         var validationResult = _validator.Validate(SelectedLogin);
 
         if (!validationResult.IsValid)
@@ -83,6 +86,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         client.ErrorOccurred += (s, _) =>
         {
             DialogService.OpenError(_.Exception.ToString());
+            logger.Error(_.Exception.ToString());
         };
 
         try
@@ -131,6 +135,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         catch (Exception ex)
         {
             SnackbarHost.Post(ex.Message);
+            logger.Error(ex.ToString());
         }
     }
 
@@ -170,6 +175,10 @@ public class ConnectionWindowViewModel : BaseViewModel
         {
             NotificationService.Show(
                 "Your remarkable is not reachable. Please check your connection and restart Slithin");
+
+            var logger = ServiceLocator.Container.Resolve<ILogger>();
+
+            logger.Warning("Your remarkable is not reachable. Please check your connection and restart Slithin");
         }
     }
 }
