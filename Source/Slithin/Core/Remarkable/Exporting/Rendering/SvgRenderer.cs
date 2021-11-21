@@ -10,10 +10,9 @@ namespace Slithin.Core.Remarkable.Exporting.Rendering;
 
 public static class SvgRenderer
 {
-    //ToDo: need to use original size dimension
     public static Stream RenderPage(Page page, int index, Metadata md, int width = 1404, int height = 1872)
     {
-        var svgDoc = new SvgDocument {Width = width, Height = height, ViewBox = new SvgViewBox(0, 0, 1404, 1872)};
+        var svgDoc = new SvgDocument {Width = width, Height = height, ViewBox = new SvgViewBox(0, 0, width, height)};
 
         var group = new SvgGroup();
         svgDoc.Children.Add(group);
@@ -25,6 +24,16 @@ public static class SvgRenderer
             group.Children.Add(new SvgImage {Href = "data:image/png;base64," + template, X = 0, Y = 0});
         }
 
+        RenderLayer(page, group);
+
+        var stream = new MemoryStream();
+        svgDoc.Write(stream);
+
+        return stream;
+    }
+
+    private static void RenderLayer(Page page, SvgGroup group)
+    {
         foreach (var layer in page.Layers)
         {
             foreach (var line in layer.Lines)
@@ -35,17 +44,11 @@ public static class SvgRenderer
                 }
             }
         }
-
-        var stream = new MemoryStream();
-        svgDoc.Write(stream);
-
-        return stream;
     }
 
-    private static SvgPathSegmentList GeneratePathData(List<Point> points)
+    private static SvgPathSegmentList GeneratePathData(IReadOnlyList<Point> points)
     {
-        var psl = new SvgPathSegmentList();
-        psl.Add(new SvgMoveToSegment(new PointF(points[0].X, points[0].Y)));
+        var psl = new SvgPathSegmentList {new SvgMoveToSegment(new PointF(points[0].X, points[0].Y))};
 
         for (var i = 0; i + 1 < points.Count; i++)
         {
