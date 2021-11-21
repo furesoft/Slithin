@@ -29,7 +29,11 @@ public class ToolInvoker
         {
             var info = ActionModule.GetScriptInfo(tool);
 
-            Tools.Add(info.Id, new ScriptTool(info, tool));
+
+            var scriptTool = new ScriptTool(info, tool);
+            scriptTool.Init();
+
+            Tools.Add(info.Id, scriptTool);
         }
     }
 

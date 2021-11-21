@@ -60,8 +60,8 @@ public static class ModuleEventStorage
 
     public static void SubscribeModule(dynamic instance)
     {
-        var instanceType = instance.GetType();
-
+        Type instanceType = instance.GetType();
+        var methods = instanceType.GetMethods();
 
         foreach (var method in instanceType.GetMethods())
             if (method.Name.StartsWith("On")) //All Functions Starting With "On" are Event Subscriptions

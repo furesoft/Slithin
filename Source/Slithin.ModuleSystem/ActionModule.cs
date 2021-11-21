@@ -14,7 +14,7 @@ public class ActionModule
         var compiled = m.Compile<dynamic>();
         var instance = compiled(imports);
 
-        ModuleEventStorage.SubscribeModule(instance);
+        ModuleEventStorage.SubscribeModule(instance.Exports);
 
         return instance.Exports;
     }

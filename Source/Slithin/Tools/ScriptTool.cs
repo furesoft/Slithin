@@ -11,6 +11,7 @@ using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Core.Scripting;
 using Slithin.ModuleSystem;
+using Slithin.ModuleSystem.StdLib;
 using WebAssembly;
 
 namespace Slithin.Tools;
@@ -20,6 +21,8 @@ public class ScriptTool : ITool
     private readonly ScriptInfo _info;
     private readonly Module _module;
     private readonly CustomSection uiSection;
+
+    private dynamic instance;
 
     public ScriptTool(ScriptInfo info, Module module)
     {
@@ -69,14 +72,22 @@ public class ScriptTool : ITool
 
     public void Invoke(object data)
     {
-        var automation = ServiceLocator.Container.Resolve<Automation>();
-        var imports = automation.Imports;
-
-        var instance = ActionModule.Compile(_module, imports);
-
         // var mem = instance.memory;
         instance._start();
 
         ActionModule.RunExports(instance);
+    }
+
+    public void Init()
+    {
+        var automation = ServiceLocator.Container.Resolve<Automation>();
+        var imports = automation.Imports;
+
+        ModuleImporter.Import(typeof(ConversionsImplementation), imports);
+        ModuleImporter.Import(typeof(StringImplementation), imports);
+        
+        ModuleImporter.Import(typeof(ModuleSystem.StdLib.Core), imports);
+
+        instance = ActionModule.Compile(_module, imports);
     }
 }

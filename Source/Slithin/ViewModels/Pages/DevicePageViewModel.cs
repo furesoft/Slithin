@@ -75,6 +75,9 @@ public class DevicePageViewModel : BaseViewModel
             NotificationService.Show("Loading Tools");
 
             _loadingService.LoadTools();
+
+            ModuleEventStorage.Invoke("OnConnect", 0);
+
             NotificationService.Hide();
         });
 
