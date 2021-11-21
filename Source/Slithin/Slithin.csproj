@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
     <Version>1.0.3.0</Version>
 	  <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
     <PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
     <Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
     <LangVersion>10</LangVersion>
+    <PackageVersion>1.0.4.0</PackageVersion>
   </PropertyGroup>
   
   <ItemGroup>
@@ -88,6 +89,7 @@
   </ItemGroup>
    
    <ItemGroup>
+     <ProjectReference Include="..\Slithin.ActionCompiler\Slithin.ActionCompiler.csproj" />
      <ProjectReference Include="..\Slithin.ModuleSystem\Slithin.ModuleSystem.csproj" />
    </ItemGroup>
 </Project>

@@ -26,7 +26,7 @@ public class Storage
         var request = new RestRequest("document-storage/json/2/upload/update-status", Method.PUT, DataFormat.Json);
 
         request.AddHeader("Authorization", "Bearer " + _token);
-        request.AddJsonBody(new[] { md });
+        request.AddJsonBody(new[] {md});
 
         client.Put(request);
     }
@@ -35,9 +35,11 @@ public class Storage
     {
         var tmp = Path.GetTempFileName();
 
-        var wc = new WebClient(); //Dispose!
+        var wc = new WebClient();
 
         wc.DownloadFile(blobUrl, tmp);
+
+        wc.Dispose();
 
         return tmp;
     }
@@ -63,18 +65,13 @@ public class Storage
 
     public UploadRequestResponse RequestUpload()
     {
-        var upReq = new UploadRequest
-        {
-            ID = Guid.NewGuid().ToString().ToLower(),
-            Version = 1,
-            Type = "DocumentType"
-        };
+        var upReq = new UploadRequest {ID = Guid.NewGuid().ToString().ToLower(), Version = 1, Type = "DocumentType"};
 
         var client = new RestClient(_storageUri);
         var request = new RestRequest("document-storage/json/2/upload/request", Method.PUT, DataFormat.Json);
 
         request.AddHeader("Authorization", "Bearer " + _token);
-        request.AddJsonBody(new[] { upReq });
+        request.AddJsonBody(new[] {upReq});
 
         var response = client.Put(request);
         var obj = JsonConvert.DeserializeObject<UploadRequestResponse[]>(response.Content);
@@ -88,7 +85,7 @@ public class Storage
         var request = new RestRequest("/document-storage/json/2/upload/update-status", Method.PUT, DataFormat.Json);
 
         request.AddHeader("Authorization", "Bearer " + _token);
-        request.AddJsonBody(new[] { md });
+        request.AddJsonBody(new[] {md});
 
         client.Put(request);
     }
@@ -108,12 +105,11 @@ public class Storage
 
                 var content = new ContentFile
                 {
-                    FileType = "pdf",
-                    ExtraMetadata = Array.Empty<object>(),
-                    Pages = Array.Empty<string>()
+                    FileType = "pdf", ExtraMetadata = Array.Empty<object>(), Pages = Array.Empty<string>()
                 };
 
-                zip.AddEntry(requestResponse.ID + ".content", JsonConvert.SerializeObject(content, Formatting.Indented));
+                zip.AddEntry(requestResponse.ID + ".content",
+                    JsonConvert.SerializeObject(content, Formatting.Indented));
 
                 zip.Save(memoryStream);
             }

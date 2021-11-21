@@ -16,13 +16,15 @@ public static class Updater
         {
             return $"Windows_x{(Environment.Is64BitOperatingSystem ? 64 : 86)}.zip";
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            return $"Linux_x64.zip";
+            return "Linux_x64.zip";
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            return $"OSX_x64.zip";
+            return "OSX_x64.zip";
         }
 
         return "";
@@ -40,7 +42,9 @@ public static class Updater
         var versionComparison = localVersion.CompareTo(latestGitHubVersion);
 
         if (versionComparison >= 0)
+        {
             return;
+        }
 
         var asset = GetAsset(releases[0]);
         var wc = new WebClient();
@@ -55,7 +59,9 @@ public static class Updater
         }
 
         if (File.Exists(fileName))
+        {
             return;
+        }
 
         wc.DownloadProgressChanged += (s, e) =>
         {
@@ -72,7 +78,8 @@ public static class Updater
                 {
                     if (ze.EventType == ZipProgressEventType.Extracting_BeforeExtractEntry)
                     {
-                        NotificationService.Show($"Extracting {Path.GetFileName(ze.ArchiveName)} ({Math.Round((float)ze.EntriesExtracted / (float)ze.EntriesTotal * 100)} %)");
+                        NotificationService.Show(
+                            $"Extracting {Path.GetFileName(ze.ArchiveName)} ({Math.Round(ze.EntriesExtracted / (float)ze.EntriesTotal * 100)} %)");
                     }
                 };
 
