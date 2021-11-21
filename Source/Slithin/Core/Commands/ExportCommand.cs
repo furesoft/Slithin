@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Exporting;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
 
@@ -33,11 +32,9 @@ public class ExportCommand : ICommand
         var outputPath = await DialogService.ShowPrompt("Export", "Enter the path to export to");
 
         var provider = _exportProviderFactory.GetExportProvider("SVG Graphics");
-        var options = new ExportOptions();
-        var notebook = Notebook.Load(md);
-        options.Document = notebook;
-        options.PagesIndices = PageRange.ToIndices(PageRange.Parse("1-").AsT0, notebook.Pages.Count).ToList();
 
+        var notebook = Notebook.Load(md);
+        var options = ExportOptions.Create(notebook, "1-120");
 
         provider.Export(options, md, outputPath);
     }

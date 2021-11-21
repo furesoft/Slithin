@@ -1,11 +1,9 @@
-﻿using System;
-using System.IO;
-using PdfSharpCore.Pdf;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Models;
@@ -67,45 +65,31 @@ public class DevicePageViewModel : BaseViewModel
         set => SetValue(ref _version, value);
     }
 
-    public void Export()
-    {
-        var id = "f27773a7-b054-4782-bbcf-a9acbf045977";
-        var ep = _exportProviderFactory.GetExportProvider("PDF Document");
-
-        var outputStream = File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf");
-        var doc = new PdfDocument(outputStream);
-
-        var opts = ExportOptions.Create(doc, "1-120");
-        var md = Metadata.Load(id);
-        var outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.pdf";
-
-        ep.Export(opts, md, outputPath);
-    }
-
     public override async void OnLoad()
     {
         base.OnLoad();
 
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Starting", Filename = "starting.png"});
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Power Off", Filename = "poweroff.png"});
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Suspended", Filename = "suspended.png"});
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Rebooting", Filename = "rebooting.png"});
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Splash", Filename = "splash.png"});
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Battery Empty", Filename = "batteryempty.png"});
+        InitScreens();
 
         _loadingService.LoadScreens();
 
-        var sshCommand = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf");
-        var str = sshCommand.Result;
-        str = str.Replace("BetaProgram=", "").Replace("\n", "");
-
-        if (!string.IsNullOrEmpty(str))
+        _mailboxService.PostAction(() =>
         {
-            IsBeta = bool.Parse(str);
-        }
+            NotificationService.Show("Loading Tools");
+
+            _loadingService.LoadTools();
+            NotificationService.Hide();
+        });
+
+        InitIsBeta();
 
         Version = _versionService.GetDeviceVersion().ToString();
 
+        await DoAfterDeviceUpdate();
+    }
+
+    private async Task DoAfterDeviceUpdate()
+    {
         if (_versionService.GetLocalVersion() >= _versionService.GetDeviceVersion())
         {
             return;
@@ -116,6 +100,11 @@ public class DevicePageViewModel : BaseViewModel
 
         _loginService.UpdateIPAfterUpdate();
 
+        await DoNewVersionUpload();
+    }
+
+    private async Task DoNewVersionUpload()
+    {
         if (_settingsService.Get().AutomaticTemplateRecovery)
         {
             UploadTemplates();
@@ -132,6 +121,28 @@ public class DevicePageViewModel : BaseViewModel
             UploadTemplates();
             UploadScreens();
         }
+    }
+
+    private void InitIsBeta()
+    {
+        var sshCommand = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf");
+        var str = sshCommand.Result;
+        str = str.Replace("BetaProgram=", "").Replace("\n", "");
+
+        if (!string.IsNullOrEmpty(str))
+        {
+            IsBeta = bool.Parse(str);
+        }
+    }
+
+    private void InitScreens()
+    {
+        SyncService.CustomScreens.Add(new CustomScreen {Title = "Starting", Filename = "starting.png"});
+        SyncService.CustomScreens.Add(new CustomScreen {Title = "Power Off", Filename = "poweroff.png"});
+        SyncService.CustomScreens.Add(new CustomScreen {Title = "Suspended", Filename = "suspended.png"});
+        SyncService.CustomScreens.Add(new CustomScreen {Title = "Rebooting", Filename = "rebooting.png"});
+        SyncService.CustomScreens.Add(new CustomScreen {Title = "Splash", Filename = "splash.png"});
+        SyncService.CustomScreens.Add(new CustomScreen {Title = "Battery Empty", Filename = "batteryempty.png"});
     }
 
     private void UploadTemplates()

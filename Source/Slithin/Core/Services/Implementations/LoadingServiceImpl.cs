@@ -25,7 +25,10 @@ public class LoadingServiceImpl : ILoadingService
             MetadataStorage.Local.Add(mdObj, out var alreadyAdded);
         }
 
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Trash", ID = "trash" });
+        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata
+        {
+            Type = "CollectionType", VisibleName = "Trash", ID = "trash"
+        });
 
         foreach (var md in MetadataStorage.Local.GetByParent(""))
         {
@@ -69,5 +72,11 @@ public class LoadingServiceImpl : ILoadingService
             ServiceLocator.SyncService.TemplateFilter.Templates.Add(t);
             t.Load();
         }
+    }
+
+    public void LoadTools()
+    {
+        var toolInvoker = ServiceLocator.Container.Resolve<ToolInvoker>();
+        toolInvoker.Init();
     }
 }
