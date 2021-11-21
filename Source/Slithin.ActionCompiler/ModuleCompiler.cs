@@ -47,6 +47,7 @@ public class ModuleCompiler
         m.Imports.Add(new Import.Function("conversions", "intToString", 1));
 
         m.Functions.Add(new Function(0));
+        m.Functions.Add(new Function(0));
 
         Optimiser.AddPass<ConstantFoldingPass>();
 
@@ -65,7 +66,10 @@ public class ModuleCompiler
 
         m.Codes.Add(new FunctionBody(exprBody.ToArray()));
 
+        m.Codes.Add(new FunctionBody(new End()));
+
         m.Exports.Add(new Export("_start", 1));
+        m.Exports.Add(new Export("OnConnect", 2));
 
         m.Globals.Add(new Global(WebAssemblyValueType.Int32)
             {IsMutable = false, InitializerExpression = new List<Instruction> {new Int32Constant(1024), new End()}});

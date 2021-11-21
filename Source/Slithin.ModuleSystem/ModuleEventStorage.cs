@@ -21,7 +21,8 @@ public static class ModuleEventStorage
         {
             if (argument.Equals(default(TArgument)))
             {
-                _subscriptions[name].ForEach(x => x.Item2.Invoke(x.Item1, Array.Empty<object>()));
+                foreach (var x in _subscriptions[name]) 
+                    x.Item2.Invoke(x.Item1, Array.Empty<object>());
             }
             else
             {
@@ -61,7 +62,6 @@ public static class ModuleEventStorage
     public static void SubscribeModule(dynamic instance)
     {
         Type instanceType = instance.GetType();
-        var methods = instanceType.GetMethods();
 
         foreach (var method in instanceType.GetMethods())
             if (method.Name.StartsWith("On")) //All Functions Starting With "On" are Event Subscriptions
