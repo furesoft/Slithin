@@ -13,12 +13,12 @@ namespace Slithin.ViewModels.Pages;
 public class DevicePageViewModel : BaseViewModel
 {
     private readonly SshClient _client;
-    private readonly EventStorage _events;
     private readonly IExportProviderFactory _exportProviderFactory;
     private readonly ILoadingService _loadingService;
     private readonly LocalRepository _localRepostory;
     private readonly ILoginService _loginService;
     private readonly IMailboxService _mailboxService;
+    private readonly ModuleEventStorage _moduleEvents;
     private readonly IPathManager _pathManager;
     private readonly ScpClient _scp;
     private readonly ISettingsService _settingsService;
@@ -30,7 +30,7 @@ public class DevicePageViewModel : BaseViewModel
 
     public DevicePageViewModel(IVersionService versionService,
         ILoadingService loadingService,
-        EventStorage events,
+        ModuleEventStorage moduleEvents,
         IMailboxService mailboxService,
         LocalRepository localRepostory,
         SshClient client,
@@ -42,7 +42,7 @@ public class DevicePageViewModel : BaseViewModel
     {
         _versionService = versionService;
         _loadingService = loadingService;
-        _events = events;
+        _moduleEvents = moduleEvents;
         _mailboxService = mailboxService;
         _localRepostory = localRepostory;
         _client = client;
@@ -95,7 +95,7 @@ public class DevicePageViewModel : BaseViewModel
             return;
         }
 
-        _events.Invoke("newVersionAvailable");
+        _moduleEvents.Invoke("newVersionAvailable");
         _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
 
         _loginService.UpdateIPAfterUpdate();

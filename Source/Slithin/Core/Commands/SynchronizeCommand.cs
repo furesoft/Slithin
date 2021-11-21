@@ -17,18 +17,18 @@ namespace Slithin.Core.Commands;
 public class SynchronizeCommand : ICommand
 {
     private readonly SshClient _client;
-    private readonly EventStorage _eventStorage;
     private readonly LocalRepository _localRepository;
     private readonly IMailboxService _mailboxService;
+    private readonly ModuleEventStorage _moduleEventStorage;
     private readonly IPathManager _pathManager;
 
-    public SynchronizeCommand(EventStorage eventStorage,
+    public SynchronizeCommand(ModuleEventStorage moduleEventStorage,
         IMailboxService mailboxService,
         LocalRepository localRepository,
         IPathManager pathManager,
         SshClient client)
     {
-        _eventStorage = eventStorage;
+        _moduleEventStorage = moduleEventStorage;
         _mailboxService = mailboxService;
         _localRepository = localRepository;
         _pathManager = pathManager;
@@ -86,7 +86,7 @@ public class SynchronizeCommand : ICommand
         ServiceLocator.SyncService.PersistentSyncQueue.DeleteAll();
         ServiceLocator.SyncService.SyncQueue.Clear();
 
-        _eventStorage.Invoke("afterSync");
+        _moduleEventStorage.Invoke("afterSync");
     }
 
     public void RaiseExecuteChanged()

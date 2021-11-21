@@ -23,8 +23,8 @@ namespace Slithin.ViewModels;
 
 public class ConnectionWindowViewModel : BaseViewModel
 {
-    private readonly EventStorage _events;
     private readonly ILoginService _loginService;
+    private readonly ModuleEventStorage _moduleEvents;
     private readonly ISettingsService _settingsService;
     private readonly LoginInfoValidator _validator;
 
@@ -32,12 +32,12 @@ public class ConnectionWindowViewModel : BaseViewModel
 
     private LoginInfo _selectedLogin;
 
-    public ConnectionWindowViewModel(EventStorage events,
+    public ConnectionWindowViewModel(ModuleEventStorage moduleEvents,
         ILoginService loginService,
         LoginInfoValidator validator,
         ISettingsService settingsService)
     {
-        _events = events;
+        _moduleEvents = moduleEvents;
         _loginService = loginService;
         _validator = validator;
         _settingsService = settingsService;
@@ -118,7 +118,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
             automation.Init();
 
-            _events.Invoke("connect");
+            _moduleEvents.Invoke("connect");
 
             var pingTimer = new Timer();
             pingTimer.Elapsed += pingTimer_ellapsed;
