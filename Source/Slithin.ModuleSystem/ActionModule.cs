@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using MessagePack;
+using Slithin.Core;
 using Slithin.ModuleSystem.WASInterface;
 using WebAssembly;
 using WebAssembly.Runtime;
@@ -12,6 +13,8 @@ public class ActionModule
     {
         var compiled = m.Compile<dynamic>();
         var instance = compiled(imports);
+
+        ModuleEventStorage.SubscribeModule(instance);
 
         return instance.Exports;
     }

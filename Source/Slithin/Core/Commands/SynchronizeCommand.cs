@@ -19,16 +19,13 @@ public class SynchronizeCommand : ICommand
     private readonly SshClient _client;
     private readonly LocalRepository _localRepository;
     private readonly IMailboxService _mailboxService;
-    private readonly ModuleEventStorage _moduleEventStorage;
     private readonly IPathManager _pathManager;
 
-    public SynchronizeCommand(ModuleEventStorage moduleEventStorage,
-        IMailboxService mailboxService,
+    public SynchronizeCommand(IMailboxService mailboxService,
         LocalRepository localRepository,
         IPathManager pathManager,
         SshClient client)
     {
-        _moduleEventStorage = moduleEventStorage;
         _mailboxService = mailboxService;
         _localRepository = localRepository;
         _pathManager = pathManager;
@@ -63,8 +60,6 @@ public class SynchronizeCommand : ICommand
             return;
         }
 
-        //_eventStorage.Invoke("beforeSync", new[] { ServiceLocator.SyncService.PersistentSyncQueue.FindAll() });
-
         if (!_localRepository.GetTemplates().Any() && !Directory.GetFiles(_pathManager.TemplatesDir).Any())
         {
             _mailboxService.Post(new InitStorageMessage());
@@ -86,7 +81,7 @@ public class SynchronizeCommand : ICommand
         ServiceLocator.SyncService.PersistentSyncQueue.DeleteAll();
         ServiceLocator.SyncService.SyncQueue.Clear();
 
-        _moduleEventStorage.Invoke("afterSync", 0);
+        ModuleEventStorage.Invoke("OnSynchonized", 0);
     }
 
     public void RaiseExecuteChanged()

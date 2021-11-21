@@ -1,7 +1,7 @@
 ﻿namespace Slithin.ModuleSystem.StdLib;
 
 [WasmExport("std")]
-public class Allocator
+public class AllocatorImplementation
 {
     [WasmImportGlobal("_heap_base")] public static int HeapBaseAddress;
 

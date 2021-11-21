@@ -18,7 +18,6 @@ public class DevicePageViewModel : BaseViewModel
     private readonly LocalRepository _localRepostory;
     private readonly ILoginService _loginService;
     private readonly IMailboxService _mailboxService;
-    private readonly ModuleEventStorage _moduleEvents;
     private readonly IPathManager _pathManager;
     private readonly ScpClient _scp;
     private readonly ISettingsService _settingsService;
@@ -30,7 +29,6 @@ public class DevicePageViewModel : BaseViewModel
 
     public DevicePageViewModel(IVersionService versionService,
         ILoadingService loadingService,
-        ModuleEventStorage moduleEvents,
         IMailboxService mailboxService,
         LocalRepository localRepostory,
         SshClient client,
@@ -42,7 +40,6 @@ public class DevicePageViewModel : BaseViewModel
     {
         _versionService = versionService;
         _loadingService = loadingService;
-        _moduleEvents = moduleEvents;
         _mailboxService = mailboxService;
         _localRepostory = localRepostory;
         _client = client;
@@ -95,7 +92,7 @@ public class DevicePageViewModel : BaseViewModel
             return;
         }
 
-        _moduleEvents.Invoke("newVersionAvailable", _versionService.GetDeviceVersion());
+        ModuleEventStorage.Invoke("OnNewVersionAvailable", 0);
         _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
 
         _loginService.UpdateIPAfterUpdate();

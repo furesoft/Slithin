@@ -21,7 +21,7 @@ public class StringImplementation
 
         var value = str.Trim();
 
-        var newPtr = Allocator.AllocateString(value.Length + 1);
+        var newPtr = AllocatorImplementation.AllocateString(value.Length + 1);
         newPtr.Write(value);
 
         return newPtr;
@@ -34,7 +34,7 @@ public class StringImplementation
         var strReplacement = Utils.StringFromPtr(replacementAddress);
 
         var replace = str.Replace(str, strReplacement);
-        var newPtr = Allocator.AllocateString(replace.Length + 1);
+        var newPtr = AllocatorImplementation.AllocateString(replace.Length + 1);
         newPtr.Write(replace);
 
         return newPtr;
@@ -48,7 +48,7 @@ public class StringImplementation
 
         var split = str.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
 
-        var newPtr = (Pointer) Allocator.Allocate(split.Select(_ => _.Length + 1).Sum());
+        var newPtr = (Pointer) AllocatorImplementation.Allocate(split.Select(_ => _.Length + 1).Sum());
         foreach (var s in split)
         {
             newPtr.Write(s);
@@ -63,7 +63,7 @@ public class StringImplementation
     {
         var str = Utils.StringFromPtr(ptrAddress);
 
-        var newPtr = Allocator.AllocateString(count + 2);
+        var newPtr = AllocatorImplementation.AllocateString(count + 2);
         newPtr.Write(str.Substring(start, count));
 
         return newPtr;

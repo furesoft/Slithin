@@ -8,11 +8,11 @@ using Slithin.ModuleSystem.WASInterface;
 
 namespace Slithin.Core;
 
-public class ModuleEventStorage
+public static class ModuleEventStorage
 {
-    private readonly Dictionary<string, List<(object, MethodInfo)>> _subscriptions = new();
+    private static readonly Dictionary<string, List<(object, MethodInfo)>> _subscriptions = new();
 
-    public void Invoke<TArgument>(string name, TArgument argument)
+    public static void Invoke<TArgument>(string name, TArgument argument)
     {
         var type = typeof(TArgument);
         //check if sub exist, if true copy argument to modules memory and invoke methodinfo with the address
@@ -33,18 +33,18 @@ public class ModuleEventStorage
         }
     }
 
-    private void InitializeMemory<TArgument>(int ptr, TArgument argument)
+    private static void InitializeMemory<TArgument>(int ptr, TArgument argument)
     {
         if (argument is string s)
         {
             var bytes = Util.ToUtf8(s);
-            bytes.Append((byte)0);
+            bytes.Append((byte) 0);
 
-            Marshal.Copy(bytes.ToArray(), 0, (IntPtr)ptr, bytes.Length);
+            Marshal.Copy(bytes.ToArray(), 0, (IntPtr) ptr, bytes.Length);
         }
         else
         {
-            Marshal.StructureToPtr(argument, (IntPtr)ptr, false);
+            Marshal.StructureToPtr(argument, (IntPtr) ptr, false);
         }
     }
 
@@ -52,24 +52,18 @@ public class ModuleEventStorage
     {
         var ptr = 0;
         if (type.IsValueType)
-        {
             ptr = Allocator.Allocate(Marshal.SizeOf<TArgument>());
-        }
-        else if (type.Name == "String")
-        {
-            ptr = Allocator.Allocate(((string)(object)argument).Length);
-        }
+        else if (type.Name == "String") ptr = Allocator.Allocate(((string) (object) argument).Length);
 
         return ptr;
     }
 
-    public void SubscribeModule(dynamic instance)
+    public static void SubscribeModule(dynamic instance)
     {
         var instanceType = instance.GetType();
 
 
         foreach (var method in instanceType.GetMethods())
-        {
             if (method.Name.StartsWith("On")) //All Functions Starting With "On" are Event Subscriptions
             {
                 if (_subscriptions.ContainsKey(method.Name))
@@ -84,6 +78,5 @@ public class ModuleEventStorage
                     _subscriptions.Add(method.Name, subscriptions);
                 }
             }
-        }
     }
 }
