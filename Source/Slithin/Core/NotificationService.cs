@@ -10,7 +10,7 @@ public static class NotificationService
 
     public static ICommand BuildCommand(string message, ICommand handlerCommand)
     {
-        return new DelegateCommand((_) =>
+        return new DelegateCommand(_ =>
         {
             DoAndShow(message, handlerCommand);
         });
@@ -27,7 +27,7 @@ public static class NotificationService
 
     public static bool GetIsNotificationOutput(TextBlock target)
     {
-        return target == outputTextBlock;
+        return Equals(target, outputTextBlock);
     }
 
     public static void Hide()

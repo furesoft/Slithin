@@ -29,7 +29,7 @@ public class Notebook
 
     public static Notebook Load(string id)
     {
-        return Load(MetadataStorage.Local.Get(id));
+        return Load(MetadataStorage.Local.GetMetadata(id));
     }
 
     public static Notebook Load(Metadata md)
@@ -158,8 +158,7 @@ public class Notebook
 
     private static void ReadLayer(BinaryReader fstream, Page curPage)
     {
-        Layer curLayer = new();
-        curLayer.Lines = new List<Line>();
+        Layer curLayer = new() {Lines = new List<Line>()};
 
         var lineCount = fstream.ReadInt32();
 

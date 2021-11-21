@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using Slithin.Core.Services;
 
 namespace Slithin.Core.ItemContext;
@@ -12,18 +13,20 @@ public class UIContextMenuBuilder
 
     public static void SetEnable(Control target, UIContext context)
     {
-        target.Initialized += (s, e) =>
+        void OnTargetOnInitialized(object s, EventArgs _)
         {
             var contextProvider = ServiceLocator.Container.Resolve<IContextMenuProvider>();
 
             if (s is ItemsControl ic)
             {
-                ic.ContextMenu = contextProvider.BuildMenu(context, ic.DataContext, ic.Parent.Parent.DataContext);
+                ic.ContextMenu = contextProvider.BuildMenu(context, ic.DataContext, ic.Parent?.Parent?.DataContext);
             }
             else if (s is Control c)
             {
-                c.ContextMenu = contextProvider.BuildMenu(context, c.DataContext, c.Parent.DataContext);
+                c.ContextMenu = contextProvider.BuildMenu(context, c.DataContext, c.Parent?.DataContext);
             }
-        };
+        }
+
+        target.Initialized += OnTargetOnInitialized;
     }
 }

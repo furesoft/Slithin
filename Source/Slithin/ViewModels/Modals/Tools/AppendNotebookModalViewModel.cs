@@ -24,7 +24,6 @@ public class AppendNotebookModalViewModel : BaseViewModel
     private readonly IPathManager _pathManager;
     private readonly AppendNotebookValidator _validator;
     private string _customTemplateFilename;
-    private string _id;
     private string _pageCount;
     private Template _selectedTemplate;
     private ObservableCollection<Template> _templates = new();
@@ -53,8 +52,9 @@ public class AppendNotebookModalViewModel : BaseViewModel
 
     public string ID
     {
-        get => _id;
-        set => _id = value; //Why no SetValue for id?
+        get;
+        set;
+        //Why no SetValue for id?
     }
 
     public ICommand OKCommand { get; set; }
@@ -102,7 +102,8 @@ public class AppendNotebookModalViewModel : BaseViewModel
 
     private void AddPages(object obj)
     {
-        if (int.TryParse(PageCount, out var pcount) && (SelectedTemplate != null || !string.IsNullOrEmpty(CustomTemplateFilename)))
+        if (int.TryParse(PageCount, out var pcount) &&
+            (SelectedTemplate != null || !string.IsNullOrEmpty(CustomTemplateFilename)))
         {
             if (!string.IsNullOrEmpty(CustomTemplateFilename))
             {
@@ -132,15 +133,16 @@ public class AppendNotebookModalViewModel : BaseViewModel
             DialogService.OpenDialogError(validationResult.Errors.First().ToString());
             return;
         }
+
         var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, ID + ".pdf"));
-        var md = MetadataStorage.Local.Get(ID);
+        var md = MetadataStorage.Local.GetMetadata(ID);
         var pages = new List<string>(md.Content.Pages);
-        int pageCount = md.Content.PageCount;
+        var pageCount = md.Content.PageCount;
 
         foreach (var p in Pages)
         {
             XImage image = null;
-            int count = 0;
+            var count = 0;
 
             pageCount++;
 
@@ -165,7 +167,7 @@ public class AppendNotebookModalViewModel : BaseViewModel
 
                 gfx.DrawImage(image, 0, 0, page.Width, page.Height);
 
-                Guid pageID = Guid.NewGuid();
+                var pageID = Guid.NewGuid();
                 pages.Add(pageID.ToString());
             }
         }
@@ -182,10 +184,7 @@ public class AppendNotebookModalViewModel : BaseViewModel
 
         var syncItem = new SyncItem
         {
-            Action = SyncAction.Update,
-            Data = md,
-            Direction = SyncDirection.ToDevice,
-            Type = SyncType.Notebook
+            Action = SyncAction.Update, Data = md, Direction = SyncDirection.ToDevice, Type = SyncType.Notebook
         };
 
         SyncService.AddToSyncQueue(syncItem);

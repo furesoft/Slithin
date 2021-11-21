@@ -8,13 +8,14 @@ public class MetadataStorage
 
     private readonly Dictionary<string, Metadata> _storage = new();
 
-    public void Add(Metadata metadata, out bool alreadyAdded)
+    public void AddMetadata(Metadata metadata, out bool alreadyAdded)
     {
         if (_storage.ContainsKey(metadata.ID))
         {
             alreadyAdded = true;
             return;
         }
+
         _storage.Add(metadata.ID, metadata);
         alreadyAdded = false;
     }
@@ -24,7 +25,7 @@ public class MetadataStorage
         _storage.Clear();
     }
 
-    public Metadata Get(string id)
+    public Metadata GetMetadata(string id)
     {
         return _storage[id];
     }
@@ -57,7 +58,9 @@ public class MetadataStorage
     public void Move(Metadata md, string folder)
     {
         if (md.Type != "DocumentType")
+        {
             return;
+        }
 
         md.Parent = folder;
         md.Version++;

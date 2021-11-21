@@ -91,9 +91,11 @@ public class AddTemplateModalViewModel : BaseViewModel
         foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
         {
             if (!res.StartsWith("Slithin.Resources.IconTiles."))
+            {
                 continue;
+            }
 
-            var item = new IconCodeItem { Name = res.Split('.')[^2] };
+            var item = new IconCodeItem {Name = res.Split('.')[^2]};
             item.Load();
 
             IconCodes.Add(item);
@@ -104,7 +106,7 @@ public class AddTemplateModalViewModel : BaseViewModel
     {
         if (!string.IsNullOrEmpty(obj?.ToString()))
         {
-            this.SyncService.TemplateFilter.Categories.Add(obj.ToString());
+            SyncService.TemplateFilter.Categories.Add(obj.ToString());
         }
         else
         {
@@ -121,6 +123,7 @@ public class AddTemplateModalViewModel : BaseViewModel
             DialogService.OpenDialogError(validationResult.Errors.First().ToString());
             return;
         }
+
         var template = BuildTemplate();
 
         if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
@@ -139,27 +142,34 @@ public class AddTemplateModalViewModel : BaseViewModel
 
         if (bitmap.Width != 1404 && bitmap.Height != 1872)
         {
-            DialogService.OpenDialogError("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+            DialogService.OpenDialogError(
+                "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
 
             return;
         }
 
         File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
 
-        _localRepository.Add(template);
+        _localRepository.AddTemplate(template);
 
         template.Load();
 
-        TemplateStorage.Instance.Add(template);
+        TemplateStorage.Instance.AppendTemplate(template);
         _synchronisationService.TemplateFilter.Templates.Add(template);
 
         DialogService.Close();
 
-        var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
+        var syncItem = new SyncItem {Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template};
         _synchronisationService.AddToSyncQueue(syncItem);
 
-        var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
-        _synchronisationService.AddToSyncQueue(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
+        var configItem = new SyncItem
+        {
+            Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")),
+            Direction = SyncDirection.ToDevice,
+            Type = SyncType.TemplateConfig
+        };
+        _synchronisationService
+            .AddToSyncQueue(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
     }
 
     private Template BuildTemplate()

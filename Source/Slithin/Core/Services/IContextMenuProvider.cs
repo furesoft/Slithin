@@ -5,7 +5,7 @@ namespace Slithin.Core.Services;
 
 public interface IContextMenuProvider
 {
-    void Add(IContextProvider provider);
+    void AddProvider(IContextProvider provider);
 
     ContextMenu BuildMenu<T>(UIContext context, T item, object parent = null);
 

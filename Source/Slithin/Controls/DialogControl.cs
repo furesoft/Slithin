@@ -26,7 +26,7 @@ public class DialogControl : ContentControl, IStyleable
 
     public DialogControl()
     {
-        CancelCommand = new DelegateCommand((o) => DialogService.Close());
+        CancelCommand = new DelegateCommand(_ => DialogService.Close());
     }
 
     public ICommand CancelCommand

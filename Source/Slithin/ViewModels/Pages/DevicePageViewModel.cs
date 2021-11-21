@@ -105,7 +105,7 @@ public class DevicePageViewModel : BaseViewModel
 
     private async Task DoNewVersionUpload()
     {
-        if (_settingsService.Get().AutomaticTemplateRecovery)
+        if (_settingsService.GetSettings().AutomaticTemplateRecovery)
         {
             UploadTemplates();
             UploadScreens();

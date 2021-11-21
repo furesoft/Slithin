@@ -7,13 +7,11 @@ namespace Slithin.Core.Services.Implementations;
 public class LoginServiceImpl : ILoginService
 {
     private readonly LiteDatabase _db;
-    private readonly EventStorage _events;
     private LoginInfo _selectedLoginCredential;
 
-    public LoginServiceImpl(LiteDatabase db, EventStorage events)
+    public LoginServiceImpl(LiteDatabase db)
     {
         _db = db;
-        _events = events;
     }
 
     public LoginInfo[] GetLoginCredentials()

@@ -22,7 +22,7 @@ public class LoadingServiceImpl : ILoadingService
         {
             var mdObj = Metadata.Load(Path.GetFileNameWithoutExtension(md));
 
-            MetadataStorage.Local.Add(mdObj, out var alreadyAdded);
+            MetadataStorage.Local.AddMetadata(mdObj, out _);
         }
 
         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata

@@ -6,20 +6,21 @@ public class CacheServiceImpl : ICacheService
 {
     private readonly ConcurrentDictionary<string, object> _cache = new();
 
-    public void Add<T>(string name, T obj)
+    public void AddObject<T>(string name, T obj)
     {
-        _cache.AddOrUpdate(name, obj, (_, __) => obj);
+        _cache.AddOrUpdate(name, obj, (_, _) => obj);
     }
 
-    public T Get<T>(string name, T obj = default)
+    public T GetObject<T>(string name, T obj = default)
     {
         if (_cache.ContainsKey(name))
         {
             return (T)_cache[name];
         }
+
         if (obj != null)
         {
-            Add(name, obj);
+            AddObject(name, obj);
             return obj;
         }
 

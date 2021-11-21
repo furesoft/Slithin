@@ -37,12 +37,12 @@ public struct Pointer
 
     public int ReadInt32(int offset = 0)
     {
-        return Marshal.ReadInt32(Sg_wasm.Mem + Base + offset);
+        return Marshal.ReadInt32(WasmMemory.Mem + Base + offset);
     }
 
     public void Write(int value, int offset = 0)
     {
-        Marshal.WriteInt32(Sg_wasm.Mem + Base + offset, value);
+        Marshal.WriteInt32(WasmMemory.Mem + Base + offset, value);
     }
 
     public void Write(string value, int offset = 0)
@@ -50,12 +50,12 @@ public struct Pointer
         var utf8 = Util.ToUtf8(value);
         utf8 = utf8.Append((byte) 0).ToArray();
 
-        Marshal.Copy(utf8, 0, Sg_wasm.Mem + Base + offset, utf8.Length);
+        Marshal.Copy(utf8, 0, WasmMemory.Mem + Base + offset, utf8.Length);
     }
 
     public void Write(byte value)
     {
-        Marshal.WriteByte(Sg_wasm.Mem + Base, value);
+        Marshal.WriteByte(WasmMemory.Mem + Base, value);
     }
 
     public static Pointer operator ++(Pointer ptr)

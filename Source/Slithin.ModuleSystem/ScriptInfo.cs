@@ -9,7 +9,7 @@ public class ScriptInfo
 
     [Key(4)] public string Description { get; set; }
 
-    [Key(0)] public string ID { get; set; }
+    [Key(0)] public string Id { get; set; }
 
     [Key(3)] public bool IsAutomatable { get; set; }
 

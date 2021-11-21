@@ -19,34 +19,42 @@ public static class ModuleImporter
         {
             if (!field.IsStatic) continue;
 
-            var fiattr = field.GetCustomAttribute<WasmImportValueAttribute>();
+            ExportValues(field);
 
-            if (fiattr != null)
-            {
-                var mem = Sg_wasm.Mem + fiattr.Offset;
-
-                object value = null;
-
-                if (field.FieldType.IsValueType)
-                    value = Marshal.PtrToStructure(mem, field.FieldType);
-                else if (field.FieldType == typeof(string))
-                    value = fiattr.Length != default
-                        ? Marshal.PtrToStringUTF8(mem, fiattr.Length)
-                        : Marshal.PtrToStringUTF8(mem);
-
-                field.SetValue(null, value);
-            }
-
-            var giattr = field.GetCustomAttribute<WasmImportGlobalAttribute>();
-
-            if (giattr != null)
-            {
-                Type instanceType = instance.GetType();
-                foreach (var prop in instanceType.GetProperties())
-                    if (giattr.Name == prop.Name)
-                        field.SetValue(null, prop.GetValue(instance));
-            }
+            ExportGlobals(instance, field);
         }
+    }
+
+    private static void ExportValues(FieldInfo field)
+    {
+        var fiattr = field.GetCustomAttribute<WasmImportValueAttribute>();
+
+        if (fiattr == null) return;
+
+        var mem = WasmMemory.Mem + fiattr.Offset;
+
+        object value = null;
+
+        if (field.FieldType.IsValueType)
+            value = Marshal.PtrToStructure(mem, field.FieldType);
+        else if (field.FieldType == typeof(string))
+            value = fiattr.Length != default
+                ? Marshal.PtrToStringUTF8(mem, fiattr.Length)
+                : Marshal.PtrToStringUTF8(mem);
+
+        field.SetValue(null, value);
+    }
+
+    private static void ExportGlobals(dynamic instance, FieldInfo field)
+    {
+        var giattr = field.GetCustomAttribute<WasmImportGlobalAttribute>();
+
+        if (giattr == null) return;
+
+        Type instanceType = instance.GetType();
+        foreach (var prop in instanceType.GetProperties())
+            if (giattr.Name == prop.Name)
+                field.SetValue(null, prop.GetValue(instance));
     }
 
     public static void Import(Type type, ImportDictionary imports)
@@ -59,49 +67,66 @@ public static class ModuleImporter
 
         if (attr != null)
         {
-            if (imports.ContainsKey(attr.Name))
-            {
-                dict = imports[attr.Name];
-            }
-            else
-            {
-                dict = new Dictionary<string, RuntimeImport>();
-                imports.Add(attr.Name, dict);
-            }
+            dict = InitImportdictionary(imports, attr);
 
             ImportFunctions(type, dict);
         }
 
-        foreach (var field in type.GetFields())
+        foreach (var field in type.GetFields()) ImportField(field, dict);
+    }
+
+    private static void ImportField(FieldInfo field, IDictionary<string, RuntimeImport> dict)
+    {
+        if (!field.IsStatic) return;
+        var fattr = field.GetCustomAttribute<WasmExportValueAttribute>();
+
+        if (fattr != null) ImportValues(field, fattr);
+
+        ImportGlobals(field, dict);
+    }
+
+    private static IDictionary<string, RuntimeImport> InitImportdictionary(ImportDictionary imports,
+        WasmExportAttribute attr)
+    {
+        IDictionary<string, RuntimeImport> dict;
+        if (imports.ContainsKey(attr.Name))
         {
-            if (!field.IsStatic) continue;
-            var fattr = field.GetCustomAttribute<WasmExportValueAttribute>();
-
-            if (fattr != null)
-            {
-                var value = field.GetValue(null);
-
-                var mem = Sg_wasm.Mem + fattr.Offset;
-
-                if (field.FieldType.IsValueType)
-                {
-                    Marshal.StructureToPtr(value, mem, false);
-                }
-                else if (value is string str)
-                {
-                    var utf8 = Util.ToUtf8(str);
-
-                    Marshal.Copy(utf8, 0, mem, str.Length);
-                }
-            }
-
-            var gattr = field.GetCustomAttribute<WasmExportGlobalAttribute>();
-            if (gattr != null)
-            {
-                var value = field.GetValue(null);
-                dict.Add(gattr.Name, new GlobalImport(() => (int) value, _ => field.SetValue(null, _)));
-            }
+            dict = imports[attr.Name];
         }
+        else
+        {
+            dict = new Dictionary<string, RuntimeImport>();
+            imports.Add(attr.Name, dict);
+        }
+
+        return dict;
+    }
+
+    private static void ImportValues(FieldInfo field, WasmExportValueAttribute fattr)
+    {
+        var value = field.GetValue(null);
+
+        var mem = WasmMemory.Mem + fattr.Offset;
+
+        if (field.FieldType.IsValueType)
+        {
+            Marshal.StructureToPtr(value, mem, false);
+        }
+        else if (value is string str)
+        {
+            var utf8 = Util.ToUtf8(str);
+
+            Marshal.Copy(utf8, 0, mem, str.Length);
+        }
+    }
+
+    private static void ImportGlobals(FieldInfo field, IDictionary<string, RuntimeImport> dict)
+    {
+        var gattr = field.GetCustomAttribute<WasmExportGlobalAttribute>();
+        if (gattr == null) return;
+
+        var value = field.GetValue(null);
+        dict.Add(gattr.Name, new GlobalImport(() => (int) value, _ => field.SetValue(null, _)));
     }
 
     private static Delegate CreateDelegate(this MethodInfo methodInfo, object target)
@@ -131,7 +156,8 @@ public static class ModuleImporter
         {
             var attr = method.GetCustomAttribute<WasmExportAttribute>();
 
-            if (attr == null || !method.IsStatic) continue;
+            if (attr == null) continue;
+            if (!method.IsStatic) continue;
 
             var del = CreateDelegate(method, null);
 

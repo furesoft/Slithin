@@ -26,7 +26,7 @@ public class ActionModule
     public static Module LoadModule(string path, out ImportDictionary imports)
     {
         var m = Module.ReadFromBinary(path);
-        var wasi = new WASI(m);
+        var wasi = new Wasi(m);
 
         imports = wasi.CreateImports();
 

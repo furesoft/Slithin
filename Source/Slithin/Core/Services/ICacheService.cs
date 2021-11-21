@@ -2,7 +2,7 @@
 
 public interface ICacheService
 {
-    void Add<T>(string name, T obj);
+    void AddObject<T>(string name, T obj);
 
-    public T Get<T>(string name, T obj = default);
+    public T GetObject<T>(string name, T obj = default);
 }

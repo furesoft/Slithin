@@ -12,7 +12,7 @@ public class SettingsService : ISettingsService
         _db = db;
     }
 
-    public Settings Get()
+    public Settings GetSettings()
     {
         var collection = _db.GetCollection<Settings>();
 
@@ -20,10 +20,8 @@ public class SettingsService : ISettingsService
         {
             return collection.FindAll().First();
         }
-        else
-        {
-            return new();
-        }
+
+        return new Settings();
     }
 
     public void Save(Settings settings)

@@ -24,11 +24,12 @@ public class ToolInvoker
         {
             Tools.Add(tool.Info.ID, tool);
         }
+
         foreach (var tool in _automation.Modules)
         {
             var info = ActionModule.GetScriptInfo(tool);
 
-            Tools.Add(info.ID, new ScriptTool(info, tool));
+            Tools.Add(info.Id, new ScriptTool(info, tool));
         }
     }
 

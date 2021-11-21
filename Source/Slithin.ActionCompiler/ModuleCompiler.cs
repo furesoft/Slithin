@@ -48,10 +48,10 @@ public class ModuleCompiler
 
         m.Functions.Add(new Function(0));
 
-        PassManager.AddPass<ConstantFoldingPass>();
+        Optimiser.AddPass<ConstantFoldingPass>();
 
         var tree = new Block(new Add(1, 2));
-        tree = PassManager.Process(tree);
+        tree = Optimiser.Process(tree);
 
         var exprBody = ExpressionEmitter.Emit(tree.GetChildren<Expression>().First(), null);
         exprBody.Clear();

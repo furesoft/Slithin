@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reactive.Linq;
 using Actress;
 using Slithin.Core.MessageHandlers;
 using Slithin.Messages;
@@ -19,7 +18,7 @@ public class MailboxServiceImpl : IMailboxService
     public void Init()
     {
         _mailbox = MailboxProcessor.Start<AsynchronousMessage>(
-            async (_) =>
+            async _ =>
             {
                 while (true)
                 {

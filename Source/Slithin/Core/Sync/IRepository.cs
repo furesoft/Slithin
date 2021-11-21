@@ -4,9 +4,9 @@ namespace Slithin.Core.Sync;
 
 public interface IRepository
 {
-    void Add(Template template);
+    void AddTemplate(Template template);
 
     Template[] GetTemplates();
 
-    void Remove(Template template);
+    void RemoveTemplate(Template template);
 }

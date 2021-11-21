@@ -5,37 +5,42 @@ using WebAssembly.Runtime;
 
 namespace Slithin.ModuleSystem.WASInterface;
 
-public class WASI
+public class Wasi
 {
-    public WASI(Module module)
+    public Wasi(Module module)
     {
         Module = module;
 
         Memory = new UnmanagedMemory(1, 255);
 
-        Sg_wasm.Mem = Memory.Start;
-        Sg_wasm.MemSize = (int) Memory.Size;
+        WasmMemory.Mem = Memory.Start;
     }
 
-    public UnmanagedMemory Memory { get; init; }
+    public UnmanagedMemory Memory { get; }
     public Module Module { get; }
 
     public ImportDictionary CreateImports()
     {
-        var importss = new ImportDictionary();
-        importss.Add("wasi_unstable", new Dictionary<string, RuntimeImport>
+        var importss = new ImportDictionary
         {
-            ["fd_write"] = new FunctionImport(new Func<int, int, int, int, int>(WasiUnstable.fd_write)),
-            ["fd_read"] = new FunctionImport(new Func<int, int, int, int, int>(WasiUnstable.fd_read)),
-            ["path_open"] =
-                new FunctionImport(
-                    new Func<int, int, int, int, int, long, long, int, int, int>(WasiUnstable.path_open)),
-            ["proc_exit"] = new FunctionImport(new Action<int>(WasiUnstable.proc_exit))
-        });
-        importss.Add("env", new Dictionary<string, RuntimeImport>
-        {
-            ["memory"] = new MemoryImport(() => Memory)
-        });
+            {
+                "wasi_unstable", new Dictionary<string, RuntimeImport>
+                {
+                    ["fd_write"] = new FunctionImport(new Func<int, int, int, int, int>(WasiUnstable.fd_write)),
+                    ["fd_read"] = new FunctionImport(new Func<int, int, int, int, int>(WasiUnstable.fd_read)),
+                    ["path_open"] =
+                        new FunctionImport(
+                            new Func<int, int, int, int, int, long, long, int, int, int>(WasiUnstable.path_open)),
+                    ["proc_exit"] = new FunctionImport(new Action<int>(WasiUnstable.proc_exit))
+                }
+            },
+            {
+                "env", new Dictionary<string, RuntimeImport>
+                {
+                    ["memory"] = new MemoryImport(() => Memory)
+                }
+            }
+        };
 
         return importss;
     }

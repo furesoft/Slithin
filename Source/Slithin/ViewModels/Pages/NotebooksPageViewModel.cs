@@ -57,7 +57,7 @@ public class NotebooksPageViewModel : BaseViewModel
             var item = new SyncItem
             {
                 Direction = SyncDirection.ToDevice,
-                Data = MetadataStorage.Local.Get(_movingNotebook.ID),
+                Data = MetadataStorage.Local.GetMetadata(_movingNotebook.ID),
                 Type = SyncType.Notebook,
                 Action = SyncAction.Update
             };
@@ -126,7 +126,7 @@ public class NotebooksPageViewModel : BaseViewModel
             VisibleName = name
         };
 
-        MetadataStorage.Local.Add(md, out var alreadyAdded);
+        MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
 
         if (alreadyAdded)
         {
@@ -154,7 +154,7 @@ public class NotebooksPageViewModel : BaseViewModel
         md.VisibleName = newName;
 
         MetadataStorage.Local.Remove(md);
-        MetadataStorage.Local.Add(md, out var alreadyAdded);
+        MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
 
         if (alreadyAdded)
         {

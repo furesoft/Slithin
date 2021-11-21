@@ -2,10 +2,9 @@
 
 namespace Slithin.ModuleSystem.WASInterface;
 
-public static class Sg_wasm
+public static class WasmMemory
 {
     public static IntPtr Mem;
-    public static int MemSize;
 
     public static Span<byte> GetSpan(int addr, int len)
     {

@@ -11,10 +11,13 @@ public class FileChooser : TemplatedControl
 {
     public static StyledProperty<ICommand> BrowseCommandProperty =
         AvaloniaProperty.Register<FileChooser, ICommand>("BrowseCommand");
+
     public static StyledProperty<string> FilenameProperty =
         AvaloniaProperty.Register<FileChooser, string>("Filename");
+
     public static StyledProperty<string> FilterProperty =
         AvaloniaProperty.Register<FileChooser, string>("Filter");
+
     public static StyledProperty<string> WatermarkProperty =
         AvaloniaProperty.Register<FileChooser, string>("Watermark");
 
@@ -50,12 +53,9 @@ public class FileChooser : TemplatedControl
 
     private async void ShowOpenFileDialog(object obj)
     {
-        var ofd = new OpenFileDialog
-        {
-            Title = "Load File"
-        };
+        var ofd = new OpenFileDialog {Title = "Load File"};
 
-        var window = App.Current.ApplicationLifetime as ClassicDesktopStyleApplicationLifetime;
+        var window = Application.Current.ApplicationLifetime as ClassicDesktopStyleApplicationLifetime;
         var filenames = await ofd.ShowAsync(window.MainWindow);
 
         if (filenames is not null && filenames.Length > 0) //Not null aber Empty?

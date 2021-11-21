@@ -5,6 +5,7 @@ using System.Timers;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Interactivity;
 using Avalonia.Threading;
 
 namespace Slithin.Controls;
@@ -15,7 +16,8 @@ public class GalleryControl : ItemsControl
         AvaloniaProperty.Register<GalleryControl, bool>(nameof(AreButtonsVisible), true);
 
     public static StyledProperty<ObservableCollection<Indicator>> IndicatorsProperty =
-        AvaloniaProperty.Register<GalleryControl, ObservableCollection<Indicator>>(nameof(Indicators), new());
+        AvaloniaProperty.Register<GalleryControl, ObservableCollection<Indicator>>(nameof(Indicators),
+            new ObservableCollection<Indicator>());
 
     public bool AreButtonsVisible
     {
@@ -31,57 +33,66 @@ public class GalleryControl : ItemsControl
 
     protected override void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        Indicators.Add(new());
+        Indicators.Add(new Indicator());
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
-        var part_left = e.NameScope.Find<Button>("PART_LEFT");
-        var part_carousel = e.NameScope.Find<Carousel>("PART_CAROUSEL");
-        var part_right = e.NameScope.Find<Button>("PART_RIGHT");
+        var partLeft = e.NameScope.Find<Button>("PART_LEFT");
+        var partCarousel = e.NameScope.Find<Carousel>("PART_CAROUSEL");
+        var partRight = e.NameScope.Find<Button>("PART_RIGHT");
 
-        var timer = new Timer(); //Disposing?!
-        timer.Elapsed += async (s, e) =>
+        var timer = new Timer();
+
+        async void OnTimerOnElapsed(object s, ElapsedEventArgs e)
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                if (part_carousel.SelectedIndex < part_carousel.ItemCount - 1)
+                if (partCarousel.SelectedIndex < partCarousel.ItemCount - 1)
                 {
-                    part_carousel.SelectedIndex++;
+                    partCarousel.SelectedIndex++;
                 }
                 else
                 {
                     timer.Stop();
+                    timer.Dispose();
                 }
 
-                part_right.IsEnabled = part_carousel.SelectedIndex < part_carousel.ItemCount - 1;
-                part_left.IsEnabled = true;
+                partRight.IsEnabled = partCarousel.SelectedIndex < partCarousel.ItemCount - 1;
+                partLeft.IsEnabled = true;
             });
-        };
+        }
+
+        timer.Elapsed += OnTimerOnElapsed;
         timer.Interval = TimeSpan.FromSeconds(5).TotalMilliseconds;
 
-        part_left.Click += (s, e) =>
+        void OnPartLeftOnClick(object o, RoutedEventArgs routedEventArgs)
         {
-            if (part_carousel.SelectedIndex != 0)
+            if (partCarousel.SelectedIndex != 0)
             {
-                part_carousel.SelectedIndex--;
+                partCarousel.SelectedIndex--;
             }
 
-            part_left.IsEnabled = part_carousel.SelectedIndex > 0;
-            part_right.IsEnabled = true;
-        };
-        part_right.Click += (s, e) =>
+            partLeft.IsEnabled = partCarousel.SelectedIndex > 0;
+            partRight.IsEnabled = true;
+        }
+
+        partLeft.Click += OnPartLeftOnClick;
+
+        void OnPartRightOnClick(object o, RoutedEventArgs routedEventArgs)
         {
-            if (part_carousel.SelectedIndex < part_carousel.ItemCount - 1)
+            if (partCarousel.SelectedIndex < partCarousel.ItemCount - 1)
             {
-                part_carousel.SelectedIndex++;
+                partCarousel.SelectedIndex++;
             }
 
-            part_right.IsEnabled = part_carousel.SelectedIndex < part_carousel.ItemCount - 1;
-            part_left.IsEnabled = true;
-        };
+            partRight.IsEnabled = partCarousel.SelectedIndex < partCarousel.ItemCount - 1;
+            partLeft.IsEnabled = true;
+        }
+
+        partRight.Click += OnPartRightOnClick;
 
         timer.Start();
     }

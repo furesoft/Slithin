@@ -9,15 +9,13 @@ namespace Slithin.Core.Remarkable.Cloud;
 
 public class Storage
 {
-    private readonly Api _api;
     private readonly string _storageUri;
     private readonly string _token;
 
     public Storage(Api api)
     {
-        _api = api;
-        _storageUri = _api.GetStorageUrl();
-        _token = _api.RefreshToken();
+        _storageUri = api.GetStorageUrl();
+        _token = api.RefreshToken();
     }
 
     public void Delete(Metadata md)

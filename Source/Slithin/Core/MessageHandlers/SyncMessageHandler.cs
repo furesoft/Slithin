@@ -41,18 +41,20 @@ public class SyncMessageHandler : IMessageHandler<SyncMessage>
                 case SyncType.Template:
                     if (message.Item.Action == SyncAction.Add)
                     {
-                        _device.Add((Template)message.Item.Data);
+                        _device.AddTemplate((Template)message.Item.Data);
                     }
                     else if (message.Item.Action == SyncAction.Remove)
                     {
-                        _device.Remove((Template)message.Item.Data);
+                        _device.RemoveTemplate((Template)message.Item.Data);
                     }
+
                     break;
 
                 case SyncType.TemplateConfig:
                     var templatesDir = _pathManager.TemplatesDir;
 
-                    _scp.Upload(new FileInfo(Path.Combine(templatesDir, "templates.json")), PathList.Templates + "/templates.json");
+                    _scp.Upload(new FileInfo(Path.Combine(templatesDir, "templates.json")),
+                        PathList.Templates + "/templates.json");
                     break;
 
                 case SyncType.Notebook:
@@ -66,7 +68,8 @@ public class SyncMessageHandler : IMessageHandler<SyncMessage>
                         {
                             NotificationService.Show("Updating " + md.VisibleName);
 
-                            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")), PathList.Documents + "/" + md.ID + ".metadata");
+                            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
+                                PathList.Documents + "/" + md.ID + ".metadata");
                         }
                     }
                     else if (message.Item.Action == SyncAction.Add)
@@ -75,12 +78,16 @@ public class SyncMessageHandler : IMessageHandler<SyncMessage>
                         {
                             NotificationService.Show("Uploading " + md.VisibleName);
 
-                            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")), PathList.Documents + "/" + md.ID + ".metadata");
+                            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
+                                PathList.Documents + "/" + md.ID + ".metadata");
 
-                            if (md.Type == "DocumentType" && (md.Content.FileType == "pdf" || md.Content.FileType == "epub"))
+                            if (md.Type == "DocumentType" &&
+                                (md.Content.FileType == "pdf" || md.Content.FileType == "epub"))
                             {
-                                _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)), PathList.Documents + "/" + md.ID + "." + md.Content.FileType);
-                                _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")), PathList.Documents + "/" + md.ID + ".content");
+                                _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)),
+                                    PathList.Documents + "/" + md.ID + "." + md.Content.FileType);
+                                _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
+                                    PathList.Documents + "/" + md.ID + ".content");
                             }
                         }
                     }
@@ -92,8 +99,10 @@ public class SyncMessageHandler : IMessageHandler<SyncMessage>
                     {
                         NotificationService.Show("Uploading Screen" + cs.Title);
 
-                        _scp.Upload(new FileInfo(Path.Combine(customscreensDir, cs.Filename)), PathList.Screens + cs.Filename);
+                        _scp.Upload(new FileInfo(Path.Combine(customscreensDir, cs.Filename)),
+                            PathList.Screens + cs.Filename);
                     }
+
                     break;
             }
         }
