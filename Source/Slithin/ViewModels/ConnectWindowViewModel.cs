@@ -67,6 +67,8 @@ public class ConnectionWindowViewModel : BaseViewModel
 
     private void Connect(object obj)
     {
+        ServiceLocator.Container.Resolve<LogInitalizer>().Init();
+
         var validationResult = _validator.Validate(SelectedLogin);
 
         if (!validationResult.IsValid)
