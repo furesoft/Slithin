@@ -8,20 +8,17 @@ public class AllocatorImplementation
     [WasmExport("malloc")]
     public static int Allocate(int size)
     {
-        return new Pointer(0);
+        return Allocator.Allocate(size);
     }
 
     [WasmExport("free")]
     public static void Free(int addr)
     {
-        var ptr = new Pointer(addr);
+        Allocator.Free(addr);
     }
 
     public static Pointer AllocateString(int length)
     {
-        //allocate normal memory
-        //register address for automatic scope freeing
-        //length is with null termination
-        return 0;
+        return Allocator.AllocateString(length);
     }
 }
