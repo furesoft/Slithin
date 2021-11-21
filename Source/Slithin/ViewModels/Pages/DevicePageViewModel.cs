@@ -95,7 +95,7 @@ public class DevicePageViewModel : BaseViewModel
             return;
         }
 
-        _moduleEvents.Invoke("newVersionAvailable");
+        _moduleEvents.Invoke("newVersionAvailable", _versionService.GetDeviceVersion());
         _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
 
         _loginService.UpdateIPAfterUpdate();

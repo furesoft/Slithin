@@ -93,6 +93,7 @@
    
    <ItemGroup>
      <ProjectReference Include="..\Slithin.ActionCompiler\Slithin.ActionCompiler.csproj" />
+     <ProjectReference Include="..\Slithin.ModuleSystem.StdLib\Slithin.ModuleSystem.StdLib.csproj" />
      <ProjectReference Include="..\Slithin.ModuleSystem\Slithin.ModuleSystem.csproj" />
    </ItemGroup>
 </Project>

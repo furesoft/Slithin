@@ -118,7 +118,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
             automation.Init();
 
-            _moduleEvents.Invoke("connect");
+            _moduleEvents.Invoke("connect", 0);
 
             var pingTimer = new Timer();
             pingTimer.Elapsed += pingTimer_ellapsed;
