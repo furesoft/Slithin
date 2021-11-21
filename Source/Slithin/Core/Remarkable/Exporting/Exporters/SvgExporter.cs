@@ -16,7 +16,14 @@ public class SvgExporter : IExportProvider
     public bool Export(ExportOptions options, Metadata metadata, string outputPath)
     {
         if (!options.Document.IsT1)
+        {
             return false;
+        }
+
+        if (!Directory.Exists(outputPath))
+        {
+            Directory.CreateDirectory(outputPath);
+        }
 
         var notebook = options.Document.AsT1;
 
@@ -25,7 +32,7 @@ public class SvgExporter : IExportProvider
             var page = notebook.Pages[options.PagesIndices[i]];
 
             var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
-            var outputStrm = File.OpenWrite(Path.Combine(outputPath, i + ".svg"));
+            var outputStrm = File.Create(Path.Combine(outputPath, i + ".svg"));
 
             svgStrm.CopyTo(outputStrm);
 

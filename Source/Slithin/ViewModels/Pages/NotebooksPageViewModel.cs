@@ -23,7 +23,7 @@ public class NotebooksPageViewModel : BaseViewModel
         _synchronisationService = ServiceLocator.SyncService;
         ExportCommand = ServiceLocator.Container.Resolve<ExportCommand>();
 
-        MakeFolderCommand = new DelegateCommand(async (_) =>
+        MakeFolderCommand = new DelegateCommand(async _ =>
         {
             var name = await DialogService.ShowPrompt("Make Folder", "Foldername");
             MakeFolder(name);
@@ -31,16 +31,18 @@ public class NotebooksPageViewModel : BaseViewModel
 
         RenameCommand = new DelegateCommand(async _ =>
         {
-            var name = await DialogService.ShowPrompt("Rename " + ((Metadata)_).VisibleName, "Name", ((Metadata)_).VisibleName);
-            Rename(((Metadata)_), name);
+            var name = await DialogService.ShowPrompt("Rename ", "Name", ((Metadata)_).VisibleName);
+            Rename((Metadata)_, name);
         }, _ => _ != null && _ is Metadata md && md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
 
         RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
         MoveCommand = new DelegateCommand(_ =>
-        {
-            IsMoving = true;
-            _movingNotebook = SelectedNotebook;
-        }, (_) => _ != null && _ is Metadata md && SelectedNotebook != null && !IsMoving && md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
+            {
+                IsMoving = true;
+                _movingNotebook = SelectedNotebook;
+            },
+            _ => _ != null && _ is Metadata md && SelectedNotebook != null && !IsMoving &&
+                 md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
 
         MoveCancelCommand = new DelegateCommand(_ =>
         {
@@ -68,7 +70,7 @@ public class NotebooksPageViewModel : BaseViewModel
                 SyncService.NotebooksFilter.Documents.Add(md);
             }
 
-            SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
+            SyncService.NotebooksFilter.Documents.Add(new Metadata {Type = "CollectionType", VisibleName = "Up .."});
 
             SyncService.NotebooksFilter.SortByFolder();
         });
@@ -131,6 +133,7 @@ public class NotebooksPageViewModel : BaseViewModel
             DialogService.OpenError($"'{md.VisibleName}' already exists");
             return;
         }
+
         md.Save();
 
         _synchronisationService.NotebooksFilter.Documents.Add(md);
@@ -138,10 +141,7 @@ public class NotebooksPageViewModel : BaseViewModel
 
         var syncItem = new SyncItem
         {
-            Action = SyncAction.Add,
-            Data = md,
-            Direction = SyncDirection.ToDevice,
-            Type = SyncType.Notebook
+            Action = SyncAction.Add, Data = md, Direction = SyncDirection.ToDevice, Type = SyncType.Notebook
         };
 
         _synchronisationService.AddToSyncQueue(syncItem);
@@ -157,16 +157,15 @@ public class NotebooksPageViewModel : BaseViewModel
         MetadataStorage.Local.Add(md, out var alreadyAdded);
 
         if (alreadyAdded)
+        {
             return;
+        }
 
         md.Save();
 
         var syncItem = new SyncItem
         {
-            Action = SyncAction.Update,
-            Data = md,
-            Direction = SyncDirection.ToDevice,
-            Type = SyncType.Notebook
+            Action = SyncAction.Update, Data = md, Direction = SyncDirection.ToDevice, Type = SyncType.Notebook
         };
 
         _synchronisationService.AddToSyncQueue(syncItem);
