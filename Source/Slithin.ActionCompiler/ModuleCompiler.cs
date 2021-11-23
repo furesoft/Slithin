@@ -7,6 +7,7 @@ using MessagePack;
 using Newtonsoft.Json;
 using Slithin.ActionCompiler.Compiling;
 using Slithin.ActionCompiler.Compiling.Passes;
+using Slithin.Core;
 using Slithin.ModuleSystem;
 using WebAssembly;
 using WebAssembly.Instructions;
@@ -41,10 +42,10 @@ public class ModuleCompiler
 
         m.Types.Add(new WebAssemblyType
         {
-            Parameters = new List<WebAssemblyValueType> {WebAssemblyValueType.Int32, WebAssemblyValueType.Int32}
+            Parameters = new List<WebAssemblyValueType> {WebAssemblyValueType.Int32}
         });
 
-        m.Imports.Add(new Import.Function("conversions", "intToString", 1));
+        m.Imports.Add(new Import.Function("notification", "show", 1));
 
         m.Functions.Add(new Function(0));
         m.Functions.Add(new Function(0));
@@ -57,8 +58,7 @@ public class ModuleCompiler
         var exprBody = ExpressionEmitter.Emit(tree.GetChildren<Expression>().First(), null);
         exprBody.Clear();
 
-        exprBody.Add(new Int32Constant(42));
-        exprBody.Add(new Int32Constant(125));
+        exprBody.Add(new Int32Constant(10));
 
         exprBody.Add(new Call(0));
 
@@ -74,6 +74,8 @@ public class ModuleCompiler
         m.Globals.Add(new Global(WebAssemblyValueType.Int32)
             {IsMutable = false, InitializerExpression = new List<Instruction> {new Int32Constant(1024), new End()}});
         m.Exports.Add(new Export("_heap_base", 0, ExternalKind.Global));
+
+        m.AddData(10, "Give me your name");
 
         return m;
     }

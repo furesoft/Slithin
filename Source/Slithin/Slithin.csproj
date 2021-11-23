@@ -40,6 +40,7 @@
      <AvaloniaResource Include="Resources\**" />
      <EmbeddedResource Include="Resources\IconTiles\**" />
      <EmbeddedResource Include="Resources\Covers\**" />
+     <EmbeddedResource Remove="Slithin.ModuleSystem.Memory\**" />
    </ItemGroup>
 
   <PropertyGroup>
@@ -71,6 +72,7 @@
      <None Remove="Resources\folder.png" />
      <None Remove="Resources\pdf.png" />
      <None Remove="Resources\restore.png" />
+     <None Remove="Slithin.ModuleSystem.Memory\**" />
    </ItemGroup>
 
    <ItemGroup>
@@ -80,6 +82,7 @@
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>
+     <Compile Remove="Slithin.ModuleSystem.Memory\**" />
    </ItemGroup>
    
    <ItemGroup>
@@ -96,5 +99,9 @@
      <ProjectReference Include="..\Slithin.ModuleSystem.Memory\Slithin.ModuleSystem.Memory.csproj" />
      <ProjectReference Include="..\Slithin.ModuleSystem.StdLib\Slithin.ModuleSystem.StdLib.csproj" />
      <ProjectReference Include="..\Slithin.ModuleSystem\Slithin.ModuleSystem.csproj" />
+   </ItemGroup>
+   
+   <ItemGroup>
+     <AvaloniaXaml Remove="Slithin.ModuleSystem.Memory\**" />
    </ItemGroup>
 </Project>

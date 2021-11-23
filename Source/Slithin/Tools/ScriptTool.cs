@@ -10,6 +10,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Core.Scripting;
+using Slithin.Core.WasmInterface;
 using Slithin.ModuleSystem;
 using Slithin.ModuleSystem.StdLib;
 using WebAssembly;
@@ -85,7 +86,8 @@ public class ScriptTool : ITool
 
         ModuleImporter.Import(typeof(ConversionsImplementation), imports);
         ModuleImporter.Import(typeof(StringImplementation), imports);
-        
+        ModuleImporter.Import(typeof(NotificationImplementation), imports);
+
         ModuleImporter.Import(typeof(ModuleSystem.StdLib.Core), imports);
 
         instance = ActionModule.Compile(_module, imports);
