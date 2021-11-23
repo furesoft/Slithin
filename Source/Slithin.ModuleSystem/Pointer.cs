@@ -77,4 +77,21 @@ public struct Pointer
     {
         return Util.FromUtf8(new IntPtr(Base), strlen);
     }
+
+    public string ReadString()
+    {
+        var length = StrLength(Base);
+
+        return ReadString(length);
+    }
+
+    private static int StrLength(int ptrAddress)
+    {
+        var ptr = new Pointer(ptrAddress);
+
+        var len = 0;
+        while (ptr[len] != 0) len++;
+
+        return len;
+    }
 }
