@@ -14,14 +14,14 @@ public static class WasmExtensions
         {
             Index = 0,
             InitializerExpression = new List<Instruction> {new Int32Constant(index), new End()},
-            RawData = raw
+            RawData = raw.ToList()
         });
     }
 
     public static void AddData(this Module m, int index, string value)
     {
         var raw = Util.ToUtf8(value);
-        raw = raw.Append((byte)0).ToArray();
+        //raw = raw.Append((byte) 0).ToArray();
 
         AddData(m, index, raw);
     }

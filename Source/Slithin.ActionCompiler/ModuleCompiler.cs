@@ -15,7 +15,7 @@ using Block = Furesoft.Core.CodeDom.CodeDOM.Base.Block;
 
 namespace Slithin.ActionCompiler;
 
-public class ModuleCompiler
+public static class ModuleCompiler
 {
     public static Module Compile(string scriptFilename, string infoFilename, string uiFilename = null,
         string imageFilename = null)
@@ -38,7 +38,7 @@ public class ModuleCompiler
 
         m.Types.Add(new WebAssemblyType());
 
-        m.Imports.Add(new Import.Memory("env", "memory", new Memory(1, 25)));
+        m.Imports.Add(new Import.Memory("env", "memory", new Memory(1, 3)));
 
         m.Types.Add(new WebAssemblyType
         {
@@ -58,7 +58,7 @@ public class ModuleCompiler
         var exprBody = ExpressionEmitter.Emit(tree.GetChildren<Expression>().First(), null);
         exprBody.Clear();
 
-        exprBody.Add(new Int32Constant(10));
+        exprBody.Add(new Int32Constant(1024));
 
         exprBody.Add(new Call(0));
 
@@ -68,6 +68,8 @@ public class ModuleCompiler
 
         m.Codes.Add(new FunctionBody(new End()));
 
+        m.AddData(1024, "Give me your name");
+
         m.Exports.Add(new Export("_start", 1));
         m.Exports.Add(new Export("OnConnect", 2));
 
@@ -75,12 +77,7 @@ public class ModuleCompiler
             {IsMutable = false, InitializerExpression = new List<Instruction> {new Int32Constant(1024), new End()}});
         m.Exports.Add(new Export("_heap_base", 0, ExternalKind.Global));
 
-        m.AddData(10, "Give me your name");
 
         return m;
     }
 }
-
-//ScriptInfo als data hinzufügen
-//falls ui-xaml vorhanden, laden und als serialized in custom section speichern
-//compilation des scripts mit start funktion in module
