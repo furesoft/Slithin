@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using NUnit.Framework;
@@ -25,17 +26,21 @@ public static class ModuleTest
     [Test]
     public static void Invoke()
     {
-        var m = Module.ReadFromBinary("../main.wasm");
+        var m = Module.ReadFromBinary("../testScript.wasm");
         var r = m.Compile<dynamic>();
         var rr = r(new ImportDictionary
         {
-            ["js"] = new Dictionary<string, RuntimeImport>
+            ["env"] = new Dictionary<string, RuntimeImport>
             {
-                ["mem"] = new MemoryImport(() => new UnmanagedMemory(1, 2))
+                ["memory"] = new MemoryImport(() => new UnmanagedMemory(1, 2))
+            },
+            ["notification"] = new Dictionary<string, RuntimeImport>
+            {
+                ["show"] = new FunctionImport((int a) => Console.Write(a))
             }
         });
 
-        //rr.Exports._start();
+        rr.Exports._start();
     }
 
     [Test]
