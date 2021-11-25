@@ -39,6 +39,7 @@ public static class ModuleCompiler
         m.Types.Add(new WebAssemblyType());
 
         m.Imports.Add(new Import.Memory("env", "memory", new Memory(1, 3)));
+        m.AddData(0, "Give me your name");
 
         m.Types.Add(new WebAssemblyType
         {
@@ -68,7 +69,6 @@ public static class ModuleCompiler
 
         m.Codes.Add(new FunctionBody(new End()));
 
-        m.AddData(1024, "Give me your name");
 
         m.Exports.Add(new Export("_start", 1));
         m.Exports.Add(new Export("OnConnect", 2));

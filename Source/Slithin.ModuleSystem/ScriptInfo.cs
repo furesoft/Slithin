@@ -12,6 +12,7 @@ public class ScriptInfo
     [Key(0)] public string Id { get; set; }
 
     [Key(3)] public bool IsAutomatable { get; set; }
+    [Key(5)] public bool IsListed { get; set; }
 
     [Key(1)] public string Name { get; set; }
 }

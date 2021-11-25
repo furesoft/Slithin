@@ -29,7 +29,6 @@ public class ToolInvoker
         {
             var info = ActionModule.GetScriptInfo(tool);
 
-
             var scriptTool = new ScriptTool(info, tool);
             scriptTool.Init();
 

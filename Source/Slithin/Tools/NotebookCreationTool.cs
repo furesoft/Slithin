@@ -22,11 +22,11 @@ public class NotebookCreationTool : ITool
         {
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/pdf.png")));
+            return new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/pdf.png")));
         }
     }
 
-    public ScriptInfo Info => new("pdf_creator", "Notebook Creator", "PDF", "Build PDF Notebooks", true);
+    public ScriptInfo Info => new("pdf_creator", "Notebook Creator", "PDF", "Build PDF Notebooks", true, true);
 
     public bool IsConfigurable => false;
 

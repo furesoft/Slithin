@@ -19,35 +19,37 @@ namespace Slithin.Tools;
 [Context(UIContext.Notebook)]
 public class NotebookAppendTool : ITool, IContextProvider
 {
-      
-        
+    public object ParentViewModel { get; set; }
+
+    public bool CanHandle(object obj)
+    {
+        return obj is Metadata md && md.Content.FileType == "pdf";
+    }
+
+    public ICollection<MenuItem> GetMenu(object obj)
+    {
+        var menu = new List<MenuItem>
+        {
+            new() {Header = "Append Pages", Command = new DelegateCommand(_ => { Invoke(obj); })}
+        };
+
+        return menu;
+    }
+
+
     public IImage Image
     {
         get
         {
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-                
-            return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/pdf_append.png")));
+
+            return new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/pdf_append.png")));
         }
     }
 
-    public ScriptInfo Info => new("pdf_append", "Notebook Appendor", "PDF", "Append Pages To PDF", true);
+    public ScriptInfo Info => new("pdf_append", "Notebook Appendor", "PDF", "Append Pages To PDF", true, true);
 
     public bool IsConfigurable => false;
-
-    public object ParentViewModel { get; set; }
-
-    public bool CanHandle(object obj) => obj is Metadata md && md.Content.FileType == "pdf";
-
-    public ICollection<MenuItem> GetMenu(object obj)
-    {
-        var menu = new List<MenuItem>()
-        {
-            new MenuItem{Header = "Append Pages", Command = new DelegateCommand((_) =>{Invoke(obj);})}
-        };
-
-        return menu;
-    }
 
     public Control GetModal()
     {

@@ -55,7 +55,8 @@ public class ScriptTool : ITool
         }
     }
 
-    public Models.ScriptInfo Info => new(_info.Id, _info.Name, _info.Category, _info.Description, false);
+    public Models.ScriptInfo Info =>
+        new(_info.Id, _info.Name, _info.Category, _info.Description, false, _info.IsListed);
 
     public bool IsConfigurable => uiSection != null;
 

@@ -25,17 +25,17 @@ public static class ModuleTest
     [Test]
     public static void Invoke()
     {
-        var m = Module.ReadFromBinary("testScript.wasm");
+        var m = Module.ReadFromBinary("../main.wasm");
         var r = m.Compile<dynamic>();
         var rr = r(new ImportDictionary
         {
-            ["env"] = new Dictionary<string, RuntimeImport>
+            ["js"] = new Dictionary<string, RuntimeImport>
             {
-                ["memory"] = new MemoryImport(() => new UnmanagedMemory(1, 2))
+                ["mem"] = new MemoryImport(() => new UnmanagedMemory(1, 2))
             }
         });
 
-        rr.Exports._start();
+        //rr.Exports._start();
     }
 
     [Test]
