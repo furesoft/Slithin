@@ -28,11 +28,13 @@ public static class ModuleTest
     {
         var m = Module.ReadFromBinary("../testScript.wasm");
         var r = m.Compile<dynamic>();
+
+        var unmanagedMemory = new UnmanagedMemory(1, 2);
         var rr = r(new ImportDictionary
         {
             ["env"] = new Dictionary<string, RuntimeImport>
             {
-                ["memory"] = new MemoryImport(() => new UnmanagedMemory(1, 2))
+                ["memory"] = new MemoryImport(() => { return unmanagedMemory; })
             },
             ["notification"] = new Dictionary<string, RuntimeImport>
             {
