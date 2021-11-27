@@ -14,6 +14,8 @@ public class ScriptInfo
     [Key(3)] public bool IsAutomatable { get; set; }
     [Key(5)] public bool IsListed { get; set; }
 
+    [Key(6)] public bool IsVPL { get; set; }
+
     [Key(1)] public string Name { get; set; }
 }
 
