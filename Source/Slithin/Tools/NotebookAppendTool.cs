@@ -47,7 +47,7 @@ public class NotebookAppendTool : ITool, IContextProvider
         }
     }
 
-    public ScriptInfo Info => new("pdf_append", "Notebook Appendor", "PDF", "Append Pages To PDF", true, true);
+    public ScriptInfo Info => new("pdf_append", "Notebook Appendor", "PDF", "Append Pages To PDF", true, true, false);
 
     public bool IsConfigurable => false;
 

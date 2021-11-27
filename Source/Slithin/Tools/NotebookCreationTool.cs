@@ -26,7 +26,7 @@ public class NotebookCreationTool : ITool
         }
     }
 
-    public ScriptInfo Info => new("pdf_creator", "Notebook Creator", "PDF", "Build PDF Notebooks", true, true);
+    public ScriptInfo Info => new("pdf_creator", "Notebook Creator", "PDF", "Build PDF Notebooks", true, true, false);
 
     public bool IsConfigurable => false;
 

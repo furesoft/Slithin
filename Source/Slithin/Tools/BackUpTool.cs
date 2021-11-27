@@ -34,7 +34,7 @@ public class BackupTool : ITool
         }
     }
 
-    public ScriptInfo Info => new("backup", "Backup", "Internal", "Backup all your files", true, true);
+    public ScriptInfo Info => new("backup", "Backup", "Internal", "Backup all your files", true, true, false);
 
     public bool IsConfigurable => false;
 

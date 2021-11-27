@@ -45,7 +45,7 @@ public class RestoreTool : ITool
         }
     }
 
-    public ScriptInfo Info => new("restore", "Restore", "Internal", "Restore a Backup", false, true);
+    public ScriptInfo Info => new("restore", "Restore", "Internal", "Restore a Backup", false, true, false);
 
     public bool IsConfigurable => false;
 
