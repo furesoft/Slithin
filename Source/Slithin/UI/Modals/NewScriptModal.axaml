@@ -2,19 +2,118 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:m="clr-namespace:NodeEditor.Model;assembly=NodeEditorAvalonia.Model"
+             xmlns:editor="clr-namespace:NodeEditor.Controls;assembly=NodeEditorAvalonia"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions"
+             xmlns:behaviors="clr-namespace:NodeEditor.Behaviors;assembly=NodeEditorAvalonia"
+             xmlns:controls="clr-namespace:Slithin.UI;assembly=Slithin"
+             xmlns:paz="clr-namespace:Avalonia.Controls.PanAndZoom;assembly=Avalonia.Controls.PanAndZoom"
              xmlns:c="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Modals.NewScriptModal">
-    <c:DialogControl Header="New Tool" CommandText="Next" IsCancelEnabled="True" Command="{Binding AddTemplateCommand}"
-                     MinHeight="300" MaxWidth="500">
+    <c:DialogControl Header="New Tool" CommandText="Next" IsCancelEnabled="True" Command="{Binding NextCommand}"
+                     Width="750">
         <Grid>
-            <Carousel>
+            <Carousel SelectedIndex="{Binding Step}">
                 <Grid ColumnDefinitions="*,50,*" RowDefinitions="40,40,45,35,35,36">
                     <TextBox Grid.Column="0" Grid.Row="0" Watermark="Name" Text="{Binding Name}" Margin="0,0,0,7" />
 
                     <ComboBox PlaceholderText="Category"
                               Items="{Binding SyncService.ToolsFilter.Categories, Mode=TwoWay}" Grid.Row="2"
                               SelectedItem="{Binding SelectedCategory}" MinWidth="175" />
+                </Grid>
+                <Grid ColumnDefinitions="200,6,*">
+                    <DockPanel Background="{DynamicResource PanelBackground}" Grid.Column="0">
+                        <ListBox Items="{Binding Templates}"
+                                 Background="Transparent">
+                            <ListBox.Resources>
+                                <behaviors:TemplatesListBoxDropHandler x:Key="TemplatesListBoxDropHandler" />
+                            </ListBox.Resources>
+                            <i:Interaction.Behaviors>
+                                <idd:ContextDropBehavior Handler="{StaticResource TemplatesListBoxDropHandler}" />
+                            </i:Interaction.Behaviors>
+                            <ListBox.Styles>
+                                <Style Selector="ListBox > ListBoxItem">
+                                    <Setter Property="(i:Interaction.Behaviors)">
+                                        <i:BehaviorCollectionTemplate>
+                                            <i:BehaviorCollection>
+                                                <idd:ContextDragBehavior />
+                                            </i:BehaviorCollection>
+                                        </i:BehaviorCollectionTemplate>
+                                    </Setter>
+                                </Style>
+                            </ListBox.Styles>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="m:INodeTemplate">
+                                    <TextBlock Text="{Binding Title}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                    <GridSplitter ResizeDirection="Columns"
+                                  ResizeBehavior="PreviousAndNext"
+                                  Width="6"
+                                  Background="Transparent"
+                                  Grid.Column="1"/>
+                    <Panel Grid.Column="2">
+                        <Panel Background="{DynamicResource EditorBackground}" />
+                        <Panel Background="{DynamicResource EditorCheckerBoard}" />
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      DataContext="{Binding Drawing}">
+                            <controls:NodeZoomBorder Name="ZoomBorder"
+                                                     Stretch="None"
+                                                     ZoomSpeed="1.5"
+                                                     EnableConstrains="False"
+                                                     Background="Transparent"
+                                                     ClipToBounds="True"
+                                                     Focusable="True"
+                                                     VerticalAlignment="Stretch"
+                                                     HorizontalAlignment="Stretch">
+                                <i:Interaction.Behaviors>
+                                    <idd:ContextDropBehavior Context="{Binding FallbackValue={x:Null}}">
+                                        <idd:ContextDropBehavior.Handler>
+                                            <behaviors:DrawingDropHandler RelativeTo="{Binding #Drawing}" />
+                                        </idd:ContextDropBehavior.Handler>
+                                    </idd:ContextDropBehavior>
+                                </i:Interaction.Behaviors>
+                                <editor:DrawingNode Name="Drawing"
+                                                    Background="White">
+                                    <editor:DrawingNode.Transitions>
+                                        <Transitions>
+                                            <paz:TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
+                                        </Transitions>
+                                    </editor:DrawingNode.Transitions>
+                                    <editor:DrawingNode.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuItem Header="_Edit"
+                                                      InputGesture="Ctrl+E"
+                                                      DataContext="{Binding $parent[UserControl].DataContext}"
+                                                      Command="{Binding ToggleEditModeCommand}"
+                                                      >
+                                                <MenuItem.Icon>
+                                                    <CheckBox BorderThickness="0"
+                                                              IsHitTestVisible="False"
+                                                              IsChecked="{Binding IsEditMode, Mode=TwoWay}"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Header="-" />
+                                            <MenuItem Header="Cu_t" Command="{Binding CutCommand}" InputGesture="Ctrl+X" />
+                                            <MenuItem Header="_Copy" Command="{Binding CopyCommand}" InputGesture="Ctrl+C" />
+                                            <MenuItem Header="_Paste" Command="{Binding PasteCommand}" InputGesture="Ctrl+V" />
+                                            <MenuItem Header="D_uplicate" Command="{Binding DuplicateCommand}" InputGesture="Ctrl+D" />
+                                            <MenuItem Header="-" />
+                                            <MenuItem Header="Select _All" Command="{Binding SelectAllCommand, FallbackValue={x:Null}}" InputGesture="Ctrl+A" />
+                                            <MenuItem Header="De_select All" Command="{Binding DeselectAllCommand, FallbackValue={x:Null}}" InputGesture="Escape" />
+                                            <MenuItem Header="-" />
+                                            <MenuItem Header="_Delete" Command="{Binding DeleteCommand}" InputGesture="Delete" />
+                                        </MenuFlyout>
+                                    </editor:DrawingNode.ContextFlyout>
+                                </editor:DrawingNode>
+                            </controls:NodeZoomBorder>
+                        </ScrollViewer>
+                    </Panel>
                 </Grid>
             </Carousel>
         </Grid>

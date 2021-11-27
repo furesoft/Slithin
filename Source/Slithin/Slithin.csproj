@@ -14,6 +14,7 @@
   <ItemGroup>
     <PackageReference Include="Actress" Version="0.2.1" />
     <PackageReference Include="Avalonia" Version="0.10.10" />
+    <PackageReference Include="Avalonia.Controls.PanAndZoom" Version="4.3.0" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.10" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="0.10.10" />
@@ -28,6 +29,7 @@
     <PackageReference Include="NodeEditorAvalonia" Version="0.10.10-beta3" />
     <PackageReference Include="NodeEditorAvalonia.Export" Version="0.10.10-beta3" />
     <PackageReference Include="NodeEditorAvalonia.Model" Version="0.10.10-beta3" />
+    <PackageReference Include="NodeEditorAvalonia.ReactiveUI" Version="0.10.10-beta3" />
     <PackageReference Include="NodeEditorAvalonia.Serializer" Version="0.10.10-beta3" />
     <PackageReference Include="Octokit" Version="0.50.0" />
     <PackageReference Include="OneOf" Version="3.0.203" />
