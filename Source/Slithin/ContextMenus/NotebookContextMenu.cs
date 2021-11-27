@@ -37,7 +37,21 @@ public class NotebookContextMenu : IContextProvider
 #if DEBUG
         menu.Add(new MenuItem
         {
-            Header = "Export As SVG",
+            Header = "Export",
+            Items = new MenuItem[]
+            {
+                new()
+                {
+                    Header = "SVG",
+                    Command = new DelegateCommand(_ =>
+                        ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
+                }
+                /*
+                new(){Header = "PDF", Command = new DelegateCommand(_ =>
+                    ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))},
+                new(){Header = "PNG", Command = new DelegateCommand(_ =>
+                    ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))},*/
+            },
             Command = new DelegateCommand(_ =>
                 ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
         });
