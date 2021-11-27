@@ -2,17 +2,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-              xmlns:c="using:Slithin.Controls"
+             xmlns:c="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Modals.NewScriptModal">
-    <c:DialogControl Header="New Tool" CommandText="Next" IsCancelEnabled="True" Command="{Binding AddTemplateCommand}" MinHeight="300" MaxWidth="500">
+    <c:DialogControl Header="New Tool" CommandText="Next" IsCancelEnabled="True" Command="{Binding AddTemplateCommand}"
+                     MinHeight="300" MaxWidth="500">
         <Grid>
             <Carousel>
                 <Grid ColumnDefinitions="*,50,*" RowDefinitions="40,40,45,35,35,36">
                     <TextBox Grid.Column="0" Grid.Row="0" Watermark="Name" Text="{Binding Name}" Margin="0,0,0,7" />
-                    <c:FileChooser Grid.Column="0" Grid.Row="1" Filename="{Binding Filename, Mode=TwoWay}" Watermark="Image" />
 
-                    <ComboBox PlaceholderText="Category" Items="{Binding SyncService.ToolsFilter.Categories, Mode=TwoWay}" Grid.Row="2" SelectedItem="{Binding SyncService.ToolsFilter.SelectedCategory}" MinWidth="175" />
+                    <ComboBox PlaceholderText="Category"
+                              Items="{Binding SyncService.ToolsFilter.Categories, Mode=TwoWay}" Grid.Row="2"
+                              SelectedItem="{Binding SelectedCategory}" MinWidth="175" />
                 </Grid>
             </Carousel>
         </Grid>
