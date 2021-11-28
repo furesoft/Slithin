@@ -24,6 +24,8 @@ public static class ModuleCompiler
 
         //serialize scriptinfo into data segment
         var info = JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(infoFilename));
+        info.IsListed = true;
+
         var infoBytes = MessagePackSerializer.Serialize(info);
 
         m.CustomSections.Add(new CustomSection {Name = ".info", Content = new List<byte>(infoBytes)});
@@ -39,14 +41,20 @@ public static class ModuleCompiler
         m.Types.Add(new WebAssemblyType());
 
         m.Imports.Add(new Import.Memory("env", "memory", new Memory(1, 3)));
-        m.AddData(0, "Give me your name");
+        m.AddData(1024, "Give me your name");
 
         m.Types.Add(new WebAssemblyType
         {
             Parameters = new List<WebAssemblyValueType> {WebAssemblyValueType.Int32}
         });
+        m.Types.Add(new WebAssemblyType
+        {
+            Parameters = new List<WebAssemblyValueType> {WebAssemblyValueType.Int32},
+            Returns = new List<WebAssemblyValueType>() {WebAssemblyValueType.Int32 }
+        });
 
         m.Imports.Add(new Import.Function("notification", "show", 1));
+        m.Imports.Add(new Import.Function("notification", "prompt", 2));
 
         m.Functions.Add(new Function(0));
         m.Functions.Add(new Function(0));
@@ -61,13 +69,14 @@ public static class ModuleCompiler
 
         exprBody.Add(new Int32Constant(1024));
 
+        exprBody.Add(new Call(1));
         exprBody.Add(new Call(0));
 
         exprBody.Add(new End());
 
         m.Codes.Add(new FunctionBody(exprBody.ToArray()));
 
-        m.Codes.Add(new FunctionBody(new End()));
+        m.Codes.Add(new FunctionBody(exprBody.ToArray()));
 
 
         m.Exports.Add(new Export("_start", 1));

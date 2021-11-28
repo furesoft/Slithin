@@ -75,7 +75,7 @@ public struct Pointer
 
     public string ReadString(int strlen)
     {
-        return Util.FromUtf8(new IntPtr(Base), strlen);
+        return Util.FromUtf8(WasmMemory.Mem + Base, strlen);
     }
 
     public string ReadString()
