@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Slithin.Controls;
@@ -15,7 +16,7 @@ public class ToolsPageViewModel : BaseViewModel
 
     public ToolsPageViewModel(ToolInvoker invoker)
     {
-        ConfigurateScriptCommand = new DelegateCommand(_ => DialogService.Open(SelectedScript.GetModal()),
+        ConfigurateScriptCommand = new DelegateCommand(ShowConfigModal,
             _ => _ is ITool tool && tool.IsConfigurable);
         NewScriptCommand =
             new DelegateCommand(_ => DialogService.Open(new NewScriptModal(), new NewScriptModalViewModel()));
@@ -26,6 +27,22 @@ public class ToolsPageViewModel : BaseViewModel
         }, _ => _ is not null);
 
         _invoker = invoker;
+    }
+
+    private static void ShowConfigModal(object _)
+    {
+        var tool = ((ITool)_);
+        var content = tool.GetModal();
+
+        var dc = new DialogControl();
+        dc.Header = "Config " + tool.Info.Name;
+        dc.Content = content;
+        dc.IsCancelEnabled = true;
+        dc.CommandText = "OK";
+        dc.MinHeight = 300;
+        dc.MaxWidth = 500;
+
+        DialogService.Open(dc);
     }
 
     public ICommand ConfigurateScriptCommand { get; set; }

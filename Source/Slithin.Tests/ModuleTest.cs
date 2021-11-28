@@ -17,7 +17,7 @@ public static class ModuleTest
     [Test]
     public static void Compile()
     {
-        var m = ModuleCompiler.Compile("testScript", "testScript.info");
+        var m = ModuleCompiler.Compile("testScript", "testScript.info", "testScript.ui");
 
         using var fileStream = File.Create("../testScript.wasm");
         m.WriteToBinary(fileStream);
