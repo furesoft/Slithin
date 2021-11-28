@@ -25,7 +25,7 @@ public class NotificationImplementation
         var header = Utils.StringFromPtr(headerAddress);
 
         var result = DialogService.ShowPrompt(header, null).Result;
-        var resultPtr = (Pointer)Allocator.Allocate(result.Length + 1);
+        var resultPtr = (Pointer)0;//ToDo: need to be allocated
         resultPtr.Write(result);
 
         return resultPtr;

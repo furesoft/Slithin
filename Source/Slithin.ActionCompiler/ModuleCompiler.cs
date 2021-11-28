@@ -79,7 +79,7 @@ public static class ModuleCompiler
         m.Codes.Add(new FunctionBody(exprBody.ToArray()));
 
 
-        m.Exports.Add(new Export("_start", 1));
+        m.Exports.Add(new Export("_start", 3));
         m.Exports.Add(new Export("OnConnect", 2));
 
         m.Globals.Add(new Global(WebAssemblyValueType.Int32)

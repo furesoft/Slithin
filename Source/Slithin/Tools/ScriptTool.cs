@@ -10,6 +10,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Core.Scripting;
+using Slithin.Core.Services;
 using Slithin.Core.WasmInterface;
 using Slithin.ModuleSystem;
 using Slithin.ModuleSystem.StdLib;
@@ -75,7 +76,12 @@ public class ScriptTool : ITool
     public void Invoke(object data)
     {
         // var mem = instance.memory;
-        instance._start();
+        var _mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
+
+        _mailboxService.PostAction(() =>
+        {
+            instance._start();
+        });
 
         ActionModule.RunExports(instance);
     }

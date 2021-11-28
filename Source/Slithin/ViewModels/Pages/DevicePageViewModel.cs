@@ -75,10 +75,6 @@ public class DevicePageViewModel : BaseViewModel
             NotificationService.Show("Loading Tools");
 
             _loadingService.LoadTools();
-
-            ModuleEventStorage.Invoke("OnConnect", 0);
-
-            NotificationService.Hide();
         });
 
         InitIsBeta();
@@ -86,6 +82,11 @@ public class DevicePageViewModel : BaseViewModel
         Version = _versionService.GetDeviceVersion().ToString();
 
         await DoAfterDeviceUpdate();
+
+        _mailboxService.PostAction(() =>
+        {
+            ModuleEventStorage.Invoke("OnConnect", 0);
+        });
     }
 
     private async Task DoAfterDeviceUpdate()
