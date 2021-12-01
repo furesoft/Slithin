@@ -8,10 +8,22 @@
              xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions"
              xmlns:behaviors="clr-namespace:NodeEditor.Behaviors;assembly=NodeEditorAvalonia"
              xmlns:controls="clr-namespace:Slithin.UI;assembly=Slithin"
+             xmlns:local="using:Slithin.UI"
              xmlns:paz="clr-namespace:Avalonia.Controls.PanAndZoom;assembly=Avalonia.Controls.PanAndZoom"
-             xmlns:c="using:Slithin.Controls"
+             xmlns:c="using:Slithin.Controls" editor:DrawingNode.IsEditMode="True"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Modals.NewScriptModal">
+    <UserControl.KeyBindings>
+        <KeyBinding Command="{Binding SaveCommand}" Gesture="Ctrl+S"  />
+        <KeyBinding Command="{Binding Drawing.CutCommand, FallbackValue={x:Null}}" Gesture="Ctrl+X"  />
+        <KeyBinding Command="{Binding Drawing.CopyCommand, FallbackValue={x:Null}}" Gesture="Ctrl+C"  />
+        <KeyBinding Command="{Binding Drawing.PasteCommand, FallbackValue={x:Null}}" Gesture="Ctrl+V"  />
+        <KeyBinding Command="{Binding Drawing.DuplicateCommand, FallbackValue={x:Null}}" Gesture="Ctrl+D"  />
+        <KeyBinding Command="{Binding Drawing.DeleteCommand, FallbackValue={x:Null}}" Gesture="Delete"  />
+        <KeyBinding Command="{Binding Drawing.SelectAllCommand, FallbackValue={x:Null}}" Gesture="Ctrl+A"  />
+        <KeyBinding Command="{Binding Drawing.DeselectAllCommand, FallbackValue={x:Null}}" Gesture="Escape"  />
+    </UserControl.KeyBindings>
+    
     <c:DialogControl Header="New Tool" CommandText="Next" IsCancelEnabled="True" Command="{Binding NextCommand}"
                      Width="750">
         <Grid>
@@ -45,9 +57,7 @@
                                 </Style>
                             </ListBox.Styles>
                             <ListBox.ItemTemplate>
-                                <DataTemplate DataType="m:INodeTemplate">
-                                    <TextBlock Text="{Binding Title}" />
-                                </DataTemplate>
+                                <local:NodeTemplateDataTemplate />
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </DockPanel>
@@ -55,7 +65,7 @@
                                   ResizeBehavior="PreviousAndNext"
                                   Width="6"
                                   Background="Transparent"
-                                  Grid.Column="1"/>
+                                  Grid.Column="1" />
                     <Panel Grid.Column="2">
                         <Panel Background="{DynamicResource EditorBackground}" />
                         <Panel Background="{DynamicResource EditorCheckerBoard}" />
@@ -82,7 +92,8 @@
                                                     Background="White">
                                     <editor:DrawingNode.Transitions>
                                         <Transitions>
-                                            <paz:TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
+                                            <paz:TransformOperationsTransition Property="RenderTransform"
+                                                                               Duration="0:0:0.1" />
                                         </Transitions>
                                     </editor:DrawingNode.Transitions>
                                     <editor:DrawingNode.ContextFlyout>
@@ -90,24 +101,32 @@
                                             <MenuItem Header="_Edit"
                                                       InputGesture="Ctrl+E"
                                                       DataContext="{Binding $parent[UserControl].DataContext}"
-                                                      Command="{Binding ToggleEditModeCommand}"
-                                                      >
+                                                      Command="{Binding ToggleEditModeCommand}">
                                                 <MenuItem.Icon>
                                                     <CheckBox BorderThickness="0"
                                                               IsHitTestVisible="False"
-                                                              IsChecked="{Binding IsEditMode, Mode=TwoWay}"/>
+                                                              IsChecked="{Binding IsEditMode, Mode=TwoWay}" />
                                                 </MenuItem.Icon>
                                             </MenuItem>
                                             <MenuItem Header="-" />
-                                            <MenuItem Header="Cu_t" Command="{Binding CutCommand}" InputGesture="Ctrl+X" />
-                                            <MenuItem Header="_Copy" Command="{Binding CopyCommand}" InputGesture="Ctrl+C" />
-                                            <MenuItem Header="_Paste" Command="{Binding PasteCommand}" InputGesture="Ctrl+V" />
-                                            <MenuItem Header="D_uplicate" Command="{Binding DuplicateCommand}" InputGesture="Ctrl+D" />
+                                            <MenuItem Header="Cu_t" Command="{Binding CutCommand}"
+                                                      InputGesture="Ctrl+X" />
+                                            <MenuItem Header="_Copy" Command="{Binding CopyCommand}"
+                                                      InputGesture="Ctrl+C" />
+                                            <MenuItem Header="_Paste" Command="{Binding PasteCommand}"
+                                                      InputGesture="Ctrl+V" />
+                                            <MenuItem Header="D_uplicate" Command="{Binding DuplicateCommand}"
+                                                      InputGesture="Ctrl+D" />
                                             <MenuItem Header="-" />
-                                            <MenuItem Header="Select _All" Command="{Binding SelectAllCommand, FallbackValue={x:Null}}" InputGesture="Ctrl+A" />
-                                            <MenuItem Header="De_select All" Command="{Binding DeselectAllCommand, FallbackValue={x:Null}}" InputGesture="Escape" />
+                                            <MenuItem Header="Select _All"
+                                                      Command="{Binding SelectAllCommand, FallbackValue={x:Null}}"
+                                                      InputGesture="Ctrl+A" />
+                                            <MenuItem Header="De_select All"
+                                                      Command="{Binding DeselectAllCommand, FallbackValue={x:Null}}"
+                                                      InputGesture="Escape" />
                                             <MenuItem Header="-" />
-                                            <MenuItem Header="_Delete" Command="{Binding DeleteCommand}" InputGesture="Delete" />
+                                            <MenuItem Header="_Delete" Command="{Binding DeleteCommand}"
+                                                      InputGesture="Delete" />
                                         </MenuFlyout>
                                     </editor:DrawingNode.ContextFlyout>
                                 </editor:DrawingNode>

@@ -1,7 +1,21 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
+             xmlns:local="using:Slithin.UI"
              x:Class="Slithin.App">
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+    <Application.Resources>
+        <SolidColorBrush x:Key="MainBackground" Color="#E2E2E2" />
+        <SolidColorBrush x:Key="PanelBackground" Color="#F1F1F1" />
+        <SolidColorBrush x:Key="EditorBackground" Color="#FFF5F5F5" />
+        <VisualBrush x:Key="EditorCheckerBoard" TileMode="Tile" SourceRect="0,0,20,20" DestinationRect="0,0,20,20">
+            <VisualBrush.Visual>
+                <Path Data="M 0,0 L 0,10 L 10,10 L 10,0 Z M 10,10 L 10,20 L 20,20 L 20,10 Z" Fill="#FFF0F0F0" />
+            </VisualBrush.Visual>
+        </VisualBrush>
+    </Application.Resources>
     <Application.Styles>
         <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
 
@@ -16,7 +30,7 @@
         <StyleInclude Source="/Styles/IndicatorStyle.axaml" />
         <StyleInclude Source="/Styles/LinkStyle.axaml" />
         <StyleInclude Source="/Styles/StoreCardCollection.axaml" />
-        
+
         <StyleInclude Source="/VPL/Components/Styles.axaml" />
 
         <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />

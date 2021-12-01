@@ -3,13 +3,13 @@ using System.Collections.ObjectModel;
 using NodeEditor.Model;
 using NodeEditor.ViewModels;
 using Slithin.VPL.Components.ViewModels;
-using Slithin.VPL.Components.Views;
 
 namespace Slithin.UI;
 
 public class NodeFactory
 {
-    public INode CreateOrGate(double x, double y, double width = 60, double height = 60, int count = 1, double pinSize = 8)
+    public INode CreateOrGate(double x, double y, double width = 60, double height = 60, int count = 1,
+        double pinSize = 8)
     {
         var node = new NodeViewModel
         {
@@ -18,13 +18,13 @@ public class NodeFactory
             Width = width,
             Height = height,
             Pins = new ObservableCollection<IPin>(),
-            Content = new OrGateView() { DataContext = new OrGateViewModel { Label = "≥", Count = count } }
+            Content = new OrGateViewModel {Label = "≥", Count = count}
         };
-
+        //((IDrawingNode)node.Parent).Connectors[0];
         node.AddPin(0, 2, pinSize, pinSize, PinAlignment.Left);
         node.AddPin(0, height - 2, pinSize, pinSize, PinAlignment.Left);
         node.AddPin(width, height / 2, pinSize, pinSize, PinAlignment.Right);
-        
+
         return node;
     }
 
@@ -52,7 +52,7 @@ public class NodeFactory
     {
         return new ObservableCollection<INodeTemplate>
         {
-            new NodeTemplateViewModel {Title = "Or", Build = (x, y) => CreateOrGate(x, y, 60, 60)}
+            new NodeTemplateViewModel {Title = "Or", Build = (x, y) => CreateOrGate(x, y)}
         };
     }
 }

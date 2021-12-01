@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using NodeEditor.Controls;
 using NodeEditor.Model;
 using NodeEditor.Serializer;
-using NodeEditor.ViewModels;
 using Slithin.Core;
 using Slithin.UI;
 
@@ -15,7 +15,6 @@ public class NewScriptModalViewModel : BaseViewModel
 
     private readonly INodeSerializer _serializer;
     private IDrawingNode? _drawing;
-    private bool _isEditMode;
     private string _name;
 
     private string _selectedCategory;
@@ -31,16 +30,7 @@ public class NewScriptModalViewModel : BaseViewModel
 
         _templates = _factory.CreateTemplates();
 
-        Drawing = new DrawingNodeViewModel
-        {
-            X = 0,
-            Y = 0,
-            Width = 900,
-            Height = 600,
-            Nodes = new ObservableCollection<INode>(),
-            Connectors = new ObservableCollection<IConnector>()
-        }
-        ;
+        Drawing = _factory.CreateDrawing();
         Drawing.Serializer = _serializer;
     }
 
