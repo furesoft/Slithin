@@ -8,8 +8,7 @@ namespace Slithin.UI;
 
 public class NodeFactory
 {
-    public INode CreateOrGate(double x, double y, double width = 60, double height = 60, int count = 1,
-        double pinSize = 8)
+    public INode CreateEntry(double x, double y, double width = 60, double height = 60, double pinSize = 8)
     {
         var node = new NodeViewModel
         {
@@ -18,12 +17,48 @@ public class NodeFactory
             Width = width,
             Height = height,
             Pins = new ObservableCollection<IPin>(),
-            Content = new OrGateViewModel {Label = "≥", Count = count}
+            Content = new EntryViewModel { Label = "Entry" }
         };
-        //((IDrawingNode)node.Parent).Connectors[0];
-        node.AddPin(0, 2, pinSize, pinSize, PinAlignment.Left);
-        node.AddPin(0, height - 2, pinSize, pinSize, PinAlignment.Left);
+
         node.AddPin(width, height / 2, pinSize, pinSize, PinAlignment.Right);
+
+        return node;
+    }
+
+    public INode CreateExit(double x, double y, double width = 60, double height = 60, double pinSize = 8)
+    {
+        var node = new NodeViewModel
+        {
+            X = x,
+            Y = y,
+            Width = width,
+            Height = height,
+            Pins = new ObservableCollection<IPin>(),
+            Content = new ExitViewModel { Label = "Exit" }
+        };
+
+        node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left);
+        node.AddPin(0, height / 4 * 3, pinSize, pinSize, PinAlignment.Left);
+
+        return node;
+    }
+
+    public INode CreateShowNotification(double x, double y, double width = 120, double height = 60, double pinSize = 8)
+    {
+        var node = new NodeViewModel
+        {
+            X = x,
+            Y = y,
+            Width = width,
+            Height = height,
+            Pins = new ObservableCollection<IPin>(),
+            Content = new ShowNotificationViewModel { Label = "Show Notification" }
+        };
+
+        node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left);
+        node.AddPin(0, height / 4 * 3, pinSize, pinSize, PinAlignment.Left);
+
+        node.AddPin(width, height / 4, pinSize, pinSize, PinAlignment.Right);
 
         return node;
     }
@@ -45,6 +80,9 @@ public class NodeFactory
             Connectors = new ObservableCollection<IConnector>()
         };
 
+        drawing.Nodes.Add(CreateEntry(drawing.Width / 5, drawing.Height / 3));
+        drawing.Nodes.Add(CreateExit(drawing.Width / 5 * 4, drawing.Height / 3));
+
         return drawing;
     }
 
@@ -52,7 +90,7 @@ public class NodeFactory
     {
         return new ObservableCollection<INodeTemplate>
         {
-            new NodeTemplateViewModel {Title = "Or", Build = (x, y) => CreateOrGate(x, y)}
+            new NodeTemplateViewModel {Title = "Show Notification", Build = (x, y) => CreateShowNotification(x, y)},
         };
     }
 }

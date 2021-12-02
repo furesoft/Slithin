@@ -88,6 +88,15 @@
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>
+     <Compile Update="VPL\Components\Views\ShowNotificationView.axaml.cs">
+       <DependentUpon>ShowNotificationView.axaml</DependentUpon>
+     </Compile>
+     <Compile Update="VPL\Components\Views\ExitView.axaml.cs">
+       <DependentUpon>ExitView.axaml</DependentUpon>
+     </Compile>
+     <Compile Update="VPL\Components\Views\EntryView.axaml.cs">
+       <DependentUpon>EntryView.axaml</DependentUpon>
+     </Compile>
      <Compile Remove="Slithin.ModuleSystem.Memory\**" />
    </ItemGroup>
    

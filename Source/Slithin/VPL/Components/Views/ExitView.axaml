@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:NodeEditorDemo.ViewModels.Nodes"
              mc:Ignorable="d" d:DesignWidth="60" d:DesignHeight="60"
-             x:Class="Slithin.VPL.Components.Views.OrGateView"
+             x:Class="Slithin.VPL.Components.Views.ExitView"
              ClipToBounds="False">
   <Grid>
-      <Rectangle Classes="node" />
+        <Rectangle Classes="node" />
       <TextBlock Text="{Binding Label}" TextAlignment="Center" VerticalAlignment="Center" />
   </Grid>
 </UserControl>

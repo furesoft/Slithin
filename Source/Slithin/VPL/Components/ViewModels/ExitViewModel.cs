@@ -4,7 +4,7 @@ using Slithin.Core;
 namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
-public class ShowNotificationViewModel : BaseViewModel
+public class ExitViewModel : BaseViewModel
 {
     private object? _label;
 

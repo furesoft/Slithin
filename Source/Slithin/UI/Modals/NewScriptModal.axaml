@@ -61,13 +61,14 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </DockPanel>
+                    
                     <GridSplitter ResizeDirection="Columns"
                                   ResizeBehavior="PreviousAndNext"
                                   Width="6"
                                   Background="Transparent"
                                   Grid.Column="1" />
                     <Panel Grid.Column="2">
-                        <Panel Background="{DynamicResource EditorBackground}" />
+                        <Panel Background="LightGray" />
                         <Panel Background="{DynamicResource EditorCheckerBoard}" />
                         <ScrollViewer VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Auto"
