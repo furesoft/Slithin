@@ -72,8 +72,6 @@ public class DevicePageViewModel : BaseViewModel
 
         _mailboxService.PostAction(() =>
         {
-            NotificationService.Show("Loading Tools");
-
             _loadingService.LoadTools();
         });
 
