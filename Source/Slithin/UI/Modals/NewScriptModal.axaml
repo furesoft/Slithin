@@ -10,7 +10,7 @@
              xmlns:controls="clr-namespace:Slithin.UI;assembly=Slithin"
              xmlns:local="using:Slithin.UI"
              xmlns:paz="clr-namespace:Avalonia.Controls.PanAndZoom;assembly=Avalonia.Controls.PanAndZoom"
-             xmlns:c="using:Slithin.Controls" editor:DrawingNode.IsEditMode="True"
+             xmlns:c="using:Slithin.Controls" editor:DrawingNode.IsEditMode="{Binding IsEditMode, Mode=TwoWay}"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Modals.NewScriptModal">
     <UserControl.KeyBindings>

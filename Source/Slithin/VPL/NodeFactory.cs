@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using NodeEditor.Model;
 using NodeEditor.ViewModels;
 using Slithin.VPL.Components.ViewModels;
@@ -84,6 +85,22 @@ public class NodeFactory
         drawing.Nodes.Add(CreateExit(drawing.Width / 5 * 4, drawing.Height / 3));
 
         return drawing;
+    }
+
+    public void PrintNetList(IDrawingNode? drawing)
+    {
+        if (drawing?.Connectors is null || drawing?.Nodes is null)
+        {
+            return;
+        }
+
+        foreach (var connector in drawing.Connectors)
+        {
+            if (connector.Start is { } start && connector.End is { } end)
+            {
+                Debug.WriteLine($"{start.Parent?.GetType().Name}:{start.GetType().Name} -> {end.Parent?.GetType().Name}:{end.GetType().Name}");
+            }
+        }
     }
 
     public IList<INodeTemplate> CreateTemplates()

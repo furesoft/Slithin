@@ -21,6 +21,8 @@ public class NewScriptModalViewModel : BaseViewModel
     private int _step;
     private IList<INodeTemplate>? _templates;
 
+    private bool _isEditMode = true;
+
     public NewScriptModalViewModel()
     {
         NextCommand = new DelegateCommand(Next);
@@ -54,6 +56,12 @@ public class NewScriptModalViewModel : BaseViewModel
         set => SetValue(ref _selectedCategory, value);
     }
 
+    public bool IsEditMode
+    {
+        get => _isEditMode;
+        set => SetValue(ref _isEditMode, value);
+    }
+
     public int Step
     {
         get => _step;
@@ -73,5 +81,7 @@ public class NewScriptModalViewModel : BaseViewModel
         {
             Step++;
         }
+
+        _factory.PrintNetList(Drawing);
     }
 }
