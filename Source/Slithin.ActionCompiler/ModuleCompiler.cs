@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Flo;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Arithmetic;
 using MessagePack;
 using Newtonsoft.Json;
 using Slithin.ActionCompiler.Compiling;
 using Slithin.ActionCompiler.Compiling.Passes;
+using Slithin.ActionCompiler.Compiling.Stages;
 using Slithin.Core;
 using Slithin.ModuleSystem;
 using WebAssembly;
@@ -17,6 +21,33 @@ namespace Slithin.ActionCompiler;
 
 public static class ModuleCompiler
 {
+    //https://github.com/benfoster/Flo
+    public static Func<CompilerContext, Task<CompilerContext>> Pipeline;
+
+    static ModuleCompiler()
+    {
+        Pipeline = Flo.Pipeline.Build<CompilerContext, CompilerContext>(
+            cfg =>
+            {
+                cfg.Add<ParsingStage>();
+
+                cfg.Add<OptimizingStage>();
+            }
+        );
+    }
+
+    public static async Task<Module> CompileAsync(string outputFilename, string[] inputFilenames)
+    {
+        var compilerContext = new CompilerContext();
+        compilerContext.Inputs.AddRange(inputFilenames);
+        compilerContext.OutputFilename = outputFilename;
+
+        compilerContext = await Pipeline.Invoke(compilerContext);
+
+        return compilerContext.ResultModule;
+    }
+
+    [Obsolete]
     public static Module Compile(string scriptFilename, string infoFilename, string uiFilename = null,
         string imageFilename = null)
     {
@@ -59,10 +90,9 @@ public static class ModuleCompiler
         m.Functions.Add(new Function(0));
         m.Functions.Add(new Function(0));
 
-        Optimiser.AddPass<ConstantFoldingPass>();
+        
 
         var tree = new Block(new Add(1, 2));
-        tree = Optimiser.Process(tree);
 
         var exprBody = ExpressionEmitter.Emit(tree.GetChildren<Expression>().First(), null);
         exprBody.Clear();
