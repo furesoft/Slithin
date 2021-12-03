@@ -1,0 +1,30 @@
+<lowerChar> ::= [a-z]
+<upperChar> ::= [A-Z]
+<digit> ::= [0-9]
+<space> ::= " " | "\t"
+<spaces> ::= <space>+
+
+<identifierFirstPart> ::= <lowerChar> | <upperChar> | "_"
+<identifierSecondPart> ::= <identifierFirstPart> | <digit>
+<identifier> ::= <identifierFirstPart>+ <identifierSecondPart>*
+<typeIdentifier> ::= <identifier> "<" <typeIdentifier> ">"
+					| <identifier>
+
+<int> ::= <digit>+
+<float> ::= <digit>+ "." <digit>+
+
+<value> ::= <int> | <float>
+
+<variableDeclaration> ::= "var" <spaces> <identifier> <spaces> (":" <spaces> <typeIdentifier>)?  <spaces> "=" <spaces> <value>
+<deleteStatement> ::= "delete" <spaces> <identifier>
+
+<ifStatement> ::= "if" <spaces> "(" <spaces> <value> <spaces> ")" <spaces> "{"
+						<spaces> <methodBody>
+						<spaces>
+					"}"
+
+<blockStatements> ::= <ifStatement>
+
+<methodBody> ::= (<variableDeclaration> 
+					| <deleteStatement>) ";"
+				| <blockStatements>
