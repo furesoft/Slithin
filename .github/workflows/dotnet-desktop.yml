@@ -110,3 +110,30 @@ jobs:
         name: Linux_x64_RPM_Installer
         path: Source/Slithin/Dist/Linux-x64-Rpm
 
+
+    - name: Publish SDK Windows
+      run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-sdk-x86 $env:SDK
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Windows_x86
+        path: ./Dist/Win-sdk-x86
+        
+    - name: Publish OSX x64
+      run: dotnet publish -c Release -r osx-x64 --output ./Dist/OSX-sdk-x64 $env:SDK
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: OSX_x64
+        path: ./Dist/OSX-sdk-x64
+        
+    - name: Publish Linux x64
+      run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-sdk-x64 $env:SDK
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Linux_x64
+        path: ./Dist/Linux-sdk-x64

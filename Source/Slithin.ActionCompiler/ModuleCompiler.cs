@@ -32,7 +32,7 @@ public static class ModuleCompiler
             {
                 cfg.Add<ResourceStage>();
                 cfg.Add<ParsingStage>();
-                //ToDo: only continue if no error
+
                 cfg.Add<OptimizingStage>();
             }
         );
