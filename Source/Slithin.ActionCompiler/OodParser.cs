@@ -3,6 +3,7 @@ using Furesoft.Core.CodeDom.CodeDOM.Expressions.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Arithmetic;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Assignments;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Bitwise;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Conditional;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Relational;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Other;
@@ -33,9 +34,12 @@ namespace Slithin.ActionCompiler
 
             And.AddParsePoints();
             Or.AddParsePoints();
-            BitwiseXorAssign.AddParsePoints();
-            BitwiseOrAssign.AddParsePoints();
-            BitwiseAndAssign.AddParsePoints();
+            BitwiseXor.AddParsePoints();
+            BitwiseOr.AddParsePoints();
+            BitwiseAnd.AddParsePoints();
+
+            AddAssign.AddParsePoints();
+            SubtractAssign.AddParsePoints();
 
 
             Mod.AddParsePoints();
