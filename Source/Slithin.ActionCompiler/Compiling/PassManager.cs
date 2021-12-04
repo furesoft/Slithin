@@ -4,17 +4,17 @@ using Furesoft.Core.CodeDom.CodeDOM.Base;
 
 namespace Slithin.ActionCompiler.Compiling;
 
-public static class Optimizer
+public class PassManager
 {
-    private static readonly List<IPass> Passes = new();
+    private readonly List<IPass> Passes = new();
 
-    public static void AddPass<T>()
+    public void AddPass<T>()
         where T : IPass, new()
     {
         Passes.Add(new T());
     }
 
-    public static CodeUnit Process(CodeUnit obj)
+    public CodeUnit Process(CodeUnit obj)
     {
         var result = new Block();
 
@@ -31,13 +31,13 @@ public static class Optimizer
         return obj;
     }
 
-    private static void Process(Block result, CodeObject t)
+    private void Process(Block result, CodeObject t)
     {
         foreach (var pass in Passes)
             result.Add(pass.Process(t));
     }
 
-    private static Block ProcessBlock(Block block)
+    public Block ProcessBlock(Block block)
     {
         var result = new Block();
 

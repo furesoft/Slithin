@@ -1,16 +1,16 @@
 ﻿using Flo;
-using Slithin.ActionCompiler.Compiling.Passes;
+using Slithin.ActionCompiler.Compiling.Passes.Lowerer;
 using System;
 using System.Threading.Tasks;
 
 namespace Slithin.ActionCompiler.Compiling.Stages
 {
-    public class OptimizingStage : IHandler<CompilerContext, CompilerContext>
+    public class LowererStage : IHandler<CompilerContext, CompilerContext>
     {
         private PassManager _optimization = new();
-        public OptimizingStage()
+        public LowererStage()
         {
-            _optimization.AddPass<ConstantFoldingPass>();
+            _optimization.AddPass<OperatorAssignLowererPass>();
         }
 
         public async Task<CompilerContext> HandleAsync(CompilerContext context, Func<CompilerContext, Task<CompilerContext>> next)
