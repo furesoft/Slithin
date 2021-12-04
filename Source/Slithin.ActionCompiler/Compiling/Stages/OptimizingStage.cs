@@ -12,14 +12,14 @@ namespace Slithin.ActionCompiler.Compiling.Stages
             Optimizer.AddPass<ConstantFoldingPass>();
         }
 
-        public async Task<CompilerContext> HandleAsync(CompilerContext input, Func<CompilerContext, Task<CompilerContext>> next)
+        public async Task<CompilerContext> HandleAsync(CompilerContext context, Func<CompilerContext, Task<CompilerContext>> next)
         {
-            for (int i = 0; i < input.Trees.Count; i++)
+            for (int i = 0; i < context.Trees.Count; i++)
             {
-                input.Trees[i] = Optimizer.Process(input.Trees[i]);
+                context.Trees[i] = Optimizer.Process(context.Trees[i]);
             }
 
-            return await next.Invoke(input);
+            return await next.Invoke(context);
         }
     }
 }
