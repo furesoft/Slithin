@@ -82,6 +82,7 @@ public class NewScriptModalViewModel : BaseViewModel
             Step++;
         }
 
+        
         _factory.PrintNetList(Drawing);
     }
 }

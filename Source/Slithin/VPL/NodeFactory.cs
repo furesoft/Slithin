@@ -81,8 +81,14 @@ public class NodeFactory
             Connectors = new ObservableCollection<IConnector>()
         };
 
-        drawing.Nodes.Add(CreateEntry(drawing.Width / 5, drawing.Height / 3));
-        drawing.Nodes.Add(CreateExit(drawing.Width / 5 * 4, drawing.Height / 3));
+        var entry = CreateEntry(drawing.Width / 5, drawing.Height / 3);
+        var exit = CreateExit(drawing.Width / 5 * 4, drawing.Height / 3);
+
+        entry.Parent = drawing;
+        exit.Parent = drawing;
+
+        drawing.Nodes.Add(entry);
+        drawing.Nodes.Add(exit);
 
         return drawing;
     }
@@ -98,7 +104,7 @@ public class NodeFactory
         {
             if (connector.Start is { } start && connector.End is { } end)
             {
-                Debug.WriteLine($"{start.Parent?.GetType().Name}:{start.GetType().Name} -> {end.Parent?.GetType().Name}:{end.GetType().Name}");
+                Debug.WriteLine($"{start.Parent?.Content.GetType().Name}:{start.GetType().Name} -> {end.Parent?.Content.GetType().Name}:{end.GetType().Name}");
             }
         }
     }
