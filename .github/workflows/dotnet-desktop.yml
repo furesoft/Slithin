@@ -118,7 +118,7 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: Windows_x86
+        name: Windows_SDK_x86
         path: ./Dist/Win-sdk-x86
         
     - name: Publish SDK OSX x64
@@ -127,7 +127,7 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: OSX_x64
+        name: OSX_SDK_x64
         path: ./Dist/OSX-sdk-x64
         
     - name: Publish SDK Linux x64
@@ -136,5 +136,5 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: Linux_x64
+        name: Linux_SDK_x64
         path: ./Dist/Linux-sdk-x64
