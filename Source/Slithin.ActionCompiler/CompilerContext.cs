@@ -15,13 +15,16 @@ public class CompilerContext
     [Option('o', "output", Required = true, HelpText = "Output filename")]
     public string OutputFilename { get; set; }
 
+    [Option('l', "library", HelpText = "The compiled module is a library")]
+    public bool IsLibray { get; set; }
+
     [Option('u', "ui", Required = true, HelpText = "UI filename")]
     public string UiFilename { get; set; }
 
     [Option('m', "metadata", Required = true, HelpText = "Metadata filename")]
     public string MetadataFilename { get; set; }
 
-    [Option('s', "symbol", Required = true, HelpText = "Symbolicon filename")]
+    [Option('s', "symbol", HelpText = "Symbolicon filename")]
     public string ImageFilename { get; set; }
 
     public Module ResultModule { get; set; } = new();

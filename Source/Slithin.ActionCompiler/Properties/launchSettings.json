@@ -2,7 +2,7 @@
   "profiles": {
     "Slithin.ActionCompiler": {
       "commandName": "Project",
-      "commandLineArgs": "-i \"test.ood\" -o \"test.wasm\" -u \"test.ui\" -m \"test.info\""
+      "commandLineArgs": "-i \"test.ood\" -o \"test.wasm\" -u \"test.ui\" -m \"test.info\" -l"
     }
   }
 }

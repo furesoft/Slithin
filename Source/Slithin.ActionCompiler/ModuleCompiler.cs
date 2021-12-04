@@ -30,7 +30,11 @@ public static class ModuleCompiler
         Pipeline = Flo.Pipeline.Build<CompilerContext, CompilerContext>(
             cfg =>
             {
-                cfg.Add<ResourceStage>();
+                cfg.When(_ => !_.IsLibray, cfg =>
+                {
+                     cfg.Add<ResourceStage>();
+                });
+                
                 cfg.Add<ParsingStage>();
 
                 cfg.Add<OptimizingStage>();
