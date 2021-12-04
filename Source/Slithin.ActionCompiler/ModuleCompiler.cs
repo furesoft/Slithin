@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CommandLine;
 using Flo;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Arithmetic;
@@ -29,22 +30,21 @@ public static class ModuleCompiler
         Pipeline = Flo.Pipeline.Build<CompilerContext, CompilerContext>(
             cfg =>
             {
+                cfg.Add<ResourceStage>();
                 cfg.Add<ParsingStage>();
-
+                //ToDo: only continue if no error
                 cfg.Add<OptimizingStage>();
             }
         );
     }
 
-    public static async Task<Module> CompileAsync(string outputFilename, string[] inputFilenames)
+    public static void Compile()
     {
-        var compilerContext = new CompilerContext();
-        compilerContext.Inputs.AddRange(inputFilenames);
-        compilerContext.OutputFilename = outputFilename;
-
-        compilerContext = await Pipeline.Invoke(compilerContext);
-
-        return compilerContext.ResultModule;
+        Parser.Default.ParseArguments<CompilerContext>(Environment.GetCommandLineArgs())
+                   .WithParsed(async o =>
+                   {
+                       _ = await Pipeline.Invoke(o);
+                   });
     }
 
     [Obsolete]
@@ -52,22 +52,6 @@ public static class ModuleCompiler
         string imageFilename = null)
     {
         var m = new Module();
-
-        //serialize scriptinfo into data segment
-        var info = JsonConvert.DeserializeObject<ScriptInfo>(File.ReadAllText(infoFilename));
-        info.IsListed = true;
-
-        var infoBytes = MessagePackSerializer.Serialize(info);
-
-        m.CustomSections.Add(new CustomSection {Name = ".info", Content = new List<byte>(infoBytes)});
-
-        if (imageFilename != null)
-            m.CustomSections.Add(new CustomSection
-                {Name = ".image", Content = new List<byte>(File.ReadAllBytes(imageFilename))});
-
-        if (uiFilename != null)
-            m.CustomSections.Add(new CustomSection
-                {Name = ".ui", Content = new List<byte>(File.ReadAllBytes(uiFilename))});
 
         m.Types.Add(new WebAssemblyType());
 
