@@ -13,7 +13,10 @@
 <int> ::= <digit>+
 <float> ::= <digit>+ "." <digit>+
 
-<value> ::= <int> | <float>
+<intSuffix> ::= ("L")?
+<floatSuffix> ::= ("D")?
+
+<value> ::= <int> <intSuffix> | <float> <floatSuffix>
 
 <variableDeclaration> ::= "var" <spaces> <identifier> <spaces> (":" <spaces> <typeIdentifier>)?  <spaces> "=" <spaces> <value>
 <deleteStatement> ::= "delete" <spaces> <identifier>
