@@ -121,7 +121,7 @@ jobs:
         name: Windows_x86
         path: ./Dist/Win-sdk-x86
         
-    - name: Publish OSX x64
+    - name: Publish SDK OSX x64
       run: dotnet publish -c Release -r osx-x64 --output ./Dist/OSX-sdk-x64 $env:SDK
 
     - name: Upload build artifacts
@@ -130,7 +130,7 @@ jobs:
         name: OSX_x64
         path: ./Dist/OSX-sdk-x64
         
-    - name: Publish Linux x64
+    - name: Publish SDK Linux x64
       run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-sdk-x64 $env:SDK
       
     - name: Upload build artifacts
