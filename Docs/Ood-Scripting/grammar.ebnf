@@ -12,11 +12,12 @@
 
 <int> ::= <digit>+
 <float> ::= <digit>+ "." <digit>+
+<boolean> ::= "true" | "false"
 
 <intSuffix> ::= ("L")?
 <floatSuffix> ::= ("D")?
 
-<value> ::= <int> <intSuffix> | <float> <floatSuffix>
+<value> ::= <int> <intSuffix> | <float> <floatSuffix> | <boolean>
 
 <variableDeclaration> ::= "var" <spaces> <identifier> <spaces> (":" <spaces> <typeIdentifier>)?  <spaces> "=" <spaces> <value>
 <deleteStatement> ::= "delete" <spaces> <identifier>
