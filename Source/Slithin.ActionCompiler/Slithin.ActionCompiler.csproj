@@ -21,7 +21,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Parsing\AST" />
+      <None Update="test.ood">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

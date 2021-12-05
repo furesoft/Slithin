@@ -8,6 +8,7 @@ using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Conditional;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Relational;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Other;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Unary;
+using Slithin.ActionCompiler.Parsing.AST;
 
 namespace Slithin.ActionCompiler
 {
@@ -43,6 +44,8 @@ namespace Slithin.ActionCompiler
 
             PostIncrement.AddParsePoints();
             PostDecrement.AddParsePoints();
+
+            VarDecl.AddParsePoints();
 
             Mod.AddParsePoints();
 

@@ -1,0 +1,3 @@
+﻿var hello = 12;
+var world : i32;
+var world2 : i32 = 42;
