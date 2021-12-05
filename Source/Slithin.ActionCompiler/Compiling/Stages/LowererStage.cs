@@ -11,6 +11,7 @@ namespace Slithin.ActionCompiler.Compiling.Stages
         public LowererStage()
         {
             _optimization.AddPass<OperatorAssignLowererPass>();
+            _optimization.AddPass<IncrementOperatorLowererPass>();
         }
 
         public async Task<CompilerContext> HandleAsync(CompilerContext context, Func<CompilerContext, Task<CompilerContext>> next)

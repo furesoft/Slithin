@@ -41,6 +41,8 @@ namespace Slithin.ActionCompiler
             AddAssign.AddParsePoints();
             SubtractAssign.AddParsePoints();
 
+            PostIncrement.AddParsePoints();
+            PostDecrement.AddParsePoints();
 
             Mod.AddParsePoints();
 

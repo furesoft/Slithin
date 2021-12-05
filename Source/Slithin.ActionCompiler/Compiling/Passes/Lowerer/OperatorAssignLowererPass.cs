@@ -9,18 +9,12 @@ namespace Slithin.ActionCompiler.Compiling.Passes.Lowerer
     {
         public CodeObject Process(CodeObject obj)
         {
-            if (obj is AddAssign addass)
+            return obj switch
             {
-                return new Assignment(addass.Left, new Add(addass.Left, addass.Right));
-            }
-            if (obj is SubtractAssign subass)
-            {
-                return new Assignment(subass.Left, new Subtract(subass.Left, subass.Right));
-            }
-            else
-            {
-                return obj;
-            }
+                AddAssign addass => new Assignment(addass.Left, addass.Left + addass.Right),
+                SubtractAssign subass => new Assignment(subass.Left, subass.Left - subass.Right),
+                _ => obj
+            };
         }
     }
 }

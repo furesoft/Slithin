@@ -4,6 +4,8 @@ using System.Drawing;
 using System.IO;
 using Furesoft.Core.CodeDom.CodeDOM.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Assignments;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Other;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Unary;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.References.Other;
 using NUnit.Framework;
 using Slithin.ActionCompiler;
@@ -32,9 +34,10 @@ public static class ModuleTest
     public static void Lowering()
     {
         var p = new PassManager();
-        p.AddPass<OperatorAssignLowererPass>();
+        p.AddPass<IncrementOperatorLowererPass>();
 
-        var tree = new AddAssign(new UnresolvedRef("x"), 1);
+        CodeObject tree = new PostIncrement(new UnresolvedRef("x"));
+
         var result = p.ProcessBlock(new Block(tree));
     }
 

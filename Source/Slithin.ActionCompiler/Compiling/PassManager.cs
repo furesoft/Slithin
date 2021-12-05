@@ -34,7 +34,17 @@ public class PassManager
     private void Process(Block result, CodeObject t)
     {
         foreach (var pass in Passes)
-            result.Add(pass.Process(t));
+        {
+            var processedObj = pass.Process(t);
+            if (processedObj is Block blk)
+            {
+                result.AddRange(blk);
+            }
+            else
+            {
+                result.Add(processedObj);
+            }
+        }
     }
 
     public Block ProcessBlock(Block block)
