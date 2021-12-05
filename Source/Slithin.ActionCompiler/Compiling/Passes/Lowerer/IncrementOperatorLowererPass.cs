@@ -6,7 +6,7 @@ namespace Slithin.ActionCompiler.Compiling.Passes.Lowerer
 {
     public class IncrementOperatorLowererPass : IPass
     {
-        public CodeObject Process(CodeObject obj)
+        public CodeObject Process(CodeObject obj, PassManager passManager)
         {
             if (obj is PostIncrement incr)
             {

@@ -1,13 +1,11 @@
 ﻿using Furesoft.Core.CodeDom.CodeDOM.Base;
-using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Arithmetic;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Assignments;
-using System;
 
 namespace Slithin.ActionCompiler.Compiling.Passes.Lowerer
 {
     public class OperatorAssignLowererPass : IPass
     {
-        public CodeObject Process(CodeObject obj)
+        public CodeObject Process(CodeObject obj, PassManager passManager)
         {
             return obj switch
             {

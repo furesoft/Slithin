@@ -35,7 +35,7 @@ public class PassManager
     {
         foreach (var pass in Passes)
         {
-            var processedObj = pass.Process(t);
+            var processedObj = pass.Process(t, this);
             if (processedObj is Block blk)
             {
                 result.AddRange(blk);

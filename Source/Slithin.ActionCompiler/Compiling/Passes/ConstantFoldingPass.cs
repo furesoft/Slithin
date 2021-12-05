@@ -6,7 +6,7 @@ namespace Slithin.ActionCompiler.Compiling.Passes;
 
 public class ConstantFoldingPass : IPass
 {
-    public CodeObject Process(CodeObject obj)
+    public CodeObject Process(CodeObject obj, PassManager passManager)
     {
         if (obj is BinaryOperator expr)
             return new Literal(Evaluate(expr));

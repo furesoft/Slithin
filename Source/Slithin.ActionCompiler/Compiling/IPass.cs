@@ -4,5 +4,5 @@ namespace Slithin.ActionCompiler.Compiling;
 
 public interface IPass
 {
-    CodeObject Process(CodeObject obj);
+    CodeObject Process(CodeObject obj, PassManager passManager);
 }
