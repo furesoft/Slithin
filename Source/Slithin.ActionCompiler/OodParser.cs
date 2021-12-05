@@ -8,6 +8,7 @@ using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Conditional;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Relational;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Other;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Unary;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Other;
 using Slithin.ActionCompiler.Parsing.AST;
 
 namespace Slithin.ActionCompiler
@@ -17,6 +18,7 @@ namespace Slithin.ActionCompiler
         static OodParser()
         {
             Negative.AddParsePoints();
+            Literal.AddParsePoints();
 
             Add.AddParsePoints();
             Multiply.AddParsePoints();
