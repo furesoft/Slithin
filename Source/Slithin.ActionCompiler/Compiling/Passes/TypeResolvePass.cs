@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using Furesoft.Core.CodeDom.CodeDOM.Base;
+﻿using Furesoft.Core.CodeDom.CodeDOM.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Other;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.References.Types;
 using Slithin.ActionCompiler.Parsing.AST;
+using System.Globalization;
 
 namespace Slithin.ActionCompiler.Compiling.Passes;
 

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Furesoft.Core.CodeDom.CodeDOM;
+﻿using Furesoft.Core.CodeDom.CodeDOM;
 using Furesoft.Core.CodeDom.CodeDOM.Base;
+using System.Collections.Generic;
 
 namespace Slithin.ActionCompiler.Compiling;
 
@@ -23,28 +23,11 @@ public class PassManager
             if (t is Block blk) result.Add(ProcessBlock(blk));
 
             Process(result, t);
-
         }
 
         obj.Body = result;
 
         return obj;
-    }
-
-    private void Process(Block result, CodeObject t)
-    {
-        foreach (var pass in Passes)
-        {
-            var processedObj = pass.Process(t, this);
-            if (processedObj is Block blk)
-            {
-                result.AddRange(blk);
-            }
-            else
-            {
-                result.Add(processedObj);
-            }
-        }
     }
 
     public Block ProcessBlock(Block block)
@@ -63,5 +46,22 @@ public class PassManager
         }
 
         return result;
+    }
+
+    private void Process(Block result, CodeObject t)
+    {
+        foreach (var pass in Passes)
+        {
+            //ToDo: need to be fixed: only should return 1 object not 1 object each pass
+            var processedObj = pass.Process(t, this);
+            if (processedObj is Block blk)
+            {
+                result.AddRange(blk);
+            }
+            else
+            {
+                result.Add(processedObj);
+            }
+        }
     }
 }
