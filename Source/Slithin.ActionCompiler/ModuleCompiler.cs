@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using CommandLine;
-using Flo;
+﻿using CommandLine;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Arithmetic;
-using MessagePack;
-using Newtonsoft.Json;
 using Slithin.ActionCompiler.Compiling;
-using Slithin.ActionCompiler.Compiling.Passes;
 using Slithin.ActionCompiler.Compiling.Stages;
 using Slithin.Core;
-using Slithin.ModuleSystem;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using WebAssembly;
 using WebAssembly.Instructions;
 using Block = Furesoft.Core.CodeDom.CodeDOM.Base.Block;
@@ -32,13 +26,15 @@ public static class ModuleCompiler
             {
                 cfg.When(_ => !_.IsLibray, cfg =>
                 {
-                     cfg.Add<ResourceStage>();
+                    cfg.Add<ResourceStage>();
                 });
-                
+
                 cfg.Add<ParsingStage>();
                 cfg.Add<PostProcessStage>();
 
                 cfg.Add<OptimizingStage>();
+
+                cfg.Add<EmitModuleStage>();
             }
         );
     }
@@ -65,12 +61,12 @@ public static class ModuleCompiler
 
         m.Types.Add(new WebAssemblyType
         {
-            Parameters = new List<WebAssemblyValueType> {WebAssemblyValueType.Int32}
+            Parameters = new List<WebAssemblyValueType> { WebAssemblyValueType.Int32 }
         });
         m.Types.Add(new WebAssemblyType
         {
-            Parameters = new List<WebAssemblyValueType> {WebAssemblyValueType.Int32},
-            Returns = new List<WebAssemblyValueType>() {WebAssemblyValueType.Int32 }
+            Parameters = new List<WebAssemblyValueType> { WebAssemblyValueType.Int32 },
+            Returns = new List<WebAssemblyValueType>() { WebAssemblyValueType.Int32 }
         });
 
         m.Imports.Add(new Import.Function("notification", "show", 1));
@@ -78,8 +74,6 @@ public static class ModuleCompiler
 
         m.Functions.Add(new Function(0));
         m.Functions.Add(new Function(0));
-
-        
 
         var tree = new Block(new Add(1, 2));
 
@@ -97,14 +91,12 @@ public static class ModuleCompiler
 
         m.Codes.Add(new FunctionBody(exprBody.ToArray()));
 
-
         m.Exports.Add(new Export("_start", 3));
         m.Exports.Add(new Export("OnConnect", 2));
 
         m.Globals.Add(new Global(WebAssemblyValueType.Int32)
-            {IsMutable = false, InitializerExpression = new List<Instruction> {new Int32Constant(1024), new End()}});
+        { IsMutable = false, InitializerExpression = new List<Instruction> { new Int32Constant(1024), new End() } });
         m.Exports.Add(new Export("_heap_base", 0, ExternalKind.Global));
-
 
         return m;
     }
