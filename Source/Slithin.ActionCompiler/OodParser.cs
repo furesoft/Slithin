@@ -24,7 +24,6 @@ namespace Slithin.ActionCompiler
             Multiply.AddParsePoints();
             Divide.AddParsePoints();
             Subtract.AddParsePoints();
-            Assignment.AddParsePoints();
             Call.AddParsePoints();
             Expression.AddParsePoints();
 

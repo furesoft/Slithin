@@ -8,6 +8,7 @@ namespace Slithin.ActionCompiler.Compiling.Stages
     public class LowererStage : IHandler<CompilerContext, CompilerContext>
     {
         private PassManager _optimization = new();
+
         public LowererStage()
         {
             _optimization.AddPass<OperatorAssignLowererPass>();

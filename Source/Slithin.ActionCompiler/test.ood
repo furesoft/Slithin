@@ -1,5 +1,5 @@
 ﻿var hello = true;
-var hello2 = 12;
+var hello2 = 12 + 1;
 
 hello2 += 1;
 

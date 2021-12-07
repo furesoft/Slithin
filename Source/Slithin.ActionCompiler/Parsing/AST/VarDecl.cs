@@ -1,5 +1,4 @@
 ﻿using Furesoft.Core.CodeDom.CodeDOM.Base;
-using Furesoft.Core.CodeDom.CodeDOM.Base.Interfaces;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.References.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Statements.Variables;
@@ -12,41 +11,6 @@ namespace Slithin.ActionCompiler.Parsing.AST
 {
     public class VarDecl : VariableDecl
     {
-      
-
-        public override string Category => "local variable";
-
-        public override bool IsConst
-        {
-            get
-            {
-                return false;
-            }
-            set
-            {
-                
-            }
-        }
-
-        public override bool IsStatic
-        {
-            get
-            {
-                return false;
-            }
-            set
-            {
-            }
-        }
-
-        public override Expression Type
-        {
-            set
-            {
-                SetField(ref _type, value, format: true);
-            }
-        }
-
         public VarDecl(string name, Expression type, Expression initialization)
             : base(name, type, initialization)
         {
@@ -64,7 +28,7 @@ namespace Slithin.ActionCompiler.Parsing.AST
 
             ParseName(parser, parent);
 
-            if(parser.TokenText == ":")
+            if (parser.TokenText == ":")
             {
                 parser.NextToken();
 
@@ -74,6 +38,40 @@ namespace Slithin.ActionCompiler.Parsing.AST
             ParseInitialization(parser, parent);
 
             ParseTerminator(parser);
+        }
+
+        public override string Category => "local variable";
+
+        public override bool IsConst
+        {
+            get
+            {
+                return false;
+            }
+            set
+            {
+            }
+        }
+
+        public override bool IsStatic
+        {
+            get
+            {
+                return false;
+            }
+            set
+            {
+            }
+        }
+
+        public override string Keyword => "var";
+
+        public override Expression Type
+        {
+            set
+            {
+                SetField(ref _type, value, format: true);
+            }
         }
 
         public static void AddParsePoints()
@@ -124,7 +122,7 @@ namespace Slithin.ActionCompiler.Parsing.AST
             }
 
             UpdateLineCol(writer, flags);
-            
+
             if (_initialization != null)
             {
                 AsTextInitialization(writer, flags2);

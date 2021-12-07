@@ -31,9 +31,9 @@ public static class ModuleCompiler
 
                 cfg.Add<ParsingStage>();
                 cfg.Add<LowererStage>();
-                cfg.Add<PostProcessStage>();
 
                 cfg.Add<OptimizingStage>();
+                cfg.Add<PostProcessStage>();
 
                 cfg.Add<EmitModuleStage>();
             }
