@@ -15,5 +15,7 @@ Slithin is a better cross-platform managent tool for your Remarkable Device
 * Share your assets with other users
 * Create custom tools
 
+Installation guide can be find on the [Wiki](https://github.com/furesoft/Slithin/wiki/Installation-Guide)
+
 [![Store](https://developer.microsoft.com/store/badges/images/English_get-it-from-MS.png)](http:///www.microsoft.com/store/apps/9PKXTCBN8MQ8?cid=storebadge&ocid=badge)
 # This is a beta, so use it on your own risk
