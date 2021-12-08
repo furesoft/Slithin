@@ -1,6 +1,6 @@
-﻿using System.Reflection;
-using Furesoft.Core.CodeDom.CodeDOM.Base.Interfaces;
+﻿using Furesoft.Core.CodeDom.CodeDOM.Base.Interfaces;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.References.Variables.Base;
+using System.Reflection;
 
 namespace Slithin.ActionCompiler.Parsing.AST.References;
 

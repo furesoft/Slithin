@@ -1,8 +1,10 @@
-﻿var hello = true;
+﻿var world2 : Pointer<i32> = 42;
+var world2 : Pointer<i32, i32> = 42;
+
+var hello = true;
 var hello2 = 12 + 1;
 
 hello2 += 1;
 
 var world : i32;
 var world2 : i32 = 42;
-var world2 : Pointer<int> = 42;

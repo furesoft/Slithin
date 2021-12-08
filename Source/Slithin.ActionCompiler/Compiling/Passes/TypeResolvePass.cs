@@ -51,7 +51,7 @@ public class TypeResolvePass : IPass
             else
                 varDecl.AttachMessage($"Cannot find type {s}", MessageSeverity.Error, MessageSource.Resolve);
         }
-        else
+        else if (varDecl.Type == null)
         {
             //literal, unresolvedRef for vardecl
             if (value is Literal lit)

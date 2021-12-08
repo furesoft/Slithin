@@ -10,6 +10,7 @@ using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Other;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Unary;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Other;
 using Slithin.ActionCompiler.Parsing.AST;
+using Slithin.ActionCompiler.Parsing.AST.References;
 
 namespace Slithin.ActionCompiler
 {
@@ -51,6 +52,7 @@ namespace Slithin.ActionCompiler
             Mod.AddParsePoints();
 
             Dot.AddParsePoints();
+            GenericTypeRef.AddParsePoints();
         }
 
         public static CodeUnit ParseFile(string filename)
