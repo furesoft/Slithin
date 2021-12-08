@@ -117,7 +117,7 @@ namespace Slithin.ActionCompiler.Parsing.AST
             bool flag = flags.HasFlag(RenderFlags.Description);
             if (!(_parent is MultiLocalDecl) || (flag && !flags.HasFlag(RenderFlags.NoEOLComments)))
             {
-                writer.Write(" : ");
+                writer.Write(": ");
                 AsTextType(writer, flags);
             }
 
