@@ -10,7 +10,9 @@ public class ConstantFoldingPass : IPass
     public CodeObject Process(CodeObject obj, PassManager passManager)
     {
         if (obj is VariableDecl ass && ass.Initialization is BinaryOperator expr)
+        {
             ass.Initialization = new Literal(Evaluate(expr));
+        }
 
         return obj;
     }
@@ -18,6 +20,7 @@ public class ConstantFoldingPass : IPass
     private int Evaluate(CodeObject tree)
     {
         if (tree is BinaryOperator expr)
+        {
             switch (expr.Symbol)
             {
                 case "+":
@@ -32,6 +35,7 @@ public class ConstantFoldingPass : IPass
                 case "/":
                     return Evaluate(expr.Left) / Evaluate(expr.Right);
             }
+        }
         else if (tree is Literal lit)
         {
             return int.Parse(lit.Text);
