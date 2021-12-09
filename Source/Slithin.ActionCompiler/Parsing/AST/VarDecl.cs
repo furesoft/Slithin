@@ -1,5 +1,6 @@
 ﻿using Furesoft.Core.CodeDom.CodeDOM.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Base;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Assignments;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.References.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Statements.Variables;
 using Furesoft.Core.CodeDom.CodeDOM.Statements.Variables.Base;
@@ -135,6 +136,31 @@ namespace Slithin.ActionCompiler.Parsing.AST
             if (_name != null)
             {
                 MoveLocationAndComment(parser.LastToken);
+            }
+        }
+
+        private new void ParseInitialization(Parser parser, CodeObject parent)
+        {
+            if (parser.TokenText == Assignment.ParseToken)
+            {
+                Token equalsToken = parser.Token;
+                parser.NextToken();  // Move past the '='
+                SetField(ref _initialization, Expression.Parse(parser, parent), false);
+                if (_initialization != null)
+                {
+                    // Move any newlines on the '=' to the initialization expression instead
+                    _initialization.MoveFormatting(equalsToken);
+
+                    // Move any comments after the '=' to the initialization expression
+                    _initialization.MoveCommentsToLeftMost(equalsToken, false);
+
+                    // If the initialization expression is single-line and it's the last thing on the line (the
+                    // next token is first-on-line), then move any EOL comment on it to the parent (this handles
+                    // the case of EOL comments on intializers in a multi-variable list when the commas occur
+                    // *before* each item on the line).
+                    if (_initialization.IsSingleLine && (parser.Token == null || parser.Token.IsFirstOnLine))
+                        MoveEOLComment(_initialization);
+                }
             }
         }
     }

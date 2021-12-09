@@ -3,7 +3,6 @@ using Furesoft.Core.CodeDom.CodeDOM.Base.Interfaces;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.References.Other;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.References.Types;
-using Furesoft.Core.CodeDom.CodeDOM.Statements.Methods;
 using Furesoft.Core.CodeDom.Parsing;
 using Furesoft.Core.CodeDom.Rendering;
 using System;
@@ -119,7 +118,7 @@ public class GenericTypeRef : TypeRef
 
     public new static void AddParsePoints()
     {
-        Parser.AddParsePoint("<", 1, Parse, typeof(VarDecl), typeof(MethodDecl));
+        Parser.AddParsePoint("<", 1, Parse, typeof(VarDecl));
     }
 
     public override void AsTextExpression(CodeWriter writer, RenderFlags flags)
