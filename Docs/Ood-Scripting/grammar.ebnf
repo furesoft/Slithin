@@ -7,8 +7,11 @@
 <identifierFirstPart> ::= <lowerChar> | <upperChar> | "_"
 <identifierSecondPart> ::= <identifierFirstPart> | <digit>
 <identifier> ::= <identifierFirstPart>+ <identifierSecondPart>*
-<typeIdentifier> ::= <identifier> "<" <typeIdentifier> ">"
+<typeIdentifier> ::= <identifier> "<" <typeIdentifierArguments> ">"
 					| <identifier>
+
+<typeIdentifierArguments> ::= <typeIdentifierArguments> "," <typeIdentifierArguments> 
+							|	<identifier>
 
 <int> ::= <digit>+
 <float> ::= <digit>+ "." <digit>+

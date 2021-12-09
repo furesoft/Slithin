@@ -160,6 +160,8 @@ namespace Slithin.ActionCompiler.Parsing.AST
                     // *before* each item on the line).
                     if (_initialization.IsSingleLine && (parser.Token == null || parser.Token.IsFirstOnLine))
                         MoveEOLComment(_initialization);
+
+                    _initialization.Parent = this;
                 }
             }
         }

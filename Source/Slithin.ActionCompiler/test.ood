@@ -1,5 +1,4 @@
-﻿var world2 : Pointer<i32> = 1 < 2;
-var world2 : Pointer<i32> = 42;
+﻿var world2 : Pointer<i32> = 42;
 var world2 : Pointer<i32, i32> = 42;
 
 var hello = true;
