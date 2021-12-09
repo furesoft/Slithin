@@ -11,13 +11,17 @@ public class ConstantFoldingPass : IPass
     {
         if (obj is VariableDecl ass && ass.Initialization is BinaryOperator expr)
         {
-            ass.Initialization = new Literal(Evaluate(expr));
+            int? result = Evaluate(expr);
+            if (result.HasValue)
+            {
+                ass.Initialization = new Literal(result);
+            }
         }
 
         return obj;
     }
 
-    private int Evaluate(CodeObject tree)
+    private int? Evaluate(CodeObject tree)
     {
         if (tree is BinaryOperator expr)
         {
@@ -41,6 +45,6 @@ public class ConstantFoldingPass : IPass
             return int.Parse(lit.Text);
         }
 
-        return 0;
+        return null;
     }
 }
