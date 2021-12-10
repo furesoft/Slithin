@@ -17,7 +17,7 @@ public class TypeResolvePass : IPass
     private readonly Dictionary<Type, Primitive> NetTypeMap = new()
     {
         [typeof(int)] = Primitives.Int,
-        [typeof(bool)] = Primitives.Bool,
+        [typeof(bool)] = Primitives.Int,
         [typeof(long)] = Primitives.Long,
         [typeof(float)] = Primitives.Float,
         [typeof(double)] = Primitives.Double
@@ -26,7 +26,7 @@ public class TypeResolvePass : IPass
     private readonly Dictionary<string, Primitive> TypeMap = new()
     {
         ["i32"] = Primitives.Int,
-        ["bool"] = Primitives.Bool,
+        ["bool"] = Primitives.Int,
         ["i64"] = Primitives.Long,
         ["f32"] = Primitives.Float,
         ["f64"] = Primitives.Double

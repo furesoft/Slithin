@@ -1,7 +1,11 @@
-﻿namespace Slithin.ActionCompiler.TypeSystem
+﻿using System.Collections.Generic;
+
+namespace Slithin.ActionCompiler.TypeSystem
 {
     public class Primitive
     {
+        public Dictionary<string, List<OperatorInfo>> Operators = new();
+
         public Primitive(string name, uint token)
         {
             Name = name;
@@ -10,6 +14,31 @@
 
         public string Name { get; set; }
         public uint Token { get; set; }
+
+        public OperatorInfo this[string op]
+        {
+            set
+            {
+                Add(op, value);
+            }
+        }
+
+        public void Add(string op, OperatorInfo operatorInfo)
+        {
+            if (Operators.ContainsKey(op))
+            {
+                Operators[op].Add(operatorInfo);
+            }
+            else
+            {
+                var list = new List<OperatorInfo>
+                {
+                    operatorInfo
+                };
+
+                Operators.Add(op, list);
+            }
+        }
 
         public override string ToString()
         {
