@@ -97,6 +97,9 @@
      <Compile Update="VPL\Components\Views\EntryView.axaml.cs">
        <DependentUpon>EntryView.axaml</DependentUpon>
      </Compile>
+     <Compile Update="VPL\VplWindow.axaml.cs">
+       <DependentUpon>VplWindow.axaml</DependentUpon>
+     </Compile>
      <Compile Remove="Slithin.ModuleSystem.Memory\**" />
    </ItemGroup>
    
