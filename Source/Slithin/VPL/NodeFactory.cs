@@ -102,7 +102,29 @@ public class NodeFactory
                 Build = (x, y) => CreateShowNotification(x, y),
                 Preview = CreateShowNotification(0, 0)
             },
+            new NodeTemplateViewModel {
+                Title = "Text Input",
+                Build = (x, y) => CreateTextNode(x, y),
+                Preview = CreateTextNode(0, 0)
+            },
         };
+    }
+
+    public INode CreateTextNode(double x, double y, double width = 120, double height = 60, double pinSize = 8)
+    {
+        var node = new NodeViewModel
+        {
+            X = x,
+            Y = y,
+            Width = width,
+            Height = height,
+            Pins = new ObservableCollection<IPin>(),
+            Content = new TextNodeViewModel { Label = "Text Input" }
+        };
+
+        node.AddPin(width, height / 4, pinSize, pinSize, PinAlignment.Right, "Output");
+
+        return node;
     }
 
     public void PrintNetList(IDrawingNode? drawing)
