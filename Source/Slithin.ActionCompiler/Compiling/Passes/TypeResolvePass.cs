@@ -31,6 +31,50 @@ public class TypeResolvePass : IPass
         return obj;
     }
 
+    private void ParseValueAsTypedLiteral(VarDecl varDecl, Furesoft.Core.CodeDom.CodeDOM.Expressions.Base.Expression value, Literal lit)
+    {
+        Type type = null;
+        object typedValue = null;
+        if (bool.TryParse(lit.Text, out var boolLit))
+        {
+            type = boolLit.GetType();
+            typedValue = boolLit;
+        }
+        else if (int.TryParse(lit.Text, out var intLit))
+        {
+            type = intLit.GetType();
+            typedValue = intLit;
+        }
+        else if (long.TryParse(lit.Text, out var longLit))
+        {
+            type = longLit.GetType();
+            typedValue = longLit;
+        }
+        else if (float.TryParse(lit.Text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
+                     out var floatLit))
+        {
+            type = floatLit.GetType();
+            typedValue = floatLit;
+        }
+        else if (double.TryParse(lit.Text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
+                     out var doubleLit))
+        {
+            type = doubleLit.GetType();
+            typedValue = doubleLit;
+        }
+        else
+        {
+            value.AttachMessage(
+                $"Cannot find type of literal '{lit.Text}'. Specify Type or use literal suffix.",
+                MessageSeverity.Error, MessageSource.Resolve);
+        }
+
+        Primitive primitive = NetTypeMap[type];
+        varDecl.Type ??= new PrimitiveTypeRef(primitive);
+
+        varDecl.Initialization = new TypedLiteral(primitive, typedValue);
+    }
+
     private void ResolveVarType(VarDecl varDecl)
     {
         var value = varDecl.Initialization;
@@ -42,30 +86,9 @@ public class TypeResolvePass : IPass
             else
                 varDecl.AttachMessage($"Cannot find type {s}", MessageSeverity.Error, MessageSource.Resolve);
         }
-        else if (varDecl.Type == null)
+        else if (value is Literal lit)
         {
-            //literal, unresolvedRef for vardecl
-            if (value is Literal lit)
-            {
-                Type type = null;
-                if (bool.TryParse(lit.Text, out var boolLit))
-                    type = boolLit.GetType();
-                else if (int.TryParse(lit.Text, out var intLit))
-                    type = intLit.GetType();
-                else if (long.TryParse(lit.Text, out var longLit))
-                    type = longLit.GetType();
-                else if (float.TryParse(lit.Text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
-                             out var floatLit))
-                    type = floatLit.GetType();
-                else if (double.TryParse(lit.Text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
-                             out var doubleLit)) type = doubleLit.GetType();
-                else
-                    value.AttachMessage(
-                        $"Cannot find type of literal '{lit.Text}'. Specify Type or use literal suffix.",
-                        MessageSeverity.Error, MessageSource.Resolve);
-
-                varDecl.Type = new PrimitiveTypeRef(NetTypeMap[type]);
-            }
+            ParseValueAsTypedLiteral(varDecl, value, lit);
         }
     }
 }
