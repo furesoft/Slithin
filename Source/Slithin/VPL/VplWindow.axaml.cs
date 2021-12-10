@@ -2,7 +2,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Slithin.ViewModels.Modals;
+using Slithin.ViewModels;
 
 namespace Slithin.VPL;
 
@@ -26,6 +26,6 @@ public partial class VplWindow : Window
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = new NewScriptModalViewModel();
+        DataContext = new VplWindowViewModal();
     }
 }
