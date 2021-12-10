@@ -87,7 +87,7 @@
                                          Stretch="None"
                                          ZoomSpeed="1.2"
                                          EnableConstrains="False"
-                                         Background="Transparent"
+                                         Background="White"
                                          ClipToBounds="True"
                                          Focusable="True"
                                          VerticalAlignment="Stretch"
