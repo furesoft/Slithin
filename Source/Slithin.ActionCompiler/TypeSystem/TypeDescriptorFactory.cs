@@ -25,5 +25,10 @@ namespace Slithin.ActionCompiler.TypeSystem
                 return null; //Todo: implement custom types
             }
         }
+
+        public static bool IsPrimitive(string typename)
+        {
+            return _primitives.ContainsKey(typename);
+        }
     }
 }

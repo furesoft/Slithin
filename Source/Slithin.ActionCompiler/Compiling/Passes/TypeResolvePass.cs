@@ -23,15 +23,6 @@ public class TypeResolvePass : IPass
         [typeof(double)] = Primitives.Double
     };
 
-    private readonly Dictionary<string, Primitive> TypeMap = new()
-    {
-        ["i32"] = Primitives.Int,
-        ["bool"] = Primitives.Int,
-        ["i64"] = Primitives.Long,
-        ["f32"] = Primitives.Float,
-        ["f64"] = Primitives.Double
-    };
-
     public CodeObject Process(CodeObject obj, PassManager passManager)
     {
         if (obj is VarDecl varDecl)
@@ -46,8 +37,8 @@ public class TypeResolvePass : IPass
 
         if (varDecl.Type is UnresolvedRef { Reference: string s })
         {
-            if (TypeMap.ContainsKey(s))
-                varDecl.Type = new PrimitiveTypeRef(TypeMap[s]);
+            if (TypeDescriptorFactory.IsPrimitive(s))
+                varDecl.Type = new PrimitiveTypeRef(TypeDescriptorFactory.FromTypeName(s));
             else
                 varDecl.AttachMessage($"Cannot find type {s}", MessageSeverity.Error, MessageSource.Resolve);
         }
