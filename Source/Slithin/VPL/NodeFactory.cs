@@ -85,10 +85,9 @@ public class NodeFactory
             Content = new ShowNotificationViewModel { Label = "Show Notification" }
         };
 
-        node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left, "Flow");
-        node.AddPin(0, height / 4 * 3, pinSize, pinSize, PinAlignment.Left, "Message");
+        node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left, "Input Flow");
 
-        node.AddPin(width, height / 4, pinSize, pinSize, PinAlignment.Right, "Flow");
+        node.AddPin(width, height / 4, pinSize, pinSize, PinAlignment.Right, "Output Flow");
 
         return node;
     }
