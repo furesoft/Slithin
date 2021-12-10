@@ -1,5 +1,8 @@
 ﻿using Furesoft.Core.CodeDom.CodeDOM.Annotations;
 using Furesoft.Core.CodeDom.CodeDOM.Base;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Base;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Assignments;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Base;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.Other;
 using Furesoft.Core.CodeDom.CodeDOM.Expressions.References.Other;
 using Slithin.ActionCompiler.Parsing.AST;
@@ -26,12 +29,18 @@ public class TypeResolvePass : IPass
     public CodeObject Process(CodeObject obj, PassManager passManager)
     {
         if (obj is VarDecl varDecl)
+        {
             ResolveVarType(varDecl);
+        }
+        else if (obj is Assignment ass)
+        {
+            ResolveAssignment(ass);
+        }
 
         return obj;
     }
 
-    private void ParseValueAsTypedLiteral(VarDecl varDecl, Furesoft.Core.CodeDom.CodeDOM.Expressions.Base.Expression value, Literal lit)
+    private (Primitive primitive, object typedValue) ParseValueAsTypedLiteral(Expression value, Literal lit)
     {
         Type type = null;
         object typedValue = null;
@@ -70,9 +79,16 @@ public class TypeResolvePass : IPass
         }
 
         Primitive primitive = NetTypeMap[type];
-        varDecl.Type ??= new PrimitiveTypeRef(primitive);
 
-        varDecl.Initialization = new TypedLiteral(primitive, typedValue);
+        return (primitive, typedValue);
+    }
+
+    private void ResolveAssignment(Assignment ass)
+    {
+        if (ass.Right is BinaryOperator binary)
+        {
+            TypeBinaryLiterals(binary);
+        }
     }
 
     private void ResolveVarType(VarDecl varDecl)
@@ -88,7 +104,32 @@ public class TypeResolvePass : IPass
         }
         else if (value is Literal lit)
         {
-            ParseValueAsTypedLiteral(varDecl, value, lit);
+            var typed = ParseValueAsTypedLiteral(value, lit);
+            varDecl.Type ??= new PrimitiveTypeRef(typed.primitive);
+
+            varDecl.Initialization = new TypedLiteral(typed.primitive, typed.typedValue);
         }
+    }
+
+    private Expression TypeBinaryLiterals(Expression obj)
+    {
+        if (obj is BinaryOperator binary)
+        {
+            binary.Left = TypeBinaryLiterals(binary.Left);
+            binary.Right = TypeBinaryLiterals(binary.Right);
+
+            return binary;
+        }
+        else if (obj is Literal lit)
+        {
+            var typed = ParseValueAsTypedLiteral(lit, lit);
+
+            if (typed.primitive is not null && typed.typedValue is not null)
+            {
+                return new TypedLiteral(typed.primitive, typed.typedValue);
+            }
+        }
+
+        return obj;
     }
 }
