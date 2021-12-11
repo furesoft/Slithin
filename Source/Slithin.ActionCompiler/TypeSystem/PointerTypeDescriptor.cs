@@ -2,7 +2,7 @@
 {
     public class PointerTypeDescriptor : TypeDescriptor
     {
-        public PointerTypeDescriptor(TypeDescriptor type) : base("Pointer<?>", 6)
+        public PointerTypeDescriptor(TypeDescriptor type) : base("Pointer<?>", (int)PrimitiveTypeTokens.Pointer)
         {
             PointerType = type;
         }
