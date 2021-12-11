@@ -32,6 +32,11 @@ namespace Slithin.ActionCompiler.TypeSystem
             return _primitives.ContainsKey(typename);
         }
 
+        public static TypeDescriptor MakeArray(TypeDescriptor type, int[] dimensions)
+        {
+            return new ArrayTypeDescriptor(type, dimensions);
+        }
+
         public static TypeDescriptor MakePointer(TypeDescriptor type)
         {
             return new PointerTypeDescriptor(type);
