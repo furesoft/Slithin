@@ -2,7 +2,7 @@
 {
     public class ArrayTypeDescriptor : TypeDescriptor
     {
-        public ArrayTypeDescriptor(TypeDescriptor type, int[] dimensions) : base($"Array<{type.Name}>", (int)PrimitiveTypeTokens.Array)
+        public ArrayTypeDescriptor(TypeDescriptor type, int[] dimensions) : base($"Array[{type.Name}]", (int)PrimitiveTypeTokens.Array)
         {
             ArrayType = type;
             Dimensions = dimensions;
