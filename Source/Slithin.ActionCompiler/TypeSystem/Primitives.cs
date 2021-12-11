@@ -11,6 +11,8 @@
         public static Primitive Long = new Primitive("i64", 2);
         public static Primitive String = new Primitive("string", 5);
 
+        //Token = 6 For Pointer
+
         static Primitives()
         {
             InitBaseOperators(Double);
