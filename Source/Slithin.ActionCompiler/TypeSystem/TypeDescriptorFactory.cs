@@ -12,6 +12,7 @@ namespace Slithin.ActionCompiler.TypeSystem
             _primitives.Add("i64", Primitives.Long);
             _primitives.Add("f32", Primitives.Float);
             _primitives.Add("f64", Primitives.Double);
+            _primitives.Add("string", Primitives.String);
         }
 
         public static TypeDescriptor FromTypeName(string typename)

@@ -9,6 +9,7 @@
         public static Primitive Int = new Primitive("i32", 1);
 
         public static Primitive Long = new Primitive("i64", 2);
+        public static Primitive String = new Primitive("string", 5);
 
         static Primitives()
         {
@@ -16,6 +17,7 @@
             InitBaseOperators(Float);
             InitBaseOperators(Int);
             InitBaseOperators(Long);
+            //ToDo: add operators for string
 
             InitImplicitCastInt();
         }

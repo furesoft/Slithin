@@ -23,7 +23,8 @@ public class TypeResolvePass : IPass
         [typeof(bool)] = Primitives.Int,
         [typeof(long)] = Primitives.Long,
         [typeof(float)] = Primitives.Float,
-        [typeof(double)] = Primitives.Double
+        [typeof(double)] = Primitives.Double,
+        [typeof(string)] = Primitives.String,
     };
 
     public CodeObject Process(CodeObject obj, PassManager passManager)
@@ -70,6 +71,11 @@ public class TypeResolvePass : IPass
         {
             type = doubleLit.GetType();
             typedValue = doubleLit;
+        }
+        else if (lit.Text.StartsWith("\"") && lit.Text.EndsWith("\""))
+        {
+            type = typeof(string);
+            typedValue = lit.Text.Substring(1, lit.Text.Length - 2);
         }
         else
         {
