@@ -31,5 +31,10 @@ namespace Slithin.ActionCompiler.TypeSystem
         {
             return _primitives.ContainsKey(typename);
         }
+
+        public static TypeDescriptor MakePointer(TypeDescriptor type)
+        {
+            return new PointerTypeDescriptor(type);
+        }
     }
 }

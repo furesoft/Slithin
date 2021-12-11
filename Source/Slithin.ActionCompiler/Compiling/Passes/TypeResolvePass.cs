@@ -108,6 +108,18 @@ public class TypeResolvePass : IPass
             else
                 varDecl.AttachMessage($"Cannot find type {s}", MessageSeverity.Error, MessageSource.Resolve);
         }
+        else if (varDecl.Type is GenericTypeRef genericTypeRef
+            && genericTypeRef.Base is UnresolvedRef uref
+            && uref.Reference is string typename
+            && typename == "Pointer")
+        {
+            var argument = genericTypeRef.Arguments[0];
+
+            if (argument is UnresolvedRef { Reference: string ass })
+            {
+                varDecl.Type = new PrimitiveTypeRef(TypeDescriptorFactory.MakePointer(TypeDescriptorFactory.FromTypeName(ass)));
+            }
+        }
         else if (value is Literal lit)
         {
             var typed = ParseValueAsTypedLiteral(value, lit);
