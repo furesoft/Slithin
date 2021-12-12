@@ -77,7 +77,7 @@ public class NodeFactory
         {
             var pin = inputPins[i];
 
-            node.AddPin(0, height / (2 * inputPins.Length * (i + 1)), pinSize, pinSize,
+            node.AddPin(0, height * 1.0 / (inputPins.Length + 1) * (i + 1), pinSize, pinSize,
                 pin.Item1.Alignment != PinAlignment.None ? pin.Item1.Alignment : PinAlignment.Left,
                 pin.Item1.Name ?? pin._.Name);
         }
@@ -86,12 +86,7 @@ public class NodeFactory
         {
             var pin = outputPins[i];
 
-            if (outputPins.Length == 1)
-            {
-                height = height / 2;
-            }
-
-            node.AddPin(width, height / outputPins.Length * (i + 1), pinSize, pinSize,
+            node.AddPin(width, height * 1.0 / (outputPins.Length + 1) * (i + 1), pinSize, pinSize,
                  pin.Item1.Alignment != PinAlignment.None ? pin.Item1.Alignment : PinAlignment.Right,
                  pin.Item1.Name ?? pin._.Name);
         }
