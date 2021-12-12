@@ -88,6 +88,9 @@
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>
+     <Compile Update="VPL\Components\Views\PromptView.axaml.cs">
+       <DependentUpon>PromptView.axaml</DependentUpon>
+     </Compile>
      <Compile Update="VPL\Components\Views\TextNodeView.axaml.cs">
        <DependentUpon>TextNodeView.axaml</DependentUpon>
      </Compile>

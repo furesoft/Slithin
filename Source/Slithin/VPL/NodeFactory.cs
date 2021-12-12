@@ -73,6 +73,26 @@ public class NodeFactory
         return node;
     }
 
+    public INode CreatePrompt(double x, double y, double width = 120, double height = 60, double pinSize = 8)
+    {
+        var node = new NodeViewModel
+        {
+            X = x,
+            Y = y,
+            Width = width,
+            Height = height,
+            Pins = new ObservableCollection<IPin>(),
+            Content = new PromptViewModel { Label = "Show Prompt" }
+        };
+
+        node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left, "Input Flow");
+
+        node.AddPin(width, height / 4, pinSize, pinSize, PinAlignment.Right, "Output Flow");
+        node.AddPin(width, height / 4 * 3, pinSize, pinSize, PinAlignment.Right, "Value");
+
+        return node;
+    }
+
     public INode CreateShowNotification(double x, double y, double width = 120, double height = 60, double pinSize = 8)
     {
         var node = new NodeViewModel
