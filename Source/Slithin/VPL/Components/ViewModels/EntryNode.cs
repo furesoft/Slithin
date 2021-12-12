@@ -6,9 +6,13 @@ namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
 [NodeView(typeof(EntryView))]
-public class EntryViewModel : NodeViewModelBase
+[IgnoreTemplate]
+public class EntryNode : VisualNode
 {
-    public EntryViewModel() : base("Entry")
+    public EntryNode() : base("Entry")
     {
     }
+
+    [Pin("Flow Output")]
+    public IOutputPin FlowPin { get; set; }
 }

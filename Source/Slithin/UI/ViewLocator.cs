@@ -33,16 +33,25 @@ public class ViewLocator : IDataTemplate
         }
         else
         {
-            var name = data.GetType().FullName!.Replace("ViewModel", "View");
-            var type = Type.GetType(name);
+            var viewAttribute = data.GetType().GetCustomAttribute<NodeViewAttribute>();
 
-            if (type != null)
+            if (viewAttribute != null)
             {
-                return (Control)Activator.CreateInstance(type)!;
+                return (Control)Activator.CreateInstance(viewAttribute.Type);
             }
             else
             {
-                return new TextBlock { Text = "VM Not Found: " };
+                var name = data.GetType().FullName!.Replace("ViewModel", "View");
+                var type = Type.GetType(name);
+
+                if (type != null)
+                {
+                    return (Control)Activator.CreateInstance(type)!;
+                }
+                else
+                {
+                    return new TextBlock { Text = "VM Not Found: " };
+                }
             }
         }
 

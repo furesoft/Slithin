@@ -6,13 +6,16 @@ namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
 [NodeView(typeof(TextNodeView))]
-public class TextNodeViewModel : NodeViewModelBase
+public class TextNode : VisualNode
 {
     private string? _text;
 
-    public TextNodeViewModel() : base("Text")
+    public TextNode() : base("Text")
     {
     }
+
+    [Pin("Value")]
+    public IInputPin FlowOutputPin { get; set; }
 
     [DataMember(IsRequired = false, EmitDefaultValue = false)]
     public string? Text

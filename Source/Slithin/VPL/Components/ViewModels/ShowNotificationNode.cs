@@ -6,13 +6,19 @@ namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
 [NodeView(typeof(ShowNotificationView))]
-public class ShowNotificationViewModel : NodeViewModelBase
+public class ShowNotificationNode : VisualNode
 {
     private object? _message;
 
-    public ShowNotificationViewModel() : base("Show Notification")
+    public ShowNotificationNode() : base("Show Notification")
     {
     }
+
+    [Pin("Flow Input")]
+    public IInputPin FlowInputPin { get; set; }
+
+    [Pin("Flow Output")]
+    public IOutputPin FlowOutputPin { get; set; }
 
     [DataMember(IsRequired = false, EmitDefaultValue = false)]
     public object? Message

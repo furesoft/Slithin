@@ -6,14 +6,20 @@ namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
 [NodeView(typeof(PromptView))]
-public class PromptViewModel : NodeViewModelBase
+public class PromptNode : VisualNode
 {
     private object? _header;
     private object? _value;
 
-    public PromptViewModel() : base("Show Prompt")
+    public PromptNode() : base("Show Prompt")
     {
     }
+
+    [Pin("Flow Input")]
+    public IInputPin FlowInputPin { get; set; }
+
+    [Pin("Flow Output")]
+    public IOutputPin FlowOutputPin { get; set; }
 
     [DataMember(IsRequired = false, EmitDefaultValue = false)]
     public object? Header

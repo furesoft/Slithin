@@ -4,17 +4,17 @@ using Slithin.Core;
 namespace Slithin.VPL;
 
 [DataContract(IsReference = true)]
-public class NodeViewModelBase : BaseViewModel
+public class VisualNode : BaseViewModel
 {
-    private object? _label;
+    private string? _label;
 
-    public NodeViewModelBase(string label)
+    public VisualNode(string label)
     {
         Label = label;
     }
 
     [DataMember(IsRequired = false, EmitDefaultValue = false)]
-    public object? Label
+    public string? Label
     {
         get => _label;
         set => SetValue(ref _label, value);

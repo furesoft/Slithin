@@ -6,9 +6,13 @@ namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
 [NodeView(typeof(ExitView))]
-public class ExitViewModel : NodeViewModelBase
+[IgnoreTemplate]
+public class ExitNode : VisualNode
 {
-    public ExitViewModel() : base("Exit")
+    public ExitNode() : base("Exit")
     {
     }
+
+    [Pin("Flow Input")]
+    public IInputPin FlowPin { get; set; }
 }
