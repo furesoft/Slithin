@@ -1,4 +1,6 @@
-﻿var world2 : Pointer<i32> = 42;
+﻿var world2 : i32[] = 0;
+
+var world2 : Pointer<i32> = 42;
 var str = "Hello World";
 var world2 : Pointer<i32, i32> = 42;
 

@@ -52,7 +52,11 @@ namespace Slithin.ActionCompiler
             Mod.AddParsePoints();
 
             Dot.AddParsePoints();
+
             GenericTypeRef.AddParsePoints();
+            ArrayTypeRef.AddParsePoints();
+
+            //NewArray.AddParsePoints();
         }
 
         public static CodeUnit ParseFile(string filename)
