@@ -20,7 +20,7 @@ using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals.Tools;
 
-public class CreateNotebookModalViewModel : BaseViewModel
+public class CreateNotebookModalViewModel : ModalBaseViewModel
 {
     private readonly ILoadingService _loadingService;
     private readonly IMailboxService _mailboxService;
@@ -130,6 +130,8 @@ public class CreateNotebookModalViewModel : BaseViewModel
 
     public override void OnLoad()
     {
+        base.OnLoad();
+
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
         Cover = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/Covers/Folder-DBlue.png")));
@@ -192,7 +194,7 @@ public class CreateNotebookModalViewModel : BaseViewModel
             return;
         }
 
-        var document = new PdfDocument {PageLayout = PdfPageLayout.SinglePage, PageMode = PdfPageMode.FullScreen};
+        var document = new PdfDocument { PageLayout = PdfPageLayout.SinglePage, PageMode = PdfPageMode.FullScreen };
         document.Info.Author = "Slithin";
         document.Info.Title = Title;
 
@@ -264,7 +266,7 @@ public class CreateNotebookModalViewModel : BaseViewModel
             Type = "DocumentType",
             Version = 1,
             Parent = "",
-            Content = new ContentFile {FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count}
+            Content = new ContentFile { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count }
         };
 
         md.Save();
@@ -278,7 +280,10 @@ public class CreateNotebookModalViewModel : BaseViewModel
 
         var syncItem = new SyncItem
         {
-            Action = SyncAction.Add, Data = md, Direction = SyncDirection.ToDevice, Type = SyncType.Notebook
+            Action = SyncAction.Add,
+            Data = md,
+            Direction = SyncDirection.ToDevice,
+            Type = SyncType.Notebook
         };
 
         SyncService.AddToSyncQueue(syncItem);

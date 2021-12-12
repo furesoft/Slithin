@@ -3,15 +3,11 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Styling;
-using Slithin.Core;
 
 namespace Slithin.Controls;
 
 public class DialogControl : ContentControl, IStyleable
 {
-    public static StyledProperty<ICommand> CancelCommandProperty =
-        AvaloniaProperty.Register<DialogControl, ICommand>(nameof(CancelCommand));
-
     public static StyledProperty<ICommand> CommandProperty =
         AvaloniaProperty.Register<DialogControl, ICommand>(nameof(Command));
 
@@ -23,17 +19,6 @@ public class DialogControl : ContentControl, IStyleable
 
     public static StyledProperty<bool> IsCancelEnabledProperty =
         AvaloniaProperty.Register<DialogControl, bool>(nameof(IsCancelEnabled));
-
-    public DialogControl()
-    {
-        CancelCommand = new DelegateCommand(_ => DialogService.Close());
-    }
-
-    public ICommand CancelCommand
-    {
-        get => GetValue(CancelCommandProperty);
-        set => SetValue(CancelCommandProperty, value);
-    }
 
     public ICommand Command
     {

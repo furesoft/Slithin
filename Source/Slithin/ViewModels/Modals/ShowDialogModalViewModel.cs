@@ -1,13 +1,9 @@
-﻿using System.Windows.Input;
-using Slithin.Core;
+﻿namespace Slithin.ViewModels.Modals;
 
-namespace Slithin.ViewModels.Modals;
-
-public class ShowDialogModalViewModel : BaseViewModel
+public class ShowDialogModalViewModel : ModalBaseViewModel
 {
     private object _content;
     private string _title;
-    public ICommand AcceptCommand { get; set; }
 
     public object Content
     {

@@ -13,21 +13,30 @@ public class NotificationImplementation
         NotificationService.Hide();
     }
 
-    [WasmExport("show")]
-    public static void Show(int messageAddress)
-    {
-        NotificationService.Show(Utils.StringFromPtr(messageAddress));
-    }
-
     [WasmExport("prompt")]
     public static int Prompt(int headerAddress)
     {
         var header = Utils.StringFromPtr(headerAddress);
 
         var result = DialogService.ShowPrompt(header, null).Result;
+
         var resultPtr = (Pointer)0;//ToDo: need to be allocated
-        resultPtr.Write(result);
+
+        if (result != null)
+        {
+            resultPtr.Write(result);
+        }
+        else
+        {
+            resultPtr.Write(0);
+        }
 
         return resultPtr;
+    }
+
+    [WasmExport("show")]
+    public static void Show(int messageAddress)
+    {
+        NotificationService.Show(Utils.StringFromPtr(messageAddress));
     }
 }

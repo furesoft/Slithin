@@ -15,7 +15,7 @@ using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals;
 
-public class AddTemplateModalViewModel : BaseViewModel
+public class AddTemplateModalViewModel : ModalBaseViewModel
 {
     private readonly LocalRepository _localRepository;
     private readonly IPathManager _pathManager;
@@ -95,7 +95,7 @@ public class AddTemplateModalViewModel : BaseViewModel
                 continue;
             }
 
-            var item = new IconCodeItem {Name = res.Split('.')[^2]};
+            var item = new IconCodeItem { Name = res.Split('.')[^2] };
             item.Load();
 
             IconCodes.Add(item);
@@ -159,7 +159,7 @@ public class AddTemplateModalViewModel : BaseViewModel
 
         DialogService.Close();
 
-        var syncItem = new SyncItem {Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template};
+        var syncItem = new SyncItem { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
         _synchronisationService.AddToSyncQueue(syncItem);
 
         var configItem = new SyncItem

@@ -6,7 +6,7 @@ using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels.Modals;
 
-public class RenameModalViewModel : BaseViewModel
+public class RenameModalViewModel : ModalBaseViewModel
 {
     private readonly Metadata _md;
     private readonly SynchronisationService _synchronisationService;
@@ -45,7 +45,10 @@ public class RenameModalViewModel : BaseViewModel
 
         var syncItem = new SyncItem
         {
-            Action = SyncAction.Update, Data = _md, Direction = SyncDirection.ToDevice, Type = SyncType.Notebook
+            Action = SyncAction.Update,
+            Data = _md,
+            Direction = SyncDirection.ToDevice,
+            Type = SyncType.Notebook
         };
 
         _synchronisationService.AddToSyncQueue(syncItem);

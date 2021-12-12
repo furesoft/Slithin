@@ -4,7 +4,7 @@ using Slithin.VPL;
 
 namespace Slithin.ViewModels.Modals;
 
-public class NewScriptModalViewModel : BaseViewModel
+public class NewScriptModalViewModel : ModalBaseViewModel
 {
     private string _name;
 

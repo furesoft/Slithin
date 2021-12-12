@@ -17,7 +17,7 @@ using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals.Tools;
 
-public class AppendNotebookModalViewModel : BaseViewModel
+public class AppendNotebookModalViewModel : ModalBaseViewModel
 {
     private readonly ILoadingService _loadingService;
     private readonly IMailboxService _mailboxService;
@@ -81,6 +81,8 @@ public class AppendNotebookModalViewModel : BaseViewModel
 
     public override void OnLoad()
     {
+        base.OnLoad();
+
         if (TemplateStorage.Instance.Templates == null)
         {
             _mailboxService.PostAction(() =>
@@ -152,6 +154,7 @@ public class AppendNotebookModalViewModel : BaseViewModel
                     count = nbp.Count;
                     image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
                     break;
+
                 case NotebookCustomPage nbcp:
                     image = XImage.FromFile(nbcp.Filename);
                     count = nbcp.Count;
@@ -184,7 +187,10 @@ public class AppendNotebookModalViewModel : BaseViewModel
 
         var syncItem = new SyncItem
         {
-            Action = SyncAction.Update, Data = md, Direction = SyncDirection.ToDevice, Type = SyncType.Notebook
+            Action = SyncAction.Update,
+            Data = md,
+            Direction = SyncDirection.ToDevice,
+            Type = SyncType.Notebook
         };
 
         SyncService.AddToSyncQueue(syncItem);
