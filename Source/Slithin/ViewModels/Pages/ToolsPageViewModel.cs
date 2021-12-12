@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Slithin.Controls;
@@ -29,24 +28,10 @@ public class ToolsPageViewModel : BaseViewModel
         _invoker = invoker;
     }
 
-    private static void ShowConfigModal(object _)
-    {
-        var tool = ((ITool)_);
-        var content = tool.GetModal();
-
-        var dc = new DialogControl();
-        dc.Header = "Config " + tool.Info.Name;
-        dc.Content = content;
-        dc.IsCancelEnabled = true;
-        dc.CommandText = "OK";
-        dc.MinHeight = 300;
-        dc.MaxWidth = 500;
-
-        DialogService.Open(dc);
-    }
-
     public ICommand ConfigurateScriptCommand { get; set; }
+
     public ICommand ExecuteScriptCommand { get; set; }
+
     public ICommand NewScriptCommand { get; set; }
 
     public ITool SelectedScript
@@ -65,5 +50,23 @@ public class ToolsPageViewModel : BaseViewModel
         var categories = _invoker.Tools.Where(_ => _.Value.Info.IsListed).Select(_ => _.Value.Info.Category);
 
         SyncService.ToolsFilter.Categories = new ObservableCollection<string>(categories.Distinct());
+    }
+
+    private static void ShowConfigModal(object _)
+    {
+        var tool = ((ITool)_);
+        var content = tool.GetModal();
+
+        var dc = new DialogControl();
+        dc.Header = "Config " + tool.Info.Name;
+        dc.Content = content;
+        dc.IsCancelEnabled = true;
+        dc.CommandText = "OK";
+        dc.MinHeight = 300;
+        dc.MaxWidth = 500;
+
+        var vm = new ModalBaseViewModel();
+
+        DialogService.Open(dc, vm);
     }
 }
