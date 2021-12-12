@@ -55,21 +55,12 @@ public class NodeFactory
 
     public INode CreateEntry(double x, double y, double width = 60, double height = 60, double pinSize = 8)
     {
-        var node = CreateViewModel(new EntryNode(), x, y, width, height);
-
-        node.AddPin(width, height / 2, pinSize, pinSize, PinAlignment.Right, "Flow");
-
-        return node;
+        return CreateNode(new EntryNode(), x, y, width, height, pinSize);
     }
 
     public INode CreateExit(double x, double y, double width = 60, double height = 60, double pinSize = 8)
     {
-        var node = CreateViewModel(new ExitNode(), x, y, width, height);
-
-        node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left, "Flow");
-        node.AddPin(0, height / 4 * 3, pinSize, pinSize, PinAlignment.Left, "Return Value");
-
-        return node;
+        return CreateNode(new ExitNode(), x, y, width, height, pinSize);
     }
 
     public INode CreateNode(VisualNode vm, double x, double y, double width = 120, double height = 60, double pinSize = 8)
