@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Avalonia.Markup.Xaml.Templates;
 using NodeEditor.ViewModels;
 using Slithin.Core;
+using Slithin.VPL.NodeBuilding;
 
 namespace Slithin.UI;
 
@@ -13,15 +14,23 @@ public class ViewLocator : IDataTemplate
     {
         if (data is NodeViewModel vm)
         {
-            var name = vm.Content.GetType().FullName!.Replace("ViewModel", "View");
-            var type = Type.GetType(name);
+            var viewAttribute = vm.GetType().GetCustomAttribute<NodeViewAttribute>();
 
-            if (type != null)
+            if (viewAttribute != null)
             {
-                return (Control)Activator.CreateInstance(type)!;
+                return (Control)Activator.CreateInstance(viewAttribute.Type);
+            }
+            else
+            {
+                var name = vm.Content.GetType().FullName!.Replace("ViewModel", "View");
+                var type = Type.GetType(name);
+
+                if (type != null)
+                {
+                    return (Control)Activator.CreateInstance(type)!;
+                }
             }
         }
-
         else
         {
             var name = data.GetType().FullName!.Replace("ViewModel", "View");

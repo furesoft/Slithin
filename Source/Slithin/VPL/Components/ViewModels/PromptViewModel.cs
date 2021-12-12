@@ -1,12 +1,19 @@
 ﻿using System.Runtime.Serialization;
+using Slithin.VPL.Components.Views;
+using Slithin.VPL.NodeBuilding;
 
 namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
+[NodeView(typeof(PromptView))]
 public class PromptViewModel : NodeViewModelBase
 {
     private object? _header;
     private object? _value;
+
+    public PromptViewModel() : base("Show Prompt")
+    {
+    }
 
     [DataMember(IsRequired = false, EmitDefaultValue = false)]
     public object? Header

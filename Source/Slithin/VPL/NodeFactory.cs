@@ -3,15 +3,26 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using NodeEditor.Model;
 using NodeEditor.ViewModels;
+using Slithin.VPL;
 using Slithin.VPL.Components.ViewModels;
 
 namespace Slithin.UI;
 
 public class NodeFactory
 {
-    public IConnector CreateConnector(IPin? start, IPin? end)
+    public static NodeViewModel CreateViewModel(NodeViewModelBase vm, double x, double y, double width, double height)
     {
-        return new ConnectorViewModel { Start = start, End = end };
+        var node = new NodeViewModel
+        {
+            X = x,
+            Y = y,
+            Width = width,
+            Height = height,
+            Pins = new ObservableCollection<IPin>(),
+            Content = vm
+        };
+
+        return node;
     }
 
     public IDrawingNode CreateDrawing()
@@ -40,15 +51,7 @@ public class NodeFactory
 
     public INode CreateEntry(double x, double y, double width = 60, double height = 60, double pinSize = 8)
     {
-        var node = new NodeViewModel
-        {
-            X = x,
-            Y = y,
-            Width = width,
-            Height = height,
-            Pins = new ObservableCollection<IPin>(),
-            Content = new EntryViewModel { Label = "Entry" }
-        };
+        var node = CreateViewModel(new EntryViewModel(), x, y, width, height);
 
         node.AddPin(width, height / 2, pinSize, pinSize, PinAlignment.Right, "Flow");
 
@@ -57,15 +60,7 @@ public class NodeFactory
 
     public INode CreateExit(double x, double y, double width = 60, double height = 60, double pinSize = 8)
     {
-        var node = new NodeViewModel
-        {
-            X = x,
-            Y = y,
-            Width = width,
-            Height = height,
-            Pins = new ObservableCollection<IPin>(),
-            Content = new ExitViewModel { Label = "Exit" }
-        };
+        var node = CreateViewModel(new ExitViewModel(), x, y, width, height);
 
         node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left, "Flow");
         node.AddPin(0, height / 4 * 3, pinSize, pinSize, PinAlignment.Left, "Return Value");
@@ -75,15 +70,7 @@ public class NodeFactory
 
     public INode CreatePrompt(double x, double y, double width = 120, double height = 60, double pinSize = 8)
     {
-        var node = new NodeViewModel
-        {
-            X = x,
-            Y = y,
-            Width = width,
-            Height = height,
-            Pins = new ObservableCollection<IPin>(),
-            Content = new PromptViewModel { Label = "Show Prompt" }
-        };
+        var node = CreateViewModel(new PromptViewModel(), x, y, width, height);
 
         node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left, "Input Flow");
 
@@ -95,15 +82,7 @@ public class NodeFactory
 
     public INode CreateShowNotification(double x, double y, double width = 120, double height = 60, double pinSize = 8)
     {
-        var node = new NodeViewModel
-        {
-            X = x,
-            Y = y,
-            Width = width,
-            Height = height,
-            Pins = new ObservableCollection<IPin>(),
-            Content = new ShowNotificationViewModel { Label = "Show Notification" }
-        };
+        var node = CreateViewModel(new ShowNotificationViewModel(), x, y, width, height);
 
         node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left, "Input Flow");
 
@@ -122,6 +101,11 @@ public class NodeFactory
                 Preview = CreateShowNotification(0, 0)
             },
             new NodeTemplateViewModel {
+                Title = "Show Prompt",
+                Build = (x, y) => CreatePrompt(x, y),
+                Preview = CreatePrompt(0, 0)
+            },
+            new NodeTemplateViewModel {
                 Title = "Text Input",
                 Build = (x, y) => CreateTextNode(x, y),
                 Preview = CreateTextNode(0, 0)
@@ -131,15 +115,7 @@ public class NodeFactory
 
     public INode CreateTextNode(double x, double y, double width = 120, double height = 60, double pinSize = 8)
     {
-        var node = new NodeViewModel
-        {
-            X = x,
-            Y = y,
-            Width = width,
-            Height = height,
-            Pins = new ObservableCollection<IPin>(),
-            Content = new TextNodeViewModel { Label = "Text Input" }
-        };
+        var node = CreateViewModel(new TextNodeViewModel(), x, y, width, height);
 
         node.AddPin(width, height / 4, pinSize, pinSize, PinAlignment.Right, "Output");
 

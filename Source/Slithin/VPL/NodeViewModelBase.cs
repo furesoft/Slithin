@@ -8,6 +8,11 @@ public class NodeViewModelBase : BaseViewModel
 {
     private object? _label;
 
+    public NodeViewModelBase(string label)
+    {
+        Label = label;
+    }
+
     [DataMember(IsRequired = false, EmitDefaultValue = false)]
     public object? Label
     {
