@@ -26,4 +26,7 @@ public class ShowNotificationNode : VisualNode
         get => _message;
         set => SetValue(ref _message, value);
     }
+
+    [Pin("Message")]
+    public IInputPin MessagePin { get; set; }
 }

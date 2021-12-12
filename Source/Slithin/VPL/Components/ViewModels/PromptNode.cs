@@ -28,6 +28,9 @@ public class PromptNode : VisualNode
         set => SetValue(ref _header, value);
     }
 
+    [Pin("Value")]
+    public IOutputPin OutputValuePin { get; set; }
+
     [DataMember(IsRequired = false, EmitDefaultValue = false)]
     public object? Value
     {

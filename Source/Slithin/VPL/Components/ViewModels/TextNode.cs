@@ -15,7 +15,7 @@ public class TextNode : VisualNode
     }
 
     [Pin("Value")]
-    public IInputPin FlowOutputPin { get; set; }
+    public IOutputPin FlowOutputPin { get; set; }
 
     [DataMember(IsRequired = false, EmitDefaultValue = false)]
     public string? Text

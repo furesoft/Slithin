@@ -6,15 +6,6 @@
              x:Class="Slithin.VPL.Components.Views.PromptView"
              ClipToBounds="False">
     <Panel>
-        <Panel.ContextFlyout>
-            <Flyout>
-                <DockPanel Width="200">
-                    <Label Content="Header:" DockPanel.Dock="Top" />
-                    <TextBox Text="{Binding Header}" DockPanel.Dock="Top" />
-                </DockPanel>
-            </Flyout>
-        </Panel.ContextFlyout>
-
         <Rectangle Classes="node" />
         <TextBlock Text="{Binding Label}" TextAlignment="Center" VerticalAlignment="Center" />
     </Panel>

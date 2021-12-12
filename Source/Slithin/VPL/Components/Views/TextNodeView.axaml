@@ -11,6 +11,9 @@
                 <DockPanel Width="200">
                     <Label Content="Text:" DockPanel.Dock="Top" />
                     <TextBox Text="{Binding Text}" DockPanel.Dock="Top" />
+
+                    <Label Content="Name:" DockPanel.Dock="Top" />
+                    <TextBox Text="{Binding Label}" DockPanel.Dock="Top" />
                 </DockPanel>
             </Flyout>
         </Panel.ContextFlyout>

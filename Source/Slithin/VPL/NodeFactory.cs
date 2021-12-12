@@ -95,33 +95,15 @@ public class NodeFactory
         {
             var pin = outputPins[i];
 
-            node.AddPin(width, height / (2 * inputPins.Length * (i + 1)), pinSize, pinSize,
+            if (outputPins.Length == 1)
+            {
+                height = height / 2;
+            }
+
+            node.AddPin(width, height / outputPins.Length * (i + 1), pinSize, pinSize,
                  pin.Item1.Alignment != PinAlignment.None ? pin.Item1.Alignment : PinAlignment.Right,
                  pin.Item1.Name ?? pin._.Name);
         }
-
-        return node;
-    }
-
-    public INode CreatePrompt(double x, double y, double width = 120, double height = 60, double pinSize = 8)
-    {
-        var node = CreateViewModel(new PromptNode(), x, y, width, height);
-
-        node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left, "Input Flow");
-
-        node.AddPin(width, height / 4, pinSize, pinSize, PinAlignment.Right, "Output Flow");
-        node.AddPin(width, height / 4 * 3, pinSize, pinSize, PinAlignment.Right, "Value");
-
-        return node;
-    }
-
-    public INode CreateShowNotification(double x, double y, double width = 120, double height = 60, double pinSize = 8)
-    {
-        var node = CreateViewModel(new ShowNotificationNode(), x, y, width, height);
-
-        node.AddPin(0, height / 4, pinSize, pinSize, PinAlignment.Left, "Input Flow");
-
-        node.AddPin(width, height / 4, pinSize, pinSize, PinAlignment.Right, "Output Flow");
 
         return node;
     }
@@ -147,21 +129,12 @@ public class NodeFactory
             templates.Add(new NodeTemplateViewModel
             {
                 Title = node.Label,
-                Build = (x, y) => CreateNode(node, x, y, 120, 60),
-                Preview = CreateNode(node, 0, 0, 120, 60)
+                Build = (x, y) => CreateNode(node, x, y),
+                Preview = CreateNode(node, 0, 0)
             });
         }
 
         return templates;
-    }
-
-    public INode CreateTextNode(double x, double y, double width = 120, double height = 60, double pinSize = 8)
-    {
-        var node = CreateViewModel(new TextNode(), x, y, width, height);
-
-        node.AddPin(width, height / 4, pinSize, pinSize, PinAlignment.Right, "Output");
-
-        return node;
     }
 
     public void PrintNetList(IDrawingNode? drawing)
