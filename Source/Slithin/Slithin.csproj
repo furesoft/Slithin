@@ -88,6 +88,9 @@
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>
+     <Compile Update="VPL\Components\Views\SwitchView.axaml.cs">
+       <DependentUpon>SwitchView.axaml</DependentUpon>
+     </Compile>
      <Compile Update="VPL\Components\Views\InvokeToolView.axaml.cs">
        <DependentUpon>InvokeToolView.axaml</DependentUpon>
      </Compile>
