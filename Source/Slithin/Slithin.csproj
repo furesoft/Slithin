@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
@@ -87,6 +87,9 @@
      </Compile>
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
+     </Compile>
+     <Compile Update="VPL\Components\Views\InvokeToolView.axaml.cs">
+       <DependentUpon>InvokeToolView.axaml</DependentUpon>
      </Compile>
      <Compile Update="VPL\Components\Views\PromptView.axaml.cs">
        <DependentUpon>PromptView.axaml</DependentUpon>

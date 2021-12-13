@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using NodeEditor.Model;
 using NodeEditor.ViewModels;
+using Slithin.Models;
 using Slithin.VPL;
 using Slithin.VPL.Components.ViewModels;
 using Slithin.VPL.NodeBuilding;
@@ -68,10 +69,14 @@ public class NodeFactory
         var node = CreateViewModel(vm, x, y, width, height);
         var pins = vm.GetType().GetProperties()
             .Where(_ => _.GetCustomAttribute<PinAttribute>() != null)
-            .Select(_ => (_.GetCustomAttribute<PinAttribute>(), _));
+            .Select(prop => (prop.GetCustomAttribute<PinAttribute>(), prop));
 
-        var inputPins = pins.Where(_ => _.Item2.PropertyType == typeof(IInputPin)).ToArray();
-        var outputPins = pins.Where(_ => _.Item2.PropertyType == typeof(IOutputPin)).ToArray();
+        var inputPins = pins.Where(_ => _.prop.PropertyType == typeof(IInputPin)).ToArray();
+        var outputPins = pins.Where(_ => _.prop.PropertyType == typeof(IOutputPin)).ToArray();
+
+        var maxPins = Math.Max(inputPins.Length, outputPins.Length);
+
+        height = maxPins > 3 ? height + (height * 1.0 / 3) * (maxPins - 3) : height;
 
         for (int i = 0; i < inputPins.Length; i++)
         {
@@ -79,7 +84,7 @@ public class NodeFactory
 
             node.AddPin(0, height * 1.0 / (inputPins.Length + 1) * (i + 1), pinSize, pinSize,
                 pin.Item1.Alignment != PinAlignment.None ? pin.Item1.Alignment : PinAlignment.Left,
-                pin.Item1.Name ?? pin._.Name);
+                pin.Item1.Name ?? pin.prop.Name);
         }
 
         for (int i = 0; i < outputPins.Length; i++)
@@ -88,7 +93,7 @@ public class NodeFactory
 
             node.AddPin(width, height * 1.0 / (outputPins.Length + 1) * (i + 1), pinSize, pinSize,
                  pin.Item1.Alignment != PinAlignment.None ? pin.Item1.Alignment : PinAlignment.Right,
-                 pin.Item1.Name ?? pin._.Name);
+                 pin.Item1.Name ?? pin.prop.Name);
         }
 
         return node;
@@ -101,10 +106,12 @@ public class NodeFactory
         var nodes = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(x => typeof(VisualNode).IsAssignableFrom(x) && x.IsClass)
-            .Where(x => x.Name != nameof(VisualNode))
-            .Select(type => (VisualNode)Activator.CreateInstance(type));
+            .Where(x => x.Name != nameof(VisualNode));
 
-        foreach (var node in nodes)
+        var normalNodes = nodes.Where(_ => !typeof(INodeFactory).IsAssignableFrom(_)).Select(type => (VisualNode)Activator.CreateInstance(type));
+        var factoryNodes = nodes.Where(_ => typeof(INodeFactory).IsAssignableFrom(_)).Select(type => (VisualNode)Activator.CreateInstance(type, (ScriptInfo)null));
+
+        foreach (var node in normalNodes)
         {
             var ignoreAttribute = node.GetType().GetCustomAttribute<IgnoreTemplateAttribute>();
             if (ignoreAttribute != null)
@@ -118,6 +125,20 @@ public class NodeFactory
                 Build = (x, y) => CreateNode(node, x, y),
                 Preview = CreateNode(node, 0, 0)
             });
+        }
+
+        foreach (var factoryNode in factoryNodes)
+        {
+            var factory = (INodeFactory)factoryNode;
+            foreach (var node in factory.Create())
+            {
+                templates.Add(new NodeTemplateViewModel
+                {
+                    Title = node.Label,
+                    Build = (x, y) => CreateNode(node, x, y),
+                    Preview = CreateNode(node, 0, 0)
+                });
+            }
         }
 
         return templates;
