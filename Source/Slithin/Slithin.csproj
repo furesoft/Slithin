@@ -134,4 +134,8 @@
    <ItemGroup>
      <AvaloniaXaml Remove="Slithin.ModuleSystem.Memory\**" />
    </ItemGroup>
+   
+   <ItemGroup>
+     <Folder Include="TemplateEditor\" />
+   </ItemGroup>
 </Project>

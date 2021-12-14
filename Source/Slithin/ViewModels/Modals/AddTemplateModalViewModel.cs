@@ -31,6 +31,8 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
     private string _name;
 
     private object _selectedCategory;
+    private int _step;
+    private bool _useTemplateEditor;
 
     public AddTemplateModalViewModel(IPathManager pathManager,
         LocalRepository localRepository,
@@ -56,6 +58,12 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
     {
         get => _filename;
         set => SetValue(ref _filename, value);
+    }
+
+    public int Step
+    {
+        get => _step;
+        set => SetValue(ref _step, value);
     }
 
     public IconCodeItem IconCode
@@ -84,6 +92,12 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         set => SetValue(ref _selectedCategory, value);
     }
 
+    public bool UseTemplateEditor
+    {
+        get => _useTemplateEditor;
+        set => SetValue(ref _useTemplateEditor, value);
+    }
+
     public override void OnLoad()
     {
         base.OnLoad();
@@ -95,11 +109,13 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
                 continue;
             }
 
-            var item = new IconCodeItem { Name = res.Split('.')[^2] };
+            var item = new IconCodeItem {Name = res.Split('.')[^2]};
             item.Load();
 
             IconCodes.Add(item);
         }
+
+        //ToDo: Load Stuff For Template Editor
     }
 
     private void AddCategory(object obj)
@@ -124,52 +140,63 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
             return;
         }
 
-        var template = BuildTemplate();
-
-        if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
+        if (UseTemplateEditor)
         {
-            if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
+            Step++;
+        }
+
+        if (UseTemplateEditor && Step == 1 || !UseTemplateEditor)
+        {
+            //ToDo: Save Template From Editor
+
+            var template = BuildTemplate();
+
+            if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
             {
-                File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+                if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
+                {
+                    File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+                }
+                else
+                {
+                    return;
+                }
             }
-            else
+
+            var bitmap = Image.FromFile(Filename);
+
+            if (bitmap.Width != 1404 && bitmap.Height != 1872)
             {
+                DialogService.OpenDialogError(
+                    "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+
                 return;
             }
+
+            File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+
+            _localRepository.AddTemplate(template);
+
+            template.Load();
+
+            TemplateStorage.Instance.AppendTemplate(template);
+            _synchronisationService.TemplateFilter.Templates.Add(template);
+
+            DialogService.Close();
+
+            var syncItem = new SyncItem {Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template};
+            _synchronisationService.AddToSyncQueue(syncItem);
+
+            var configItem = new SyncItem
+            {
+                Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")),
+                Direction = SyncDirection.ToDevice,
+                Type = SyncType.TemplateConfig
+            };
+            _synchronisationService
+                .AddToSyncQueue(
+                    configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
         }
-
-        var bitmap = Image.FromFile(Filename);
-
-        if (bitmap.Width != 1404 && bitmap.Height != 1872)
-        {
-            DialogService.OpenDialogError(
-                "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
-
-            return;
-        }
-
-        File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
-
-        _localRepository.AddTemplate(template);
-
-        template.Load();
-
-        TemplateStorage.Instance.AppendTemplate(template);
-        _synchronisationService.TemplateFilter.Templates.Add(template);
-
-        DialogService.Close();
-
-        var syncItem = new SyncItem { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
-        _synchronisationService.AddToSyncQueue(syncItem);
-
-        var configItem = new SyncItem
-        {
-            Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")),
-            Direction = SyncDirection.ToDevice,
-            Type = SyncType.TemplateConfig
-        };
-        _synchronisationService
-            .AddToSyncQueue(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
     }
 
     private Template BuildTemplate()
