@@ -16,6 +16,10 @@ public class InvokeToolNode : VisualNode, INodeFactory
     {
     }
 
+    public InvokeToolNode() : base(null)
+    {
+    }
+
     [Pin("Flow Input")]
     public IInputPin FlowInputPin { get; set; }
 

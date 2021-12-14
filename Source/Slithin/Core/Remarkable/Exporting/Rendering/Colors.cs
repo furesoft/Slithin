@@ -15,5 +15,7 @@ public enum Colors
     /**
          * White color.
          */
-    White = 2
+    White = 2,
+
+    //ToDo: find extra exported color values
 }

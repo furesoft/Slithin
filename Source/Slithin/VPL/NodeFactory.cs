@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using NodeEditor.Model;
 using NodeEditor.ViewModels;
-using Slithin.Models;
 using Slithin.VPL;
 using Slithin.VPL.Components.ViewModels;
 using Slithin.VPL.NodeBuilding;
@@ -109,7 +108,7 @@ public class NodeFactory
             .Where(x => x.Name != nameof(VisualNode));
 
         var normalNodes = nodes.Where(_ => !typeof(INodeFactory).IsAssignableFrom(_)).Select(type => (VisualNode)Activator.CreateInstance(type));
-        var factoryNodes = nodes.Where(_ => typeof(INodeFactory).IsAssignableFrom(_)).Select(type => (VisualNode)Activator.CreateInstance(type, (ScriptInfo)null));
+        var factoryNodes = nodes.Where(_ => typeof(INodeFactory).IsAssignableFrom(_)).Select(type => (VisualNode)Activator.CreateInstance(type));
 
         foreach (var node in normalNodes)
         {
