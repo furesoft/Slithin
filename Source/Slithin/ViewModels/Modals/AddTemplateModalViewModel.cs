@@ -60,12 +60,6 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         set => SetValue(ref _filename, value);
     }
 
-    public int Step
-    {
-        get => _step;
-        set => SetValue(ref _step, value);
-    }
-
     public IconCodeItem IconCode
     {
         get => _iconCode;
@@ -92,6 +86,12 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         set => SetValue(ref _selectedCategory, value);
     }
 
+    public int Step
+    {
+        get => _step;
+        set => SetValue(ref _step, value);
+    }
+
     public bool UseTemplateEditor
     {
         get => _useTemplateEditor;
@@ -109,7 +109,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
                 continue;
             }
 
-            var item = new IconCodeItem {Name = res.Split('.')[^2]};
+            var item = new IconCodeItem { Name = res.Split('.')[^2] };
             item.Load();
 
             IconCodes.Add(item);
@@ -143,6 +143,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         if (UseTemplateEditor)
         {
             Step++;
+            return;
         }
 
         if (UseTemplateEditor && Step == 1 || !UseTemplateEditor)
@@ -184,7 +185,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
             DialogService.Close();
 
-            var syncItem = new SyncItem {Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template};
+            var syncItem = new SyncItem { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
             _synchronisationService.AddToSyncQueue(syncItem);
 
             var configItem = new SyncItem

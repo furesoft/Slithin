@@ -12,7 +12,7 @@
             <Grid ColumnDefinitions="*,50,*" RowDefinitions="40,40,45,35,35,36,35">
                 <TextBox Grid.Column="0" Grid.Row="0" Watermark="Name" Text="{Binding Name}" Margin="0,0,0,7" />
                 <c:FileChooser Grid.Column="0" Grid.Row="1" Filename="{Binding Filename, Mode=TwoWay}"
-                               Watermark="Template File" />
+                               Watermark="Template File" IsVisible="{Binding !UseTemplateEditor}" />
 
                 <ListBox MinWidth="150" Margin="0,0,0,4" Grid.Column="2" Grid.RowSpan="4" Grid.Row="0"
                          Items="{Binding Categories, Mode=TwoWay}"
@@ -41,7 +41,7 @@
 
                 <CheckBox Grid.Column="0" Grid.Row="4" Content="Is Landscape" IsChecked="{Binding IsLandscape}" />
                 <CheckBox Grid.Column="0" Grid.Row="5" Content="Use Template Editor"
-                          IsChecked="{Binding UseTemplateEdtitor}" />
+                          IsChecked="{Binding UseTemplateEditor}" />
             </Grid>
 
             <tec:TemplateEditorControl />
