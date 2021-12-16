@@ -7,7 +7,7 @@
              xmlns:tec="using:Slithin.TemplateEditor"
              x:Class="Slithin.UI.Modals.AddTemplateModal">
     <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True"
-                     Command="{Binding AddTemplateCommand}" MinHeight="300" MaxWidth="500">
+                     Command="{Binding AddTemplateCommand}" MinHeight="300" MaxWidth="800">
         <Carousel SelectedIndex="{Binding Step, Mode=TwoWay}">
             <Grid ColumnDefinitions="*,50,*" RowDefinitions="40,40,45,35,35,36,35">
                 <TextBox Grid.Column="0" Grid.Row="0" Watermark="Name" Text="{Binding Name}" Margin="0,0,0,7" />
@@ -44,7 +44,7 @@
                           IsChecked="{Binding UseTemplateEditor}" />
             </Grid>
 
-            <tec:TemplateEditorControl />
+            <tec:TemplateEditorControl DataContext="{Binding DrawingModel}" />
         </Carousel>
     </c:DialogControl>
 </UserControl>

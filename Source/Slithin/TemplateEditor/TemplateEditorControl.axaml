@@ -79,7 +79,7 @@
                           HorizontalScrollBarVisibility="Auto"
                           DataContext="{Binding Drawing}">
                 <ui:NodeZoomBorder Name="ZoomBorder"
-                                   Stretch="None"
+                                   Stretch="Fill"
                                    ZoomSpeed="1.2"
                                    EnableConstrains="False"
                                    Background="White"

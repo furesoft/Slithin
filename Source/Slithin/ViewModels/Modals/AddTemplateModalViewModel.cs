@@ -23,13 +23,9 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
     private readonly AddTemplateValidator _validator;
 
     private string _filename;
-
     private IconCodeItem _iconCode;
-
     private bool _isLandscape;
-
     private string _name;
-
     private object _selectedCategory;
     private int _step;
     private bool _useTemplateEditor;
@@ -49,10 +45,9 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
     }
 
     public ICommand AddCategoryCommand { get; set; }
-
     public ICommand AddTemplateCommand { get; set; }
-
     public ObservableCollection<string> Categories { get; set; }
+    public VplWindowViewModal DrawingModel { get; set; } = new();
 
     public string Filename
     {
