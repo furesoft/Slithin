@@ -136,6 +136,7 @@
    </ItemGroup>
    
    <ItemGroup>
-     <Folder Include="TemplateEditor\" />
+     <Folder Include="TemplateEditor\Components\Nodes\" />
+     <Folder Include="TemplateEditor\Components\Views\" />
    </ItemGroup>
 </Project>

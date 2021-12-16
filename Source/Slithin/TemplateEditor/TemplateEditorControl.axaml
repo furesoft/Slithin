@@ -11,17 +11,6 @@
              xmlns:m="clr-namespace:NodeEditor.Model;assembly=NodeEditorAvalonia.Model"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.TemplateEditor.TemplateEditorControl">
-    <UserControl.KeyBindings>
-        <KeyBinding Command="{Binding SaveCommand}" Gesture="Ctrl+S" />
-        <KeyBinding Command="{Binding Drawing.CutCommand, FallbackValue={x:Null}}" Gesture="Ctrl+X" />
-        <KeyBinding Command="{Binding Drawing.CopyCommand, FallbackValue={x:Null}}" Gesture="Ctrl+C" />
-        <KeyBinding Command="{Binding Drawing.PasteCommand, FallbackValue={x:Null}}" Gesture="Ctrl+V" />
-        <KeyBinding Command="{Binding Drawing.DuplicateCommand, FallbackValue={x:Null}}" Gesture="Ctrl+D" />
-        <KeyBinding Command="{Binding Drawing.DeleteCommand, FallbackValue={x:Null}}" Gesture="Delete" />
-        <KeyBinding Command="{Binding Drawing.SelectAllCommand, FallbackValue={x:Null}}" Gesture="Ctrl+A" />
-        <KeyBinding Command="{Binding Drawing.DeselectAllCommand, FallbackValue={x:Null}}" Gesture="Escape" />
-    </UserControl.KeyBindings>
-
     <Grid ColumnDefinitions="200,6,*">
         <DockPanel Background="{DynamicResource PanelBackground}" Grid.Column="0">
             <ListBox Items="{Binding Templates}"
@@ -79,12 +68,9 @@
                           HorizontalScrollBarVisibility="Auto"
                           DataContext="{Binding Drawing}">
                 <ui:NodeZoomBorder Name="ZoomBorder"
-                                   Stretch="Fill"
-                                   ZoomSpeed="1.2"
-                                   EnableConstrains="False"
-                                   Background="White"
+                                   Background="{DynamicResource TemplateEditorBackground}"
                                    ClipToBounds="True"
-                                   Focusable="True"
+                                   Focusable="False"
                                    VerticalAlignment="Stretch"
                                    HorizontalAlignment="Stretch">
                     <i:Interaction.Behaviors>
@@ -94,43 +80,13 @@
                             </idd:ContextDropBehavior.Handler>
                         </idd:ContextDropBehavior>
                     </i:Interaction.Behaviors>
-                    <editor:DrawingNode Name="Drawing"
-                                        Background="{DynamicResource TemplateEditorBackground}" Width="1404"
+                    <editor:DrawingNode Name="Drawing" Width="1404"
                                         Height="1872">
                         <editor:DrawingNode.Transitions>
                             <Transitions>
                                 <paz:TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
                             </Transitions>
                         </editor:DrawingNode.Transitions>
-                        <editor:DrawingNode.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuItem Header="_Edit"
-                                          InputGesture="Ctrl+E"
-                                          DataContext="{Binding $parent[UserControl].DataContext}"
-                                          Command="{Binding ToggleEditModeCommand}">
-                                    <MenuItem.Icon>
-                                        <CheckBox BorderThickness="0"
-                                                  IsHitTestVisible="False"
-                                                  IsChecked="{Binding IsEditMode, Mode=TwoWay}" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="-" />
-                                <MenuItem Header="Cu_t" Command="{Binding CutCommand}" InputGesture="Ctrl+X" />
-                                <MenuItem Header="_Copy" Command="{Binding CopyCommand}" InputGesture="Ctrl+C" />
-                                <MenuItem Header="_Paste" Command="{Binding PasteCommand}" InputGesture="Ctrl+V" />
-                                <MenuItem Header="D_uplicate" Command="{Binding DuplicateCommand}"
-                                          InputGesture="Ctrl+D" />
-                                <MenuItem Header="-" />
-                                <MenuItem Header="Select _All"
-                                          Command="{Binding SelectAllCommand, FallbackValue={x:Null}}"
-                                          InputGesture="Ctrl+A" />
-                                <MenuItem Header="De_select All"
-                                          Command="{Binding DeselectAllCommand, FallbackValue={x:Null}}"
-                                          InputGesture="Escape" />
-                                <MenuItem Header="-" />
-                                <MenuItem Header="_Delete" Command="{Binding DeleteCommand}" InputGesture="Delete" />
-                            </MenuFlyout>
-                        </editor:DrawingNode.ContextFlyout>
                     </editor:DrawingNode>
                 </ui:NodeZoomBorder>
             </ScrollViewer>
