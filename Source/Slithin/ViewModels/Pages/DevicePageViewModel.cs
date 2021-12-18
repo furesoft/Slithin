@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using Renci.SshNet;
+using Serilog;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
@@ -16,6 +17,7 @@ public class DevicePageViewModel : BaseViewModel
     private readonly IExportProviderFactory _exportProviderFactory;
     private readonly ILoadingService _loadingService;
     private readonly LocalRepository _localRepostory;
+    private readonly ILogger _logger;
     private readonly ILoginService _loginService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
@@ -36,7 +38,8 @@ public class DevicePageViewModel : BaseViewModel
         IPathManager pathManager,
         ISettingsService settingsService,
         IExportProviderFactory exportProviderFactory,
-        ILoginService loginService)
+        ILoginService loginService,
+        ILogger logger)
     {
         _versionService = versionService;
         _loadingService = loadingService;
@@ -48,6 +51,7 @@ public class DevicePageViewModel : BaseViewModel
         _settingsService = settingsService;
         _exportProviderFactory = exportProviderFactory;
         _loginService = loginService;
+        _logger = logger;
     }
 
     public bool IsBeta
@@ -136,26 +140,14 @@ public class DevicePageViewModel : BaseViewModel
 
     private void InitScreens()
     {
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Starting", Filename = "starting.png"});
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Power Off", Filename = "poweroff.png"});
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Suspended", Filename = "suspended.png"});
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Rebooting", Filename = "rebooting.png"});
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Splash", Filename = "splash.png"});
-        SyncService.CustomScreens.Add(new CustomScreen {Title = "Battery Empty", Filename = "batteryempty.png"});
-    }
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Starting", Filename = "starting.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Suspended", Filename = "suspended.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Rebooting", Filename = "rebooting.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Splash", Filename = "splash.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Battery Empty", Filename = "batteryempty.png" });
 
-    private void UploadTemplates()
-    {
-        _mailboxService.PostAction(() =>
-        {
-            //upload template folder
-            NotificationService.Show("Uploading Templates");
-
-            _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
-
-            TemplateStorage.Instance.Apply();
-            NotificationService.Hide();
-        });
+        _logger.Information("Initialize Screens");
     }
 
     private void UploadScreens()
@@ -166,6 +158,20 @@ public class DevicePageViewModel : BaseViewModel
             NotificationService.Show("Uploading Screens");
 
             _scp.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
+
+            TemplateStorage.Instance.Apply();
+            NotificationService.Hide();
+        });
+    }
+
+    private void UploadTemplates()
+    {
+        _mailboxService.PostAction(() =>
+        {
+            //upload template folder
+            NotificationService.Show("Uploading Templates");
+
+            _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
 
             TemplateStorage.Instance.Apply();
             NotificationService.Hide();

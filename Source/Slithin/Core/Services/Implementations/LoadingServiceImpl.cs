@@ -27,7 +27,9 @@ public class LoadingServiceImpl : ILoadingService
 
         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata
         {
-            Type = "CollectionType", VisibleName = "Trash", ID = "trash"
+            Type = "CollectionType",
+            VisibleName = "Trash",
+            ID = "trash"
         });
 
         foreach (var md in MetadataStorage.Local.GetByParent(""))

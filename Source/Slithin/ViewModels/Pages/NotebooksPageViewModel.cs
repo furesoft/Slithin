@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Serilog;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
@@ -12,13 +13,14 @@ namespace Slithin.ViewModels.Pages;
 public class NotebooksPageViewModel : BaseViewModel
 {
     private readonly ILoadingService _loadingService;
+    private readonly ILogger _logger;
     private readonly IMailboxService _mailboxService;
     private readonly SynchronisationService _synchronisationService;
     private bool _isMoving;
     private Metadata _movingNotebook;
     private Metadata _selectedNotebook;
 
-    public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
+    public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService, ILogger logger)
     {
         _synchronisationService = ServiceLocator.SyncService;
         ExportCommand = ServiceLocator.Container.Resolve<ExportCommand>();
@@ -70,13 +72,16 @@ public class NotebooksPageViewModel : BaseViewModel
                 SyncService.NotebooksFilter.Documents.Add(md);
             }
 
-            SyncService.NotebooksFilter.Documents.Add(new Metadata {Type = "CollectionType", VisibleName = "Up .."});
+            SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
 
             SyncService.NotebooksFilter.SortByFolder();
+
+            logger.Information($"Moved {_movingNotebook.VisibleName} to {SyncService.NotebooksFilter.Folder}");
         });
 
         _loadingService = loadingService;
         _mailboxService = mailboxService;
+        _logger = logger;
     }
 
     public ICommand ExportCommand { get; set; }
@@ -141,16 +146,23 @@ public class NotebooksPageViewModel : BaseViewModel
 
         var syncItem = new SyncItem
         {
-            Action = SyncAction.Add, Data = md, Direction = SyncDirection.ToDevice, Type = SyncType.Notebook
+            Action = SyncAction.Add,
+            Data = md,
+            Direction = SyncDirection.ToDevice,
+            Type = SyncType.Notebook
         };
 
         _synchronisationService.AddToSyncQueue(syncItem);
+
+        _logger.Information($"Folder '{md.VisibleName}' created");
 
         DialogService.Close();
     }
 
     private void Rename(Metadata md, string newName)
     {
+        _logger.Information($"Renamed '{md.VisibleName}' to '{newName}'");
+
         md.VisibleName = newName;
 
         MetadataStorage.Local.Remove(md);
@@ -165,7 +177,10 @@ public class NotebooksPageViewModel : BaseViewModel
 
         var syncItem = new SyncItem
         {
-            Action = SyncAction.Update, Data = md, Direction = SyncDirection.ToDevice, Type = SyncType.Notebook
+            Action = SyncAction.Update,
+            Data = md,
+            Direction = SyncDirection.ToDevice,
+            Type = SyncType.Notebook
         };
 
         _synchronisationService.AddToSyncQueue(syncItem);

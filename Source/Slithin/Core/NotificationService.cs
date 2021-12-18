@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Threading;
-using Serilog.Core;
+using Serilog;
 
 namespace Slithin.Core;
 
@@ -28,7 +28,7 @@ public static class NotificationService
 
     public static void Show(string message)
     {
-        var logger = ServiceLocator.Container.Resolve<Logger>();
+        var logger = ServiceLocator.Container.Resolve<ILogger>();
         logger.Information(message);
 
         Dispatcher.UIThread.InvokeAsync(() =>

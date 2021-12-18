@@ -1,5 +1,6 @@
 ﻿using System;
 using Actress;
+using Serilog;
 using Slithin.Core.MessageHandlers;
 using Slithin.Messages;
 
@@ -7,12 +8,14 @@ namespace Slithin.Core.Services.Implementations;
 
 public class MailboxServiceImpl : IMailboxService
 {
+    private readonly ILogger _logger;
     private readonly MessageRouter _messageRouter;
     private MailboxProcessor<AsynchronousMessage> _mailbox;
 
-    public MailboxServiceImpl(MessageRouter messageRouter)
+    public MailboxServiceImpl(MessageRouter messageRouter, ILogger logger)
     {
         _messageRouter = messageRouter;
+        _logger = logger;
     }
 
     public void Init()
@@ -28,10 +31,13 @@ public class MailboxServiceImpl : IMailboxService
                 }
             }
         );
+        _mailbox.Errors.Subscribe(OnError);
     }
 
     public void InitMessageRouter()
     {
+        //ToDo: replace with automatic messagehandler registration
+
         _messageRouter.Register(ServiceLocator.Container.Resolve<SyncMessageHandler>());
 
         _messageRouter.Register(ServiceLocator.Container.Resolve<InitStorageMessageHandler>());
@@ -57,5 +63,10 @@ public class MailboxServiceImpl : IMailboxService
     public void PostAction(Action p)
     {
         _mailbox.Post(new PostActionMessage(p));
+    }
+
+    private void OnError(Exception obj)
+    {
+        _logger.Error(obj.ToString());
     }
 }
