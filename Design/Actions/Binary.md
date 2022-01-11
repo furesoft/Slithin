@@ -1,4 +1,4 @@
-*Action Binary*
+# Action Binary
 
 An Action Binary File is a extended WebAssembly binary file.
 It consists of 3 extra sections:
@@ -6,6 +6,14 @@ It consists of 3 extra sections:
 - .image for the icon displayed in the UI
 - .info Metadata about the action
 
-*Metadata Section*
+### .info Section
 
-*UI Section*
+    string ID
+    string Name
+    string Category
+    bool IsAutomatable
+    string Description
+
+Metadata is serialized with MessagePack
+
+### .ui Section

@@ -17,34 +17,30 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
     private readonly SshClient _client;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
-    private readonly ScpClient _scp;
     private readonly SynchronisationService _synchronisationService;
     private readonly List<SyncNotebook> _syncNotebooks = new();
 
     public CollectSyncNotebooksMessageHandler(IPathManager pathManager,
         SshClient client,
-        ScpClient scp,
         IMailboxService mailboxService)
     {
         _pathManager = pathManager;
         _client = client;
-        _scp = scp;
         _mailboxService = mailboxService;
         _synchronisationService = ServiceLocator.SyncService;
     }
 
-    public void HandleMessage(CollectSyncNotebooksMessage message) //Maybe refactor to multiple smaller Methods?
+    public void HandleMessage(CollectSyncNotebooksMessage message)
     {
         var notebooksDir = _pathManager.NotebooksDir;
 
-        NotificationService.Show("Collecting Filenames");
-
-        var cmd = _client.RunCommand("ls -p " + PathList.Documents);
+        var cmd = _client.RunCommand($"ls -p {PathList.Documents}");
         var allFilenames
             = cmd.Result
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                 .Where(f => !f.EndsWith(".zip") && !f.EndsWith(".zip.part"))
                 .ToList(); //Because multiple iterations are happening, so lazy loading is not needed
+
         var mds = new List<Metadata>();
         var mdFilenames
             = allFilenames
@@ -55,13 +51,14 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
         var thumbnailFolders
             = allFilenames
                 .Where(x => x.EndsWith(".thumbnails/"));
+        var iEnumerable = thumbnailFolders as string[] ?? thumbnailFolders.ToArray();
         var thumbnailFoldersToSync
-            = thumbnailFolders
+            = iEnumerable
                 .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[..^1])));
 
         var thumbnailsSync = new SyncNotebook {Directories = thumbnailFoldersToSync};
 
-        if (thumbnailFolders.Any())
+        if (iEnumerable.Any())
         {
             _syncNotebooks.Add(thumbnailsSync);
         }
@@ -71,7 +68,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             var md = mdFilenames[i];
             NotificationService.Show($"Downloading Notebook Metadata {i} / {mdFilenames.Length}");
 
-            var sshCommand = _client.RunCommand("cat " + PathList.Documents + "/" + md);
+            var sshCommand = _client.RunCommand($"cat {PathList.Documents}/{md}");
             var mdContent = sshCommand.Result;
             var contentContent = "{}";
             var pageDataContent = "";
@@ -80,14 +77,14 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             var fileNamesContainDotContent = allFilenames.Contains(mdDotContent);
             if (fileNamesContainDotContent)
             {
-                contentContent = _client.RunCommand("cat " + PathList.Documents + "/" + mdDotContent).Result;
+                contentContent = _client.RunCommand($"cat {PathList.Documents}/{mdDotContent}").Result;
             }
 
             var mdDotPagedata = Path.ChangeExtension(md, ".pagedata");
             var fileNamesContaintDotPagedata = allFilenames.Contains(mdDotPagedata);
             if (fileNamesContaintDotPagedata)
             {
-                pageDataContent = _client.RunCommand("cat " + PathList.Documents + "/" + mdDotPagedata).Result;
+                pageDataContent = _client.RunCommand($"cat {PathList.Documents}/{mdDotPagedata}").Result;
             }
 
             if (string.IsNullOrEmpty(mdContent) || string.IsNullOrWhiteSpace(mdContent))
@@ -103,69 +100,25 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
                     ? JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(notebooksDir, md)))
                     : new Metadata {Version = 0};
 
-            mdObj.ID = Path.GetFileNameWithoutExtension(md);
-            mdObj.Content = contentObj;
-            mdObj.PageData.Parse(pageDataContent);
+            InitMetadata(mdObj, md, contentObj, pageDataContent, mdLocals, mdLocalObj);
 
-            mdLocals.Add(mdObj.ID, mdLocalObj);
-
-            if (File.Exists(Path.Combine(notebooksDir, md)))
-            {
-                if (!mdObj.Deleted && mdObj.Version > mdLocalObj.Version || mdObj.Parent != mdLocalObj.Parent)
-                {
-                    if (mdObj.Type == "DocumentType")
-                    {
-                        mds.Add(mdObj);
-                    }
-
-                    File.WriteAllText(Path.Combine(notebooksDir, md), mdContent);
-
-                    if (fileNamesContainDotContent)
-                    {
-                        File.WriteAllText(Path.Combine(notebooksDir, mdDotContent), contentContent);
-                    }
-
-                    if (fileNamesContaintDotPagedata)
-                    {
-                        File.WriteAllText(Path.Combine(notebooksDir, mdDotPagedata), pageDataContent);
-                    }
-                }
-            }
-            else
-            {
-                if (mdObj.Type == "DocumentType")
-                {
-                    mds.Add(mdObj);
-                }
-
-                File.WriteAllText(Path.Combine(notebooksDir, md), mdContent);
-
-                if (fileNamesContainDotContent)
-                {
-                    File.WriteAllText(Path.Combine(notebooksDir, mdDotContent), contentContent);
-                }
-
-                if (fileNamesContaintDotPagedata)
-                {
-                    File.WriteAllText(Path.Combine(notebooksDir, mdDotPagedata), pageDataContent);
-                }
-            }
-
-            if (mdObj.Type == "CollectionType" && mdObj.Parent == "")
-            {
-                MetadataStorage.Local.Add(mdObj, out var alreadyAdded);
-
-                if (!alreadyAdded)
-                {
-                    _synchronisationService.NotebooksFilter.Documents.Add(mdObj);
-                }
-            }
+            SaveMetadata(notebooksDir, md, mdObj, mdLocalObj, mds, mdContent, fileNamesContainDotContent, mdDotContent,
+                contentContent, fileNamesContaintDotPagedata, mdDotPagedata, pageDataContent);
         }
 
+        ConvertMetadataToSyncNotebook(mds, allFilenames, notebooksDir, mdLocals);
+
+        NotificationService.Hide();
+
+        _mailboxService.Post(new DownloadSyncNotebookMessage(_syncNotebooks));
+    }
+
+    private void ConvertMetadataToSyncNotebook(List<Metadata> mds, List<string> allFilenames, string notebooksDir,
+        Dictionary<string, Metadata> mdLocals)
+    {
         foreach (var md in mds)
         {
-            SyncNotebook sn = new();
-            sn.Metadata = md;
+            SyncNotebook sn = new() {Metadata = md};
 
             if (md.Content.FileType == "notebook")
             {
@@ -194,16 +147,79 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
                 }
             }
 
-            MetadataStorage.Local.Add(md, out var alreadyAdded);
+            MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
 
             if (md.Parent == "" && !alreadyAdded)
             {
                 _synchronisationService.NotebooksFilter.Documents.Add(md);
             }
         }
+    }
 
-        NotificationService.Hide();
+    private void SaveMetadata(string notebooksDir, string md, Metadata mdObj, Metadata mdLocalObj, List<Metadata> mds,
+        string mdContent, bool fileNamesContainDotContent, string mdDotContent, string contentContent,
+        bool fileNamesContaintDotPagedata, string mdDotPagedata, string pageDataContent)
+    {
+        if (File.Exists(Path.Combine(notebooksDir, md)))
+        {
+            if (!mdObj.Deleted && mdObj.Version > mdLocalObj.Version || mdObj.Parent != mdLocalObj.Parent)
+            {
+                if (mdObj.Type == "DocumentType")
+                {
+                    mds.Add(mdObj);
+                }
 
-        _mailboxService.Post(new DownloadSyncNotebookMessage(_syncNotebooks));
+                File.WriteAllText(Path.Combine(notebooksDir, md), mdContent);
+
+                if (fileNamesContainDotContent)
+                {
+                    File.WriteAllText(Path.Combine(notebooksDir, mdDotContent), contentContent);
+                }
+
+                if (fileNamesContaintDotPagedata)
+                {
+                    File.WriteAllText(Path.Combine(notebooksDir, mdDotPagedata), pageDataContent);
+                }
+            }
+        }
+        else
+        {
+            if (mdObj.Type == "DocumentType")
+            {
+                mds.Add(mdObj);
+            }
+
+            File.WriteAllText(Path.Combine(notebooksDir, md), mdContent);
+
+            if (fileNamesContainDotContent)
+            {
+                File.WriteAllText(Path.Combine(notebooksDir, mdDotContent), contentContent);
+            }
+
+            if (fileNamesContaintDotPagedata)
+            {
+                File.WriteAllText(Path.Combine(notebooksDir, mdDotPagedata), pageDataContent);
+            }
+        }
+
+        if (mdObj.Type == "CollectionType" && mdObj.Parent == "")
+        {
+            MetadataStorage.Local.AddMetadata(mdObj, out var alreadyAdded);
+
+            if (!alreadyAdded)
+            {
+                _synchronisationService.NotebooksFilter.Documents.Add(mdObj);
+            }
+        }
+    }
+
+    private static void InitMetadata(Metadata mdObj, string md, ContentFile contentObj, string pageDataContent,
+        Dictionary<string, Metadata> mdLocals, Metadata mdLocalObj)
+    {
+        mdObj.ID = Path.GetFileNameWithoutExtension(md);
+        mdObj.Content = contentObj;
+        mdObj.PageData.Parse(pageDataContent);
+
+        mdLocals.Add(mdObj.ID, mdLocalObj);
     }
 }

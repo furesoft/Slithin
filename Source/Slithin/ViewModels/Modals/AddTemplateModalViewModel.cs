@@ -15,7 +15,7 @@ using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals;
 
-public class AddTemplateModalViewModel : BaseViewModel
+public class AddTemplateModalViewModel : ModalBaseViewModel
 {
     private readonly LocalRepository _localRepository;
     private readonly IPathManager _pathManager;
@@ -23,14 +23,12 @@ public class AddTemplateModalViewModel : BaseViewModel
     private readonly AddTemplateValidator _validator;
 
     private string _filename;
-
     private IconCodeItem _iconCode;
-
     private bool _isLandscape;
-
     private string _name;
-
     private object _selectedCategory;
+    private int _step;
+    private bool _useTemplateEditor;
 
     public AddTemplateModalViewModel(IPathManager pathManager,
         LocalRepository localRepository,
@@ -47,10 +45,9 @@ public class AddTemplateModalViewModel : BaseViewModel
     }
 
     public ICommand AddCategoryCommand { get; set; }
-
     public ICommand AddTemplateCommand { get; set; }
-
     public ObservableCollection<string> Categories { get; set; }
+    public VplWindowViewModal DrawingModel { get; set; } = new();
 
     public string Filename
     {
@@ -84,6 +81,18 @@ public class AddTemplateModalViewModel : BaseViewModel
         set => SetValue(ref _selectedCategory, value);
     }
 
+    public int Step
+    {
+        get => _step;
+        set => SetValue(ref _step, value);
+    }
+
+    public bool UseTemplateEditor
+    {
+        get => _useTemplateEditor;
+        set => SetValue(ref _useTemplateEditor, value);
+    }
+
     public override void OnLoad()
     {
         base.OnLoad();
@@ -91,20 +100,24 @@ public class AddTemplateModalViewModel : BaseViewModel
         foreach (var res in typeof(IconCodeItem).Assembly.GetManifestResourceNames())
         {
             if (!res.StartsWith("Slithin.Resources.IconTiles."))
+            {
                 continue;
+            }
 
             var item = new IconCodeItem { Name = res.Split('.')[^2] };
             item.Load();
 
             IconCodes.Add(item);
         }
+
+        //ToDo: Load Stuff For Template Editor
     }
 
     private void AddCategory(object obj)
     {
         if (!string.IsNullOrEmpty(obj?.ToString()))
         {
-            this.SyncService.TemplateFilter.Categories.Add(obj.ToString());
+            SyncService.TemplateFilter.Categories.Add(obj.ToString());
         }
         else
         {
@@ -121,45 +134,65 @@ public class AddTemplateModalViewModel : BaseViewModel
             DialogService.OpenDialogError(validationResult.Errors.First().ToString());
             return;
         }
-        var template = BuildTemplate();
 
-        if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
+        if (UseTemplateEditor)
         {
-            if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
-            {
-                File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        var bitmap = Image.FromFile(Filename);
-
-        if (bitmap.Width != 1404 && bitmap.Height != 1872)
-        {
-            DialogService.OpenDialogError("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
-
+            Step++;
             return;
         }
 
-        File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+        if (UseTemplateEditor && Step == 1 || !UseTemplateEditor)
+        {
+            //ToDo: Save Template From Editor
 
-        _localRepository.Add(template);
+            var template = BuildTemplate();
 
-        template.Load();
+            if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
+            {
+                if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
+                {
+                    File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+                }
+                else
+                {
+                    return;
+                }
+            }
 
-        TemplateStorage.Instance.Add(template);
-        _synchronisationService.TemplateFilter.Templates.Add(template);
+            var bitmap = Image.FromFile(Filename);
 
-        DialogService.Close();
+            if (bitmap.Width != 1404 && bitmap.Height != 1872)
+            {
+                DialogService.OpenDialogError(
+                    "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
 
-        var syncItem = new SyncItem() { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
-        _synchronisationService.AddToSyncQueue(syncItem);
+                return;
+            }
 
-        var configItem = new SyncItem() { Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")), Direction = SyncDirection.ToDevice, Type = SyncType.TemplateConfig };
-        _synchronisationService.AddToSyncQueue(configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
+            File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+
+            _localRepository.AddTemplate(template);
+
+            template.Load();
+
+            TemplateStorage.Instance.AppendTemplate(template);
+            _synchronisationService.TemplateFilter.Templates.Add(template);
+
+            DialogService.Close();
+
+            var syncItem = new SyncItem { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
+            _synchronisationService.AddToSyncQueue(syncItem);
+
+            var configItem = new SyncItem
+            {
+                Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")),
+                Direction = SyncDirection.ToDevice,
+                Type = SyncType.TemplateConfig
+            };
+            _synchronisationService
+                .AddToSyncQueue(
+                    configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
+        }
     }
 
     private Template BuildTemplate()

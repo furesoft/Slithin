@@ -1,0 +1,90 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:idd="clr-namespace:Avalonia.Xaml.Interactions.DragAndDrop;assembly=Avalonia.Xaml.Interactions"
+             xmlns:paz="clr-namespace:Avalonia.Controls.PanAndZoom;assembly=Avalonia.Controls.PanAndZoom"
+             xmlns:behaviors="clr-namespace:NodeEditor.Behaviors;assembly=NodeEditorAvalonia"
+             xmlns:editor="clr-namespace:NodeEditor.Controls;assembly=NodeEditorAvalonia"
+             xmlns:ui="using:Slithin.UI"
+             xmlns:m="clr-namespace:NodeEditor.Model;assembly=NodeEditorAvalonia.Model"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.TemplateEditor.TemplateEditorControl">
+    <Grid ColumnDefinitions="200,6,*">
+        <DockPanel Background="{DynamicResource PanelBackground}" Grid.Column="0">
+            <ListBox Items="{Binding Templates}"
+                     Background="Transparent">
+                <ListBox.Resources>
+                    <behaviors:TemplatesListBoxDropHandler x:Key="TemplatesListBoxDropHandler" />
+                </ListBox.Resources>
+                <i:Interaction.Behaviors>
+                    <idd:ContextDropBehavior Handler="{StaticResource TemplatesListBoxDropHandler}" />
+                </i:Interaction.Behaviors>
+                <ListBox.Styles>
+                    <Style Selector="ListBox > ListBoxItem">
+                        <Setter Property="(i:Interaction.Behaviors)">
+                            <i:BehaviorCollectionTemplate>
+                                <i:BehaviorCollection>
+                                    <idd:ContextDragBehavior />
+                                </i:BehaviorCollection>
+                            </i:BehaviorCollectionTemplate>
+                        </Setter>
+                    </Style>
+                </ListBox.Styles>
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="m:INodeTemplate">
+                        <DockPanel>
+                            <Viewbox DockPanel.Dock="Left" MaxWidth="64" MaxHeight="64">
+                                <editor:Node DataContext="{Binding Preview}" IsHitTestVisible="False">
+                                    <editor:Node.Styles>
+                                        <Style Selector="editor|Node /template/ ItemsControl#PART_PinsItemsControl">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </Style>
+                                    </editor:Node.Styles>
+                                </editor:Node>
+                            </Viewbox>
+                            <!--
+                                        <Panel Margin="12,6,12,6">
+                                            <TextBlock Text="{Binding Title}"
+                                                       VerticalAlignment="Center" />
+                                        </Panel>
+                                        -->
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+
+        <GridSplitter ResizeDirection="Columns"
+                      ResizeBehavior="PreviousAndNext"
+                      Width="6"
+                      Background="Transparent"
+                      Grid.Column="1" />
+        <Panel Grid.Column="2">
+            <Panel Background="LightGray" />
+            <Panel Background="White" />
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto"
+                          DataContext="{Binding Drawing}">
+                <ui:NodeZoomBorder Name="ZoomBorder"
+                                   Background="{DynamicResource TemplateEditorBackground}"
+                                   ClipToBounds="True"
+                                   Focusable="False"
+                                   VerticalAlignment="Stretch"
+                                   HorizontalAlignment="Stretch">
+                    <i:Interaction.Behaviors>
+                        <idd:ContextDropBehavior Context="{Binding FallbackValue={x:Null}}">
+                            <idd:ContextDropBehavior.Handler>
+                                <behaviors:DrawingDropHandler RelativeTo="{Binding #Drawing}" />
+                            </idd:ContextDropBehavior.Handler>
+                        </idd:ContextDropBehavior>
+                    </i:Interaction.Behaviors>
+                    <editor:DrawingNode Name="Drawing" Width="1404"
+                                        Height="1872">
+                    </editor:DrawingNode>
+                </ui:NodeZoomBorder>
+            </ScrollViewer>
+        </Panel>
+    </Grid>
+</UserControl>

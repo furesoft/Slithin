@@ -17,7 +17,7 @@ public class LocalRepository : IRepository
         _versionService = versionService;
     }
 
-    public void Add(Template template)
+    public void AddTemplate(Template template)
     {
         var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
 
@@ -40,6 +40,18 @@ public class LocalRepository : IRepository
         File.WriteAllText(path, JsonConvert.SerializeObject(templateJson, Formatting.Indented, serializerSettings));
     }
 
+    public Template[] GetTemplates()
+    {
+        var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
+
+        return JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path)).Templates;
+    }
+
+    public void RemoveTemplate(Template template)
+    {
+        File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+    }
+
     public void AddScreen(Stream strm, string localfilename)
     {
         File.Delete(Path.Combine(_pathManager.CustomScreensDir, localfilename));
@@ -49,18 +61,12 @@ public class LocalRepository : IRepository
         strm.Dispose();
     }
 
-    public Template[] GetTemplates()
-    {
-        var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
-
-        return JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path)).Templates;
-    }
-
     public Version GetVersion()
     {
         if (!File.Exists(Path.Combine(_pathManager.ConfigBaseDir, ".version")))
         {
-            File.WriteAllText(Path.Combine(_pathManager.ConfigBaseDir, ".version"), _versionService.GetDeviceVersion().ToString());
+            File.WriteAllText(Path.Combine(_pathManager.ConfigBaseDir, ".version"),
+                _versionService.GetDeviceVersion().ToString());
         }
 
         return _versionService.GetLocalVersion();
@@ -80,11 +86,6 @@ public class LocalRepository : IRepository
         {
             di.Delete(true);
         }
-    }
-
-    public void Remove(Template template)
-    {
-        File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
     }
 
     public void UpdateVersion(Version version)

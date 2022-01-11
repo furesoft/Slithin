@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Material.Styles;
@@ -21,27 +20,20 @@ public static class DialogService
         }
     }
 
-    public static ICommand CreateOpenCommand<T>(BaseViewModel viewModel)
-        where T : Control, new()
-    {
-        return new DelegateCommand((o) =>
-        {
-            Open(new T(), viewModel);
-        });
-    }
-
     public static bool GetIsHost(ContentDialog target)
     {
-        return object.ReferenceEquals(_host, target);
+        return ReferenceEquals(_host, target);
     }
 
     public static void Open(object content)
     {
-        if (_host != null)
+        if (_host == null)
         {
-            _host.DialogContent = content;
-            _host.IsOpened = true;
+            return;
         }
+
+        _host.DialogContent = content;
+        _host.IsOpened = true;
     }
 
     public static void Open(Control content, BaseViewModel viewModel)
@@ -71,11 +63,7 @@ public static class DialogService
 
     public static void OpenError(string msg)
     {
-        var dc = new
-        {
-            CancelCommand = new DelegateCommand((_) => Close()),
-            Message = msg
-        };
+        var dc = new { CancelCommand = new DelegateCommand(_ => Close()), Message = msg };
 
         Open(new ErrorModal { DataContext = dc });
     }
@@ -99,6 +87,11 @@ public static class DialogService
             {
                 Close();
                 tcs.TrySetResult(true);
+            }),
+            CancelCommand = new DelegateCommand(_ =>
+            {
+                Close();
+                tcs.TrySetResult(default);
             })
         };
 
@@ -122,6 +115,11 @@ public static class DialogService
             {
                 Close();
                 tcs.TrySetResult(true);
+            }),
+            CancelCommand = new DelegateCommand(_ =>
+            {
+                Close();
+                tcs.TrySetResult(default);
             })
         };
 
@@ -137,12 +135,7 @@ public static class DialogService
     {
         TaskCompletionSource<string> tcs = new();
 
-        var vm = new PromptModalViewModel
-        {
-            Header = header,
-            Watermark = watermark,
-            Input = defaultValue
-        };
+        var vm = new PromptModalViewModel { Header = header, Watermark = watermark, Input = defaultValue };
 
         vm.AcceptCommand = new DelegateCommand(_ =>
         {
@@ -155,6 +148,11 @@ public static class DialogService
             {
                 OpenDialogError($"{vm.Watermark} cannot be empty");
             }
+        });
+        vm.CancelCommand = new DelegateCommand(_ =>
+        {
+            Close();
+            tcs.TrySetResult(default);
         });
 
         Dispatcher.UIThread.InvokeAsync(() =>

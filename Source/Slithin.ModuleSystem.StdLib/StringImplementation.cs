@@ -3,8 +3,8 @@
 [WasmExport("string")]
 public class StringImplementation
 {
-    [WasmExport("strLen")]
-    public static int strlen(int ptrAddress)
+    [WasmExport("length")]
+    public static int Length(int ptrAddress)
     {
         var ptr = new Pointer(ptrAddress);
 
@@ -12,5 +12,71 @@ public class StringImplementation
         while (ptr[len] != 0) len++;
 
         return len;
+    }
+
+    [WasmExport("trim")]
+    public static int Trim(int ptrAddress)
+    {
+        var str = Utils.StringFromPtr(ptrAddress);
+
+        var value = str.Trim();
+
+        var newPtr = AllocatorImplementation.AllocateString(value.Length + 1);
+        newPtr.Write(value);
+
+        return newPtr;
+    }
+
+    [WasmExport("replace")]
+    public static int Replace(int ptrAddress, int replacementAddress)
+    {
+        var str = Utils.StringFromPtr(ptrAddress);
+        var strReplacement = Utils.StringFromPtr(replacementAddress);
+
+        var replace = str.Replace(str, strReplacement);
+        var newPtr = AllocatorImplementation.AllocateString(replace.Length + 1);
+        newPtr.Write(replace);
+
+        return newPtr;
+    }
+
+    [WasmExport("split")]
+    public static int Split(int ptrAddress, int seperatorAddress)
+    {
+        var seperator = Utils.StringFromPtr(seperatorAddress);
+        var str = Utils.StringFromPtr(ptrAddress);
+
+        var split = str.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
+
+        var newPtr = (Pointer) AllocatorImplementation.Allocate(split.Select(_ => _.Length + 1).Sum());
+        foreach (var s in split)
+        {
+            newPtr.Write(s);
+            newPtr += s.Length + 1;
+        }
+
+        return newPtr;
+    }
+
+    [WasmExport("substr")]
+    public static int Substr(int ptrAddress, int start, int count)
+    {
+        var str = Utils.StringFromPtr(ptrAddress);
+
+        var newPtr = AllocatorImplementation.AllocateString(count + 2);
+        newPtr.Write(str.Substring(start, count));
+
+        return newPtr;
+    }
+
+    [WasmExport("compare")]
+    public static int Compare(int lhsAddress, int rhsAddress)
+    {
+        var str = Utils.StringFromPtr(lhsAddress);
+        var strRhs = Utils.StringFromPtr(rhsAddress);
+
+        var result = string.Compare(str, strRhs, StringComparison.Ordinal);
+
+        return result;
     }
 }

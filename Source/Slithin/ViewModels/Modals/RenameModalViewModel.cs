@@ -6,25 +6,20 @@ using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels.Modals;
 
-public class RenameModalViewModel : BaseViewModel
+public class RenameModalViewModel : ModalBaseViewModel
 {
     private readonly Metadata _md;
     private readonly SynchronisationService _synchronisationService;
-    private string _name;
 
     public RenameModalViewModel(Metadata md)
     {
-        RenameCommand = new DelegateCommand(Rename, (_) => md != null);
+        RenameCommand = new DelegateCommand(Rename, _ => md != null);
         _synchronisationService = ServiceLocator.SyncService;
         _md = md;
         Name = md?.VisibleName;
     }
 
-    public string Name
-    {
-        get => _name;
-        set => _name = value;
-    }
+    public string Name { get; set; }
 
     public ICommand RenameCommand { get; set; }
 
@@ -35,13 +30,16 @@ public class RenameModalViewModel : BaseViewModel
             DialogService.OpenDialogError("Name cannot be empty");
             return;
         }
+
         _md.VisibleName = Name;
 
         MetadataStorage.Local.Remove(_md);
-        MetadataStorage.Local.Add(_md, out var alreadyAdded);
+        MetadataStorage.Local.AddMetadata(_md, out var alreadyAdded);
 
         if (alreadyAdded)
+        {
             return;
+        }
 
         _md.Save();
 

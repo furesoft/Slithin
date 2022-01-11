@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using MessagePack;
+using Slithin.Core;
 using Slithin.ModuleSystem.WASInterface;
 using WebAssembly;
 using WebAssembly.Runtime;
@@ -12,6 +13,8 @@ public class ActionModule
     {
         var compiled = m.Compile<dynamic>();
         var instance = compiled(imports);
+
+        ModuleEventStorage.SubscribeModule(instance.Exports);
 
         return instance.Exports;
     }
@@ -26,15 +29,15 @@ public class ActionModule
     public static Module LoadModule(string path, out ImportDictionary imports)
     {
         var m = Module.ReadFromBinary(path);
-        var wasi = new WASI(m);
+        var wasi = new Wasi(m);
 
         imports = wasi.CreateImports();
 
         return m;
     }
 
-    public static void RunExports()
+    public static void RunExports(dynamic instance)
     {
-        foreach (var type in ModuleImporter.Types) ModuleImporter.Export(type);
+        foreach (var type in ModuleImporter.Types) ModuleImporter.Export(type, instance);
     }
 }

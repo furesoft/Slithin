@@ -28,9 +28,9 @@ public static partial class WasiUnstable
         var sofar = 0;
         for (var i = 0; i < __args.Length; i++)
         {
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_argv + i * 4, addr_argv_buf + sofar);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_argv + i * 4, addr_argv_buf + sofar);
             var ba = __args[i];
-            Marshal.Copy(ba, 0, Sg_wasm.Mem + addr_argv_buf + sofar, ba.Length);
+            Marshal.Copy(ba, 0, WasmMemory.Mem + addr_argv_buf + sofar, ba.Length);
             sofar += ba.Length;
         }
 
@@ -41,15 +41,15 @@ public static partial class WasiUnstable
     {
         if (__args != null)
         {
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_argc, __args.Length);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_argc, __args.Length);
             var len = 0;
             foreach (var ba in __args) len += ba.Length;
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_argv_buf_size, len);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_argv_buf_size, len);
         }
         else
         {
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_argc, 0);
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_argv_buf_size, 0);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_argc, 0);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_argv_buf_size, 0);
         }
 
         return __WASI_ESUCCESS;
@@ -64,7 +64,7 @@ public static partial class WasiUnstable
                 var t = DateTime.UtcNow - new DateTime(1970, 1, 1);
                 var ms = (long) t.TotalMilliseconds;
                 var ns = ms * 1000 * 1000;
-                Marshal.WriteInt64(Sg_wasm.Mem + addr_result, ns);
+                Marshal.WriteInt64(WasmMemory.Mem + addr_result, ns);
                 return __WASI_ESUCCESS;
             }
             case __WASI_CLOCK_MONOTONIC:
@@ -73,7 +73,7 @@ public static partial class WasiUnstable
                 var t = DateTime.UtcNow - new DateTime(1970, 1, 1);
                 var ms = (long) t.TotalMilliseconds;
                 var ns = ms * 1000 * 1000;
-                Marshal.WriteInt64(Sg_wasm.Mem + addr_result, ns);
+                Marshal.WriteInt64(WasmMemory.Mem + addr_result, ns);
                 return __WASI_ESUCCESS;
             }
             case __WASI_CLOCK_PROCESS_CPUTIME_ID:
@@ -90,9 +90,9 @@ public static partial class WasiUnstable
         var sofar = 0;
         for (var i = 0; i < __environ.Length; i++)
         {
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_argv + i * 4, addr_argv_buf + sofar);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_argv + i * 4, addr_argv_buf + sofar);
             var ba = __environ[i];
-            Marshal.Copy(ba, 0, Sg_wasm.Mem + addr_argv_buf + sofar, ba.Length);
+            Marshal.Copy(ba, 0, WasmMemory.Mem + addr_argv_buf + sofar, ba.Length);
             sofar += ba.Length;
         }
 
@@ -103,15 +103,15 @@ public static partial class WasiUnstable
     {
         if (__environ != null)
         {
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_environ_count, __environ.Length);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_environ_count, __environ.Length);
             var len = 0;
             foreach (var ba in __environ) len += ba.Length;
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_environ_buf_size, len);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_environ_buf_size, len);
         }
         else
         {
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_environ_count, 0);
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_environ_buf_size, 0);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_environ_count, 0);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_environ_buf_size, 0);
         }
 
         return __WASI_ESUCCESS;
@@ -148,7 +148,7 @@ public static partial class WasiUnstable
                 rights = rights & ~__WASI_RIGHT_FD_TELL;
                 st.fs_rights_base = rights;
                 st.fs_rights_inheriting = 0; // TODO rights inherit
-                Marshal.StructureToPtr(st, Sg_wasm.Mem + addr, false);
+                Marshal.StructureToPtr(st, WasmMemory.Mem + addr, false);
                 return __WASI_ESUCCESS;
             }
             case 3:
@@ -160,7 +160,7 @@ public static partial class WasiUnstable
                 var rights = 0xffffffffffffffff;
                 st.fs_rights_base = rights;
                 st.fs_rights_inheriting = rights; // TODO rights inherit
-                Marshal.StructureToPtr(st, Sg_wasm.Mem + addr, false);
+                Marshal.StructureToPtr(st, WasmMemory.Mem + addr, false);
                 return __WASI_ESUCCESS;
             }
             default:
@@ -173,7 +173,7 @@ public static partial class WasiUnstable
                     var rights = 0xffffffffffffffff;
                     st.fs_rights_base = rights;
                     st.fs_rights_inheriting = rights; // TODO rights inherit
-                    Marshal.StructureToPtr(st, Sg_wasm.Mem + addr, false);
+                    Marshal.StructureToPtr(st, WasmMemory.Mem + addr, false);
                     return __WASI_ESUCCESS;
                 }
                 else
@@ -205,7 +205,7 @@ public static partial class WasiUnstable
         switch (fd)
         {
             case 3:
-                Marshal.WriteByte(Sg_wasm.Mem + addr_path, 46); // 46 is ascii for .
+                Marshal.WriteByte(WasmMemory.Mem + addr_path, 46); // 46 is ascii for .
                 //Marshal.WriteByte(sg_wasm.__mem + addr_path + 1, 0); // assuming no need for z terminator
                 return __WASI_ESUCCESS;
 
@@ -225,7 +225,7 @@ public static partial class WasiUnstable
                 __wasi_prestat_t st;
                 st.pr_type = __WASI_PREOPENTYPE_DIR;
                 st.pr_name_len = 1; // assuming no need for z terminator
-                Marshal.StructureToPtr(st, Sg_wasm.Mem + addr, false);
+                Marshal.StructureToPtr(st, WasmMemory.Mem + addr, false);
                 return __WASI_ESUCCESS;
 
             default:
@@ -239,7 +239,7 @@ public static partial class WasiUnstable
         Span<__wasi_iovec_t> a_iovecs;
         unsafe
         {
-            a_iovecs = new Span<__wasi_iovec_t>((Sg_wasm.Mem + addr_iovecs).ToPointer(), iovecs_len);
+            a_iovecs = new Span<__wasi_iovec_t>((WasmMemory.Mem + addr_iovecs).ToPointer(), iovecs_len);
         }
 
         var strm = get_stream_for_fd(fd);
@@ -254,7 +254,7 @@ public static partial class WasiUnstable
             Span<byte> dest;
             unsafe
             {
-                dest = new Span<byte>((Sg_wasm.Mem + (int) addr).ToPointer(), (int) len);
+                dest = new Span<byte>((WasmMemory.Mem + (int) addr).ToPointer(), (int) len);
             }
 
             var got = strm.Read(dest);
@@ -263,7 +263,7 @@ public static partial class WasiUnstable
         }
 
         //System.Console.WriteLine("    total_len: {0}", total_len);
-        Marshal.WriteInt32(Sg_wasm.Mem + addr_nread, total_len);
+        Marshal.WriteInt32(WasmMemory.Mem + addr_nread, total_len);
 
         return __WASI_ESUCCESS;
     }
@@ -327,7 +327,7 @@ public static partial class WasiUnstable
         Span<__wasi_ciovec_t> a_iovecs;
         unsafe
         {
-            a_iovecs = new Span<__wasi_ciovec_t>((Sg_wasm.Mem + addr_iovecs).ToPointer(), iovecs_len);
+            a_iovecs = new Span<__wasi_ciovec_t>((WasmMemory.Mem + addr_iovecs).ToPointer(), iovecs_len);
         }
 
         var strm = get_stream_for_fd(fd);
@@ -342,14 +342,14 @@ public static partial class WasiUnstable
             Span<byte> src;
             unsafe
             {
-                src = new Span<byte>((Sg_wasm.Mem + (int) addr).ToPointer(), (int) len);
+                src = new Span<byte>((WasmMemory.Mem + (int) addr).ToPointer(), (int) len);
             }
 
             strm.Write(src);
             total_len += (int) len;
         }
 
-        Marshal.WriteInt32(Sg_wasm.Mem + addr_nwritten, total_len);
+        Marshal.WriteInt32(WasmMemory.Mem + addr_nwritten, total_len);
 
         //System.Console.WriteLine("  done fd_write");
 
@@ -362,7 +362,7 @@ public static partial class WasiUnstable
         int path_len
     )
     {
-        var path = Util.FromUtf8(Sg_wasm.Mem + addr_path, path_len);
+        var path = Util.FromUtf8(WasmMemory.Mem + addr_path, path_len);
         throw new NotImplementedException();
     }
 
@@ -374,7 +374,7 @@ public static partial class WasiUnstable
         int addr_result
     )
     {
-        var path = Util.FromUtf8(Sg_wasm.Mem + addr_path, path_len);
+        var path = Util.FromUtf8(WasmMemory.Mem + addr_path, path_len);
         //System.Console.WriteLine("path_filestat_get: {0}", path);
         var fi = new FileInfo(path);
         if (!fi.Exists) return __WASI_ENOENT;
@@ -401,7 +401,7 @@ public static partial class WasiUnstable
     {
         // TODO very simplistic implementation
         //System.Console.WriteLine("dirfd: {0}", dirfd);
-        var path = Util.FromUtf8(Sg_wasm.Mem + addr_path, path_len);
+        var path = Util.FromUtf8(WasmMemory.Mem + addr_path, path_len);
         //System.Console.WriteLine("path: {0}", path);
         var fi = new FileInfo(path);
         FileMode fm;
@@ -436,7 +436,7 @@ public static partial class WasiUnstable
             var pair = new FilePair {Info = fi, Stream = strm};
             var fd = get_new_fd();
             _files[fd] = pair;
-            Marshal.WriteInt32(Sg_wasm.Mem + addr_fd, fd);
+            Marshal.WriteInt32(WasmMemory.Mem + addr_fd, fd);
             return __WASI_ESUCCESS;
         }
         catch (FileNotFoundException)
@@ -465,7 +465,7 @@ public static partial class WasiUnstable
         int path_len
     )
     {
-        var path = Util.FromUtf8(Sg_wasm.Mem + addr_path, path_len);
+        var path = Util.FromUtf8(WasmMemory.Mem + addr_path, path_len);
         try
         {
             Directory.Delete(path);
@@ -488,8 +488,8 @@ public static partial class WasiUnstable
         int new_path_len
     )
     {
-        var old_path = Util.FromUtf8(Sg_wasm.Mem + addr_old_path, old_path_len);
-        var new_path = Util.FromUtf8(Sg_wasm.Mem + addr_new_path, new_path_len);
+        var old_path = Util.FromUtf8(WasmMemory.Mem + addr_old_path, old_path_len);
+        var new_path = Util.FromUtf8(WasmMemory.Mem + addr_new_path, new_path_len);
         throw new NotImplementedException();
     }
 
@@ -510,7 +510,7 @@ public static partial class WasiUnstable
         int path_len
     )
     {
-        var path = Util.FromUtf8(Sg_wasm.Mem + addr_path, path_len);
+        var path = Util.FromUtf8(WasmMemory.Mem + addr_path, path_len);
         //System.Console.WriteLine("path_unlink_file: {0}", path);
         File.Delete(path);
         return __WASI_ESUCCESS;
@@ -534,7 +534,7 @@ public static partial class WasiUnstable
         // TODO investigate higher quality random number gen
         var ba = new byte[buf_len];
         rnd.NextBytes(ba); // TODO is there a Span overload for this?
-        Marshal.Copy(ba, 0, Sg_wasm.Mem + addr_buf, ba.Length);
+        Marshal.Copy(ba, 0, WasmMemory.Mem + addr_buf, ba.Length);
         return __WASI_ESUCCESS;
     }
 
@@ -602,13 +602,13 @@ public static partial class WasiUnstable
         st.st_atim = 0;
         st.st_mtim = 0;
         st.st_ctim = 0;
-        Marshal.StructureToPtr(st, Sg_wasm.Mem + addr, false);
+        Marshal.StructureToPtr(st, WasmMemory.Mem + addr, false);
     }
 
     private static void write_u64(int addr, ulong v)
     {
         var ba = BitConverter.GetBytes(v);
-        Marshal.Copy(ba, 0, Sg_wasm.Mem + addr, ba.Length);
+        Marshal.Copy(ba, 0, WasmMemory.Mem + addr, ba.Length);
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 8)]

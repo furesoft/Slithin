@@ -4,10 +4,13 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
+using Avalonia.Layout;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Material.Styles;
 using Slithin.Core;
+using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 
@@ -23,21 +26,20 @@ public class NotebookDataTemplate : IDataTemplate
         var contextProvider = ServiceLocator.Container.Resolve<IContextMenuProvider>();
 
         if (param is not Metadata md)
+        {
             return null;
+        }
 
         var stackPanel = new StackPanel
         {
-            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
             MaxHeight = 275
         };
 
         var img = new Image
         {
-            MinWidth = 25,
-            MinHeight = 25,
-            MaxHeight = 150,
-            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center
+            MinWidth = 25, MinHeight = 25, MaxHeight = 150, HorizontalAlignment = HorizontalAlignment.Center
         };
 
         if (md.Type == "DocumentType")
@@ -66,41 +68,42 @@ public class NotebookDataTemplate : IDataTemplate
                     }
                     else
                     {
-                        img.Source = cache.Get("notebook-" + md.Content.FileType, new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
+                        img.Source = cache.GetObject("notebook-" + md.Content.FileType,
+                            new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
                     }
                 }
             }
             else
             {
-                img.Source = cache.Get("notebook-" + md.Content.FileType, new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
+                img.Source = cache.GetObject("notebook-" + md.Content.FileType,
+                    new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
             }
         }
         else if (md.ID == "trash")
         {
-            img.Source = cache.Get("trash", new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/trash.png"))));
+            img.Source = cache.GetObject("trash",
+                new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/trash.png"))));
         }
         else
         {
-            img.Source = cache.Get("folder", new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png"))));
+            img.Source = cache.GetObject("folder",
+                new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png"))));
         }
 
         stackPanel.Children.Add(img);
 
-        var title = new TextBlock
-        {
-            [!TextBlock.TextProperty] = new Binding("VisibleName")
-        };
+        var title = new TextBlock {[!TextBlock.TextProperty] = new Binding("VisibleName")};
 
-        title.TextAlignment = Avalonia.Media.TextAlignment.Center;
-        title.TextWrapping = Avalonia.Media.TextWrapping.Wrap;
+        title.TextAlignment = TextAlignment.Center;
+        title.TextWrapping = TextWrapping.Wrap;
 
         stackPanel.Children.Add(title);
 
-        var card = new Card { Content = stackPanel };
+        var card = new Card {Content = stackPanel};
 
         card.Initialized += (s, e) =>
         {
-            card.ContextMenu = contextProvider.BuildMenu(Core.ItemContext.UIContext.Notebook, md, card.Parent.Parent.DataContext);
+            card.ContextMenu = contextProvider.BuildMenu(UIContext.Notebook, md, card.Parent.Parent.DataContext);
         };
 
         return card;

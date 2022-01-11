@@ -39,7 +39,7 @@ public class SyncQueueFlyoutViewModel : BaseViewModel
         }
         else if (item.Data is Template t)
         {
-            TemplateStorage.Instance.Add(t);
+            TemplateStorage.Instance.AppendTemplate(t);
 
             _loadingService.LoadTemplates();
         }

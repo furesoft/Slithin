@@ -1,8 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using Furesoft.Core.CodeDom.CodeDOM.Base;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Binary.Assignments;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Other;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.Operators.Unary;
+using Furesoft.Core.CodeDom.CodeDOM.Expressions.References.Other;
 using NUnit.Framework;
 using Slithin.ActionCompiler;
+using Slithin.ActionCompiler.Compiling;
+using Slithin.ActionCompiler.Compiling.Passes.Lowerer;
 using Slithin.ModuleSystem;
 using Slithin.ModuleSystem.StdLib;
 using WebAssembly;
@@ -16,25 +24,43 @@ public static class ModuleTest
     [Test]
     public static void Compile()
     {
-        var m = ModuleCompiler.Compile("testScript", "testScript.info");
+        var m = ModuleCompiler.Compile("testScript", "testScript.info", "testScript.ui");
 
         using var fileStream = File.Create("../testScript.wasm");
         m.WriteToBinary(fileStream);
     }
 
     [Test]
+    public static void Lowering()
+    {
+        var p = new PassManager();
+        p.AddPass<IncrementOperatorLowererPass>();
+
+        CodeObject tree = new PostIncrement(new UnresolvedRef("x"));
+
+        var result = p.ProcessBlock(new Block(tree));
+    }
+
+    [Test]
     public static void Invoke()
     {
-        var m = Module.ReadFromBinary("testScript.wasm");
+        var m = Module.ReadFromBinary("../testScript.wasm");
         var r = m.Compile<dynamic>();
+
+        var unmanagedMemory = new UnmanagedMemory(1, 2);
         var rr = r(new ImportDictionary
         {
             ["env"] = new Dictionary<string, RuntimeImport>
             {
-                ["memory"] = new MemoryImport(() => new UnmanagedMemory(1, 2))
+                ["memory"] = new MemoryImport(() => { return unmanagedMemory; })
+            },
+            ["notification"] = new Dictionary<string, RuntimeImport>
+            {
+                ["show"] = new FunctionImport((int a) => Console.Write(a))
             }
         });
-        var rrr = rr.Exports._start();
+
+        rr.Exports._start();
     }
 
     [Test]
@@ -44,16 +70,20 @@ public static class ModuleTest
 
         ModuleImporter.Import(typeof(Mod), imports);
         ModuleImporter.Import(typeof(ConversionsImplementation), imports);
+        ModuleImporter.Import(typeof(StringImplementation), imports);
+        ModuleImporter.Import(typeof(Allocator), imports);
+        ModuleImporter.Import(typeof(ModuleSystem.StdLib.Core), imports);
 
 
         var instance = ActionModule.Compile(m, imports);
 
+
         // var mem = instance.memory;
-        var id = instance._start();
+        instance._start();
 
-        ActionModule.RunExports();
+        ActionModule.RunExports(instance);
 
-        var jk = Mod.world;
+        var jk = Mod.heapBase;
     }
 
     private static class Mod
@@ -65,5 +95,7 @@ public static class ModuleTest
         [WasmImportValue(125)] public static char kc;
 
         [WasmExportValue(125)] public static readonly string world = "Hello World";
+
+        [WasmImportGlobal("_heap_base")] public static int heapBase;
     }
 }

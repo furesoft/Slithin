@@ -17,18 +17,15 @@ namespace Slithin.Core.Commands;
 public class SynchronizeCommand : ICommand
 {
     private readonly SshClient _client;
-    private readonly EventStorage _eventStorage;
     private readonly LocalRepository _localRepository;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
 
-    public SynchronizeCommand(EventStorage eventStorage,
-        IMailboxService mailboxService,
+    public SynchronizeCommand(IMailboxService mailboxService,
         LocalRepository localRepository,
         IPathManager pathManager,
         SshClient client)
     {
-        _eventStorage = eventStorage;
         _mailboxService = mailboxService;
         _localRepository = localRepository;
         _pathManager = pathManager;
@@ -46,23 +43,22 @@ public class SynchronizeCommand : ICommand
     {
         var pingSender = new Ping();
 
-        var data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        var buffer = Encoding.ASCII.GetBytes(data);
+        var buffer = Encoding.ASCII.GetBytes(new string('a', 32));
 
-        var timeout = 10000;
+        const int Timeout = 10000;
 
         var options = new PingOptions(64, true);
 
-        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer, options);
+        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, Timeout, buffer,
+            options);
 
         if (reply.Status != IPStatus.Success)
         {
-            NotificationService.Show("Your remarkable is not reachable. Please check your connection and restart Slithin");
+            NotificationService.Show(
+                "Your remarkable is not reachable. Please check your connection and restart Slithin");
 
             return;
         }
-
-        //_eventStorage.Invoke("beforeSync", new[] { ServiceLocator.SyncService.PersistentSyncQueue.FindAll() });
 
         if (!_localRepository.GetTemplates().Any() && !Directory.GetFiles(_pathManager.TemplatesDir).Any())
         {
@@ -77,7 +73,7 @@ public class SynchronizeCommand : ICommand
 
         foreach (var item in ServiceLocator.SyncService.PersistentSyncQueue.FindAll())
         {
-            _mailboxService.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
+            _mailboxService.Post(new SyncMessage {Item = item}); // redirect sync job to mailbox for asynchronity
         }
 
         ServiceLocator.SyncService.SyncQueue.AnalyseAndAppend();
@@ -85,7 +81,7 @@ public class SynchronizeCommand : ICommand
         ServiceLocator.SyncService.PersistentSyncQueue.DeleteAll();
         ServiceLocator.SyncService.SyncQueue.Clear();
 
-        _eventStorage.Invoke("afterSync");
+        ModuleEventStorage.Invoke("OnSynchonized", 0);
     }
 
     public void RaiseExecuteChanged()
@@ -98,23 +94,29 @@ public class SynchronizeCommand : ICommand
         var sshCommand = _client.RunCommand("ls -p " + PathList.Documents);
         var deviceFiles = sshCommand.Result
             .Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
-        var localFiles = Directory.GetFiles(_pathManager.NotebooksDir).Where(_ => _.EndsWith(".metadata")).
-            Select(_ => Path.GetFileName(_));
+        var localFiles = Directory.GetFiles(_pathManager.NotebooksDir).Where(_ => _.EndsWith(".metadata"))
+            .Select(Path.GetFileName);
 
         var deltaLocalFiles = localFiles.Except(deviceFiles);
 
         foreach (var file in deltaLocalFiles)
         {
-            var item = new SyncItem
-            {
-                Data = JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(_pathManager.NotebooksDir, file))),
-                Direction = SyncDirection.ToLocal,
-                Action = SyncAction.Remove
-            };
-
-            ((Metadata)item.Data).ID = Path.GetFileNameWithoutExtension(file);
-
-            _mailboxService.Post(new SyncMessage { Item = item });
+            PostDeviceDeletion(file);
         }
+    }
+
+    private void PostDeviceDeletion(string file)
+    {
+        var item = new SyncItem
+        {
+            Data = JsonConvert.DeserializeObject<Metadata>(
+                File.ReadAllText(Path.Combine(_pathManager.NotebooksDir, file))),
+            Direction = SyncDirection.ToLocal,
+            Action = SyncAction.Remove
+        };
+
+        ((Metadata)item.Data)!.ID = Path.GetFileNameWithoutExtension(file);
+
+        _mailboxService.Post(new SyncMessage {Item = item});
     }
 }

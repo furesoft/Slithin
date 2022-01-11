@@ -13,7 +13,7 @@ using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages;
 
-public partial class NotebooksPage : UserControl, IPage
+public class NotebooksPage : UserControl, IPage
 {
     public NotebooksPage()
     {
@@ -47,7 +47,9 @@ public partial class NotebooksPage : UserControl, IPage
         // Only allow if the dragged data contains text or filenames.
         if (!e.Data.Contains(DataFormats.Text)
             && !e.Data.Contains(DataFormats.FileNames))
+        {
             e.DragEffects = DragDropEffects.None;
+        }
     }
 
     private void Drop(object sender, DragEventArgs e)
@@ -63,10 +65,7 @@ public partial class NotebooksPage : UserControl, IPage
                 var importProviderFactory = ServiceLocator.Container.Resolve<IImportProviderFactory>();
                 var provider = importProviderFactory.GetImportProvider(".pdf", filename);
 
-                var cnt = new ContentFile
-                {
-                    FileType = provider == null ? "epub" : "pdf"
-                };
+                var cnt = new ContentFile {FileType = provider == null ? "epub" : "pdf"};
 
                 if (cnt.FileType == "pdf" || cnt.FileType == "epub")
                 {
@@ -79,7 +78,7 @@ public partial class NotebooksPage : UserControl, IPage
                         Type = "DocumentType",
                         VisibleName = Path.GetFileNameWithoutExtension(filename)
                     };
-                    MetadataStorage.Local.Add(md, out _);
+                    MetadataStorage.Local.AddMetadata(md, out _);
                     ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
 
                     provider = importProviderFactory.GetImportProvider($".{cnt.FileType}", filename);
@@ -87,7 +86,8 @@ public partial class NotebooksPage : UserControl, IPage
                     if (provider != null)
                     {
                         var inputStrm = provider.Import(File.OpenRead(filename));
-                        var outputStrm = File.OpenWrite(Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
+                        var outputStrm =
+                            File.OpenWrite(Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
                         inputStrm.CopyTo(outputStrm);
 
                         outputStrm.Close();

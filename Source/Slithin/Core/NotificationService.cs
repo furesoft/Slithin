@@ -1,6 +1,6 @@
-﻿using System.Windows.Input;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Threading;
+using Serilog;
 
 namespace Slithin.Core;
 
@@ -8,26 +8,9 @@ public static class NotificationService
 {
     private static TextBlock outputTextBlock;
 
-    public static ICommand BuildCommand(string message, ICommand handlerCommand)
-    {
-        return new DelegateCommand((_) =>
-        {
-            DoAndShow(message, handlerCommand);
-        });
-    }
-
-    public static void DoAndShow(string message, ICommand cmd)
-    {
-        Show(message);
-
-        cmd.Execute(null);
-
-        Hide();
-    }
-
     public static bool GetIsNotificationOutput(TextBlock target)
     {
-        return target == outputTextBlock;
+        return Equals(target, outputTextBlock);
     }
 
     public static void Hide()
@@ -45,6 +28,9 @@ public static class NotificationService
 
     public static void Show(string message)
     {
+        var logger = ServiceLocator.Container.Resolve<ILogger>();
+        logger.Information(message);
+
         Dispatcher.UIThread.InvokeAsync(() =>
         {
             outputTextBlock.Text = message;

@@ -5,49 +5,49 @@
              xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
 
-  <Style Selector="controls|DialogControl">
-    <Setter Property="MinHeight" Value="250" />
-    <Setter Property="MinWidth" Value="250" />
+    <Style Selector="controls|DialogControl">
+        <Setter Property="MinHeight" Value="250" />
+        <Setter Property="MinWidth" Value="250" />
 
-    <Setter Property="Template">
-      <ControlTemplate>
-        <Border CornerRadius="3" MinHeight="{TemplateBinding MinHeight}" Margin="5" BorderBrush="Black" BorderThickness="1"  Background="White" MaxHeight="{TemplateBinding MaxHeight}">
-          <styles:SnackbarHost HostName="dialogError">
-            <Grid RowDefinitions="10,AUTO,*,2,2,35" Margin="5,0,5,5">
-              <TextBlock Classes="popupHeader" Text="{TemplateBinding Header}" Grid.Row="1" FontWeight="Bold" FontSize="27" TextAlignment="Center" />
-              <ContentPresenter Content="{TemplateBinding Content}" Margin="3,10,3,0" Grid.Row="2" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border CornerRadius="3" MinHeight="{TemplateBinding MinHeight}" Margin="5" BorderBrush="Black" BorderThickness="1"  Background="White" MaxHeight="{TemplateBinding MaxHeight}">
+                    <styles:SnackbarHost HostName="dialogError">
+                        <Grid RowDefinitions="10,AUTO,*,2,2,35" Margin="5,0,5,5">
+                            <TextBlock Classes="popupHeader" Text="{TemplateBinding Header}" Grid.Row="1" FontWeight="Bold" FontSize="27" TextAlignment="Center" />
+                            <ContentPresenter Content="{TemplateBinding Content}" Margin="3,10,3,0" Grid.Row="2" />
 
-              <Rectangle Grid.Row="3" Fill="Gray" VerticalAlignment="Bottom" />
+                            <Rectangle Grid.Row="3" Fill="Gray" VerticalAlignment="Bottom" />
 
-              <Grid Classes="single" Grid.Row="5" VerticalAlignment="Bottom">
-                <Button HorizontalAlignment="Stretch" Height="40" Classes="base Flat" VerticalContentAlignment="Bottom" IsDefault="True" Command="{TemplateBinding Command}">
-                  <ContentPresenter HorizontalAlignment="Center" Content="{TemplateBinding CommandText, Mode=TwoWay}" />
-                </Button>
-              </Grid>
+                            <Grid Classes="single" Grid.Row="5" VerticalAlignment="Bottom">
+                                <Button HorizontalAlignment="Stretch" Height="40" Classes="base Flat" VerticalContentAlignment="Bottom" IsDefault="True" Command="{TemplateBinding Command}">
+                                    <ContentPresenter HorizontalAlignment="Center" Content="{TemplateBinding CommandText, Mode=TwoWay}" />
+                                </Button>
+                            </Grid>
 
-              <StackPanel Classes="both" Orientation="Horizontal" Spacing="5" Grid.Row="5" Margin="2,0,2,5" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Button Classes="base Flat" MinWidth="75" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsCancel="True"  IsVisible="{TemplateBinding IsCancelEnabled}" Content="CANCEL" Command="{TemplateBinding CancelCommand}" />
-                <Button Classes="base Flat" MinWidth="75" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsDefault="True"  Content="{TemplateBinding CommandText, Mode=TwoWay}" Command="{TemplateBinding Command}" />
-              </StackPanel>
-            </Grid>
-          </styles:SnackbarHost>
-        </Border>
-      </ControlTemplate>
-    </Setter>
-  </Style>
+                            <StackPanel Classes="both" Orientation="Horizontal" Spacing="5" Grid.Row="5" Margin="2,0,2,5" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                <Button Classes="base Flat" MinWidth="75" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsCancel="True"  IsVisible="{TemplateBinding IsCancelEnabled}" Content="CANCEL" Command="{Binding CancelCommand, Mode=TwoWay}" />
+                                <Button Classes="base Flat" MinWidth="75" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsDefault="True"  Content="{TemplateBinding CommandText, Mode=TwoWay}" Command="{TemplateBinding Command}" />
+                            </StackPanel>
+                        </Grid>
+                    </styles:SnackbarHost>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
 
-  <Style Selector="controls|DialogControl[IsCancelEnabled=False] Grid.single">
-    <Setter Property="IsVisible" Value="True" />
-  </Style>
-  <Style Selector="controls|DialogControl[IsCancelEnabled=True] Grid.single">
-    <Setter Property="IsVisible" Value="False" />
-  </Style>
+    <Style Selector="controls|DialogControl[IsCancelEnabled=False] Grid.single">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="controls|DialogControl[IsCancelEnabled=True] Grid.single">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
 
-  <Style Selector="controls|DialogControl[IsCancelEnabled=False] StackPanel.both">
-    <Setter Property="IsVisible" Value="False" />
-  </Style>
+    <Style Selector="controls|DialogControl[IsCancelEnabled=False] StackPanel.both">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
 
-  <Style Selector="controls|DialogControl[IsCancelEnabled=True] StackPanel.both">
-    <Setter Property="IsVisible" Value="True" />
-  </Style>
+    <Style Selector="controls|DialogControl[IsCancelEnabled=True] StackPanel.both">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
 </Styles>

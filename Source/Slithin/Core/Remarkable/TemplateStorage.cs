@@ -12,10 +12,9 @@ public class TemplateStorage
 {
     public static TemplateStorage Instance = new();
 
-    [JsonProperty("templates")]
-    public Template[] Templates { get; set; }
+    [JsonProperty("templates")] public Template[] Templates { get; set; }
 
-    public void Add(Template template)
+    public void AppendTemplate(Template template)
     {
         var tmp = new Template[Templates.Length + 1];
         Array.Copy(Templates, tmp, Templates.Length);
@@ -31,7 +30,7 @@ public class TemplateStorage
 
         if (result.ExitStatus != 0)
         {
-            System.Console.WriteLine(result.Error);
+            Console.WriteLine(result.Error);
         }
     }
 

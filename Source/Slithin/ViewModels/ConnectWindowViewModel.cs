@@ -2,11 +2,14 @@
 using System.Collections.ObjectModel;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Timers;
 using System.Windows.Input;
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using LiteDB;
 using Material.Styles;
 using Renci.SshNet;
+using Serilog;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Scripting;
@@ -20,7 +23,6 @@ namespace Slithin.ViewModels;
 
 public class ConnectionWindowViewModel : BaseViewModel
 {
-    private readonly EventStorage _events;
     private readonly ILoginService _loginService;
     private readonly ISettingsService _settingsService;
     private readonly LoginInfoValidator _validator;
@@ -29,12 +31,10 @@ public class ConnectionWindowViewModel : BaseViewModel
 
     private LoginInfo _selectedLogin;
 
-    public ConnectionWindowViewModel(EventStorage events,
-        ILoginService loginService,
+    public ConnectionWindowViewModel(ILoginService loginService,
         LoginInfoValidator validator,
         ISettingsService settingsService)
     {
-        _events = events;
         _loginService = loginService;
         _validator = validator;
         _settingsService = settingsService;
@@ -43,7 +43,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         HelpCommand = new DelegateCommand(Help);
         OpenAddDeviceCommand = new DelegateCommand(OpenAddDevice);
 
-        SelectedLogin = new();
+        SelectedLogin = new LoginInfo();
     }
 
     public ICommand ConnectCommand { get; set; }
@@ -65,6 +65,10 @@ public class ConnectionWindowViewModel : BaseViewModel
 
     private void Connect(object obj)
     {
+        ServiceLocator.Container.Resolve<LogInitalizer>().Init();
+
+        var logger = ServiceLocator.Container.Resolve<ILogger>();
+
         var validationResult = _validator.Validate(SelectedLogin);
 
         if (!validationResult.IsValid)
@@ -79,6 +83,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         client.ErrorOccurred += (s, _) =>
         {
             DialogService.OpenError(_.Exception.ToString());
+            logger.Error(_.Exception.ToString());
         };
 
         try
@@ -91,8 +96,11 @@ public class ConnectionWindowViewModel : BaseViewModel
                 SnackbarHost.Post("Could not connect to host");
                 return;
             }
-            if (App.Current.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
+
+            if (Application.Current.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
+            {
                 return;
+            }
 
             ServiceLocator.Container.Register(client);
             ServiceLocator.Container.Register(scp);
@@ -107,15 +115,10 @@ public class ConnectionWindowViewModel : BaseViewModel
 
             automation.Init();
 
-            _events.Invoke("connect");
-
-            var pingTimer = new System.Timers.Timer();
+            var pingTimer = new Timer();
             pingTimer.Elapsed += pingTimer_ellapsed;
             pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
             pingTimer.Start();
-
-            var toolInvoker = ServiceLocator.Container.Resolve<ToolInvoker>();
-            toolInvoker.Init();
 
             _loginService.SetLoginCredential(SelectedLogin);
 
@@ -127,6 +130,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         catch (Exception ex)
         {
             SnackbarHost.Post(ex.Message);
+            logger.Error(ex.ToString());
         }
     }
 
@@ -148,7 +152,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         wndw.Show();
     }
 
-    private void pingTimer_ellapsed(object sender, System.Timers.ElapsedEventArgs e)
+    private void pingTimer_ellapsed(object sender, ElapsedEventArgs e)
     {
         var pingSender = new Ping();
 
@@ -159,11 +163,17 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         var options = new PingOptions(64, true);
 
-        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer, options);
+        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer,
+            options);
 
         if (reply.Status != IPStatus.Success)
         {
-            NotificationService.Show("Your remarkable is not reachable. Please check your connection and restart Slithin");
+            NotificationService.Show(
+                "Your remarkable is not reachable. Please check your connection and restart Slithin");
+
+            var logger = ServiceLocator.Container.Resolve<ILogger>();
+
+            logger.Warning("Your remarkable is not reachable. Please check your connection and restart Slithin");
         }
     }
 }

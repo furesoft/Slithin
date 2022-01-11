@@ -23,6 +23,7 @@ jobs:
       Wap_Project_Directory: Deployment/Windows-Store    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
       Wap_Project_Path: Windows-Store.wapproj                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      SDK: Source/Slithin.ActionCompiler/Slithin.ActionCompiler.csproj    
       
     steps:
     - name: Checkout
@@ -90,22 +91,50 @@ jobs:
       run: dotnet tool install --global dotnet-rpm
       
     - name: Creating Deb-Package
-      run: dotnet deb -r linux-x64 -c Release -o ../Dist/Linux-x64-Deb
+      run: dotnet deb -r linux-x64 -c Release -o ./Dist/Linux-x64-Deb
       working-directory: Source/Slithin/
       
-    - name: Creating Rpm-Package
-      run: dotnet rpm -r linux-x64 -c Release -o ../Dist/Linux-x64-Rpm
-      working-directory: Source/Slithin/
-    
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Linux_x64_DEB_Installer
-        path: ./Dist/Linux-x64-Deb
+        path: Source/Slithin/Dist/Linux-x64-Deb
+      
+      
+    - name: Creating Rpm-Package
+      run: dotnet rpm -r linux-x64 -c Release -o ./Dist/Linux-x64-Rpm
+      working-directory: Source/Slithin/
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Linux_x64_RPM_Installer
-        path: ./Dist/Linux-x64-Rpm
+        path: Source/Slithin/Dist/Linux-x64-Rpm
 
+
+    - name: Publish SDK Windows
+      run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-sdk-x86 $env:SDK
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Windows_SDK_x86
+        path: ./Dist/Win-sdk-x86
+        
+    - name: Publish SDK OSX x64
+      run: dotnet publish -c Release -r osx-x64 --output ./Dist/OSX-sdk-x64 $env:SDK
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: OSX_SDK_x64
+        path: ./Dist/OSX-sdk-x64
+        
+    - name: Publish SDK Linux x64
+      run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-sdk-x64 $env:SDK
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Linux_SDK_x64
+        path: ./Dist/Linux-sdk-x64

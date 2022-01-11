@@ -2,7 +2,7 @@
 
 public interface ISettingsService
 {
-    Settings Get();
+    Settings GetSettings();
 
     void Save(Settings settings);
 }

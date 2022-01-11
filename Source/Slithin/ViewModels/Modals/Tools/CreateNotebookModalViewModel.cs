@@ -20,7 +20,7 @@ using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals.Tools;
 
-public class CreateNotebookModalViewModel : BaseViewModel
+public class CreateNotebookModalViewModel : ModalBaseViewModel
 {
     private readonly ILoadingService _loadingService;
     private readonly IMailboxService _mailboxService;
@@ -117,25 +117,29 @@ public class CreateNotebookModalViewModel : BaseViewModel
         if (CoverFilename.StartsWith("custom:"))
         {
             var strm = File.OpenRead(CoverFilename.Substring("custom:".Length));
-            Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+            Cover = Bitmap.DecodeToWidth(strm, 150);
         }
         else
         {
-            var strm = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) + ".png");
-            Cover = Bitmap.DecodeToWidth(strm, 150, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+            var strm = GetType().Assembly
+                .GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) +
+                                           ".png");
+            Cover = Bitmap.DecodeToWidth(strm, 150);
         }
     }
 
     public override void OnLoad()
     {
+        base.OnLoad();
+
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-        Cover = new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/Covers/Folder-DBlue.png")));
+        Cover = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/Covers/Folder-DBlue.png")));
         CoverFilename = "internal:Folder-DBlue.png";
 
-        var coverNames = GetType().Assembly.GetManifestResourceNames().
-            Where(_ => _.StartsWith("Slithin.Resources.Covers.")).
-            Select(_ => _.Replace(".png", "")["Slithin.Resources.Covers.".Length..]);
+        var coverNames = GetType().Assembly.GetManifestResourceNames()
+            .Where(_ => _.StartsWith("Slithin.Resources.Covers."))
+            .Select(_ => _.Replace(".png", "")["Slithin.Resources.Covers.".Length..]);
 
         DefaultCovers = new ObservableCollection<string>(coverNames);
 
@@ -144,6 +148,7 @@ public class CreateNotebookModalViewModel : BaseViewModel
             Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
             return;
         }
+
         _mailboxService.PostAction(() =>
         {
             NotificationService.Show("Loading Templates");
@@ -158,11 +163,13 @@ public class CreateNotebookModalViewModel : BaseViewModel
 
     private void AddPages(object obj)
     {
-        if (!int.TryParse(PageCount, out var pcount) || SelectedTemplate == null && string.IsNullOrEmpty(CustomTemplateFilename))
+        if (!int.TryParse(PageCount, out var pcount) ||
+            SelectedTemplate == null && string.IsNullOrEmpty(CustomTemplateFilename))
         {
             DialogService.OpenDialogError("Page Count must be a number and a template need to be selected");
             return;
         }
+
         if (!string.IsNullOrEmpty(CustomTemplateFilename))
         {
             Pages.Add(new NotebookCustomPage(CustomTemplateFilename, pcount));
@@ -186,11 +193,8 @@ public class CreateNotebookModalViewModel : BaseViewModel
             DialogService.OpenDialogError(validationResult.Errors.First().ToString());
             return;
         }
-        var document = new PdfDocument
-        {
-            PageLayout = PdfPageLayout.SinglePage,
-            PageMode = PdfPageMode.FullScreen
-        };
+
+        var document = new PdfDocument { PageLayout = PdfPageLayout.SinglePage, PageMode = PdfPageMode.FullScreen };
         document.Info.Author = "Slithin";
         document.Info.Title = Title;
 
@@ -208,7 +212,9 @@ public class CreateNotebookModalViewModel : BaseViewModel
         }
         else
         {
-            coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) + ".png");
+            coverStream = GetType().Assembly
+                .GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) +
+                                           ".png");
         }
 
         if (coverStream == null)
@@ -260,15 +266,14 @@ public class CreateNotebookModalViewModel : BaseViewModel
             Type = "DocumentType",
             Version = 1,
             Parent = "",
-
-            Content = new() { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count }
+            Content = new ContentFile { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count }
         };
 
         md.Save();
 
         document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
 
-        MetadataStorage.Local.Add(md, out var alreadyAdded);
+        MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
 
         SyncService.NotebooksFilter.Documents.Add(md);
         SyncService.NotebooksFilter.SortByFolder();

@@ -4,23 +4,29 @@ using System.Linq;
 using System.Text;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Core.Scripting;
+using Slithin.Core.Services;
+using Slithin.Core.WasmInterface;
 using Slithin.ModuleSystem;
+using Slithin.ModuleSystem.StdLib;
 using WebAssembly;
 
 namespace Slithin.Tools;
 
 public class ScriptTool : ITool
 {
-    private readonly Slithin.ModuleSystem.ScriptInfo _info;
+    private readonly ScriptInfo _info;
     private readonly Module _module;
     private readonly CustomSection uiSection;
 
-    public ScriptTool(Slithin.ModuleSystem.ScriptInfo info, Module module)
+    private dynamic instance;
+
+    public ScriptTool(ScriptInfo info, Module module)
     {
         _info = info;
         _module = module;
@@ -43,37 +49,54 @@ public class ScriptTool : ITool
             }
             else
             {
-                imageStream = assets.Open(new Uri($"avares://Slithin/Resources/cubes.png"));
+                imageStream = assets.Open(new Uri("avares://Slithin/Resources/cubes.png"));
             }
 
             return new Bitmap(imageStream);
         }
     }
 
-    public Models.ScriptInfo Info => new(_info.ID, _info.Name, _info.Category, _info.Description, false);
+    public Models.ScriptInfo Info =>
+        new(_info.Id, _info.Name, _info.Category, _info.Description, false, _info.IsListed, false);
 
     public bool IsConfigurable => uiSection != null;
 
     public Control GetModal()
     {
         if (uiSection == null)
+        {
             return null;
+        }
 
-        return Avalonia.Markup.Xaml.AvaloniaRuntimeXamlLoader.Parse<Control>(
+        return AvaloniaRuntimeXamlLoader.Parse<Control>(
             Encoding.ASCII.GetString(uiSection.Content.ToArray())
         );
     }
 
     public void Invoke(object data)
     {
+        // var mem = instance.memory;
+        var _mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
+
+        _mailboxService.PostAction(() =>
+        {
+            instance._start();
+        });
+
+        ActionModule.RunExports(instance);
+    }
+
+    public void Init()
+    {
         var automation = ServiceLocator.Container.Resolve<Automation>();
         var imports = automation.Imports;
 
-        var instance = ActionModule.Compile(_module, imports);
+        ModuleImporter.Import(typeof(ConversionsImplementation), imports);
+        ModuleImporter.Import(typeof(StringImplementation), imports);
+        ModuleImporter.Import(typeof(NotificationImplementation), imports);
 
-        // var mem = instance.memory;
-        instance._start();
+        ModuleImporter.Import(typeof(ModuleSystem.StdLib.Core), imports);
 
-        ActionModule.RunExports();
+        instance = ActionModule.Compile(_module, imports);
     }
 }

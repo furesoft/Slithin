@@ -7,4 +7,6 @@ public interface ILoadingService
     void LoadScreens();
 
     void LoadTemplates();
+
+    void LoadTools();
 }

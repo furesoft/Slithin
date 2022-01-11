@@ -9,4 +9,13 @@ public class ConversionsImplementation
         var dst = new Pointer(dstAddress);
         dst.Write(value.ToString());
     }
+
+    [WasmExport("stringToInt")]
+    public static int StringToInt(int ptrAddress)
+    {
+        var dst = new Pointer(ptrAddress);
+        var str = dst.ReadString(StringImplementation.Length(ptrAddress));
+
+        return int.Parse(str);
+    }
 }

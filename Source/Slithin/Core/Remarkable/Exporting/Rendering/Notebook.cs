@@ -29,7 +29,7 @@ public class Notebook
 
     public static Notebook Load(string id)
     {
-        return Load(MetadataStorage.Local.Get(id));
+        return Load(MetadataStorage.Local.GetMetadata(id));
     }
 
     public static Notebook Load(Metadata md)
@@ -37,15 +37,19 @@ public class Notebook
         var notebook = new Notebook(md);
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
-        notebook.PageCount = md.Content.PageCount;
+        notebook.PageCount = md.Content.Pages.Length;
 
-        for (int p = 0; p < notebook.PageCount; ++p)
+        for (var p = 0; p < notebook.PageCount; ++p)
         {
             var path = Path.Combine(pathManager.NotebooksDir, md.ID, md.Content.Pages[p] + ".rm");
-            var strm = File.OpenRead(path);
-            var curPage = LoadPage(strm);
 
-            notebook.Pages.Add(curPage);
+            if (File.Exists(path))
+            {
+                var strm = File.OpenRead(path);
+                var curPage = LoadPage(strm);
+
+                notebook.Pages.Add(curPage);
+            }
         }
 
         return notebook;
@@ -53,7 +57,7 @@ public class Notebook
 
     public static Page LoadPage(Stream strm)
     {
-        var br = new BinaryReader(strm, Encoding.UTF8, leaveOpen: true);
+        var br = new BinaryReader(strm, Encoding.UTF8, true);
 
         // skip header
         strm.Seek(33, SeekOrigin.Begin);
@@ -63,11 +67,11 @@ public class Notebook
 
         // layers
         Page curPage = new();
-        curPage.Layers = new();
+        curPage.Layers = new List<Layer>();
 
         var layerCount = br.ReadInt32();
 
-        for (int nlay = 0; nlay < layerCount; ++nlay)
+        for (var nlay = 0; nlay < layerCount; ++nlay)
         {
             ReadLayer(br, curPage);
         }
@@ -90,7 +94,7 @@ public class Notebook
 
             var pages = new List<string>(md.Content.Pages);
 
-            for (int i = 0; i < difference; i++)
+            for (var i = 0; i < difference; i++)
             {
                 pages.Add(Guid.NewGuid().ToString().ToLower());
             }
@@ -154,12 +158,11 @@ public class Notebook
 
     private static void ReadLayer(BinaryReader fstream, Page curPage)
     {
-        Layer curLayer = new();
-        curLayer.Lines = new();
+        Layer curLayer = new() {Lines = new List<Line>()};
 
         var lineCount = fstream.ReadInt32();
 
-        for (int nl = 0; nl < lineCount; ++nl)
+        for (var nl = 0; nl < lineCount; ++nl)
         {
             ReadLine(fstream, curLayer);
         }
@@ -170,7 +173,7 @@ public class Notebook
     private static void ReadLine(BinaryReader fstream, Layer curLayer)
     {
         Line curLine = new();
-        curLine.Points = new();
+        curLine.Points = new List<Point>();
 
         // select 1-1: 2 (pen)
         // select 1-2: 3 (pen)
@@ -196,7 +199,7 @@ public class Notebook
 
         var pointCount = fstream.ReadInt32();
 
-        for (int n = 0; n < pointCount; ++n)
+        for (var n = 0; n < pointCount; ++n)
         {
             ReadPoint(fstream, curLine);
         }

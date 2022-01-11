@@ -33,20 +33,19 @@ public class RemoveTemplateCommand : ICommand
     {
         if (parameter is not Template tmpl
             || !await DialogService.ShowDialog($"Would you really want to delete '{tmpl.Filename}'?"))
+        {
             return;
+        }
 
         _templatesPageViewModel.SelectedTemplate = null;
         _synchronisationService.TemplateFilter.Templates.Remove(tmpl);
 
         TemplateStorage.Instance.Remove(tmpl);
-        _localRepository.Remove(tmpl);
+        _localRepository.RemoveTemplate(tmpl);
 
         var item = new SyncItem
         {
-            Action = SyncAction.Remove,
-            Direction = SyncDirection.ToDevice,
-            Data = tmpl,
-            Type = SyncType.Template
+            Action = SyncAction.Remove, Direction = SyncDirection.ToDevice, Data = tmpl, Type = SyncType.Template
         };
 
         _synchronisationService.AddToSyncQueue(item);

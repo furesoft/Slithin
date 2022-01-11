@@ -1,12 +1,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31424.327
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin", "Slithin.csproj", "{8D6DDA9F-C8F3-4EDB-8D4A-9CDC729C0F29}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{19714095-490C-41EE-B64E-C0046D452830}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		ToDo.txt = ToDo.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.ActionCompiler", "..\Slithin.ActionCompiler\Slithin.ActionCompiler.csproj", "{300E26B3-AFD1-4C3D-87C6-FE2E45D69236}"
@@ -19,7 +20,9 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Windows-Store", "..\..\Depl
 EndProject
 Project("{13B669BE-BB05-4DDF-9536-439F39A36129}") = "WebApi", "..\..\Api\WebApi.msbuildproj", "{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.ModuleSystem.StdLib", "..\Slithin.ModuleSystem.StdLib\Slithin.ModuleSystem.StdLib.csproj", "{BC52B7E6-9FB8-4F57-9FDE-5400DF82CBC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.ModuleSystem.StdLib", "..\Slithin.ModuleSystem.StdLib\Slithin.ModuleSystem.StdLib.csproj", "{BC52B7E6-9FB8-4F57-9FDE-5400DF82CBC0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.ModuleSystem.Memory", "..\Slithin.ModuleSystem.Memory\Slithin.ModuleSystem.Memory.csproj", "{6D8F0D32-B765-4863-A083-0421365D43C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -185,6 +188,26 @@ Global
 		{BC52B7E6-9FB8-4F57-9FDE-5400DF82CBC0}.Release|x64.Build.0 = Release|Any CPU
 		{BC52B7E6-9FB8-4F57-9FDE-5400DF82CBC0}.Release|x86.ActiveCfg = Release|Any CPU
 		{BC52B7E6-9FB8-4F57-9FDE-5400DF82CBC0}.Release|x86.Build.0 = Release|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Debug|ARM.Build.0 = Debug|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Debug|x64.Build.0 = Debug|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Debug|x86.Build.0 = Debug|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Release|ARM.Build.0 = Release|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Release|ARM64.Build.0 = Release|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Release|x64.ActiveCfg = Release|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Release|x64.Build.0 = Release|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Release|x86.ActiveCfg = Release|Any CPU
+		{6D8F0D32-B765-4863-A083-0421365D43C8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

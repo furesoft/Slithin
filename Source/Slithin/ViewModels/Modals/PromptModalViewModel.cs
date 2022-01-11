@@ -9,6 +9,7 @@ public class PromptModalViewModel : BaseViewModel
     private string _input;
     private string _watermark;
     public ICommand AcceptCommand { get; set; }
+    public ICommand CancelCommand { get; set; }
 
     public string Header
     {

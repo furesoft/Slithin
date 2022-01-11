@@ -1,30 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using Furesoft.Core.CodeDom.CodeDOM;
 using Furesoft.Core.CodeDom.CodeDOM.Base;
+using System.Collections.Generic;
 
 namespace Slithin.ActionCompiler.Compiling;
 
-public static class PassManager
+public class PassManager
 {
-    private static readonly List<IPass> _passes = new();
+    private readonly List<IPass> Passes = new();
 
-    public static void AddPass<T>()
+    public void AddPass<T>()
         where T : IPass, new()
     {
-        _passes.Add(new T());
+        Passes.Add(new T());
     }
 
-    public static Block Process(Block obj)
+    public CodeUnit Process(CodeUnit obj)
     {
         var result = new Block();
-        foreach (var t in obj)
-        {
-            if (t is Block blk) result.Add(Process(blk));
 
-            foreach (var pass in _passes)
-                result.Add(pass.Process(t));
+        obj.Body = ProcessBlock(obj.Body);
+
+        return obj;
+    }
+
+    public Block ProcessBlock(Block block)
+    {
+        foreach (var pass in Passes)
+        {
+            //ToDo: need to be fixed: only should return 1 object not 1 object each pass
+            block = pass.Process(block, this);
         }
 
-
-        return result;
+        return block;
     }
 }

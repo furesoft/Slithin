@@ -1,12 +1,8 @@
-﻿using System.Windows.Input;
-using Slithin.Core;
+﻿namespace Slithin.ViewModels.Modals;
 
-namespace Slithin.ViewModels.Modals;
-
-public class MessageBoxModalViewModel : BaseViewModel
+public class MessageBoxModalViewModel : ModalBaseViewModel
 {
     private string _message;
-    public ICommand AcceptCommand { get; set; }
 
     public string Message
     {

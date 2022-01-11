@@ -1,24 +1,23 @@
-﻿using System;
-using System.IO;
-using PdfSharpCore.Pdf;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Renci.SshNet;
+using Serilog;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Models;
-using Slithin.Core.Remarkable.Exporting.Rendering;
 
 namespace Slithin.ViewModels.Pages;
 
 public class DevicePageViewModel : BaseViewModel
 {
     private readonly SshClient _client;
-    private readonly EventStorage _events;
     private readonly IExportProviderFactory _exportProviderFactory;
     private readonly ILoadingService _loadingService;
     private readonly LocalRepository _localRepostory;
+    private readonly ILogger _logger;
     private readonly ILoginService _loginService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
@@ -32,7 +31,6 @@ public class DevicePageViewModel : BaseViewModel
 
     public DevicePageViewModel(IVersionService versionService,
         ILoadingService loadingService,
-        EventStorage events,
         IMailboxService mailboxService,
         LocalRepository localRepostory,
         SshClient client,
@@ -40,11 +38,11 @@ public class DevicePageViewModel : BaseViewModel
         IPathManager pathManager,
         ISettingsService settingsService,
         IExportProviderFactory exportProviderFactory,
-        ILoginService loginService)
+        ILoginService loginService,
+        ILogger logger)
     {
         _versionService = versionService;
         _loadingService = loadingService;
-        _events = events;
         _mailboxService = mailboxService;
         _localRepostory = localRepostory;
         _client = client;
@@ -53,6 +51,7 @@ public class DevicePageViewModel : BaseViewModel
         _settingsService = settingsService;
         _exportProviderFactory = exportProviderFactory;
         _loginService = loginService;
+        _logger = logger;
     }
 
     public bool IsBeta
@@ -67,34 +66,68 @@ public class DevicePageViewModel : BaseViewModel
         set => SetValue(ref _version, value);
     }
 
-    public void Export()
-    {
-        var id = "f27773a7-b054-4782-bbcf-a9acbf045977";
-        var ep = _exportProviderFactory.GetExportProvider("PDF Document");
-
-        var outputStream = File.OpenRead(@"C:\Users\chris\Documents\Slithin\Notebooks\" + id + ".pdf");
-        var doc = new PdfDocument(outputStream);
-
-        var opts = ExportOptions.Create(doc, "1-120");
-        var md = Metadata.Load(id);
-        var outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.pdf";
-
-        ep.Export(opts, md, outputPath);
-    }
-
     public override async void OnLoad()
     {
         base.OnLoad();
 
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Starting", Filename = "starting.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Suspended", Filename = "suspended.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Rebooting", Filename = "rebooting.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Splash", Filename = "splash.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Battery Empty", Filename = "batteryempty.png" });
+        InitScreens();
 
         _loadingService.LoadScreens();
 
+        _mailboxService.PostAction(() =>
+        {
+            _loadingService.LoadTools();
+        });
+
+        InitIsBeta();
+
+        Version = _versionService.GetDeviceVersion().ToString();
+
+        await DoAfterDeviceUpdate();
+
+        _mailboxService.PostAction(() =>
+        {
+            ModuleEventStorage.Invoke("OnConnect", 0);
+        });
+    }
+
+    private async Task DoAfterDeviceUpdate()
+    {
+        if (_versionService.GetLocalVersion() >= _versionService.GetDeviceVersion())
+        {
+            return;
+        }
+
+        ModuleEventStorage.Invoke("OnNewVersionAvailable", 0);
+        _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
+
+        _loginService.UpdateIPAfterUpdate();
+
+        await DoNewVersionUpload();
+    }
+
+    private async Task DoNewVersionUpload()
+    {
+        if (_settingsService.GetSettings().AutomaticTemplateRecovery)
+        {
+            UploadTemplates();
+            UploadScreens();
+
+            return;
+        }
+
+        var result =
+            await DialogService.ShowDialog(
+                "A new version has been installed to your device. Would you upload your custom templates?");
+        if (result)
+        {
+            UploadTemplates();
+            UploadScreens();
+        }
+    }
+
+    private void InitIsBeta()
+    {
         var sshCommand = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf");
         var str = sshCommand.Result;
         str = str.Replace("BetaProgram=", "").Replace("\n", "");
@@ -103,28 +136,32 @@ public class DevicePageViewModel : BaseViewModel
         {
             IsBeta = bool.Parse(str);
         }
+    }
 
-        Version = _versionService.GetDeviceVersion().ToString();
+    private void InitScreens()
+    {
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Starting", Filename = "starting.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Suspended", Filename = "suspended.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Rebooting", Filename = "rebooting.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Splash", Filename = "splash.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = "Battery Empty", Filename = "batteryempty.png" });
 
-        if (_versionService.GetLocalVersion() >= _versionService.GetDeviceVersion())
-            return;
+        _logger.Information("Initialize Screens");
+    }
 
-        _events.Invoke("newVersionAvailable");
-        _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
-
-        _loginService.UpdateIPAfterUpdate();
-
-        if (_settingsService.Get().AutomaticTemplateRecovery)
+    private void UploadScreens()
+    {
+        _mailboxService.PostAction(() =>
         {
-            UploadTemplates();
-            return;
-        }
+            //upload screens folder
+            NotificationService.Show("Uploading Screens");
 
-        var result = await DialogService.ShowDialog("A new version has been installed to your device. Would you upload your custom templates?");
-        if (result)
-        {
-            UploadTemplates();
-        }
+            _scp.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
+
+            TemplateStorage.Instance.Apply();
+            NotificationService.Hide();
+        });
     }
 
     private void UploadTemplates()

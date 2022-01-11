@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,11 +41,11 @@ public class RestoreTool : ITool
         {
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/restore.png")));
+            return new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/restore.png")));
         }
     }
 
-    public ScriptInfo Info => new("restore", "Restore", "Internal", "Restore a Backup", false);
+    public ScriptInfo Info => new("restore", "Restore", "Internal", "Restore a Backup", false, true, false);
 
     public bool IsConfigurable => false;
 
@@ -57,15 +58,16 @@ public class RestoreTool : ITool
     {
         var vm = new SelectBackupViewModel
         {
-            Backups = new(Directory.GetFiles(_pathManager.BackupsDir, "*.zip")
+            Backups = new ObservableCollection<Backup>(Directory.GetFiles(_pathManager.BackupsDir, "*.zip")
                 .Select(_ => new Backup(Path.GetFileNameWithoutExtension(_).Replace("Backup_from_", ""), _)))
         };
 
-        var result = await DialogService.ShowDialog("Select Backup", new SelectBackupModal { DataContext = vm });
+        var result = await DialogService.ShowDialog("Select Backup", new SelectBackupModal {DataContext = vm});
 
         if (result)
         {
-            var really = await DialogService.ShowDialog($"Do you really want to restore backup {vm.SelectedBackup.Name}? All files will be replaced!");
+            var really = await DialogService.ShowDialog(
+                $"Do you really want to restore backup {vm.SelectedBackup.Name}? All files will be replaced!");
 
             if (really)
             {

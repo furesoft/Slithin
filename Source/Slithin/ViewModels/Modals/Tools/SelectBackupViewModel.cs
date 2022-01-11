@@ -1,10 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using Slithin.Core;
 using Slithin.Models;
 
 namespace Slithin.ViewModels.Modals.Tools;
 
-public class SelectBackupViewModel : BaseViewModel
+public class SelectBackupViewModel : ModalBaseViewModel
 {
     private Backup _selectedBackup;
     public ObservableCollection<Backup> Backups { get; set; } = new();

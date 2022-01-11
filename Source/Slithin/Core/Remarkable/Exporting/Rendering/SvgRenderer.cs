@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -10,15 +10,9 @@ namespace Slithin.Core.Remarkable.Exporting.Rendering;
 
 public static class SvgRenderer
 {
-    //ToDo: need to use original size dimension
     public static Stream RenderPage(Page page, int index, Metadata md, int width = 1404, int height = 1872)
     {
-        var svgDoc = new SvgDocument
-        {
-            Width = width,
-            Height = height,
-            ViewBox = new SvgViewBox(0, 0, 1404, 1872),
-        };
+        var svgDoc = new SvgDocument {Width = width, Height = height, ViewBox = new SvgViewBox(0, 0, width, height)};
 
         var group = new SvgGroup();
         svgDoc.Children.Add(group);
@@ -27,19 +21,10 @@ public static class SvgRenderer
 
         if (template != null)
         {
-            group.Children.Add(new SvgImage { Href = "data:image/png;base64," + template, X = 0, Y = 0 });
+            group.Children.Add(new SvgImage {Href = "data:image/png;base64," + template, X = 0, Y = 0});
         }
 
-        foreach (var layer in page.Layers)
-        {
-            foreach (var line in layer.Lines)
-            {
-                if (line.BrushType != Brushes.Eraseall && line.BrushType != Brushes.Rubber)
-                {
-                    RenderLine(line, group);
-                }
-            }
-        }
+        RenderLayer(page, group);
 
         var stream = new MemoryStream();
         svgDoc.Write(stream);
@@ -47,12 +32,25 @@ public static class SvgRenderer
         return stream;
     }
 
-    private static SvgPathSegmentList GeneratePathData(List<Point> points)
+    private static void RenderLayer(Page page, SvgGroup group)
     {
-        var psl = new SvgPathSegmentList();
-        psl.Add(new SvgMoveToSegment(new PointF(points[0].X, points[0].Y)));
+        foreach (var layer in page.Layers)
+        {
+            foreach (var line in layer.Lines)
+            {
+                if (line is {BrushType: Brushes.Eraseall} && line.BrushType != Brushes.Rubber)
+                {
+                    RenderLine(line, group);
+                }
+            }
+        }
+    }
 
-        for (int i = 0; i + 1 < points.Count; i++)
+    private static SvgPathSegmentList GeneratePathData(IReadOnlyList<Point> points)
+    {
+        var psl = new SvgPathSegmentList {new SvgMoveToSegment(new PointF(points[0].X, points[0].Y))};
+
+        for (var i = 0; i + 1 < points.Count; i++)
         {
             psl.Add(new SvgLineSegment(
                 new PointF(points[i].X, points[i].Y),
@@ -61,6 +59,7 @@ public static class SvgRenderer
 
             i++;
         }
+
         psl.Add(new SvgClosePathSegment());
 
         return psl;
@@ -91,13 +90,13 @@ public static class SvgRenderer
             {
                 Colors.Grey => new SvgColourServer(Color.Gray),
                 Colors.White => new SvgColourServer(Color.White),
-                _ => new SvgColourServer(Color.Black),
+                _ => new SvgColourServer(Color.Black)
             };
         path.StrokeWidth
             = line.BrushType switch
             {
                 Brushes.Highlighter or Brushes.Rubber => new SvgUnit(20 * BaseSizes.GetValue(line.BrushBaseSize)),
-                _ => new SvgUnit(18 * BaseSizes.GetValue(line.BrushBaseSize) - 32),
+                _ => new SvgUnit(18 * BaseSizes.GetValue(line.BrushBaseSize) - 32)
             };
 
         if (line.BrushType == Brushes.Highlighter)
@@ -105,6 +104,7 @@ public static class SvgRenderer
             path.Opacity = 0.25f;
             path.Stroke = new SvgColourServer(Color.Yellow);
         }
+
         path.StrokeLineJoin = SvgStrokeLineJoin.Round;
         path.StrokeLineCap = SvgStrokeLineCap.Round;
 

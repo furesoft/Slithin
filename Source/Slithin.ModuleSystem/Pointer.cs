@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Slithin.ModuleSystem.WASInterface;
 
@@ -36,24 +37,25 @@ public struct Pointer
 
     public int ReadInt32(int offset = 0)
     {
-        return Marshal.ReadInt32(Sg_wasm.Mem + Base + offset);
+        return Marshal.ReadInt32(WasmMemory.Mem + Base + offset);
     }
 
     public void Write(int value, int offset = 0)
     {
-        Marshal.WriteInt32(Sg_wasm.Mem + Base + offset, value);
+        Marshal.WriteInt32(WasmMemory.Mem + Base + offset, value);
     }
 
     public void Write(string value, int offset = 0)
     {
         var utf8 = Util.ToUtf8(value);
+        utf8 = utf8.Append((byte) 0).ToArray();
 
-        Marshal.Copy(utf8, 0, Sg_wasm.Mem + Base + offset, utf8.Length);
+        Marshal.Copy(utf8, 0, WasmMemory.Mem + Base + offset, utf8.Length);
     }
 
     public void Write(byte value)
     {
-        Marshal.WriteByte(Sg_wasm.Mem + Base, value);
+        Marshal.WriteByte(WasmMemory.Mem + Base, value);
     }
 
     public static Pointer operator ++(Pointer ptr)
@@ -61,8 +63,35 @@ public struct Pointer
         return new Pointer(ptr.Base + 1);
     }
 
+    public static implicit operator int(Pointer ptr)
+    {
+        return ptr.Base;
+    }
+
     public static Pointer operator --(Pointer ptr)
     {
         return new Pointer(ptr.Base - 1);
+    }
+
+    public string ReadString(int strlen)
+    {
+        return Util.FromUtf8(WasmMemory.Mem + Base, strlen);
+    }
+
+    public string ReadString()
+    {
+        var length = StrLength(Base);
+
+        return ReadString(length);
+    }
+
+    private static int StrLength(int ptrAddress)
+    {
+        var ptr = new Pointer(ptrAddress);
+
+        var len = 0;
+        while (ptr[len] != 0) len++;
+
+        return len;
     }
 }

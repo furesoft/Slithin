@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Serilog;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
@@ -12,18 +13,19 @@ namespace Slithin.ViewModels.Pages;
 public class NotebooksPageViewModel : BaseViewModel
 {
     private readonly ILoadingService _loadingService;
+    private readonly ILogger _logger;
     private readonly IMailboxService _mailboxService;
     private readonly SynchronisationService _synchronisationService;
     private bool _isMoving;
     private Metadata _movingNotebook;
     private Metadata _selectedNotebook;
 
-    public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService)
+    public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService, ILogger logger)
     {
         _synchronisationService = ServiceLocator.SyncService;
         ExportCommand = ServiceLocator.Container.Resolve<ExportCommand>();
 
-        MakeFolderCommand = new DelegateCommand(async (_) =>
+        MakeFolderCommand = new DelegateCommand(async _ =>
         {
             var name = await DialogService.ShowPrompt("Make Folder", "Foldername");
             MakeFolder(name);
@@ -31,16 +33,18 @@ public class NotebooksPageViewModel : BaseViewModel
 
         RenameCommand = new DelegateCommand(async _ =>
         {
-            var name = await DialogService.ShowPrompt("Rename " + ((Metadata)_).VisibleName, "Name", ((Metadata)_).VisibleName);
-            Rename(((Metadata)_), name);
+            var name = await DialogService.ShowPrompt("Rename ", "Name", ((Metadata)_).VisibleName);
+            Rename((Metadata)_, name);
         }, _ => _ != null && _ is Metadata md && md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
 
         RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
         MoveCommand = new DelegateCommand(_ =>
-        {
-            IsMoving = true;
-            _movingNotebook = SelectedNotebook;
-        }, (_) => _ != null && _ is Metadata md && SelectedNotebook != null && !IsMoving && md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
+            {
+                IsMoving = true;
+                _movingNotebook = SelectedNotebook;
+            },
+            _ => _ != null && _ is Metadata md && SelectedNotebook != null && !IsMoving &&
+                 md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
 
         MoveCancelCommand = new DelegateCommand(_ =>
         {
@@ -55,7 +59,7 @@ public class NotebooksPageViewModel : BaseViewModel
             var item = new SyncItem
             {
                 Direction = SyncDirection.ToDevice,
-                Data = MetadataStorage.Local.Get(_movingNotebook.ID),
+                Data = MetadataStorage.Local.GetMetadata(_movingNotebook.ID),
                 Type = SyncType.Notebook,
                 Action = SyncAction.Update
             };
@@ -71,10 +75,13 @@ public class NotebooksPageViewModel : BaseViewModel
             SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
 
             SyncService.NotebooksFilter.SortByFolder();
+
+            logger.Information($"Moved {_movingNotebook.VisibleName} to {SyncService.NotebooksFilter.Folder}");
         });
 
         _loadingService = loadingService;
         _mailboxService = mailboxService;
+        _logger = logger;
     }
 
     public ICommand ExportCommand { get; set; }
@@ -124,13 +131,14 @@ public class NotebooksPageViewModel : BaseViewModel
             VisibleName = name
         };
 
-        MetadataStorage.Local.Add(md, out var alreadyAdded);
+        MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
 
         if (alreadyAdded)
         {
             DialogService.OpenError($"'{md.VisibleName}' already exists");
             return;
         }
+
         md.Save();
 
         _synchronisationService.NotebooksFilter.Documents.Add(md);
@@ -146,18 +154,24 @@ public class NotebooksPageViewModel : BaseViewModel
 
         _synchronisationService.AddToSyncQueue(syncItem);
 
+        _logger.Information($"Folder '{md.VisibleName}' created");
+
         DialogService.Close();
     }
 
     private void Rename(Metadata md, string newName)
     {
+        _logger.Information($"Renamed '{md.VisibleName}' to '{newName}'");
+
         md.VisibleName = newName;
 
         MetadataStorage.Local.Remove(md);
-        MetadataStorage.Local.Add(md, out var alreadyAdded);
+        MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
 
         if (alreadyAdded)
+        {
             return;
+        }
 
         md.Save();
 
