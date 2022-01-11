@@ -101,11 +101,7 @@
                     </i:Interaction.Behaviors>
                     <editor:DrawingNode Name="Drawing"
                                         Background="{DynamicResource EditorCheckerBoard}" Width="10000" Height="7500">
-                        <editor:DrawingNode.Transitions>
-                            <Transitions>
-                                <paz:TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
-                            </Transitions>
-                        </editor:DrawingNode.Transitions>
+
                         <editor:DrawingNode.ContextFlyout>
                             <MenuFlyout>
                                 <MenuItem Header="_Edit"

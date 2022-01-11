@@ -115,7 +115,6 @@ public class ConnectionWindowViewModel : BaseViewModel
 
             automation.Init();
 
-
             var pingTimer = new Timer();
             pingTimer.Elapsed += pingTimer_ellapsed;
             pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;

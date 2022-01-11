@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using LiteDB;
-using Slithin.Core.Remarkable.Cloud;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 
@@ -16,9 +15,6 @@ public static class ServiceLocator
     {
         Container = TinyIoCContainer.Current;
         Container.AutoRegister();
-
-        Container.Register<Api>().AsSingleton();
-        Container.Register<Storage>().AsSingleton();
 
         var pathManager = Container.Resolve<IPathManager>();
         pathManager.Init();

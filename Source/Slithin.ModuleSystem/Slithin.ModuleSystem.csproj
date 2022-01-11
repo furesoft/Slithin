@@ -23,6 +23,5 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Slithin.ModuleSystem.Memory\Slithin.ModuleSystem.Memory.csproj" />
-	  <ProjectReference Include="..\Slithin\Slithin.ModuleSystem.Memory\Slithin.ModuleSystem.Memory.csproj" />
 	</ItemGroup>
 </Project>

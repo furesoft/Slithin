@@ -82,11 +82,6 @@
                     </i:Interaction.Behaviors>
                     <editor:DrawingNode Name="Drawing" Width="1404"
                                         Height="1872">
-                        <editor:DrawingNode.Transitions>
-                            <Transitions>
-                                <paz:TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
-                            </Transitions>
-                        </editor:DrawingNode.Transitions>
                     </editor:DrawingNode>
                 </ui:NodeZoomBorder>
             </ScrollViewer>
