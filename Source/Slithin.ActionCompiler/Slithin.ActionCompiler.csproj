@@ -9,7 +9,7 @@
     <ItemGroup>
         <PackageReference Include="CommandLineParser" Version="2.8.0" />
         <PackageReference Include="Flo" Version="0.3.0" />
-        <PackageReference Include="Furesoft.Core.CodeDom" Version="1.0.4" />
+        <PackageReference Include="Furesoft.Core.CodeDom" Version="1.0.6" />
         <PackageReference Include="MessagePack" Version="2.3.85" />
         <PackageReference Include="MessagePackAnalyzer" Version="2.3.85" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

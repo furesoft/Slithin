@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Slithin.ActionCompiler
+﻿namespace Slithin.ActionCompiler
 {
     public static class Program
     {
