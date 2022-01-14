@@ -1,14 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
-    <Version>1.0.3.0</Version>
-	  <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
+    <Version>1.0.6.0</Version>
+	<RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
     <PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
     <Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
     <LangVersion>10</LangVersion>
-    <PackageVersion>1.0.4.0</PackageVersion>
   </PropertyGroup>
   
   <ItemGroup>
@@ -53,6 +52,8 @@
       https://www.myget.org/F/avalonia-ci/api/v2;
       https://api.nuget.org/v3/index.json;
     </RestoreSources>
+    <PackageId>$(VersionNumber)</PackageId>
+    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
    <ItemGroup>
