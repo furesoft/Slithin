@@ -1,4 +1,4 @@
-﻿using FeatureSwitcher;
+﻿using Slithin.Core.FeatureToggle;
 
 namespace Slithin.Core.Features;
 
