@@ -24,6 +24,9 @@
                         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Margin="2">
                             <StackPanel Orientation="Vertical" Margin="2">
                                 <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,0,0,5" FontSize="17" FontWeight="Medium" />
+                                <Button Classes="Flat" Command="{Binding TransferCommand}" Width="16" Height="16">
+                                    <Image Source="/Resources/data-transfer.png" Width="16" Height="16" ToolTip.Tip="Transfer to device" />
+                                </Button>
 
                                 <Image Source="{Binding Image, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" />
                             </StackPanel>

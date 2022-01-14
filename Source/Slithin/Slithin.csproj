@@ -58,6 +58,7 @@
    <ItemGroup>
      <None Remove="Resources\backup.png" />
      <None Remove="Resources\cubes.png" />
+     <None Remove="Resources\data-transfer.png" />
      <None Remove="Resources\nav.png" />
      <None Remove="Resources\notebook.png" />
      <None Remove="Resources\trash.png" />
