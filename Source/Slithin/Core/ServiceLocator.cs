@@ -16,6 +16,9 @@ public static class ServiceLocator
         Container = TinyIoCContainer.Current;
         Container.AutoRegister();
 
+        var featureEnabler = Container.Resolve<FeatureEnabler>();
+        featureEnabler.Init();
+
         var pathManager = Container.Resolve<IPathManager>();
         pathManager.Init();
 

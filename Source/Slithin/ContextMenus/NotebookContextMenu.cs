@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
-using FeatureSwitcher;
 using Slithin.Core;
 using Slithin.Core.Commands;
 using Slithin.Core.Features;
+using Slithin.Core.FeatureToggle;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
@@ -36,11 +36,11 @@ public class NotebookContextMenu : IContextProvider
             Command = new DelegateCommand(async _ =>
                 await Application.Current.Clipboard.SetTextAsync(((Metadata)obj).ID))
         });
-        if (Feature<ExportFeature>.Is().Enabled)
+        if (Feature<ExportFeature>.IsEnabled)
         {
             var subItems = new List<MenuItem>();
 
-            if (Feature<ExportPdfFeature>.Is().Enabled)
+            if (Feature<ExportPdfFeature>.IsEnabled)
             {
                 subItems.Add(new()
                 {
@@ -49,7 +49,7 @@ public class NotebookContextMenu : IContextProvider
                         ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
                 });
             }
-            if (Feature<ExportPngFeature>.Is().Enabled)
+            if (Feature<ExportPngFeature>.IsEnabled)
             {
                 subItems.Add(new()
                 {
@@ -59,7 +59,7 @@ public class NotebookContextMenu : IContextProvider
                 });
             }
 
-            if (Feature<ExportSvgFeature>.Is().Enabled)
+            if (Feature<ExportSvgFeature>.IsEnabled)
             {
                 subItems.Add(new()
                 {

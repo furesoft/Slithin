@@ -1,5 +1,5 @@
-﻿using FeatureSwitcher.Configuration;
-using Slithin.Core.Features;
+﻿using Slithin.Core.Features;
+using Slithin.Core.FeatureToggle;
 
 namespace Slithin;
 
@@ -8,12 +8,12 @@ public class FeatureEnabler
     public void Init()
     {
 #if DEBUG
-        Features.Are.ConfiguredBy.Custom(Features.OfType<SharableFeature>.Enabled);
-        Features.Are.ConfiguredBy.Custom(Features.OfType<ExportFeature>.Enabled);
-        Features.Are.ConfiguredBy.Custom(Features.OfType<ExportPdfFeature>.Enabled);
-        Features.Are.ConfiguredBy.Custom(Features.OfType<ExportSvgFeature>.Enabled);
-        Features.Are.ConfiguredBy.Custom(Features.OfType<ExportPngFeature>.Enabled);
-        Features.Are.ConfiguredBy.Custom(Features.OfType<MigrationFeature>.Enabled);
+        Feature<SharableFeature>.Disable();
+        Feature<ExportFeature>.Enable();
+        Feature<ExportPdfFeature>.Enable();
+        Feature<ExportSvgFeature>.Enable();
+        Feature<ExportPngFeature>.Enable();
+        Feature<MigrationFeature>.Enable();
 #else
 
 #endif

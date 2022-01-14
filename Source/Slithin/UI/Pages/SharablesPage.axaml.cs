@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using FeatureSwitcher;
 using Slithin.Core;
 using Slithin.Core.Features;
+using Slithin.Core.FeatureToggle;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
 
@@ -21,7 +21,7 @@ public partial class SharablesPage : UserControl, IPage
 
     bool IPage.IsEnabled()
     {
-        return Feature<SharableFeature>.Is().Enabled;
+        return Feature<SharableFeature>.IsEnabled;
     }
 
     public bool UseContextualMenu() => true;
