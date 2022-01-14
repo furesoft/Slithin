@@ -113,14 +113,14 @@ public class ConnectionWindowViewModel : BaseViewModel
             ServiceLocator.Container.Resolve<IMailboxService>().Init();
             ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
 
-            automation.Init();
-
             var pingTimer = new Timer();
             pingTimer.Elapsed += pingTimer_ellapsed;
             pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
             pingTimer.Start();
 
             _loginService.SetLoginCredential(SelectedLogin);
+
+            automation.Init();
 
             desktop.MainWindow.Hide();
             desktop.MainWindow = new MainWindow();

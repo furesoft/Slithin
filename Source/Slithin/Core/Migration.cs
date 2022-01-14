@@ -38,11 +38,42 @@ public class Migration
     {
         var di = new DirectoryInfo(_pathManager.ConfigBaseDir);
         var newDir = _pathManager.ConfigBaseDir;
-        //ToDo: implement moving algorithm of directories
-        _pathManager.ConfigBaseDir = di.Parent.FullName;
 
-        Directory.Move(_pathManager.ConfigBaseDir, newDir);
+        _pathManager.ConfigBaseDir = di.Parent.Parent.FullName;
 
-        _pathManager.ConfigBaseDir = newDirectoryName;
+        MoveFile(_pathManager.ConfigBaseDir, newDir, "templates.json");
+        MoveFile(_pathManager.ConfigBaseDir, newDir, ".version");
+
+        MoveDirectory(_pathManager.BackupsDir, newDir);
+        MoveDirectory(_pathManager.CustomScreensDir, newDir);
+        MoveDirectory(_pathManager.NotebooksDir, newDir);
+        MoveDirectory(_pathManager.ScriptsDir, newDir);
+        MoveDirectory(_pathManager.TemplatesDir, newDir);
+
+        _pathManager.ConfigBaseDir = newDir;
+    }
+
+    private void MoveDirectory(string dir, string newDir)
+    {
+        var folder = new DirectoryInfo(dir).Name;
+
+        if (Directory.Exists(Path.Combine(newDir, folder)))
+        {
+            Directory.Delete(Path.Combine(newDir, folder));
+        }
+
+        Directory.Move(dir, Path.Combine(newDir, folder));
+    }
+
+    private void MoveFile(string dir, string newDir, string file)
+    {
+        var folder = new DirectoryInfo(dir).Name;
+
+        if (File.Exists(Path.Combine(newDir, file)))
+        {
+            File.Delete(Path.Combine(newDir, file));
+        }
+
+        File.Move(Path.Combine(dir, file), Path.Combine(newDir, file));
     }
 }
