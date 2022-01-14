@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
+using FeatureSwitcher;
 using Slithin.Core;
 using Slithin.Core.Commands;
+using Slithin.Core.Features;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Sync;
@@ -34,39 +36,60 @@ public class NotebookContextMenu : IContextProvider
             Command = new DelegateCommand(async _ =>
                 await Application.Current.Clipboard.SetTextAsync(((Metadata)obj).ID))
         });
-#if DEBUG
-        menu.Add(new MenuItem
+        if (Feature<ExportFeature>.Is().Enabled)
         {
-            Header = "Export",
-            Items = new MenuItem[]
+            var subItems = new List<MenuItem>();
+
+            if (Feature<ExportPdfFeature>.Is().Enabled)
             {
-                new()
+                subItems.Add(new()
+                {
+                    Header = "PDF",
+                    Command = new DelegateCommand(_ =>
+                        ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
+                });
+            }
+            if (Feature<ExportPngFeature>.Is().Enabled)
+            {
+                subItems.Add(new()
+                {
+                    Header = "PNG",
+                    Command = new DelegateCommand(_ =>
+                        ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
+                });
+            }
+
+            if (Feature<ExportSvgFeature>.Is().Enabled)
+            {
+                subItems.Add(new()
                 {
                     Header = "SVG",
                     Command = new DelegateCommand(_ =>
                         ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
-                }
-                /*
-                new(){Header = "PDF", Command = new DelegateCommand(_ =>
-                    ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))},
-                new(){Header = "PNG", Command = new DelegateCommand(_ =>
-                    ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))},*/
-            },
-            Command = new DelegateCommand(_ =>
-                ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
-        });
-#endif
+                });
+            }
+
+            menu.Add(new MenuItem
+            {
+                Header = "Export",
+                Items = subItems
+            });
+        }
+
         menu.Add(new MenuItem
         {
-            Header = "Remove", Command = new DelegateCommand(_ => n.RemoveNotebookCommand.Execute(obj))
+            Header = "Remove",
+            Command = new DelegateCommand(_ => n.RemoveNotebookCommand.Execute(obj))
         });
-        menu.Add(new MenuItem {Header = "Rename", Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj))});
-        menu.Add(new MenuItem {Header = "Move to Trash", Command = new DelegateCommand(_ => MoveToTrash(obj))});
+
+        menu.Add(new MenuItem { Header = "Rename", Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj)) });
+
+        menu.Add(new MenuItem { Header = "Move to Trash", Command = new DelegateCommand(_ => MoveToTrash(obj)) });
 
         return menu;
     }
 
-    private void MoveToTrash(object obj)
+    private static void MoveToTrash(object obj)
     {
         if (obj is not Metadata md)
         {
@@ -77,7 +100,10 @@ public class NotebookContextMenu : IContextProvider
 
         var syncItem = new SyncItem
         {
-            Action = SyncAction.Update, Direction = SyncDirection.ToDevice, Data = md, Type = SyncType.Notebook
+            Action = SyncAction.Update,
+            Direction = SyncDirection.ToDevice,
+            Data = md,
+            Type = SyncType.Notebook
         };
 
         ServiceLocator.SyncService.AddToSyncQueue(syncItem);
