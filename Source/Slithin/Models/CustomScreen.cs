@@ -1,8 +1,11 @@
 ﻿using System.IO;
+using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LiteDB;
+using Renci.SshNet;
 using Slithin.Core;
+using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 
 namespace Slithin.Models;
@@ -10,6 +13,11 @@ namespace Slithin.Models;
 public class CustomScreen : NotifyObject
 {
     private IImage _image;
+
+    public CustomScreen()
+    {
+        TransferCommand = new DelegateCommand(Transfer);
+    }
 
     public string Filename { get; set; }
 
@@ -21,6 +29,9 @@ public class CustomScreen : NotifyObject
     }
 
     public string Title { get; set; }
+
+    [BsonIgnore]
+    public ICommand TransferCommand { get; set; }
 
     public void Load()
     {
@@ -40,5 +51,23 @@ public class CustomScreen : NotifyObject
 
         using var strm = File.OpenRead(path);
         Image = Bitmap.DecodeToWidth(strm, 150);
+    }
+
+    private void Transfer(object obj)
+    {
+        var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+
+        mailboxService.PostAction(() =>
+        {
+            //upload screen
+            NotificationService.Show($"Uploading Screen '{Title}'");
+
+            scp.Upload(new FileInfo(Path.Combine(pathManager.CustomScreensDir, Filename)), PathList.Screens + Filename);
+
+            TemplateStorage.Instance.Apply();
+            NotificationService.Hide();
+        });
     }
 }
