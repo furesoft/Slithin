@@ -16,7 +16,7 @@ public static class ServiceLocator
         Container = TinyIoCContainer.Current;
         Container.AutoRegister();
 
-        var featureEnabler = Container.Resolve<FeatureEnabler>();
+        var featureEnabler = Container.Resolve<Slithin.FeatureToggle>();
         featureEnabler.Init();
 
         var pathManager = Container.Resolve<IPathManager>();

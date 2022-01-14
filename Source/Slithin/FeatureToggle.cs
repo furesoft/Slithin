@@ -1,21 +1,23 @@
-﻿using Slithin.Core.Features;
-using Slithin.Core.FeatureToggle;
+﻿using Slithin.Core.FeatureToggle;
 
 namespace Slithin;
 
-public class FeatureEnabler
+public class FeatureToggle
 {
     public void Init()
     {
 #if DEBUG
-        Feature<SharableFeature>.Disable();
+
+        Features.EnableAll();
+#else
+    /*
+        Feature<SharableFeature>.Enable();
         Feature<ExportFeature>.Enable();
         Feature<ExportPdfFeature>.Enable();
         Feature<ExportSvgFeature>.Enable();
         Feature<ExportPngFeature>.Enable();
         Feature<MigrationFeature>.Enable();
-#else
-
+        */
 #endif
     }
 }
