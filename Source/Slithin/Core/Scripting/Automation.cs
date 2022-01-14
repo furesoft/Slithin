@@ -8,9 +8,9 @@ namespace Slithin.Core.Scripting;
 
 public class Automation
 {
+    public List<WebAssembly.Module> Modules = new();
     private static ImportDictionary _imports = new();
     private readonly IPathManager _pathManager;
-    public List<WebAssembly.Module> Modules = new();
 
     public Automation(IPathManager pathManager)
     {
@@ -21,6 +21,8 @@ public class Automation
 
     public void Init()
     {
+        if (!Directory.Exists(_pathManager.ScriptsDir)) return;
+
         foreach (var m in Directory.GetFiles(_pathManager.ScriptsDir, "*.wasm"))
         {
             var module = ActionModule.LoadModule(m, out _imports);
