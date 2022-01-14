@@ -7,11 +7,18 @@ namespace Slithin.Core.Services.Implementations;
 public class LoginServiceImpl : ILoginService
 {
     private readonly LiteDatabase _db;
+    private readonly IPathManager _pathManager;
     private LoginInfo _selectedLoginCredential;
 
-    public LoginServiceImpl(LiteDatabase db)
+    public LoginServiceImpl(LiteDatabase db, IPathManager pathManager)
     {
         _db = db;
+        _pathManager = pathManager;
+    }
+
+    public LoginInfo GetCurrentCredential()
+    {
+        return _selectedLoginCredential;
     }
 
     public LoginInfo[] GetLoginCredentials()
@@ -31,6 +38,8 @@ public class LoginServiceImpl : ILoginService
     public void SetLoginCredential(LoginInfo loginInfo)
     {
         _selectedLoginCredential = loginInfo;
+
+        _pathManager.Relink();
     }
 
     public void UpdateIPAfterUpdate()
