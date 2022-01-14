@@ -11,15 +11,17 @@ namespace Slithin.ViewModels;
 public class AddDeviceWindowViewModel : BaseViewModel
 {
     private readonly ILoginService _loginService;
+    private readonly IPathManager _pathManager;
     private readonly LoginInfoValidator _validator;
     private LoginInfo _selectedLogin;
 
-    public AddDeviceWindowViewModel(LoginInfoValidator validator, ILoginService loginService)
+    public AddDeviceWindowViewModel(LoginInfoValidator validator, ILoginService loginService, IPathManager pathManager)
     {
         CancelCommand = new DelegateCommand(Cancel);
         AddCommand = new DelegateCommand(Add);
         _validator = validator;
         _loginService = loginService;
+        _pathManager = pathManager;
         SelectedLogin = new();
     }
 
@@ -44,10 +46,12 @@ public class AddDeviceWindowViewModel : BaseViewModel
             SnackbarHost.Post(result.Errors.First().ToString(), "addDevice");
             return;
         }
+
         ParentViewModel.LoginCredentials.Add(SelectedLogin);
         ParentViewModel.SelectedLogin = SelectedLogin;
 
         _loginService.RememberLoginCredencials(SelectedLogin);
+        _pathManager.InitDeviceDirectory();
 
         this.RequestClose();
     }
