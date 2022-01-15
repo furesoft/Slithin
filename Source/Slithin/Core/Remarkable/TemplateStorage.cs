@@ -37,11 +37,6 @@ public class TemplateStorage
     public void Load()
     {
         Instance.Templates = ServiceLocator.Container.Resolve<LocalRepository>().GetTemplates();
-
-        foreach (var item in Instance.Templates)
-        {
-            item.Load();
-        }
     }
 
     public void Remove(Template tmpl)
