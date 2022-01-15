@@ -36,8 +36,6 @@ public class MailboxServiceImpl : IMailboxService
 
     public void InitMessageRouter()
     {
-        //ToDo: replace with automatic messagehandler registration
-
         _messageRouter.Register(ServiceLocator.Container.Resolve<SyncMessageHandler>());
 
         _messageRouter.Register(ServiceLocator.Container.Resolve<InitStorageMessageHandler>());

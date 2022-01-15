@@ -77,7 +77,7 @@ public class DevicePageViewModel : BaseViewModel
 
         var di = new DirectoryInfo(baseDir);
 
-        if (!di.Exists)
+        if (!di.Exists) //ToDo: find condition for migration need
         {
             _pathManager.InitDeviceDirectory();
 
