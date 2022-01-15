@@ -39,7 +39,10 @@ public class NotebookDataTemplate : IDataTemplate
 
         var img = new Image
         {
-            MinWidth = 25, MinHeight = 25, MaxHeight = 150, HorizontalAlignment = HorizontalAlignment.Center
+            MinWidth = 25,
+            MinHeight = 25,
+            MaxHeight = 150,
+            HorizontalAlignment = HorizontalAlignment.Center
         };
 
         if (md.Type == "DocumentType")
@@ -64,7 +67,7 @@ public class NotebookDataTemplate : IDataTemplate
 
                     if (File.Exists(thumbnail))
                     {
-                        img.Source = new Bitmap(File.OpenRead(thumbnail));
+                        img.Source = cache.GetObject(thumbnail, new Bitmap(File.OpenRead(thumbnail)));
                     }
                     else
                     {
@@ -92,14 +95,14 @@ public class NotebookDataTemplate : IDataTemplate
 
         stackPanel.Children.Add(img);
 
-        var title = new TextBlock {[!TextBlock.TextProperty] = new Binding("VisibleName")};
+        var title = new TextBlock { [!TextBlock.TextProperty] = new Binding("VisibleName") };
 
         title.TextAlignment = TextAlignment.Center;
         title.TextWrapping = TextWrapping.Wrap;
 
         stackPanel.Children.Add(title);
 
-        var card = new Card {Content = stackPanel};
+        var card = new Card { Content = stackPanel };
 
         card.Initialized += (s, e) =>
         {
