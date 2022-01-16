@@ -35,23 +35,33 @@
                 <StackPanel Margin="2" Spacing="2" HorizontalAlignment="Left">
                     <TextBlock Text="About" FontSize="15" />
 
-                    <StackPanel>
-                        <TextBlock Text="Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome." TextWrapping="Wrap" MaxWidth="300" />
-                    </StackPanel>
+                    <Grid MinHeight="150">
+                        <TextBlock Grid.Row="0" Text="Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome." TextWrapping="Wrap" MaxWidth="300" />
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="2">
+                            <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://github.com/furesoft/Slithin">
+                                <Image Source="avares:/Resources/github.png" Width="50" Height="50" HorizontalAlignment="Left" />
+                            </Button>
+
+                            <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://www.reddit.com/r/Slithin/">
+                                <Image Source="avares:/Resources/reddit.png" Width="50" Height="50" HorizontalAlignment="Left" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
 
-                <StackPanel Margin="2,2,10,2" Spacing="2" HorizontalAlignment="Right">
+                <StackPanel Margin="2,2,20,2" Spacing="2" HorizontalAlignment="Right">
                     <TextBlock Text="Support Me" FontSize="15" />
 
                     <ScrollViewer Width="445" Height="200" HorizontalAlignment="Left">
                         <StackPanel>
-                            <controls:KryptoDonateControl CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="/Resources/Krypto/bitcoin.png" />
-                            <controls:KryptoDonateControl CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="/Resources/Krypto/ethereum.png" />
-                            <controls:KryptoDonateControl CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Image="/Resources/Krypto/litecoin.png" />
-                            <controls:KryptoDonateControl CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="/Resources/Krypto/dollar-symbol.png" />
-                            <controls:KryptoDonateControl CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="/Resources/Krypto/dollar-symbol.png" />
-                            <controls:KryptoDonateControl CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="/Resources/Krypto/dogecoin.png" />
-                            <controls:KryptoDonateControl CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="/Resources/Krypto/dash.png" />
+                            <controls:KryptoDonateControl CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="avares:/Resources/Krypto/bitcoin.png" />
+                            <controls:KryptoDonateControl CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="avares:/Resources/Krypto/ethereum.png" />
+                            <controls:KryptoDonateControl CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Image="avares:/Resources/Krypto/litecoin.png" />
+                            <controls:KryptoDonateControl CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="avares:/Resources/Krypto/dollar-symbol.png" />
+                            <controls:KryptoDonateControl CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="avares:/Resources/Krypto/dollar-symbol.png" />
+                            <controls:KryptoDonateControl CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="avares:/Resources/Krypto/dogecoin.png" />
+                            <controls:KryptoDonateControl CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="avares:/Resources/Krypto/dash.png" />
                         </StackPanel>
                     </ScrollViewer>
                 </StackPanel>
