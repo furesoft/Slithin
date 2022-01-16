@@ -1,0 +1,19 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Slithin.Controls.Settings">
+    <Design.PreviewWith>
+        <controls:SettingsGroup />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|SettingsGroup">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Spacing="2">
+                    <Label Content="{TemplateBinding Header}" FontSize="17" />
+
+                    <ContentPresenter Content="{TemplateBinding Content}" Margin="2,1,1,1" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>
