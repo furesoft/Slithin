@@ -3,38 +3,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:Slithin.Controls"
+             xmlns:s="using:Slithin.Controls.Settings"
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
              x:Class="Slithin.UI.Pages.SettingsPage">
     <ScrollViewer>
         <StackPanel Spacing="20">
             <StackPanel Margin="2" Spacing="4">
-                <StackPanel Orientation="Horizontal" Spacing="5">
-                    <Label VerticalAlignment="Center">Device Name</Label>
+                <s:SettingsGroup Header="Device">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Label VerticalAlignment="Center">Name</Label>
 
-                    <TextBox IsReadOnly="True" VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
-                </StackPanel>
-
-                <StackPanel Margin="2" Spacing="4">
-                    <StackPanel Spacing="3">
-                        <Label>General</Label>
-
-                        <ToggleSwitch Content="Automatic Updates" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />
+                        <TextBox IsReadOnly="True" VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
                     </StackPanel>
-                </StackPanel>
+                </s:SettingsGroup>
 
-                <StackPanel Spacing="3">
-                    <Label>After Device Update</Label>
+                <s:SettingsGroup Header="General">
+                    <ToggleSwitch Content="Automatic Updates" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />
+                </s:SettingsGroup>
+
+                <s:SettingsGroup Header="After Device Update">
                     <StackPanel Spacing="3" Orientation="Horizontal">
                         <ToggleSwitch Content="Automatic Template Recovery" IsChecked="{Binding AutomaticTemplateRecovery, Mode=TwoWay}" />
                         <ToggleSwitch Content="Automatic Screen Recovery" IsChecked="{Binding AutomaticScreenRecovery, Mode=TwoWay}" />
                     </StackPanel>
-                </StackPanel>
+                </s:SettingsGroup>
             </StackPanel>
 
             <Grid>
-                <StackPanel Margin="2" Spacing="2" HorizontalAlignment="Left">
-                    <TextBlock Text="About" FontSize="15" />
-
+                <s:SettingsGroup HorizontalAlignment="Left" Header="About">
                     <Grid MinHeight="150">
                         <TextBlock Grid.Row="0" Text="Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome." TextWrapping="Wrap" MaxWidth="300" />
 
@@ -48,11 +44,9 @@
                             </Button>
                         </StackPanel>
                     </Grid>
-                </StackPanel>
+                </s:SettingsGroup>
 
-                <StackPanel Margin="2,2,20,2" Spacing="2" HorizontalAlignment="Right">
-                    <TextBlock Text="Support Me" FontSize="15" />
-
+                <s:SettingsGroup Header="Support Slithin" Margin="2,2,20,15" HorizontalAlignment="Right">
                     <ScrollViewer Width="445" Height="200" HorizontalAlignment="Left">
                         <StackPanel>
                             <controls:KryptoDonateControl CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="avares:/Resources/Krypto/bitcoin.png" />
@@ -64,7 +58,7 @@
                             <controls:KryptoDonateControl CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="avares:/Resources/Krypto/dash.png" />
                         </StackPanel>
                     </ScrollViewer>
-                </StackPanel>
+                </s:SettingsGroup>
             </Grid>
         </StackPanel>
     </ScrollViewer>
