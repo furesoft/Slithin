@@ -9,6 +9,7 @@ namespace Slithin.Controls;
 public class KryptoDonateControl : TemplatedControl
 {
     public static StyledProperty<string> AddressProperty = AvaloniaProperty.Register<KryptoDonateControl, string>(nameof(Address), "0000000000000000000000");
+    public static StyledProperty<string> CoinNameProperty = AvaloniaProperty.Register<KryptoDonateControl, string>(nameof(CoinName), "0000000000000000000000");
     public static StyledProperty<ICommand> CopyAddressCommandProperty = AvaloniaProperty.Register<KryptoDonateControl, ICommand>(nameof(CopyAddressCommand));
     public static StyledProperty<IImage> ImageProperty = AvaloniaProperty.Register<KryptoDonateControl, IImage>(nameof(Image));
 
@@ -21,6 +22,12 @@ public class KryptoDonateControl : TemplatedControl
     {
         get { return GetValue(AddressProperty); }
         set { SetValue(AddressProperty, value); }
+    }
+
+    public string CoinName
+    {
+        get { return GetValue(CoinNameProperty); }
+        set { SetValue(CoinNameProperty, value); }
     }
 
     public ICommand CopyAddressCommand
