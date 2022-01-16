@@ -69,6 +69,11 @@
      <None Remove="Resources\Krypto\dollar-symbol.png" />
      <None Remove="Resources\Krypto\ethereum.png" />
      <None Remove="Resources\Krypto\litecoin.png" />
+     <None Remove="Resources\Krypto\qrcode (1).png" />
+     <None Remove="Resources\Krypto\QR\bitcoin.png" />
+     <None Remove="Resources\Krypto\QR\bitcoin_cash.png" />
+     <None Remove="Resources\Krypto\QR\ethereum.png" />
+     <None Remove="Resources\Krypto\QR\litecoin.png" />
      <None Remove="Resources\nav.png" />
      <None Remove="Resources\notebook.png" />
      <None Remove="Resources\reddit.png" />
