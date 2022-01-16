@@ -92,6 +92,9 @@
    </ItemGroup>
 
    <ItemGroup>
+     <Compile Update="UI\ContextualMenus\EmptyContextualMenu.axaml.cs">
+       <DependentUpon>EmptyContextualMenu.axaml</DependentUpon>
+     </Compile>
      <Compile Update="UI\Pages\SharablesPage.axaml.cs">
        <DependentUpon>SharablesPage.axaml</DependentUpon>
      </Compile>
