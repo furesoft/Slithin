@@ -1,0 +1,21 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Slithin.Controls">
+    <Design.PreviewWith>
+        <controls:KryptoDonateControl />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|KryptoDonateControl">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Orientation="Horizontal" Spacing="15">
+                    <Image Source="{TemplateBinding Image}" Width="32" Height="32" />
+                    <TextBlock Text="{TemplateBinding Address}" VerticalAlignment="Center" />
+                    <Button Classes="Flat" Command="{TemplateBinding CopyAddressCommand}" ToolTip.Tip="Copy Address to Clipboard">
+                        <Image Source="/Resources/copy.png" Width="32" Height="32" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>
