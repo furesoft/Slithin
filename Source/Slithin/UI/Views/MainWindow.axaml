@@ -21,7 +21,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Height="48">
-                                <TextBlock Text="{Binding Header}" Classes="Body1" VerticalAlignment="Center" FontSize="25" />
+                                <TextBlock Text="{Binding Header}" Classes="Body1 bigFont" VerticalAlignment="Center" FontSize="25" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

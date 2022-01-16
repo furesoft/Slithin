@@ -84,23 +84,23 @@ public class MainWindowViewModel : BaseViewModel
 
     private void Refresh()
     {
-        if (SelectedTab.Tag is not Control context)
+        if (SelectedTab?.Tag is not Control context)
         {
             ContextualMenu = null;
             return;
         }
 
-        if (SelectedTab.DataContext is BaseViewModel pl)
+        if (SelectedTab?.DataContext is BaseViewModel pl)
         {
             pl.Load();
         }
 
-        if (SelectedTab.DataContext is null || SelectedTab.Tag is EmptyContextualMenu)
+        if (SelectedTab?.DataContext is null || SelectedTab.Tag is EmptyContextualMenu)
         {
             SelectedTab.DataContext = SelectedTab.Header;
         }
 
-        context.DataContext = SelectedTab.DataContext;
+        context.DataContext = SelectedTab?.DataContext;
         ContextualMenu = context;
     }
 }

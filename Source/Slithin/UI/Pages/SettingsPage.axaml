@@ -28,16 +28,20 @@
             </s:SettingsGroup>
 
             <s:SettingsGroup HorizontalAlignment="Left" Header="About" Grid.Column="0" Grid.Row="2">
-                <Grid MinHeight="150">
+                <Grid MinHeight="135" RowDefinitions="*,*">
                     <TextBlock Grid.Row="0" Text="Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome." TextWrapping="Wrap" MaxWidth="300" />
 
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="2">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="2" HorizontalAlignment="Left" Grid.Row="1">
                         <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://github.com/furesoft/Slithin">
                             <Image Source="avares:/Resources/github.png" Width="50" Height="50" HorizontalAlignment="Left" />
                         </Button>
 
                         <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://www.reddit.com/r/Slithin/">
                             <Image Source="avares:/Resources/reddit.png" Width="50" Height="50" HorizontalAlignment="Left" />
+                        </Button>
+
+                        <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://www.facebook.com/groups/slithin/">
+                            <Image Source="avares:/Resources/facebook.png" Width="50" Height="50" HorizontalAlignment="Left" />
                         </Button>
                     </StackPanel>
                 </Grid>
