@@ -8,9 +8,9 @@
     <Style Selector="controls|KryptoDonateControl">
         <Setter Property="Template">
             <ControlTemplate>
-                <StackPanel Orientation="Horizontal" Spacing="15">
+                <StackPanel Orientation="Horizontal" Spacing="15" Margin="2">
                     <Image Source="{TemplateBinding Image}" Width="32" Height="32" />
-                    <TextBlock Text="{TemplateBinding Address}" VerticalAlignment="Center" />
+                    <TextBlock Text="{TemplateBinding Address}" VerticalAlignment="Center" Width="315" />
                     <Button Classes="Flat" Command="{TemplateBinding CopyAddressCommand}" ToolTip.Tip="Copy Address to Clipboard">
                         <Image Source="/Resources/copy.png" Width="32" Height="32" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Button>

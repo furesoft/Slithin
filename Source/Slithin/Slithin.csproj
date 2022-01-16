@@ -67,6 +67,7 @@
      <None Remove="Resources\Krypto\dogecoin.png" />
      <None Remove="Resources\Krypto\dollar-symbol.png" />
      <None Remove="Resources\Krypto\ethereum.png" />
+     <None Remove="Resources\Krypto\litecoin.png" />
      <None Remove="Resources\nav.png" />
      <None Remove="Resources\notebook.png" />
      <None Remove="Resources\trash.png" />
