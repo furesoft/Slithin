@@ -11,6 +11,7 @@ public class FeatureToggle
         Features.EnableAll();
 #else
     /*
+        Feature<SettingsFeature>.Enable();
         Feature<SharableFeature>.Enable();
         Feature<ExportFeature>.Enable();
         Feature<ExportPdfFeature>.Enable();
