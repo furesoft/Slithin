@@ -44,7 +44,7 @@
             </s:SettingsGroup>
 
             <s:SettingsGroup Header="Support Slithin" Margin="2,2,20,15" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1">
-                <UniformGrid Columns="5">
+                <UniformGrid Columns="7">
                     <controls:KryptoDonateControl CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Qr="avares://Slithin/Resources/Krypto/QR/bitcoin.png" Image="avares:/Resources/Krypto/bitcoin.png" />
                     <controls:KryptoDonateControl CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Qr="avares://Slithin/Resources/Krypto/QR/ethereum.png" Image="avares:/Resources/Krypto/ethereum.png" />
                     <controls:KryptoDonateControl CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Qr="avares://Slithin/Resources/Krypto/QR/litecoin.png" Image="avares:/Resources/Krypto/litecoin.png" />
