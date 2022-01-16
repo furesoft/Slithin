@@ -7,59 +7,55 @@
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
              x:Class="Slithin.UI.Pages.SettingsPage">
     <ScrollViewer>
-        <StackPanel Spacing="20">
-            <StackPanel Margin="2" Spacing="4">
-                <s:SettingsGroup Header="Device">
-                    <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Label VerticalAlignment="Center">Name</Label>
+        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
+            <s:SettingsGroup Header="Device" Grid.Column="0">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <Label VerticalAlignment="Center">Name</Label>
 
-                        <TextBox IsReadOnly="True" VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
+                    <TextBox IsReadOnly="True" VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
+                </StackPanel>
+            </s:SettingsGroup>
+
+            <s:SettingsGroup Header="General" Grid.Column="1">
+                <ToggleSwitch Content="Automatic Updates" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />
+            </s:SettingsGroup>
+
+            <s:SettingsGroup Header="After Device Update" Grid.Column="0" Grid.Row="1">
+                <StackPanel Spacing="3" Orientation="Vertical">
+                    <ToggleSwitch Content="Automatic Template Recovery" IsChecked="{Binding AutomaticTemplateRecovery, Mode=TwoWay}" />
+                    <ToggleSwitch Content="Automatic Screen Recovery" IsChecked="{Binding AutomaticScreenRecovery, Mode=TwoWay}" />
+                </StackPanel>
+            </s:SettingsGroup>
+
+            <s:SettingsGroup HorizontalAlignment="Left" Header="About" Grid.Column="0" Grid.Row="2">
+                <Grid MinHeight="150">
+                    <TextBlock Grid.Row="0" Text="Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome." TextWrapping="Wrap" MaxWidth="300" />
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="2">
+                        <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://github.com/furesoft/Slithin">
+                            <Image Source="avares:/Resources/github.png" Width="50" Height="50" HorizontalAlignment="Left" />
+                        </Button>
+
+                        <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://www.reddit.com/r/Slithin/">
+                            <Image Source="avares:/Resources/reddit.png" Width="50" Height="50" HorizontalAlignment="Left" />
+                        </Button>
                     </StackPanel>
-                </s:SettingsGroup>
+                </Grid>
+            </s:SettingsGroup>
 
-                <s:SettingsGroup Header="General">
-                    <ToggleSwitch Content="Automatic Updates" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />
-                </s:SettingsGroup>
-
-                <s:SettingsGroup Header="After Device Update">
-                    <StackPanel Spacing="3" Orientation="Horizontal">
-                        <ToggleSwitch Content="Automatic Template Recovery" IsChecked="{Binding AutomaticTemplateRecovery, Mode=TwoWay}" />
-                        <ToggleSwitch Content="Automatic Screen Recovery" IsChecked="{Binding AutomaticScreenRecovery, Mode=TwoWay}" />
+            <s:SettingsGroup Header="Support Slithin" Margin="2,2,20,15" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2">
+                <ScrollViewer Width="445" Height="200" HorizontalAlignment="Left">
+                    <StackPanel>
+                        <controls:KryptoDonateControl CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="avares:/Resources/Krypto/bitcoin.png" />
+                        <controls:KryptoDonateControl CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="avares:/Resources/Krypto/ethereum.png" />
+                        <controls:KryptoDonateControl CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Image="avares:/Resources/Krypto/litecoin.png" />
+                        <controls:KryptoDonateControl CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="avares:/Resources/Krypto/dollar-symbol.png" />
+                        <controls:KryptoDonateControl CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="avares:/Resources/Krypto/dollar-symbol.png" />
+                        <controls:KryptoDonateControl CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="avares:/Resources/Krypto/dogecoin.png" />
+                        <controls:KryptoDonateControl CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="avares:/Resources/Krypto/dash.png" />
                     </StackPanel>
-                </s:SettingsGroup>
-            </StackPanel>
-
-            <Grid>
-                <s:SettingsGroup HorizontalAlignment="Left" Header="About">
-                    <Grid MinHeight="150">
-                        <TextBlock Grid.Row="0" Text="Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome." TextWrapping="Wrap" MaxWidth="300" />
-
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="2">
-                            <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://github.com/furesoft/Slithin">
-                                <Image Source="avares:/Resources/github.png" Width="50" Height="50" HorizontalAlignment="Left" />
-                            </Button>
-
-                            <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://www.reddit.com/r/Slithin/">
-                                <Image Source="avares:/Resources/reddit.png" Width="50" Height="50" HorizontalAlignment="Left" />
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </s:SettingsGroup>
-
-                <s:SettingsGroup Header="Support Slithin" Margin="2,2,20,15" HorizontalAlignment="Right">
-                    <ScrollViewer Width="445" Height="200" HorizontalAlignment="Left">
-                        <StackPanel>
-                            <controls:KryptoDonateControl CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="avares:/Resources/Krypto/bitcoin.png" />
-                            <controls:KryptoDonateControl CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="avares:/Resources/Krypto/ethereum.png" />
-                            <controls:KryptoDonateControl CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Image="avares:/Resources/Krypto/litecoin.png" />
-                            <controls:KryptoDonateControl CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="avares:/Resources/Krypto/dollar-symbol.png" />
-                            <controls:KryptoDonateControl CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="avares:/Resources/Krypto/dollar-symbol.png" />
-                            <controls:KryptoDonateControl CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="avares:/Resources/Krypto/dogecoin.png" />
-                            <controls:KryptoDonateControl CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="avares:/Resources/Krypto/dash.png" />
-                        </StackPanel>
-                    </ScrollViewer>
-                </s:SettingsGroup>
-            </Grid>
-        </StackPanel>
+                </ScrollViewer>
+            </s:SettingsGroup>
+        </Grid>
     </ScrollViewer>
 </UserControl>
