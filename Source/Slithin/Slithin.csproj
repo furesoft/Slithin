@@ -71,6 +71,7 @@
      <None Remove="Resources\Krypto\litecoin.png" />
      <None Remove="Resources\nav.png" />
      <None Remove="Resources\notebook.png" />
+     <None Remove="Resources\reddit.png" />
      <None Remove="Resources\trash.png" />
      <EmbeddedResource Include="Resources\Cover.png" />
      <None Remove="Resources\Covers\Folder-DBlue.png" />
