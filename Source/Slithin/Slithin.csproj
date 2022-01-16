@@ -61,6 +61,7 @@
      <None Remove="Resources\copy.png" />
      <None Remove="Resources\cubes.png" />
      <None Remove="Resources\data-transfer.png" />
+     <None Remove="Resources\github.png" />
      <None Remove="Resources\Krypto\arctic-fox.png" />
      <None Remove="Resources\Krypto\bitcoin.png" />
      <None Remove="Resources\Krypto\dash.png" />
