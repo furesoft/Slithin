@@ -20,7 +20,7 @@
                 <ListBox Items="{Binding Menu}" SelectedItem="{Binding SelectedTab}" Classes="Drawer" Name="Drawer" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Height="48">
+                            <Grid Height="35">
                                 <TextBlock Text="{Binding Header}" Classes="Body1 bigFont" VerticalAlignment="Center" FontSize="25" />
                             </Grid>
                         </DataTemplate>

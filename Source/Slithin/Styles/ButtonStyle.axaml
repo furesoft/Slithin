@@ -13,4 +13,12 @@
     <Style Selector="TextBlock.bigFont">
         <Setter Property="FontFamily" Value="Consolas" />
     </Style>
+
+    <Style Selector="Label.bigFont">
+        <Setter Property="FontFamily" Value="Consolas" />
+    </Style>
+
+    <Style Selector="TextBlock">
+        <Setter Property="FontFamily" Value="Consolas" />
+    </Style>
 </Styles>
