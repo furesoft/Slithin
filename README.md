@@ -18,5 +18,5 @@ Slithin is a better cross-platform managent tool for your Remarkable Device
 
 Installation guide can be find on the [Wiki](https://github.com/furesoft/Slithin/wiki/Installation-Guide)
 
-[![Store](https://developer.microsoft.com/store/badges/images/English_get-it-from-MS.png)](http:///www.microsoft.com/store/apps/9PKXTCBN8MQ8?cid=storebadge&ocid=badge)
+[![Store](https://user-images.githubusercontent.com/4117602/149658147-edd7cab5-9316-41d9-ad57-a90052b425f8.png)](http:///www.microsoft.com/store/apps/9PKXTCBN8MQ8?cid=storebadge&ocid=badge)
 # This is a beta, so use it on your own risk
