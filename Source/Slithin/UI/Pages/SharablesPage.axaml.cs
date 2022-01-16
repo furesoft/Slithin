@@ -3,7 +3,6 @@ using Avalonia.Markup.Xaml;
 using Slithin.Core;
 using Slithin.Core.Features;
 using Slithin.Core.FeatureToggle;
-using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages;
@@ -17,14 +16,14 @@ public partial class SharablesPage : UserControl, IPage
 
     public string Title => "Sharables";
 
-    public Control GetContextualMenu() => new SharablesContextualMenu();
+    public Control GetContextualMenu() => null;
 
     bool IPage.IsEnabled()
     {
         return Feature<SharableFeature>.IsEnabled;
     }
 
-    public bool UseContextualMenu() => true;
+    public bool UseContextualMenu() => false;
 
     private void InitializeComponent()
     {

@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.UI.ContextualMenus.SharablesContextualMenu">
-  <TextBlock Text="Sharables" FontSize="30" TextAlignment="Center" VerticalAlignment="Center" />
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="150"
+             x:Class="Slithin.UI.ContextualMenus.EmptyContextualMenu">
+    <TextBlock Text="{Binding}" FontSize="30" TextAlignment="Center" VerticalAlignment="Center" />
 </UserControl>

@@ -9,7 +9,6 @@ using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Models;
-using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages;
@@ -23,20 +22,11 @@ public partial class DevicePage : UserControl, IPage
 
     public string Title => "Device";
 
-    public Control GetContextualMenu()
-    {
-        return new DevicePageContextualMenu();
-    }
+    public Control GetContextualMenu() => null;
 
-    bool IPage.IsEnabled()
-    {
-        return true;
-    }
+    bool IPage.IsEnabled() => true;
 
-    public bool UseContextualMenu()
-    {
-        return true;
-    }
+    public bool UseContextualMenu() => false;
 
     private void DragOver(object sender, DragEventArgs e)
     {

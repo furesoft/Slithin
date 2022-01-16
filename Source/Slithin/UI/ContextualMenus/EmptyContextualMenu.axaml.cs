@@ -1,11 +1,11 @@
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace Slithin.UI.ContextualMenus;
 
-public class SharablesContextualMenu : UserControl
+public partial class EmptyContextualMenu : UserControl
 {
-    public SharablesContextualMenu()
+    public EmptyContextualMenu()
     {
         InitializeComponent();
     }

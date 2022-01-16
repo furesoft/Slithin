@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.Models;
+using Slithin.UI.ContextualMenus;
 
 namespace Slithin.ViewModels;
 
@@ -63,12 +64,16 @@ public class MainWindowViewModel : BaseViewModel
             var page = new Page
             {
                 Header = pageInstance?.Title,
-                DataContext = controlInstance.DataContext //Possible null ref!
+                DataContext = controlInstance.DataContext
             };
 
-            if (pageInstance.UseContextualMenu()) //Possible Null Ref!
+            if (pageInstance.UseContextualMenu())
             {
                 page.Tag = pageInstance.GetContextualMenu();
+            }
+            else
+            {
+                page.Tag = new EmptyContextualMenu() { DataContext = pageInstance?.Title };
             }
 
             Tabs.Add(controlInstance);
@@ -88,6 +93,11 @@ public class MainWindowViewModel : BaseViewModel
         if (SelectedTab.DataContext is BaseViewModel pl)
         {
             pl.Load();
+        }
+
+        if (SelectedTab.DataContext is null || SelectedTab.Tag is EmptyContextualMenu)
+        {
+            SelectedTab.DataContext = SelectedTab.Header;
         }
 
         context.DataContext = SelectedTab.DataContext;
