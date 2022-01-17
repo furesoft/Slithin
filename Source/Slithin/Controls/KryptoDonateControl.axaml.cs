@@ -1,7 +1,10 @@
-﻿using System.Windows.Input;
+﻿using System.IO;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using QRCoder;
 using Slithin.Core;
 
 namespace Slithin.Controls;
@@ -22,7 +25,11 @@ public class KryptoDonateControl : TemplatedControl
     public string Address
     {
         get { return GetValue(AddressProperty); }
-        set { SetValue(AddressProperty, value); }
+        set
+        {
+            SetValue(AddressProperty, value);
+            RegenerateQrCode(value);
+        }
     }
 
     public string CoinName
@@ -52,5 +59,15 @@ public class KryptoDonateControl : TemplatedControl
     private async void CopyAddress(object obj)
     {
         await Application.Current.Clipboard.SetTextAsync(Address);
+    }
+
+    private void RegenerateQrCode(string addr)
+    {
+        var qrGenerator = new QRCodeGenerator();
+        var qrCodeData = qrGenerator.CreateQrCode(addr, QRCodeGenerator.ECCLevel.L);
+        var qrCode = new BitmapByteQRCode(qrCodeData);
+        var qrCodeImage = qrCode.GetGraphic(20);
+
+        Qr = new Bitmap(new MemoryStream(qrCodeImage));
     }
 }
