@@ -132,17 +132,26 @@ public class DevicePageViewModel : BaseViewModel
 
     private async Task DoNewVersionUpload()
     {
+        bool needTemplateMessage = true;
+        bool needScreenMessage = true;
+
         if (_settingsService.GetSettings().AutomaticTemplateRecovery)
         {
             UploadTemplates();
-            UploadScreens();
-
-            return;
+            needTemplateMessage = false;
         }
+
+        if (_settingsService.GetSettings().AutomaticScreenRecovery)
+        {
+            UploadScreens();
+            needScreenMessage = false;
+        }
+
+        if (!needScreenMessage && !needTemplateMessage) return;
 
         var result =
             await DialogService.ShowDialog(
-                "A new version has been installed to your device. Would you upload your custom templates?");
+                "A new version has been installed to your device. Would you upload your custom templates/screens?");
         if (result)
         {
             UploadTemplates();
