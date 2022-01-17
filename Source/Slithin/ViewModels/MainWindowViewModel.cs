@@ -82,10 +82,7 @@ public class MainWindowViewModel : BaseViewModel
                 page.Tag = new EmptyContextualMenu() { DataContext = pageInstance?.Title };
             }
 
-            if (preserveIndexAttribute != null)
-            {
-                toRearrange.Add((preserveIndexAttribute.Index, page, controlInstance));
-            }
+            toRearrange.Add((preserveIndexAttribute != null ? preserveIndexAttribute.Index : toRearrange.Count, page, controlInstance));
         }
 
         foreach (var page in toRearrange.OrderBy(_ => _.index))
