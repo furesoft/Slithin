@@ -48,4 +48,11 @@ public class LoginServiceImpl : ILoginService
 
         collection.Update(_selectedLoginCredential);
     }
+
+    public void UpdateLoginCredential(LoginInfo info)
+    {
+        var collection = _db.GetCollection<LoginInfo>();
+
+        collection.Update(info);
+    }
 }

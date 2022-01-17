@@ -12,7 +12,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="5">
                     <Label VerticalAlignment="Center">Name</Label>
 
-                    <TextBox IsReadOnly="True" VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
+                    <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
                 </StackPanel>
             </s:SettingsGroup>
 

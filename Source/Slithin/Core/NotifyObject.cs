@@ -7,11 +7,18 @@ public class NotifyObject : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
 
-    protected void SetValue<T>(ref T field, T value, [CallerMemberName] string property = null) //Duplicate?
+    protected void OnChange([CallerMemberName] string property = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+    }
+
+    protected void SetValue<T>(ref T field, T value, [CallerMemberName] string property = null)
     {
         if (Equals(field, value))
             return;
+
         field = value;
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+
+        OnChange(property);
     }
 }

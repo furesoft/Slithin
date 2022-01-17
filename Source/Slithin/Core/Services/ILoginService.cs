@@ -13,4 +13,6 @@ public interface ILoginService
     void SetLoginCredential(LoginInfo loginInfo);
 
     void UpdateIPAfterUpdate();
+
+    void UpdateLoginCredential(LoginInfo info);
 }
