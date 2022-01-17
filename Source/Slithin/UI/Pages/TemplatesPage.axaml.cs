@@ -15,6 +15,7 @@ using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages;
 
+[PreserveIndex(2)]
 public partial class TemplatesPage : UserControl, IPage
 {
     public TemplatesPage()

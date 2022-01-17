@@ -13,6 +13,7 @@ using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages;
 
+[PreserveIndex(1)]
 public class NotebooksPage : UserControl, IPage
 {
     public NotebooksPage()
@@ -65,7 +66,7 @@ public class NotebooksPage : UserControl, IPage
                 var importProviderFactory = ServiceLocator.Container.Resolve<IImportProviderFactory>();
                 var provider = importProviderFactory.GetImportProvider(".pdf", filename);
 
-                var cnt = new ContentFile {FileType = provider == null ? "epub" : "pdf"};
+                var cnt = new ContentFile { FileType = provider == null ? "epub" : "pdf" };
 
                 if (cnt.FileType == "pdf" || cnt.FileType == "epub")
                 {

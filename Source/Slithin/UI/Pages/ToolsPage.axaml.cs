@@ -6,6 +6,7 @@ using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages;
 
+[PreserveIndex(4)]
 public partial class ToolsPage : UserControl, IPage
 {
     public ToolsPage()
