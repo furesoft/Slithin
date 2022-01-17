@@ -13,6 +13,7 @@ using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages;
 
+[PreserveIndex(0)]
 public partial class DevicePage : UserControl, IPage
 {
     public DevicePage()

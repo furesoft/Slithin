@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection;
 using Avalonia.Controls;
 using Slithin.Core;
 using Slithin.Core.Services;
@@ -15,11 +18,11 @@ public class MainWindowViewModel : BaseViewModel
 
     private string _title;
 
-    public MainWindowViewModel(IVersionService versionService)
+    public MainWindowViewModel(IVersionService versionService, ILoginService loginService)
     {
         LoadMenu();
 
-        Title = $"Slithin {versionService.GetSlithinVersion()}";
+        Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
     }
 
     public object ContextualMenu
@@ -50,6 +53,8 @@ public class MainWindowViewModel : BaseViewModel
 
     private void LoadMenu()
     {
+        var toRearrange = new List<(int index, Page page, Control view)>();
+
         foreach (var type in typeof(App).Assembly.GetTypes())
         {
             if (!typeof(IPage).IsAssignableFrom(type) || type.IsInterface)
@@ -57,6 +62,7 @@ public class MainWindowViewModel : BaseViewModel
                 continue;
 
             var instance = Activator.CreateInstance(type);
+            var preserveIndexAttribute = type.GetCustomAttribute<PreserveIndexAttribute>();
 
             if (instance is not IPage pageInstance || !pageInstance.IsEnabled() || instance is not Control controlInstance)
                 continue;
@@ -76,9 +82,16 @@ public class MainWindowViewModel : BaseViewModel
                 page.Tag = new EmptyContextualMenu() { DataContext = pageInstance?.Title };
             }
 
-            Tabs.Add(controlInstance);
+            if (preserveIndexAttribute != null)
+            {
+                toRearrange.Add((preserveIndexAttribute.Index, page, controlInstance));
+            }
+        }
 
-            Menu.Add(page);
+        foreach (var page in toRearrange.OrderBy(_ => _.index))
+        {
+            Menu.Add(page.page);
+            Tabs.Add(page.view);
         }
     }
 

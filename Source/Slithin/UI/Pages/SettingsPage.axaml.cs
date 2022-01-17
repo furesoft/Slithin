@@ -7,6 +7,7 @@ using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages;
 
+[PreserveIndex(5)]
 public partial class SettingsPage : UserControl, IPage
 {
     public SettingsPage()
