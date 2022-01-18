@@ -28,7 +28,6 @@
         <StyleInclude Source="/VPL/Components/Styles.axaml" />
 
         <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
-        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
 
         <StyleInclude Source="avares://NodeEditorAvalonia/Themes/NodeEditorTheme.axaml" />
 
