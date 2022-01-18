@@ -26,7 +26,7 @@
                                 <Grid>
                                     <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,0,0,5" FontSize="17" FontWeight="Medium" />
                                     <Button Classes="Flat" Margin="0,0,3,0" Command="{Binding TransferCommand}" Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                        <Image Source="/Resources/data-transfer.png" ToolTip.Tip="Transfer to device" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularTransfer}" ToolTip.Tip="Transfer to device" />
                                     </Button>
                                 </Grid>
 

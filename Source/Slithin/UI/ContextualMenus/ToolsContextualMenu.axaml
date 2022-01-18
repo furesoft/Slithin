@@ -7,11 +7,11 @@
              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="100"
              x:Class="Slithin.UI.ContextualMenus.ToolsContextualMenu">
     <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-        <controls:ImageButton MinHeight="60" Classes="Flat" Text="New" Command="{Binding NewScriptCommand}" Kind="Add" />
-        <controls:ImageButton MinHeight="60" Classes="Flat" Text="Execute" Command="{Binding ExecuteScriptCommand}" Kind="HexagonMultiple" CommandParameter="{Binding SelectedScript}" />
-        <controls:ImageButton MinHeight="60" Classes="Flat" Text="Config" Command="{Binding ConfigurateScriptCommand}" Kind="CogOutline" CommandParameter="{Binding SelectedScript}" />
+        <controls:ImageButton MinHeight="60" Classes="Flat" Text="New" Command="{Binding NewScriptCommand}" Image="{DynamicResource Ionicons.AddiOS}" />
+        <controls:ImageButton MinHeight="60" Classes="Flat" Text="Execute" Command="{Binding ExecuteScriptCommand}" Image="{DynamicResource Material.HexagonMultiple}" CommandParameter="{Binding SelectedScript}" />
+        <controls:ImageButton MinHeight="60" Classes="Flat" Text="Config" Command="{Binding ConfigurateScriptCommand}" Image="{DynamicResource Vaadin.CogOutline}" CommandParameter="{Binding SelectedScript}" />
 
-        <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="Filter" Kind="FilterMenu">
+        <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="Filter" Image="{DynamicResource Material.FilterMenu}">
             <controls:ImagePopupButton.PopupContent>
                 <styles:Card>
                     <Grid RowDefinitions="*,AUTO" Margin="4">

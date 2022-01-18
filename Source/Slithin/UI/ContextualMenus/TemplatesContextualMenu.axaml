@@ -6,22 +6,22 @@
              xmlns:controls="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="150"
              x:Class="Slithin.UI.ContextualMenus.TemplatesContextualMenu">
-  <DockPanel>
-    <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-      <controls:ImageButton MinHeight="60" Classes="Flat" Text="Add" Command="{Binding OpenAddModalCommand}" Kind="Add" />
-      <controls:ImageButton MinHeight="60" Classes="Flat" Text="Remove" Command="{Binding RemoveTemplateCommand}" Kind="Minus" CommandParameter="{Binding SelectedTemplate, Mode=TwoWay}" />
+    <DockPanel>
+        <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="Add" Command="{Binding OpenAddModalCommand}" Image="{DynamicResource Ionicons.AddiOS}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="Remove" Command="{Binding RemoveTemplateCommand}" Image="{DynamicResource EvaIcons.Minus}" CommandParameter="{Binding SelectedTemplate, Mode=TwoWay}" />
 
-      <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="Filter" Kind="FilterMenu">
-        <controls:ImagePopupButton.PopupContent>
-          <styles:Card>
-            <Grid RowDefinitions="*,AUTO" Margin="4">
-              <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,0,10" IsVisible="False" />
-              <CheckBox Grid.Row="1" Content="Is Landscape"  IsChecked="{Binding SyncService.TemplateFilter.Landscape, Mode=TwoWay}" />
-              <ComboBox  Items="{Binding SyncService.TemplateFilter.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.TemplateFilter.SelectedCategory}" MinWidth="175" />
-            </Grid>
-          </styles:Card>
-        </controls:ImagePopupButton.PopupContent>
-      </controls:ImagePopupButton>
-    </StackPanel>
-  </DockPanel>
+            <controls:ImagePopupButton MinHeight="60" Classes="Flat" Image="{DynamicResource Material.FilterMenu}">
+                <controls:ImagePopupButton.PopupContent>
+                    <styles:Card>
+                        <Grid RowDefinitions="*,AUTO" Margin="4">
+                            <TextBox Watermark="Search ..." MinWidth="175" Margin="0,0,0,10" IsVisible="False" />
+                            <CheckBox Grid.Row="1" Content="Is Landscape" IsChecked="{Binding SyncService.TemplateFilter.Landscape, Mode=TwoWay}" />
+                            <ComboBox  Items="{Binding SyncService.TemplateFilter.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.TemplateFilter.SelectedCategory}" MinWidth="175" />
+                        </Grid>
+                    </styles:Card>
+                </controls:ImagePopupButton.PopupContent>
+            </controls:ImagePopupButton>
+        </StackPanel>
+    </DockPanel>
 </UserControl>
