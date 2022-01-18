@@ -38,14 +38,19 @@
     </Application.Styles>
 
     <Application.Resources>
-        <themes:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="Amber" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <themes:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="Amber" />
+                <ResourceInclude Source="/Assets/Icons.axaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <VisualBrush x:Key="EditorCheckerBoard" TileMode="Tile" SourceRect="0,0,20,20" DestinationRect="0,0,20,20">
-            <VisualBrush.Visual>
-                <Path Data="M 0,0 L 0,10 L 10,10 L 10,0 Z M 10,10 L 10,20 L 20,20 L 20,10 Z" Fill="#FFF0F0F0" />
-            </VisualBrush.Visual>
-        </VisualBrush>
+            <VisualBrush x:Key="EditorCheckerBoard" TileMode="Tile" SourceRect="0,0,20,20" DestinationRect="0,0,20,20">
+                <VisualBrush.Visual>
+                    <Path Data="M 0,0 L 0,10 L 10,10 L 10,0 Z M 10,10 L 10,20 L 20,20 L 20,10 Z" Fill="#FFF0F0F0" />
+                </VisualBrush.Visual>
+            </VisualBrush>
 
-        <ImageBrush x:Key="TemplateEditorBackground" Source="Resources/nav.png" />
+            <ImageBrush x:Key="TemplateEditorBackground" Source="Resources/nav.png" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
