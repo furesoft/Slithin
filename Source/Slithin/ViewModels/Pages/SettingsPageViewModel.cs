@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Slithin.Core;
 using Slithin.Core.Scripting;
@@ -11,18 +12,25 @@ public class SettingsPageViewModel : BaseViewModel
 {
     private readonly LoginInfo _credential;
     private readonly ILoginService _loginService;
+    private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
     private readonly Settings _settings;
     private readonly ISettingsService _settingsService;
 
-    public SettingsPageViewModel(ILoginService loginService, ISettingsService settingsService, IPathManager pathManager)
+    public SettingsPageViewModel(ILoginService loginService,
+                                 ISettingsService settingsService,
+                                 IPathManager pathManager,
+                                 IMailboxService mailboxService)
     {
         _credential = loginService.GetCurrentCredential();
         _loginService = loginService;
 
         OpenExternalCommand = new DelegateCommand(OpenExternal);
+        CheckForUpdatesCommand = new DelegateCommand(CheckForUpdates);
+
         _settingsService = settingsService;
         _pathManager = pathManager;
+        _mailboxService = mailboxService;
         _settings = settingsService.GetSettings();
     }
 
@@ -44,6 +52,8 @@ public class SettingsPageViewModel : BaseViewModel
         set { _settings.AutomaticUpdates = value; SaveSetting(); }
     }
 
+    public ICommand CheckForUpdatesCommand { get; set; }
+
     public string DeviceName
     {
         get { return _credential.Name; }
@@ -64,15 +74,20 @@ public class SettingsPageViewModel : BaseViewModel
 
     public ICommand OpenExternalCommand { get; set; }
 
+    private void CheckForUpdates(object obj)
+    {
+        _mailboxService.Post(new Messages.CheckForUpdateMessage());
+    }
+
     private void OpenExternal(object obj)
     {
         Utils.OpenUrl(obj.ToString());
     }
 
-    private void SaveSetting()
+    private void SaveSetting([CallerMemberName] string property = null)
     {
         _settingsService.Save(_settings);
 
-        OnChange();
+        OnChange(property);
     }
 }

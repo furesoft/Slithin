@@ -17,7 +17,11 @@
             </s:SettingsGroup>
 
             <s:SettingsGroup Header="General" Grid.Column="1">
-                <ToggleSwitch Content="Automatic Updates" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />
+                <StackPanel Spacing="5">
+                    <ToggleSwitch Content="Automatic Updates" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />
+
+                    <Button Classes="Flat" Content="Check for Updates" IsVisible="{Binding !AutomaticUpdates, Mode=TwoWay}" Command="{Binding CheckForUpdatesCommand}" />
+                </StackPanel>
             </s:SettingsGroup>
 
             <s:SettingsGroup Header="After Device Update" Grid.Column="0" Grid.Row="1">
