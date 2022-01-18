@@ -46,7 +46,9 @@
      <AvaloniaResource Include="Resources\**" />
      <EmbeddedResource Include="Resources\IconTiles\**" />
      <EmbeddedResource Include="Resources\Covers\**" />
+     <AvaloniaResource Include="Assets\**"/>
    </ItemGroup>
+  
 
   <PropertyGroup>
     <RestoreSources>
