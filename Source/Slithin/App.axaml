@@ -22,7 +22,7 @@
         <StyleInclude Source="/Styles/LinkStyle.axaml" />
         <StyleInclude Source="/Styles/StoreCardCollection.axaml" />
 
-        <StyleInclude Source="/Styles/KryptoDonateControl.axaml" />
+        <StyleInclude Source="/Styles/KryptoDonateButton.axaml" />
         <StyleInclude Source="/Styles/Settings/SettingsGroup.axaml" />
 
         <StyleInclude Source="/VPL/Components/Styles.axaml" />

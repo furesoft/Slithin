@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using RestSharp;
 using Slithin.Core.Services;
-using JsonSerializer = RestSharp.Serialization.Json.JsonSerializer;
 
 namespace Slithin.Core.Remarkable.Cloud;
 
@@ -14,12 +13,6 @@ public class Api
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var client = new RestClient("https://webapp-production-dot-remarkable-production.appspot.com/");
 
-        client.UseSerializer(
-            () => new JsonSerializer { DateFormat = "yyyy-MM-ddTHH:mm:ss.FFFFFFFZ" }
-        );
-        var request = new RestRequest("token/json/2/device/new", Method.POST, DataFormat.Json);
-        request.AddHeader("Authorization", "Bearer ");
-
         var body = new
         {
             code = otc,
@@ -27,11 +20,13 @@ public class Api
             deviceID = DeviceID
         };
 
-        request.AddJsonBody(body);
-
-        var response = client.Post(request);
+        var request = new RestRequest("token/json/2/device/new", Method.Post)
+            .AddJsonBody(body)
+            .AddHeader("Authorization", "Bearer ");
 
         var file = Path.Combine(pathManager.ConfigBaseDir, ".token");
+
+        var response = client.PostAsync(request).Result;
 
         File.WriteAllText(file, response.Content);
 
@@ -42,17 +37,14 @@ public class Api
     {
         var client = new RestClient("https://service-manager-production-dot-remarkable-production.appspot.com");
 
-        client.UseSerializer(
-            () => new JsonSerializer { DateFormat = "yyyy-MM-ddTHH:mm:ss.FFFFFFFZ" }
-        );
-        var request = new RestRequest("/service/json/1/document-storage", Method.GET, DataFormat.Json);
+        var request = new RestRequest("/service/json/1/document-storage", Method.Get);
         request.AddQueryParameter("environment", "production");
         request.AddQueryParameter("group", "auth0|5a68dc51cb30df3877a1d7c4");
         request.AddQueryParameter("apiVer", "2");
 
-        var response = client.Get<GetStorageResult>(request);
+        var response = client.GetAsync<GetStorageResult>(request).Result;
 
-        return "https://" + response.Data.Host;
+        return "https://" + response.Host;
     }
 
     public string GetToken(string otc = null)
@@ -73,13 +65,10 @@ public class Api
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var client = new RestClient("https://webapp-production-dot-remarkable-production.appspot.com/");
 
-        client.UseSerializer(
-            () => new JsonSerializer { DateFormat = "yyyy-MM-ddTHH:mm:ss.FFFFFFFZ" }
-        );
-        var request = new RestRequest("/token/json/2/user/new", Method.POST, DataFormat.Json);
+        var request = new RestRequest("/token/json/2/user/new", Method.Post);
         request.AddHeader("Authorization", "Bearer " + File.ReadAllText(Path.Combine(pathManager.ConfigBaseDir, ".token")));
 
-        var response = client.Post(request);
+        var response = client.PostAsync(request).Result;
 
         var content = response.Content;
 
