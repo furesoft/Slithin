@@ -41,8 +41,9 @@ public class NotebookDataTemplate : IDataTemplate
         {
             MinWidth = 25,
             MinHeight = 25,
-            MaxHeight = 150,
-            HorizontalAlignment = HorizontalAlignment.Center
+            MaxHeight = 135,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Bottom,
         };
 
         if (md.Type == "DocumentType")
@@ -93,14 +94,15 @@ public class NotebookDataTemplate : IDataTemplate
                 new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png"))));
         }
 
-        stackPanel.Children.Add(img);
-
         var title = new TextBlock { [!TextBlock.TextProperty] = new Binding("VisibleName") };
 
         title.TextAlignment = TextAlignment.Center;
         title.TextWrapping = TextWrapping.Wrap;
+        title.VerticalAlignment = VerticalAlignment.Top;
+        title.Height = 50;
 
         stackPanel.Children.Add(title);
+        stackPanel.Children.Add(img);
 
         var card = new Card { Content = stackPanel };
 

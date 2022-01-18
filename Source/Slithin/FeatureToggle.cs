@@ -1,5 +1,4 @@
-﻿using Slithin.Core.Features;
-using Slithin.Core.FeatureToggle;
+﻿using Slithin.Core.FeatureToggle;
 
 namespace Slithin;
 
@@ -12,7 +11,6 @@ public class FeatureToggle
 
         Features.EnableAll();
 #else
-        Feature<SettingsFeature>.Enable();
 
         /*
             Feature<SharableFeature>.Enable();
