@@ -15,9 +15,7 @@
                             <TextBlock Text="{Binding Name}" TextAlignment="Center" />
 
                             <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                                <Grid>
-                                    <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" />
-                                </Grid>
+                                <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" Margin="2" />
                             </Border>
                         </StackPanel>
                     </styles:Card>

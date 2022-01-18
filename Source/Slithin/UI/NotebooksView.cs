@@ -44,7 +44,9 @@ public static class NotebooksView
             {
                 vm.SyncService.NotebooksFilter.Documents.Add(new Metadata
                 {
-                    Type = "CollectionType", VisibleName = "Trash", ID = "trash"
+                    Type = "CollectionType",
+                    VisibleName = "Trash",
+                    ID = "trash"
                 });
             }
         }
@@ -65,7 +67,7 @@ public static class NotebooksView
 
         if (_lastFolderIDs.Count > 0)
         {
-            vm.SyncService.NotebooksFilter.Documents.Add(new Metadata {Type = "CollectionType", VisibleName = "Up .."});
+            vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
             vm.SyncService.NotebooksFilter.Folder = id;
         }
         else
