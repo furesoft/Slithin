@@ -31,7 +31,7 @@
 
                 <Button Classes="Flat" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" MaxHeight="90" Margin="0,0,12,0" HorizontalAlignment="Right">
                     <StackPanel>
-                        <avalonia:MaterialIcon Kind="Refresh" Width="48" Height="48" />
+                        <DrawingPresenter Width="48" Height="48" Drawing="{DynamicResource Material.Refresh}" />
                         <TextBlock Text="Synchronize" />
                     </StackPanel>
 

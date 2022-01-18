@@ -3,37 +3,37 @@
         xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:controls="using:Slithin.Controls">
 
-  <Style Selector="controls|ImagePopupButton">
-    <Setter Property="Template">
-      <ControlTemplate>
-        <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="2" Margin="2">
-          <StackPanel VerticalAlignment="Center">
-            <mi:MaterialIcon Kind="{TemplateBinding Kind}" Width="40" Height="40" />
-            <TextBlock Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17" />
+    <Style Selector="controls|ImagePopupButton">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="2" Margin="2">
+                    <StackPanel VerticalAlignment="Center">
+                        <DrawingPresenter Grid.Row="0" Width="40" Height="40" Drawing="{TemplateBinding Image}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17" />
 
-            <Popup
-                   WindowManagerAddShadowHint="False"
-                   IsOpen="{TemplateBinding IsChecked, Mode=TwoWay}"
-                   PlacementTarget="Background"
+                        <Popup
+                               WindowManagerAddShadowHint="False"
+                               IsOpen="{TemplateBinding IsChecked, Mode=TwoWay}"
+                               PlacementTarget="Background"
 
-                   IsLightDismissEnabled="True">
-              <Border x:Name="PopupBorder"
-                      Background="{DynamicResource ComboBoxDropDownBackground}"
-                      BorderThickness="1" BorderBrush="Black"
+                               IsLightDismissEnabled="True">
+                            <Border x:Name="PopupBorder"
+                                    Background="{DynamicResource ComboBoxDropDownBackground}"
+                                    BorderThickness="1" BorderBrush="Black"
 
-                      Padding="{DynamicResource ComboBoxDropdownBorderPadding}"
-                      HorizontalAlignment="Stretch"
-                      CornerRadius="{DynamicResource OverlayCornerRadius}">
-                <ContentPresenter Content="{TemplateBinding PopupContent}" />
-              </Border>
-            </Popup>
-          </StackPanel>
-        </Border>
-      </ControlTemplate>
-    </Setter>
-  </Style>
+                                    Padding="{DynamicResource ComboBoxDropdownBorderPadding}"
+                                    HorizontalAlignment="Stretch"
+                                    CornerRadius="{DynamicResource OverlayCornerRadius}">
+                                <ContentPresenter Content="{TemplateBinding PopupContent}" />
+                            </Border>
+                        </Popup>
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
 
-  <Style Selector="controls|ImagePopupButton:pointerover">
-    <Setter Property="Cursor" Value="Hand" />
-  </Style>
+    <Style Selector="controls|ImagePopupButton:pointerover">
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
 </Styles>

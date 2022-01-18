@@ -1,20 +1,21 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Material.Icons;
+using Avalonia.Media;
 
 namespace Slithin.Controls;
 
 public class ImageButton : Button
 {
-    public static StyledProperty<MaterialIconKind> KindProperty =
-        AvaloniaProperty.Register<ImageButton, MaterialIconKind>("Kind");
+    public static StyledProperty<Drawing> ImageProperty =
+        AvaloniaProperty.Register<ImageButton, Drawing>("Kind");
+
     public static StyledProperty<string> TextProperty =
         AvaloniaProperty.Register<ImageButton, string>("Text");
 
-    public MaterialIconKind Kind
+    public Drawing Image
     {
-        get => GetValue(KindProperty);
-        set => SetValue(KindProperty, value);
+        get => GetValue(ImageProperty);
+        set => SetValue(ImageProperty, value);
     }
 
     public string Text
