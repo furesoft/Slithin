@@ -11,7 +11,7 @@
             <ControlTemplate>
                 <Grid>
                     <ToggleButton Name="toggle" Classes="Flat" IsHitTestVisible="True">
-                        <Image Source="{TemplateBinding Image}" Width="32" Height="32" ToolTip.Tip="{TemplateBinding CoinName}" />
+                        <DrawingPresenter Width="32" Height="32" Drawing="{TemplateBinding Image}" />
                     </ToggleButton>
 
                     <Popup

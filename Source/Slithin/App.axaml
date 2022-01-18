@@ -41,7 +41,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <themes:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="Amber" />
-                <ResourceInclude Source="/Assets/Icons.axaml" />
+
+                <ResourceInclude Source="avares://Slithin/Assets/Icons.axaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <VisualBrush x:Key="EditorCheckerBoard" TileMode="Tile" SourceRect="0,0,20,20" DestinationRect="0,0,20,20">
