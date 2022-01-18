@@ -9,15 +9,15 @@ using Slithin.Core;
 
 namespace Slithin.Controls;
 
-public class KryptoDonateControl : TemplatedControl
+public class KryptoDonateButton : TemplatedControl
 {
-    public static StyledProperty<string> AddressProperty = AvaloniaProperty.Register<KryptoDonateControl, string>(nameof(Address), "0000000000000000000000");
-    public static StyledProperty<string> CoinNameProperty = AvaloniaProperty.Register<KryptoDonateControl, string>(nameof(CoinName), "0000000000000000000000");
-    public static StyledProperty<ICommand> CopyAddressCommandProperty = AvaloniaProperty.Register<KryptoDonateControl, ICommand>(nameof(CopyAddressCommand));
-    public static StyledProperty<IImage> ImageProperty = AvaloniaProperty.Register<KryptoDonateControl, IImage>(nameof(Image));
-    public static StyledProperty<IImage> QrProperty = AvaloniaProperty.Register<KryptoDonateControl, IImage>(nameof(Qr));
+    public static StyledProperty<string> AddressProperty = AvaloniaProperty.Register<KryptoDonateButton, string>(nameof(Address), "0000000000000000000000");
+    public static StyledProperty<string> CoinNameProperty = AvaloniaProperty.Register<KryptoDonateButton, string>(nameof(CoinName), "0000000000000000000000");
+    public static StyledProperty<ICommand> CopyAddressCommandProperty = AvaloniaProperty.Register<KryptoDonateButton, ICommand>(nameof(CopyAddressCommand));
+    public static StyledProperty<IImage> ImageProperty = AvaloniaProperty.Register<KryptoDonateButton, IImage>(nameof(Image));
+    public static StyledProperty<IImage> QrProperty = AvaloniaProperty.Register<KryptoDonateButton, IImage>(nameof(Qr));
 
-    public KryptoDonateControl()
+    public KryptoDonateButton()
     {
         CopyAddressCommand = new DelegateCommand(CopyAddress);
     }

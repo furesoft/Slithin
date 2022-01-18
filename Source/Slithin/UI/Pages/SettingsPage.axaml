@@ -49,13 +49,13 @@
 
             <s:SettingsGroup Header="Support Slithin" Margin="2,2,20,15" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1">
                 <UniformGrid Columns="7">
-                    <controls:KryptoDonateControl CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="avares:/Resources/Krypto/bitcoin.png" />
-                    <controls:KryptoDonateControl CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="avares:/Resources/Krypto/ethereum.png" />
-                    <controls:KryptoDonateControl CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Image="avares:/Resources/Krypto/litecoin.png" />
-                    <controls:KryptoDonateControl CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="avares:/Resources/Krypto/dollar-symbol.png" />
-                    <controls:KryptoDonateControl CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="avares:/Resources/Krypto/dollar-symbol.png" />
-                    <controls:KryptoDonateControl CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="avares:/Resources/Krypto/dogecoin.png" />
-                    <controls:KryptoDonateControl CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="avares:/Resources/Krypto/dash.png" />
+                    <controls:KryptoDonateButton CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="avares:/Resources/Krypto/bitcoin.png" />
+                    <controls:KryptoDonateButton CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="avares:/Resources/Krypto/ethereum.png" />
+                    <controls:KryptoDonateButton CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Image="avares:/Resources/Krypto/litecoin.png" />
+                    <controls:KryptoDonateButton CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="avares:/Resources/Krypto/dollar-symbol.png" />
+                    <controls:KryptoDonateButton CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="avares:/Resources/Krypto/dollar-symbol.png" />
+                    <controls:KryptoDonateButton CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="avares:/Resources/Krypto/dogecoin.png" />
+                    <controls:KryptoDonateButton CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="avares:/Resources/Krypto/dash.png" />
                 </UniformGrid>
             </s:SettingsGroup>
         </Grid>

@@ -20,15 +20,15 @@ public class Storage
         _token = _api.RefreshToken();
     }
 
-    public void Delete(Metadata md)
+    public async void Delete(Metadata md)
     {
         var client = new RestClient(_storageUri);
-        var request = new RestRequest("document-storage/json/2/upload/update-status", Method.PUT, DataFormat.Json);
+        var request = new RestRequest("document-storage/json/2/upload/update-status", Method.Put);
 
         request.AddHeader("Authorization", "Bearer " + _token);
         request.AddJsonBody(new[] { md });
 
-        client.Put(request);
+        await client.PutAsync(request);
     }
 
     public string Download(string blobUrl)
@@ -50,15 +50,14 @@ public class Storage
     public ListItemResult[] ListItems()
     {
         var client = new RestClient(_storageUri);
-        var request = new RestRequest("/document-storage/json/2/docs", Method.GET, DataFormat.Json);
+        var request = new RestRequest("/document-storage/json/2/docs", Method.Get);
         request.AddQueryParameter("withBlob", "true");
 
         request.AddHeader("Authorization", "Bearer " + _token);
 
-        var response = client.Get(request);
-        var obj = JsonConvert.DeserializeObject<ListItemResult[]>(response.Content);
+        var response = client.GetAsync<ListItemResult[]>(request).Result;
 
-        return obj;
+        return response;
     }
 
     public UploadRequestResponse RequestUpload()
@@ -71,26 +70,26 @@ public class Storage
         };
 
         var client = new RestClient(_storageUri);
-        var request = new RestRequest("document-storage/json/2/upload/request", Method.PUT, DataFormat.Json);
+        var request = new RestRequest("document-storage/json/2/upload/request", Method.Put);
 
         request.AddHeader("Authorization", "Bearer " + _token);
         request.AddJsonBody(new[] { upReq });
 
-        var response = client.Put(request);
+        var response = client.PutAsync(request).Result;
         var obj = JsonConvert.DeserializeObject<UploadRequestResponse[]>(response.Content);
 
         return obj[0];
     }
 
-    public void UpdateMetadata(CloudMetadata md)
+    public async void UpdateMetadata(CloudMetadata md)
     {
         var client = new RestClient(_storageUri);
-        var request = new RestRequest("/document-storage/json/2/upload/update-status", Method.PUT, DataFormat.Json);
+        var request = new RestRequest("/document-storage/json/2/upload/update-status", Method.Put);
 
         request.AddHeader("Authorization", "Bearer " + _token);
         request.AddJsonBody(new[] { md });
 
-        client.Put(request);
+        await client.PutAsync(request);
     }
 
     public void Upload(UploadRequestResponse requestResponse, string filename)
