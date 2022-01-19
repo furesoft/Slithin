@@ -35,7 +35,11 @@ public class NotebooksPageViewModel : BaseViewModel
         {
             var name = await DialogService.ShowPrompt("Rename ", "Name", ((Metadata)_).VisibleName);
             Rename((Metadata)_, name);
-        }, _ => _ != null && _ is Metadata md && md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
+        }, _ => _ != null
+                && _ is Metadata md
+                && md.VisibleName != "Quick sheets"
+                && md.VisibleName != "Up .."
+                && md.VisibleName != "Trash");
 
         RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
         MoveCommand = new DelegateCommand(_ =>
@@ -43,8 +47,11 @@ public class NotebooksPageViewModel : BaseViewModel
                 IsMoving = true;
                 _movingNotebook = SelectedNotebook;
             },
-            _ => _ != null && _ is Metadata md && SelectedNotebook != null && !IsMoving &&
-                 md.VisibleName != "Quick sheets" && md.VisibleName != "Up ..");
+            _ => _ != null
+                && _ is Metadata md
+                && md.VisibleName != "Quick sheets"
+                && md.VisibleName != "Up .."
+                && md.VisibleName != "Trash");
 
         MoveCancelCommand = new DelegateCommand(_ =>
         {

@@ -25,11 +25,6 @@ public class MetadataStorage
         _storage.Clear();
     }
 
-    public Metadata GetMetadata(string id)
-    {
-        return _storage[id];
-    }
-
     public IEnumerable<Metadata> GetAll()
     {
         return _storage.Values;
@@ -41,13 +36,18 @@ public class MetadataStorage
 
         foreach (var item in _storage)
         {
-            if (item.Value.Parent.Equals(parent))
+            if (item.Value.Parent is not null && item.Value.Parent.Equals(parent))
             {
                 list.Add(item.Value);
             }
         }
 
         return list;
+    }
+
+    public Metadata GetMetadata(string id)
+    {
+        return _storage[id];
     }
 
     public IEnumerable<string> GetNames()

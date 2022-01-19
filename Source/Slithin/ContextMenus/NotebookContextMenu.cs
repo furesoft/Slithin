@@ -19,7 +19,11 @@ public class NotebookContextMenu : IContextProvider
 
     public bool CanHandle(object obj)
     {
-        return obj is Metadata;
+        return obj != null
+                && obj is Metadata md
+                && md.VisibleName != "Quick sheets"
+                && md.VisibleName != "Up .."
+                && md.VisibleName != "Trash";
     }
 
     public ICollection<MenuItem> GetMenu(object obj)

@@ -24,13 +24,14 @@
                         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Margin="2">
                             <StackPanel Orientation="Vertical" Margin="2">
                                 <Grid>
-                                    <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,0,0,5" FontSize="17" FontWeight="Medium" />
-                                    <Button Classes="Flat" Margin="0,0,3,0" Command="{Binding TransferCommand}" Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                        <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularTransfer}" ToolTip.Tip="Transfer to device" />
+                                    <Button Classes="Flat" Command="{Binding TransferCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip.Tip="Transfer to device">
+                                        <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularTransfer}" />
                                     </Button>
                                 </Grid>
 
                                 <Image Source="{Binding Image, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" />
+
+                                <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,3,0,5" FontSize="17" FontWeight="Medium" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -38,7 +39,7 @@
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="5" Margin="3" />
+                        <UniformGrid Columns="6" Margin="2" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
