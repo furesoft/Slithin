@@ -45,14 +45,11 @@ jobs:
     - name: d
       run: dir $env:Solution_Path/Changelog.txt
       
-    - name: Copy Changelog File
-      run: mv $env:Solution_Path/Changelog.txt ./Dist/Changelog/Changelog.txt
-      
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Changelog
-        path: ./Dist/Changelog/Changelog.txt
+        path: $env:Solution_Path/Changelog.txt
         
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
