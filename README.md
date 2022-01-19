@@ -5,6 +5,7 @@ Slithin is a better cross-platform managent tool for your Remarkable Device
 
 # Features
 * Connect your Remarkable Device with WIFI or USB
+* Manage multiple Devices
 * Manage Notebooks/Templates
 * Upload Templates (PNG, JPEG, TIFF, BMP) automaticly after device update
 * Replace Screen Images (PNG, JPEG, TIFF, BMP)
@@ -15,6 +16,7 @@ Slithin is a better cross-platform managent tool for your Remarkable Device
 * Custom ScriptLanguage to create powerful new tools
 * Regular updates
 * Share your assets with other users
+* Cloud Connection
 
 Installation guide can be find on the [Wiki](https://github.com/furesoft/Slithin/wiki/Installation-Guide)
 
