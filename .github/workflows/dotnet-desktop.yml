@@ -18,7 +18,8 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: Source/Slithin/Slithin.csproj                         # Replace with your solution name, i.e. MyWpfApp.sln.
+      Solution_Path: Source/Slithin/  
+      Solution_Name: $env:Solution_Path/Slithin.csproj                         # Replace with your solution name, i.e. MyWpfApp.sln.
       Test_Project_Path: Source/Slithin.Tests/Slithin.Tests.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
       Wap_Project_Directory: Deployment/Windows-Store    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
       Wap_Project_Path: Windows-Store.wapproj                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
@@ -47,6 +48,15 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
         
+    - name: Copy Changelog File
+      run: mv $env:Solution_Path/Changelog.txt ./Dist/Changelog/Changelog.txt
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Changelog
+        path: ./Dist/Changelog/Changelog.txt
+      
     - name: Publish Windows x86
       run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 $env:Solution_Name
 
@@ -100,7 +110,6 @@ jobs:
         name: Linux_x64_DEB_Installer
         path: Source/Slithin/Dist/Linux-x64-Deb
       
-      
     - name: Creating Rpm-Package
       run: dotnet rpm -r linux-x64 -c Release -o ./Dist/Linux-x64-Rpm
       working-directory: Source/Slithin/
@@ -110,7 +119,6 @@ jobs:
       with:
         name: Linux_x64_RPM_Installer
         path: Source/Slithin/Dist/Linux-x64-Rpm
-
 
     - name: Publish SDK Windows
       run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-sdk-x86 $env:SDK
@@ -138,3 +146,4 @@ jobs:
       with:
         name: Linux_SDK_x64
         path: ./Dist/Linux-sdk-x64
+    
