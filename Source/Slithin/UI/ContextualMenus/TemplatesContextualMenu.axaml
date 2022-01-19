@@ -9,9 +9,9 @@
     <DockPanel>
         <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="Add" Command="{Binding OpenAddModalCommand}" Image="{DynamicResource Ionicons.AddiOS}" />
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="Remove" Command="{Binding RemoveTemplateCommand}" Image="{DynamicResource EvaIcons.Minus}" CommandParameter="{Binding SelectedTemplate, Mode=TwoWay}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="Remove" Command="{Binding RemoveTemplateCommand}" Image="{DynamicResource BoxIcons.SolidTrash}" CommandParameter="{Binding SelectedTemplate, Mode=TwoWay}" />
 
-            <controls:ImagePopupButton MinHeight="60" Classes="Flat" Image="{DynamicResource Material.FilterMenu}">
+            <controls:ImagePopupButton MinHeight="60" Classes="Flat" Image="{DynamicResource Material.FilterMenu}" Text="Filter">
                 <controls:ImagePopupButton.PopupContent>
                     <styles:Card>
                         <Grid RowDefinitions="*,AUTO" Margin="4">

@@ -26,7 +26,8 @@ public class RemoveNotebookCommand : ICommand
         return parameter != null
                && parameter is Metadata md
                && md.VisibleName != "Quick sheets"
-               && md.VisibleName != "Up ..";
+               && md.VisibleName != "Up .."
+               && md.VisibleName != "Trash";
     }
 
     public async void Execute(object parameter)

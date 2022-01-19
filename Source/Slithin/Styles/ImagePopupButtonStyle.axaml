@@ -3,13 +3,17 @@
         xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:controls="using:Slithin.Controls">
 
+    <Design.PreviewWith>
+        <controls:ImageButton Text="Something" Image="{DynamicResource Bootstrap.Reddit}" />
+    </Design.PreviewWith>
+
     <Style Selector="controls|ImagePopupButton">
         <Setter Property="Template">
             <ControlTemplate>
-                <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="2" Margin="2">
-                    <StackPanel VerticalAlignment="Center">
-                        <DrawingPresenter Grid.Row="0" Width="40" Height="40" Drawing="{TemplateBinding Image}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBlock Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17" />
+                <Border Background="{TemplateBinding Background}" CornerRadius="2" Margin="2">
+                    <Grid RowDefinitions="40,*" VerticalAlignment="Center">
+                        <DrawingPresenter Width="35" Height="35" Drawing="{TemplateBinding Image}" Grid.Row="0" />
+                        <TextBlock Text="{TemplateBinding Text}" Grid.Row="1" TextAlignment="Center" FontSize="17" />
 
                         <Popup
                                WindowManagerAddShadowHint="False"
@@ -27,7 +31,7 @@
                                 <ContentPresenter Content="{TemplateBinding PopupContent}" />
                             </Border>
                         </Popup>
-                    </StackPanel>
+                    </Grid>
                 </Border>
             </ControlTemplate>
         </Setter>
