@@ -2,7 +2,7 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -46,7 +46,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Changelog
-        path: $env:Solution_Path/Changelog.txt
+        path: Source/Slithin/Changelog.txt
         
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
