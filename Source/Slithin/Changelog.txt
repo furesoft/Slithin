@@ -1,0 +1,7 @@
+Version 1.0.6
+
+- Performance improvements
+- Design fixes
+- Bugfixes
+- Settings added
+- Reupload screen images
