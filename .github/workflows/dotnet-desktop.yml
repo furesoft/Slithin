@@ -41,9 +41,6 @@ jobs:
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
-        
-    - name: d
-      run: dir $env:Solution_Path/Changelog.txt
       
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
