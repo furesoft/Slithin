@@ -35,7 +35,7 @@
                 <Grid MinHeight="135" RowDefinitions="*,*">
                     <TextBlock Grid.Row="0" Text="Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome." TextWrapping="Wrap" MaxWidth="300" />
 
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="2" HorizontalAlignment="Left" Grid.Row="1">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="1" HorizontalAlignment="Left" Grid.Row="1">
                         <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://github.com/furesoft/Slithin">
                             <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Github}" HorizontalAlignment="Left" />
                         </Button>

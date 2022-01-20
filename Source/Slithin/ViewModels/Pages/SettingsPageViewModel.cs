@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Serilog;
 using Slithin.Core;
 using Slithin.Core.Scripting;
 using Slithin.Core.Services;
@@ -11,6 +12,7 @@ namespace Slithin.ViewModels.Pages;
 public class SettingsPageViewModel : BaseViewModel
 {
     private readonly LoginInfo _credential;
+    private readonly ILogger _logger;
     private readonly ILoginService _loginService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
@@ -20,7 +22,8 @@ public class SettingsPageViewModel : BaseViewModel
     public SettingsPageViewModel(ILoginService loginService,
                                  ISettingsService settingsService,
                                  IPathManager pathManager,
-                                 IMailboxService mailboxService)
+                                 IMailboxService mailboxService,
+                                 ILogger logger)
     {
         _credential = loginService.GetCurrentCredential();
         _loginService = loginService;
@@ -31,6 +34,8 @@ public class SettingsPageViewModel : BaseViewModel
         _settingsService = settingsService;
         _pathManager = pathManager;
         _mailboxService = mailboxService;
+        _logger = logger;
+        
         _settings = settingsService.GetSettings();
     }
 
@@ -68,6 +73,8 @@ public class SettingsPageViewModel : BaseViewModel
 
             path.MoveTo(_pathManager.ConfigBaseDir);
 
+            _logger.Information("Setting changed 'Device Name'");
+
             OnChange();
         }
     }
@@ -87,6 +94,8 @@ public class SettingsPageViewModel : BaseViewModel
     private void SaveSetting([CallerMemberName] string property = null)
     {
         _settingsService.Save(_settings);
+
+        _logger.Information($"Setting changed '{property}'");
 
         OnChange(property);
     }

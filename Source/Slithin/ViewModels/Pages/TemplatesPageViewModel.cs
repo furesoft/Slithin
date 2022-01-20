@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
+using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
@@ -55,7 +56,7 @@ public class TemplatesPageViewModel : BaseViewModel
 
             _loadingService.LoadTemplates();
 
-            SyncService.TemplateFilter.SelectedCategory = "Grids";
+            SyncService.TemplateFilter.SelectedCategory = SyncService.TemplateFilter.Categories.First();
 
             NotificationService.Hide();
         });
