@@ -86,6 +86,8 @@ public class LoadingServiceImpl : ILoadingService
             {
                 ServiceLocator.SyncService.TemplateFilter.Templates.Add(t);
             }
+            
+            ServiceLocator.SyncService.TemplateFilter.Templates.Add(t);
 
             if (t.Categories.Contains(category))
             {
