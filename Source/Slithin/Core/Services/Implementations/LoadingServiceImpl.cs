@@ -50,8 +50,6 @@ public class LoadingServiceImpl : ILoadingService
 
     public void LoadTemplates()
     {
-        ServiceLocator.SyncService.TemplateFilter.Templates.Clear();
-
         // Load local Templates
         TemplateStorage.Instance?.Load();
 
@@ -86,8 +84,6 @@ public class LoadingServiceImpl : ILoadingService
             {
                 ServiceLocator.SyncService.TemplateFilter.Templates.Add(t);
             }
-            
-            ServiceLocator.SyncService.TemplateFilter.Templates.Add(t);
 
             if (t.Categories.Contains(category))
             {
