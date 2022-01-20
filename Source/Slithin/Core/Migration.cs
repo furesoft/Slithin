@@ -11,6 +11,13 @@ public class Migration
     private IMailboxService _mailboxService;
     private IPathManager _pathManager;
 
+    public Migration()
+    {
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+
+        NeedsMigration = File.Exists(Path.Combine(pathManager.ConfigBaseDir, ".version"));
+    }
+
     public bool NeedsMigration { get; set; }
 
     public void StartMigration()
@@ -21,8 +28,6 @@ public class Migration
 
         var baseDir = _pathManager.ConfigBaseDir;
         _currentDevice = _loginService.GetCurrentCredential();
-
-        NeedsMigration = !baseDir.EndsWith(_currentDevice.Name);
 
         _mailboxService.PostAction(() =>
         {
