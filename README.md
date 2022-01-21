@@ -15,9 +15,11 @@ Slithin is a better cross-platform managent tool for your Remarkable Device
 * Tools (eg. add pages to PDF)
 * Generate PDF Notebook
 * Backup/Restore
+* Regular updates
+
+# Planned
 * A Visual Programming System to create simple little tools or automate existing tools
 * Custom ScriptLanguage to create powerful new tools
-* Regular updates
 * Share your assets with other users
 * Cloud Connection
 
