@@ -7,21 +7,19 @@ namespace Slithin.VPL.Components.ViewModels;
 [DataContract(IsReference = true)]
 [NodeView(typeof(GetCurrentDateTimeView))]
 [IgnoreTemplate]
-public class GetCurrentDateTimeNode : VisualNode
+[NodeCategory("Control")]
+public class LoopNode : VisualNode
 {
-    public GetCurrentDateTimeNode() : base("CurrentDateTime")
+    public LoopNode() : base("Repeat")
     {
     }
 
-    [Pin("Date")]
-    public IInputPin DatePin { get; set; }
+    [Pin("Condition")]
+    public IInputPin ConditionPin { get; set; }
 
     [Pin("Flow Input")]
     public IInputPin FlowInputPin { get; set; }
 
     [Pin("Flow Output")]
     public IOutputPin FlowPin { get; set; }
-
-    [Pin("Time")]
-    public IInputPin TimePin { get; set; }
 }

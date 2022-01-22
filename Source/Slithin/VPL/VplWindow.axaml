@@ -29,7 +29,7 @@
 
     <Grid ColumnDefinitions="200,6,*">
         <DockPanel Background="{DynamicResource PanelBackground}" Grid.Column="0">
-            <TabControl Items="{Binding Categories}" TabStripPlacement="Left">
+            <TabControl Items="{Binding Categories}">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <ListBox Items="{Binding Templates}" Background="Transparent">

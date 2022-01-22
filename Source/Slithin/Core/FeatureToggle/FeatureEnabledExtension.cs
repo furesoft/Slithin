@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Slithin.Core.FeatureToggle;
 
-public class FeatureEnabledMarkupExtension : MarkupExtension
+public class FeatureEnabledExtension : MarkupExtension
 {
-    public FeatureEnabledMarkupExtension(string featureName)
+    public FeatureEnabledExtension(string featureName)
     {
         FeatureName = featureName;
     }

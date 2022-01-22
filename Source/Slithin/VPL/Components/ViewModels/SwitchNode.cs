@@ -6,6 +6,7 @@ namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
 [NodeView(typeof(SwitchView))]
+[NodeCategory("Control")]
 public class SwitchNode : VisualNode
 {
     public SwitchNode() : base("Switch")
