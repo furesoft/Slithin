@@ -6,6 +6,7 @@ namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
 [NodeView(typeof(TextNodeView))]
+[NodeCategory("Value")]
 public class TextNode : VisualNode
 {
     private string? _text;
