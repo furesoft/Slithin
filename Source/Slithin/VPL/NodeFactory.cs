@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using Avalonia.Controls;
 using NodeEditor.Model;
 using NodeEditor.ViewModels;
+using Slithin.Styles;
 using Slithin.VPL;
 using Slithin.VPL.Components.ViewModels;
 using Slithin.VPL.NodeBuilding;
@@ -99,7 +101,7 @@ public class NodeFactory
     }
 
     //ToDo: Refactor
-    public IList<NodeCategory> CreateTemplates()
+    public IList<TabItem> CreateTemplates()
     {
         var categories = new Dictionary<string, NodeCategory>();
 
@@ -166,7 +168,10 @@ public class NodeFactory
             }
         }
 
-        return categories.Values.ToList();
+        return categories.Values.Select(_ =>
+        {
+            return new TabItem() { Header = _.Name, Content = new NodeCategoryView { DataContext = _ } };
+        }).ToList();
     }
 
     public void PrintNetList(IDrawingNode? drawing)

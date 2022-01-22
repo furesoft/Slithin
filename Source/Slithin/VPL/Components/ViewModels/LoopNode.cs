@@ -6,7 +6,6 @@ namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
 [NodeView(typeof(GetCurrentDateTimeView))]
-[IgnoreTemplate]
 [NodeCategory("Control")]
 public class LoopNode : VisualNode
 {

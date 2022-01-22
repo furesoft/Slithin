@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Avalonia.Controls;
 using NodeEditor.Model;
 using NodeEditor.Serializer;
 using Slithin.Core;
 using Slithin.UI;
-using Slithin.VPL;
 
 namespace Slithin.ViewModels;
 
@@ -13,7 +13,7 @@ public class VplWindowViewModal : BaseViewModel
     private readonly NodeFactory _factory;
 
     private readonly INodeSerializer _serializer;
-    private IList<NodeCategory>? _categories;
+    private IList<TabItem>? _categories;
     private IDrawingNode? _drawing;
 
     public VplWindowViewModal()
@@ -27,7 +27,7 @@ public class VplWindowViewModal : BaseViewModel
         Drawing.Serializer = _serializer;
     }
 
-    public IList<NodeCategory>? Categories
+    public IList<TabItem>? Categories
     {
         get => _categories;
         set => SetValue(ref _categories, value);
