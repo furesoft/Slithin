@@ -98,9 +98,10 @@ public class NodeFactory
         return node;
     }
 
-    public IList<INodeTemplate> CreateTemplates()
+    //ToDo: Refactor
+    public IList<NodeCategory> CreateTemplates()
     {
-        var templates = new ObservableCollection<INodeTemplate>();
+        var categories = new Dictionary<string, NodeCategory>();
 
         var nodes = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
@@ -118,7 +119,19 @@ public class NodeFactory
                 continue;
             }
 
-            templates.Add(new NodeTemplateViewModel
+            string category = "General";
+            var categoryAttribute = node.GetType().GetCustomAttribute<NodeCategoryAttribute>();
+            if (categoryAttribute != null)
+            {
+                category = categoryAttribute.Category;
+            }
+
+            if (!categories.ContainsKey(category))
+            {
+                categories.Add(category, new NodeCategory { Name = category, Templates = new ObservableCollection<INodeTemplate>() });
+            }
+
+            categories[category].Templates.Add(new NodeTemplateViewModel
             {
                 Title = node.Label,
                 Build = (x, y) => CreateNode(node, x, y),
@@ -129,9 +142,22 @@ public class NodeFactory
         foreach (var factoryNode in factoryNodes)
         {
             var factory = (INodeFactory)factoryNode;
+
+            string category = "General";
+            var categoryAttribute = factoryNode.GetType().GetCustomAttribute<NodeCategoryAttribute>();
+            if (categoryAttribute != null)
+            {
+                category = categoryAttribute.Category;
+            }
+
+            if (!categories.ContainsKey(category))
+            {
+                categories.Add(category, new NodeCategory { Name = category, Templates = new ObservableCollection<INodeTemplate>() });
+            }
+
             foreach (var node in factory.Create())
             {
-                templates.Add(new NodeTemplateViewModel
+                categories[category].Templates.Add(new NodeTemplateViewModel
                 {
                     Title = node.Label,
                     Build = (x, y) => CreateNode(node, x, y),
@@ -140,7 +166,7 @@ public class NodeFactory
             }
         }
 
-        return templates;
+        return categories.Values.ToList();
     }
 
     public void PrintNetList(IDrawingNode? drawing)
