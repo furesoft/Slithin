@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Serilog;
+using Slithin.Core.FeatureToggle;
 using Slithin.Core.Scripting;
 using Slithin.ModuleSystem;
 using Slithin.Tools;
@@ -28,6 +29,11 @@ public class ToolInvoker
         foreach (var tool in Utils.Find<ITool>().Where(_ => _ is not ScriptTool))
         {
             Tools.Add(tool.Info.ID, tool);
+        }
+
+        if (!Feature<Features.ToolsFeature>.IsEnabled)
+        {
+            return;
         }
 
         _logger.Information("Loading External Tools");
