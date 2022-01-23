@@ -6,8 +6,6 @@ using System.Windows.Input;
 using Avalonia.Collections;
 using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Core.Features;
-using Slithin.Core.FeatureToggle;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
@@ -31,7 +29,6 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
     private object _selectedCategory;
     private int _step;
     private bool _useTemplateEditor;
-    private bool isEditorEnabled;
 
     public AddTemplateModalViewModel(IPathManager pathManager,
         LocalRepository localRepository,
@@ -65,12 +62,6 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
     }
 
     public ObservableCollection<IconCodeItem> IconCodes { get; set; } = new();
-
-    public bool IsEditorEnabled
-    {
-        get => Feature<TemplateEditorFeature>.IsEnabled;
-        set => isEditorEnabled = value;
-    }
 
     public bool IsLandscape
     {

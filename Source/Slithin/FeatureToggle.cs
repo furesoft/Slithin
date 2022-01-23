@@ -17,6 +17,7 @@ public class FeatureToggle
 
         /*
             Feature<ToolsFeature>.Enable();
+            Feature<TemplateEditorFeature>.Enable();
             Feature<SharableFeature>.Enable();
             Feature<ExportFeature>.Enable();
             Feature<ExportPdfFeature>.Enable();
