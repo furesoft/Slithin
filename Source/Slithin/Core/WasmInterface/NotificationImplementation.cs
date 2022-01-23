@@ -14,13 +14,13 @@ public class NotificationImplementation
     }
 
     [WasmExport("prompt")]
-    public static int Prompt(int headerAddress)
+    public static int Prompt(int headerAddress, int resultAddress)
     {
         var header = Utils.StringFromPtr(headerAddress);
 
         var result = DialogService.ShowPrompt(header, null).Result;
 
-        var resultPtr = (Pointer)0;//ToDo: need to be allocated
+        var resultPtr = (Pointer)resultAddress;
 
         if (result != null)
         {
