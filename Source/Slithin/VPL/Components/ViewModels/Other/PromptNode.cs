@@ -1,7 +1,8 @@
 ﻿using System.Runtime.Serialization;
 using Slithin.VPL.NodeBuilding;
+using Slithin.VPL.Components.ViewModels;
 
-namespace Slithin.VPL.Components.ViewModels;
+namespace Slithin.VPL.Components.ViewModels.Other;
 
 [DataContract(IsReference = true)]
 public class PromptNode : VisualNode

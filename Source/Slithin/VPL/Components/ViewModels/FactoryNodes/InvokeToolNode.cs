@@ -3,8 +3,10 @@ using System.Runtime.Serialization;
 using Slithin.Core;
 using Slithin.Models;
 using Slithin.VPL.NodeBuilding;
+using Slithin.VPL.Components.ViewModels.FactoryNodes;
+using Slithin.VPL.Components.ViewModels;
 
-namespace Slithin.VPL.Components.ViewModels;
+namespace Slithin.VPL.Components.ViewModels.FactoryNodes;
 
 [DataContract(IsReference = true)]
 [NodeCategory("Tools")]

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Slithin.VPL.NodeBuilding;
+using Slithin.VPL.Components.ViewModels.FactoryNodes;
+using Slithin.VPL.Components.ViewModels;
 
-namespace Slithin.VPL.Components.ViewModels;
+namespace Slithin.VPL.Components.ViewModels.FactoryNodes;
 
 [DataContract(IsReference = true)]
 [NodeCategory("Events")]
