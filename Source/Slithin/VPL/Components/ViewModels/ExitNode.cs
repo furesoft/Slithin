@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using Slithin.VPL.NodeBuilding;
+using Slithin.Core.VPLNodeBuilding;
 
 namespace Slithin.VPL.Components.ViewModels;
 

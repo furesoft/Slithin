@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Slithin.VPL.NodeBuilding;
 using Slithin.VPL.Components.ViewModels.FactoryNodes;
 using Slithin.VPL.Components.ViewModels;
+using Slithin.Core.VPLNodeBuilding;
 
 namespace Slithin.VPL.Components.ViewModels.FactoryNodes;
 

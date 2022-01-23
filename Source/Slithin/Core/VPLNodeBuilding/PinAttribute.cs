@@ -1,7 +1,7 @@
 ﻿using System;
 using NodeEditor.Model;
 
-namespace Slithin.VPL.NodeBuilding
+namespace Slithin.Core.VPLNodeBuilding
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class PinAttribute : Attribute

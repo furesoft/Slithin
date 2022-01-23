@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Slithin.VPL.NodeBuilding
+namespace Slithin.Core.VPLNodeBuilding
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class IgnoreTemplateAttribute : Attribute

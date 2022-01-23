@@ -1,4 +1,4 @@
-﻿namespace Slithin.VPL.NodeBuilding
+﻿namespace Slithin.Core.VPLNodeBuilding
 {
     public interface IInputPin
     {

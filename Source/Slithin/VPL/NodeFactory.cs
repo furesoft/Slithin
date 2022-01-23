@@ -7,10 +7,11 @@ using System.Reflection;
 using Avalonia.Controls;
 using NodeEditor.Model;
 using NodeEditor.ViewModels;
+using Slithin.Core.VPLNodeBuilding;
 using Slithin.Styles;
 using Slithin.VPL;
 using Slithin.VPL.Components.ViewModels;
-using Slithin.VPL.NodeBuilding;
+using Slithin.VPL.ExecutionModel;
 
 namespace Slithin.UI;
 
@@ -182,11 +183,30 @@ public class NodeFactory
         }
 
         var entryNode = GetEntryNode(drawing);
+        var entry = new ExecutionNode();
+        var tmp = entry;
 
         foreach (var connector in drawing.Connectors)
         {
             if (connector.Start is { } start && connector.End is { } end)
             {
+                if (start.Parent?.Content is EntryNode)
+                {
+                    entryNode = start.Parent;
+                    entry.Node = entryNode;
+                }
+                if (end.Parent?.Content is EntryNode)
+                {
+                    entryNode = end.Parent;
+                    entry.Node = entryNode;
+                }
+
+                if (end.Parent != tmp.Node)
+                {
+                    tmp.Next = new ExecutionNode();
+                    tmp.Next.Node = end.Parent;
+                }
+
                 Debug.WriteLine($"{start.Parent?.Content.GetType().Name}:{start.GetType().Name} -> {end.Parent?.Content.GetType().Name}:{end.GetType().Name}");
             }
         }

@@ -5,7 +5,7 @@ using Avalonia.Controls.Templates;
 using NodeEditor.ViewModels;
 using Slithin.Core;
 using Slithin.VPL.Components.Views;
-using Slithin.VPL.NodeBuilding;
+using Slithin.Core.VPLNodeBuilding;
 
 namespace Slithin.UI;
 

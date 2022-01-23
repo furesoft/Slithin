@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using NodeEditor.Model;
 using Slithin.Core;
+using Slithin.VPL;
 
-namespace Slithin.VPL;
+namespace Slithin.Core.VPLNodeBuilding;
 
 public class NodeCategory : NotifyObject
 {

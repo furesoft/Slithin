@@ -1,10 +1,11 @@
 ﻿using System.Runtime.Serialization;
-using Slithin.VPL.NodeBuilding;
-using Slithin.VPL.Components.ViewModels;
+using Slithin.VPL.Components.Views;
+using Slithin.Core.VPLNodeBuilding;
 
 namespace Slithin.VPL.Components.ViewModels.Values;
 
 [DataContract(IsReference = true)]
+[NodeView(typeof(TextNodeView))]
 [NodeCategory("Value")]
 public class TextNode : VisualNode
 {

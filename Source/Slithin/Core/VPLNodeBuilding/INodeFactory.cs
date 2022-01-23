@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Slithin.VPL;
 
-namespace Slithin.VPL.NodeBuilding
+namespace Slithin.Core.VPLNodeBuilding
 {
     public interface INodeFactory
     {
