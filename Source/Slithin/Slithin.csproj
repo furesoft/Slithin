@@ -96,29 +96,8 @@
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>
-     <Compile Update="VPL\Components\Views\GetCurrentDateTimeView.axaml.cs">
-       <DependentUpon>GetCurrentDateTimeView.axaml</DependentUpon>
-     </Compile>
-     <Compile Update="VPL\Components\Views\SwitchView.axaml.cs">
-       <DependentUpon>SwitchView.axaml</DependentUpon>
-     </Compile>
-     <Compile Update="VPL\Components\Views\InvokeToolView.axaml.cs">
-       <DependentUpon>InvokeToolView.axaml</DependentUpon>
-     </Compile>
-     <Compile Update="VPL\Components\Views\PromptView.axaml.cs">
-       <DependentUpon>PromptView.axaml</DependentUpon>
-     </Compile>
-     <Compile Update="VPL\Components\Views\TextNodeView.axaml.cs">
-       <DependentUpon>TextNodeView.axaml</DependentUpon>
-     </Compile>
-     <Compile Update="VPL\Components\Views\ShowNotificationView.axaml.cs">
-       <DependentUpon>ShowNotificationView.axaml</DependentUpon>
-     </Compile>
-     <Compile Update="VPL\Components\Views\ExitView.axaml.cs">
-       <DependentUpon>ExitView.axaml</DependentUpon>
-     </Compile>
-     <Compile Update="VPL\Components\Views\EntryView.axaml.cs">
-       <DependentUpon>EntryView.axaml</DependentUpon>
+     <Compile Update="VPL\Components\Views\DefaultView.axaml.cs">
+       <DependentUpon>DefaultView.axaml</DependentUpon>
      </Compile>
      <Compile Update="VPL\VplWindow.axaml.cs">
        <DependentUpon>VplWindow.axaml</DependentUpon>

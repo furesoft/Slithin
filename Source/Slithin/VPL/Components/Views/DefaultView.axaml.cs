@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Slithin.VPL.Components.Views
 {
-    public class EntryView : UserControl
+    public class DefaultView : UserControl
     {
-        public EntryView()
+        public DefaultView()
         {
             InitializeComponent();
         }
@@ -16,4 +16,3 @@ namespace Slithin.VPL.Components.Views
         }
     }
 }
-

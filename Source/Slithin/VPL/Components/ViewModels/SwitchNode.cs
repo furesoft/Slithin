@@ -1,11 +1,9 @@
 ﻿using System.Runtime.Serialization;
-using Slithin.VPL.Components.Views;
 using Slithin.VPL.NodeBuilding;
 
 namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
-[NodeView(typeof(SwitchView))]
 [NodeCategory("Control")]
 public class SwitchNode : VisualNode
 {

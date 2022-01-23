@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Slithin.VPL.Components.Views;
 using Slithin.VPL.NodeBuilding;
 
 namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
-[NodeView(typeof(InvokeToolView))]
 [NodeCategory("Events")]
 [IgnoreTemplate]
 public class EventNode : VisualNode, INodeFactory

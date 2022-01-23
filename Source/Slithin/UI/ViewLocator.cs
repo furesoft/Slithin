@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using NodeEditor.ViewModels;
 using Slithin.Core;
+using Slithin.VPL.Components.Views;
 using Slithin.VPL.NodeBuilding;
 
 namespace Slithin.UI;
@@ -29,6 +30,10 @@ public class ViewLocator : IDataTemplate
                 {
                     return (Control)Activator.CreateInstance(type)!;
                 }
+                else
+                {
+                    return Activator.CreateInstance<DefaultView>();
+                }
             }
         }
         else
@@ -50,7 +55,7 @@ public class ViewLocator : IDataTemplate
                 }
                 else
                 {
-                    return new TextBlock { Text = "VM Not Found: " };
+                    return Activator.CreateInstance<DefaultView>();
                 }
             }
         }

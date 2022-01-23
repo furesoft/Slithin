@@ -2,13 +2,11 @@
 using System.Runtime.Serialization;
 using Slithin.Core;
 using Slithin.Models;
-using Slithin.VPL.Components.Views;
 using Slithin.VPL.NodeBuilding;
 
 namespace Slithin.VPL.Components.ViewModels;
 
 [DataContract(IsReference = true)]
-[NodeView(typeof(InvokeToolView))]
 [NodeCategory("Tools")]
 [IgnoreTemplate]
 public class InvokeToolNode : VisualNode, INodeFactory
