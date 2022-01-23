@@ -26,6 +26,7 @@
         <KeyBinding Command="{Binding Drawing.DeleteCommand, FallbackValue={x:Null}}" Gesture="Delete" />
         <KeyBinding Command="{Binding Drawing.SelectAllCommand, FallbackValue={x:Null}}" Gesture="Ctrl+A" />
         <KeyBinding Command="{Binding Drawing.DeselectAllCommand, FallbackValue={x:Null}}" Gesture="Escape" />
+        <KeyBinding Command="{Binding ExecuteCommand, FallbackValue={x:Null}}" Gesture="E" />
     </Window.KeyBindings>
 
     <Grid ColumnDefinitions="230,6,*">

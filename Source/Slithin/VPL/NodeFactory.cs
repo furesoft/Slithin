@@ -181,6 +181,8 @@ public class NodeFactory
             return;
         }
 
+        var entryNode = GetEntryNode(drawing);
+
         foreach (var connector in drawing.Connectors)
         {
             if (connector.Start is { } start && connector.End is { } end)
@@ -188,5 +190,27 @@ public class NodeFactory
                 Debug.WriteLine($"{start.Parent?.Content.GetType().Name}:{start.GetType().Name} -> {end.Parent?.Content.GetType().Name}:{end.GetType().Name}");
             }
         }
+    }
+
+    private INode GetEntryNode(IDrawingNode drawing)
+    {
+        foreach (var connector in drawing.Connectors)
+        {
+            if (connector.Start is { } start && connector.End is { } end)
+            {
+                if (start.Parent?.Content is EntryNode)
+                {
+                    return start.Parent;
+                }
+                if (end.Parent?.Content is EntryNode)
+                {
+                    return end.Parent;
+                }
+
+                Debug.WriteLine($"{start.Parent?.Content.GetType().Name}:{start.GetType().Name} -> {end.Parent?.Content.GetType().Name}:{end.GetType().Name}");
+            }
+        }
+
+        return null;
     }
 }

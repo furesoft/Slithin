@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Avalonia.Controls;
 using NodeEditor.Model;
 using NodeEditor.Serializer;
@@ -25,6 +26,8 @@ public class VplWindowViewModal : BaseViewModel
 
         Drawing = _factory.CreateDrawing();
         Drawing.Serializer = _serializer;
+
+        ExecuteCommand = new DelegateCommand(Execute);
     }
 
     public IList<TabItem>? Categories
@@ -37,5 +40,12 @@ public class VplWindowViewModal : BaseViewModel
     {
         get => _drawing;
         set => SetValue(ref _drawing, value);
+    }
+
+    public ICommand ExecuteCommand { get; set; }
+
+    private void Execute(object obj)
+    {
+        _factory.PrintNetList(Drawing);
     }
 }
