@@ -27,7 +27,6 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
         }
 
         cu.Messages = Messages;
-        cu.Body.Parent = cu;
 
         return cu;
     }
