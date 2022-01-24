@@ -1,0 +1,14 @@
+﻿<compilationUnit> ::= (<expression>)*
+
+<expression> ::= "add" <term> "with" <expression> | "subtract" <term> "and" <expression> | <term>
+
+<term> ::= "multiply" <factor> "and" <term> | "divide" <factor> "by" <term> | <factor>
+
+<factor> ::= "(" <expression> ")" | <unary>
+
+<unary> ::= ("not" | "without" | "negate") <expression> | <atom>
+
+<atom> ::= <number> | <identifier>
+
+<identifier> ::= ([a-z] | [A-Z])+
+<number> ::= "-"? [0-9]+

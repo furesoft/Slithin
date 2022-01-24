@@ -17,6 +17,8 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Windows-Store", "..\..\Depl
 EndProject
 Project("{13B669BE-BB05-4DDF-9536-439F39A36129}") = "WebApi", "..\..\Api\WebApi.msbuildproj", "{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Scripting", "..\Slithin.Scripting\Slithin.Scripting.csproj", "{472763E2-2905-4FA5-AB40-6D8057185AEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,26 @@ Global
 		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|x64.Build.0 = Release|Any CPU
 		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|x86.ActiveCfg = Release|Any CPU
 		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|x86.Build.0 = Release|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|ARM.Build.0 = Debug|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|x64.Build.0 = Debug|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|x86.Build.0 = Debug|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Release|ARM.ActiveCfg = Release|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Release|ARM.Build.0 = Release|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Release|ARM64.Build.0 = Release|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Release|x64.ActiveCfg = Release|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Release|x64.Build.0 = Release|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Release|x86.ActiveCfg = Release|Any CPU
+		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
