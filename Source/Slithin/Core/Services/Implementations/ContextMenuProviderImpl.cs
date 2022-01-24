@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
 using Slithin.Core.ItemContext;
-using Slithin.Core.Scripting;
 
 namespace Slithin.Core.Services.Implementations;
 

@@ -12,7 +12,6 @@ using Renci.SshNet;
 using Serilog;
 using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Validators;
@@ -106,9 +105,6 @@ public class ConnectionWindowViewModel : BaseViewModel
             ServiceLocator.Container.Register(scp);
 
             ServiceLocator.SyncService = new SynchronisationService(ServiceLocator.Container.Resolve<LiteDatabase>());
-            ServiceLocator.Container.Register<Automation>().AsSingleton();
-
-            var automation = ServiceLocator.Container.Resolve<Automation>();
 
             ServiceLocator.Container.Resolve<IMailboxService>().Init();
             ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
@@ -119,8 +115,6 @@ public class ConnectionWindowViewModel : BaseViewModel
             pingTimer.Start();
 
             _loginService.SetLoginCredential(SelectedLogin);
-
-            automation.Init();
 
             desktop.MainWindow.Hide();
             desktop.MainWindow = new MainWindow();

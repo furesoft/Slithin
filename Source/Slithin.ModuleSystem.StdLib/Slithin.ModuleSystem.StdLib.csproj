@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Slithin.ModuleSystem.Memory\Slithin.ModuleSystem.Memory.csproj" />
         <ProjectReference Include="..\Slithin.ModuleSystem\Slithin.ModuleSystem.csproj" />
     </ItemGroup>
 

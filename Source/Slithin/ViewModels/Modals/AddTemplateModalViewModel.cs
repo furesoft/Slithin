@@ -47,7 +47,6 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
     public ICommand AddCategoryCommand { get; set; }
     public ICommand AddTemplateCommand { get; set; }
     public ObservableCollection<string> Categories { get; set; }
-    public VplWindowViewModal DrawingModel { get; set; } = new();
 
     public string Filename
     {

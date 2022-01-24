@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Slithin.Core.Scripting;
+namespace Slithin.Core;
 
 public static class Utils
 {
