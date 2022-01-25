@@ -14,9 +14,11 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
     protected override SyntaxNode Start()
     {
         var cu = new CompilationUnit();
-        while (Peek(1).Type != (TokenType.EOF))
+        while (Current.Type != (TokenType.EOF))
         {
-            var keyword = NextToken();
+            cu.Body.Body.Add(ParseExpression());
+
+            /*var keyword = NextToken();
 
             if (keyword.Type == TokenType.Remember)
             {
@@ -24,9 +26,8 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
             }
             else
             {
-                cu.Body.Body.Add(ParseExpression());
                 Messages.Add(Message.Error($"Unknown keyword '{keyword.Text}'.", keyword.Line, keyword.Column));
-            }
+            }*/
         }
 
         cu.Messages = Messages;
@@ -38,11 +39,12 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
     {
         var term = ParseTerm();
 
-        if (Peek(0).Type == TokenType.Plus)
+        var token = Current;
+        if (token.Type == TokenType.Plus)
         {
             return new AdditionNode(term, ParseExpression());
         }
-        else if (Peek(0).Type == TokenType.Minus)
+        else if (token.Type == TokenType.Minus)
         {
             return new SubtractNode(term, ParseExpression());
         }
@@ -66,6 +68,11 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
         return new NameExpression(NextToken());
     }
 
+    private Expr ParseNumber()
+    {
+        return new LiteralNode(double.Parse(NextToken().Text));
+    }
+
     private Expr ParsePrimary()
     {
         if (Current.Type == TokenType.StringLiteral)
@@ -79,6 +86,10 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
         else if (Current.Type == TokenType.Identifier)
         {
             return ParseNameExpr();
+        }
+        else if (Current.Type == TokenType.Number)
+        {
+            return ParseNumber();
         }
         else
         {
@@ -102,11 +113,12 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
     {
         var unary = ParseUnary();
 
-        if (Peek(0).Type == TokenType.Star)
+        var token = NextToken();
+        if (token.Type == TokenType.Star)
         {
             return new MultiplyNode(unary, ParseTerm());
         }
-        else if (Peek(0).Type == TokenType.Slash)
+        else if (token.Type == TokenType.Slash)
         {
             return new DivideNode(unary, ParseTerm());
         }
@@ -118,11 +130,11 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
     {
         var primary = ParsePrimary();
 
-        if (Peek(0).Type == TokenType.Not)
+        if (Current.Type == TokenType.Not)
         {
             return new AST.Expressions.Unary.NotExpression(primary);
         }
-        else if (Peek(0).Type == TokenType.Minus)
+        else if (Current.Type == TokenType.Minus)
         {
             return new AST.Expressions.Unary.NegateExpression(primary);
         }

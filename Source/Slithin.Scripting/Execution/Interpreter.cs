@@ -24,12 +24,13 @@ namespace Slithin.Scripting.Execution
 
         public object Visit(Block block)
         {
+            object value = null;
             foreach (var node in block.Body)
             {
-                node.Accept(this);
+                value = node.Accept(this);
             }
 
-            return 0;
+            return value;
         }
 
         public object Visit(InvalidExpr invalidExpr)
@@ -54,7 +55,7 @@ namespace Slithin.Scripting.Execution
 
         public object Visit(AdditionNode addNode)
         {
-            return (dynamic)addNode.Lhs.Accept(this) + addNode.Rhs.Accept(this);
+            return (dynamic)addNode.Lhs.Accept(this) + (dynamic)addNode.Rhs.Accept(this);
         }
 
         public object Visit(NegateExpression negateExpression)
@@ -64,17 +65,17 @@ namespace Slithin.Scripting.Execution
 
         public object Visit(SubtractNode subtractNode)
         {
-            return (dynamic)subtractNode.Lhs.Accept(this) - subtractNode.Rhs.Accept(this);
+            return (dynamic)subtractNode.Lhs.Accept(this) - (dynamic)subtractNode.Rhs.Accept(this);
         }
 
         public object Visit(MultiplyNode multiplyNode)
         {
-            return (dynamic)multiplyNode.Lhs.Accept(this) * multiplyNode.Rhs.Accept(this);
+            return (dynamic)multiplyNode.Lhs.Accept(this) * (dynamic)multiplyNode.Rhs.Accept(this);
         }
 
         public object Visit(DivideNode divideNode)
         {
-            return (dynamic)divideNode.Lhs.Accept(this) / divideNode.Rhs.Accept(this);
+            return (dynamic)divideNode.Lhs.Accept(this) / (dynamic)divideNode.Rhs.Accept(this);
         }
     }
 }
