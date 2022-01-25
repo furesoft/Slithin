@@ -8,8 +8,9 @@ public class SourceDocument
         Source = File.ReadAllText(filename);
     }
 
-    public SourceDocument(string filename, string source) : this(filename)
+    public SourceDocument(string filename, string source)
     {
+        Filename = filename;
         Source = source;
     }
 

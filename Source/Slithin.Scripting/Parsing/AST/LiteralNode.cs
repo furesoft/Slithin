@@ -2,7 +2,7 @@
 
 public class LiteralNode : Expr
 {
-    public LiteralNode(object value, SyntaxNode? parent = null) : base(parent)
+    public LiteralNode(object value)
     {
         Value = value;
     }

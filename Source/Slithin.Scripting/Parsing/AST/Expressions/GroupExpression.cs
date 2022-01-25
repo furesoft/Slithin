@@ -1,6 +1,6 @@
 ﻿namespace Slithin.Scripting.Parsing.AST.Expressions
 {
-    internal class GroupExpression : Expr
+    public class GroupExpression : Expr
     {
         public GroupExpression(Expr inner)
         {

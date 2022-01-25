@@ -1,14 +1,13 @@
-﻿using Slithin.Scripting.Parsing.AST;
-namespace Slithin.Scripting.Parsing.AST;
+﻿namespace Slithin.Scripting.Parsing.AST;
 
 public class Block : SyntaxNode
 {
-    public Block(List<SyntaxNode> body, SyntaxNode? parent = null) : base(parent)
+    public Block(List<SyntaxNode> body)
     {
         Body = body;
     }
 
-    public Block(SyntaxNode? parent = null) : base(parent)
+    public Block()
     {
         Body = new List<SyntaxNode>();
     }

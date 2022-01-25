@@ -5,7 +5,7 @@ using Slithin.Scripting.Parsing.AST.Expressions.Unary;
 
 namespace Slithin.Scripting.Execution
 {
-    internal class Interpreter : IVisitor<object>
+    public class Interpreter : IVisitor<object>
     {
         public object Visit(InvalidNode invalidNode)
         {
@@ -14,17 +14,22 @@ namespace Slithin.Scripting.Execution
 
         public object Visit(LiteralNode literal)
         {
-            throw new NotImplementedException();
+            return literal.Value;
         }
 
         public object Visit(CompilationUnit compilationUnit)
         {
-            throw new NotImplementedException();
+            return compilationUnit.Body.Accept(this);
         }
 
         public object Visit(Block block)
         {
-            throw new NotImplementedException();
+            foreach (var node in block.Body)
+            {
+                node.Accept(this);
+            }
+
+            return 0;
         }
 
         public object Visit(InvalidExpr invalidExpr)
@@ -44,32 +49,32 @@ namespace Slithin.Scripting.Execution
 
         public object Visit(NotExpression notExpression)
         {
-            throw new NotImplementedException();
+            return !(bool)notExpression.Expression.Accept(this);
         }
 
         public object Visit(AdditionNode addNode)
         {
-            throw new NotImplementedException();
+            return (dynamic)addNode.Lhs.Accept(this) + addNode.Rhs.Accept(this);
         }
 
         public object Visit(NegateExpression negateExpression)
         {
-            throw new NotImplementedException();
+            return -(double)negateExpression.Expression.Accept(this);
         }
 
         public object Visit(SubtractNode subtractNode)
         {
-            throw new NotImplementedException();
+            return (dynamic)subtractNode.Lhs.Accept(this) - subtractNode.Rhs.Accept(this);
         }
 
         public object Visit(MultiplyNode multiplyNode)
         {
-            throw new NotImplementedException();
+            return (dynamic)multiplyNode.Lhs.Accept(this) * multiplyNode.Rhs.Accept(this);
         }
 
         public object Visit(DivideNode divideNode)
         {
-            throw new NotImplementedException();
+            return (dynamic)divideNode.Lhs.Accept(this) / divideNode.Rhs.Accept(this);
         }
     }
 }

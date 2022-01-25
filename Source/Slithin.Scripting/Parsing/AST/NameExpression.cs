@@ -2,7 +2,7 @@
 
 public class NameExpression : Expr
 {
-    public NameExpression(Token nameToken, SyntaxNode? parent = null) : base(parent)
+    public NameExpression(Token nameToken)
     {
         Name = nameToken.Text;
         NameToken = nameToken;
