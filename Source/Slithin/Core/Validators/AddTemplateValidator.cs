@@ -19,7 +19,7 @@ public class AddTemplateValidator : AbstractValidator<AddTemplateModalViewModel>
     {
         if (!arg2.InstanceToValidate.UseTemplateEditor)
         {
-            if(string.IsNullOrEmpty(arg1))
+            if (string.IsNullOrEmpty(arg1))
             {
                 arg2.AddFailure("Filename", "Filename should be a valid path and not empty");
             }

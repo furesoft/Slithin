@@ -21,7 +21,7 @@ public class ExportCommand : ICommand
 
     public bool CanExecute(object parameter)
     {
-        return parameter is Metadata {Type: "DocumentType"} md &&
+        return parameter is Metadata { Type: "DocumentType" } md &&
                _exportProviderFactory.GetAvailableProviders(md).Any();
     }
 

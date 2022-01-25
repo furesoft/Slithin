@@ -34,7 +34,7 @@ public class SettingsPageViewModel : BaseViewModel
         _pathManager = pathManager;
         _mailboxService = mailboxService;
         _logger = logger;
-        
+
         _settings = settingsService.GetSettings();
     }
 

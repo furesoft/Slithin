@@ -6,7 +6,7 @@ public class CheckForUpdatesMessageHandler : IMessageHandler<CheckForUpdateMessa
 {
     public void HandleMessage(CheckForUpdateMessage message)
     {
-        DesktopBridge.Helpers helpers = new DesktopBridge.Helpers();
+        var helpers = new DesktopBridge.Helpers();
         if (!helpers.IsRunningAsUwp())
         {
             NotificationService.Show("Checking for Updates");

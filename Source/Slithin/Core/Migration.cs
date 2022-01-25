@@ -17,7 +17,7 @@ public class Migration
 
         NeedsMigration = File.Exists(Path.Combine(pathManager.ConfigBaseDir, ".version"));
     }
-  
+
     public bool NeedsMigration { get; set; }
 
     public void StartMigration()

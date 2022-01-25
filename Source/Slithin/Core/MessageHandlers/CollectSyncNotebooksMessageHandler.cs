@@ -56,7 +56,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             = iEnumerable
                 .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[..^1])));
 
-        var thumbnailsSync = new SyncNotebook {Directories = thumbnailFoldersToSync};
+        var thumbnailsSync = new SyncNotebook { Directories = thumbnailFoldersToSync };
 
         if (iEnumerable.Any())
         {
@@ -98,7 +98,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             var mdLocalObj
                 = File.Exists(Path.Combine(notebooksDir, md))
                     ? JsonConvert.DeserializeObject<Metadata>(File.ReadAllText(Path.Combine(notebooksDir, md)))
-                    : new Metadata {Version = 0};
+                    : new Metadata { Version = 0 };
 
             InitMetadata(mdObj, md, contentObj, pageDataContent, mdLocals, mdLocalObj);
 
@@ -118,7 +118,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
     {
         foreach (var md in mds)
         {
-            SyncNotebook sn = new() {Metadata = md};
+            SyncNotebook sn = new() { Metadata = md };
 
             if (md.Content.FileType == "notebook")
             {

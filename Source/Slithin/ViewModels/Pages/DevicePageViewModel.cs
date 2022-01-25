@@ -132,8 +132,8 @@ public class DevicePageViewModel : BaseViewModel
 
     private async Task DoNewVersionUpload()
     {
-        bool needTemplateMessage = true;
-        bool needScreenMessage = true;
+        var needTemplateMessage = true;
+        var needScreenMessage = true;
 
         if (_settingsService.GetSettings().AutomaticTemplateRecovery)
         {

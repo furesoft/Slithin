@@ -80,8 +80,8 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
         }
         else
         {
-            var data = new[] {"Blank"};
-            var pg = new PageData {Data = data};
+            var data = new[] { "Blank" };
+            var pg = new PageData { Data = data };
 
             mdObj.PageData = pg;
         }

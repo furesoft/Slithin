@@ -53,7 +53,7 @@ public class FileChooser : TemplatedControl
 
     private async void ShowOpenFileDialog(object obj)
     {
-        var ofd = new OpenFileDialog {Title = "Load File"};
+        var ofd = new OpenFileDialog { Title = "Load File" };
 
         var window = Application.Current.ApplicationLifetime as ClassicDesktopStyleApplicationLifetime;
         var filenames = await ofd.ShowAsync(window.MainWindow);

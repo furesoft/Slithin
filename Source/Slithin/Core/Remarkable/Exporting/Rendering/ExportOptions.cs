@@ -18,7 +18,7 @@ public class ExportOptions
 
         if (parsedPageRange.IsT0)
         {
-            int max = 0;
+            var max = 0;
             if (document.IsT0)
             {
                 max = document.AsT0.Pages.Count;

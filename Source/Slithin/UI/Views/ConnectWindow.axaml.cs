@@ -27,7 +27,7 @@ public partial class ConnectWindow : Window
         var li = ServiceLocator.Container.Resolve<ILoginService>().GetLoginCredentials();
         var cvm = ServiceLocator.Container.Resolve<ConnectionWindowViewModel>();
 
-        for (int i = 0; i < li.Length; i++)
+        for (var i = 0; i < li.Length; i++)
         {
             if (string.IsNullOrEmpty(li[i].Name))
             {

@@ -19,7 +19,7 @@ public class TemplatesContextMenu : IContextProvider
 
     public ICollection<MenuItem> GetMenu(object obj)
     {
-        List<MenuItem> menu = new List<MenuItem>();
+        var menu = new List<MenuItem>();
         if (ParentViewModel is not TemplatesPageViewModel t)
             return menu;
 

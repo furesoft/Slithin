@@ -1,8 +1,7 @@
-﻿namespace Slithin.Scripting
+﻿namespace Slithin.Scripting;
+
+internal class ScriptModule
 {
-    internal class ScriptModule
-    {
-        public string Info { get; set; }
-        public string UI { get; set; }
-    }
+    public string Info { get; set; }
+    public string UI { get; set; }
 }
