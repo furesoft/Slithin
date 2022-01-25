@@ -46,7 +46,7 @@ public class DeviceRepository : IRepository
         templateJson.Templates = templates;
 
         var serializerSettings =
-            new JsonSerializerSettings {StringEscapeHandling = StringEscapeHandling.EscapeNonAscii};
+            new JsonSerializerSettings { StringEscapeHandling = StringEscapeHandling.EscapeNonAscii };
 
         File.WriteAllText(path, JsonConvert.SerializeObject(templateJson, serializerSettings));
 

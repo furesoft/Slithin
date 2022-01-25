@@ -45,7 +45,10 @@ public class RemoveTemplateCommand : ICommand
 
         var item = new SyncItem
         {
-            Action = SyncAction.Remove, Direction = SyncDirection.ToDevice, Data = tmpl, Type = SyncType.Template
+            Action = SyncAction.Remove,
+            Direction = SyncDirection.ToDevice,
+            Data = tmpl,
+            Type = SyncType.Template
         };
 
         _synchronisationService.AddToSyncQueue(item);

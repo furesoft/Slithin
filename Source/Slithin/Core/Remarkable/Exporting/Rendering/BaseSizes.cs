@@ -13,7 +13,7 @@ public struct BaseSizes
     public const float Mid = 2.0f;
     public const float Small = 1.875f;
 
-    public static float GetValue(BrushBaseSize size) 
+    public static float GetValue(BrushBaseSize size)
         => size switch
         {
             BrushBaseSize.Small => Small,
@@ -22,7 +22,7 @@ public struct BaseSizes
             _ => Small,
         };
 
-    public static BrushBaseSize Parse(float value) 
+    public static BrushBaseSize Parse(float value)
         => value switch
         {
             Small => BrushBaseSize.Small,

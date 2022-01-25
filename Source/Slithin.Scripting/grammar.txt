@@ -1,0 +1,12 @@
+﻿<compilationUnit> ::= (<expression>)*
+
+<expression> ::= <term> "+" <expression> |  <term> "-" <expression> | <term>
+
+<term> ::= <unary> "*" <term> | <unary> "/" <term> | <unary>
+
+<primary> ::= "(" <expression> ")" | <number> | <identifier>
+
+<unary> ::= ("not" | ("without" | "negate" | "-")) <primary> | <primary>
+
+<identifier> ::= ([a-z] | [A-Z])+
+<number> ::= "-"? [0-9]+

@@ -60,13 +60,16 @@ public partial class DevicePage : UserControl, IPage
                         return;
                     }
 
+                    bitmap.Dispose();
+
                     var dc = img.Parent.DataContext;
 
                     if (dc is CustomScreen cs)
                     {
                         var localRepository = ServiceLocator.Container.Resolve<LocalRepository>();
 
-                        var screenStrm = provider.Import(File.OpenRead(filename));
+                        using var source = File.OpenRead(filename);
+                        using var screenStrm = provider.Import(source);
 
                         localRepository.AddScreen(screenStrm, cs.Filename);
 

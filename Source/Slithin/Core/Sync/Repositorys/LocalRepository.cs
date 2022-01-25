@@ -17,6 +17,17 @@ public class LocalRepository : IRepository
         _versionService = versionService;
     }
 
+    public void AddScreen(Stream strm, string localfilename)
+    {
+        File.Delete(Path.Combine(_pathManager.CustomScreensDir, localfilename));
+        var outputStrm = File.OpenWrite(Path.Combine(_pathManager.CustomScreensDir, localfilename));
+
+        strm.CopyTo(outputStrm);
+        strm.Dispose();
+
+        outputStrm.Dispose();
+    }
+
     public void AddTemplate(Template template)
     {
         var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
@@ -47,20 +58,6 @@ public class LocalRepository : IRepository
         return JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path)).Templates;
     }
 
-    public void RemoveTemplate(Template template)
-    {
-        File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
-    }
-
-    public void AddScreen(Stream strm, string localfilename)
-    {
-        File.Delete(Path.Combine(_pathManager.CustomScreensDir, localfilename));
-        var outputStrm = File.OpenWrite(Path.Combine(_pathManager.CustomScreensDir, localfilename));
-
-        strm.CopyTo(outputStrm);
-        strm.Dispose();
-    }
-
     public Version GetVersion()
     {
         if (!File.Exists(Path.Combine(_pathManager.ConfigBaseDir, ".version")))
@@ -86,6 +83,11 @@ public class LocalRepository : IRepository
         {
             di.Delete(true);
         }
+    }
+
+    public void RemoveTemplate(Template template)
+    {
+        File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
     }
 
     public void UpdateVersion(Version version)

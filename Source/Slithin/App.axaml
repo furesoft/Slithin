@@ -4,9 +4,6 @@
              xmlns:local="using:Slithin.UI"
              xmlns:controls="using:NodeEditor.Controls"
              x:Class="Slithin.App">
-    <Application.DataTemplates>
-        <local:ViewLocator />
-    </Application.DataTemplates>
     <Application.Styles>
         <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
 
@@ -24,8 +21,6 @@
 
         <StyleInclude Source="/Styles/KryptoDonateButton.axaml" />
         <StyleInclude Source="/Styles/Settings/SettingsGroup.axaml" />
-
-        <StyleInclude Source="/VPL/Components/Styles.axaml" />
 
         <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
 

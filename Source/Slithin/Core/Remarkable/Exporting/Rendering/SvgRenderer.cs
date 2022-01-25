@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -12,7 +12,7 @@ public static class SvgRenderer
 {
     public static Stream RenderPage(Page page, int index, Metadata md, int width = 1404, int height = 1872)
     {
-        var svgDoc = new SvgDocument {Width = width, Height = height, ViewBox = new SvgViewBox(0, 0, width, height)};
+        var svgDoc = new SvgDocument { Width = width, Height = height, ViewBox = new SvgViewBox(0, 0, width, height) };
 
         var group = new SvgGroup();
         svgDoc.Children.Add(group);
@@ -21,7 +21,7 @@ public static class SvgRenderer
 
         if (template != null)
         {
-            group.Children.Add(new SvgImage {Href = "data:image/png;base64," + template, X = 0, Y = 0});
+            group.Children.Add(new SvgImage { Href = "data:image/png;base64," + template, X = 0, Y = 0 });
         }
 
         RenderLayer(page, group);
@@ -32,23 +32,9 @@ public static class SvgRenderer
         return stream;
     }
 
-    private static void RenderLayer(Page page, SvgGroup group)
-    {
-        foreach (var layer in page.Layers)
-        {
-            foreach (var line in layer.Lines)
-            {
-                if (line is {BrushType: Brushes.Eraseall} && line.BrushType != Brushes.Rubber)
-                {
-                    RenderLine(line, group);
-                }
-            }
-        }
-    }
-
     private static SvgPathSegmentList GeneratePathData(IReadOnlyList<Point> points)
     {
-        var psl = new SvgPathSegmentList {new SvgMoveToSegment(new PointF(points[0].X, points[0].Y))};
+        var psl = new SvgPathSegmentList { new SvgMoveToSegment(new PointF(points[0].X, points[0].Y)) };
 
         for (var i = 0; i + 1 < points.Count; i++)
         {
@@ -77,6 +63,20 @@ public static class SvgRenderer
         var buffer = File.ReadAllBytes(Path.Combine(pathManager.TemplatesDir, filename + ".png"));
 
         return Convert.ToBase64String(buffer);
+    }
+
+    private static void RenderLayer(Page page, SvgGroup group)
+    {
+        foreach (var layer in page.Layers)
+        {
+            foreach (var line in layer.Lines)
+            {
+                if (line is { BrushType: Brushes.Eraseall } && line.BrushType != Brushes.Rubber)
+                {
+                    RenderLine(line, group);
+                }
+            }
+        }
     }
 
     private static void RenderLine(Line line, SvgGroup group)

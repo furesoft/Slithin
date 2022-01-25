@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 using Slithin.Core;
-using Slithin.VPL;
 
 namespace Slithin.ViewModels.Modals;
 
@@ -41,9 +40,6 @@ public class NewScriptModalViewModel : ModalBaseViewModel
         if (Step == 0)
         {
             Step++;
-
-            var window = new VplWindow();
-            window.Show();
         }
     }
 }

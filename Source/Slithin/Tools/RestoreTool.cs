@@ -62,7 +62,7 @@ public class RestoreTool : ITool
                 .Select(_ => new Backup(Path.GetFileNameWithoutExtension(_).Replace("Backup_from_", ""), _)))
         };
 
-        var result = await DialogService.ShowDialog("Select Backup", new SelectBackupModal {DataContext = vm});
+        var result = await DialogService.ShowDialog("Select Backup", new SelectBackupModal { DataContext = vm });
 
         if (result)
         {

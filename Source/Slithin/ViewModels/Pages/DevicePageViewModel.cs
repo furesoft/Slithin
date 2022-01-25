@@ -111,7 +111,7 @@ public class DevicePageViewModel : BaseViewModel
 
         _mailboxService.PostAction(() =>
         {
-            ModuleEventStorage.Invoke("OnConnect", 0);
+            //ModuleEventStorage.Invoke("OnConnect", 0);
         });
     }
 
@@ -122,7 +122,7 @@ public class DevicePageViewModel : BaseViewModel
             return;
         }
 
-        ModuleEventStorage.Invoke("OnNewVersionAvailable", 0);
+        //ModuleEventStorage.Invoke("OnNewVersionAvailable", 0);
         _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
 
         _loginService.UpdateIPAfterUpdate();
@@ -132,8 +132,8 @@ public class DevicePageViewModel : BaseViewModel
 
     private async Task DoNewVersionUpload()
     {
-        bool needTemplateMessage = true;
-        bool needScreenMessage = true;
+        var needTemplateMessage = true;
+        var needScreenMessage = true;
 
         if (_settingsService.GetSettings().AutomaticTemplateRecovery)
         {

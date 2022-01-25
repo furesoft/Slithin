@@ -7,7 +7,7 @@ public static class UpdateScriptGenerator
 {
     public static void ApplyOtherUpdate(string sourceFolder, string destinationFolder)
     {
-        ProcessStartInfo startInfo = new ProcessStartInfo() { FileName = "/bin/bash", Arguments = GetOtherScript(sourceFolder, destinationFolder) + $" ; {destinationFolder}\\Slithin", };
+        var startInfo = new ProcessStartInfo() { FileName = "/bin/bash", Arguments = GetOtherScript(sourceFolder, destinationFolder) + $" ; {destinationFolder}\\Slithin", };
         Process.Start(startInfo);
     }
 

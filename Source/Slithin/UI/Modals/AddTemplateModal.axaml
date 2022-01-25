@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
              xmlns:c="using:Slithin.Controls"
              xmlns:tec="using:Slithin.TemplateEditor"
+             xmlns:ft="using:Slithin.Core.FeatureToggle"
              x:Class="Slithin.UI.Modals.AddTemplateModal">
     <c:DialogControl Header="Add Template" CommandText="OK" IsCancelEnabled="True"
                      Command="{Binding AddTemplateCommand}" MinHeight="300" MaxWidth="800">
@@ -41,7 +42,7 @@
 
                 <CheckBox Grid.Column="0" Grid.Row="4" Content="Is Landscape" IsChecked="{Binding IsLandscape}" />
                 <CheckBox Grid.Column="0" Grid.Row="5" Content="Use Template Editor"
-                          IsChecked="{Binding UseTemplateEditor}" IsVisible="{Binding IsEditorEnabled, Mode=TwoWay}" />
+                          IsChecked="{Binding UseTemplateEditor}" IsVisible="{ft:FeatureEnabled 'TemplateEditorFeature'}" />
             </Grid>
 
             <tec:TemplateEditorControl DataContext="{Binding DrawingModel}" />

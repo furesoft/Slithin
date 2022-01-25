@@ -48,8 +48,30 @@ public static class Features
         }
     }
 
-    public static dynamic FromString(string featureName)
+    public static DynamicFeature FromString(string featureName)
     {
-        return Activator.CreateInstance(typeof(Feature<>).MakeGenericType(new Type[] { _allFeatures[featureName] }));
+        return new(typeof(Feature<>).MakeGenericType(new Type[] { _allFeatures[featureName] }));
+    }
+
+    public class DynamicFeature
+    {
+        public DynamicFeature(Type featureType)
+        {
+            Property = featureType.GetProperty("IsEnabled");
+        }
+
+        public bool IsEnabled
+        {
+            get
+            {
+                return (bool)Property.GetValue(null);
+            }
+            set
+            {
+                Property.SetValue(null, value);
+            }
+        }
+
+        public PropertyInfo Property { get; init; }
     }
 }

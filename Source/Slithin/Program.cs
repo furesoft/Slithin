@@ -9,8 +9,6 @@ internal class Program
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
-            .With(new X11PlatformOptions { EnableMultiTouch = true, UseDBusMenu = true })
-            .With(new Win32PlatformOptions { EnableMultitouch = true, AllowEglInitialization = true })
             .UseSkia()
             .LogToTrace();
 

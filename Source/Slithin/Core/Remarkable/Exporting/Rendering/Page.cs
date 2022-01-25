@@ -33,7 +33,7 @@ public struct Page
 
             foreach (var p in path.PathData)
             {
-                int width = 2;
+                var width = 2;
 
                 if (p is SvgMoveToSegment)
                 {

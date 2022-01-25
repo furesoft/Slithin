@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Serilog;
 using Slithin.Core;
-using Slithin.Core.Scripting;
 using Slithin.Core.Services;
 using Slithin.Models;
 
@@ -35,7 +34,7 @@ public class SettingsPageViewModel : BaseViewModel
         _pathManager = pathManager;
         _mailboxService = mailboxService;
         _logger = logger;
-        
+
         _settings = settingsService.GetSettings();
     }
 

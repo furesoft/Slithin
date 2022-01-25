@@ -18,7 +18,7 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
 
     public void HandleMessage(DownloadSyncNotebookMessage message)
     {
-        for (int i = 0; i < message.Notebooks.Count; i++)
+        for (var i = 0; i < message.Notebooks.Count; i++)
         {
             NotificationService.Show($"Downloading Notebook {i + 1}/{message.Notebooks.Count}");
 
