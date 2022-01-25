@@ -45,7 +45,7 @@ public class Interpreter : IVisitor<object>
 
     public object Visit(GroupExpression groupExpression)
     {
-        throw new NotImplementedException();
+        return groupExpression.Inner.Accept(this);
     }
 
     public object Visit(NotExpression notExpression)

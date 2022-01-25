@@ -1,4 +1,4 @@
-using Slithin.Scripting.Core;
+﻿using Slithin.Scripting.Core;
 using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
 using Slithin.Scripting.Parsing.AST.Expressions.Binary;
@@ -42,10 +42,14 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
         var token = Current;
         if (token.Type == TokenType.Plus)
         {
+            NextToken();
+
             return new AdditionNode(term, ParseExpression());
         }
         else if (token.Type == TokenType.Minus)
         {
+            NextToken();
+
             return new SubtractNode(term, ParseExpression());
         }
 
@@ -113,13 +117,17 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
     {
         var unary = ParseUnary();
 
-        var token = NextToken();
+        var token = Current;
         if (token.Type == TokenType.Star)
         {
+            NextToken();
+
             return new MultiplyNode(unary, ParseTerm());
         }
         else if (token.Type == TokenType.Slash)
         {
+            NextToken();
+
             return new DivideNode(unary, ParseTerm());
         }
 
@@ -128,17 +136,15 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
 
     private Expr ParseUnary()
     {
-        var primary = ParsePrimary();
-
         if (Current.Type == TokenType.Not)
         {
-            return new AST.Expressions.Unary.NotExpression(primary);
+            return new AST.Expressions.Unary.NotExpression(ParsePrimary());
         }
         else if (Current.Type == TokenType.Minus)
         {
-            return new AST.Expressions.Unary.NegateExpression(primary);
+            return new AST.Expressions.Unary.NegateExpression(ParsePrimary());
         }
 
-        return primary;
+        return ParsePrimary();
     }
 }
