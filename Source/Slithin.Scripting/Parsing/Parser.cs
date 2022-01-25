@@ -2,6 +2,7 @@
 using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
 using Slithin.Scripting.Parsing.AST.Expressions.Binary;
+using Slithin.Scripting.Parsing.AST.Statements;
 
 namespace Slithin.Scripting.Parsing;
 
@@ -16,7 +17,7 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
         var cu = new CompilationUnit();
         while (Current.Type != (TokenType.EOF))
         {
-            cu.Body.Body.Add(ParseExpression());
+            cu.Body.Body.Add(ParseExpressionStatement());
 
             /*var keyword = NextToken();
 
@@ -54,6 +55,15 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
         }
 
         return term;
+    }
+
+    private SyntaxNode ParseExpressionStatement()
+    {
+        var expr = ParseExpression();
+
+        Match(TokenType.Dot);
+
+        return new ExpressionStatement(expr);
     }
 
     private Expr ParseGroup()
@@ -138,10 +148,14 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
     {
         if (Current.Type == TokenType.Not)
         {
+            NextToken();
+
             return new AST.Expressions.Unary.NotExpression(ParsePrimary());
         }
         else if (Current.Type == TokenType.Minus)
         {
+            NextToken();
+
             return new AST.Expressions.Unary.NegateExpression(ParsePrimary());
         }
 

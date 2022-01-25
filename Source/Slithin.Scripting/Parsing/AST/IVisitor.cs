@@ -1,6 +1,7 @@
 ﻿using Slithin.Scripting.Parsing.AST.Expressions;
 using Slithin.Scripting.Parsing.AST.Expressions.Binary;
 using Slithin.Scripting.Parsing.AST.Expressions.Unary;
+using Slithin.Scripting.Parsing.AST.Statements;
 
 namespace Slithin.Scripting.Parsing.AST;
 
@@ -9,7 +10,7 @@ public interface IVisitor<T>
     T Visit(InvalidNode invalidNode);
 
     T Visit(LiteralNode literal);
-
+    T Visit(ExpressionStatement expressionStatement);
     T Visit(CompilationUnit compilationUnit);
     T Visit(GroupExpression groupExpression);
     T Visit(Block block);

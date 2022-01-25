@@ -10,3 +10,5 @@
 
 <identifier> ::= ([a-z] | [A-Z])+
 <number> ::= "-"? [0-9]+
+
+<statement> ::= ((<expression>) ".")+

@@ -2,6 +2,7 @@
 using Slithin.Scripting.Parsing.AST.Expressions;
 using Slithin.Scripting.Parsing.AST.Expressions.Binary;
 using Slithin.Scripting.Parsing.AST.Expressions.Unary;
+using Slithin.Scripting.Parsing.AST.Statements;
 
 namespace Slithin.Scripting.Execution;
 
@@ -76,5 +77,10 @@ public class Interpreter : IVisitor<object>
     public object Visit(DivideNode divideNode)
     {
         return (dynamic)divideNode.Lhs.Accept(this) / (dynamic)divideNode.Rhs.Accept(this);
+    }
+
+    public object Visit(ExpressionStatement expressionStatement)
+    {
+        return expressionStatement.Expression.Accept(this);
     }
 }
