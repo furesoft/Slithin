@@ -16,6 +16,11 @@ public static class Program
 
             var result = tree.Tree.Accept(interpreter);
 
+            foreach (var msg in tree.Messages)
+            {
+                Console.WriteLine(msg);
+            }
+
             Console.WriteLine(result);
         }
     }
