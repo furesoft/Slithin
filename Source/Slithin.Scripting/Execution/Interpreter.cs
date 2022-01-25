@@ -1,5 +1,7 @@
 ﻿using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
+using Slithin.Scripting.Parsing.AST.Expressions.Binary;
+using Slithin.Scripting.Parsing.AST.Expressions.Unary;
 
 namespace Slithin.Scripting.Execution
 {
@@ -31,6 +33,41 @@ namespace Slithin.Scripting.Execution
         }
 
         public object Visit(NameExpression nameExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit(GroupExpression groupExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit(NotExpression notExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit(AdditionNode addNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit(NegateExpression negateExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit(SubtractNode subtractNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit(MultiplyNode multiplyNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit(DivideNode divideNode)
         {
             throw new NotImplementedException();
         }

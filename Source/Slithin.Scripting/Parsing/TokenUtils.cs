@@ -7,8 +7,8 @@ public static class TokenUtils
         return name switch
         {
             "as" => TokenType.As,
-            "divide" => TokenType.Divide,
-            "multiply" => TokenType.Multiply,
+            "not" => TokenType.Not,
+            "negate" => TokenType.Minus,
             "remember" => TokenType.Remember,
             _ => TokenType.Identifier,
         };

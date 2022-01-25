@@ -11,7 +11,7 @@ public interface IVisitor<T>
     T Visit(LiteralNode literal);
 
     T Visit(CompilationUnit compilationUnit);
-
+    T Visit(GroupExpression groupExpression);
     T Visit(Block block);
 
     T Visit(NotExpression notExpression);

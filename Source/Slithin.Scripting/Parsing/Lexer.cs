@@ -1,5 +1,5 @@
-﻿using Slithin.Scripting.Parsing;
-using Slithin.Scripting.Core;
+﻿using Slithin.Scripting.Core;
+
 namespace Slithin.Scripting.Parsing;
 
 public class Lexer : BaseLexer
@@ -7,6 +7,13 @@ public class Lexer : BaseLexer
     private readonly Dictionary<char, TokenType> _symbolTokens = new()
     {
         ['.'] = TokenType.Dot,
+        ['-'] = TokenType.Minus,
+        ['+'] = TokenType.Plus,
+        ['*'] = TokenType.Star,
+        ['/'] = TokenType.Slash,
+
+        ['('] = TokenType.OpenParen,
+        [')'] = TokenType.CloseParen,
     };
 
     protected override Token NextToken()
