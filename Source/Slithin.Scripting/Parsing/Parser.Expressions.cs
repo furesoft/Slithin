@@ -1,6 +1,5 @@
 ﻿using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
-using Slithin.Scripting.Parsing.AST.Expressions.Unary;
 
 namespace Slithin.Scripting.Parsing;
 
@@ -76,9 +75,9 @@ public partial class Parser
         }
         else if (Current.Type == TokenType.At)
         {
-            NextToken();
+            var token = NextToken();
 
-            return new DateExpression(ParseExpression());
+            return new UnaryExpression(token, ParseExpression());
         }
         else
         {

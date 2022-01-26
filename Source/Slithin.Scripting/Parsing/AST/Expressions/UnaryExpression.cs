@@ -18,6 +18,6 @@ public class UnaryExpression : Expr
 
     public override string ToString()
     {
-        return $"{OperatorToken}{Expression}";
+        return $"{OperatorToken.Text}{Expression}";
     }
 }

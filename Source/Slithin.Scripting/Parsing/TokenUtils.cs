@@ -4,20 +4,12 @@ public static class TokenUtils
 {
     public static int GetBinaryOperatorPrecedence(this TokenType kind)
     {
-        switch (kind)
+        return kind switch
         {
-            case TokenType.Star:
-            case TokenType.Slash:
-            case TokenType.Colon:
-                return 5;
-
-            case TokenType.Plus:
-            case TokenType.Minus:
-                return 4;
-
-            default:
-                return 0;
-        }
+            TokenType.Star or TokenType.Slash or TokenType.Colon => 5,
+            TokenType.Plus or TokenType.Minus => 4,
+            _ => 0,
+        };
     }
 
     public static TokenType GetTokenType(string name)
@@ -35,15 +27,10 @@ public static class TokenUtils
 
     public static int GetUnaryOperatorPrecedence(this TokenType kind)
     {
-        switch (kind)
+        return kind switch
         {
-            case TokenType.Minus:
-            case TokenType.Not:
-            case TokenType.At:
-                return 6;
-
-            default:
-                return 0;
-        }
+            TokenType.Minus or TokenType.Not => 6,
+            _ => 0,
+        };
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Slithin.Scripting.Parsing;
 using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
 using Slithin.Scripting.Parsing.AST.Statements;
@@ -8,6 +9,26 @@ namespace Slithin.Scripting.Execution;
 public class Interpreter : IVisitor<object>
 {
     public Dictionary<string, object> Variables { get; set; } = new();
+
+    public object EvaluateDate(UnaryExpression dateExpression)
+    {
+        return DateTime.Parse(dateExpression.Expression.ToString(), CultureInfo.InvariantCulture);
+    }
+
+    public object EvaluateNegation(UnaryExpression negateExpression)
+    {
+        return -(double)negateExpression.Expression.Accept(this);
+    }
+
+    public object EvaluateNot(UnaryExpression notExpression)
+    {
+        return !(bool)notExpression.Expression.Accept(this);
+    }
+
+    public object EvaluateTime(BinaryExpression timeNode)
+    {
+        return TimeSpan.Parse(timeNode.ToString());
+    }
 
     public object Visit(InvalidNode invalidNode)
     {
@@ -55,36 +76,6 @@ public class Interpreter : IVisitor<object>
         return groupExpression.Inner.Accept(this);
     }
 
-    public object Visit(NotExpression notExpression)
-    {
-        return !(bool)notExpression.Expression.Accept(this);
-    }
-
-    public object Visit(AdditionNode addNode)
-    {
-        return (dynamic)addNode.Lhs.Accept(this) + (dynamic)addNode.Rhs.Accept(this);
-    }
-
-    public object Visit(NegateExpression negateExpression)
-    {
-        return -(double)negateExpression.Expression.Accept(this);
-    }
-
-    public object Visit(SubtractNode subtractNode)
-    {
-        return (dynamic)subtractNode.Lhs.Accept(this) - (dynamic)subtractNode.Rhs.Accept(this);
-    }
-
-    public object Visit(MultiplyNode multiplyNode)
-    {
-        return (dynamic)multiplyNode.Lhs.Accept(this) * (dynamic)multiplyNode.Rhs.Accept(this);
-    }
-
-    public object Visit(DivideNode divideNode)
-    {
-        return (dynamic)divideNode.Lhs.Accept(this) / (dynamic)divideNode.Rhs.Accept(this);
-    }
-
     public object Visit(ExpressionStatement expressionStatement)
     {
         return expressionStatement.Expression.Accept(this);
@@ -102,13 +93,30 @@ public class Interpreter : IVisitor<object>
         return null;
     }
 
-    public object Visit(TimeNode timeNode)
+    public object Visit(BinaryExpression binaryExpression)
     {
-        return TimeSpan.Parse(timeNode.ToString());
+        var left = (dynamic)binaryExpression.Lhs.Accept(this);
+        var right = (dynamic)binaryExpression.Rhs.Accept(this);
+
+        return binaryExpression.OperatorToken.Type switch
+        {
+            TokenType.Plus => left + right,
+            TokenType.Minus => left - right,
+            TokenType.Star => left * right,
+            TokenType.Slash => left / right,
+            TokenType.Colon => EvaluateTime(binaryExpression),
+            _ => throw new NotImplementedException()
+        };
     }
 
-    public object Visit(DateExpression dateExpression)
+    public object Visit(UnaryExpression unaryExpression)
     {
-        return DateTime.Parse(dateExpression.Expression.ToString(), CultureInfo.InvariantCulture);
+        return unaryExpression.OperatorToken.Type switch
+        {
+            TokenType.At => EvaluateDate(unaryExpression),
+            TokenType.Minus => EvaluateNegation(unaryExpression),
+            TokenType.Not => EvaluateNot(unaryExpression),
+            _ => throw new NotImplementedException()
+        };
     }
 }
