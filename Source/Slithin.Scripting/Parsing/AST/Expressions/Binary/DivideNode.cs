@@ -10,4 +10,9 @@ public class DivideNode : BinaryExpression
     {
         return visitor.Visit(this);
     }
+
+    public override string ToString()
+    {
+        return $"{Lhs}/{Rhs}";
+    }
 }

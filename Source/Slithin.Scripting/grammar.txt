@@ -6,7 +6,7 @@
 
 <primary> ::= "(" <expression> ")" | <number> | <identifier>
 
-<unary> ::= ("not" | ("without" | "negate" | "-")) <primary> | <primary>
+<unary> ::= ("not" | ("without" | "negate" | "-") | "at") <primary> | <primary>
 
 <identifier> ::= ([a-z] | [A-Z])+
 <number> ::= "-"? [0-9]+

@@ -1,4 +1,5 @@
-﻿using Slithin.Scripting.Parsing.AST;
+﻿using System.Globalization;
+using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
 using Slithin.Scripting.Parsing.AST.Expressions.Binary;
 using Slithin.Scripting.Parsing.AST.Expressions.Unary;
@@ -106,5 +107,10 @@ public class Interpreter : IVisitor<object>
     public object Visit(TimeNode timeNode)
     {
         return TimeSpan.Parse(timeNode.ToString());
+    }
+
+    public object Visit(DateExpression dateExpression)
+    {
+        return DateTime.Parse(dateExpression.Expression.ToString(), CultureInfo.InvariantCulture);
     }
 }

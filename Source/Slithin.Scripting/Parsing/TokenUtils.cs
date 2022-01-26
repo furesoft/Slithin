@@ -7,6 +7,7 @@ public static class TokenUtils
         return name switch
         {
             "as" => TokenType.As,
+            "at" => TokenType.At,
             "not" => TokenType.Not,
             "negate" => TokenType.Minus,
             "remember" => TokenType.Remember,

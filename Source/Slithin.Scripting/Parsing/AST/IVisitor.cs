@@ -32,4 +32,5 @@ public interface IVisitor<T>
 
     T Visit(DivideNode divideNode);
     T Visit(RememberStatement rememberStatement);
+    T Visit(DateExpression dateExpression);
 }

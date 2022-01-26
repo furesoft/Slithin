@@ -18,4 +18,5 @@ public enum TokenType
     CloseParen,
     Not,
     Colon,
+    At,
 }

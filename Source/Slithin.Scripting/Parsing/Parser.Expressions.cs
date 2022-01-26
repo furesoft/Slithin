@@ -1,6 +1,7 @@
 ﻿using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
 using Slithin.Scripting.Parsing.AST.Expressions.Binary;
+using Slithin.Scripting.Parsing.AST.Expressions.Unary;
 
 namespace Slithin.Scripting.Parsing;
 
@@ -112,13 +113,19 @@ public partial class Parser
         {
             NextToken();
 
-            return new AST.Expressions.Unary.NotExpression(ParsePrimary());
+            return new NotExpression(ParsePrimary());
         }
         else if (Current.Type == TokenType.Minus)
         {
             NextToken();
 
-            return new AST.Expressions.Unary.NegateExpression(ParsePrimary());
+            return new NegateExpression(ParsePrimary());
+        }
+        else if (Current.Type == TokenType.At)
+        {
+            NextToken();
+
+            return new DateExpression(ParseExpression());
         }
 
         return ParsePrimary();
