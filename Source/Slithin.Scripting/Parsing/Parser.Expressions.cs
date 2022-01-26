@@ -5,6 +5,13 @@ namespace Slithin.Scripting.Parsing;
 
 public partial class Parser
 {
+    private Expr Invalid(string message)
+    {
+        Messages.Add(Message.Error(message, Current.Line, Current.Column));
+
+        return new InvalidExpr();
+    }
+
     private Expr ParseExpression(int parentPrecedence = 0)
     {
         Expr left;
@@ -57,34 +64,15 @@ public partial class Parser
 
     private Expr ParsePrimary()
     {
-        if (Current.Type == TokenType.StringLiteral)
+        return Current.Type switch
         {
-            return ParseString();
-        }
-        else if (Current.Type == TokenType.OpenParen)
-        {
-            return ParseGroup();
-        }
-        else if (Current.Type == TokenType.Identifier)
-        {
-            return ParseNameExpr();
-        }
-        else if (Current.Type == TokenType.Number)
-        {
-            return ParseNumber();
-        }
-        else if (Current.Type == TokenType.At)
-        {
-            var token = NextToken();
-
-            return new UnaryExpression(token, ParseExpression());
-        }
-        else
-        {
-            Messages.Add(Message.Error($"Unknown Expression. Expected String, Group, Number or Identifier", Current.Line, Current.Column));
-        }
-
-        return new InvalidExpr();
+            TokenType.StringLiteral => ParseString(),
+            TokenType.OpenParen => ParseGroup(),
+            TokenType.Identifier => ParseNameExpr(),
+            TokenType.Number => ParseNumber(),
+            TokenType.At => new UnaryExpression(NextToken(), ParseExpression()),
+            _ => Invalid("Unknown Expression. Expected String, Group, Number, Boolean or Identifier"),
+        };
     }
 
     private Expr ParseString()
