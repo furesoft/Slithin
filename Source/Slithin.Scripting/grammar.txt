@@ -2,7 +2,7 @@
 
 <expression> ::= <term> "+" <expression> |  <term> "-" <expression> | <term>
 
-<term> ::= <unary> "*" <term> | <unary> "/" <term> | <unary>
+<term> ::= <unary> "*" <term> | <unary> "/" <term> | <unary> ":" <term> | <unary>
 
 <primary> ::= "(" <expression> ")" | <number> | <identifier>
 

@@ -102,4 +102,9 @@ public class Interpreter : IVisitor<object>
 
         return null;
     }
+
+    public object Visit(TimeNode timeNode)
+    {
+        return TimeSpan.Parse(timeNode.ToString());
+    }
 }

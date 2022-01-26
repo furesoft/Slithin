@@ -17,4 +17,5 @@ public enum TokenType
     OpenParen,
     CloseParen,
     Not,
+    Colon,
 }

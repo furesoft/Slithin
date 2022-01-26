@@ -13,6 +13,7 @@ public interface IVisitor<T>
     T Visit(ExpressionStatement expressionStatement);
     T Visit(CompilationUnit compilationUnit);
     T Visit(GroupExpression groupExpression);
+    T Visit(TimeNode timeNode);
     T Visit(Block block);
 
     T Visit(NotExpression notExpression);

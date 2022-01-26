@@ -14,6 +14,8 @@ public class Lexer : BaseLexer
 
         ['('] = TokenType.OpenParen,
         [')'] = TokenType.CloseParen,
+
+        [':'] = TokenType.Colon,
     };
 
     protected override Token NextToken()
