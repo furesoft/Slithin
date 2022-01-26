@@ -67,6 +67,12 @@ public partial class Parser
         {
             return ParseNumber();
         }
+        else if (Current.Type == TokenType.At)
+        {
+            NextToken();
+
+            return new DateExpression(ParseExpression());
+        }
         else
         {
             Messages.Add(Message.Error($"Unknown Expression. Expected String, Group, Number or Identifier", Current.Line, Current.Column));
@@ -120,12 +126,6 @@ public partial class Parser
             NextToken();
 
             return new NegateExpression(ParsePrimary());
-        }
-        else if (Current.Type == TokenType.At)
-        {
-            NextToken();
-
-            return new DateExpression(ParseExpression());
         }
 
         return ParsePrimary();
