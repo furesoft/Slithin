@@ -17,9 +17,7 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
         var cu = new CompilationUnit();
         while (Current.Type != (TokenType.EOF))
         {
-            cu.Body.Body.Add(ParseExpressionStatement());
-
-            /*var keyword = NextToken();
+            var keyword = Current;
 
             if (keyword.Type == TokenType.Remember)
             {
@@ -27,8 +25,8 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
             }
             else
             {
-                Messages.Add(Message.Error($"Unknown keyword '{keyword.Text}'.", keyword.Line, keyword.Column));
-            }*/
+                cu.Body.Body.Add(ParseExpressionStatement());
+            }
         }
 
         cu.Messages = Messages;
@@ -115,7 +113,17 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
 
     private SyntaxNode ParseRemember()
     {
-        throw new NotImplementedException();
+        NextToken();
+
+        var value = ParseExpression();
+
+        Match(TokenType.As);
+
+        var name = Match(TokenType.Identifier);
+
+        Match(TokenType.Dot);
+
+        return new RememberStatement(name, value);
     }
 
     private Expr ParseString()

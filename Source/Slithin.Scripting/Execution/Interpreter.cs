@@ -8,6 +8,8 @@ namespace Slithin.Scripting.Execution;
 
 public class Interpreter : IVisitor<object>
 {
+    public Dictionary<string, object> Variables { get; set; } = new();
+
     public object Visit(InvalidNode invalidNode)
     {
         throw new NotImplementedException();
@@ -41,7 +43,12 @@ public class Interpreter : IVisitor<object>
 
     public object Visit(NameExpression nameExpression)
     {
-        throw new NotImplementedException();
+        if (Variables.ContainsKey(nameExpression.Name))
+        {
+            return Variables[nameExpression.Name];
+        }
+
+        return null;
     }
 
     public object Visit(GroupExpression groupExpression)
@@ -82,5 +89,17 @@ public class Interpreter : IVisitor<object>
     public object Visit(ExpressionStatement expressionStatement)
     {
         return expressionStatement.Expression.Accept(this);
+    }
+
+    public object Visit(RememberStatement rememberStatement)
+    {
+        var value = rememberStatement.Value.Accept(this);
+
+        if (!Variables.ContainsKey(rememberStatement.NameToken.Text))
+        {
+            Variables.Add(rememberStatement.NameToken.Text, value);
+        }
+
+        return null;
     }
 }

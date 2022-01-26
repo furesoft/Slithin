@@ -54,7 +54,6 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
     {
         get;
         set;
-        //Why no SetValue for id?
     }
 
     public ICommand OKCommand { get; set; }

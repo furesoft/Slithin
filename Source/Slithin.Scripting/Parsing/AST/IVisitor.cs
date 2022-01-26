@@ -30,4 +30,5 @@ public interface IVisitor<T>
     T Visit(MultiplyNode multiplyNode);
 
     T Visit(DivideNode divideNode);
+    T Visit(RememberStatement rememberStatement);
 }
