@@ -1,31 +1,38 @@
 ﻿using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
-using Slithin.Scripting.Parsing.AST.Expressions.Binary;
 using Slithin.Scripting.Parsing.AST.Expressions.Unary;
 
 namespace Slithin.Scripting.Parsing;
 
 public partial class Parser
 {
-    private Expr ParseExpression()
+    private Expr ParseExpression(int parentPrecedence = 0)
     {
-        var term = ParseTerm();
-
-        var token = Current;
-        if (token.Type == TokenType.Plus)
+        Expr left;
+        var unaryOperatorPrecedence = Current.Type.GetUnaryOperatorPrecedence();
+        if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
         {
-            NextToken();
-
-            return new AdditionNode(term, ParseExpression());
+            var operatorToken = NextToken();
+            var operand = ParseExpression(unaryOperatorPrecedence);
+            left = new UnaryExpression(operatorToken, operand);
         }
-        else if (token.Type == TokenType.Minus)
+        else
         {
-            NextToken();
-
-            return new SubtractNode(term, ParseExpression());
+            left = ParsePrimary();
         }
 
-        return term;
+        while (true)
+        {
+            var precedence = Current.Type.GetBinaryOperatorPrecedence();
+            if (precedence == 0 || precedence <= parentPrecedence)
+                break;
+
+            var operatorToken = NextToken();
+            var right = ParseExpression(precedence);
+            left = new BinaryExpression(left, operatorToken, right);
+        }
+
+        return left;
     }
 
     private Expr ParseGroup()
@@ -84,50 +91,5 @@ public partial class Parser
     private Expr ParseString()
     {
         return new LiteralNode(NextToken().Text);
-    }
-
-    private Expr ParseTerm()
-    {
-        var unary = ParseUnary();
-
-        var token = Current;
-        if (token.Type == TokenType.Star)
-        {
-            NextToken();
-
-            return new MultiplyNode(unary, ParseTerm());
-        }
-        else if (token.Type == TokenType.Slash)
-        {
-            NextToken();
-
-            return new DivideNode(unary, ParseTerm());
-        }
-        else if (token.Type == TokenType.Colon)
-        {
-            NextToken();
-
-            return new TimeNode(unary, ParseTerm());
-        }
-
-        return unary;
-    }
-
-    private Expr ParseUnary()
-    {
-        if (Current.Type == TokenType.Not)
-        {
-            NextToken();
-
-            return new NotExpression(ParsePrimary());
-        }
-        else if (Current.Type == TokenType.Minus)
-        {
-            NextToken();
-
-            return new NegateExpression(ParsePrimary());
-        }
-
-        return ParsePrimary();
     }
 }

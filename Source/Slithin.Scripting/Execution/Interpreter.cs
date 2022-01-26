@@ -1,8 +1,6 @@
 ﻿using System.Globalization;
 using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
-using Slithin.Scripting.Parsing.AST.Expressions.Binary;
-using Slithin.Scripting.Parsing.AST.Expressions.Unary;
 using Slithin.Scripting.Parsing.AST.Statements;
 
 namespace Slithin.Scripting.Execution;
