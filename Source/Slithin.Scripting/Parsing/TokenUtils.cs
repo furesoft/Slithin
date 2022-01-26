@@ -21,6 +21,8 @@ public static class TokenUtils
             "not" => TokenType.Not,
             "negate" => TokenType.Minus,
             "remember" => TokenType.Remember,
+            "on" or "true" or "enabled" => TokenType.TrueLiteral,
+            "off" or "false" or "disabled" => TokenType.FalseLiteral,
             _ => TokenType.Identifier,
         };
     }

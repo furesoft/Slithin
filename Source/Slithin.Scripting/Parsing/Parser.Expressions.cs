@@ -12,6 +12,13 @@ public partial class Parser
         return new InvalidExpr();
     }
 
+    private Expr ParseBooleanLiteral(bool value)
+    {
+        NextToken();
+
+        return new LiteralNode(value);
+    }
+
     private Expr ParseExpression(int parentPrecedence = 0)
     {
         Expr left;
@@ -71,6 +78,8 @@ public partial class Parser
             TokenType.Identifier => ParseNameExpr(),
             TokenType.Number => ParseNumber(),
             TokenType.At => new UnaryExpression(NextToken(), ParseExpression()),
+            TokenType.TrueLiteral => ParseBooleanLiteral(true),
+            TokenType.FalseLiteral => ParseBooleanLiteral(false),
             _ => Invalid("Unknown Expression. Expected String, Group, Number, Boolean or Identifier"),
         };
     }

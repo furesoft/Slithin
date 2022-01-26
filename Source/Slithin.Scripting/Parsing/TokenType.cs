@@ -19,4 +19,6 @@ public enum TokenType
     Not,
     Colon,
     At,
+    TrueLiteral,
+    FalseLiteral,
 }
