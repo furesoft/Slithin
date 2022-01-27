@@ -23,4 +23,7 @@ public enum TokenType
     FalseLiteral,
     DayLiteral,
     NowLiteral,
+    Call,
+    To,
+    Set,
 }

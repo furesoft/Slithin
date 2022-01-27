@@ -21,6 +21,10 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
             {
                 cu.Body.Body.Add(ParseRemember());
             }
+            else if (keyword.Type == TokenType.Set)
+            {
+                cu.Body.Body.Add(ParseVariableAssignment());
+            }
             else
             {
                 cu.Body.Body.Add(ParseExpressionStatement());
@@ -54,5 +58,21 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
         Match(TokenType.Dot);
 
         return new RememberStatement(name, value);
+    }
+
+    private SyntaxNode ParseVariableAssignment()
+    {
+        NextToken();
+
+        //set x to 12.
+        var nameToken = NextToken();
+
+        Match(TokenType.To);
+
+        var value = ParseExpression();
+
+        Match(TokenType.Dot);
+
+        return new AssignmentStatement(nameToken, value);
     }
 }

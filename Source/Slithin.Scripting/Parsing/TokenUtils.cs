@@ -27,6 +27,9 @@ public static class TokenUtils
             "thursdays" or "fridays" or "saturdays" or
             "sundays" => TokenType.DayLiteral,
             "now" => TokenType.NowLiteral,
+            "call" or "invoke" => TokenType.Call,
+            "set" => TokenType.Set,
+            "to" => TokenType.To,
             _ => TokenType.Identifier,
         };
     }

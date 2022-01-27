@@ -127,4 +127,14 @@ public class Interpreter : IVisitor<object>
             _ => throw new NotImplementedException()
         };
     }
+
+    public object Visit(AssignmentStatement assignmentStatement)
+    {
+        if (Variables.ContainsKey(assignmentStatement.NameToken.Text))
+        {
+            Variables[assignmentStatement.NameToken.Text] = assignmentStatement.Value.Accept(this);
+        }
+
+        return null;
+    }
 }

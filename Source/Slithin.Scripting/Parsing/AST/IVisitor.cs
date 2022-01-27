@@ -14,7 +14,7 @@ public interface IVisitor<T>
     T Visit(ExpressionStatement expressionStatement);
 
     T Visit(CompilationUnit compilationUnit);
-
+    T Visit(AssignmentStatement assignmentStatement);
     T Visit(BinaryExpression binaryExpression);
 
     T Visit(UnaryExpression unaryExpression);
