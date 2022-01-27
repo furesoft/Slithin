@@ -7,6 +7,7 @@ public static class Program
     public static void Main()
     {
         var interpreter = new Execution.Interpreter();
+        interpreter.Variables.Add("today", DateTime.Today.DayOfWeek);
 
         while (true)
         {

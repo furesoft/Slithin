@@ -21,4 +21,6 @@ public enum TokenType
     At,
     TrueLiteral,
     FalseLiteral,
+    DayLiteral,
+    NowLiteral,
 }

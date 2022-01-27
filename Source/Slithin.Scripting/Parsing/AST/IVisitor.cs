@@ -9,6 +9,8 @@ public interface IVisitor<T>
 
     T Visit(LiteralNode literal);
 
+    T Visit(NowLiteralNode literal);
+
     T Visit(ExpressionStatement expressionStatement);
 
     T Visit(CompilationUnit compilationUnit);

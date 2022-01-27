@@ -23,6 +23,10 @@ public static class TokenUtils
             "remember" => TokenType.Remember,
             "on" or "true" or "enabled" => TokenType.TrueLiteral,
             "off" or "false" or "disabled" => TokenType.FalseLiteral,
+            "mondays" or "tuesdays" or "wednesdays" or
+            "thursdays" or "fridays" or "saturdays" or
+            "sundays" => TokenType.DayLiteral,
+            "now" => TokenType.NowLiteral,
             _ => TokenType.Identifier,
         };
     }

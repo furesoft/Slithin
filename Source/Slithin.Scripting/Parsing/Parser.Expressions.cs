@@ -19,6 +19,13 @@ public partial class Parser
         return new LiteralNode(value);
     }
 
+    private Expr ParseDayLiteral()
+    {
+        var token = NextToken();
+
+        return new LiteralNode(Enum.Parse<DayOfWeek>(token.Text.Substring(0, token.Text.Length - 1), true));
+    }
+
     private Expr ParseExpression(int parentPrecedence = 0)
     {
         Expr left;
@@ -64,6 +71,13 @@ public partial class Parser
         return new NameExpression(NextToken());
     }
 
+    private Expr ParseNowLiteral()
+    {
+        NextToken();
+
+        return new NowLiteralNode(null);
+    }
+
     private Expr ParseNumber()
     {
         return new LiteralNode(double.Parse(NextToken().Text));
@@ -80,6 +94,8 @@ public partial class Parser
             TokenType.At => new UnaryExpression(NextToken(), ParseExpression()),
             TokenType.TrueLiteral => ParseBooleanLiteral(true),
             TokenType.FalseLiteral => ParseBooleanLiteral(false),
+            TokenType.DayLiteral => ParseDayLiteral(),
+            TokenType.NowLiteral => ParseNowLiteral(),
             _ => Invalid("Unknown Expression. Expected String, Group, Number, Boolean or Identifier"),
         };
     }

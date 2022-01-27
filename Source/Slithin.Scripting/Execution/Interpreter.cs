@@ -40,6 +40,11 @@ public class Interpreter : IVisitor<object>
         return literal.Value;
     }
 
+    public object Visit(NowLiteralNode literal)
+    {
+        return DateTime.Now;
+    }
+
     public object Visit(CompilationUnit compilationUnit)
     {
         return compilationUnit.Body.Accept(this);
@@ -66,6 +71,9 @@ public class Interpreter : IVisitor<object>
         if (Variables.ContainsKey(nameExpression.Name))
         {
             return Variables[nameExpression.Name];
+        }
+        else
+        {
         }
 
         return null;
