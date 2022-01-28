@@ -1,12 +1,35 @@
-﻿using Slithin.Scripting.Parsing.AST;
+﻿using System.Globalization;
+using Slithin.Scripting.Parsing;
+using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
-using Slithin.Scripting.Parsing.AST.Expressions.Binary;
-using Slithin.Scripting.Parsing.AST.Expressions.Unary;
+using Slithin.Scripting.Parsing.AST.Statements;
 
 namespace Slithin.Scripting.Execution;
 
 public class Interpreter : IVisitor<object>
 {
+    public Dictionary<string, object> Variables { get; set; } = new();
+
+    public object EvaluateDate(UnaryExpression dateExpression)
+    {
+        return DateTime.Parse(dateExpression.Expression.ToString(), CultureInfo.InvariantCulture);
+    }
+
+    public object EvaluateNegation(UnaryExpression negateExpression)
+    {
+        return -(double)negateExpression.Expression.Accept(this);
+    }
+
+    public object EvaluateNot(UnaryExpression notExpression)
+    {
+        return !(bool)notExpression.Expression.Accept(this);
+    }
+
+    public object EvaluateTime(BinaryExpression timeNode)
+    {
+        return TimeSpan.Parse(timeNode.ToString());
+    }
+
     public object Visit(InvalidNode invalidNode)
     {
         throw new NotImplementedException();
@@ -15,6 +38,11 @@ public class Interpreter : IVisitor<object>
     public object Visit(LiteralNode literal)
     {
         return literal.Value;
+    }
+
+    public object Visit(NowLiteralNode literal)
+    {
+        return DateTime.Now;
     }
 
     public object Visit(CompilationUnit compilationUnit)
@@ -40,41 +68,73 @@ public class Interpreter : IVisitor<object>
 
     public object Visit(NameExpression nameExpression)
     {
-        throw new NotImplementedException();
+        if (Variables.ContainsKey(nameExpression.Name))
+        {
+            return Variables[nameExpression.Name];
+        }
+        else
+        {
+        }
+
+        return null;
     }
 
     public object Visit(GroupExpression groupExpression)
     {
-        throw new NotImplementedException();
+        return groupExpression.Inner.Accept(this);
     }
 
-    public object Visit(NotExpression notExpression)
+    public object Visit(ExpressionStatement expressionStatement)
     {
-        return !(bool)notExpression.Expression.Accept(this);
+        return expressionStatement.Expression.Accept(this);
     }
 
-    public object Visit(AdditionNode addNode)
+    public object Visit(RememberStatement rememberStatement)
     {
-        return (dynamic)addNode.Lhs.Accept(this) + (dynamic)addNode.Rhs.Accept(this);
+        var value = rememberStatement.Value.Accept(this);
+
+        if (!Variables.ContainsKey(rememberStatement.NameToken.Text))
+        {
+            Variables.Add(rememberStatement.NameToken.Text, value);
+        }
+
+        return null;
     }
 
-    public object Visit(NegateExpression negateExpression)
+    public object Visit(BinaryExpression binaryExpression)
     {
-        return -(double)negateExpression.Expression.Accept(this);
+        var left = (dynamic)binaryExpression.Lhs.Accept(this);
+        var right = (dynamic)binaryExpression.Rhs.Accept(this);
+
+        return binaryExpression.OperatorToken.Type switch
+        {
+            TokenType.Plus => left + right,
+            TokenType.Minus => left - right,
+            TokenType.Star => left * right,
+            TokenType.Slash => left / right,
+            TokenType.Colon => EvaluateTime(binaryExpression),
+            _ => throw new NotImplementedException()
+        };
     }
 
-    public object Visit(SubtractNode subtractNode)
+    public object Visit(UnaryExpression unaryExpression)
     {
-        return (dynamic)subtractNode.Lhs.Accept(this) - (dynamic)subtractNode.Rhs.Accept(this);
+        return unaryExpression.OperatorToken.Type switch
+        {
+            TokenType.At => EvaluateDate(unaryExpression),
+            TokenType.Minus => EvaluateNegation(unaryExpression),
+            TokenType.Not => EvaluateNot(unaryExpression),
+            _ => throw new NotImplementedException()
+        };
     }
 
-    public object Visit(MultiplyNode multiplyNode)
+    public object Visit(AssignmentStatement assignmentStatement)
     {
-        return (dynamic)multiplyNode.Lhs.Accept(this) * (dynamic)multiplyNode.Rhs.Accept(this);
-    }
+        if (Variables.ContainsKey(assignmentStatement.NameToken.Text))
+        {
+            Variables[assignmentStatement.NameToken.Text] = assignmentStatement.Value.Accept(this);
+        }
 
-    public object Visit(DivideNode divideNode)
-    {
-        return (dynamic)divideNode.Lhs.Accept(this) / (dynamic)divideNode.Rhs.Accept(this);
+        return null;
     }
 }

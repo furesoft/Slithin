@@ -17,4 +17,13 @@ public enum TokenType
     OpenParen,
     CloseParen,
     Not,
+    Colon,
+    At,
+    TrueLiteral,
+    FalseLiteral,
+    DayLiteral,
+    NowLiteral,
+    Call,
+    To,
+    Set,
 }

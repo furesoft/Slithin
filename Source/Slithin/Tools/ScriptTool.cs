@@ -16,10 +16,10 @@ public class ScriptTool : ITool
 {
     private readonly ScriptInfo _info;
 
-    public ScriptTool(ScriptInfo info)
+    /*public ScriptTool(ScriptInfo info)
     {
         _info = info;
-    }
+    }*/
 
     public IImage Image
     {

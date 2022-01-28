@@ -1,11 +1,10 @@
-using Slithin.Scripting.Core;
+﻿using Slithin.Scripting.Core;
 using Slithin.Scripting.Parsing.AST;
-using Slithin.Scripting.Parsing.AST.Expressions;
-using Slithin.Scripting.Parsing.AST.Expressions.Binary;
+using Slithin.Scripting.Parsing.AST.Statements;
 
 namespace Slithin.Scripting.Parsing;
 
-public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
+public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
 {
     public Parser(SourceDocument document, List<Token> tokens, List<Message> messages) : base(document, tokens, messages)
     {
@@ -16,18 +15,20 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
         var cu = new CompilationUnit();
         while (Current.Type != (TokenType.EOF))
         {
-            cu.Body.Body.Add(ParseExpression());
-
-            /*var keyword = NextToken();
+            var keyword = Current;
 
             if (keyword.Type == TokenType.Remember)
             {
                 cu.Body.Body.Add(ParseRemember());
             }
+            else if (keyword.Type == TokenType.Set)
+            {
+                cu.Body.Body.Add(ParseVariableAssignment());
+            }
             else
             {
-                Messages.Add(Message.Error($"Unknown keyword '{keyword.Text}'.", keyword.Line, keyword.Column));
-            }*/
+                cu.Body.Body.Add(ParseExpressionStatement());
+            }
         }
 
         cu.Messages = Messages;
@@ -35,110 +36,43 @@ public class Parser : BaseParser<SyntaxNode, Lexer, Parser>
         return cu;
     }
 
-    private Expr ParseExpression()
+    private SyntaxNode ParseExpressionStatement()
     {
-        var term = ParseTerm();
-
-        var token = Current;
-        if (token.Type == TokenType.Plus)
-        {
-            return new AdditionNode(term, ParseExpression());
-        }
-        else if (token.Type == TokenType.Minus)
-        {
-            return new SubtractNode(term, ParseExpression());
-        }
-
-        return term;
-    }
-
-    private Expr ParseGroup()
-    {
-        Match(TokenType.OpenParen);
-
         var expr = ParseExpression();
 
-        Match(TokenType.CloseParen);
+        Match(TokenType.Dot);
 
-        return new GroupExpression(expr);
-    }
-
-    private Expr ParseNameExpr()
-    {
-        return new NameExpression(NextToken());
-    }
-
-    private Expr ParseNumber()
-    {
-        return new LiteralNode(double.Parse(NextToken().Text));
-    }
-
-    private Expr ParsePrimary()
-    {
-        if (Current.Type == TokenType.StringLiteral)
-        {
-            return ParseString();
-        }
-        else if (Current.Type == TokenType.OpenParen)
-        {
-            return ParseGroup();
-        }
-        else if (Current.Type == TokenType.Identifier)
-        {
-            return ParseNameExpr();
-        }
-        else if (Current.Type == TokenType.Number)
-        {
-            return ParseNumber();
-        }
-        else
-        {
-            Messages.Add(Message.Error($"Unknown Expression. Expected String, Group, CharakterClass or Identifier", Current.Line, Current.Column));
-        }
-
-        return new InvalidExpr();
+        return new ExpressionStatement(expr);
     }
 
     private SyntaxNode ParseRemember()
     {
-        throw new NotImplementedException();
+        NextToken();
+
+        var value = ParseExpression();
+
+        Match(TokenType.As);
+
+        var name = Match(TokenType.Identifier);
+
+        Match(TokenType.Dot);
+
+        return new RememberStatement(name, value);
     }
 
-    private Expr ParseString()
+    private SyntaxNode ParseVariableAssignment()
     {
-        return new LiteralNode(NextToken().Text);
-    }
+        NextToken();
 
-    private Expr ParseTerm()
-    {
-        var unary = ParseUnary();
+        //set x to 12.
+        var nameToken = NextToken();
 
-        var token = NextToken();
-        if (token.Type == TokenType.Star)
-        {
-            return new MultiplyNode(unary, ParseTerm());
-        }
-        else if (token.Type == TokenType.Slash)
-        {
-            return new DivideNode(unary, ParseTerm());
-        }
+        Match(TokenType.To);
 
-        return unary;
-    }
+        var value = ParseExpression();
 
-    private Expr ParseUnary()
-    {
-        var primary = ParsePrimary();
+        Match(TokenType.Dot);
 
-        if (Current.Type == TokenType.Not)
-        {
-            return new AST.Expressions.Unary.NotExpression(primary);
-        }
-        else if (Current.Type == TokenType.Minus)
-        {
-            return new AST.Expressions.Unary.NegateExpression(primary);
-        }
-
-        return primary;
+        return new AssignmentStatement(nameToken, value);
     }
 }

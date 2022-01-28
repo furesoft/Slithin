@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Renci.SshNet;
 using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable.Exporting.Rendering;
@@ -154,6 +155,26 @@ public class Notebook
 
             bw.Close();
         }
+    }
+
+    public void Upload()
+    {
+        NotificationService.Show("Uploading " + Metadata.VisibleName);
+
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+
+        var notebooksDir = pathManager.NotebooksDir;
+
+        scp.Upload(new FileInfo(Path.Combine(notebooksDir, Metadata.ID + ".metadata")),
+               PathList.Documents + "/" + Metadata.ID + ".metadata");
+
+        scp.Upload(new FileInfo(Path.Combine(notebooksDir, Metadata.ID + "." + Metadata.Content.FileType)),
+            PathList.Documents + "/" + Metadata.ID + "." + Metadata.Content.FileType);
+        scp.Upload(new FileInfo(Path.Combine(notebooksDir, Metadata.ID + ".content")),
+            PathList.Documents + "/" + Metadata.ID + ".content");
+
+        TemplateStorage.Instance.Apply();
     }
 
     private static void ReadLayer(BinaryReader fstream, Page curPage)

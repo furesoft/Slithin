@@ -2,11 +2,15 @@
 
 <expression> ::= <term> "+" <expression> |  <term> "-" <expression> | <term>
 
-<term> ::= <unary> "*" <term> | <unary> "/" <term> | <unary>
+<term> ::= <unary> "*" <term> | <unary> "/" <term> | <unary> ":" <term> | <unary>
 
 <primary> ::= "(" <expression> ")" | <number> | <identifier>
 
-<unary> ::= ("not" | ("without" | "negate" | "-")) <primary> | <primary>
+<unary> ::= ("not" | ("without" | "negate" | "-") | "at") <primary> | <primary>
 
 <identifier> ::= ([a-z] | [A-Z])+
 <number> ::= "-"? [0-9]+
+
+<statement> ::= ((<expression> | <rememberStatement>) ".")+
+
+<rememberStatement> ::= "remember" <expression> "as" <identifier>

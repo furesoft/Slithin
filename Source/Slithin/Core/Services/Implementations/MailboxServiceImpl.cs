@@ -66,5 +66,6 @@ public class MailboxServiceImpl : IMailboxService
     private void OnError(Exception obj)
     {
         _logger.Error(obj.ToString());
+        NotificationService.Show("An Error occured. See log file");
     }
 }

@@ -14,6 +14,8 @@ public class Lexer : BaseLexer
 
         ['('] = TokenType.OpenParen,
         [')'] = TokenType.CloseParen,
+
+        [':'] = TokenType.Colon,
     };
 
     protected override Token NextToken()
@@ -22,7 +24,7 @@ public class Lexer : BaseLexer
 
         if (_position >= _source.Length)
         {
-            return new Token(TokenType.EOF, "\0", _position, _position, _line, 0);
+            return new Token(TokenType.EOF, "\0", _position, _position, _line, _column);
         }
         else if (_symbolTokens.ContainsKey(Current()))
         {
