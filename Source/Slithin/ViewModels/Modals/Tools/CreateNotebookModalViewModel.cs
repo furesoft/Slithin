@@ -14,6 +14,7 @@ using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
 using Slithin.Core.Validators;
 using Slithin.Models;
@@ -302,27 +303,16 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             SyncService.NotebooksFilter.Documents.Add(md);
             SyncService.NotebooksFilter.SortByFolder();
 
-            NotificationService.Show("Uploading " + md.VisibleName);
+            var notebook = Notebook.Load(md);
+            notebook.Upload();
 
-            string notebooksDir = _pathManager.NotebooksDir;
-            //ToDo: Cleanup: notebook.upload
-            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
-                PathList.Documents + "/" + md.ID + ".metadata");
-
-            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)),
-                PathList.Documents + "/" + md.ID + "." + md.Content.FileType);
-            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
-                PathList.Documents + "/" + md.ID + ".content");
-
-            Directory.CreateDirectory(Path.Combine(notebooksDir, md.ID + ".thumbnails"));
+            //Directory.CreateDirectory(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails"));
 
             //ToDo: fix thumbnail
-            //using var thumbnailStream = File.OpenWrite(Path.Combine(notebooksDir, md.ID + ".thumbnails", md.Content.Pages[0] + ".jpg"));
+            //using var thumbnailStream = File.OpenWrite(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails", md.Content.Pages[0] + ".jpg"));
             //jpedCover.CopyTo(thumbnailStream);
 
             NotificationService.Hide();
-
-            TemplateStorage.Instance.Apply();
         });
 
         DialogService.Close();

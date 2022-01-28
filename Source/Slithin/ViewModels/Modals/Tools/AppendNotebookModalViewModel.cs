@@ -10,8 +10,8 @@ using PdfSharpCore.Pdf.IO;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
-using Slithin.Core.Sync;
 using Slithin.Core.Validators;
 using Slithin.Models;
 
@@ -135,65 +135,62 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
             return;
         }
 
-        var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, ID + ".pdf"));
-        var md = MetadataStorage.Local.GetMetadata(ID);
-        var pages = new List<string>(md.Content.Pages);
-        var pageCount = md.Content.PageCount;
-
-        foreach (var p in Pages)
+        _mailboxService.PostAction(() =>
         {
-            XImage image = null;
-            var count = 0;
+            var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, ID + ".pdf"));
+            var md = MetadataStorage.Local.GetMetadata(ID);
+            var pages = new List<string>(md.Content.Pages);
+            var pageCount = md.Content.PageCount;
 
-            pageCount++;
-
-            switch (p)
+            foreach (var p in Pages)
             {
-                case NotebookPage nbp:
-                    count = nbp.Count;
-                    image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
-                    break;
+                XImage image = null;
+                var count = 0;
 
-                case NotebookCustomPage nbcp:
-                    image = XImage.FromFile(nbcp.Filename);
-                    count = nbcp.Count;
-                    break;
+                pageCount++;
+
+                switch (p)
+                {
+                    case NotebookPage nbp:
+                        count = nbp.Count;
+                        image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
+                        break;
+
+                    case NotebookCustomPage nbcp:
+                        image = XImage.FromFile(nbcp.Filename);
+                        count = nbcp.Count;
+                        break;
+                }
+
+                for (var i = 0; i < count; i++)
+                {
+                    var page = document.AddPage();
+                    page.Size = PageSize.A4;
+
+                    var gfx = XGraphics.FromPdfPage(page);
+
+                    gfx.DrawImage(image, 0, 0, page.Width, page.Height);
+
+                    var pageID = Guid.NewGuid();
+                    pages.Add(pageID.ToString());
+                }
             }
 
-            for (var i = 0; i < count; i++)
-            {
-                var page = document.AddPage();
-                page.Size = PageSize.A4;
+            var content = md.Content;
+            content.PageCount = pageCount;
+            content.Pages = pages.ToArray();
 
-                var gfx = XGraphics.FromPdfPage(page);
+            md.Content = content;
 
-                gfx.DrawImage(image, 0, 0, page.Width, page.Height);
+            md.Save();
 
-                var pageID = Guid.NewGuid();
-                pages.Add(pageID.ToString());
-            }
-        }
+            document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
 
-        var content = md.Content;
-        content.PageCount = pageCount;
-        content.Pages = pages.ToArray();
-
-        md.Content = content;
-
-        md.Save();
-
-        document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
-
-        var syncItem = new SyncItem
-        {
-            Action = SyncAction.Update,
-            Data = md,
-            Direction = SyncDirection.ToDevice,
-            Type = SyncType.Notebook
-        };
-
-        SyncService.AddToSyncQueue(syncItem);
+            var notebook = Notebook.Load(md);
+            notebook.Upload();
+        });
 
         DialogService.Close();
+        NotificationService.Hide();
     }
 }
