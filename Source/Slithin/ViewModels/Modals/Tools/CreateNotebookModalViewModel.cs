@@ -10,11 +10,11 @@ using Avalonia.Platform;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
-using Slithin.Core.Sync;
 using Slithin.Core.Validators;
 using Slithin.Models;
 
@@ -25,6 +25,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
     private readonly ILoadingService _loadingService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
+    private readonly ScpClient _scp;
     private readonly CreateNotebookValidator _validator;
     private IImage _cover;
 
@@ -41,7 +42,8 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
     public CreateNotebookModalViewModel(IPathManager pathManager,
         CreateNotebookValidator validator,
         ILoadingService loadingService,
-        IMailboxService mailboxService)
+        IMailboxService mailboxService,
+        ScpClient scpClient)
     {
         AddPagesCommand = new DelegateCommand(AddPages);
         OKCommand = new DelegateCommand(OK);
@@ -50,6 +52,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         _validator = validator;
         _loadingService = loadingService;
         _mailboxService = mailboxService;
+        _scp = scpClient;
     }
 
     public ICommand AddPagesCommand { get; set; }
@@ -184,6 +187,18 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         CustomTemplateFilename = null;
     }
 
+    private string[] GeneratePageIDS(int count)
+    {
+        string[] ids = new string[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            ids[i] = Guid.NewGuid().ToString().ToLower();
+        }
+
+        return ids;
+    }
+
     private void OK(object obj)
     {
         var validationResult = _validator.Validate(this);
@@ -194,99 +209,121 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             return;
         }
 
-        var document = new PdfDocument { PageLayout = PdfPageLayout.SinglePage, PageMode = PdfPageMode.FullScreen };
-        document.Info.Author = "Slithin";
-        document.Info.Title = Title;
-
-        var size = PageSizeConverter.ToSize(PageSize.A4);
-
-        var coverPage = document.AddPage();
-        var coverGfx = XGraphics.FromPdfPage(coverPage);
-
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-        Stream coverStream = null;
-        if (CoverFilename.StartsWith("custom:"))
+        _mailboxService.PostAction(() =>
         {
-            coverStream = File.OpenRead(CoverFilename.Substring("custom:".Length));
-        }
-        else
-        {
-            coverStream = GetType().Assembly
-                .GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) +
-                                           ".png");
-        }
+            var document = new PdfDocument { PageLayout = PdfPageLayout.SinglePage, PageMode = PdfPageMode.FullScreen };
+            document.Info.Author = "Slithin";
+            document.Info.Title = Title;
 
-        if (coverStream == null)
-        {
-            coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Cover.png");
-        }
+            var size = PageSizeConverter.ToSize(PageSize.A4);
 
-        var coverImage = XImage.FromStream(() => coverStream);
-        coverGfx.DrawImage(coverImage, 3, 3, coverPage.Width - 6, coverPage.Height - 6);
+            var coverPage = document.AddPage();
+            var coverGfx = XGraphics.FromPdfPage(coverPage);
 
-        if (RenderName)
-        {
-            var font = new XFont("Arial", 125);
-            var fontSize = coverGfx.MeasureString(Title, font);
-            coverGfx.DrawString(Title, font, XBrushes.Black, new XPoint(coverPage.Width / 2 - fontSize.Width / 2, 260));
-        }
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-        foreach (var p in Pages)
-        {
-            XImage image = null;
-            var count = 0;
-
-            if (p is NotebookPage nbp)
+            var md = new Metadata
             {
-                count = nbp.Count;
-                image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
+                ID = Guid.NewGuid().ToString().ToLower(),
+                VisibleName = Title,
+                Type = "DocumentType",
+                Version = 1,
+                Parent = "",
+                Content = new ContentFile { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count, Pages = GeneratePageIDS(document.Pages.Count) }
+            };
+
+            NotificationService.Show("Generating " + md.VisibleName);
+
+            Stream coverStream = null;
+
+            if (CoverFilename.StartsWith("custom:"))
+            {
+                coverStream = File.OpenRead(CoverFilename.Substring("custom:".Length));
             }
-            else if (p is NotebookCustomPage nbcp)
+            else
             {
-                image = XImage.FromFile(nbcp.Filename);
-                count = nbcp.Count;
+                coverStream = GetType().Assembly
+                    .GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) +
+                                               ".png");
             }
 
-            for (var i = 0; i < count; i++)
+            if (coverStream == null)
             {
-                var page = document.AddPage();
-                page.Size = PageSize.A4;
-
-                var gfx = XGraphics.FromPdfPage(page);
-
-                gfx.DrawImage(image, 0, 0, page.Width, page.Height);
+                coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Cover.png");
             }
-        }
 
-        var md = new Metadata
-        {
-            ID = Guid.NewGuid().ToString().ToLower(),
-            VisibleName = Title,
-            Type = "DocumentType",
-            Version = 1,
-            Parent = "",
-            Content = new ContentFile { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count }
-        };
+            var coverStreamCached = delegate () { return coverStream; };
 
-        md.Save();
+            var coverImage = XImage.FromStream(() => coverStream);
 
-        document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
+            var jpedCover = coverImage.AsJpeg();
+            coverGfx.DrawImage(coverImage, 3, 3, coverPage.Width - 6, coverPage.Height - 6);
 
-        MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
+            if (RenderName)
+            {
+                var font = new XFont("Arial", 125);
+                var fontSize = coverGfx.MeasureString(Title, font);
+                coverGfx.DrawString(Title, font, XBrushes.Black, new XPoint(coverPage.Width / 2 - fontSize.Width / 2, 260));
+            }
 
-        SyncService.NotebooksFilter.Documents.Add(md);
-        SyncService.NotebooksFilter.SortByFolder();
+            foreach (var p in Pages)
+            {
+                XImage image = null;
+                var count = 0;
 
-        var syncItem = new SyncItem
-        {
-            Action = SyncAction.Add,
-            Data = md,
-            Direction = SyncDirection.ToDevice,
-            Type = SyncType.Notebook
-        };
+                if (p is NotebookPage nbp)
+                {
+                    count = nbp.Count;
+                    image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
+                }
+                else if (p is NotebookCustomPage nbcp)
+                {
+                    image = XImage.FromFile(nbcp.Filename);
+                    count = nbcp.Count;
+                }
 
-        SyncService.AddToSyncQueue(syncItem);
+                for (var i = 0; i < count; i++)
+                {
+                    var page = document.AddPage();
+                    page.Size = PageSize.A4;
+
+                    var gfx = XGraphics.FromPdfPage(page);
+
+                    gfx.DrawImage(image, 0, 0, page.Width, page.Height);
+                }
+            }
+
+            md.Save();
+
+            document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
+
+            MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
+
+            SyncService.NotebooksFilter.Documents.Add(md);
+            SyncService.NotebooksFilter.SortByFolder();
+
+            NotificationService.Show("Uploading " + md.VisibleName);
+
+            string notebooksDir = _pathManager.NotebooksDir;
+            //ToDo: Cleanup: notebook.upload
+            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
+                PathList.Documents + "/" + md.ID + ".metadata");
+
+            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)),
+                PathList.Documents + "/" + md.ID + "." + md.Content.FileType);
+            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
+                PathList.Documents + "/" + md.ID + ".content");
+
+            Directory.CreateDirectory(Path.Combine(notebooksDir, md.ID + ".thumbnails"));
+
+            //ToDo: fix thumbnail
+            //using var thumbnailStream = File.OpenWrite(Path.Combine(notebooksDir, md.ID + ".thumbnails", md.Content.Pages[0] + ".jpg"));
+            //jpedCover.CopyTo(thumbnailStream);
+
+            NotificationService.Hide();
+
+            TemplateStorage.Instance.Apply();
+        });
 
         DialogService.Close();
     }

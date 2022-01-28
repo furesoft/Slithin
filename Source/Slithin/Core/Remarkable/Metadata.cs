@@ -36,30 +36,6 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
         set => SetValue(ref _visibleName, value);
     }
 
-    public bool Equals(Metadata x, Metadata y)
-    {
-        return x!.Content.Equals(y.Content)
-               && x.Deleted == y.Deleted
-               && x.ID.Equals(y.ID)
-               && x.LastOpenedPage == y.LastOpenedPage
-               && x.Parent.Equals(y.Parent)
-               && x.Type.Equals(y.Type)
-               && x.Version == y.Version
-               && x.VisibleName.Equals(y.VisibleName);
-    }
-
-    public int GetHashCode([DisallowNull] Metadata obj)
-    {
-        return HashCode.Combine(obj.VisibleName,
-            obj.Version,
-            obj.Type,
-            obj.Parent,
-            obj.LastOpenedPage,
-            obj.ID,
-            obj.Deleted,
-            obj.Content);
-    }
-
     public static Metadata Load(string id)
     {
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
@@ -89,6 +65,30 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
         return mdObj;
     }
 
+    public bool Equals(Metadata x, Metadata y)
+    {
+        return x!.Content.Equals(y.Content)
+               && x.Deleted == y.Deleted
+               && x.ID.Equals(y.ID)
+               && x.LastOpenedPage == y.LastOpenedPage
+               && x.Parent.Equals(y.Parent)
+               && x.Type.Equals(y.Type)
+               && x.Version == y.Version
+               && x.VisibleName.Equals(y.VisibleName);
+    }
+
+    public int GetHashCode([DisallowNull] Metadata obj)
+    {
+        return HashCode.Combine(obj.VisibleName,
+            obj.Version,
+            obj.Type,
+            obj.Parent,
+            obj.LastOpenedPage,
+            obj.ID,
+            obj.Deleted,
+            obj.Content);
+    }
+
     public void Save()
     {
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
@@ -96,11 +96,8 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
         File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".metadata"),
             JsonConvert.SerializeObject(this, Formatting.Indented));
 
-        //if (new ContentFile?(Content).HasValue) //Das kann niemals false sein!
-        {
-            File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".content"),
-                JsonConvert.SerializeObject(Content, Formatting.Indented));
-        }
+        File.WriteAllText(Path.Combine(pathManager.NotebooksDir, ID + ".content"),
+            JsonConvert.SerializeObject(Content, Formatting.Indented));
     }
 
     public override string ToString()
