@@ -11,6 +11,7 @@
 <identifier> ::= ([a-z] | [A-Z])+
 <number> ::= "-"? [0-9]+
 
-<statement> ::= ((<expression> | <rememberStatement>) ".")+
+<statement> ::= ((<expression> | <rememberStatement> | <setStatement>) ".")+
 
 <rememberStatement> ::= "remember" <expression> "as" <identifier>
+<setStatement> ::= "set" <identifier> "to" <expression>

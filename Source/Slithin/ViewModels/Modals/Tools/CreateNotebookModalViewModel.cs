@@ -303,8 +303,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             SyncService.NotebooksFilter.Documents.Add(md);
             SyncService.NotebooksFilter.SortByFolder();
 
-            var notebook = Notebook.Load(md);
-            notebook.Upload();
+            Notebook.Upload(md);
 
             //Directory.CreateDirectory(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails"));
 

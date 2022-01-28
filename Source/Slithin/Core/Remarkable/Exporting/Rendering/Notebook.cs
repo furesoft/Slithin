@@ -82,6 +82,26 @@ public class Notebook
         return curPage;
     }
 
+    public static void Upload(Metadata md)
+    {
+        NotificationService.Show("Uploading " + md.VisibleName);
+
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+
+        var notebooksDir = pathManager.NotebooksDir;
+
+        scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
+               PathList.Documents + "/" + md.ID + ".metadata");
+
+        scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)),
+            PathList.Documents + "/" + md.ID + "." + md.Content.FileType);
+        scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
+            PathList.Documents + "/" + md.ID + ".content");
+
+        TemplateStorage.Instance.Apply();
+    }
+
     public void Save()
     {
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
@@ -155,26 +175,6 @@ public class Notebook
 
             bw.Close();
         }
-    }
-
-    public void Upload()
-    {
-        NotificationService.Show("Uploading " + Metadata.VisibleName);
-
-        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
-        var scp = ServiceLocator.Container.Resolve<ScpClient>();
-
-        var notebooksDir = pathManager.NotebooksDir;
-
-        scp.Upload(new FileInfo(Path.Combine(notebooksDir, Metadata.ID + ".metadata")),
-               PathList.Documents + "/" + Metadata.ID + ".metadata");
-
-        scp.Upload(new FileInfo(Path.Combine(notebooksDir, Metadata.ID + "." + Metadata.Content.FileType)),
-            PathList.Documents + "/" + Metadata.ID + "." + Metadata.Content.FileType);
-        scp.Upload(new FileInfo(Path.Combine(notebooksDir, Metadata.ID + ".content")),
-            PathList.Documents + "/" + Metadata.ID + ".content");
-
-        TemplateStorage.Instance.Apply();
     }
 
     private static void ReadLayer(BinaryReader fstream, Page curPage)
