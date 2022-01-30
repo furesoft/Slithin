@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Newtonsoft.Json;
+using Renci.SshNet;
 using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable;
@@ -103,5 +104,23 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
     public override string ToString()
     {
         return VisibleName;
+    }
+
+    public void Upload()
+    {
+        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+        var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
+
+        scp.Upload(new FileInfo(Path.Combine(notebooksDir, ID + ".metadata")),
+                                PathList.Documents + "/" + ID + ".metadata");
+
+        if (Type == "DocumentType" &&
+                                (Content.FileType == "pdf" || Content.FileType == "epub"))
+        {
+            scp.Upload(new FileInfo(Path.Combine(notebooksDir, ID + "." + Content.FileType)),
+                PathList.Documents + "/" + ID + "." + Content.FileType);
+            scp.Upload(new FileInfo(Path.Combine(notebooksDir, ID + ".content")),
+                PathList.Documents + "/" + ID + ".content");
+        }
     }
 }
