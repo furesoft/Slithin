@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LiteDB;
 using Newtonsoft.Json;
+using Renci.SshNet;
 using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable;
@@ -11,6 +13,13 @@ namespace Slithin.Core.Remarkable;
 public class Template : INotifyPropertyChanged
 {
     private IImage _image;
+
+    public Template()
+    {
+        TransferCommand = new DelegateCommand(Transfer);
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
 
     [JsonProperty("categories")] public string[] Categories { get; set; }
 
@@ -39,7 +48,9 @@ public class Template : INotifyPropertyChanged
 
     [JsonProperty("name")] public string Name { get; set; }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    [BsonIgnore]
+    [JsonIgnore]
+    public ICommand TransferCommand { get; set; }
 
     public void Load()
     {
@@ -58,5 +69,23 @@ public class Template : INotifyPropertyChanged
         }
 
         Image = Bitmap.DecodeToWidth(File.OpenRead(path + ".png"), 150);
+    }
+
+    private void Transfer(object obj)
+    {
+        var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+
+        mailboxService.PostAction(() =>
+        {
+            //upload screen
+            NotificationService.Show($"Uploading Template '{Name}'");
+
+            scp.Upload(new FileInfo(Path.Combine(pathManager.TemplatesDir, Filename)), PathList.Templates + Filename);
+
+            TemplateStorage.Instance.Apply();
+            NotificationService.Hide();
+        });
     }
 }
