@@ -39,6 +39,7 @@ public static class NotificationService
             vm.Message = message;
             vm.Value = 100;
             vm.MaxValue = 100;
+            vm.IsInfo = true;
 
             notificationContainer.IsVisible = true;
         });
@@ -55,6 +56,7 @@ public static class NotificationService
             vm.Message = message;
             vm.Value = value;
             vm.MaxValue = maxValue;
+            vm.IsInfo = false;
 
             notificationContainer.IsVisible = true;
         });
