@@ -8,6 +8,7 @@ namespace Slithin.Scripting.Execution;
 
 public class Interpreter : IVisitor<object>
 {
+    public List<Message> Messages { get; set; } = new();
     public Dictionary<string, object> Variables { get; set; } = new();
 
     public object EvaluateDate(UnaryExpression dateExpression)
@@ -74,6 +75,7 @@ public class Interpreter : IVisitor<object>
         }
         else
         {
+            Messages.Add(Message.Error($"Variable '{nameExpression.Name}' not found.", nameExpression.Line, nameExpression.Column));
         }
 
         return null;

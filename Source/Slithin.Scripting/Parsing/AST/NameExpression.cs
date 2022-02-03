@@ -2,11 +2,15 @@
 
 public class NameExpression : Expr
 {
-    public NameExpression(string name)
+    public NameExpression(string name, int line, int column)
     {
         Name = name;
+        Line = line;
+        Column = column;
     }
 
+    public int Column { get; set; }
+    public int Line { get; set; }
     public string Name { get; set; }
 
     public override T Accept<T>(IVisitor<T> visitor)

@@ -71,15 +71,22 @@ public partial class Parser
         var identifiers = new List<string>();
 
         Token token;
+        int line = -1, column = -1;
 
         do
         {
             token = NextToken();
 
+            if (line == -1 && column == -1)
+            {
+                line = token.Line;
+                column = token.Column;
+            }
+
             identifiers.Add(token.Text);
         } while (Current.Type == TokenType.Identifier);
 
-        return new NameExpression(string.Join(' ', identifiers));
+        return new NameExpression(string.Join(' ', identifiers), line, column);
     }
 
     private Expr ParseNowLiteral()

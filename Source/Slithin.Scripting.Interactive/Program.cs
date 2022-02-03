@@ -15,9 +15,16 @@ public static class Program
             var input = Console.ReadLine();
             var tree = Parser.Parse(new SourceDocument("interactive", input));
 
+            interpreter.Messages.Clear();
+
             var result = tree.Tree.Accept(interpreter);
 
             foreach (var msg in tree.Messages)
+            {
+                Console.WriteLine(msg);
+            }
+
+            foreach (var msg in interpreter.Messages)
             {
                 Console.WriteLine(msg);
             }
