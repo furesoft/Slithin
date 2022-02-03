@@ -29,6 +29,7 @@ public static class TokenUtils
             "now" => TokenType.NowLiteral,
             "call" or "invoke" => TokenType.Call,
             "set" => TokenType.Set,
+            "change" => TokenType.Set,
             "to" => TokenType.To,
             _ => TokenType.Identifier,
         };

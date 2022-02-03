@@ -93,9 +93,9 @@ public class Interpreter : IVisitor<object>
     {
         var value = rememberStatement.Value.Accept(this);
 
-        if (!Variables.ContainsKey(rememberStatement.NameToken.Text))
+        if (!Variables.ContainsKey(rememberStatement.Name))
         {
-            Variables.Add(rememberStatement.NameToken.Text, value);
+            Variables.Add(rememberStatement.Name, value);
         }
 
         return null;

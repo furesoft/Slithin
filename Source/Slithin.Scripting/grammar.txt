@@ -4,7 +4,7 @@
 
 <term> ::= <unary> "*" <term> | <unary> "/" <term> | <unary> ":" <term> | <unary>
 
-<primary> ::= "(" <expression> ")" | <number> | <identifier>
+<primary> ::= "(" <expression> ")" | <number> | <identifierList>
 
 <unary> ::= ("not" | ("without" | "negate" | "-") | "at") <primary> | <primary>
 
@@ -14,4 +14,6 @@
 <statement> ::= ((<expression> | <rememberStatement> | <setStatement>) ".")+
 
 <rememberStatement> ::= "remember" <expression> "as" <identifier>
-<setStatement> ::= "set" <identifier> "to" <expression>
+<setStatement> ::= ("set" | "change") <identifier> "to" <expression>
+
+<identifierList> ::= <identifier> <identifierList> | <identifier>

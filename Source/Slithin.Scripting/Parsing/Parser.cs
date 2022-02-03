@@ -53,11 +53,11 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
 
         Match(TokenType.As);
 
-        var name = Match(TokenType.Identifier);
+        var name = (NameExpression)ParseIdentifierList();
 
         Match(TokenType.Dot);
 
-        return new RememberStatement(name, value);
+        return new RememberStatement(name.Name, value);
     }
 
     private SyntaxNode ParseVariableAssignment()

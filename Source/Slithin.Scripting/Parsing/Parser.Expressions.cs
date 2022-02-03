@@ -66,9 +66,20 @@ public partial class Parser
         return new GroupExpression(expr);
     }
 
-    private Expr ParseNameExpr()
+    private Expr ParseIdentifierList()
     {
-        return new NameExpression(NextToken());
+        var identifiers = new List<string>();
+
+        Token token;
+
+        do
+        {
+            token = NextToken();
+
+            identifiers.Add(token.Text);
+        } while (Current.Type == TokenType.Identifier);
+
+        return new NameExpression(string.Join(' ', identifiers));
     }
 
     private Expr ParseNowLiteral()
@@ -89,7 +100,7 @@ public partial class Parser
         {
             TokenType.StringLiteral => ParseString(),
             TokenType.OpenParen => ParseGroup(),
-            TokenType.Identifier => ParseNameExpr(),
+            TokenType.Identifier => ParseIdentifierList(),
             TokenType.Number => ParseNumber(),
             TokenType.At => new UnaryExpression(NextToken(), ParseExpression()),
             TokenType.TrueLiteral => ParseBooleanLiteral(true),
