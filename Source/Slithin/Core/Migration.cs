@@ -79,6 +79,9 @@ public class Migration
             File.Delete(Path.Combine(newDir, file));
         }
 
-        File.Move(Path.Combine(dir, file), Path.Combine(newDir, file));
+        if (File.Exists(Path.Combine(dir, file)))
+        {
+            File.Move(Path.Combine(dir, file), Path.Combine(newDir, file));
+        }
     }
 }
