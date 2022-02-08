@@ -50,6 +50,26 @@ public class Lexer : BaseLexer
 
             return new Token(TokenType.StringLiteral, _source.Substring(oldpos, _position - oldpos), oldpos - 1, ++_position, _line, oldColumn);
         }
+        else if (Current() == '"')
+        {
+            var oldpos = ++_position;
+            var oldColumn = _column;
+
+            while (Peek() != '"' && Peek() != '\0')
+            {
+                if (Current() == '\n' || Current() == '\r')
+                {
+                    Messages.Add(Message.Error($"Unterminated String", _line, oldColumn));
+                }
+
+                Advance();
+                _column++;
+            }
+
+            _column += 2;
+
+            return new Token(TokenType.StringLiteral, _source.Substring(oldpos, _position - oldpos), oldpos - 1, ++_position, _line, oldColumn);
+        }
         else if (char.IsDigit(Current()))
         {
             var oldpos = _position;
