@@ -1,10 +1,10 @@
-﻿<compilationUnit> ::= (<expression>)*
+﻿<compilationUnit> ::= (<statement>)*
 
 <expression> ::= <term> "+" <expression> |  <term> "-" <expression> | <term>
 
 <term> ::= <unary> "*" <term> | <unary> "/" <term> | <unary> ":" <term> | <unary>
 
-<primary> ::= "(" <expression> ")" | <number> | <identifierList>
+<primary> ::= "(" <expression> ")" | <number> | <callOrIdentifierList>
 
 <unary> ::= ("not" | ("without" | "negate" | "-") | "at") <primary> | <primary>
 
@@ -17,3 +17,7 @@
 <setStatement> ::= ("set" | "change") <identifier> "to" <expression>
 
 <identifierList> ::= <identifier> <identifierList> | <identifier>
+
+<callOrIdentifierList> ::= <identifierList> "with" <callArguments> | <identifierList>
+
+<callArguments> ::= <expression> "and" <callArguments> | <expression>

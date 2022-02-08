@@ -8,6 +8,7 @@ namespace Slithin.Scripting.Execution;
 
 public class Interpreter : IVisitor<object>
 {
+    public Dictionary<string, ICallable> Callables { get; set; } = new();
     public List<Message> Messages { get; set; } = new();
     public Dictionary<string, object> Variables { get; set; } = new();
 
@@ -138,5 +139,28 @@ public class Interpreter : IVisitor<object>
         }
 
         return null;
+    }
+
+    public object Visit(CallExpr callExpr)
+    {
+        var identifiers = ((NameExpression)callExpr.Identifiers);
+        var callableName = identifiers.Name;
+
+        if (Callables.ContainsKey(callableName))
+        {
+            var arguments = new List<object>();
+            foreach (var arg in callExpr.Arguments.Body)
+            {
+                arguments.Add(arg.Accept(this));
+            }
+
+            return Callables[callableName].Invoke(arguments.ToArray());
+        }
+        else
+        {
+            Messages.Add(Message.Error($"'{callableName}' not found.", identifiers.Line, identifiers.Column));
+
+            return null;
+        }
     }
 }

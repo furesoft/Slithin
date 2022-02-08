@@ -1,4 +1,5 @@
-﻿using Slithin.Scripting.Parsing;
+﻿using Slithin.Scripting.Execution;
+using Slithin.Scripting.Parsing;
 
 namespace Slithin.Scripting.Interactive;
 
@@ -6,8 +7,9 @@ public static class Program
 {
     public static void Main()
     {
-        var interpreter = new Execution.Interpreter();
+        var interpreter = new Interpreter();
         interpreter.Variables.Add("today", DateTime.Today.DayOfWeek);
+        interpreter.Callables.Add("show notification", new DelegateCallable(new Action<string>(Console.WriteLine)));
 
         while (true)
         {

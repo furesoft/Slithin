@@ -31,6 +31,8 @@ public static class TokenUtils
             "set" => TokenType.Set,
             "change" => TokenType.Set,
             "to" => TokenType.To,
+            "with" => TokenType.With,
+            "and" => TokenType.And,
             _ => TokenType.Identifier,
         };
     }

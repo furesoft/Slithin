@@ -28,4 +28,5 @@ public interface IVisitor<T>
     T Visit(NameExpression nameExpression);
 
     T Visit(RememberStatement rememberStatement);
+    T Visit(CallExpr callExpr);
 }

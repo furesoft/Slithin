@@ -26,4 +26,6 @@ public enum TokenType
     Call,
     To,
     Set,
+    With,
+    And,
 }

@@ -89,6 +89,36 @@ public partial class Parser
         return new NameExpression(string.Join(' ', identifiers), line, column);
     }
 
+    private Expr ParseIdentifierListOrCall()
+    {
+        var identifiers = ParseIdentifierList();
+
+        if (Current.Type == TokenType.With)
+        {
+            NextToken();
+
+            var arguments = new Block();
+
+            bool hasArgumentLeft = false;
+            do
+            {
+                hasArgumentLeft = false;
+
+                arguments.Body.Add(ParseExpression());
+
+                if (Current.Type == TokenType.And)
+                {
+                    NextToken();
+                    hasArgumentLeft = true;
+                }
+            } while (hasArgumentLeft);
+
+            return new CallExpr(identifiers, arguments);
+        }
+
+        return identifiers;
+    }
+
     private Expr ParseNowLiteral()
     {
         NextToken();
@@ -107,7 +137,7 @@ public partial class Parser
         {
             TokenType.StringLiteral => ParseString(),
             TokenType.OpenParen => ParseGroup(),
-            TokenType.Identifier => ParseIdentifierList(),
+            TokenType.Identifier => ParseIdentifierListOrCall(),
             TokenType.Number => ParseNumber(),
             TokenType.At => new UnaryExpression(NextToken(), ParseExpression()),
             TokenType.TrueLiteral => ParseBooleanLiteral(true),
