@@ -25,6 +25,14 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
             {
                 cu.Body.Body.Add(ParseVariableAssignment());
             }
+            else if (keyword.Type == TokenType.Call)
+            {
+                NextToken();
+
+                cu.Body.Body.Add(ParseIdentifierListOrCall());
+
+                Match(TokenType.Dot);
+            }
             else
             {
                 cu.Body.Body.Add(ParseExpressionStatement());
