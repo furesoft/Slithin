@@ -8,8 +8,8 @@ public static class Program
     public static void Main()
     {
         var interpreter = new Interpreter();
-        interpreter.Variables.Add("today", DateTime.Today.DayOfWeek);
-        interpreter.Callables.Add("show notification", new DelegateCallable(new Action<string>(Console.WriteLine)));
+        interpreter.BindingTable.AddVariable("today", DateTime.Today.DayOfWeek);
+        interpreter.BindingTable.AddVariable("show notification", new DelegateCallable(new Action<string>(Console.WriteLine)));
 
         while (true)
         {

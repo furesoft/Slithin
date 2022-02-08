@@ -8,9 +8,8 @@ namespace Slithin.Scripting.Execution;
 
 public class Interpreter : IVisitor<object>
 {
-    public Dictionary<string, ICallable> Callables { get; set; } = new();
+    public BindingTable BindingTable { get; set; } = new();
     public List<Message> Messages { get; set; } = new();
-    public Dictionary<string, object> Variables { get; set; } = new();
 
     public object EvaluateDate(UnaryExpression dateExpression)
     {
@@ -70,9 +69,9 @@ public class Interpreter : IVisitor<object>
 
     public object Visit(NameExpression nameExpression)
     {
-        if (Variables.ContainsKey(nameExpression.Name))
+        if (BindingTable.IsVariable(nameExpression.Name))
         {
-            return Variables[nameExpression.Name];
+            return BindingTable.GetVariable(nameExpression.Name); ;
         }
         else
         {
@@ -96,9 +95,9 @@ public class Interpreter : IVisitor<object>
     {
         var value = rememberStatement.Value.Accept(this);
 
-        if (!Variables.ContainsKey(rememberStatement.Name))
+        if (!BindingTable.IsCallable(rememberStatement.Name))
         {
-            Variables.Add(rememberStatement.Name, value);
+            BindingTable.AddVariable(rememberStatement.Name, value);
         }
 
         return null;
@@ -133,9 +132,9 @@ public class Interpreter : IVisitor<object>
 
     public object Visit(AssignmentStatement assignmentStatement)
     {
-        if (Variables.ContainsKey(assignmentStatement.NameToken.Text))
+        if (BindingTable.IsVariable(assignmentStatement.NameToken.Text))
         {
-            Variables[assignmentStatement.NameToken.Text] = assignmentStatement.Value.Accept(this);
+            BindingTable.AddVariable(assignmentStatement.NameToken.Text, assignmentStatement.Value.Accept(this));
         }
 
         return null;
@@ -146,7 +145,7 @@ public class Interpreter : IVisitor<object>
         var identifiers = ((NameExpression)callExpr.Identifiers);
         var callableName = identifiers.Name;
 
-        if (Callables.ContainsKey(callableName))
+        if (BindingTable.IsCallable(callableName))
         {
             var arguments = new List<object>();
             foreach (var arg in callExpr.Arguments.Body)
@@ -154,11 +153,11 @@ public class Interpreter : IVisitor<object>
                 arguments.Add(arg.Accept(this));
             }
 
-            return Callables[callableName].Invoke(arguments.ToArray());
+            return BindingTable.Call(callableName, arguments.ToArray());
         }
         else
         {
-            Messages.Add(Message.Error($"'{callableName}' not found.", identifiers.Line, identifiers.Column));
+            Messages.Add(Message.Error($"'{callableName}' is not callable.", identifiers.Line, identifiers.Column));
 
             return null;
         }
