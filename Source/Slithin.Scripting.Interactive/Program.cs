@@ -10,6 +10,7 @@ public static class Program
         var interpreter = new Interpreter();
         interpreter.BindingTable.AddVariable("today", DateTime.Today.DayOfWeek);
         interpreter.BindingTable.AddVariable("show notification", new DelegateCallable(new Action<string>(Console.WriteLine)));
+        interpreter.BindingTable.AddAlias("today", "heute");
 
         while (true)
         {
