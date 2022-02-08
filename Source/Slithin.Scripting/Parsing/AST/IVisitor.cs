@@ -1,4 +1,5 @@
 ﻿using Slithin.Scripting.Parsing.AST.Expressions;
+using Slithin.Scripting.Parsing.AST.Literals;
 using Slithin.Scripting.Parsing.AST.Statements;
 
 namespace Slithin.Scripting.Parsing.AST;
@@ -14,7 +15,9 @@ public interface IVisitor<T>
     T Visit(ExpressionStatement expressionStatement);
 
     T Visit(CompilationUnit compilationUnit);
+
     T Visit(AssignmentStatement assignmentStatement);
+
     T Visit(BinaryExpression binaryExpression);
 
     T Visit(UnaryExpression unaryExpression);
@@ -28,5 +31,8 @@ public interface IVisitor<T>
     T Visit(NameExpression nameExpression);
 
     T Visit(RememberStatement rememberStatement);
+
     T Visit(CallExpr callExpr);
+
+    T Visit(DayLiteralNode dayLiteral);
 }

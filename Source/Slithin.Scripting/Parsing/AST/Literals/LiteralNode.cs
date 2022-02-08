@@ -1,4 +1,5 @@
-﻿namespace Slithin.Scripting.Parsing.AST;
+﻿using Slithin.Scripting.Parsing.AST;
+namespace Slithin.Scripting.Parsing.AST.Literals;
 
 public class LiteralNode : Expr
 {

@@ -23,9 +23,10 @@ public static class TokenUtils
             "remember" => TokenType.Remember,
             "on" or "true" or "enabled" => TokenType.TrueLiteral,
             "off" or "false" or "disabled" => TokenType.FalseLiteral,
-            "mondays" or "tuesdays" or "wednesdays" or
-            "thursdays" or "fridays" or "saturdays" or
-            "sundays" => TokenType.DayLiteral,
+            "monday" or "tuesday" or "wednesday" or
+            "thursday" or "friday" or "saturday" or
+            "sunday" => TokenType.DayOfWeekLiteral,
+            "day" => TokenType.DayLiteral,
             "now" => TokenType.NowLiteral,
             "call" or "invoke" => TokenType.Call,
             "set" => TokenType.Set,
@@ -33,6 +34,7 @@ public static class TokenUtils
             "to" => TokenType.To,
             "with" => TokenType.With,
             "and" => TokenType.And,
+            "every" => TokenType.Every,
             _ => TokenType.Identifier,
         };
     }

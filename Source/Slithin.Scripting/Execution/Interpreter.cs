@@ -2,6 +2,7 @@
 using Slithin.Scripting.Parsing;
 using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
+using Slithin.Scripting.Parsing.AST.Literals;
 using Slithin.Scripting.Parsing.AST.Statements;
 
 namespace Slithin.Scripting.Execution;
@@ -161,5 +162,10 @@ public class Interpreter : IVisitor<object>
 
             return null;
         }
+    }
+
+    public object Visit(DayLiteralNode dayLiteral)
+    {
+        throw new NotImplementedException();
     }
 }

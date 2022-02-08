@@ -1,5 +1,6 @@
 ﻿using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
+using Slithin.Scripting.Parsing.AST.Literals;
 
 namespace Slithin.Scripting.Parsing;
 
@@ -20,6 +21,13 @@ public partial class Parser
     }
 
     private Expr ParseDayLiteral()
+    {
+        NextToken();
+
+        return new DayLiteralNode();
+    }
+
+    private Expr ParseDayOfWeekLiteral()
     {
         var token = NextToken();
 
@@ -97,6 +105,8 @@ public partial class Parser
         {
             NextToken();
 
+            Expr interval = null;
+
             var arguments = new Block();
 
             bool hasArgumentLeft = false;
@@ -113,7 +123,14 @@ public partial class Parser
                 }
             } while (hasArgumentLeft);
 
-            return new CallExpr(identifiers, arguments);
+            if (Current.Type == TokenType.Every)
+            {
+                NextToken();
+
+                interval = ParseExpression();
+            }
+
+            return new CallExpr(identifiers, interval, arguments);
         }
 
         return identifiers;
@@ -143,6 +160,7 @@ public partial class Parser
             TokenType.TrueLiteral => ParseBooleanLiteral(true),
             TokenType.FalseLiteral => ParseBooleanLiteral(false),
             TokenType.DayLiteral => ParseDayLiteral(),
+            TokenType.DayOfWeekLiteral => ParseDayOfWeekLiteral(),
             TokenType.NowLiteral => ParseNowLiteral(),
             _ => Invalid("Unknown Expression. Expected String, Group, Number, Boolean or Identifier"),
         };

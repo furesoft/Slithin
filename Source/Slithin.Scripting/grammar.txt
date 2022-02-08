@@ -18,6 +18,6 @@
 
 <identifierList> ::= <identifier> <identifierList> | <identifier>
 
-<callOrIdentifierList> ::= <identifierList> "with" <callArguments> | <identifierList>
+<callOrIdentifierList> ::= <identifierList> "with" <callArguments> ("every" <expression>)? | <identifierList>
 
 <callArguments> ::= <expression> "and" <callArguments> | <expression>
