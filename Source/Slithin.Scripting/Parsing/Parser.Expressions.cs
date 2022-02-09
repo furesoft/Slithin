@@ -38,10 +38,24 @@ public partial class Parser
     {
         Expr left;
         var unaryOperatorPrecedence = Current.Type.GetUnaryOperatorPrecedence();
+        var isPostUnary = Current.Type.IsPostUnary();
+
         if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
         {
-            var operatorToken = NextToken();
-            var operand = ParseExpression(unaryOperatorPrecedence);
+            Token? operatorToken;
+            Expr? operand;
+
+            if (isPostUnary)
+            {
+                operand = ParseExpression(unaryOperatorPrecedence); //ToDo: Fix left recursion
+                operatorToken = NextToken();
+            }
+            else
+            {
+                operatorToken = NextToken();
+                operand = ParseExpression(unaryOperatorPrecedence);
+            }
+
             left = new UnaryExpression(operatorToken, operand);
         }
         else

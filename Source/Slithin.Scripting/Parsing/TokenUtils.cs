@@ -35,6 +35,11 @@ public static class TokenUtils
             "with" => TokenType.With,
             "and" => TokenType.And,
             "every" => TokenType.Every,
+
+            "minutes" => TokenType.Minutes,
+            "seconds" => TokenType.Seconds,
+            "hours" => TokenType.Hours,
+
             _ => TokenType.Identifier,
         };
     }
@@ -44,7 +49,17 @@ public static class TokenUtils
         return kind switch
         {
             TokenType.Minus or TokenType.Not => 6,
+            TokenType.Minutes or TokenType.Seconds or TokenType.Hours => 7,
             _ => 0,
+        };
+    }
+
+    public static bool IsPostUnary(this TokenType kind)
+    {
+        return kind switch
+        {
+            TokenType.Minutes or TokenType.Seconds or TokenType.Hours => true,
+            _ => false,
         };
     }
 }

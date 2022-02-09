@@ -30,4 +30,7 @@ public enum TokenType
     And,
     Every,
     DayLiteral,
+    Minutes,
+    Seconds,
+    Hours,
 }

@@ -80,6 +80,7 @@ public partial class Interpreter : IVisitor<object>
             TokenType.At => EvaluateDate(unaryExpression),
             TokenType.Minus => EvaluateNegation(unaryExpression),
             TokenType.Not => EvaluateNot(unaryExpression),
+            TokenType.Hours or TokenType.Minutes or TokenType.Seconds => EvaluateTimeLiteral(unaryExpression),
             _ => throw new NotImplementedException()
         };
     }
@@ -110,5 +111,17 @@ public partial class Interpreter : IVisitor<object>
     public object Visit(DayLiteralNode dayLiteral)
     {
         return DateTime.Today;
+    }
+
+    private object EvaluateTimeLiteral(UnaryExpression unaryExpression)
+    {
+        var value = (double)unaryExpression.Expression.Accept(this);
+
+        return unaryExpression.OperatorToken.Type switch
+        {
+            TokenType.Hours => TimeSpan.FromHours(value),
+            TokenType.Minutes => TimeSpan.FromMinutes(value),
+            TokenType.Seconds => TimeSpan.FromSeconds(value),
+        };
     }
 }
