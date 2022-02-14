@@ -16,6 +16,8 @@ public class Lexer : BaseLexer
         [')'] = TokenType.CloseParen,
 
         [':'] = TokenType.Colon,
+        ['!'] = TokenType.Not,
+        [','] = TokenType.Comma,
     };
 
     protected override Token NextToken()

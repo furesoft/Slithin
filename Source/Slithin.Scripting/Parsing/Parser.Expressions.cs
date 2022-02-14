@@ -47,7 +47,7 @@ public partial class Parser
 
             if (isPostUnary)
             {
-                operand = ParseExpression(unaryOperatorPrecedence); //ToDo: Fix left recursion
+                operand = ParsePrimary(); //ToDo: Fix left recursion
                 operatorToken = NextToken();
             }
             else

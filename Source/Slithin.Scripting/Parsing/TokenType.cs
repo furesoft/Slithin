@@ -33,4 +33,5 @@ public enum TokenType
     Minutes,
     Seconds,
     Hours,
+    Comma,
 }
