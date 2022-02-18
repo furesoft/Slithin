@@ -6,7 +6,6 @@ public interface IPathManager
     public string ConfigBaseDir { get; set; }
     public string CustomScreensDir { get; }
     public string DevicesDir { get; }
-    public Migration Migration { get; set; }
     public string NotebooksDir { get; }
     public string ScriptsDir { get; }
     public string SlithinDir { get; }

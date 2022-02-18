@@ -11,7 +11,6 @@ public class PathManagerImpl : IPathManager
     public string CustomScreensDir => Path.Combine(ConfigBaseDir, "Screens");
 
     public string DevicesDir => Path.Combine(SlithinDir, "Devices");
-    public Migration Migration { get; set; }
     public string NotebooksDir => Path.Combine(ConfigBaseDir, "Notebooks");
     public string ScriptsDir => Path.Combine(ConfigBaseDir, "Scripts");
     public string SlithinDir => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin");
@@ -29,8 +28,6 @@ public class PathManagerImpl : IPathManager
 
         InitDir(SlithinDir);
         InitDir(DevicesDir);
-
-        Migration = new Migration();
     }
 
     public void InitDeviceDirectory()

@@ -75,25 +75,6 @@ public class DevicePageViewModel : BaseViewModel
         var baseDir = _pathManager.ConfigBaseDir;
         var currentDevice = _loginService.GetCurrentCredential();
 
-        var di = new DirectoryInfo(baseDir);
-
-        if (!di.Exists) //ToDo: find condition for migration need
-        {
-            _pathManager.InitDeviceDirectory();
-
-            _pathManager.Migration.NeedsMigration = true;
-
-            _mailboxService.PostAction(async () =>
-            {
-                if (await DialogService.ShowDialog("Need to perform a data migration. This step can take a while. Don't close the Application while its working!"))
-                {
-                    _pathManager.Migration.StartMigration();
-                }
-            });
-
-            return;
-        }
-
         InitScreens();
 
         _loadingService.LoadScreens();

@@ -1,4 +1,5 @@
-﻿using Slithin.Messages;
+﻿using System.Runtime.InteropServices;
+using Slithin.Messages;
 
 namespace Slithin.Core.MessageHandlers;
 
@@ -6,14 +7,19 @@ public class CheckForUpdatesMessageHandler : IMessageHandler<CheckForUpdateMessa
 {
     public void HandleMessage(CheckForUpdateMessage message)
     {
-        var helpers = new DesktopBridge.Helpers();
-        if (!helpers.IsRunningAsUwp())
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            NotificationService.Show("Checking for Updates");
-
-            Updater.StartUpdate();
-
-            NotificationService.Hide();
+            var helpers = new DesktopBridge.Helpers();
+            if (helpers.IsRunningAsUwp())
+            {
+                return;
+            }
         }
+
+        NotificationService.Show("Checking for Updates");
+
+        Updater.StartUpdate();
+
+        NotificationService.Hide();
     }
 }
