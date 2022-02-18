@@ -38,7 +38,12 @@ public partial class Parser
     {
         Expr left;
         var unaryOperatorPrecedence = Current.Type.GetUnaryOperatorPrecedence();
-        var isPostUnary = Current.Type.IsPostUnary();
+        var isPostUnary = Peek(1).Type.IsPostUnary();
+
+        if (isPostUnary)
+        {
+            unaryOperatorPrecedence = Peek(1).Type.GetUnaryOperatorPrecedence();
+        }
 
         if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
         {
@@ -47,7 +52,7 @@ public partial class Parser
 
             if (isPostUnary)
             {
-                operand = ParsePrimary(); //ToDo: Fix left recursion
+                operand = ParseExpression(unaryOperatorPrecedence + 1); //ToDo: Fix (1+2) minutes
                 operatorToken = NextToken();
             }
             else
@@ -176,6 +181,7 @@ public partial class Parser
             TokenType.DayLiteral => ParseDayLiteral(),
             TokenType.DayOfWeekLiteral => ParseDayOfWeekLiteral(),
             TokenType.NowLiteral => ParseNowLiteral(),
+            TokenType.Hours or TokenType.Minutes or TokenType.Seconds => ParseTimeLiteral(),
             _ => Invalid("Unknown Expression. Expected String, Group, Number, Boolean or Identifier"),
         };
     }
@@ -183,5 +189,10 @@ public partial class Parser
     private Expr ParseString()
     {
         return new LiteralNode(NextToken().Text);
+    }
+
+    private Expr ParseTimeLiteral()
+    {
+        return new UnaryExpression(Current, null);
     }
 }
