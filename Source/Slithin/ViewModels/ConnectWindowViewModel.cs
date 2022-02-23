@@ -76,6 +76,7 @@ public class ConnectionWindowViewModel : BaseViewModel
             return;
         }
 
+        //ToDo: Allow Port on connection
         var client = new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password);
         var scp = new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password);
 

@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -24,6 +24,7 @@ public partial class ConnectWindow : Window
     {
         AvaloniaXamlLoader.Load(this);
 
+        //ToDo: Move to viewmodel
         var li = ServiceLocator.Container.Resolve<ILoginService>().GetLoginCredentials();
         var cvm = ServiceLocator.Container.Resolve<ConnectionWindowViewModel>();
 
