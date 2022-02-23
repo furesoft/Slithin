@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Actress;
 using Serilog;
 using Slithin.Core.MessageHandlers;
@@ -10,12 +11,14 @@ public class MailboxServiceImpl : IMailboxService
 {
     private readonly ILogger _logger;
     private readonly MessageRouter _messageRouter;
+    private readonly IPathManager _pathManager;
     private MailboxProcessor<AsynchronousMessage> _mailbox;
 
-    public MailboxServiceImpl(MessageRouter messageRouter, ILogger logger)
+    public MailboxServiceImpl(MessageRouter messageRouter, ILogger logger, IPathManager pathManager)
     {
         _messageRouter = messageRouter;
         _logger = logger;
+        _pathManager = pathManager;
     }
 
     public void Init()
@@ -66,6 +69,6 @@ public class MailboxServiceImpl : IMailboxService
     private void OnError(Exception obj)
     {
         _logger.Error(obj.ToString());
-        NotificationService.Show("An Error occured. See log file");
+        NotificationService.Show($"An Error occured. See ({Path.Combine(_pathManager.SlithinDir, "log.txt")})");
     }
 }
