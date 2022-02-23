@@ -38,34 +38,24 @@ public partial class Parser
     {
         Expr left;
         var unaryOperatorPrecedence = Current.Type.GetUnaryOperatorPrecedence();
-        var isPostUnary = Peek(1).Type.IsPostUnary();
-
-        if (isPostUnary)
-        {
-            unaryOperatorPrecedence = Peek(1).Type.GetUnaryOperatorPrecedence();
-        }
 
         if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
         {
-            Token? operatorToken;
-            Expr? operand;
+            Token? operatorToken = NextToken();
+            Expr? operand = ParseExpression(unaryOperatorPrecedence + 1);
 
-            if (isPostUnary)
-            {
-                operand = ParseExpression(unaryOperatorPrecedence + 1); //ToDo: Fix (1+2) minutes
-                operatorToken = NextToken();
-            }
-            else
-            {
-                operatorToken = NextToken();
-                operand = ParseExpression(unaryOperatorPrecedence);
-            }
-
-            left = new UnaryExpression(operatorToken, operand);
+            left = new UnaryExpression(operatorToken, operand, false);
         }
         else
         {
             left = ParsePrimary();
+
+            if (Current.Type.IsPostUnary())
+            {
+                Token? operatorToken = NextToken();
+
+                left = new UnaryExpression(operatorToken, left, true);
+            }
         }
 
         while (true)
@@ -175,7 +165,7 @@ public partial class Parser
             TokenType.OpenParen => ParseGroup(),
             TokenType.Identifier => ParseIdentifierListOrCall(),
             TokenType.Number => ParseNumber(),
-            TokenType.At => new UnaryExpression(NextToken(), ParseExpression()),
+            TokenType.At => new UnaryExpression(NextToken(), ParseExpression(), false),
             TokenType.TrueLiteral => ParseBooleanLiteral(true),
             TokenType.FalseLiteral => ParseBooleanLiteral(false),
             TokenType.DayLiteral => ParseDayLiteral(),
@@ -193,6 +183,6 @@ public partial class Parser
 
     private Expr ParseTimeLiteral()
     {
-        return new UnaryExpression(Current, null);
+        return new UnaryExpression(Current, null, false);
     }
 }
