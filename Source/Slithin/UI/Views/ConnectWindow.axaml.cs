@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -35,7 +35,7 @@ public partial class ConnectWindow : Window
             }
         }
 
-        cvm.SelectedLogin = li.FirstOrDefault();
+        cvm.SelectedLogin = li.FirstOrDefault() ?? new Models.LoginInfo();
 
         cvm.LoginCredentials = new(li);
 
