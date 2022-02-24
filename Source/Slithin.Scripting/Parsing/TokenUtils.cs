@@ -2,33 +2,6 @@
 
 public static class TokenUtils
 {
-    public static List<OperatorInfo> Operators = new List<OperatorInfo>();
-
-    static TokenUtils()
-    {
-        //Unary Operators
-        Operators.Add(new OperatorInfo(TokenType.Minus, 6, true, false));
-        Operators.Add(new OperatorInfo(TokenType.Not, 6, true, false));
-        Operators.Add(new OperatorInfo(TokenType.Hours, 7, true, true));
-        Operators.Add(new OperatorInfo(TokenType.Minutes, 7, true, true));
-        Operators.Add(new OperatorInfo(TokenType.Seconds, 7, true, true));
-        Operators.Add(new OperatorInfo(TokenType.DayLiteral, 7, true, true));
-
-        //Binary Operators
-        Operators.Add(new OperatorInfo(TokenType.Star, 5, false, false));
-        Operators.Add(new OperatorInfo(TokenType.Slash, 5, false, false));
-
-        Operators.Add(new OperatorInfo(TokenType.Plus, 4, false, false));
-        Operators.Add(new OperatorInfo(TokenType.Minus, 4, false, false));
-
-        Operators.Add(new OperatorInfo(TokenType.Comma, 2, false, false));
-    }
-
-    public static int GetBinaryOperatorPrecedence(this TokenType kind)
-    {
-        return Operators.FirstOrDefault(_ => _.Token == kind && !_.IsUnary).Precedence;
-    }
-
     public static TokenType GetTokenType(string name)
     {
         return name switch
@@ -60,15 +33,5 @@ public static class TokenUtils
 
             _ => TokenType.Identifier,
         };
-    }
-
-    public static int GetUnaryOperatorPrecedence(this TokenType kind)
-    {
-        return Operators.FirstOrDefault(_ => _.Token == kind && _.IsUnary).Precedence;
-    }
-
-    public static bool IsPostUnary(this TokenType kind)
-    {
-        return Operators.FirstOrDefault(_ => _.Token == kind && _.IsUnary).IsPostUnary;
     }
 }

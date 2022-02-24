@@ -6,6 +6,25 @@ namespace Slithin.Scripting.Parsing;
 
 public partial class Parser
 {
+    internal override Expr ParsePrimary()
+    {
+        return Current.Type switch
+        {
+            TokenType.StringLiteral => ParseString(),
+            TokenType.OpenParen => ParseGroup(),
+            TokenType.Identifier => ParseIdentifierListOrCall(),
+            TokenType.Number => ParseNumber(),
+            TokenType.At => new UnaryExpression(NextToken(), Expression.Parse(this), false),
+            TokenType.TrueLiteral => ParseBooleanLiteral(true),
+            TokenType.FalseLiteral => ParseBooleanLiteral(false),
+            TokenType.DayLiteral => ParseDayLiteral(),
+            TokenType.DayOfWeekLiteral => ParseDayOfWeekLiteral(),
+            TokenType.NowLiteral => ParseNowLiteral(),
+            TokenType.Hours or TokenType.Minutes or TokenType.Seconds => ParseTimeLiteral(),
+            _ => Invalid("Unknown Expression. Expected String, Group, Number, Boolean or Identifier"),
+        };
+    }
+
     private Expr Invalid(string message)
     {
         Messages.Add(Message.Error(message, Current.Line, Current.Column));
@@ -34,49 +53,11 @@ public partial class Parser
         return new LiteralNode(Enum.Parse<DayOfWeek>(token.Text.Substring(0, token.Text.Length - 1), true));
     }
 
-    private Expr ParseExpression(int parentPrecedence = 0)
-    {
-        Expr left;
-        var unaryOperatorPrecedence = Current.Type.GetUnaryOperatorPrecedence();
-
-        if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
-        {
-            Token? operatorToken = NextToken();
-            Expr? operand = ParseExpression(unaryOperatorPrecedence + 1);
-
-            left = new UnaryExpression(operatorToken, operand, false);
-        }
-        else
-        {
-            left = ParsePrimary();
-
-            if (Current.Type.IsPostUnary())
-            {
-                Token? operatorToken = NextToken();
-
-                left = new UnaryExpression(operatorToken, left, true);
-            }
-        }
-
-        while (true)
-        {
-            var precedence = Current.Type.GetBinaryOperatorPrecedence();
-            if (precedence == 0 || precedence <= parentPrecedence)
-                break;
-
-            var operatorToken = NextToken();
-            var right = ParseExpression(precedence);
-            left = new BinaryExpression(left, operatorToken, right);
-        }
-
-        return left;
-    }
-
     private Expr ParseGroup()
     {
         Match(TokenType.OpenParen);
 
-        var expr = ParseExpression();
+        var expr = Expression.Parse(this);
 
         Match(TokenType.CloseParen);
 
@@ -123,7 +104,7 @@ public partial class Parser
             {
                 hasArgumentLeft = false;
 
-                arguments.Body.Add(ParseExpression());
+                arguments.Body.Add(Expression.Parse(this));
 
                 if (Current.Type == TokenType.And)
                 {
@@ -136,7 +117,7 @@ public partial class Parser
             {
                 NextToken();
 
-                interval = ParseExpression();
+                interval = Expression.Parse(this);
             }
 
             return new CallExpr(identifiers, interval, arguments);
@@ -155,25 +136,6 @@ public partial class Parser
     private Expr ParseNumber()
     {
         return new LiteralNode(double.Parse(NextToken().Text));
-    }
-
-    private Expr ParsePrimary()
-    {
-        return Current.Type switch
-        {
-            TokenType.StringLiteral => ParseString(),
-            TokenType.OpenParen => ParseGroup(),
-            TokenType.Identifier => ParseIdentifierListOrCall(),
-            TokenType.Number => ParseNumber(),
-            TokenType.At => new UnaryExpression(NextToken(), ParseExpression(), false),
-            TokenType.TrueLiteral => ParseBooleanLiteral(true),
-            TokenType.FalseLiteral => ParseBooleanLiteral(false),
-            TokenType.DayLiteral => ParseDayLiteral(),
-            TokenType.DayOfWeekLiteral => ParseDayOfWeekLiteral(),
-            TokenType.NowLiteral => ParseNowLiteral(),
-            TokenType.Hours or TokenType.Minutes or TokenType.Seconds => ParseTimeLiteral(),
-            _ => Invalid("Unknown Expression. Expected String, Group, Number, Boolean or Identifier"),
-        };
     }
 
     private Expr ParseString()

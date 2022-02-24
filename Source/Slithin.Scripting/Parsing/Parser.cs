@@ -46,7 +46,7 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
 
     private SyntaxNode ParseExpressionStatement()
     {
-        var expr = ParseExpression();
+        var expr = Expression.Parse(this);
 
         Match(TokenType.Dot);
 
@@ -57,7 +57,7 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
     {
         NextToken();
 
-        var value = ParseExpression();
+        var value = Expression.Parse(this);
 
         Match(TokenType.As);
 
@@ -77,7 +77,7 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
 
         Match(TokenType.To);
 
-        var value = ParseExpression();
+        var value = Expression.Parse(this);
 
         Match(TokenType.Dot);
 
