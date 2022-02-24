@@ -1,5 +1,4 @@
 ﻿using Slithin.Scripting.Parsing;
-using Slithin.Scripting.Parsing.AST;
 
 namespace Slithin.Scripting.Core;
 
@@ -52,7 +51,7 @@ public abstract class BaseParser<TNode, TLexer, TParser>
         return current;
     }
 
-    internal abstract Expr ParsePrimary();
+    internal abstract Expression ParsePrimary();
 
     protected Token Match(TokenType kind)
     {

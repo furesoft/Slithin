@@ -1,6 +1,6 @@
 ﻿namespace Slithin.Scripting.Parsing.AST;
 
-public class NameExpression : Expr
+public class NameExpression : Expression
 {
     public NameExpression(string name, int line, int column)
     {

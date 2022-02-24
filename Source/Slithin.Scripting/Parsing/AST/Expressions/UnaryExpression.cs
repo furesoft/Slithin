@@ -1,15 +1,15 @@
 ﻿namespace Slithin.Scripting.Parsing.AST.Expressions;
 
-public class UnaryExpression : Expr
+public class UnaryExpression : Expression
 {
-    public UnaryExpression(Token operatorToken, Expr expression, bool isPostUnary)
+    public UnaryExpression(Token operatorToken, Expression expression, bool isPostUnary)
     {
         Expression = expression;
         IsPostUnary = isPostUnary;
         OperatorToken = operatorToken;
     }
 
-    public Expr Expression { get; set; }
+    public Expression Expression { get; set; }
     public bool IsPostUnary { get; }
     public Token OperatorToken { get; set; }
 

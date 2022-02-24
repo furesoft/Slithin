@@ -4,7 +4,7 @@ using Slithin.Scripting.Parsing.AST.Expressions;
 
 namespace Slithin.Scripting.Parsing;
 
-public static class Expression
+public class Expression : SyntaxNode
 {
     public static List<OperatorInfo> Operators = new List<OperatorInfo>();
 
@@ -28,32 +28,17 @@ public static class Expression
         Operators.Add(new OperatorInfo(TokenType.Comma, 2, false, false));
     }
 
-    public static int GetBinaryOperatorPrecedence(this TokenType kind)
-    {
-        return Operators.FirstOrDefault(_ => _.Token == kind && !_.IsUnary).Precedence;
-    }
-
-    public static int GetUnaryOperatorPrecedence(this TokenType kind)
-    {
-        return Operators.FirstOrDefault(_ => _.Token == kind && _.IsUnary).Precedence;
-    }
-
-    public static bool IsPostUnary(this TokenType kind)
-    {
-        return Operators.FirstOrDefault(_ => _.Token == kind && _.IsUnary).IsPostUnary;
-    }
-
-    public static Expr Parse<TNode, TLexer, TParser>(BaseParser<TNode, TLexer, TParser> parser, int parentPrecedence = 0)
+    public static Expression Parse<TNode, TLexer, TParser>(BaseParser<TNode, TLexer, TParser> parser, int parentPrecedence = 0)
         where TParser : BaseParser<TNode, TLexer, TParser>
         where TLexer : BaseLexer, new()
     {
-        Expr left;
-        var unaryOperatorPrecedence = parser.Current.Type.GetUnaryOperatorPrecedence();
+        Expression left;
+        var unaryOperatorPrecedence = GetUnaryOperatorPrecedence(parser.Current.Type);
 
         if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
         {
             Token? operatorToken = parser.NextToken();
-            Expr? operand = Parse(parser, unaryOperatorPrecedence + 1);
+            Expression? operand = Parse(parser, unaryOperatorPrecedence + 1);
 
             left = new UnaryExpression(operatorToken, operand, false);
         }
@@ -61,7 +46,7 @@ public static class Expression
         {
             left = parser.ParsePrimary();
 
-            if (parser.Current.Type.IsPostUnary())
+            if (IsPostUnary(parser.Current.Type))
             {
                 Token? operatorToken = parser.NextToken();
 
@@ -71,7 +56,7 @@ public static class Expression
 
         while (true)
         {
-            var precedence = parser.Current.Type.GetBinaryOperatorPrecedence();
+            var precedence = GetBinaryOperatorPrecedence(parser.Current.Type);
             if (precedence == 0 || precedence <= parentPrecedence)
                 break;
 
@@ -82,5 +67,25 @@ public static class Expression
         }
 
         return left;
+    }
+
+    public override T Accept<T>(IVisitor<T> visitor)
+    {
+        return visitor.Visit(this);
+    }
+
+    private static int GetBinaryOperatorPrecedence(TokenType kind)
+    {
+        return Operators.FirstOrDefault(_ => _.Token == kind && !_.IsUnary).Precedence;
+    }
+
+    private static int GetUnaryOperatorPrecedence(TokenType kind)
+    {
+        return Operators.FirstOrDefault(_ => _.Token == kind && _.IsUnary).Precedence;
+    }
+
+    private static bool IsPostUnary(TokenType kind)
+    {
+        return Operators.FirstOrDefault(_ => _.Token == kind && _.IsUnary).IsPostUnary;
     }
 }

@@ -6,7 +6,7 @@ namespace Slithin.Scripting.Parsing;
 
 public partial class Parser
 {
-    internal override Expr ParsePrimary()
+    internal override Expression ParsePrimary()
     {
         return Current.Type switch
         {
@@ -25,35 +25,35 @@ public partial class Parser
         };
     }
 
-    private Expr Invalid(string message)
+    private Expression Invalid(string message)
     {
         Messages.Add(Message.Error(message, Current.Line, Current.Column));
 
         return new InvalidExpr();
     }
 
-    private Expr ParseBooleanLiteral(bool value)
+    private Expression ParseBooleanLiteral(bool value)
     {
         NextToken();
 
         return new LiteralNode(value);
     }
 
-    private Expr ParseDayLiteral()
+    private Expression ParseDayLiteral()
     {
         NextToken();
 
         return new DayLiteralNode();
     }
 
-    private Expr ParseDayOfWeekLiteral()
+    private Expression ParseDayOfWeekLiteral()
     {
         var token = NextToken();
 
         return new LiteralNode(Enum.Parse<DayOfWeek>(token.Text.Substring(0, token.Text.Length - 1), true));
     }
 
-    private Expr ParseGroup()
+    private Expression ParseGroup()
     {
         Match(TokenType.OpenParen);
 
@@ -64,7 +64,7 @@ public partial class Parser
         return new GroupExpression(expr);
     }
 
-    private Expr ParseIdentifierList()
+    private Expression ParseIdentifierList()
     {
         var identifiers = new List<string>();
 
@@ -87,7 +87,7 @@ public partial class Parser
         return new NameExpression(string.Join(' ', identifiers), line, column);
     }
 
-    private Expr ParseIdentifierListOrCall()
+    private Expression ParseIdentifierListOrCall()
     {
         var identifiers = ParseIdentifierList();
 
@@ -95,7 +95,7 @@ public partial class Parser
         {
             NextToken();
 
-            Expr interval = null;
+            Expression interval = null;
 
             var arguments = new Block();
 
@@ -126,24 +126,24 @@ public partial class Parser
         return identifiers;
     }
 
-    private Expr ParseNowLiteral()
+    private Expression ParseNowLiteral()
     {
         NextToken();
 
         return new NowLiteralNode(null);
     }
 
-    private Expr ParseNumber()
+    private Expression ParseNumber()
     {
         return new LiteralNode(double.Parse(NextToken().Text));
     }
 
-    private Expr ParseString()
+    private Expression ParseString()
     {
         return new LiteralNode(NextToken().Text);
     }
 
-    private Expr ParseTimeLiteral()
+    private Expression ParseTimeLiteral()
     {
         return new UnaryExpression(Current, null, false);
     }

@@ -35,4 +35,5 @@ public interface IVisitor<T>
     T Visit(CallExpr callExpr);
 
     T Visit(DayLiteralNode dayLiteral);
+    T Visit(Expression expression);
 }

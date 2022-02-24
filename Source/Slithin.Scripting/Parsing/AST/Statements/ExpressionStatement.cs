@@ -2,12 +2,12 @@
 
 public class ExpressionStatement : Statement
 {
-    public ExpressionStatement(Expr expression)
+    public ExpressionStatement(Expression expression)
     {
         Expression = expression;
     }
 
-    public Expr Expression { get; set; }
+    public Expression Expression { get; set; }
 
     public override T Accept<T>(IVisitor<T> visitor)
     {

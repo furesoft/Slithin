@@ -2,14 +2,14 @@
 
 public class RememberStatement : Statement
 {
-    public RememberStatement(string name, Expr value)
+    public RememberStatement(string name, Expression value)
     {
         Name = name;
         Value = value;
     }
 
     public string Name { get; set; }
-    public Expr Value { get; set; }
+    public Expression Value { get; set; }
 
     public override T Accept<T>(IVisitor<T> visitor)
     {

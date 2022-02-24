@@ -62,4 +62,9 @@ public partial class Interpreter : IVisitor<object>
 
         return null;
     }
+
+    public object Visit(Expression expression)
+    {
+        return expression.Accept(this);
+    }
 }

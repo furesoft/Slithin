@@ -59,8 +59,8 @@ public partial class Interpreter : IVisitor<object>
 
     public object Visit(BinaryExpression binaryExpression)
     {
-        var left = (dynamic)binaryExpression.Lhs.Accept(this);
-        var right = (dynamic)binaryExpression.Rhs.Accept(this);
+        var left = (dynamic)binaryExpression.Left.Accept(this);
+        var right = (dynamic)binaryExpression.Right.Accept(this);
 
         return binaryExpression.OperatorToken.Type switch
         {
