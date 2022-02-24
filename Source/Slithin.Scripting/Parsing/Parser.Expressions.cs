@@ -14,14 +14,14 @@ public partial class Parser
             TokenType.OpenParen => ParseGroup(),
             TokenType.Identifier => ParseIdentifierListOrCall(),
             TokenType.Number => ParseNumber(),
-            TokenType.At => new UnaryExpression(NextToken(), Expression.Parse(this), false),
+            TokenType.At => ParseAt(),
             TokenType.TrueLiteral => ParseBooleanLiteral(true),
             TokenType.FalseLiteral => ParseBooleanLiteral(false),
             TokenType.DayLiteral => ParseDayLiteral(),
             TokenType.DayOfWeekLiteral => ParseDayOfWeekLiteral(),
             TokenType.NowLiteral => ParseNowLiteral(),
             TokenType.Hours or TokenType.Minutes or TokenType.Seconds => ParseTimeLiteral(),
-            _ => Invalid("Unknown Expression. Expected String, Group, Number, Boolean or Identifier"),
+            _ => Invalid("Unknown Expression. Expected String, Group, Number, Boolean, Day, DayOfWeek, Now, Time or Identifier"),
         };
     }
 
@@ -30,6 +30,11 @@ public partial class Parser
         Messages.Add(Message.Error(message, Current.Line, Current.Column));
 
         return new InvalidExpr();
+    }
+
+    private UnaryExpression ParseAt()
+    {
+        return new UnaryExpression(NextToken(), Expression.Parse(this), false);
     }
 
     private Expression ParseBooleanLiteral(bool value)
@@ -95,11 +100,11 @@ public partial class Parser
         {
             NextToken();
 
-            Expression interval = null;
+            Expression? interval = null;
 
             var arguments = new Block();
 
-            bool hasArgumentLeft = false;
+            bool hasArgumentLeft;
             do
             {
                 hasArgumentLeft = false;
