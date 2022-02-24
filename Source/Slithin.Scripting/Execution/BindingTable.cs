@@ -59,6 +59,11 @@ public class BindingTable
         return null;
     }
 
+    public IEnumerable<string> GetVariableNames()
+    {
+        return Variables.Keys;
+    }
+
     public bool IsCallable(string name)
     {
         if (Aliases.ContainsKey(name))

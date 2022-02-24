@@ -69,6 +69,7 @@ public partial class Interpreter : IVisitor<object>
             TokenType.Star => left * right,
             TokenType.Slash => left / right,
             TokenType.Colon => EvaluateTime(binaryExpression),
+            TokenType.Comma => EvaluateComma(binaryExpression),
             _ => throw new NotImplementedException()
         };
     }
@@ -80,7 +81,7 @@ public partial class Interpreter : IVisitor<object>
             TokenType.At => EvaluateDate(unaryExpression),
             TokenType.Minus => EvaluateNegation(unaryExpression),
             TokenType.Not => EvaluateNot(unaryExpression),
-            TokenType.Hours or TokenType.Minutes or TokenType.Seconds => EvaluateTimeLiteral(unaryExpression),
+            TokenType.DayLiteral or TokenType.Hours or TokenType.Minutes or TokenType.Seconds => EvaluateTimeLiteral(unaryExpression),
             _ => throw new NotImplementedException()
         };
     }
@@ -113,6 +114,11 @@ public partial class Interpreter : IVisitor<object>
         return DateTime.Today;
     }
 
+    private object EvaluateComma(BinaryExpression binaryExpression)
+    {
+        throw new NotImplementedException();
+    }
+
     private object EvaluateTimeLiteral(UnaryExpression unaryExpression)
     {
         var value = (double)unaryExpression.Expression.Accept(this);
@@ -122,6 +128,7 @@ public partial class Interpreter : IVisitor<object>
             TokenType.Hours => TimeSpan.FromHours(value),
             TokenType.Minutes => TimeSpan.FromMinutes(value),
             TokenType.Seconds => TimeSpan.FromSeconds(value),
+            TokenType.DayLiteral => TimeSpan.FromDays(value),
         };
     }
 }

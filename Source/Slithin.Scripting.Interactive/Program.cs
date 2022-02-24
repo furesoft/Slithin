@@ -11,6 +11,15 @@ public static class Program
         interpreter.BindingTable.AddVariable("today", DateTime.Today.DayOfWeek);
         interpreter.BindingTable.AddVariable("show notification", new DelegateCallable(new Action<string>(Console.WriteLine)));
         interpreter.BindingTable.AddAlias("today", "heute");
+        interpreter.BindingTable.AddVariable("environment", interpreter.BindingTable);
+        interpreter.BindingTable.AddVariable("list elements of environment", new DelegateCallable(new Action(() =>
+        {
+            foreach (var binding in interpreter.BindingTable.GetVariableNames())
+            {
+                Console.WriteLine(binding + ": " + interpreter.BindingTable.GetVariable(binding));
+            }
+        }
+        )));
 
         while (true)
         {

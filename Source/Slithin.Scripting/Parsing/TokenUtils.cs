@@ -12,6 +12,7 @@ public static class TokenUtils
         Operators.Add(new OperatorInfo(TokenType.Hours, 7, true, true));
         Operators.Add(new OperatorInfo(TokenType.Minutes, 7, true, true));
         Operators.Add(new OperatorInfo(TokenType.Seconds, 7, true, true));
+        Operators.Add(new OperatorInfo(TokenType.DayLiteral, 7, true, true));
 
         //Binary Operators
         Operators.Add(new OperatorInfo(TokenType.Star, 5, false, false));
@@ -42,7 +43,7 @@ public static class TokenUtils
             "monday" or "tuesday" or "wednesday" or
             "thursday" or "friday" or "saturday" or
             "sunday" => TokenType.DayOfWeekLiteral,
-            "day" => TokenType.DayLiteral,
+
             "now" => TokenType.NowLiteral,
             "call" or "invoke" => TokenType.Call,
             "set" => TokenType.Set,
@@ -52,9 +53,10 @@ public static class TokenUtils
             "and" => TokenType.And,
             "every" => TokenType.Every,
 
-            "minutes" => TokenType.Minutes,
-            "seconds" => TokenType.Seconds,
-            "hours" => TokenType.Hours,
+            "minute" or "minutes" => TokenType.Minutes,
+            "second" or "seconds" => TokenType.Seconds,
+            "hour" or "hours" => TokenType.Hours,
+            "day" or "days" => TokenType.DayLiteral,
 
             _ => TokenType.Identifier,
         };
