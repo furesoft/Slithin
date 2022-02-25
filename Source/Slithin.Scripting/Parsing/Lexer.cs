@@ -83,6 +83,18 @@ public class Lexer : BaseLexer
                 _column++;
             }
 
+            if (char.IsDigit(Peek(1)) && Peek(0) == '.')
+            {
+                Advance();
+                _column++;
+
+                while (char.IsDigit(Peek(0)))
+                {
+                    Advance();
+                    _column++;
+                }
+            }
+
             return new Token(TokenType.Number, _source.Substring(oldpos, _position - oldpos), oldpos, _position, _line, oldcolumn);
         }
         else

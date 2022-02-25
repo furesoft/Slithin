@@ -1,4 +1,5 @@
-﻿using Slithin.Scripting.Parsing.AST;
+﻿using System.Globalization;
+using Slithin.Scripting.Parsing.AST;
 using Slithin.Scripting.Parsing.AST.Expressions;
 using Slithin.Scripting.Parsing.AST.Literals;
 
@@ -140,7 +141,7 @@ public partial class Parser
 
     private Expression ParseNumber()
     {
-        return new LiteralNode(double.Parse(NextToken().Text));
+        return new LiteralNode(double.Parse(NextToken().Text, CultureInfo.InvariantCulture));
     }
 
     private Expression ParseString()
