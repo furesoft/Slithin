@@ -1,3 +1,7 @@
+Version 1.0.9
+
+- Bugfixes
+
 Version 1.0.6
 
 - Performance improvements
