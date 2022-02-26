@@ -1,13 +1,13 @@
 ﻿namespace Slithin.Scripting.Parsing.AST.Expressions;
 
-public class GroupExpression : Expr
+public class GroupExpression : Expression
 {
-    public GroupExpression(Expr inner)
+    public GroupExpression(Expression inner)
     {
         Inner = inner;
     }
 
-    public Expr Inner { get; set; }
+    public Expression Inner { get; set; }
 
     public override T Accept<T>(IVisitor<T> visitor)
     {

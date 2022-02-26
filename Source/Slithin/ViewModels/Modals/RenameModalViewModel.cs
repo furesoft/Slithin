@@ -43,15 +43,7 @@ public class RenameModalViewModel : ModalBaseViewModel
 
         _md.Save();
 
-        var syncItem = new SyncItem
-        {
-            Action = SyncAction.Update,
-            Data = _md,
-            Direction = SyncDirection.ToDevice,
-            Type = SyncType.Notebook
-        };
-
-        _synchronisationService.AddToSyncQueue(syncItem);
+        _md.Upload();
 
         DialogService.Close();
     }

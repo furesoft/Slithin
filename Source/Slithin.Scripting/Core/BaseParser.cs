@@ -1,6 +1,5 @@
 ﻿using Slithin.Scripting.Parsing;
-using Slithin.Scripting.Core;
-using Slithin.Scripting.Parsing;
+
 namespace Slithin.Scripting.Core;
 
 public abstract class BaseParser<TNode, TLexer, TParser>
@@ -19,7 +18,7 @@ public abstract class BaseParser<TNode, TLexer, TParser>
     }
 
     public SourceDocument Document { get; }
-    protected Token Current => Peek(0);
+    internal Token Current => Peek(0);
 
     public static (TNode? Tree, List<Message> Messages) Parse(SourceDocument document)
     {
@@ -45,6 +44,15 @@ public abstract class BaseParser<TNode, TLexer, TParser>
         return node;
     }
 
+    internal Token NextToken()
+    {
+        var current = Current;
+        _position++;
+        return current;
+    }
+
+    internal abstract Expression ParsePrimary();
+
     protected Token Match(TokenType kind)
     {
         if (Current.Type == kind)
@@ -53,13 +61,6 @@ public abstract class BaseParser<TNode, TLexer, TParser>
         Messages.Add(Message.Error($"Expected {kind} but got {Current.Type}", Current.Line, Current.Column));
 
         return Token.Invalid;
-    }
-
-    protected Token NextToken()
-    {
-        var current = Current;
-        _position++;
-        return current;
     }
 
     protected Token Peek(int offset)

@@ -24,6 +24,7 @@ public partial class ConnectWindow : Window
     {
         AvaloniaXamlLoader.Load(this);
 
+        //ToDo: Move to viewmodel
         var li = ServiceLocator.Container.Resolve<ILoginService>().GetLoginCredentials();
         var cvm = ServiceLocator.Container.Resolve<ConnectionWindowViewModel>();
 
@@ -35,7 +36,7 @@ public partial class ConnectWindow : Window
             }
         }
 
-        cvm.SelectedLogin = li.FirstOrDefault();
+        cvm.SelectedLogin = li.FirstOrDefault() ?? new Models.LoginInfo();
 
         cvm.LoginCredentials = new(li);
 

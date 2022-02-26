@@ -5,7 +5,6 @@ using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
-using Slithin.Models;
 
 namespace Slithin.Core.MessageHandlers;
 
@@ -68,8 +67,7 @@ public class SyncMessageHandler : IMessageHandler<SyncMessage>
                         {
                             NotificationService.Show("Updating " + md.VisibleName);
 
-                            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
-                                PathList.Documents + "/" + md.ID + ".metadata");
+                            md.Upload();
                         }
                     }
                     else if (message.Item.Action == SyncAction.Add)
@@ -78,29 +76,8 @@ public class SyncMessageHandler : IMessageHandler<SyncMessage>
                         {
                             NotificationService.Show("Uploading " + md.VisibleName);
 
-                            _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
-                                PathList.Documents + "/" + md.ID + ".metadata");
-
-                            if (md.Type == "DocumentType" &&
-                                (md.Content.FileType == "pdf" || md.Content.FileType == "epub"))
-                            {
-                                _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)),
-                                    PathList.Documents + "/" + md.ID + "." + md.Content.FileType);
-                                _scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
-                                    PathList.Documents + "/" + md.ID + ".content");
-                            }
+                            md.Upload();
                         }
-                    }
-
-                    break;
-
-                case SyncType.Screen:
-                    if (message.Item.Data is CustomScreen cs && message.Item.Action == SyncAction.Add)
-                    {
-                        NotificationService.Show("Uploading Screen" + cs.Title);
-
-                        _scp.Upload(new FileInfo(Path.Combine(customscreensDir, cs.Filename)),
-                            PathList.Screens + cs.Filename);
                     }
 
                     break;

@@ -76,8 +76,10 @@ public class ConnectionWindowViewModel : BaseViewModel
             return;
         }
 
-        var client = new SshClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password);
-        var scp = new ScpClient(SelectedLogin.IP, 22, "root", SelectedLogin.Password);
+        var ip = IPAddress.Parse(SelectedLogin.IP);
+
+        var client = new SshClient(ip.Address, ip.Port, "root", SelectedLogin.Password);
+        var scp = new ScpClient(ip.Address, ip.Port, "root", SelectedLogin.Password);
 
         client.ErrorOccurred += (s, _) =>
         {

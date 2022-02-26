@@ -25,6 +25,14 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
             {
                 cu.Body.Body.Add(ParseVariableAssignment());
             }
+            else if (keyword.Type == TokenType.Call)
+            {
+                NextToken();
+
+                cu.Body.Body.Add(ParseIdentifierListOrCall());
+
+                Match(TokenType.Dot);
+            }
             else
             {
                 cu.Body.Body.Add(ParseExpressionStatement());
@@ -38,7 +46,7 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
 
     private SyntaxNode ParseExpressionStatement()
     {
-        var expr = ParseExpression();
+        var expr = Expression.Parse(this);
 
         Match(TokenType.Dot);
 
@@ -49,15 +57,15 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
     {
         NextToken();
 
-        var value = ParseExpression();
+        var value = Expression.Parse(this);
 
         Match(TokenType.As);
 
-        var name = Match(TokenType.Identifier);
+        var name = (NameExpression)ParseIdentifierList();
 
         Match(TokenType.Dot);
 
-        return new RememberStatement(name, value);
+        return new RememberStatement(name.Name, value);
     }
 
     private SyntaxNode ParseVariableAssignment()
@@ -69,7 +77,7 @@ public partial class Parser : BaseParser<SyntaxNode, Lexer, Parser>
 
         Match(TokenType.To);
 
-        var value = ParseExpression();
+        var value = Expression.Parse(this);
 
         Match(TokenType.Dot);
 

@@ -41,11 +41,6 @@ public partial class MainWindow : Window
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
 
-        if (pathManager.Migration.NeedsMigration)
-        {
-            return;
-        }
-
         if (!Directory.GetFiles(pathManager.TemplatesDir).Any())
         {
             mailboxService.Post(new InitStorageMessage());

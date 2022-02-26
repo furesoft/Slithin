@@ -186,8 +186,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
             document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
 
-            var notebook = Notebook.Load(md);
-            notebook.Upload();
+            Notebook.Upload(md);
         });
 
         DialogService.Close();

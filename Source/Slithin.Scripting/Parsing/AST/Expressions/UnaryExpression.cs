@@ -1,14 +1,16 @@
 ﻿namespace Slithin.Scripting.Parsing.AST.Expressions;
 
-public class UnaryExpression : Expr
+public class UnaryExpression : Expression
 {
-    public UnaryExpression(Token operatorToken, Expr expression)
+    public UnaryExpression(Token operatorToken, Expression expression, bool isPostUnary)
     {
         Expression = expression;
+        IsPostUnary = isPostUnary;
         OperatorToken = operatorToken;
     }
 
-    public Expr Expression { get; set; }
+    public Expression Expression { get; set; }
+    public bool IsPostUnary { get; }
     public Token OperatorToken { get; set; }
 
     public override T Accept<T>(IVisitor<T> visitor)
@@ -18,6 +20,13 @@ public class UnaryExpression : Expr
 
     public override string ToString()
     {
-        return $"{OperatorToken.Text}{Expression}";
+        if (!IsPostUnary)
+        {
+            return $"{OperatorToken.Text} {Expression}";
+        }
+        else
+        {
+            return $"{Expression} {OperatorToken.Text}";
+        }
     }
 }

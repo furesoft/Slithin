@@ -1,16 +1,23 @@
-﻿<compilationUnit> ::= (<expression>)*
+﻿<compilationUnit> ::= (<statement>)*
 
 <expression> ::= <term> "+" <expression> |  <term> "-" <expression> | <term>
 
 <term> ::= <unary> "*" <term> | <unary> "/" <term> | <unary> ":" <term> | <unary>
 
-<primary> ::= "(" <expression> ")" | <number> | <identifier>
+<primary> ::= "(" <expression> ")" | <number> | <callOrIdentifierList>
 
 <unary> ::= ("not" | ("without" | "negate" | "-") | "at") <primary> | <primary>
 
 <identifier> ::= ([a-z] | [A-Z])+
 <number> ::= "-"? [0-9]+
 
-<statement> ::= ((<expression> | <rememberStatement>) ".")+
+<statement> ::= ((<expression> | <rememberStatement> | <setStatement>) ".")+
 
 <rememberStatement> ::= "remember" <expression> "as" <identifier>
+<setStatement> ::= ("set" | "change") <identifier> "to" <expression>
+
+<identifierList> ::= <identifier> <identifierList> | <identifier>
+
+<callOrIdentifierList> ::= <identifierList> "with" <callArguments> ("every" <expression>)? | <identifierList>
+
+<callArguments> ::= <expression> "and" <callArguments> | <expression>

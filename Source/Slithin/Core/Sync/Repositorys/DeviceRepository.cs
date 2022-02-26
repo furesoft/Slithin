@@ -27,6 +27,12 @@ public class DeviceRepository : IRepository
         _loadingService = loadingService;
     }
 
+    public void Add(CustomScreen screen)
+    {
+        _scp.Upload(new FileInfo(Path.Combine(_pathManager.CustomScreensDir, screen.Title + ".png")),
+            PathList.Screens + screen.Title + ".png");
+    }
+
     public void AddTemplate(Template template)
     {
         //1. copy template to device
@@ -36,6 +42,7 @@ public class DeviceRepository : IRepository
         _scp?.Upload(File.OpenRead(deviceTemplatePath), PathList.Templates + template.Filename + ".png");
 
         // modifiy template.json
+
         var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
         var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
         var templates = new Template[templateJson!.Templates.Length + 1];
@@ -53,6 +60,21 @@ public class DeviceRepository : IRepository
         // upload modified template.json
         var jsonStrm = File.OpenRead(path);
         _scp!.Upload(jsonStrm, PathList.Templates + "/templates.json");
+    }
+
+    public void DownloadCustomScreens()
+    {
+        var cmd = _client.RunCommand("ls -p " + PathList.Screens);
+        var filenames = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".png"));
+
+        // download files to custom screen dir
+        foreach (var file in filenames)
+        {
+            _scp.Download(PathList.Screens + file,
+                new FileInfo(Path.Combine(_pathManager.CustomScreensDir, Path.GetFileName(file))));
+        }
+
+        _loadingService.LoadScreens();
     }
 
     public Template[] GetTemplates()
@@ -82,40 +104,6 @@ public class DeviceRepository : IRepository
         return null;
     }
 
-    public void RemoveTemplate(Template template)
-    {
-        // modifiy template.json
-        var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
-        var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
-        templateJson.Remove(template);
-        templateJson.Save();
-
-        _scp.Upload(File.OpenRead(_pathManager.ConfigBaseDir + "templates.json"),
-            Path.Combine(PathList.Templates, "templates.json"));
-        _client.RunCommand("rm -fr " + PathList.Templates + template.Filename + ".png");
-    }
-
-    public void Add(CustomScreen screen)
-    {
-        _scp.Upload(new FileInfo(Path.Combine(_pathManager.CustomScreensDir, screen.Title + ".png")),
-            PathList.Screens + screen.Title + ".png");
-    }
-
-    public void DownloadCustomScreens()
-    {
-        var cmd = _client.RunCommand("ls -p " + PathList.Screens);
-        var filenames = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".png"));
-
-        // download files to custom screen dir
-        foreach (var file in filenames)
-        {
-            _scp.Download(PathList.Screens + file,
-                new FileInfo(Path.Combine(_pathManager.CustomScreensDir, Path.GetFileName(file))));
-        }
-
-        _loadingService.LoadScreens();
-    }
-
     public void Remove(Metadata data)
     {
         if (data.Type != "DocumentType")
@@ -131,5 +119,18 @@ public class DeviceRepository : IRepository
         {
             _client.RunCommand("rm -fr " + filename);
         }
+    }
+
+    public void RemoveTemplate(Template template)
+    {
+        // modifiy template.json
+        var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
+        var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));
+        templateJson.Remove(template);
+        templateJson.Save();
+
+        _scp.Upload(File.OpenRead(_pathManager.ConfigBaseDir + "templates.json"),
+            Path.Combine(PathList.Templates, "templates.json"));
+        _client.RunCommand("rm -fr " + PathList.Templates + template.Filename + ".png");
     }
 }

@@ -1,17 +1,17 @@
 ﻿namespace Slithin.Scripting.Parsing.AST.Expressions;
 
-public class BinaryExpression : Expr
+public class BinaryExpression : Expression
 {
-    public BinaryExpression(Expr lhs, Token operatorToken, Expr rhs)
+    public BinaryExpression(Expression lhs, Token operatorToken, Expression rhs)
     {
-        Lhs = lhs;
+        Left = lhs;
         OperatorToken = operatorToken;
-        Rhs = rhs;
+        Right = rhs;
     }
 
-    public Expr Lhs { get; }
+    public Expression Left { get; }
     public Token OperatorToken { get; }
-    public Expr Rhs { get; }
+    public Expression Right { get; }
 
     public override T Accept<T>(IVisitor<T> visitor)
     {
@@ -20,6 +20,6 @@ public class BinaryExpression : Expr
 
     public override string ToString()
     {
-        return $"{Lhs}{OperatorToken.Text}{Rhs}";
+        return $"{Left} {OperatorToken.Text} {Right}";
     }
 }

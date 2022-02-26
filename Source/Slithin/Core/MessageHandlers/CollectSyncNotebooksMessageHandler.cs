@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -66,7 +66,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
         for (var i = 0; i < mdFilenames.Length; i++)
         {
             var md = mdFilenames[i];
-            NotificationService.Show($"Downloading Notebook Metadata {i} / {mdFilenames.Length}");
+            NotificationService.ShowProgress($"Downloading Notebook Metadata {i} / {mdFilenames.Length}", i, mdFilenames.Length);
 
             var sshCommand = _client.RunCommand($"cat {PathList.Documents}/{md}");
             var mdContent = sshCommand.Result;
@@ -113,8 +113,18 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
         _mailboxService.Post(new DownloadSyncNotebookMessage(_syncNotebooks));
     }
 
+    private static void InitMetadata(Metadata mdObj, string md, ContentFile contentObj, string pageDataContent,
+        Dictionary<string, Metadata> mdLocals, Metadata mdLocalObj)
+    {
+        mdObj.ID = Path.GetFileNameWithoutExtension(md);
+        mdObj.Content = contentObj;
+        mdObj.PageData.Parse(pageDataContent);
+
+        mdLocals.Add(mdObj.ID, mdLocalObj);
+    }
+
     private void ConvertMetadataToSyncNotebook(List<Metadata> mds, List<string> allFilenames, string notebooksDir,
-        Dictionary<string, Metadata> mdLocals)
+            Dictionary<string, Metadata> mdLocals)
     {
         foreach (var md in mds)
         {
@@ -211,15 +221,5 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
                 _synchronisationService.NotebooksFilter.Documents.Add(mdObj);
             }
         }
-    }
-
-    private static void InitMetadata(Metadata mdObj, string md, ContentFile contentObj, string pageDataContent,
-        Dictionary<string, Metadata> mdLocals, Metadata mdLocalObj)
-    {
-        mdObj.ID = Path.GetFileNameWithoutExtension(md);
-        mdObj.Content = contentObj;
-        mdObj.PageData.Parse(pageDataContent);
-
-        mdLocals.Add(mdObj.ID, mdLocalObj);
     }
 }

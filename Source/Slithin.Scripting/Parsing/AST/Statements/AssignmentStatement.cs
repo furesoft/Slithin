@@ -2,14 +2,14 @@
 
 public class AssignmentStatement : Statement
 {
-    public AssignmentStatement(Token nameToken, Expr value)
+    public AssignmentStatement(Token nameToken, Expression value)
     {
         NameToken = nameToken;
         Value = value;
     }
 
     public Token NameToken { get; set; }
-    public Expr Value { get; set; }
+    public Expression Value { get; set; }
 
     public override T Accept<T>(IVisitor<T> visitor)
     {

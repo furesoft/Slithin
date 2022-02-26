@@ -11,12 +11,18 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <styles:Card Background="Gray" Margin="3" HorizontalAlignment="Center" context:UIContextMenuBuilder.Enable="Template">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding Name}" TextAlignment="Center" />
+                        <StackPanel Orientation="Vertical" Margin="2">
+                            <Grid>
+                                <Button Classes="Flat" Command="{Binding TransferCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip.Tip="Transfer to device">
+                                    <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularTransfer}" />
+                                </Button>
+                            </Grid>
 
                             <Border Margin="5" BorderThickness="1" BorderBrush="Black">
                                 <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" Margin="2" />
                             </Border>
+
+                            <TextBlock Text="{Binding Name}" TextAlignment="Center" />
                         </StackPanel>
                     </styles:Card>
                 </DataTemplate>

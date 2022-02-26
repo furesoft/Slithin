@@ -2,16 +2,6 @@
 
 public static class TokenUtils
 {
-    public static int GetBinaryOperatorPrecedence(this TokenType kind)
-    {
-        return kind switch
-        {
-            TokenType.Star or TokenType.Slash or TokenType.Colon => 5,
-            TokenType.Plus or TokenType.Minus => 4,
-            _ => 0,
-        };
-    }
-
     public static TokenType GetTokenType(string name)
     {
         return name switch
@@ -23,23 +13,25 @@ public static class TokenUtils
             "remember" => TokenType.Remember,
             "on" or "true" or "enabled" => TokenType.TrueLiteral,
             "off" or "false" or "disabled" => TokenType.FalseLiteral,
-            "mondays" or "tuesdays" or "wednesdays" or
-            "thursdays" or "fridays" or "saturdays" or
-            "sundays" => TokenType.DayLiteral,
+            "monday" or "tuesday" or "wednesday" or
+            "thursday" or "friday" or "saturday" or
+            "sunday" => TokenType.DayOfWeekLiteral,
+
             "now" => TokenType.NowLiteral,
             "call" or "invoke" => TokenType.Call,
             "set" => TokenType.Set,
+            "change" => TokenType.Set,
             "to" => TokenType.To,
-            _ => TokenType.Identifier,
-        };
-    }
+            "with" => TokenType.With,
+            "and" => TokenType.And,
+            "every" => TokenType.Every,
 
-    public static int GetUnaryOperatorPrecedence(this TokenType kind)
-    {
-        return kind switch
-        {
-            TokenType.Minus or TokenType.Not => 6,
-            _ => 0,
+            "minute" or "minutes" => TokenType.Minutes,
+            "second" or "seconds" => TokenType.Seconds,
+            "hour" or "hours" => TokenType.Hours,
+            "day" or "days" => TokenType.DayLiteral,
+
+            _ => TokenType.Identifier,
         };
     }
 }
