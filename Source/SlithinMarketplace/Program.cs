@@ -34,7 +34,7 @@ public static class Program
 
     private static WebServer CreateWebServer(string url)
     {
-        var basicAuthProvider = new BasicAuthorizationServerProvider();
+        var basicAuthProvider = new AuthorizationServerProvider();
         // You can set which routes to check, empty param will secure entire server
 
         var server = new WebServer(o => o
@@ -42,12 +42,24 @@ public static class Program
                 .WithMode(HttpListenerMode.EmbedIO))
             // First, we will configure our web server by adding Modules.
             .WithModule(new BearerTokenModule("/", basicAuthProvider, new string('f', 40)))
-            .WithWebApi("/api", m => m
+            .WithWebApi("/slithin/api", m => m
                 .RegisterController<ApiController>())
             .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
 
         // Listen for state changes.
         server.StateChanged += (s, e) => $"WebServer New State - {e.NewState}".Info();
+
+        server.HandleHttpException(async (context, exception) =>
+        {
+            context.Response.StatusCode = exception.StatusCode;
+
+            switch (exception.StatusCode)
+            {
+                default:
+                    await HttpExceptionHandler.Default(context, exception);
+                    break;
+            }
+        });
 
         return server;
     }

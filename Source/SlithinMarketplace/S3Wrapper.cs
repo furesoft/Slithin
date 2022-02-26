@@ -14,8 +14,8 @@ public class S3Wrapper
 
     public FileInfo GetObject(string bucket, string key, string output)
     {
-        string name = Path.GetFileName(key);
-        string outputPath = Path.Join(output, name);
+        var name = Path.GetFileName(key);
+        var outputPath = Path.Join(output, name);
         Console.WriteLine("Downloading: " + key + " to " + outputPath);
 
         try
@@ -28,9 +28,9 @@ public class S3Wrapper
 
             var task = client.GetObjectAsync(request);
             task.Wait();
-            GetObjectResponse response = task.Result;
-            Stream responseStream = response.ResponseStream;
-            FileStream fileStream = File.OpenWrite(outputPath);
+            var response = task.Result;
+            var responseStream = response.ResponseStream;
+            var fileStream = File.OpenWrite(outputPath);
             responseStream.CopyTo(fileStream);
             fileStream.Close();
         }
@@ -45,6 +45,41 @@ public class S3Wrapper
         }
 
         return new FileInfo(outputPath);
+    }
+
+    public Stream GetObjectStream(string bucket, string key)
+    {
+        var strm = new MemoryStream();
+
+        try
+        {
+            GetObjectRequest request = new()
+            {
+                BucketName = bucket,
+                Key = key
+            };
+
+            var task = client.GetObjectAsync(request);
+            task.Wait();
+            var response = task.Result;
+            var responseStream = response.ResponseStream;
+
+            responseStream.CopyTo(strm);
+
+            strm.Seek(0, SeekOrigin.Begin);
+            strm.Close();
+        }
+        catch (AmazonS3Exception e)
+        {
+            // If the bucket or the object do not exist
+            Console.WriteLine($"Error: '{e.Message}'");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Unhandled Error: {e.Message}");
+        }
+
+        return strm;
     }
 
     public List<S3Object> ListObjects(string bucketName)
@@ -98,7 +133,32 @@ public class S3Wrapper
 
             var task = this.client.PutObjectAsync(putRequest);
             task.Wait();
-            PutObjectResponse response = task.Result;
+            var response = task.Result;
+        }
+        catch (AmazonS3Exception e)
+        {
+            Console.WriteLine($"Error: {e.Message}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Unhandled Error: {e.Message}");
+        }
+    }
+
+    public void UploadObjectFromStream(string bucketName, string objectName, Stream strm)
+    {
+        try
+        {
+            PutObjectRequest putRequest = new()
+            {
+                BucketName = bucketName,
+                Key = objectName,
+                InputStream = strm
+            };
+
+            var task = this.client.PutObjectAsync(putRequest);
+            task.Wait();
+            var response = task.Result;
         }
         catch (AmazonS3Exception e)
         {
