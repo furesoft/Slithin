@@ -6,8 +6,14 @@ public struct IPAddress
 {
     public const string Pattern = @"^(((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(\:([0-9]+))?$";
 
+    public IPAddress()
+    {
+        Port = 22;
+        Address = "0.0.0.0";
+    }
+
     public string Address { get; set; }
-    public int Port { get; set; } = 22;
+    public int Port { get; set; }
 
     public static bool IsValid(string src)
     {
