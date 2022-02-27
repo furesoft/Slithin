@@ -14,9 +14,10 @@ public class FeatureToggle
 
         Feature<ToolsFeature>.Disable();
 #else
-
+Feature<QuickSheetsAsNotebookFeature>.Enable();
         /*
             Feature<ToolsFeature>.Enable();
+
             Feature<TemplateEditorFeature>.Enable();
             Feature<SharableFeature>.Enable();
             Feature<ExportFeature>.Enable();
