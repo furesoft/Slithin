@@ -159,6 +159,6 @@ public static class Updater
 
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
-        File.WriteAllText(pathManager.ConfigBaseDir + "changelog.txt", content);
+        File.WriteAllText(Path.Combine(pathManager.ConfigBaseDir, "changelog.txt"), content);
     }
 }
