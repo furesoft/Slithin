@@ -23,7 +23,14 @@ public class UIContextMenuBuilder
             }
             else if (s is Control c)
             {
-                c.ContextMenu = contextProvider.BuildMenu(context, c.DataContext, c.Parent?.DataContext);
+                if (c.Parent is ListBoxItem lbi)
+                {
+                    c.ContextMenu = contextProvider.BuildMenu(context, lbi.DataContext, lbi.Parent?.DataContext);
+                }
+                else
+                {
+                    c.ContextMenu = contextProvider.BuildMenu(context, c.DataContext, c.Parent?.DataContext);
+                }
             }
         }
 

@@ -23,12 +23,13 @@ public class TemplatesPageViewModel : BaseViewModel
         IMailboxService mailboxService,
         LocalRepository localRepository,
         IPathManager pathManager,
+        ILocalisationService localisationService,
         AddTemplateValidator validator)
     {
         OpenAddModalCommand = new DelegateCommand(_ =>
         {
             DialogService.Open(new AddTemplateModal(),
-                new AddTemplateModalViewModel(pathManager, localRepository, validator));
+                new AddTemplateModalViewModel(pathManager, localRepository, localisationService, validator));
         });
 
         RemoveTemplateCommand = new RemoveTemplateCommand(this, localRepository);

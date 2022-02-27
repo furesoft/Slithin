@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI;
@@ -31,11 +33,13 @@ public static class NotebooksView
             return;
         }
 
+        var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
+
         vm.SyncService.NotebooksFilter.Documents.Clear();
 
         var id = md.ID;
 
-        if (md.VisibleName.Equals("Up .."))
+        if (md.VisibleName.Equals(localisation.GetString("Up ..")))
         {
             id = _lastFolderIDs.Pop();
             vm.SyncService.NotebooksFilter.Folder = id;
@@ -45,12 +49,12 @@ public static class NotebooksView
                 vm.SyncService.NotebooksFilter.Documents.Add(new Metadata
                 {
                     Type = "CollectionType",
-                    VisibleName = "Trash",
+                    VisibleName = localisation.GetString("Trash"),
                     ID = "trash"
                 });
             }
         }
-        else if (md.VisibleName == "Trash")
+        else if (md.VisibleName == localisation.GetString("Trash"))
         {
             id = "trash";
             _lastFolderIDs.Push("");
@@ -67,7 +71,7 @@ public static class NotebooksView
 
         if (_lastFolderIDs.Count > 0)
         {
-            vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
+            vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = localisation.GetString("Up ..") });
             vm.SyncService.NotebooksFilter.Folder = id;
         }
         else

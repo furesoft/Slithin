@@ -7,7 +7,7 @@ using Slithin.Core.Features;
 using Slithin.Core.FeatureToggle;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Sync;
+using Slithin.Core.Services;
 using Slithin.ViewModels.Pages;
 
 namespace Slithin.ContextMenus;
@@ -15,15 +15,22 @@ namespace Slithin.ContextMenus;
 [Context(UIContext.Notebook)]
 public class NotebookContextMenu : IContextProvider
 {
+    private readonly ILocalisationService _localisationService;
+
+    public NotebookContextMenu(ILocalisationService localisationService)
+    {
+        _localisationService = localisationService;
+    }
+
     public object ParentViewModel { get; set; }
 
     public bool CanHandle(object obj)
     {
         return obj != null
                 && obj is Metadata md
-                && md.VisibleName != "Quick sheets"
-                && md.VisibleName != "Up .."
-                && md.VisibleName != "Trash";
+                && md.VisibleName != _localisationService.GetString("Quick sheets")
+                && md.VisibleName != _localisationService.GetString("Up ..")
+                && md.VisibleName != _localisationService.GetString("Trash");
     }
 
     public ICollection<MenuItem> GetMenu(object obj)
@@ -36,7 +43,7 @@ public class NotebookContextMenu : IContextProvider
 
         menu.Add(new MenuItem
         {
-            Header = "Copy ID",
+            Header = _localisationService.GetString("Copy ID"),
             Command = new DelegateCommand(async _ =>
                 await Application.Current.Clipboard.SetTextAsync(((Metadata)obj).ID))
         });
@@ -75,20 +82,20 @@ public class NotebookContextMenu : IContextProvider
 
             menu.Add(new MenuItem
             {
-                Header = "Export",
+                Header = _localisationService.GetString("Export"),
                 Items = subItems
             });
         }
 
         menu.Add(new MenuItem
         {
-            Header = "Remove",
+            Header = _localisationService.GetString("Remove"),
             Command = new DelegateCommand(_ => n.RemoveNotebookCommand.Execute(obj))
         });
 
-        menu.Add(new MenuItem { Header = "Rename", Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj)) });
+        menu.Add(new MenuItem { Header = _localisationService.GetString("Rename"), Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj)) });
 
-        menu.Add(new MenuItem { Header = "Move to Trash", Command = new DelegateCommand(_ => MoveToTrash(obj)) });
+        menu.Add(new MenuItem { Header = _localisationService.GetString("Move to Trash"), Command = new DelegateCommand(_ => MoveToTrash(obj)) });
 
         return menu;
     }
@@ -102,14 +109,6 @@ public class NotebookContextMenu : IContextProvider
 
         MetadataStorage.Local.Move(md, "trash");
 
-        var syncItem = new SyncItem
-        {
-            Action = SyncAction.Update,
-            Direction = SyncDirection.ToDevice,
-            Data = md,
-            Type = SyncType.Notebook
-        };
-
-        ServiceLocator.SyncService.AddToSyncQueue(syncItem);
+        md.Upload();
     }
 }

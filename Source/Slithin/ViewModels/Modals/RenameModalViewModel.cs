@@ -2,6 +2,7 @@
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels.Modals;
@@ -27,7 +28,8 @@ public class RenameModalViewModel : ModalBaseViewModel
     {
         if (string.IsNullOrEmpty(Name))
         {
-            DialogService.OpenDialogError("Name cannot be empty");
+            var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
+            DialogService.OpenDialogError(localisation.GetStringFormat("{0} cannot be empty", nameof(Name)));
             return;
         }
 

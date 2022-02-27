@@ -54,6 +54,8 @@ public partial class TemplatesPage : UserControl, IPage
     {
         if (e.Data.Contains(DataFormats.FileNames))
         {
+            var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
+
             var filename = e.Data.GetFileNames().First();
             var provider = ServiceLocator.Container.Resolve<IImportProviderFactory>().GetImportProvider(".png", filename);
 
@@ -65,7 +67,7 @@ public partial class TemplatesPage : UserControl, IPage
 
                     if (bitmap.Width != 1404 && bitmap.Height != 1872)
                     {
-                        DialogService.OpenError("The Screen Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+                        DialogService.OpenError(localisation.GetString("The Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));
 
                         return;
                     }
@@ -73,8 +75,9 @@ public partial class TemplatesPage : UserControl, IPage
                     var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
                     var localRepository = ServiceLocator.Container.Resolve<LocalRepository>();
                     var validator = ServiceLocator.Container.Resolve<AddTemplateValidator>();
+                    var localisationService = ServiceLocator.Container.Resolve<ILocalisationService>();
 
-                    var vm = new AddTemplateModalViewModel(pathManager, localRepository, validator);
+                    var vm = new AddTemplateModalViewModel(pathManager, localRepository, localisationService, validator);
                     vm.Filename = filename;
                     vm.Name = Path.GetFileNameWithoutExtension(filename);
 
@@ -83,7 +86,7 @@ public partial class TemplatesPage : UserControl, IPage
             }
             else
             {
-                DialogService.OpenError($"The file '{filename}' has the wrong Filetype");
+                DialogService.OpenError(localisation.GetStringFormat("The file '{0}' has the wrong Filetype", filename));
             }
         }
     }

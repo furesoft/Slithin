@@ -17,6 +17,7 @@ namespace Slithin.ViewModels.Modals;
 
 public class AddTemplateModalViewModel : ModalBaseViewModel
 {
+    private readonly ILocalisationService _localisationService;
     private readonly LocalRepository _localRepository;
     private readonly IPathManager _pathManager;
     private readonly SynchronisationService _synchronisationService;
@@ -32,6 +33,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
     public AddTemplateModalViewModel(IPathManager pathManager,
         LocalRepository localRepository,
+        ILocalisationService localisationService,
         AddTemplateValidator validator)
     {
         Categories = SyncService.TemplateFilter.Categories;
@@ -40,6 +42,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         AddCategoryCommand = new DelegateCommand(AddCategory);
         _pathManager = pathManager;
         _localRepository = localRepository;
+        _localisationService = localisationService;
         _synchronisationService = ServiceLocator.SyncService;
         _validator = validator;
     }
@@ -120,7 +123,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         }
         else
         {
-            DialogService.OpenDialogError("Category name has to be set!");
+            DialogService.OpenDialogError(_localisationService.GetString("Category name has to be set."));
         }
     }
 
@@ -148,7 +151,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
             if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
             {
-                if (await DialogService.ShowDialog("Template already exist. Would you replace it?"))
+                if (await DialogService.ShowDialog(_localisationService.GetString("Template already exist. Would you replace it?")))
                 {
                     File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
                 }
@@ -163,7 +166,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
             if (bitmap.Width != 1404 && bitmap.Height != 1872)
             {
                 DialogService.OpenDialogError(
-                    "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+                    _localisationService.GetString("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));
 
                 return;
             }
@@ -177,20 +180,9 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
             TemplateStorage.Instance.AppendTemplate(template);
             _synchronisationService.TemplateFilter.Templates.Add(template);
 
+            template.TransferCommand.Execute(null);
+
             DialogService.Close();
-
-            var syncItem = new SyncItem { Data = template, Direction = SyncDirection.ToDevice, Type = SyncType.Template };
-            _synchronisationService.AddToSyncQueue(syncItem);
-
-            var configItem = new SyncItem
-            {
-                Data = File.ReadAllText(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")),
-                Direction = SyncDirection.ToDevice,
-                Type = SyncType.TemplateConfig
-            };
-            _synchronisationService
-                .AddToSyncQueue(
-                    configItem); //ToDo: not emmit every time, only once if the queue has any templaeconfig item
         }
     }
 

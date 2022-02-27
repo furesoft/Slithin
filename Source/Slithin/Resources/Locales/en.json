@@ -52,4 +52,44 @@
   "More": "More",
 
   "Copy to Clipboard": "Copy to Clipboard",
+
+  "Add Template": "Add Template",
+  "Template File": "Template File",
+  "New Category": "New Category",
+  "IconCode": "IconCode",
+  "Use Template Editor": "Use Template Editor",
+  "OK": "OK",
+
+  "New Tool": "New Tool",
+  "Next": "Next",
+  "Category": "Category",
+
+  "The Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "The Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.",
+  "The filetype '{0}' is not supported": "The filetype '{0}' is not supported",
+
+  "ID": "ID",
+  "Page Count": "Page Count",
+  "Use Custom Image": "Use Custom Image",
+  "Append PDF Notebook": "Append PDF Notebook",
+
+  "Generate PDF Notebook": "Generate PDF Notebook",
+  "Title": "Title",
+  "Default Cover": "Default Cover",
+  "Cover": "Cover",
+  "Drag a Image over or select from the list above": "Drag a Image over or select from the list above",
+  "Render Title": "Render Title",
+
+  "Up ..": "Up ..",
+  "Trash": "Trash",
+
+  "Page Count must be a number and a template need to be selected": "Page Count must be a number and a template need to be selected",
+  "Loading Templates": "Loading Templates",
+  "Generating {0}": "Generating {0}",
+  "Category name has to be set.": "Category name has to be set.",
+  "Template already exist. Would you replace it?": "Template already exist. Would you replace it?",
+  "{0} cannot be empty": "{0} cannot be empty",
+  "Copy ID": "Copy ID",
+  "Quick sheets": "Quick sheets",
+  "Export": "Export",
+  "Move to Trash": "Move to Trash",
 }

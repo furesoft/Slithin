@@ -59,6 +59,8 @@ public class NotebooksPage : UserControl, IPage
 
         if (e.Data.Contains(DataFormats.FileNames))
         {
+            var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
+
             foreach (var filename in e.Data.GetFileNames())
             {
                 var id = Guid.NewGuid().ToString().ToLower();
@@ -108,12 +110,12 @@ public class NotebooksPage : UserControl, IPage
                     }
                     else
                     {
-                        DialogService.OpenError($"The filetype '{Path.GetExtension(filename)}' is not supported");
+                        DialogService.OpenError(localisation.GetStringFormat("The filetype '{0}' is not supported", Path.GetExtension(filename)));
                     }
                 }
                 else
                 {
-                    DialogService.OpenError($"The filetype '{Path.GetExtension(filename)}' is not supported");
+                    DialogService.OpenError(localisation.GetStringFormat("The filetype '{0}' is not supported", Path.GetExtension(filename)));
                 }
             }
         }
