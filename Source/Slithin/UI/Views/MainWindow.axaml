@@ -43,10 +43,6 @@
                 </Button>
 
                 <Border core:NotificationService.IsNotificationOutput="True" Grid.Row="2" Margin="7,5,10,-3" HorizontalAlignment="Left" CornerRadius="4" Background="LightGray" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" IsVisible="{Binding IsVisible, ElementName=statusTb}">
-                    <StackPanel Orientation="Horizontal" Spacing="7" Margin="5,5,5,5">
-                        <ProgressBar Value="{Binding Value}" Maximum="{Binding MaxValue}" IsIndeterminate="{Binding IsInfo}" Classes="Circle" Foreground="Black" ShowProgressText="True" />
-                        <TextBlock Text="{Binding Message}" FontSize="15" FontWeight="Bold" x:Name="statusTb" VerticalAlignment="Center" />
-                    </StackPanel>
                 </Border>
             </Grid>
         </styles:ColorZone>

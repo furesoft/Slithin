@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.Controls.Notifications.ActionNotificationControl">
+    <StackPanel Orientation="Horizontal" Spacing="7" Margin="5,5,5,5">
+        <TextBlock Text="{Binding Message}" FontSize="15" FontWeight="Bold" x:Name="statusTb" VerticalAlignment="Center" />
+        <Button Content="{Binding OKButtonText}" Classes="Flat" Command="{Binding OKCommand}" />
+        <Button Content="{Binding CancelButtonText}" Classes="Flat" Command="{Binding CancelCommand}" />
+    </StackPanel>
+</UserControl>

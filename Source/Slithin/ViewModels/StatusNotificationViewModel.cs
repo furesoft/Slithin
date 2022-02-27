@@ -2,7 +2,7 @@
 
 namespace Slithin.ViewModels;
 
-public class NotificationViewModel : BaseViewModel
+public class StatusNotificationViewModel : BaseViewModel
 {
     private bool _isInfo;
     private int _maxValue;

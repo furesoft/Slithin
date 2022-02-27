@@ -63,6 +63,14 @@ public static class Updater
             return;
         }
 
+        var settings = ServiceLocator.Container.Resolve<ISettingsService>().GetSettings();
+
+        if (!settings.AutomaticUpdates
+            && !await NotificationService.ShowAction("An update is Available. Would you like to install it?"))
+        {
+            return;
+        }
+
         var asset = GetAsset(releases[0]);
         SaveChangelog(releases);
 

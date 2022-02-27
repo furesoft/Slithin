@@ -35,7 +35,6 @@ public static class Program
     private static WebServer CreateWebServer(string url)
     {
         var basicAuthProvider = new AuthorizationServerProvider();
-        // You can set which routes to check, empty param will secure entire server
 
         var server = new WebServer(o => o
                 .WithUrlPrefix(url)
@@ -48,18 +47,6 @@ public static class Program
 
         // Listen for state changes.
         server.StateChanged += (s, e) => $"WebServer New State - {e.NewState}".Info();
-
-        server.HandleHttpException(async (context, exception) =>
-        {
-            context.Response.StatusCode = exception.StatusCode;
-
-            switch (exception.StatusCode)
-            {
-                default:
-                    await HttpExceptionHandler.Default(context, exception);
-                    break;
-            }
-        });
 
         return server;
     }

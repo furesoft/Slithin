@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SlithinMarketplace": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

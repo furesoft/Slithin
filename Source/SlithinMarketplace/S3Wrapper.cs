@@ -1,5 +1,6 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
+using Newtonsoft.Json;
 
 namespace SlithinMarketplace;
 
@@ -45,6 +46,14 @@ public class S3Wrapper
         }
 
         return new FileInfo(outputPath);
+    }
+
+    public T GetObject<T>(string bucket, string key)
+    {
+        var strm = GetObjectStream(bucket, key);
+        var json = new StreamReader(strm).ReadToEnd();
+
+        return JsonConvert.DeserializeObject<T>(json);
     }
 
     public Stream GetObjectStream(string bucket, string key)

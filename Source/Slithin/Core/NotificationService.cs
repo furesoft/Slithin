@@ -1,6 +1,8 @@
-﻿using Avalonia.Controls;
+﻿using System.Threading.Tasks;
+using Avalonia.Controls;
 using Avalonia.Threading;
 using Serilog;
+using Slithin.Controls.Notifications;
 using Slithin.ViewModels;
 
 namespace Slithin.Core;
@@ -25,7 +27,7 @@ public static class NotificationService
     public static void SetIsNotificationOutput(Border target, bool value)
     {
         notificationContainer = target;
-        notificationContainer.DataContext = new NotificationViewModel();
+        notificationContainer.DataContext = new StatusNotificationViewModel();
     }
 
     public static void Show(string message)
@@ -35,14 +37,56 @@ public static class NotificationService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            var vm = ((NotificationViewModel)notificationContainer.DataContext);
+            var vm = ((StatusNotificationViewModel)notificationContainer.DataContext);
             vm.Message = message;
             vm.Value = 100;
             vm.MaxValue = 100;
             vm.IsInfo = true;
 
+            var control = new StatusNotificationControl();
+
+            notificationContainer.Child = control;
+            control.DataContext = vm;
             notificationContainer.IsVisible = true;
         });
+    }
+
+    public static void Show(Control control, BaseViewModel viewModel)
+    {
+        Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            notificationContainer.Child = control;
+            control.DataContext = viewModel;
+
+            notificationContainer.IsVisible = true;
+        });
+    }
+
+    public static Task<bool> ShowAction(string message, string okButtonText = "OK", string cancelButtonText = "Cancel")
+    {
+        var tcs = new TaskCompletionSource<bool>();
+
+        Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            var vm = new ActionNotificationViewModel();
+            vm.Message = message;
+            vm.CancelButtonText = cancelButtonText;
+            vm.OKButtonText = okButtonText;
+
+            vm.CancelCommand = new DelegateCommand(_ =>
+            {
+                Hide();
+                tcs.SetResult(false);
+            });
+            vm.OKCommand = new DelegateCommand(_ =>
+            {
+                tcs.SetResult(true);
+            });
+
+            Show(new ActionNotificationControl(), vm);
+        });
+
+        return tcs.Task;
     }
 
     public static void ShowProgress(string message, int value, int maxValue)
@@ -52,12 +96,16 @@ public static class NotificationService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            var vm = ((NotificationViewModel)notificationContainer.DataContext);
+            var vm = ((StatusNotificationViewModel)notificationContainer.DataContext);
             vm.Message = message;
             vm.Value = value;
             vm.MaxValue = maxValue;
             vm.IsInfo = false;
 
+            var control = new StatusNotificationControl();
+
+            notificationContainer.Child = control;
+            control.DataContext = vm;
             notificationContainer.IsVisible = true;
         });
     }
