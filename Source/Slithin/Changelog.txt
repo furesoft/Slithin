@@ -1,3 +1,9 @@
+Version 1.0.10
+
+- Bugfixes
+- UI Package Updates
+- Notification Improvements
+
 Version 1.0.9
 
 - Bugfixes

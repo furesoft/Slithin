@@ -92,4 +92,15 @@
   "Quick sheets": "Quick sheets",
   "Export": "Export",
   "Move to Trash": "Move to Trash",
+  "A new version has been installed to your device. Would you upload your custom templates/screens?": "A new version has been installed to your device. Would you upload your custom templates/screens?",
+
+  "Uploading Screens": "Uploading Screens",
+  "Uploading Templates": "Uploading Templates",
+
+  "Starting": "Starting",
+  "Power Off": "Power Off",
+  "Suspended": "Suspended",
+  "Rebooting": "Rebooting",
+  "Splash": "Splash",
+  "Battery Empty": "Battery Empty"
 }
