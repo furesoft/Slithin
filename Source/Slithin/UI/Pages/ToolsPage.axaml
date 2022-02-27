@@ -22,7 +22,7 @@
                             </Border>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="4">
-                                <Button Classes="Flat" Command="{Binding $parent[ListBox].DataContext.ConfigurateScriptCommand}" IsHitTestVisible="True" IsVisible="{Binding IsConfigurable}"  CommandParameter="{Binding}">
+                                <Button Classes="Flat" Command="{Binding $parent[ListBox].DataContext.ConfigurateScriptCommand}" IsHitTestVisible="True" IsVisible="{Binding IsConfigurable}" CommandParameter="{Binding}">
                                     <DrawingPresenter Width="15" Height="15" Drawing="{DynamicResource Vaadin.CogOutline}" />
                                 </Button>
 

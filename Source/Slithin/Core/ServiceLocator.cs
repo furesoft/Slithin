@@ -19,6 +19,9 @@ public static class ServiceLocator
         var featureEnabler = Container.Resolve<Slithin.FeatureToggle>();
         featureEnabler.Init();
 
+        var localizer = Container.Resolve<ILocalisationService>();
+        localizer.Init();
+
         var pathManager = Container.Resolve<IPathManager>();
         pathManager.Init();
 

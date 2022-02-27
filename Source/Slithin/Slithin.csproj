@@ -46,6 +46,7 @@
      <EmbeddedResource Include="Resources\IconTiles\**" />
      <EmbeddedResource Include="Resources\Covers\**" />
      <AvaloniaResource Include="Assets\**" />
+     <EmbeddedResource Include="Resources\Locales\**" />
    </ItemGroup>
   
 
@@ -63,6 +64,7 @@
      <None Remove="Resources\copy.png" />
      <None Remove="Resources\cubes.png" />
      <None Remove="Resources\data-transfer.png" />
+     <None Remove="Resources\Locales\en.json" />
      <None Remove="Resources\nav.png" />
      <None Remove="Resources\notebook.png" />
      <None Remove="Resources\trash.png" />
@@ -116,4 +118,6 @@
      <Folder Include="TemplateEditor\Components\Nodes\" />
      <Folder Include="TemplateEditor\Components\Views\" />
    </ItemGroup>
+   
+   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 </Project>
