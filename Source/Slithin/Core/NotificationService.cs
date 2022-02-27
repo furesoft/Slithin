@@ -39,8 +39,8 @@ public static class NotificationService
         {
             var vm = ((StatusNotificationViewModel)notificationContainer.DataContext);
             vm.Message = message;
-            vm.Value = 100;
-            vm.MaxValue = 100;
+            vm.Value = 0;
+            vm.MaxValue = 0;
             vm.IsInfo = true;
 
             var control = new StatusNotificationControl();
