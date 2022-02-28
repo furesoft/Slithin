@@ -100,7 +100,7 @@ public class NotebookContextMenu : IContextProvider
         return menu;
     }
 
-    private static void MoveToTrash(object obj)
+    private void MoveToTrash(object obj)
     {
         if (obj is not Metadata md)
         {
@@ -110,5 +110,18 @@ public class NotebookContextMenu : IContextProvider
         MetadataStorage.Local.Move(md, "trash");
 
         md.Upload();
+
+        ServiceLocator.SyncService.NotebooksFilter.Documents.Clear();
+
+        foreach (var mds in MetadataStorage.Local.GetByParent(md.Parent))
+        {
+            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(mds);
+        }
+        if (md.Parent != "")
+        {
+            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = _localisationService.GetString("Up ..") });
+        }
+
+        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
     }
 }

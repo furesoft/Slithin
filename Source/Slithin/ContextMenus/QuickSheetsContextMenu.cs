@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Avalonia.Controls;
 using Slithin.Core;
-using Slithin.Core.Features;
-using Slithin.Core.FeatureToggle;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Exporting.Rendering;
@@ -50,17 +48,14 @@ public class QuickSheetsContextMenu : IContextProvider
             return menu;
         }
 
-        if (Feature<QuickSheetsAsNotebookFeature>.IsEnabled)
+        menu.Add(new MenuItem
         {
-            menu.Add(new MenuItem
+            Header = _localisationService.GetString("Convert to Notebook"),
+            Command = new DelegateCommand(_ =>
             {
-                Header = _localisationService.GetString("Convert to Notebook"),
-                Command = new DelegateCommand(_ =>
-                {
-                    ConvertToNotebook(obj as Metadata);
-                })
-            });
-        }
+                ConvertToNotebook(obj as Metadata);
+            })
+        });
 
         return menu;
     }

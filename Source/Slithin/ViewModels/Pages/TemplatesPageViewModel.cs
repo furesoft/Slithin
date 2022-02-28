@@ -23,6 +23,7 @@ public class TemplatesPageViewModel : BaseViewModel
         IMailboxService mailboxService,
         LocalRepository localRepository,
         IPathManager pathManager,
+        DeviceRepository deviceRepository,
         ILocalisationService localisationService,
         AddTemplateValidator validator)
     {
@@ -32,7 +33,9 @@ public class TemplatesPageViewModel : BaseViewModel
                 new AddTemplateModalViewModel(pathManager, localRepository, localisationService, validator));
         });
 
-        RemoveTemplateCommand = new RemoveTemplateCommand(this, localRepository);
+        RemoveTemplateCommand = new RemoveTemplateCommand(this, localisationService,
+            deviceRepository, localRepository);
+
         _loadingService = loadingService;
         _mailboxService = mailboxService;
     }

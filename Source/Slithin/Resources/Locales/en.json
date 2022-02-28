@@ -106,5 +106,10 @@
 
   "Convert to Notebook": "Convert to Notebook",
   "Notebook": "Notebook",
-  "Uploading '{0}': {1}": "Uploading '{0}': {1}"
+  "Uploading '{0}': {1}": "Uploading '{0}': {1}",
+
+  "Would you really want to delete '{0}'?": "Would you really want to delete '{0}'?",
+
+  "Filename": "Filename",
+  "Filename should be a valid path and not empty": "Filename should be a valid path and not empty",
 }
