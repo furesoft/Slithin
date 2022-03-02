@@ -111,5 +111,8 @@
   "Would you really want to delete '{0}'?": "Would you really want to delete '{0}'?",
 
   "Filename": "Filename",
+
   "Filename should be a valid path and not empty": "Filename should be a valid path and not empty",
+  "Your remarkable is not reachable. Please check your connection and restart Slithin": "Your remarkable is not reachable. Please check your connection and restart Slithin",
+  "Could not connect to host": "Could not connect to host",
 }
