@@ -7,6 +7,6 @@
     <Compile Include="**/*.php" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="Peachpie.App" Version="1.0.8" />
+    <PackageReference Update="Peachpie.App" Version="1.0.18" />
   </ItemGroup>
 </Project>
