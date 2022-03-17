@@ -129,7 +129,7 @@ public class DeviceRepository : IRepository
         templateJson.Remove(template);
         templateJson.Save();
 
-        _scp.Upload(File.OpenRead(_pathManager.ConfigBaseDir + "templates.json"),
+        _scp.Upload(File.OpenRead(path),
             Path.Combine(PathList.Templates, "templates.json"));
         _client.RunCommand("rm -fr " + PathList.Templates + template.Filename + ".png");
     }
