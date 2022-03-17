@@ -35,6 +35,11 @@ public class App : Application
             desktop.MainWindow = new ConnectWindow();
         }
 
+        AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+          {
+              NotificationService.Show(e.ExceptionObject.ToString());
+          };
+
         base.OnFrameworkInitializationCompleted();
     }
 }
