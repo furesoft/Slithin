@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.ViewModels.Pages;
@@ -10,14 +11,20 @@ namespace Slithin.Core.Commands;
 
 public class RemoveTemplateCommand : ICommand
 {
+    private readonly DeviceRepository _deviceRepository;
+    private readonly ILocalisationService _localisationService;
     private readonly LocalRepository _localRepository;
     private readonly SynchronisationService _synchronisationService;
     private readonly TemplatesPageViewModel _templatesPageViewModel;
 
     public RemoveTemplateCommand(TemplatesPageViewModel templatesPageViewModel,
-        LocalRepository localRepository)
+                                 ILocalisationService localisationService,
+                                 DeviceRepository deviceRepository,
+                                 LocalRepository localRepository)
     {
         _templatesPageViewModel = templatesPageViewModel;
+        _localisationService = localisationService;
+        _deviceRepository = deviceRepository;
         _localRepository = localRepository;
         _synchronisationService = ServiceLocator.SyncService;
     }
@@ -32,7 +39,8 @@ public class RemoveTemplateCommand : ICommand
     public async void Execute(object parameter)
     {
         if (parameter is not Template tmpl
-            || !await DialogService.ShowDialog($"Would you really want to delete '{tmpl.Filename}'?"))
+            || !await DialogService.ShowDialog(
+                _localisationService.GetStringFormat("Would you really want to delete '{0}'?", tmpl.Filename)))
         {
             return;
         }
@@ -43,14 +51,6 @@ public class RemoveTemplateCommand : ICommand
         TemplateStorage.Instance.Remove(tmpl);
         _localRepository.RemoveTemplate(tmpl);
 
-        var item = new SyncItem
-        {
-            Action = SyncAction.Remove,
-            Direction = SyncDirection.ToDevice,
-            Data = tmpl,
-            Type = SyncType.Template
-        };
-
-        _synchronisationService.AddToSyncQueue(item);
+        _deviceRepository.RemoveTemplate(tmpl);
     }
 }

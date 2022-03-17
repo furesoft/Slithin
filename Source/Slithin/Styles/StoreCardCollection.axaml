@@ -2,6 +2,7 @@
         xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:l="using:Slithin.Core"
         xmlns:c="using:Slithin.Controls"
         xmlns:controls="using:Slithin.Controls">
     <Design.PreviewWith>
@@ -18,7 +19,7 @@
                     <StackPanel Orientation="Horizontal" Spacing="15">
                         <TextBlock Text="{TemplateBinding Category}" FontSize="22" FontWeight="Bold" Margin="3" />
 
-                        <c:Link Title="More" CommandParameter="{TemplateBinding Category}" Command="{TemplateBinding MoreCommand}" VerticalAlignment="Center" />
+                        <c:Link Title="{l:Localisation 'More'}" CommandParameter="{TemplateBinding Category}" Command="{TemplateBinding MoreCommand}" VerticalAlignment="Center" />
                     </StackPanel>
 
                     <ItemsControl Items="{TemplateBinding Cards, Mode=TwoWay}" VerticalAlignment="Top">

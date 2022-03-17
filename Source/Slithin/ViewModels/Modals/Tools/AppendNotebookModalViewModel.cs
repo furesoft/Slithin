@@ -20,6 +20,7 @@ namespace Slithin.ViewModels.Modals.Tools;
 public class AppendNotebookModalViewModel : ModalBaseViewModel
 {
     private readonly ILoadingService _loadingService;
+    private readonly ILocalisationService _localisationService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
     private readonly AppendNotebookValidator _validator;
@@ -31,13 +32,14 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
     public AppendNotebookModalViewModel(IPathManager pathManager,
         AppendNotebookValidator validator,
         ILoadingService loadingService,
-        IMailboxService mailboxService)
+        IMailboxService mailboxService,
+        ILocalisationService localisationService)
     {
         _pathManager = pathManager;
         _validator = validator;
         _loadingService = loadingService;
         _mailboxService = mailboxService;
-
+        _localisationService = localisationService;
         AddPagesCommand = new DelegateCommand(AddPages);
         OKCommand = new DelegateCommand(OK);
     }
@@ -86,7 +88,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
         {
             _mailboxService.PostAction(() =>
             {
-                NotificationService.Show("Loading Templates");
+                NotificationService.Show(_localisationService.GetString("Loading Templates"));
 
                 _loadingService.LoadTemplates();
 
@@ -121,7 +123,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
         }
         else
         {
-            DialogService.OpenDialogError("Page Count must be a number and a template need to be selected");
+            DialogService.OpenDialogError(_localisationService.GetString("Page Count must be a number and a template need to be selected"));
         }
     }
 
@@ -186,7 +188,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
             document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
 
-            Notebook.Upload(md);
+            Notebook.UploadDocument(md);
         });
 
         DialogService.Close();

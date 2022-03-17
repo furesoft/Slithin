@@ -5,24 +5,25 @@
         xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         xmlns:wpf="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
         xmlns:controls="using:Slithin.Controls"
+        xmlns:l="using:Slithin.Core"
         mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="275" Height="275" Width="350"
         x:Class="Slithin.UI.Views.AddDeviceWindow"
         Icon="avares:/Resources/Icon.png"
         Title="Add Device" WindowStartupLocation="CenterScreen">
-  <styles:SnackbarHost HostName="addDevice">
-    <styles:ColorZone Mode="Light" Height="275">
-      <Grid RowDefinitions="65,65,65,65" ColumnDefinitions="*,AUTO" Margin="5">
-        <TextBox Grid.Row="0" Grid.ColumnSpan="2" UseFloatingWatermark="True" wpf:TextFieldAssist.Label="Device Name" Text="{Binding SelectedLogin.Name, Mode=TwoWay}" />
+    <styles:SnackbarHost HostName="addDevice">
+        <styles:ColorZone Mode="Light" Height="275">
+            <Grid RowDefinitions="65,65,65,65" ColumnDefinitions="*,AUTO" Margin="5">
+                <TextBox Grid.Row="0" Grid.ColumnSpan="2" UseFloatingWatermark="True" wpf:TextFieldAssist.Label="{l:Localisation 'Device Name'}" Text="{Binding SelectedLogin.Name, Mode=TwoWay}" />
 
-        <TextBox UseFloatingWatermark="True" wpf:TextFieldAssist.Label="IP Address" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.IP, Mode=TwoWay}" />
-        <TextBox UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.Password, Mode=TwoWay}"
-                                         wpf:TextFieldAssist.Label="Password" PasswordChar="*" />
+                <TextBox UseFloatingWatermark="True" wpf:TextFieldAssist.Label="{l:Localisation 'IP Address'}" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.IP, Mode=TwoWay}" />
+                <TextBox UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.Password, Mode=TwoWay}"
+                                                 wpf:TextFieldAssist.Label="{l:Localisation 'Password'}" PasswordChar="*" />
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Spacing="2" Grid.Column="1">
-          <Button Classes="Flat" Command="{Binding CancelCommand}" IsCancel="True" Margin="5" Content="Cancel" />
-          <Button Classes="Flat" Command="{Binding AddCommand}" IsDefault="True" Margin="5" Content="Add" />
-        </StackPanel>
-      </Grid>
-    </styles:ColorZone>
-  </styles:SnackbarHost>
+                <StackPanel Orientation="Horizontal" Grid.Row="3" Spacing="2" Grid.Column="1">
+                    <Button Classes="Flat" Command="{Binding CancelCommand}" IsCancel="True" Margin="5" Content="{l:Localisation 'Cancel'}" />
+                    <Button Classes="Flat" Command="{Binding AddCommand}" IsDefault="True" Margin="5" Content="{l:Localisation 'Add'}" />
+                </StackPanel>
+            </Grid>
+        </styles:ColorZone>
+    </styles:SnackbarHost>
 </Window>

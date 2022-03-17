@@ -22,20 +22,22 @@ namespace Slithin.ViewModels;
 
 public class ConnectionWindowViewModel : BaseViewModel
 {
+    private readonly ILocalisationService _localisationService;
     private readonly ILoginService _loginService;
     private readonly ISettingsService _settingsService;
     private readonly LoginInfoValidator _validator;
-
     private ObservableCollection<LoginInfo> _loginCredentials;
 
     private LoginInfo _selectedLogin;
 
     public ConnectionWindowViewModel(ILoginService loginService,
-        LoginInfoValidator validator,
-        ISettingsService settingsService)
+                                     LoginInfoValidator validator,
+                                     ILocalisationService localisationService,
+                                     ISettingsService settingsService)
     {
         _loginService = loginService;
         _validator = validator;
+        _localisationService = localisationService;
         _settingsService = settingsService;
 
         ConnectCommand = new DelegateCommand(Connect);
@@ -78,6 +80,11 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         var ip = IPAddress.Parse(SelectedLogin.IP);
 
+        if (string.IsNullOrEmpty(SelectedLogin.Name))
+        {
+            SelectedLogin.Name = "DefaultDevice";
+        }
+
         var client = new SshClient(ip.Address, ip.Port, "root", SelectedLogin.Password);
         var scp = new ScpClient(ip.Address, ip.Port, "root", SelectedLogin.Password);
 
@@ -94,7 +101,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
             if (!client.IsConnected)
             {
-                SnackbarHost.Post("Could not connect to host");
+                SnackbarHost.Post(_localisationService.GetString("Could not connect to host"));
                 return;
             }
 
@@ -125,7 +132,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            SnackbarHost.Post(ex.Message);
+            SnackbarHost.Post(_localisationService.GetString("Could not connect to host"));
             logger.Error(ex.ToString());
         }
     }
@@ -152,7 +159,7 @@ public class ConnectionWindowViewModel : BaseViewModel
     {
         var pingSender = new Ping();
 
-        var data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        var data = new string('a', 32);
         var buffer = Encoding.ASCII.GetBytes(data);
 
         var timeout = 10000;
@@ -164,8 +171,8 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         if (reply.Status != IPStatus.Success)
         {
-            NotificationService.Show(
-                "Your remarkable is not reachable. Please check your connection and restart Slithin");
+            NotificationService.Show(_localisationService.GetString(
+                "Your remarkable is not reachable. Please check your connection and restart Slithin"));
 
             var logger = ServiceLocator.Container.Resolve<ILogger>();
 

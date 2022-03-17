@@ -16,6 +16,7 @@ public class DevicePageViewModel : BaseViewModel
     private readonly SshClient _client;
     private readonly IExportProviderFactory _exportProviderFactory;
     private readonly ILoadingService _loadingService;
+    private readonly ILocalisationService _localisationService;
     private readonly LocalRepository _localRepostory;
     private readonly ILogger _logger;
     private readonly ILoginService _loginService;
@@ -32,6 +33,7 @@ public class DevicePageViewModel : BaseViewModel
     public DevicePageViewModel(IVersionService versionService,
         ILoadingService loadingService,
         IMailboxService mailboxService,
+        ILocalisationService localisationService,
         LocalRepository localRepostory,
         SshClient client,
         ScpClient scp,
@@ -44,6 +46,7 @@ public class DevicePageViewModel : BaseViewModel
         _versionService = versionService;
         _loadingService = loadingService;
         _mailboxService = mailboxService;
+        _localisationService = localisationService;
         _localRepostory = localRepostory;
         _client = client;
         _scp = scp;
@@ -132,7 +135,8 @@ public class DevicePageViewModel : BaseViewModel
 
         var result =
             await DialogService.ShowDialog(
-                "A new version has been installed to your device. Would you upload your custom templates/screens?");
+               _localisationService.GetString(
+                   "A new version has been installed to your device. Would you upload your custom templates/screens?"));
         if (result)
         {
             UploadTemplates();
@@ -154,12 +158,12 @@ public class DevicePageViewModel : BaseViewModel
 
     private void InitScreens()
     {
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Starting", Filename = "starting.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Suspended", Filename = "suspended.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Rebooting", Filename = "rebooting.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Splash", Filename = "splash.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = "Battery Empty", Filename = "batteryempty.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Starting"), Filename = "starting.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Power Off"), Filename = "poweroff.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Suspended"), Filename = "suspended.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Rebooting"), Filename = "rebooting.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Splash"), Filename = "splash.png" });
+        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Battery Empty"), Filename = "batteryempty.png" });
 
         _logger.Information("Initialize Screens");
     }
@@ -169,7 +173,7 @@ public class DevicePageViewModel : BaseViewModel
         _mailboxService.PostAction(() =>
         {
             //upload screens folder
-            NotificationService.Show("Uploading Screens");
+            NotificationService.Show(_localisationService.GetString("Uploading Screens"));
 
             _scp.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
 
@@ -183,7 +187,7 @@ public class DevicePageViewModel : BaseViewModel
         _mailboxService.PostAction(() =>
         {
             //upload template folder
-            NotificationService.Show("Uploading Templates");
+            NotificationService.Show(_localisationService.GetString("Uploading Templates"));
 
             _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
 

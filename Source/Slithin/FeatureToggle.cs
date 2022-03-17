@@ -1,5 +1,4 @@
-﻿using Slithin.Core.Features;
-using Slithin.Core.FeatureToggle;
+﻿using Slithin.Core.FeatureToggle;
 
 namespace Slithin;
 
@@ -11,19 +10,16 @@ public class FeatureToggle
 #if DEBUG
 
         Features.EnableAll();
-
-        Feature<ToolsFeature>.Disable();
 #else
 
         /*
-            Feature<ToolsFeature>.Enable();
+
             Feature<TemplateEditorFeature>.Enable();
             Feature<SharableFeature>.Enable();
             Feature<ExportFeature>.Enable();
             Feature<ExportPdfFeature>.Enable();
             Feature<ExportSvgFeature>.Enable();
             Feature<ExportPngFeature>.Enable();
-            Feature<MigrationFeature>.Enable();
             */
 #endif
     }

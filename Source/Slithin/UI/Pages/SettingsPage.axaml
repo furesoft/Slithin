@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:Slithin.Controls"
              xmlns:s="using:Slithin.Controls.Settings"
+             xmlns:l="using:Slithin.Core"
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
              x:Class="Slithin.UI.Pages.SettingsPage">
     <ScrollViewer>
         <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
-            <s:SettingsGroup Header="Device" Grid.Column="0">
+            <s:SettingsGroup Header="{l:Localisation 'Device'}" Grid.Column="0">
                 <StackPanel Orientation="Horizontal" Spacing="5">
-                    <Label VerticalAlignment="Center">Name</Label>
+                    <Label VerticalAlignment="Center" Content="{l:Localisation 'Name'}" />
 
                     <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
                 </StackPanel>
@@ -18,40 +19,40 @@
 
             <s:SettingsGroup Header="General" Grid.Column="1">
                 <StackPanel Spacing="5">
-                    <ToggleSwitch Content="Automatic Updates" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />
+                    <ToggleSwitch Content="{l:Localisation 'Automatic Updates'}" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />
 
-                    <Button Classes="Flat" Content="Check for Updates" IsVisible="{Binding !AutomaticUpdates, Mode=TwoWay}" Command="{Binding CheckForUpdatesCommand}" />
+                    <Button Classes="Flat" Content="{l:Localisation 'Check for Updates'}" IsVisible="{Binding !AutomaticUpdates, Mode=TwoWay}" Command="{Binding CheckForUpdatesCommand}" />
                 </StackPanel>
             </s:SettingsGroup>
 
             <s:SettingsGroup Header="After Device Update" Grid.Column="0" Grid.Row="1">
                 <StackPanel Spacing="3" Orientation="Vertical">
-                    <ToggleSwitch Content="Automatic Template Recovery" IsChecked="{Binding AutomaticTemplateRecovery, Mode=TwoWay}" />
-                    <ToggleSwitch Content="Automatic Screen Recovery" IsChecked="{Binding AutomaticScreenRecovery, Mode=TwoWay}" />
+                    <ToggleSwitch Content="{l:Localisation 'Automatic Template Recovery'}" IsChecked="{Binding AutomaticTemplateRecovery, Mode=TwoWay}" />
+                    <ToggleSwitch Content="{l:Localisation 'Automatic Screen Recovery'}" IsChecked="{Binding AutomaticScreenRecovery, Mode=TwoWay}" />
                 </StackPanel>
             </s:SettingsGroup>
 
             <s:SettingsGroup HorizontalAlignment="Left" Header="About" Grid.Column="0" Grid.Row="2">
                 <Grid MinHeight="135" RowDefinitions="*,*">
-                    <TextBlock Grid.Row="0" Text="Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome." TextWrapping="Wrap" MaxWidth="300" />
+                    <TextBlock Grid.Row="0" Text="{l:Localisation 'Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome.'}" TextWrapping="Wrap" MaxWidth="300" />
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="1" HorizontalAlignment="Left" Grid.Row="1">
                         <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://github.com/furesoft/Slithin">
-                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Github}" HorizontalAlignment="Left" />
+                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Github}" HorizontalAlignment="Left" ToolTip.Tip="Github" />
                         </Button>
 
                         <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://www.reddit.com/r/Slithin/">
-                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Reddit}" HorizontalAlignment="Left" />
+                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Reddit}" HorizontalAlignment="Left" ToolTip.Tip="Reddit" />
                         </Button>
 
                         <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://www.facebook.com/groups/slithin/">
-                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Facebook}" HorizontalAlignment="Left" />
+                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Facebook}" HorizontalAlignment="Left" ToolTip.Tip="Facebook" />
                         </Button>
                     </StackPanel>
                 </Grid>
             </s:SettingsGroup>
 
-            <s:SettingsGroup Header="Support Slithin" Margin="2,2,20,15" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1">
+            <s:SettingsGroup Header="{l:Localisation 'Support Slithin'}" Margin="2,2,20,15" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1">
                 <UniformGrid Columns="7">
                     <controls:KryptoDonateButton CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="{DynamicResource BoxIcons.LogosBitcoin}" />
                     <controls:KryptoDonateButton CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource SimpleIcons.Ethereum}" />

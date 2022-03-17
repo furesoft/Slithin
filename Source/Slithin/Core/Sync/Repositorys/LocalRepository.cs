@@ -92,6 +92,12 @@ public class LocalRepository : IRepository
 
     public void UpdateVersion(Version version)
     {
+        if (!Directory.Exists(_pathManager.ConfigBaseDir))
+        {
+            _pathManager.Init();
+            _pathManager.InitDeviceDirectory();
+        }
+
         File.WriteAllText(Path.Combine(_pathManager.ConfigBaseDir, ".version"), version.ToString());
     }
 }

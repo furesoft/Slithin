@@ -1,6 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+        xmlns:l="using:Slithin.Core"
         xmlns:controls="using:Slithin.Controls">
     <Design.PreviewWith>
         <controls:KryptoDonateButton CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="avares:/Resources/Krypto/bitcoin.png" />
@@ -29,7 +30,7 @@
                                     <Grid ColumnDefinitions="*,35">
                                         <TextBlock TextWrapping="Wrap" Grid.Column="0" Text="{TemplateBinding Address, Mode=TwoWay}" Foreground="Black" VerticalAlignment="Center" />
 
-                                        <Button Grid.Column="1" Classes="Flat" Command="{TemplateBinding CopyAddressCommand}" ToolTip.Tip="Copy to Clipboard">
+                                        <Button Grid.Column="1" Classes="Flat" Command="{TemplateBinding CopyAddressCommand}" ToolTip.Tip="{l:Localisation 'Copy to Clipboard'}">
                                             <Image Source="/Resources/copy.png" Width="12" Height="12" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                         </Button>
                                     </Grid>

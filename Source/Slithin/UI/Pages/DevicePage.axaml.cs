@@ -6,7 +6,6 @@ using Avalonia.Markup.Xaml;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Services;
-using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Models;
 using Slithin.ViewModels.Pages;
@@ -46,6 +45,7 @@ public partial class DevicePage : UserControl, IPage
         {
             var filename = e.Data.GetFileNames().First();
             var provider = ServiceLocator.Container.Resolve<IImportProviderFactory>().GetImportProvider(".png", filename);
+            var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
 
             if (provider != null)
             {
@@ -55,7 +55,7 @@ public partial class DevicePage : UserControl, IPage
 
                     if (bitmap.Width != 1404 && bitmap.Height != 1872)
                     {
-                        DialogService.OpenError("The Screen Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.");
+                        DialogService.OpenError(localisation.GetString("The Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));
 
                         return;
                     }
@@ -73,15 +73,7 @@ public partial class DevicePage : UserControl, IPage
 
                         localRepository.AddScreen(screenStrm, cs.Filename);
 
-                        var item = new SyncItem
-                        {
-                            Action = SyncAction.Add,
-                            Data = cs,
-                            Direction = SyncDirection.ToDevice,
-                            Type = SyncType.Screen
-                        };
-
-                        ServiceLocator.SyncService.AddToSyncQueue(item);
+                        cs.TransferCommand.Execute(null);
 
                         cs.Load();
                     }
@@ -89,7 +81,7 @@ public partial class DevicePage : UserControl, IPage
             }
             else
             {
-                DialogService.OpenError($"The file '{filename}' has the wrong Filetype");
+                DialogService.OpenError(localisation.GetStringFormat("The file '{0}' has the wrong Filetype", filename));
             }
         }
     }

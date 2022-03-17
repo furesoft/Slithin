@@ -24,6 +24,7 @@ namespace Slithin.ViewModels.Modals.Tools;
 public class CreateNotebookModalViewModel : ModalBaseViewModel
 {
     private readonly ILoadingService _loadingService;
+    private readonly ILocalisationService _localisationService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
     private readonly ScpClient _scp;
@@ -44,6 +45,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         CreateNotebookValidator validator,
         ILoadingService loadingService,
         IMailboxService mailboxService,
+        ILocalisationService localisationService,
         ScpClient scpClient)
     {
         AddPagesCommand = new DelegateCommand(AddPages);
@@ -53,6 +55,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         _validator = validator;
         _loadingService = loadingService;
         _mailboxService = mailboxService;
+        _localisationService = localisationService;
         _scp = scpClient;
     }
 
@@ -155,7 +158,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
         _mailboxService.PostAction(() =>
         {
-            NotificationService.Show("Loading Templates");
+            NotificationService.Show(_localisationService.GetString("Loading Templates"));
 
             _loadingService.LoadTemplates();
 
@@ -170,7 +173,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         if (!int.TryParse(PageCount, out var pcount) ||
             SelectedTemplate == null && string.IsNullOrEmpty(CustomTemplateFilename))
         {
-            DialogService.OpenDialogError("Page Count must be a number and a template need to be selected");
+            DialogService.OpenDialogError(_localisationService.GetString("Page Count must be a number and a template need to be selected"));
             return;
         }
 
@@ -233,7 +236,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
                 Content = new ContentFile { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count, Pages = GeneratePageIDS(document.Pages.Count) }
             };
 
-            NotificationService.Show("Generating " + md.VisibleName);
+            NotificationService.Show(_localisationService.GetStringFormat("Generating {0}", md.VisibleName));
 
             Stream coverStream = null;
 
@@ -303,7 +306,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             SyncService.NotebooksFilter.Documents.Add(md);
             SyncService.NotebooksFilter.SortByFolder();
 
-            Notebook.Upload(md);
+            Notebook.UploadDocument(md);
 
             //Directory.CreateDirectory(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails"));
 

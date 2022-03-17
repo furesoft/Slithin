@@ -32,21 +32,11 @@
                 <Button Classes="Flat" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="2" MaxHeight="90" Margin="0,0,12,0" HorizontalAlignment="Right">
                     <StackPanel>
                         <DrawingPresenter Width="48" Height="48" Drawing="{DynamicResource Material.Refresh}" />
-                        <TextBlock Text="Synchronize" />
+                        <TextBlock Text="{core:Localisation 'Synchronize'}" />
                     </StackPanel>
-
-                    <Button.ContextFlyout>
-                        <Flyout Placement="BottomEdgeAlignedLeft">
-                            <flyouts:SyncQueueFlyout />
-                        </Flyout>
-                    </Button.ContextFlyout>
                 </Button>
 
                 <Border core:NotificationService.IsNotificationOutput="True" Grid.Row="2" Margin="7,5,10,-3" HorizontalAlignment="Left" CornerRadius="4" Background="LightGray" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" IsVisible="{Binding IsVisible, ElementName=statusTb}">
-                    <StackPanel Orientation="Horizontal" Spacing="7" Margin="5,5,5,5">
-                        <ProgressBar Value="{Binding Value}" Maximum="{Binding MaxValue}" IsIndeterminate="{Binding IsInfo}" Classes="Circle" Foreground="Black" ShowProgressText="True" />
-                        <TextBlock Text="{Binding Message}" FontSize="15" FontWeight="Bold" x:Name="statusTb" VerticalAlignment="Center" />
-                    </StackPanel>
                 </Border>
             </Grid>
         </styles:ColorZone>

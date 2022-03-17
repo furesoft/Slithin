@@ -4,19 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:controls="using:Slithin.Controls"
+             xmlns:l="using:Slithin.Core"
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="100"
              x:Class="Slithin.UI.ContextualMenus.NotebooksContextualMenu">
     <DockPanel>
         <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="Folder" Command="{Binding MakeFolderCommand}" Image="{DynamicResource Ionicons.AddiOS}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Folder'}" Command="{Binding MakeFolderCommand}" Image="{DynamicResource Ionicons.AddiOS}" />
 
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="Remove" Command="{Binding RemoveNotebookCommand}" Image="{DynamicResource BoxIcons.SolidTrash}" CommandParameter="{Binding SelectedNotebook}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Remove'}" Command="{Binding RemoveNotebookCommand}" Image="{DynamicResource BoxIcons.SolidTrash}" CommandParameter="{Binding SelectedNotebook}" />
 
-            <controls:ImageButton MinHeight="60" Classes="Flat" IsVisible="False" Text="Export" Command="{Binding ExportCommand}" Image="{DynamicResource Material.ExportVariant}" CommandParameter="{Binding SelectedNotebook}" />
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="Move" Command="{Binding MoveCommand}" Image="{DynamicResource Material.FolderMove}" CommandParameter="{Binding SelectedNotebook}" />
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="Rename" Command="{Binding RenameCommand}" Image="{DynamicResource BoxIcons.RegularRename}" CommandParameter="{Binding SelectedNotebook}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" IsVisible="False" Text="{l:Localisation 'Export'}" Command="{Binding ExportCommand}" Image="{DynamicResource Material.ExportVariant}" CommandParameter="{Binding SelectedNotebook}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Move'}" Command="{Binding MoveCommand}" Image="{DynamicResource Material.FolderMove}" CommandParameter="{Binding SelectedNotebook}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Rename'}" Command="{Binding RenameCommand}" Image="{DynamicResource BoxIcons.RegularRename}" CommandParameter="{Binding SelectedNotebook}" />
 
-            <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="Search" Image="{DynamicResource Entypo+.MagnifyingGlass}" IsVisible="False">
+            <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Search'}" Image="{DynamicResource Entypo+.MagnifyingGlass}" IsVisible="False">
                 <controls:ImagePopupButton.PopupContent>
                     <Border>
                         <TextBox Watermark="Search ..." MinWidth="175" Height="35" IsVisible="True" />

@@ -2,12 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:l="using:Slithin.Core"
              xmlns:c="using:Slithin.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
              x:Class="Slithin.UI.Modals.RenameModal">
-  <c:DialogControl Header="Rename" CommandText="OK" IsCancelEnabled="True" Command="{Binding RenameCommand}" MaxHeight="160" MinHeight="160" MaxWidth="150">
-    <Grid>
-      <TextBox Text="{Binding Name}" Watermark="Name" Height="35" />
-    </Grid>
-  </c:DialogControl>
+    <c:DialogControl Header="{l:Localisation 'Rename'}" CommandText="{l:Localisation 'OK'}" IsCancelEnabled="True" Command="{Binding RenameCommand}" MaxHeight="160" MinHeight="160" MaxWidth="150">
+        <Grid>
+            <TextBox Text="{Binding Name}" Watermark="{l:Localisation 'Name'}" Height="35" />
+        </Grid>
+    </c:DialogControl>
 </UserControl>

@@ -4,59 +4,60 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:Slithin.Controls"
              xmlns:c="using:Slithin.Controls"
+             xmlns:l="using:Slithin.Core"
              xmlns:ui="using:Slithin.UI"
              mc:Ignorable="d" d:DesignWidth="515" d:DesignHeight="360"
              x:Class="Slithin.UI.Tools.CreateNotebookModal">
-  <c:DialogControl Header="Generate PDF Notebook" CommandText="OK" IsCancelEnabled="True" Command="{Binding OKCommand}" MinHeight="350" MinWidth="515" MaxWidth="500">
-    <Grid RowDefinitions="40,40,45,35,35,36" ColumnDefinitions="*,50,*">
-      <StackPanel Grid.Row="0" Orientation="Horizontal">
-        <TextBox Watermark="Title" Margin="5" HorizontalAlignment="Left" MinWidth="185" Text="{Binding Title}" />
-      </StackPanel>
+    <c:DialogControl Header="{l:Localisation 'Generate PDF Notebook'}" CommandText="{l:Localisation 'OK'}" IsCancelEnabled="True" Command="{Binding OKCommand}" MinHeight="350" MinWidth="515" MaxWidth="500">
+        <Grid RowDefinitions="40,40,45,35,35,36" ColumnDefinitions="*,50,*">
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <TextBox Watermark="{l:Localisation 'Title'}" Margin="5" HorizontalAlignment="Left" MinWidth="185" Text="{Binding Title}" />
+            </StackPanel>
 
-      <StackPanel Orientation="Horizontal" Margin="3" Spacing="5" Grid.Row="1">
-        <Grid Margin="3" Width="150">
-          <ComboBox IsVisible="{Binding !#customImage.IsChecked}" Classes="Filled" SelectedIndex="0" Items="{Binding Templates, Mode=TwoWay}" SelectedItem="{Binding SelectedTemplate}">
-            <ComboBox.ItemTemplate>
-              <DataTemplate>
-                <StackPanel Orientation="Horizontal" Spacing="5">
-                  <TextBlock Text="{Binding Name}" />
-                  <TextBlock Text="Landscape" IsVisible="{Binding Landscape}" />
+            <StackPanel Orientation="Horizontal" Margin="3" Spacing="5" Grid.Row="1">
+                <Grid Margin="3" Width="150">
+                    <ComboBox IsVisible="{Binding !#customImage.IsChecked}" Classes="Filled" SelectedIndex="0" Items="{Binding Templates, Mode=TwoWay}" SelectedItem="{Binding SelectedTemplate}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{l:Localisation 'Is Landscape'}" IsVisible="{Binding Landscape}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <controls:FileChooser VerticalAlignment="Center" Width="150" Height="100" IsVisible="{Binding #customImage.IsChecked}" Filename="{Binding CustomTemplateFilename, Mode=TwoWay}" />
+                </Grid>
+
+                <StackPanel Spacing="3">
+                    <TextBox Watermark="{l:Localisation 'Page Count'}" Text="{Binding PageCount, Mode=TwoWay}" Width="100" ToolTip.Tip="How many pages should the template apply?" />
+
+                    <Button Content="{l:Localisation 'Add'}" Classes="Flat" Command="{Binding AddPagesCommand}" />
                 </StackPanel>
-              </DataTemplate>
-            </ComboBox.ItemTemplate>
-          </ComboBox>
+            </StackPanel>
 
-          <controls:FileChooser VerticalAlignment="Center" Width="150" Height="100" IsVisible="{Binding #customImage.IsChecked}" Filename="{Binding CustomTemplateFilename, Mode=TwoWay}" />
+            <CheckBox Grid.Row="3" Margin="3" Name="customImage" Content="{l:Localisation 'Use Custom Image'}" />
+
+            <StackPanel HorizontalAlignment="Right" Grid.Row="0" Spacing="3" Margin="15,0,0,0" Grid.Column="2">
+                <ComboBox PlaceholderText="{l:Localisation 'Default Cover'}" SelectionChanged="CoverSelection" Items="{Binding DefaultCovers, Mode=TwoWay}" />
+
+                <TextBlock Text="{l:Localisation 'Cover'}" />
+
+                <Border BorderBrush="Black" BorderThickness="1" Width="150" Height="150">
+                    <Image Source="{Binding Cover, Mode=TwoWay}" ToolTip.Tip="{l:Localisation 'Drag a Image over or select from the list above'}" DragDrop.AllowDrop="True" Width="150" Height="150" Margin="5" />
+                </Border>
+
+                <CheckBox Content="{l:Localisation 'Render Title'}" IsChecked="{Binding RenderName}" ToolTip.Tip="{l:Localisation 'Only for short names and defaut covers'}" />
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="4">
+                <ItemsPresenter Items="{Binding Pages}">
+                    <ItemsPresenter.ItemTemplate>
+                        <ui:NotebookPageDataTemplate />
+                    </ItemsPresenter.ItemTemplate>
+                </ItemsPresenter>
+            </ScrollViewer>
         </Grid>
-
-        <StackPanel Spacing="3">
-          <TextBox Watermark="Page Count" Text="{Binding PageCount, Mode=TwoWay}" Width="100" ToolTip.Tip="How many pages should the template apply?" />
-
-          <Button Content="Add" Classes="Flat" Command="{Binding AddPagesCommand}" />
-        </StackPanel>
-      </StackPanel>
-
-      <CheckBox Grid.Row="3" Margin="3" Name="customImage" Content="Use Custom Image" />
-
-      <StackPanel HorizontalAlignment="Right" Grid.Row="0" Spacing="3" Margin="15,0,0,0" Grid.Column="2">
-        <ComboBox PlaceholderText="Default Cover" SelectionChanged="CoverSelection" Items="{Binding DefaultCovers, Mode=TwoWay}" />
-
-        <TextBlock Text="Cover" />
-
-        <Border BorderBrush="Black" BorderThickness="1" Width="150" Height="150">
-          <Image Source="{Binding Cover, Mode=TwoWay}" ToolTip.Tip="Drag a Image over or select from the list above" DragDrop.AllowDrop="True" Width="150" Height="150" Margin="5" />
-        </Border>
-
-        <CheckBox Content="Render Title" IsChecked="{Binding RenderName}" ToolTip.Tip="Only for short names and defaut covers" />
-      </StackPanel>
-
-      <ScrollViewer Grid.Row="4">
-        <ItemsPresenter Items="{Binding Pages}">
-          <ItemsPresenter.ItemTemplate>
-            <ui:NotebookPageDataTemplate />
-          </ItemsPresenter.ItemTemplate>
-        </ItemsPresenter>
-      </ScrollViewer>
-    </Grid>
-  </c:DialogControl>
+    </c:DialogControl>
 </UserControl>

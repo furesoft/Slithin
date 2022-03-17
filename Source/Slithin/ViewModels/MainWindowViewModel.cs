@@ -13,13 +13,18 @@ namespace Slithin.ViewModels;
 
 public class MainWindowViewModel : BaseViewModel
 {
+    private readonly ILocalisationService _localisationService;
     private object _contextualMenu;
     private Page _selectedTab;
 
     private string _title;
 
-    public MainWindowViewModel(IVersionService versionService, ILoginService loginService)
+    public MainWindowViewModel(IVersionService versionService,
+                               ILoginService loginService,
+                               ILocalisationService localisationService)
     {
+        _localisationService = localisationService;
+
         LoadMenu();
 
         Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
@@ -67,9 +72,10 @@ public class MainWindowViewModel : BaseViewModel
             if (instance is not IPage pageInstance || !pageInstance.IsEnabled() || instance is not Control controlInstance)
                 continue;
 
+            var header = _localisationService.GetString(pageInstance?.Title);
             var page = new Page
             {
-                Header = pageInstance?.Title,
+                Header = header,
                 DataContext = controlInstance.DataContext
             };
 
@@ -79,7 +85,7 @@ public class MainWindowViewModel : BaseViewModel
             }
             else
             {
-                page.Tag = new EmptyContextualMenu() { DataContext = pageInstance?.Title };
+                page.Tag = new EmptyContextualMenu() { DataContext = header };
             }
 
             toRearrange.Add((preserveIndexAttribute != null ? preserveIndexAttribute.Index : toRearrange.Count, page, controlInstance));

@@ -2,21 +2,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:l="using:Slithin.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.UI.Pages.DevicePage">
     <StackPanel>
         <Grid Margin="4">
-            <TextBlock Text="Version" FontSize="18" />
+            <TextBlock Text="{l:Localisation 'Version'}" FontSize="18" />
             <TextBlock Text="{Binding Version, Mode=TwoWay}" HorizontalAlignment="Right" FontSize="18" />
         </Grid>
 
         <Grid Margin="4,4,8,4">
-            <TextBlock Text="Beta" FontSize="18" />
+            <TextBlock Text="{l:Localisation 'Beta'}" FontSize="18" />
             <TextBlock Text="{Binding IsBeta, Mode=TwoWay}" HorizontalAlignment="Right" FontSize="18" />
         </Grid>
 
         <StackPanel>
-            <TextBlock Text="Screens" Margin="4" FontSize="18" />
+            <TextBlock Text="{l:Localisation 'Screens'}" Margin="4" FontSize="18" />
 
             <ItemsControl Items="{Binding SyncService.CustomScreens, Mode=TwoWay}" Margin="16,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Visible">
                 <ItemsControl.ItemTemplate>
