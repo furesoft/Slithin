@@ -31,9 +31,6 @@ public static class ServiceLocator
         var exportProviderFactory = Container.Resolve<IExportProviderFactory>();
         exportProviderFactory.Init();
 
-        var contextMenuProvider = Container.Resolve<IContextMenuProvider>();
-        contextMenuProvider.Init();
-
         Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
     }
 }
