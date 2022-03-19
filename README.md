@@ -18,6 +18,7 @@ Slithin is a forever free, cross-platform managenment tool for your Remarkable D
 * Custom ScriptLanguage to create powerful new tools
 * Share your assets with other users
 * Cloud Connection
+* Dark Mode
 * New Tools: 
     - Merge Notebooks
     - Use Shapes on your device
