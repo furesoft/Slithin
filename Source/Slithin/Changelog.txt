@@ -1,6 +1,9 @@
 Version 1.0.11
 
 - Add Ability To Backup Single Notebook Or Single Folder
+- Add List Share Email Addresses
+- Add Removing Share Email Addresses
+- Add Reseting Screen To Default
 
 Version 1.0.10
 

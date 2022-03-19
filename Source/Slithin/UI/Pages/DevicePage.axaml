@@ -44,8 +44,12 @@
                         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Margin="2">
                             <StackPanel Orientation="Vertical" Margin="2">
                                 <Grid>
-                                    <Button Classes="Flat" Command="{Binding TransferCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip.Tip="Transfer to device">
+                                    <Button Classes="Flat" Command="{Binding TransferCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Transfer to Device'}">
                                         <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularTransfer}" />
+                                    </Button>
+
+                                    <Button Classes="Flat" Command="{Binding ResetCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Reset to default'}">
+                                        <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularReset}" />
                                     </Button>
                                 </Grid>
 

@@ -46,6 +46,7 @@
      <AvaloniaResource Include="Resources\**" />
      <EmbeddedResource Include="Resources\IconTiles\**" />
      <EmbeddedResource Include="Resources\Covers\**" />
+     <EmbeddedResource Include="Resources\DefaultScreens\**" />
      <AvaloniaResource Include="Assets\**" />
      <EmbeddedResource Include="Resources\Locales\**" />
    </ItemGroup>
@@ -65,6 +66,13 @@
      <None Remove="Resources\copy.png" />
      <None Remove="Resources\cubes.png" />
      <None Remove="Resources\data-transfer.png" />
+     <None Remove="Resources\DefaultScreens\batteryempty.png" />
+     <None Remove="Resources\DefaultScreens\lowbattery.png" />
+     <None Remove="Resources\DefaultScreens\poweroff.png" />
+     <None Remove="Resources\DefaultScreens\rebooting.png" />
+     <None Remove="Resources\DefaultScreens\splash.png" />
+     <None Remove="Resources\DefaultScreens\starting.png" />
+     <None Remove="Resources\DefaultScreens\suspended.png" />
      <None Remove="Resources\Locales\en.json" />
      <None Remove="Resources\nav.png" />
      <None Remove="Resources\notebook.png" />
@@ -86,7 +94,6 @@
      <None Remove="Resources\folder.png" />
      <None Remove="Resources\pdf.png" />
      <None Remove="Resources\restore.png" />
-     <None Remove="Slithin.ModuleSystem.Memory\**" />
    </ItemGroup>
 
    <ItemGroup>
@@ -110,10 +117,6 @@
       <LinuxPath>/usr/share/icons/hicolor/48x48/apps/Slithin.png</LinuxPath>
     </Content>
   </ItemGroup>
-   
-   <ItemGroup>
-     <AvaloniaXaml Remove="Slithin.ModuleSystem.Memory\**" />
-   </ItemGroup>
    
    <ItemGroup>
      <Folder Include="TemplateEditor\Components\Nodes\" />
