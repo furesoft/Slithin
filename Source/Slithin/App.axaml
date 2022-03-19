@@ -22,6 +22,8 @@
         <StyleInclude Source="/Styles/KryptoDonateButton.axaml" />
         <StyleInclude Source="/Styles/Settings/SettingsGroup.axaml" />
 
+        <StyleInclude Source="/Styles/TagControl.axaml" />
+
         <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
 
         <StyleInclude Source="avares://NodeEditorAvalonia/Themes/NodeEditorTheme.axaml" />
