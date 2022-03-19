@@ -26,13 +26,20 @@ public class RestoreTool : ITool
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
     private readonly ScpClient _scp;
+    private readonly Xochitl _xochitl;
 
-    public RestoreTool(IPathManager pathManager, IMailboxService mailboxService, SshClient client, ScpClient scp)
+    public RestoreTool(
+        IPathManager pathManager,
+        IMailboxService mailboxService,
+        SshClient client,
+        ScpClient scp,
+        Xochitl xochitl)
     {
         _pathManager = pathManager;
         _mailboxService = mailboxService;
         _client = client;
         _scp = scp;
+        _xochitl = xochitl;
     }
 
     public IImage Image
@@ -120,7 +127,7 @@ public class RestoreTool : ITool
                     NotificationService.Show("Finished");
                     await Task.Delay(1000);
 
-                    TemplateStorage.Instance.Apply();
+                    _xochitl.ReloadDevice();
 
                     NotificationService.Hide();
                 });

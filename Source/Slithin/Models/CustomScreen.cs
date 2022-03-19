@@ -58,6 +58,7 @@ public class CustomScreen : NotifyObject
         var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var scp = ServiceLocator.Container.Resolve<ScpClient>();
+        var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
 
         mailboxService.PostAction(() =>
         {
@@ -66,7 +67,8 @@ public class CustomScreen : NotifyObject
 
             scp.Upload(new FileInfo(Path.Combine(pathManager.CustomScreensDir, Filename)), PathList.Screens + Filename);
 
-            TemplateStorage.Instance.Apply();
+            xochitl.ReloadDevice();
+
             NotificationService.Hide();
         });
     }

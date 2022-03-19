@@ -88,6 +88,7 @@ public class Notebook
 
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var scp = ServiceLocator.Container.Resolve<ScpClient>();
+        var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
 
         var notebooksDir = pathManager.NotebooksDir;
 
@@ -99,7 +100,7 @@ public class Notebook
         scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
             PathList.Documents + "/" + md.ID + ".content");
 
-        TemplateStorage.Instance.Apply();
+        xochitl.ReloadDevice();
     }
 
     public static void UploadNotebook(Metadata md)
@@ -108,7 +109,7 @@ public class Notebook
         var LocalisationService = ServiceLocator.Container.Resolve<ILocalisationService>();
         var scp = ServiceLocator.Container.Resolve<ScpClient>();
         var client = ServiceLocator.Container.Resolve<SshClient>();
-        var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
+        var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>(); var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
 
         var notebooksDir = pathManager.NotebooksDir;
 
@@ -136,7 +137,7 @@ public class Notebook
             scp.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)),
                 PathList.Documents + "/" + md.ID + ".thumbnails");
 
-            TemplateStorage.Instance.Apply();
+            xochitl.ReloadDevice();
         });
     }
 

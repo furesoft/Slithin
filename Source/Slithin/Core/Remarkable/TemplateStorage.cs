@@ -2,8 +2,6 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using Renci.SshNet;
-using Serilog;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 
@@ -23,17 +21,6 @@ public class TemplateStorage
         tmp[^1] = template;
 
         Templates = tmp;
-    }
-
-    public void Apply()
-    {
-        var result = ServiceLocator.Container.Resolve<SshClient>().RunCommand("systemctl restart xochitl");
-        var logger = ServiceLocator.Container.Resolve<ILogger>();
-
-        if (result.ExitStatus != 0)
-        {
-            logger.Error(result.Error);
-        }
     }
 
     public void Load()
