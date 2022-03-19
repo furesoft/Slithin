@@ -1,10 +1,8 @@
 # Slithin
-Slithin is a better cross-platform managent tool for your Remarkable Device.
+Slithin is a forever free, cross-platform managenment tool for your Remarkable Device.
 [The Story behind Slithin](https://github.com/furesoft/Slithin/wiki)
 
 ![Icon](https://user-images.githubusercontent.com/4117602/128601982-3c113838-cd28-49e0-999b-ab9cbe024ed1.png)
-
-![device](https://user-images.githubusercontent.com/4117602/150554617-e866cf80-5a7b-4cfd-8efb-8d7acc475c40.png)
 
 
 # Features
