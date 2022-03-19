@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:Slithin.Controls"
+             xmlns:l="using:Slithin.Core"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="85"
+             x:Class="Slithin.UI.ContextualMenus.DeviceContextualMenu">
+    <DockPanel>
+        <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Reload Device'}" Command="{Binding ReloadDeviceCommand}" Image="{DynamicResource Material.Refresh}" />
+        </StackPanel>
+    </DockPanel>
+</UserControl>

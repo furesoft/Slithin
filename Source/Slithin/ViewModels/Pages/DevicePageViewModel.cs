@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,6 +56,7 @@ public class DevicePageViewModel : BaseViewModel
         _logger = logger;
 
         RemoveEmailCommand = new DelegateCommand(RemoveEmail);
+        ReloadDeviceCommand = new DelegateCommand(ReloadDevice);
     }
 
     public bool HasEmailAddresses
@@ -69,6 +70,8 @@ public class DevicePageViewModel : BaseViewModel
         get => _isBeta;
         set => SetValue(ref _isBeta, value);
     }
+
+    public ICommand ReloadDeviceCommand { get; set; }
 
     public ICommand RemoveEmailCommand { get; set; }
 
@@ -168,6 +171,11 @@ public class DevicePageViewModel : BaseViewModel
         SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Battery Empty"), Filename = "batteryempty.png" });
 
         _logger.Information("Initialize Screens");
+    }
+
+    private void ReloadDevice(object obj)
+    {
+        _xochitl.ReloadDevice();
     }
 
     private void RemoveEmail(object obj)
