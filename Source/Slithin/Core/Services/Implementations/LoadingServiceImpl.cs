@@ -6,11 +6,13 @@ namespace Slithin.Core.Services.Implementations;
 
 public class LoadingServiceImpl : ILoadingService
 {
+    private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;
 
-    public LoadingServiceImpl(IPathManager pathManager)
+    public LoadingServiceImpl(IPathManager pathManager, ILocalisationService localisationService)
     {
         _pathManager = pathManager;
+        _localisationService = localisationService;
     }
 
     public void LoadNotebooks()
@@ -28,7 +30,7 @@ public class LoadingServiceImpl : ILoadingService
         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata
         {
             Type = "CollectionType",
-            VisibleName = "Trash",
+            VisibleName = _localisationService.GetString("Trash"),
             ID = "trash"
         });
 
