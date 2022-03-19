@@ -76,6 +76,7 @@ public class Template : INotifyPropertyChanged
         var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var scp = ServiceLocator.Container.Resolve<ScpClient>();
+        var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
 
         mailboxService.PostAction(() =>
         {
@@ -105,7 +106,7 @@ public class Template : INotifyPropertyChanged
             jsonStream.Seek(0, SeekOrigin.Begin);
             scp.Upload(jsonStream, PathList.Templates + "templates.json"); //ToDo: Fix Template modification
 
-            TemplateStorage.Instance.Apply();
+            xochitl.ReloadDevice();
 
             NotificationService.Hide();
         });

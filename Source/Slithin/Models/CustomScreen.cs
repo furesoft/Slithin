@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -16,7 +17,8 @@ public class CustomScreen : NotifyObject
 
     public CustomScreen()
     {
-        TransferCommand = new DelegateCommand(Transfer);
+        TransferCommand = new DelegateCommand(Upload);
+        ResetCommand = new DelegateCommand(Reset);
     }
 
     public string Filename { get; set; }
@@ -27,6 +29,9 @@ public class CustomScreen : NotifyObject
         get => _image;
         set => SetValue(ref _image, value);
     }
+
+    [BsonIgnore]
+    public ICommand ResetCommand { get; set; }
 
     public string Title { get; set; }
 
@@ -53,20 +58,39 @@ public class CustomScreen : NotifyObject
         Image = Bitmap.DecodeToWidth(strm, 150);
     }
 
-    private void Transfer(object obj)
+    private void Reset(object obj)
+    {
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+
+        var resourceName = $"Slithin.Resources.DefaultScreens.{Filename}";
+        var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+
+        var fileStream = File.OpenWrite(Path.Combine(pathManager.CustomScreensDir, Filename));
+        stream.CopyTo(fileStream);
+
+        fileStream.Dispose();
+        stream.Dispose();
+
+        Load();
+        Upload(null);
+    }
+
+    private void Upload(object obj)
     {
         var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var scp = ServiceLocator.Container.Resolve<ScpClient>();
+        var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
+        var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
 
         mailboxService.PostAction(() =>
         {
-            //upload screen
-            NotificationService.Show($"Uploading Screen '{Title}'");
+            NotificationService.Show(localisation.GetStringFormat("Uploading Screen '{0}'", Title));
 
             scp.Upload(new FileInfo(Path.Combine(pathManager.CustomScreensDir, Filename)), PathList.Screens + Filename);
 
-            TemplateStorage.Instance.Apply();
+            xochitl.ReloadDevice();
+
             NotificationService.Hide();
         });
     }

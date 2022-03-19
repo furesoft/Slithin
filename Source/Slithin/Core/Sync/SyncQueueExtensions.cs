@@ -20,7 +20,7 @@ public static class SyncQueueExtensions
         {
             var applyTemplateAction = new Action<object>(_ =>
             {
-                TemplateStorage.Instance.Apply();
+                ServiceLocator.Container.Resolve<Xochitl>().ReloadDevice();
             });
 
             mailboxService.Post(new AttentionRequiredMessage { Title = "Apply Changes", Text = "All files are synced. Would you like to apply all changes?", Action = applyTemplateAction });

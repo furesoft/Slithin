@@ -15,13 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Tests", "..\Slithin
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Windows-Store", "..\..\Deployment\Windows-Store\Windows-Store.wapproj", "{A5736025-43AD-4D65-BF62-950C9646E15C}"
 EndProject
-Project("{13B669BE-BB05-4DDF-9536-439F39A36129}") = "WebApi", "..\..\Api\WebApi.msbuildproj", "{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Scripting", "..\Slithin.Scripting\Slithin.Scripting.csproj", "{472763E2-2905-4FA5-AB40-6D8057185AEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Scripting.Interactive", "..\Slithin.Scripting.Interactive\Slithin.Scripting.Interactive.csproj", "{C4E17E3C-D4ED-4156-82CF-FB03FD830AB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlithinMarketplace", "..\SlithinMarketplace\SlithinMarketplace.csproj", "{8F09E81C-9C7F-46A8-9E75-B65D6AE9F96C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlithinMarketplace", "..\SlithinMarketplace\SlithinMarketplace.csproj", "{8F09E81C-9C7F-46A8-9E75-B65D6AE9F96C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,26 +105,6 @@ Global
 		{A5736025-43AD-4D65-BF62-950C9646E15C}.Release|x86.ActiveCfg = Release|x86
 		{A5736025-43AD-4D65-BF62-950C9646E15C}.Release|x86.Build.0 = Release|x86
 		{A5736025-43AD-4D65-BF62-950C9646E15C}.Release|x86.Deploy.0 = Release|x86
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Debug|ARM.Build.0 = Debug|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Debug|x64.Build.0 = Debug|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Debug|x86.Build.0 = Debug|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|ARM.ActiveCfg = Release|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|ARM.Build.0 = Release|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|ARM64.Build.0 = Release|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|x64.ActiveCfg = Release|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|x64.Build.0 = Release|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|x86.ActiveCfg = Release|Any CPU
-		{01E42E9B-2D1E-490B-BAC2-8034A889AB7A}.Release|x86.Build.0 = Release|Any CPU
 		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{472763E2-2905-4FA5-AB40-6D8057185AEA}.Debug|ARM.ActiveCfg = Debug|Any CPU

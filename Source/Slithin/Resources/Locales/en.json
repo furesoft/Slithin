@@ -40,7 +40,6 @@
   "Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome.": "Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome.",
 
   "Version": "Version",
-  "Beta": "Beta",
   "Screens": "Screens",
 
   "Move Here": "Move Here",
@@ -115,4 +114,15 @@
   "Filename should be a valid path and not empty": "Filename should be a valid path and not empty",
   "Your remarkable is not reachable. Please check your connection and restart Slithin": "Your remarkable is not reachable. Please check your connection and restart Slithin",
   "Could not connect to host": "Could not connect to host",
+
+  "Backup": "Backup",
+  "Start Compressing {0}": "Start Compressing {0}",
+  "Start Compressing": "Start Compressing",
+  "Compressing '{0}'": "Compressing '{0}'",
+  "Backup all your files": "Backup all your files",
+
+  "Share Email Addresses": "Share Email Addresses",
+  "Reset To Default": "Reset To Default",
+  "Uploading Screen '{0}'": "Uploading Screen '{0}'",
+  "Reload Device": "Reload Device"
 }

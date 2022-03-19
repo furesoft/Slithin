@@ -13,14 +13,13 @@ public class FeatureToggle
 #else
 
         /*
-
             Feature<TemplateEditorFeature>.Enable();
             Feature<SharableFeature>.Enable();
             Feature<ExportFeature>.Enable();
             Feature<ExportPdfFeature>.Enable();
             Feature<ExportSvgFeature>.Enable();
             Feature<ExportPngFeature>.Enable();
-            */
+        */
 #endif
     }
 }
