@@ -28,7 +28,6 @@ public class DevicePageViewModel : BaseViewModel
     private readonly IVersionService _versionService;
 
     private bool _hasEmailAddresses;
-    private bool _isBeta;
     private ObservableCollection<string> _shareEmailAddresses;
     private string _version;
     private Xochitl _xochitl;
@@ -65,12 +64,6 @@ public class DevicePageViewModel : BaseViewModel
         set { SetValue(ref _hasEmailAddresses, value); }
     }
 
-    public bool IsBeta
-    {
-        get => _isBeta;
-        set => SetValue(ref _isBeta, value);
-    }
-
     public ICommand ReloadDeviceCommand { get; set; }
 
     public ICommand RemoveEmailCommand { get; set; }
@@ -103,7 +96,6 @@ public class DevicePageViewModel : BaseViewModel
             _loadingService.LoadTools();
         });
 
-        IsBeta = _xochitl.GetIsBeta();
         ShareEmailAddresses = new(_xochitl.GetShareEmailAddresses());
         HasEmailAddresses = ShareEmailAddresses.Any();
 
@@ -113,6 +105,11 @@ public class DevicePageViewModel : BaseViewModel
         };
 
         Version = _versionService.GetDeviceVersion().ToString();
+
+        if (_xochitl.GetIsBeta())
+        {
+            Version += " Beta";
+        }
 
         await DoAfterDeviceUpdate();
     }

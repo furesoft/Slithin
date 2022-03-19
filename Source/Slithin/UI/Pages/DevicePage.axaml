@@ -30,11 +30,6 @@
             </ItemsControl>
         </Grid>
 
-        <Grid Margin="4,4,8,4">
-            <TextBlock Text="{l:Localisation 'Beta'}" FontSize="18" />
-            <TextBlock Text="{Binding IsBeta, Mode=TwoWay}" HorizontalAlignment="Right" FontSize="18" />
-        </Grid>
-
         <StackPanel>
             <TextBlock Text="{l:Localisation 'Screens'}" Margin="4" FontSize="18" />
 
