@@ -14,13 +14,18 @@ namespace Slithin.Tools;
 
 public class BackupTool : ITool
 {
+    private readonly ILocalisationService _localisationService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
 
-    public BackupTool(IPathManager pathManager, IMailboxService mailboxService)
+    public BackupTool(
+        IPathManager pathManager,
+        IMailboxService mailboxService,
+        ILocalisationService localisationService)
     {
         _pathManager = pathManager;
         _mailboxService = mailboxService;
+        _localisationService = localisationService;
     }
 
     public IImage Image
@@ -33,7 +38,7 @@ public class BackupTool : ITool
         }
     }
 
-    public ScriptInfo Info => new("backup", "Backup", "Internal", "Backup all your files", true, true, false);
+    public ScriptInfo Info => new("backup", "Backup", "Internal", _localisationService.GetString("Backup all your files"), true, true, false);
 
     public bool IsConfigurable => false;
 
@@ -44,9 +49,9 @@ public class BackupTool : ITool
 
     public void Invoke(object data)
     {
-        _mailboxService.PostAction(async () =>
+        _mailboxService.PostAction(() =>
         {
-            NotificationService.Show("Start Compressing");
+            NotificationService.Show(_localisationService.GetString("Start Compressing"));
 
             using (var zip = new ZipFile())
             {
@@ -66,7 +71,7 @@ public class BackupTool : ITool
                 {
                     if (e.EventType == ZipProgressEventType.Saving_BeforeWriteEntry)
                     {
-                        NotificationService.ShowProgress($"Compressing '{e.CurrentEntry.FileName}'", e.EntriesSaved, e.EntriesTotal);
+                        NotificationService.ShowProgress(_localisationService.GetStringFormat("Compressing '{0}'", e.CurrentEntry.FileName), e.EntriesSaved, e.EntriesTotal);
                     }
                 };
 
