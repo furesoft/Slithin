@@ -25,7 +25,7 @@ public class DevicePageViewModel : BaseViewModel
     private readonly ScpClient _scp;
     private readonly ISettingsService _settingsService;
     private readonly IVersionService _versionService;
-
+    private readonly Xochitl _xochitl;
     private bool _isBeta;
 
     private string _version;
@@ -41,6 +41,7 @@ public class DevicePageViewModel : BaseViewModel
         ISettingsService settingsService,
         IExportProviderFactory exportProviderFactory,
         ILoginService loginService,
+        Xochitl xochitl,
         ILogger logger)
     {
         _versionService = versionService;
@@ -54,6 +55,7 @@ public class DevicePageViewModel : BaseViewModel
         _settingsService = settingsService;
         _exportProviderFactory = exportProviderFactory;
         _loginService = loginService;
+        _xochitl = xochitl;
         _logger = logger;
     }
 
@@ -87,7 +89,7 @@ public class DevicePageViewModel : BaseViewModel
             _loadingService.LoadTools();
         });
 
-        InitIsBeta();
+        IsBeta = _xochitl.GetIsBeta();
 
         Version = _versionService.GetDeviceVersion().ToString();
 
@@ -141,18 +143,6 @@ public class DevicePageViewModel : BaseViewModel
         {
             UploadTemplates();
             UploadScreens();
-        }
-    }
-
-    private void InitIsBeta()
-    {
-        var sshCommand = _client.RunCommand("grep '^BetaProgram' /home/root/.config/remarkable/xochitl.conf");
-        var str = sshCommand.Result;
-        str = str.Replace("BetaProgram=", "").Replace("\n", "");
-
-        if (!string.IsNullOrEmpty(str))
-        {
-            IsBeta = bool.Parse(str);
         }
     }
 
