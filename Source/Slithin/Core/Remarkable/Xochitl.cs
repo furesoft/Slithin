@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Linq;
+using System.Text;
 using IniParser;
 using IniParser.Model;
 using Renci.SshNet;
@@ -9,16 +11,19 @@ namespace Slithin.Core.Remarkable;
 
 public class Xochitl
 {
-    private readonly ScpClient _client;
+    private readonly SshClient _client;
     private readonly ILogger _logger;
     private readonly IPathManager _pathManager;
+    private readonly ScpClient _scp;
     private IniData _data;
+    private FileIniDataParser _ini;
 
-    public Xochitl(ScpClient client, IPathManager pathManager, ILogger logger)
+    public Xochitl(ScpClient scp, IPathManager pathManager, ILogger logger, SshClient client)
     {
-        _client = client;
+        _scp = scp;
         _pathManager = pathManager;
         _logger = logger;
+        _client = client;
     }
 
     public bool GetIsBeta()
@@ -38,15 +43,61 @@ public class Xochitl
         return _data[section][key];
     }
 
+    public string[] GetShareEmailAddresses()
+    {
+        var str = GetProperty("ShareEmailAddresses", "General");
+
+        return str.Split(',').Select(_ => _.Trim()).ToArray();
+    }
+
     public void Init()
     {
         var fileInfo = new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"));
 
         _logger.Information("Downloading 'xochitl.conf'");
-        _client.Download("/home/root/.config/remarkable/xochitl.conf", fileInfo);
 
-        var parser = new FileIniDataParser();
+        if (fileInfo.Exists)
+        {
+            fileInfo.Delete();
+        }
 
-        _data = parser.ReadFile(fileInfo.FullName);
+        _scp.Download("/home/root/.config/remarkable/xochitl.conf", fileInfo);
+
+        _ini = new FileIniDataParser();
+
+        _data = _ini.ReadFile(fileInfo.FullName);
+    }
+
+    public void Save()
+    {
+        _ini.WriteFile(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"), _data, Encoding.Unicode);
+        Upload();
+
+        ReloadDevice();
+    }
+
+    public void SetProperty(string key, string section, object value)
+    {
+        _data[section][key] = value.ToString();
+    }
+
+    public void Upload()
+    {
+        var fileInfo = new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"));
+
+        NotificationService.Show("Uploading xochitl.conf");
+        _scp.Upload(fileInfo, "/home/root/.config/remarkable/xochitl.conf");
+
+        NotificationService.Hide();
+    }
+
+    private void ReloadDevice()
+    {
+        var result = _client.RunCommand("systemctl restart xochitl");
+
+        if (result.ExitStatus != 0)
+        {
+            _logger.Error(result.Error);
+        }
     }
 }
