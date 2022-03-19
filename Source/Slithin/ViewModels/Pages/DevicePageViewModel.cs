@@ -75,10 +75,7 @@ public class DevicePageViewModel : BaseViewModel
     {
         base.OnLoad();
 
-        var _loginService = ServiceLocator.Container.Resolve<ILoginService>();
-
-        var baseDir = _pathManager.ConfigBaseDir;
-        var currentDevice = _loginService.GetCurrentCredential();
+        ServiceLocator.Container.Resolve<Xochitl>().Init();
 
         InitScreens();
 
@@ -94,11 +91,6 @@ public class DevicePageViewModel : BaseViewModel
         Version = _versionService.GetDeviceVersion().ToString();
 
         await DoAfterDeviceUpdate();
-
-        _mailboxService.PostAction(() =>
-        {
-            //ModuleEventStorage.Invoke("OnConnect", 0);
-        });
     }
 
     private async Task DoAfterDeviceUpdate()
@@ -108,7 +100,6 @@ public class DevicePageViewModel : BaseViewModel
             return;
         }
 
-        //ModuleEventStorage.Invoke("OnNewVersionAvailable", 0);
         _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
 
         _loginService.UpdateIPAfterUpdate();
@@ -162,7 +153,6 @@ public class DevicePageViewModel : BaseViewModel
     {
         _mailboxService.PostAction(() =>
         {
-            //upload screens folder
             NotificationService.Show(_localisationService.GetString("Uploading Screens"));
 
             _scp.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
@@ -176,7 +166,6 @@ public class DevicePageViewModel : BaseViewModel
     {
         _mailboxService.PostAction(() =>
         {
-            //upload template folder
             NotificationService.Show(_localisationService.GetString("Uploading Templates"));
 
             _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);

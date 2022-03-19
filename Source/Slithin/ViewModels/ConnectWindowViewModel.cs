@@ -172,12 +172,13 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         if (reply.Status != IPStatus.Success)
         {
-            NotificationService.Show(_localisationService.GetString(
-                "Your remarkable is not reachable. Please check your connection and restart Slithin"));
+            const string message = "Your remarkable is not reachable. Please check your connection and restart Slithin";
 
             var logger = ServiceLocator.Container.Resolve<ILogger>();
 
-            logger.Warning("Your remarkable is not reachable. Please check your connection and restart Slithin");
+            NotificationService.Show(_localisationService.GetString(
+                message));
+            logger.Warning(message);
         }
     }
 }
