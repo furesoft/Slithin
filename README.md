@@ -25,6 +25,6 @@ Slithin is a better cross-platform managent tool for your Remarkable Device.
 
 Installation guide can be found on the [Wiki](https://github.com/furesoft/Slithin/wiki/Installation-Guide)
 
-Slithin is available for Windows, Linux and OSX. The executables are available under [Releases](https://github.com/furesoft/Slithin/releases) or get it from the [Microsoft Store](https://www.microsoft.com/de-de/p/slithin/9pkxtcbn8mq8?cid=storebadge&ocid=badge&rtc=1&activetab=pivot:overviewtab) If you are a Windows User.
+Slithin is available for Windows, Linux and OSX. The executables are available under [Releases](https://github.com/furesoft/Slithin/releases) or get it from the [Microsoft Store](https://www.microsoft.com/de-de/p/slithin/9pkxtcbn8mq8?cid=storebadge&ocid=badge&rtc=1&activetab=pivot:overviewtab).
 
 # This is a beta, so use it on your own risk
