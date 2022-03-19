@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,13 +38,10 @@ public class DevicePageViewModel : BaseViewModel
         IMailboxService mailboxService,
         ILocalisationService localisationService,
         LocalRepository localRepostory,
-        SshClient client,
         ScpClient scp,
         IPathManager pathManager,
         ISettingsService settingsService,
-        IExportProviderFactory exportProviderFactory,
         ILoginService loginService,
-        Xochitl xochitl,
         ILogger logger)
     {
         _versionService = versionService;
