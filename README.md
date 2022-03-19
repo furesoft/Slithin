@@ -22,6 +22,7 @@ Slithin is a better cross-platform managent tool for your Remarkable Device.
 * Cloud Connection
 * New Tools: 
     - Merge Notebooks
+    - Use Shapes on your device
 
 Installation guide can be found on the [Wiki](https://github.com/furesoft/Slithin/wiki/Installation-Guide)
 
