@@ -177,8 +177,7 @@ public class DevicePageViewModel : BaseViewModel
     {
         ShareEmailAddresses.Remove(obj.ToString());
 
-        var joinedMailList = string.Join(", ", ShareEmailAddresses);
-        _xochitl.SetProperty("ShareEmailAddresses", "General", joinedMailList);
+        _xochitl.SetShareMailAddresses(ShareEmailAddresses);
 
         _mailboxService.PostAction(() => _xochitl.Save());
     }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using IniParser;
 using IniParser.Model;
@@ -88,6 +89,12 @@ public class Xochitl
     public void SetProperty(string key, string section, object value)
     {
         _data[section][key] = value.ToString();
+    }
+
+    public void SetShareMailAddresses(IEnumerable<string> mailAddresses)
+    {
+        var joinedMailList = string.Join(", ", mailAddresses);
+        SetProperty("ShareEmailAddresses", "General", joinedMailList);
     }
 
     public void Upload()
