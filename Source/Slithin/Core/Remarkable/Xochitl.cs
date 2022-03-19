@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Text;
 using IniParser;
 using IniParser.Model;
 using Renci.SshNet;
@@ -68,9 +67,19 @@ public class Xochitl
         _data = _ini.ReadFile(fileInfo.FullName);
     }
 
+    public void ReloadDevice()
+    {
+        var result = _client.RunCommand("systemctl restart xochitl");
+
+        if (result.ExitStatus != 0)
+        {
+            _logger.Error(result.Error);
+        }
+    }
+
     public void Save()
     {
-        _ini.WriteFile(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"), _data, Encoding.Unicode);
+        CustomIniSerializer.WriteFile(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"), _data);
         Upload();
 
         ReloadDevice();
@@ -89,15 +98,5 @@ public class Xochitl
         _scp.Upload(fileInfo, "/home/root/.config/remarkable/xochitl.conf");
 
         NotificationService.Hide();
-    }
-
-    private void ReloadDevice()
-    {
-        var result = _client.RunCommand("systemctl restart xochitl");
-
-        if (result.ExitStatus != 0)
-        {
-            _logger.Error(result.Error);
-        }
     }
 }

@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Renci.SshNet;
 using Serilog;
 using Slithin.Controls;
@@ -13,8 +16,6 @@ namespace Slithin.ViewModels.Pages;
 
 public class DevicePageViewModel : BaseViewModel
 {
-    private readonly SshClient _client;
-    private readonly IExportProviderFactory _exportProviderFactory;
     private readonly ILoadingService _loadingService;
     private readonly ILocalisationService _localisationService;
     private readonly LocalRepository _localRepostory;
@@ -25,10 +26,12 @@ public class DevicePageViewModel : BaseViewModel
     private readonly ScpClient _scp;
     private readonly ISettingsService _settingsService;
     private readonly IVersionService _versionService;
-    private readonly Xochitl _xochitl;
-    private bool _isBeta;
 
+    private bool _hasEmailAddresses;
+    private bool _isBeta;
+    private ObservableCollection<string> _shareEmailAddresses;
     private string _version;
+    private Xochitl _xochitl;
 
     public DevicePageViewModel(IVersionService versionService,
         ILoadingService loadingService,
@@ -49,20 +52,33 @@ public class DevicePageViewModel : BaseViewModel
         _mailboxService = mailboxService;
         _localisationService = localisationService;
         _localRepostory = localRepostory;
-        _client = client;
         _scp = scp;
         _pathManager = pathManager;
         _settingsService = settingsService;
-        _exportProviderFactory = exportProviderFactory;
         _loginService = loginService;
-        _xochitl = xochitl;
         _logger = logger;
+
+        RemoveEmailCommand = new DelegateCommand(RemoveEmail);
+    }
+
+    public bool HasEmailAddresses
+    {
+        get { return _hasEmailAddresses; }
+        set { SetValue(ref _hasEmailAddresses, value); }
     }
 
     public bool IsBeta
     {
         get => _isBeta;
         set => SetValue(ref _isBeta, value);
+    }
+
+    public ICommand RemoveEmailCommand { get; set; }
+
+    public ObservableCollection<string> ShareEmailAddresses
+    {
+        get { return _shareEmailAddresses; }
+        set { SetValue(ref _shareEmailAddresses, value); }
     }
 
     public string Version
@@ -75,7 +91,8 @@ public class DevicePageViewModel : BaseViewModel
     {
         base.OnLoad();
 
-        ServiceLocator.Container.Resolve<Xochitl>().Init();
+        _xochitl = ServiceLocator.Container.Resolve<Xochitl>();
+        _xochitl.Init();
 
         InitScreens();
 
@@ -87,6 +104,13 @@ public class DevicePageViewModel : BaseViewModel
         });
 
         IsBeta = _xochitl.GetIsBeta();
+        ShareEmailAddresses = new(_xochitl.GetShareEmailAddresses());
+        HasEmailAddresses = ShareEmailAddresses.Any();
+
+        ShareEmailAddresses.CollectionChanged += (s, e) =>
+        {
+            HasEmailAddresses = ShareEmailAddresses.Any();
+        };
 
         Version = _versionService.GetDeviceVersion().ToString();
 
@@ -149,6 +173,16 @@ public class DevicePageViewModel : BaseViewModel
         _logger.Information("Initialize Screens");
     }
 
+    private void RemoveEmail(object obj)
+    {
+        ShareEmailAddresses.Remove(obj.ToString());
+
+        var joinedMailList = string.Join(", ", ShareEmailAddresses);
+        _xochitl.SetProperty("ShareEmailAddresses", "General", joinedMailList);
+
+        _mailboxService.PostAction(() => _xochitl.Save());
+    }
+
     private void UploadScreens()
     {
         _mailboxService.PostAction(() =>
@@ -157,7 +191,8 @@ public class DevicePageViewModel : BaseViewModel
 
             _scp.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
 
-            TemplateStorage.Instance.Apply();
+            _xochitl.ReloadDevice();
+
             NotificationService.Hide();
         });
     }
@@ -170,7 +205,7 @@ public class DevicePageViewModel : BaseViewModel
 
             _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
 
-            TemplateStorage.Instance.Apply();
+            _xochitl.ReloadDevice();
             NotificationService.Hide();
         });
     }
