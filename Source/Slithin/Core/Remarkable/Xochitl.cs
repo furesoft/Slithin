@@ -56,7 +56,7 @@ public class Xochitl
 
         if (value.StartsWith("@ByteArray"))
         {
-            var start = value.IndexOf("(");
+            var start = value.IndexOf("(") + 1;
             var end = value.IndexOf(")");
 
             return value.Substring(start, end - start);
