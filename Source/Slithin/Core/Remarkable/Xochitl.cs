@@ -50,6 +50,21 @@ public class Xochitl
         return str.Split(',').Select(_ => _.Trim()).ToArray();
     }
 
+    public string GetToken(string key, string section)
+    {
+        var value = GetProperty(key, section);
+
+        if (value.StartsWith("@ByteArray"))
+        {
+            var start = value.IndexOf("(");
+            var end = value.IndexOf(")");
+
+            return value.Substring(start, end - start);
+        }
+
+        return null;
+    }
+
     public void Init()
     {
         var fileInfo = new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"));
