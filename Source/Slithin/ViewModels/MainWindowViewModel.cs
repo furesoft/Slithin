@@ -68,6 +68,7 @@ public class MainWindowViewModel : BaseViewModel
 
             var instance = Activator.CreateInstance(type);
             var preserveIndexAttribute = type.GetCustomAttribute<PreserveIndexAttribute>();
+            var pageIconAttribute = type.GetCustomAttribute<PageIconAttribute>();
 
             if (instance is not IPage pageInstance || !pageInstance.IsEnabled() || instance is not Control controlInstance)
                 continue;
@@ -76,8 +77,10 @@ public class MainWindowViewModel : BaseViewModel
             var page = new Page
             {
                 Header = header,
-                DataContext = controlInstance.DataContext
+                DataContext = controlInstance.DataContext,
             };
+
+            page.Icon = App.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
 
             if (pageInstance.UseContextualMenu())
             {

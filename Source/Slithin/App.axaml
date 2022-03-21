@@ -28,6 +28,8 @@
 
         <StyleInclude Source="avares://NodeEditorAvalonia/Themes/NodeEditorTheme.axaml" />
 
+        <StyleInclude Source="avares://Slithin/Styles/SplitViewStyle.axaml" />
+
         <Style Selector="controls|Node /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="IsHitTestVisible" Value="True" />
         </Style>

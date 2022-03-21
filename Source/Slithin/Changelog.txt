@@ -5,6 +5,7 @@ Version 1.0.11
 - Add Removing Share Email Addresses
 - Add Reseting Screen To Default
 - Add Ability To Reload Device
+- Navigation Improvements
 
 Version 1.0.10
 
