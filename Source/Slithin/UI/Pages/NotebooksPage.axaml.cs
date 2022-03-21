@@ -14,6 +14,7 @@ using Slithin.ViewModels.Pages;
 namespace Slithin.UI.Pages;
 
 [PreserveIndex(1)]
+[PageIcon("Codeicons.Notebook")]
 public class NotebooksPage : UserControl, IPage
 {
     public NotebooksPage()

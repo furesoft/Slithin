@@ -16,6 +16,7 @@ using Slithin.ViewModels.Pages;
 namespace Slithin.UI.Pages;
 
 [PreserveIndex(2)]
+[PageIcon("Vaadin.List")]
 public partial class TemplatesPage : UserControl, IPage
 {
     public TemplatesPage()

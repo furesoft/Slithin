@@ -8,6 +8,7 @@ using Slithin.ViewModels.Pages;
 namespace Slithin.UI.Pages;
 
 [PreserveIndex(3)]
+[PageIcon("Bootstrap.ShareFill")]
 public partial class SharablesPage : UserControl, IPage
 {
     public SharablesPage()
