@@ -22,7 +22,7 @@
                 <TextBox IsVisible="{Binding !#useSshKey.IsChecked}" UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.Password, Mode=TwoWay}"
                                                  wpf:TextFieldAssist.Label="{l:Localisation 'Password'}" PasswordChar="*" />
 
-                <c:FileChooser IsVisible="{Binding #useSshKey.IsChecked}" Filename="{Binding SshKeyFilename, Mode=TwoWay}" Grid.Row="2" Watermark="SSH Key File" />
+                <c:FileChooser IsVisible="{Binding #useSshKey.IsChecked}" Grid.ColumnSpan="2" Filename="{Binding SshKeyFilename, Mode=TwoWay}" Grid.Row="2" Watermark="SSH Key File" />
 
                 <StackPanel Orientation="Horizontal" Grid.Row="4" Spacing="2" Grid.Column="1">
                     <Button Classes="Flat" Command="{Binding CancelCommand}" IsCancel="True" Margin="5" Content="{l:Localisation 'Cancel'}" />

@@ -6,6 +6,7 @@ Version 1.0.11
 - Add Reseting Screen To Default
 - Add Ability To Reload Device
 - Add Different Menu Modes
+- Add Ability To Login With SSH Key
 
 
 Version 1.0.10
