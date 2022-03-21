@@ -5,6 +5,7 @@
              xmlns:controls="using:Slithin.Controls"
              xmlns:s="using:Slithin.Controls.Settings"
              xmlns:l="using:Slithin.Core"
+             xmlns:f="using:Slithin.Core.FeatureToggle"
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
              x:Class="Slithin.UI.Pages.SettingsPage">
     <ScrollViewer>
@@ -28,6 +29,7 @@
             <s:SettingsGroup Header="{l:Localisation 'Appeareance'}" Grid.Column="1" Grid.Row="1">
                 <StackPanel Spacing="5">
                     <ToggleSwitch Content="{l:Localisation 'Big Menu Mode'}" IsChecked="{Binding IsBigMenuMode, Mode=TwoWay}" />
+                    <ToggleSwitch IsVisible="{f:FeatureEnabled 'DarkModeFeature'}" Content="{l:Localisation 'Dark Mode'}" IsChecked="{Binding IsDarkMode, Mode=TwoWay}" />
                 </StackPanel>
             </s:SettingsGroup>
 

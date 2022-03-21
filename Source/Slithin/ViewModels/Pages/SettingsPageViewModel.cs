@@ -84,6 +84,12 @@ public class SettingsPageViewModel : BaseViewModel
         set { _settings.IsBigMenuMode = value; SaveSetting(); }
     }
 
+    public bool IsDarkMode
+    {
+        get { return _settings.IsDarkMode; }
+        set { _settings.IsDarkMode = value; SaveSetting(); }
+    }
+
     public ICommand OpenExternalCommand { get; set; }
 
     private void CheckForUpdates(object obj)

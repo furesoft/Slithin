@@ -5,16 +5,14 @@ namespace Slithin.Core;
 
 public class Settings : NotifyObject
 {
-    private bool _isBigMenuMode;
     public ObjectId _id { get; set; }
 
     public bool AutomaticScreenRecovery { get; set; }
     public bool AutomaticTemplateRecovery { get; set; }
     public bool AutomaticUpdates { get; set; }
-
     public Dictionary<string, string> CustomSettings { get; set; } = new();
-
     public bool IsBigMenuMode { get; set; }
+    public bool IsDarkMode { get; set; }
 
     public string Get(string key)
     {

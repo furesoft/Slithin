@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
 using Avalonia.Controls;
+using Material.Styles;
 using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.Models;
@@ -15,6 +16,7 @@ namespace Slithin.ViewModels;
 public class MainWindowViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
+    private readonly ISettingsService _settingsService;
     private object _contextualMenu;
     private Page _selectedTab;
 
@@ -22,16 +24,18 @@ public class MainWindowViewModel : BaseViewModel
 
     public MainWindowViewModel(IVersionService versionService,
                                ILoginService loginService,
-                               ILocalisationService localisationService)
+                               ILocalisationService localisationService,
+                               ISettingsService settingsService)
     {
         _localisationService = localisationService;
-
+        _settingsService = settingsService;
         OpenExternalCommand = new DelegateCommand(OpenExternal);
+        Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
 
         LoadMenu();
-
-        Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
     }
+
+    public ColorZoneMode ColorZoneMode => _settingsService.GetSettings().IsDarkMode ? ColorZoneMode.Dark : ColorZoneMode.Light;
 
     public object ContextualMenu
     {

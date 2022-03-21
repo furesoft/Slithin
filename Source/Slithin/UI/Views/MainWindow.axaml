@@ -11,7 +11,7 @@
         x:Class="Slithin.UI.Views.MainWindow" Icon="avares:/Resources/Icon.png"
         Title="{Binding Title}">
     <controls:ContentDialog controls:DialogService.IsHost="True">
-        <styles:ColorZone Mode="{core:Setting 'DesignMode'}" Height="{Binding $parent[Window].Height}">
+        <styles:ColorZone Mode="Light" Height="{Binding $parent[Window].Height}">
             <SplitView DisplayMode="CompactInline" OpenPaneLength="190" IsPaneOpen="{core:Setting 'IsBigMenuMode'}}">
                 <SplitView.Pane>
                     <Grid RowDefinitions="175,*" Margin="0,20,0,0">
