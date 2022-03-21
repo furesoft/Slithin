@@ -78,6 +78,12 @@ public class SettingsPageViewModel : BaseViewModel
         }
     }
 
+    public bool IsBigMenuMode
+    {
+        get { return _settings.IsBigMenuMode; }
+        set { _settings.IsBigMenuMode = value; SaveSetting(); }
+    }
+
     public ICommand OpenExternalCommand { get; set; }
 
     private void CheckForUpdates(object obj)

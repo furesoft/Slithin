@@ -17,7 +17,7 @@
                 </StackPanel>
             </s:SettingsGroup>
 
-            <s:SettingsGroup Header="General" Grid.Column="1">
+            <s:SettingsGroup Header="{l:Localisation 'General'}" Grid.Column="1">
                 <StackPanel Spacing="5">
                     <ToggleSwitch Content="{l:Localisation 'Automatic Updates'}" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />
 
@@ -25,14 +25,20 @@
                 </StackPanel>
             </s:SettingsGroup>
 
-            <s:SettingsGroup Header="After Device Update" Grid.Column="0" Grid.Row="1">
+            <s:SettingsGroup Header="{l:Localisation 'Appeareance'}" Grid.Column="1" Grid.Row="1">
+                <StackPanel Spacing="5">
+                    <ToggleSwitch Content="{l:Localisation 'Big Menu Mode'}" IsChecked="{Binding IsBigMenuMode, Mode=TwoWay}" />
+                </StackPanel>
+            </s:SettingsGroup>
+
+            <s:SettingsGroup Header="{l:Localisation 'After Device Update'}" Grid.Column="0" Grid.Row="1">
                 <StackPanel Spacing="3" Orientation="Vertical">
                     <ToggleSwitch Content="{l:Localisation 'Automatic Template Recovery'}" IsChecked="{Binding AutomaticTemplateRecovery, Mode=TwoWay}" />
                     <ToggleSwitch Content="{l:Localisation 'Automatic Screen Recovery'}" IsChecked="{Binding AutomaticScreenRecovery, Mode=TwoWay}" />
                 </StackPanel>
             </s:SettingsGroup>
 
-            <s:SettingsGroup HorizontalAlignment="Left" Header="About" Grid.Column="0" Grid.Row="2">
+            <s:SettingsGroup HorizontalAlignment="Left" Header="{l:Localisation 'About'}" Grid.Column="0" Grid.Row="2">
                 <Grid MinHeight="135" RowDefinitions="*,*">
                     <TextBlock Grid.Row="0" Text="{l:Localisation 'Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome.'}" TextWrapping="Wrap" MaxWidth="300" />
 
@@ -52,7 +58,7 @@
                 </Grid>
             </s:SettingsGroup>
 
-            <s:SettingsGroup Header="{l:Localisation 'Support Slithin'}" Margin="2,2,20,15" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1">
+            <s:SettingsGroup Header="{l:Localisation 'Support Slithin'}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2">
                 <UniformGrid Columns="7">
                     <controls:KryptoDonateButton CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="{DynamicResource BoxIcons.LogosBitcoin}" />
                     <controls:KryptoDonateButton CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource SimpleIcons.Ethereum}" />

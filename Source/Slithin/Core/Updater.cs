@@ -11,6 +11,7 @@ using Slithin.Core.Services;
 
 namespace Slithin.Core;
 
+//ToDo: Translate Updater
 public static class Updater
 {
     public static async Task<bool> CheckForUpdate()
@@ -61,6 +62,10 @@ public static class Updater
         if (versionComparison >= 0)
         {
             return;
+        }
+        else
+        {
+            NotificationService.Show("No Update found");
         }
 
         var settings = ServiceLocator.Container.Resolve<ISettingsService>().GetSettings();

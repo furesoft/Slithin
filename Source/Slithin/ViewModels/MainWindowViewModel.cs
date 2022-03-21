@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Input;
 using Avalonia.Controls;
 using Slithin.Core;
 using Slithin.Core.Services;
@@ -25,6 +26,8 @@ public class MainWindowViewModel : BaseViewModel
     {
         _localisationService = localisationService;
 
+        OpenExternalCommand = new DelegateCommand(OpenExternal);
+
         LoadMenu();
 
         Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
@@ -37,6 +40,7 @@ public class MainWindowViewModel : BaseViewModel
     }
 
     public ObservableCollection<Page> Menu { get; set; } = new();
+    public ICommand OpenExternalCommand { get; set; }
 
     public Page SelectedTab
     {
@@ -99,6 +103,11 @@ public class MainWindowViewModel : BaseViewModel
             Menu.Add(page.page);
             Tabs.Add(page.view);
         }
+    }
+
+    private void OpenExternal(object obj)
+    {
+        Utils.OpenUrl(obj.ToString());
     }
 
     private void Refresh()

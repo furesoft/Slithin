@@ -11,15 +11,15 @@
         x:Class="Slithin.UI.Views.MainWindow" Icon="avares:/Resources/Icon.png"
         Title="{Binding Title}">
     <controls:ContentDialog controls:DialogService.IsHost="True">
-        <styles:ColorZone Mode="Light" Height="{Binding $parent[Window].Height}">
-            <SplitView DisplayMode="CompactInline" OpenPaneLength="190" IsPaneOpen="True">
+        <styles:ColorZone Mode="{core:Setting 'DesignMode'}" Height="{Binding $parent[Window].Height}">
+            <SplitView DisplayMode="CompactInline" OpenPaneLength="190" IsPaneOpen="{core:Setting 'IsBigMenuMode'}}">
                 <SplitView.Pane>
-                    <Grid RowDefinitions="175,*" Margin="0,10,0,0">
-                        <Button Classes="Flat" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                            <Image Source="avares:/Resources/new_logo.png" />
+                    <Grid RowDefinitions="175,*" Margin="0,20,0,0">
+                        <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://github.com/furesoft/Slithin" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                            <Image Source="avares:/Resources/new_logo.png" Classes="header" />
                         </Button>
 
-                        <ListBox Items="{Binding Menu}" Grid.Row="1" SelectedItem="{Binding SelectedTab}" Classes="Drawer" Name="Drawer">
+                        <ListBox Items="{Binding Menu}" Grid.Row="1" SelectedItem="{Binding SelectedTab}" Classes="Drawer" Name="Drawer" VerticalAlignment="Bottom">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Height="35" ColumnDefinitions="33,*">

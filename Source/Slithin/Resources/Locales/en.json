@@ -124,5 +124,11 @@
   "Share Email Addresses": "Share Email Addresses",
   "Reset To Default": "Reset To Default",
   "Uploading Screen '{0}'": "Uploading Screen '{0}'",
-  "Reload Device": "Reload Device"
+  "Reload Device": "Reload Device",
+
+  "General": "General",
+  "Big Menu Mode": "Big Menu Mode",
+  "Appeareance": "Appeareance",
+  "After Device Update": "After Device Update",
+  "About": "About"
 }
