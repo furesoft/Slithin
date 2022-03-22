@@ -69,7 +69,6 @@ public class NotebookDataTemplate : IDataTemplate
             else
             {
                 title.HorizontalAlignment = HorizontalAlignment.Center;
-                // fabImage.Drawing = (GeometryDrawing)App.Current.FindResource("Entypo+.StarOutline");
             }
 
             fabImage.Width = 20;
