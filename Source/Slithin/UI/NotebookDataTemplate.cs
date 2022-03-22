@@ -46,8 +46,29 @@ public class NotebookDataTemplate : IDataTemplate
             VerticalAlignment = VerticalAlignment.Bottom,
         };
 
+        var grid = new Grid();
+        grid.Children.Add(img);
+
         if (md.Type == "DocumentType")
         {
+            var fabImage = new DrawingPresenter();
+
+            if (md.Pinned)
+            {
+                fabImage.Drawing = (GeometryDrawing)App.Current.FindResource("Vaadin.Bookmark");
+            }
+            else
+            {
+                fabImage.Drawing = (GeometryDrawing)App.Current.FindResource("Vaadin.BookmarkOutline");
+            }
+
+            fabImage.Width = 20;
+            fabImage.Height = 40;
+            fabImage.HorizontalAlignment = HorizontalAlignment.Right;
+            fabImage.VerticalAlignment = VerticalAlignment.Top;
+
+            grid.Children.Add(fabImage);
+
             if (Directory.Exists(Path.Combine(notebooksDir, md.ID + ".thumbnails")))
             {
                 var filename = "";
@@ -102,7 +123,7 @@ public class NotebookDataTemplate : IDataTemplate
         title.Height = 50;
 
         stackPanel.Children.Add(title);
-        stackPanel.Children.Add(img);
+        stackPanel.Children.Add(grid);
 
         var card = new Card { Content = stackPanel };
 
