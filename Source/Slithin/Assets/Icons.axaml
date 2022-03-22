@@ -31,8 +31,8 @@
     <GeometryDrawing x:Key="Microns.Download" Brush="#FF000000" Geometry="M7,0 L9,0 L9,6.25 L8.875,8.583 L9.833,7.417 L12.17,5.208 L13.5,6.542 L8,12.04 L2.5,6.542 L3.833,5.208 L6.167,7.417 L7.125,8.583 L7,6.25 L7,0 z M0,14 L16,14 L16,16 L0,16 L0,14 z" />
     <GeometryDrawing x:Key="BoxIcons.SolidTrash" Brush="#FF000000" Geometry="M2.4,4 L1.6,4 L1.6,14.4 C1.6,15.28 2.316,16 3.2,16 L3.2,16 L11.2,16 C12.08,16 12.8,15.28 12.8,14.4 L12.8,14.4 L12.8,4 L2.4,4 z M5.6,13.6 L4,13.6 L4,6.4 L5.6,6.4 L5.6,13.6 z M10.4,13.6 L8.8,13.6 L8.8,6.4 L10.4,6.4 L10.4,13.6 z M10.89,1.6 L9.6,2.930E-007 L4.8,2.930E-007 L3.506,1.6 L5.329E-016,1.6 L5.329E-016,3.2 L14.4,3.2 L14.4,1.6 z" />
 
-    <GeometryDrawing x:Key="Vaadin.Bookmark" Brush="#FF000000" Geometry="M0,0 L0,0 L0,1 L10,1 L10.1,0 z M0,2 L10,2 L10,16 L5,11 L0,16 z" />
-    <GeometryDrawing x:Key="Vaadin.BookmarkOutline" Brush="#FF000000" Geometry="M0,0 L0,16 L5,11 L10,16 L10,0 L0,0 z M9,13.7 L5,9.8 L1,13.7 L1,3 L9,3 L9,13.7 z M9,2 L1,2 L1,1 L9,1 L9,2 z" />
+    <GeometryDrawing x:Key="Entypo+.Star" Brush="#FF000000" Geometry="M8,4.335E-008 L10.17,6.111 L16,6.111 L11.24,9.699 L12.94,16 L8,12.22 L3.057,16 L4.757,9.699 L-8.669E-010,6.111 L5.829,6.111 L8,4.335E-008 z" />
+    <GeometryDrawing x:Key="Entypo+.StarOutline" Brush="#FF000000" Geometry="M16,6.111 L10.17,6.111 L8,4.335E-008 L5.829,6.111 L-8.669E-010,6.111 L4.756,9.699 L3.055,16 L8,12.22 L12.94,16 L11.24,9.699 L16,6.111 z M8,10.44 L5.261,12.71 L6.391,9.473 L3.799,7.382 L7.001,7.474 L8,3.802 L8.999,7.474 L12.2,7.382 L9.609,9.473 L10.74,12.71 L8,10.44 z" />
 
     <GeometryDrawing x:Key="Vaadin.List" Brush="#FF000000" Geometry="M0,0 L4,0 L4,3 L0,3 L0,0 z M0,4 L4,4 L4,7 L0,7 L0,4 z M0,12 L4,12 L4,15 L0,15 L0,12 z M0,8 L4,8 L4,11 L0,11 L0,8 z M5,0 L16,0 L16,3 L5,3 L5,0 z M5,4 L16,4 L16,7 L5,7 L5,4 z M5,12 L16,12 L16,15 L5,15 L5,12 z M5,8 L16,8 L16,11 L5,11 L5,8 z" />
     <GeometryDrawing x:Key="Bootstrap.ShareFill" Brush="#FF000000" Geometry="M11,2.5 A2.5,-2.5 0 1 1 11.6,4.128 L4.884,7.247 A2.499,-2.499 0 0 1 4.884,8.751 L11.6,11.87 A2.5,-2.5 0 1 1 11.11,12.75 L4.396,9.627 A2.5,-2.5 0 1 1 4.396,6.371 L11.11,3.252 A2.5,-2.5 0 0 1 11,2.5 z" />

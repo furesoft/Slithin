@@ -46,8 +46,17 @@ public class NotebookDataTemplate : IDataTemplate
             VerticalAlignment = VerticalAlignment.Bottom,
         };
 
-        var grid = new Grid();
-        grid.Children.Add(img);
+        var titlePanel = new StackPanel();
+        titlePanel.Orientation = Orientation.Horizontal;
+        titlePanel.Spacing = 5;
+
+        var title = new TextBlock { [!TextBlock.TextProperty] = new Binding("VisibleName") };
+
+        title.TextAlignment = TextAlignment.Center;
+        title.TextWrapping = TextWrapping.Wrap;
+        title.VerticalAlignment = VerticalAlignment.Center;
+
+        title.Height = 50;
 
         if (md.Type == "DocumentType")
         {
@@ -55,19 +64,20 @@ public class NotebookDataTemplate : IDataTemplate
 
             if (md.Pinned)
             {
-                fabImage.Drawing = (GeometryDrawing)App.Current.FindResource("Vaadin.Bookmark");
+                fabImage.Drawing = (GeometryDrawing)App.Current.FindResource("Entypo+.Star");
             }
             else
             {
-                fabImage.Drawing = (GeometryDrawing)App.Current.FindResource("Vaadin.BookmarkOutline");
+                title.HorizontalAlignment = HorizontalAlignment.Center;
+                // fabImage.Drawing = (GeometryDrawing)App.Current.FindResource("Entypo+.StarOutline");
             }
 
             fabImage.Width = 20;
             fabImage.Height = 40;
-            fabImage.HorizontalAlignment = HorizontalAlignment.Right;
+            fabImage.HorizontalAlignment = HorizontalAlignment.Left;
             fabImage.VerticalAlignment = VerticalAlignment.Top;
 
-            grid.Children.Add(fabImage);
+            titlePanel.Children.Add(fabImage);
 
             if (Directory.Exists(Path.Combine(notebooksDir, md.ID + ".thumbnails")))
             {
@@ -115,15 +125,10 @@ public class NotebookDataTemplate : IDataTemplate
                 new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png"))));
         }
 
-        var title = new TextBlock { [!TextBlock.TextProperty] = new Binding("VisibleName") };
+        titlePanel.Children.Add(title);
 
-        title.TextAlignment = TextAlignment.Center;
-        title.TextWrapping = TextWrapping.Wrap;
-        title.VerticalAlignment = VerticalAlignment.Top;
-        title.Height = 50;
-
-        stackPanel.Children.Add(title);
-        stackPanel.Children.Add(grid);
+        stackPanel.Children.Add(titlePanel);
+        stackPanel.Children.Add(img);
 
         var card = new Card { Content = stackPanel };
 
