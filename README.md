@@ -17,6 +17,9 @@ Slithin is available for Windows, Linux and OSX. The executables are available u
 * Tools (eg. add pages to PDF, PDF notebook creator)
 * Backup/Restore
 
+# In Testing
+* Login With SSH Key
+
 # Planned
 * Custom ScriptLanguage to create powerful new tools
 * Share your assets with other users
