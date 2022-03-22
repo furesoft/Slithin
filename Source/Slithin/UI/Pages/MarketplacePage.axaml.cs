@@ -8,21 +8,21 @@ using Slithin.ViewModels.Pages;
 namespace Slithin.UI.Pages;
 
 [PreserveIndex(3)]
-[PageIcon("Bootstrap.ShareFill")]
-public partial class SharablesPage : UserControl, IPage
+[PageIcon("Marketplace")]
+public partial class MarketplacePage : UserControl, IPage
 {
-    public SharablesPage()
+    public MarketplacePage()
     {
         InitializeComponent();
     }
 
-    public string Title => "Sharables";
+    public string Title => "Marketplace";
 
     public Control GetContextualMenu() => null;
 
     bool IPage.IsEnabled()
     {
-        return Feature<SharableFeature>.IsEnabled;
+        return Feature<MarketplaceFeature>.IsEnabled;
     }
 
     public bool UseContextualMenu() => false;

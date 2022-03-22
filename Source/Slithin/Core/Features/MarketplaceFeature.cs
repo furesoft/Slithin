@@ -2,5 +2,5 @@
 
 namespace Slithin.Core.Features;
 
-internal class SharableFeature : IFeature
+internal class MarketplaceFeature : IFeature
 { }
