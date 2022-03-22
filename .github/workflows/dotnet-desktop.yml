@@ -62,10 +62,6 @@ jobs:
         
     - name: Publish Windows x86
       run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 $env:Solution_Name
-
-    - run: |
-       make bootstrap
-       make release
     
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
