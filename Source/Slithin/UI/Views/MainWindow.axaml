@@ -15,7 +15,7 @@
             <SplitView DisplayMode="CompactInline" OpenPaneLength="190" IsPaneOpen="{core:Setting 'IsBigMenuMode'}}">
                 <SplitView.Pane>
                     <Grid RowDefinitions="175,*" Margin="0,20,0,0">
-                        <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://github.com/furesoft/Slithin" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Button Classes="Flat" Command="{core:OpenLink 'https://github.com/furesoft/Slithin'}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
                             <Image Source="avares:/Resources/new_logo.png" Classes="header" />
                         </Button>
 
@@ -45,7 +45,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Border core:NotificationService.IsNotificationOutput="True" Grid.Row="2" Margin="7,5,10,-3" HorizontalAlignment="Left" CornerRadius="4" Background="LightGray" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" />
+                    <Border core:NotificationService.IsNotificationOutput="True" Grid.Row="2" Margin="7,5,10,-3" HorizontalAlignment="Right" CornerRadius="4" Background="LightGray" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" />
                 </Grid>
             </SplitView>
         </styles:ColorZone>

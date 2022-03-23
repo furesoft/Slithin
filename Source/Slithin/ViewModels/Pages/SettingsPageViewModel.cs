@@ -27,7 +27,6 @@ public class SettingsPageViewModel : BaseViewModel
         _credential = loginService.GetCurrentCredential();
         _loginService = loginService;
 
-        OpenExternalCommand = new DelegateCommand(OpenExternal);
         CheckForUpdatesCommand = new DelegateCommand(CheckForUpdates);
 
         _settingsService = settingsService;
@@ -63,16 +62,7 @@ public class SettingsPageViewModel : BaseViewModel
         get { return _credential.Name; }
         set
         {
-            _credential.Name = value;
-            _loginService.UpdateLoginCredential(_credential);
-
-            var path = new DirectoryInfo(_pathManager.ConfigBaseDir);
-
-            _pathManager.Relink();
-
-            path.MoveTo(_pathManager.ConfigBaseDir);
-
-            _logger.Information("Setting changed 'Device Name'");
+            UpdateDeviceName(value);
 
             OnChange();
         }
@@ -90,16 +80,14 @@ public class SettingsPageViewModel : BaseViewModel
         set { _settings.IsDarkMode = value; SaveSetting(); }
     }
 
-    public ICommand OpenExternalCommand { get; set; }
+    public bool IsSSHLogin
+    {
+        get { return _loginService.GetCurrentCredential().Key != null; }
+    }
 
     private void CheckForUpdates(object obj)
     {
         _mailboxService.Post(new Messages.CheckForUpdateMessage());
-    }
-
-    private void OpenExternal(object obj)
-    {
-        Utils.OpenUrl(obj.ToString());
     }
 
     private void SaveSetting([CallerMemberName] string property = null)
@@ -109,5 +97,19 @@ public class SettingsPageViewModel : BaseViewModel
         _logger.Information($"Setting changed '{property}'");
 
         OnChange(property);
+    }
+
+    private void UpdateDeviceName(string newName)
+    {
+        _credential.Name = newName;
+        _loginService.UpdateLoginCredential(_credential);
+
+        var path = new DirectoryInfo(_pathManager.ConfigBaseDir);
+
+        _pathManager.Relink();
+
+        path.MoveTo(_pathManager.ConfigBaseDir);
+
+        _logger.Information("Setting changed 'Device Name'");
     }
 }

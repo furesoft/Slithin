@@ -131,5 +131,7 @@
   "Appeareance": "Appeareance",
   "After Device Update": "After Device Update",
   "About": "About",
-  "Dark Mode": "Dark Mode"
+  "Dark Mode": "Dark Mode",
+
+  "Enable SSH Login": "Enable SSH Login"
 }

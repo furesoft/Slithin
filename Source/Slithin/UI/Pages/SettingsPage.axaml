@@ -11,11 +11,15 @@
     <ScrollViewer>
         <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
             <s:SettingsGroup Header="{l:Localisation 'Device'}" Grid.Column="0">
-                <StackPanel Orientation="Horizontal" Spacing="5">
-                    <Label VerticalAlignment="Center" Content="{l:Localisation 'Name'}" />
+                <Grid RowDefinitions="*,*">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Label VerticalAlignment="Center" Content="{l:Localisation 'Name'}" />
 
-                    <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
-                </StackPanel>
+                        <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
+                    </StackPanel>
+
+                    <Button IsVisible="{Binding !IsSSHLogin}" HorizontalAlignment="Left" MaxWidth="175" Grid.Row="1" Classes="Flat" Content="{l:Localisation 'Enable SSH Login'}" />
+                </Grid>
             </s:SettingsGroup>
 
             <s:SettingsGroup Header="{l:Localisation 'General'}" Grid.Column="1">
@@ -45,15 +49,15 @@
                     <TextBlock Grid.Row="0" Text="{l:Localisation 'Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome.'}" TextWrapping="Wrap" MaxWidth="300" />
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="1" HorizontalAlignment="Left" Grid.Row="1">
-                        <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://github.com/furesoft/Slithin">
+                        <Button Classes="Flat" Command="{l:OpenLink 'https://github.com/furesoft/Slithin'}">
                             <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Github}" HorizontalAlignment="Left" ToolTip.Tip="Github" />
                         </Button>
 
-                        <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://www.reddit.com/r/Slithin/">
+                        <Button Classes="Flat" Command="{l:OpenLink 'https://www.reddit.com/r/Slithin/'}">
                             <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Reddit}" HorizontalAlignment="Left" ToolTip.Tip="Reddit" />
                         </Button>
 
-                        <Button Classes="Flat" Command="{Binding OpenExternalCommand}" CommandParameter="https://www.facebook.com/groups/slithin/">
+                        <Button Classes="Flat" Command="{l:OpenLink 'https://www.facebook.com/groups/slithin/'}">
                             <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Facebook}" HorizontalAlignment="Left" ToolTip.Tip="Facebook" />
                         </Button>
                     </StackPanel>
