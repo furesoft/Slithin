@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Timers;
@@ -62,6 +63,25 @@ public class ConnectionWindowViewModel : BaseViewModel
     {
         get => _selectedLogin;
         set => SetValue(ref _selectedLogin, value);
+    }
+
+    public override void OnLoad()
+    {
+        base.OnLoad();
+
+        var li = _loginService.GetLoginCredentials();
+
+        for (var i = 0; i < li.Length; i++)
+        {
+            if (string.IsNullOrEmpty(li[i].Name))
+            {
+                li[i].Name = "Device " + (i + 1);
+            }
+        }
+
+        SelectedLogin = li.FirstOrDefault() ?? new LoginInfo();
+
+        LoginCredentials = new(li);
     }
 
     private void Connect(object obj)

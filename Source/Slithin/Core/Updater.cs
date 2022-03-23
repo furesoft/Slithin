@@ -11,7 +11,6 @@ using Slithin.Core.Services;
 
 namespace Slithin.Core;
 
-//ToDo: Translate Updater
 public static class Updater
 {
     public static async Task<bool> CheckForUpdate()
@@ -50,6 +49,8 @@ public static class Updater
 
     public static async void StartUpdate()
     {
+        var localisationService = ServiceLocator.Container.Resolve<ILocalisationService>();
+
         var client = new GitHubClient(new ProductHeaderValue("SomeName"));
         var releases = await client.Repository.Release.GetAll("furesoft", "Slithin");
 
@@ -61,17 +62,17 @@ public static class Updater
 
         if (versionComparison >= 0)
         {
+            NotificationService.Show(localisationService.GetString("No Update found"));
+            NotificationService.Hide();
+
             return;
-        }
-        else
-        {
-            NotificationService.Show("No Update found");
         }
 
         var settings = ServiceLocator.Container.Resolve<ISettingsService>().GetSettings();
 
         if (!settings.AutomaticUpdates
-            && !await NotificationService.ShowAction("An update is Available. Would you like to install it?"))
+            && !await NotificationService.ShowAction(
+                localisationService.GetString("An update is Available. Would you like to install it?")))
         {
             return;
         }
@@ -97,21 +98,26 @@ public static class Updater
 
         wc.DownloadProgressChanged += (s, e) =>
         {
-            NotificationService.Show($"Downloading {asset.Name} ({e.ProgressPercentage} %)");
+            NotificationService.Show(localisationService.GetStringFormat(
+                "Downloading {0} ({1} %)",
+                asset.Name,
+                e.ProgressPercentage));
         };
 
         wc.DownloadFileAsync(new Uri(asset.BrowserDownloadUrl), fileName);
         wc.DownloadFileCompleted += (s, e) =>
         {
-            NotificationService.Show("Extracting Update");
+            NotificationService.Show(localisationService.GetString("Extracting Update"));
             using (var zip = new ZipFile(fileName))
             {
                 zip.ExtractProgress += (zs, ze) =>
                 {
                     if (ze.EventType == ZipProgressEventType.Extracting_BeforeExtractEntry)
                     {
-                        NotificationService.Show(
-                            $"Extracting {Path.GetFileName(ze.ArchiveName)} ({Math.Round(ze.EntriesExtracted / (float)ze.EntriesTotal * 100)} %)");
+                        NotificationService.Show(localisationService.GetStringFormat(
+                            "Extracting {0} ({1} %)",
+                            Path.GetFileName(ze.ArchiveName),
+                            Math.Round(ze.EntriesExtracted / (float)ze.EntriesTotal * 100)));
                     }
                 };
 
