@@ -98,11 +98,34 @@ public class NotebookContextMenu : IContextProvider
             Command = new DelegateCommand(_ => n.RemoveNotebookCommand.Execute(obj))
         });
 
+        if (md.Type == "CollectionType")
+        {
+            if (md.VisibleName != _localisationService.GetString("Trash"))
+            {
+                menu.Add(new MenuItem
+                {
+                    Header = _localisationService.GetString("Move Folder Items To Trash"),
+                    Command = new DelegateCommand(_ => EmptyFolder(md))
+                });
+            }
+        }
+
         menu.Add(new MenuItem { Header = _localisationService.GetString("Rename"), Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj)) });
 
         menu.Add(new MenuItem { Header = _localisationService.GetString("Move To Trash"), Command = new DelegateCommand(_ => MoveToTrash(md)) });
 
         return menu;
+    }
+
+    private void EmptyFolder(Metadata md)
+    {
+        foreach (var childMd in MetadataStorage.Local.GetByParent(md.ID))
+        {
+            childMd.Parent = "trash";
+            childMd.Save();
+
+            childMd.Upload();
+        }
     }
 
     private void MoveToTrash(Metadata md)

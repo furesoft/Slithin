@@ -141,5 +141,6 @@
   "Extracting {0} ({1} %)": "Extracting {0} ({1} %)",
   "Downloading {0} ({1} %)": "Downloading {0} ({1} %)",
 
-  "Make Folder": "Make Folder"
+  "Make Folder": "Make Folder",
+  "Move Folder Items To Trash": "Move Folder Items To Trash"
 }
