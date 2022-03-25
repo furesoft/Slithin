@@ -19,6 +19,18 @@ namespace Slithin.Tools;
 [Context(UIContext.Notebook)]
 public class NotebookAppendTool : ITool, IContextProvider
 {
+    public IImage Image
+    {
+        get
+        {
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+
+            return new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/pdf_append.png")));
+        }
+    }
+
+    public ScriptInfo Info => new("pdf_append", "PDF Appendor", "PDF", "Append Pages To PDF", true, true, false);
+    public bool IsConfigurable => false;
     public object ParentViewModel { get; set; }
 
     public bool CanHandle(object obj)
@@ -35,21 +47,6 @@ public class NotebookAppendTool : ITool, IContextProvider
 
         return menu;
     }
-
-
-    public IImage Image
-    {
-        get
-        {
-            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-            return new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/pdf_append.png")));
-        }
-    }
-
-    public ScriptInfo Info => new("pdf_append", "Notebook Appendor", "PDF", "Append Pages To PDF", true, true, false);
-
-    public bool IsConfigurable => false;
 
     public Control GetModal()
     {

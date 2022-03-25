@@ -6,20 +6,25 @@
         xmlns:wpf="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
         xmlns:controls="using:Slithin.Controls"
         xmlns:l="using:Slithin.Core"
-        mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="275" Height="275" Width="350"
+        xmlns:c="using:Slithin.Controls"
+        mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="340" Height="340" Width="350"
         x:Class="Slithin.UI.Views.AddDeviceWindow"
         Icon="avares:/Resources/Icon.png"
         Title="Add Device" WindowStartupLocation="CenterScreen">
     <styles:SnackbarHost HostName="addDevice">
-        <styles:ColorZone Mode="Light" Height="275">
-            <Grid RowDefinitions="65,65,65,65" ColumnDefinitions="*,AUTO" Margin="5">
+        <styles:ColorZone Mode="Light" Height="340">
+            <Grid RowDefinitions="65,65,65,65,65" ColumnDefinitions="*,AUTO" Margin="5">
                 <TextBox Grid.Row="0" Grid.ColumnSpan="2" UseFloatingWatermark="True" wpf:TextFieldAssist.Label="{l:Localisation 'Device Name'}" Text="{Binding SelectedLogin.Name, Mode=TwoWay}" />
 
                 <TextBox UseFloatingWatermark="True" wpf:TextFieldAssist.Label="{l:Localisation 'IP Address'}" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.IP, Mode=TwoWay}" />
-                <TextBox UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.Password, Mode=TwoWay}"
+
+                <CheckBox Content="Use SSH Key" Grid.Row="3" x:Name="useSshKey" />
+                <TextBox IsVisible="{Binding !#useSshKey.IsChecked}" UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.Password, Mode=TwoWay}"
                                                  wpf:TextFieldAssist.Label="{l:Localisation 'Password'}" PasswordChar="*" />
 
-                <StackPanel Orientation="Horizontal" Grid.Row="3" Spacing="2" Grid.Column="1">
+                <c:FileChooser IsVisible="{Binding #useSshKey.IsChecked}" Grid.ColumnSpan="2" Filename="{Binding SshKeyFilename, Mode=TwoWay}" Grid.Row="2" Watermark="SSH Key File" />
+
+                <StackPanel Orientation="Horizontal" Grid.Row="4" Spacing="2" Grid.Column="1">
                     <Button Classes="Flat" Command="{Binding CancelCommand}" IsCancel="True" Margin="5" Content="{l:Localisation 'Cancel'}" />
                     <Button Classes="Flat" Command="{Binding AddCommand}" IsDefault="True" Margin="5" Content="{l:Localisation 'Add'}" />
                 </StackPanel>

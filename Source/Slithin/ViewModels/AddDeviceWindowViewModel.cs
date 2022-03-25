@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using Material.Styles;
 using Slithin.Core;
@@ -14,6 +15,8 @@ public class AddDeviceWindowViewModel : BaseViewModel
     private readonly IPathManager _pathManager;
     private readonly LoginInfoValidator _validator;
     private LoginInfo _selectedLogin;
+
+    private string _sshKeyFilename;
 
     public AddDeviceWindowViewModel(LoginInfoValidator validator, ILoginService loginService, IPathManager pathManager)
     {
@@ -37,14 +40,27 @@ public class AddDeviceWindowViewModel : BaseViewModel
         set => SetValue(ref _selectedLogin, value);
     }
 
+    public string SshKeyFilename
+    {
+        get { return _sshKeyFilename; }
+        set { SetValue(ref _sshKeyFilename, value); }
+    }
+
     private void Add(object obj)
     {
-        var result = _validator.Validate(SelectedLogin);
-
-        if (!result.IsValid)
+        if (!string.IsNullOrEmpty(_sshKeyFilename))
         {
-            SnackbarHost.Post(result.Errors.First().ToString(), "addDevice");
-            return;
+            SelectedLogin.Key = File.ReadAllBytes(_sshKeyFilename);
+        }
+        else
+        {
+            var result = _validator.Validate(SelectedLogin);
+
+            if (!result.IsValid)
+            {
+                SnackbarHost.Post(result.Errors.First().ToString(), "addDevice");
+                return;
+            }
         }
 
         ParentViewModel.LoginCredentials.Add(SelectedLogin);

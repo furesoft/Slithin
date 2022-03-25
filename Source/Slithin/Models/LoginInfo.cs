@@ -1,4 +1,6 @@
-﻿using LiteDB;
+﻿using System.IO;
+using LiteDB;
+using Renci.SshNet;
 
 namespace Slithin.Models;
 
@@ -11,8 +13,17 @@ public record LoginInfo
 
     public string IP { get; set; } = string.Empty;
 
+    public byte[] Key { get; set; }
+
+    public bool UsesKey => Key != null;
+
     public override string ToString()
     {
         return Name;
+    }
+
+    public PrivateKeyFile GetKey()
+    {
+        return new PrivateKeyFile(new MemoryStream(Key));
     }
 }

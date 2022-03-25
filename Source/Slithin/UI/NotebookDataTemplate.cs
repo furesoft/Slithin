@@ -46,8 +46,38 @@ public class NotebookDataTemplate : IDataTemplate
             VerticalAlignment = VerticalAlignment.Bottom,
         };
 
+        var titlePanel = new StackPanel();
+        titlePanel.Orientation = Orientation.Horizontal;
+        titlePanel.Spacing = 5;
+
+        var title = new TextBlock { [!TextBlock.TextProperty] = new Binding("VisibleName") };
+
+        title.TextAlignment = TextAlignment.Center;
+        title.TextWrapping = TextWrapping.Wrap;
+        title.VerticalAlignment = VerticalAlignment.Center;
+
+        title.Height = 50;
+
         if (md.Type == "DocumentType")
         {
+            var fabImage = new DrawingPresenter();
+
+            if (md.Pinned)
+            {
+                fabImage.Drawing = (GeometryDrawing)App.Current.FindResource("Entypo+.Star");
+            }
+            else
+            {
+                title.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+
+            fabImage.Width = 20;
+            fabImage.Height = 40;
+            fabImage.HorizontalAlignment = HorizontalAlignment.Left;
+            fabImage.VerticalAlignment = VerticalAlignment.Top;
+
+            titlePanel.Children.Add(fabImage);
+
             if (Directory.Exists(Path.Combine(notebooksDir, md.ID + ".thumbnails")))
             {
                 var filename = "";
@@ -94,14 +124,9 @@ public class NotebookDataTemplate : IDataTemplate
                 new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png"))));
         }
 
-        var title = new TextBlock { [!TextBlock.TextProperty] = new Binding("VisibleName") };
+        titlePanel.Children.Add(title);
 
-        title.TextAlignment = TextAlignment.Center;
-        title.TextWrapping = TextWrapping.Wrap;
-        title.VerticalAlignment = VerticalAlignment.Top;
-        title.Height = 50;
-
-        stackPanel.Children.Add(title);
+        stackPanel.Children.Add(titlePanel);
         stackPanel.Children.Add(img);
 
         var card = new Card { Content = stackPanel };

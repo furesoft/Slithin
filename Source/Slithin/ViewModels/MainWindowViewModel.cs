@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
+using Material.Styles;
 using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.Models;
@@ -14,6 +15,7 @@ namespace Slithin.ViewModels;
 public class MainWindowViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
+    private readonly ISettingsService _settingsService;
     private object _contextualMenu;
     private Page _selectedTab;
 
@@ -21,14 +23,17 @@ public class MainWindowViewModel : BaseViewModel
 
     public MainWindowViewModel(IVersionService versionService,
                                ILoginService loginService,
-                               ILocalisationService localisationService)
+                               ILocalisationService localisationService,
+                               ISettingsService settingsService)
     {
         _localisationService = localisationService;
+        _settingsService = settingsService;
+        Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
 
         LoadMenu();
-
-        Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
     }
+
+    public ColorZoneMode ColorZoneMode => _settingsService.GetSettings().IsDarkMode ? ColorZoneMode.Dark : ColorZoneMode.Light;
 
     public object ContextualMenu
     {
@@ -68,6 +73,7 @@ public class MainWindowViewModel : BaseViewModel
 
             var instance = Activator.CreateInstance(type);
             var preserveIndexAttribute = type.GetCustomAttribute<PreserveIndexAttribute>();
+            var pageIconAttribute = type.GetCustomAttribute<PageIconAttribute>();
 
             if (instance is not IPage pageInstance || !pageInstance.IsEnabled() || instance is not Control controlInstance)
                 continue;
@@ -76,8 +82,10 @@ public class MainWindowViewModel : BaseViewModel
             var page = new Page
             {
                 Header = header,
-                DataContext = controlInstance.DataContext
+                DataContext = controlInstance.DataContext,
             };
+
+            page.Icon = App.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
 
             if (pageInstance.UseContextualMenu())
             {

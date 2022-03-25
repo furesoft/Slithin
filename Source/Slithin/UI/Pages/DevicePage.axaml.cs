@@ -14,6 +14,7 @@ using Slithin.ViewModels.Pages;
 namespace Slithin.UI.Pages;
 
 [PreserveIndex(0)]
+[PageIcon("Typicons.DeviceTablet")]
 public partial class DevicePage : UserControl, IPage
 {
     public DevicePage()

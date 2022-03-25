@@ -6,6 +6,7 @@ using Slithin.ViewModels.Pages;
 namespace Slithin.UI.Pages;
 
 [PreserveIndex(5)]
+[PageIcon("Vaadin.CogOutline")]
 public partial class SettingsPage : UserControl, IPage
 {
     public SettingsPage()

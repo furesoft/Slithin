@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Timers;
@@ -64,6 +65,25 @@ public class ConnectionWindowViewModel : BaseViewModel
         set => SetValue(ref _selectedLogin, value);
     }
 
+    public override void OnLoad()
+    {
+        base.OnLoad();
+
+        var li = _loginService.GetLoginCredentials();
+
+        for (var i = 0; i < li.Length; i++)
+        {
+            if (string.IsNullOrEmpty(li[i].Name))
+            {
+                li[i].Name = "Device " + (i + 1);
+            }
+        }
+
+        SelectedLogin = li.FirstOrDefault() ?? new LoginInfo();
+
+        LoginCredentials = new(li);
+    }
+
     private void Connect(object obj)
     {
         ServiceLocator.Container.Resolve<LogInitalizer>().Init();
@@ -71,23 +91,34 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         var logger = ServiceLocator.Container.Resolve<ILogger>();
 
-        var validationResult = _validator.Validate(SelectedLogin);
-
-        if (!validationResult.IsValid)
-        {
-            SnackbarHost.Post(string.Join("\n", validationResult.Errors));
-            return;
-        }
+        SshClient client = null;
+        ScpClient scp = null;
 
         var ip = IPAddress.Parse(SelectedLogin.IP);
 
-        if (string.IsNullOrEmpty(SelectedLogin.Name))
+        if (SelectedLogin.UsesKey)
         {
-            SelectedLogin.Name = "DefaultDevice";
+            client = new SshClient(ip.Address, ip.Port, "root", SelectedLogin.GetKey());
+            scp = new ScpClient(ip.Address, ip.Port, "root", SelectedLogin.GetKey());
         }
+        else
+        {
+            var validationResult = _validator.Validate(SelectedLogin);
 
-        var client = new SshClient(ip.Address, ip.Port, "root", SelectedLogin.Password);
-        var scp = new ScpClient(ip.Address, ip.Port, "root", SelectedLogin.Password);
+            if (!validationResult.IsValid)
+            {
+                SnackbarHost.Post(string.Join("\n", validationResult.Errors));
+                return;
+            }
+
+            if (string.IsNullOrEmpty(SelectedLogin.Name))
+            {
+                SelectedLogin.Name = "DefaultDevice";
+            }
+
+            client = new SshClient(ip.Address, ip.Port, "root", SelectedLogin.Password);
+            scp = new ScpClient(ip.Address, ip.Port, "root", SelectedLogin.Password);
+        }
 
         client.ErrorOccurred += (s, _) =>
         {
@@ -153,7 +184,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         vm.OnRequestClose += () => wndw.Close();
 
-        wndw.Show();
+        wndw.ShowDialog(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
     }
 
     private void pingTimer_ellapsed(object sender, ElapsedEventArgs e)

@@ -16,7 +16,7 @@
             <Button Classes="Flat" Content="{l:Localisation 'Move Here'}" HorizontalAlignment="Right" Margin="8" Command="{Binding MoveHereCommand}" CommandParameter="{Binding SelectedNotebook}" />
         </Grid>
 
-        <ListBox Background="Gray" ui:NotebooksView.IsView="True" Grid.Row="1" DragDrop.AllowDrop="True" Items="{Binding SyncService.NotebooksFilter.Documents}" SelectedItem="{Binding SelectedNotebook, Mode=TwoWay}">
+        <ListBox Background="Gray" Padding="1" ui:NotebooksView.IsView="True" Grid.Row="1" DragDrop.AllowDrop="True" Items="{Binding SyncService.NotebooksFilter.Documents}" SelectedItem="{Binding SelectedNotebook, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <ui:NotebookDataTemplate />
             </ListBox.ItemTemplate>

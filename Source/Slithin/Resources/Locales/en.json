@@ -15,7 +15,7 @@
   "Templates": "Templates",
   "Tools": "Tools",
   "Settings": "Settings",
-  "Sharables": "Sharables",
+  "Marketplace": "Market",
   "Notebooks": "Notebooks",
 
   "Folder": "Folder",
@@ -124,5 +124,20 @@
   "Share Email Addresses": "Share Email Addresses",
   "Reset To Default": "Reset To Default",
   "Uploading Screen '{0}'": "Uploading Screen '{0}'",
-  "Reload Device": "Reload Device"
+  "Reload Device": "Reload Device",
+
+  "General": "General",
+  "Big Menu Mode": "Big Menu Mode",
+  "Appeareance": "Appeareance",
+  "After Device Update": "After Device Update",
+  "About": "About",
+  "Dark Mode": "Dark Mode",
+
+  "Enable SSH Login": "Enable SSH Login",
+
+  "No Update found": "No Update found",
+  "An update is Available. Would you like to install it?": "An update is Available. Would you like to install it?",
+  "Extracting Update": "Extracting Update",
+  "Extracting {0} ({1} %)": "Extracting {0} ({1} %)",
+  "Downloading {0} ({1} %)": "Downloading {0} ({1} %)"
 }

@@ -80,7 +80,6 @@ public class Template : INotifyPropertyChanged
 
         mailboxService.PostAction(() =>
         {
-            //upload screen
             NotificationService.Show($"Uploading Template '{Name}'");
 
             scp.Upload(new FileInfo(Path.Combine(pathManager.TemplatesDir, Filename + ".png")), PathList.Templates + Filename + ".png");
@@ -96,15 +95,9 @@ public class Template : INotifyPropertyChanged
             var remoteTemplatesContent = new StreamReader(ms).ReadToEnd();
             tmpStorage.Templates = JsonConvert.DeserializeObject<TemplateStorage>(remoteTemplatesContent).Templates;
             tmpStorage.AppendTemplate(this);
+            tmpStorage.Save();
 
-            var serializerSettings =
-            new JsonSerializerSettings { StringEscapeHandling = StringEscapeHandling.EscapeNonAscii };
-
-            var jsonStream = new MemoryStream();
-            new StreamWriter(jsonStream).Write(JsonConvert.SerializeObject(tmpStorage, serializerSettings));
-
-            jsonStream.Seek(0, SeekOrigin.Begin);
-            scp.Upload(jsonStream, PathList.Templates + "templates.json"); //ToDo: Fix Template modification
+            scp.Upload(new FileInfo(Path.Combine(pathManager.ConfigBaseDir, "templates.json")), PathList.Templates + "templates.json");
 
             xochitl.ReloadDevice();
 
