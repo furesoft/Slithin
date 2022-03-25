@@ -28,10 +28,15 @@ public class TemplatesContextMenu : IContextProvider
     public ICollection<MenuItem> GetMenu(object obj)
     {
         var menu = new List<MenuItem>();
-        if (ParentViewModel is not TemplatesPageViewModel St)
+        if (ParentViewModel is not TemplatesPageViewModel vm)
             return menu;
 
-        menu.Add(new MenuItem { Header = _localisationService.GetString("Remove"), Command = new DelegateCommand(_ => St.RemoveTemplateCommand.Execute(obj)) });
+        menu.Add(new MenuItem
+        {
+            Header = _localisationService.GetString("Remove"),
+            Command = new DelegateCommand(_ => vm.RemoveTemplateCommand.Execute(obj))
+        });
+
         return menu;
     }
 }

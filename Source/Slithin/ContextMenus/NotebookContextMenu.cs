@@ -121,8 +121,7 @@ public class NotebookContextMenu : IContextProvider
     {
         foreach (var childMd in MetadataStorage.Local.GetByParent(md.ID))
         {
-            childMd.Parent = "trash";
-            childMd.Save();
+            MetadataStorage.Local.Move(childMd, "trash");
 
             childMd.Upload();
         }
