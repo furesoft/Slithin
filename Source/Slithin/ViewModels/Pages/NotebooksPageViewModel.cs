@@ -154,7 +154,7 @@ public class NotebooksPageViewModel : BaseViewModel
 
         if (alreadyAdded)
         {
-            DialogService.OpenError($"'{md.VisibleName}' already exists");
+            DialogService.OpenError(_localisationService.GetStringFormat("'{0}' already exists", md.VisibleName));
             return;
         }
 

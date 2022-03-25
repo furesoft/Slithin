@@ -40,13 +40,18 @@ public class NotebookContextMenu : IContextProvider
         {
             return menu;
         }
+        if (obj is not Metadata md)
+        {
+            return menu;
+        }
 
         menu.Add(new MenuItem
         {
             Header = _localisationService.GetString("Copy ID"),
             Command = new DelegateCommand(async _ =>
-                await Application.Current.Clipboard.SetTextAsync(((Metadata)obj).ID))
+                await Application.Current.Clipboard.SetTextAsync(md.ID))
         });
+
         if (Feature<ExportFeature>.IsEnabled)
         {
             var subItems = new List<MenuItem>();
@@ -95,18 +100,13 @@ public class NotebookContextMenu : IContextProvider
 
         menu.Add(new MenuItem { Header = _localisationService.GetString("Rename"), Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj)) });
 
-        menu.Add(new MenuItem { Header = _localisationService.GetString("Move to Trash"), Command = new DelegateCommand(_ => MoveToTrash(obj)) });
+        menu.Add(new MenuItem { Header = _localisationService.GetString("Move To Trash"), Command = new DelegateCommand(_ => MoveToTrash(md)) });
 
         return menu;
     }
 
-    private void MoveToTrash(object obj)
+    private void MoveToTrash(Metadata md)
     {
-        if (obj is not Metadata md)
-        {
-            return;
-        }
-
         MetadataStorage.Local.Move(md, "trash");
 
         md.Upload();
