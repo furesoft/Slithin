@@ -35,7 +35,7 @@ public class NotebooksPageViewModel : BaseViewModel
             var name = await DialogService.ShowPrompt(localisationService.GetString("Make Folder"),
                 localisationService.GetString("Name"));
 
-            if (string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 MakeFolder(name);
             }
@@ -46,7 +46,7 @@ public class NotebooksPageViewModel : BaseViewModel
             var name = await DialogService.ShowPrompt(localisationService.GetString("Rename"),
                 localisationService.GetString("Name"), ((Metadata)_).VisibleName);
 
-            if (string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 Rename((Metadata)_, name);
             }
