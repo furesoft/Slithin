@@ -13,6 +13,7 @@ namespace Slithin.ViewModels.Pages;
 public class NotebooksPageViewModel : BaseViewModel
 {
     private readonly ILoadingService _loadingService;
+    private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;
     private readonly IMailboxService _mailboxService;
     private readonly SynchronisationService _synchronisationService;
@@ -20,26 +21,40 @@ public class NotebooksPageViewModel : BaseViewModel
     private Metadata _movingNotebook;
     private Metadata _selectedNotebook;
 
-    public NotebooksPageViewModel(ILoadingService loadingService, IMailboxService mailboxService, ILogger logger)
+    public NotebooksPageViewModel(
+        ILoadingService loadingService,
+        IMailboxService mailboxService,
+        ILocalisationService localisationService,
+        ILogger logger)
     {
         _synchronisationService = ServiceLocator.SyncService;
         ExportCommand = ServiceLocator.Container.Resolve<ExportCommand>();
 
         MakeFolderCommand = new DelegateCommand(async _ =>
         {
-            var name = await DialogService.ShowPrompt("Make Folder", "Foldername");
-            MakeFolder(name);
+            var name = await DialogService.ShowPrompt(localisationService.GetString("Make Folder"),
+                localisationService.GetString("Name"));
+
+            if (string.IsNullOrEmpty(name))
+            {
+                MakeFolder(name);
+            }
         });
 
         RenameCommand = new DelegateCommand(async _ =>
         {
-            var name = await DialogService.ShowPrompt("Rename ", "Name", ((Metadata)_).VisibleName);
-            Rename((Metadata)_, name);
+            var name = await DialogService.ShowPrompt(localisationService.GetString("Rename"),
+                localisationService.GetString("Name"), ((Metadata)_).VisibleName);
+
+            if (string.IsNullOrEmpty(name))
+            {
+                Rename((Metadata)_, name);
+            }
         }, _ => _ != null
                 && _ is Metadata md
-                && md.VisibleName != "Quick sheets"
-                && md.VisibleName != "Up .."
-                && md.VisibleName != "Trash");
+                && md.VisibleName != localisationService.GetString("Quick sheets")
+                && md.VisibleName != localisationService.GetString("Up ..")
+                && md.VisibleName != localisationService.GetString("Trash"));
 
         RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
         MoveCommand = new DelegateCommand(_ =>
@@ -49,9 +64,9 @@ public class NotebooksPageViewModel : BaseViewModel
             },
             _ => _ != null
                 && _ is Metadata md
-                && md.VisibleName != "Quick sheets"
-                && md.VisibleName != "Up .."
-                && md.VisibleName != "Trash");
+                && md.VisibleName != localisationService.GetString("Quick sheets")
+                && md.VisibleName != localisationService.GetString("Up ..")
+                && md.VisibleName != localisationService.GetString("Trash"));
 
         MoveCancelCommand = new DelegateCommand(_ =>
         {
@@ -71,7 +86,11 @@ public class NotebooksPageViewModel : BaseViewModel
                 SyncService.NotebooksFilter.Documents.Add(md);
             }
 
-            SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = "Up .." });
+            SyncService.NotebooksFilter.Documents.Add(new Metadata
+            {
+                Type = "CollectionType",
+                VisibleName = localisationService.GetString("Up ..")
+            });
 
             SyncService.NotebooksFilter.SortByFolder();
 
@@ -80,6 +99,7 @@ public class NotebooksPageViewModel : BaseViewModel
 
         _loadingService = loadingService;
         _mailboxService = mailboxService;
+        _localisationService = localisationService;
         _logger = logger;
     }
 
@@ -110,7 +130,7 @@ public class NotebooksPageViewModel : BaseViewModel
 
         _mailboxService.PostAction(() =>
         {
-            NotificationService.Show("Loading Notebooks");
+            NotificationService.Show(_localisationService.GetString("Loading Notebooks"));
 
             _loadingService.LoadNotebooks();
 
@@ -143,15 +163,7 @@ public class NotebooksPageViewModel : BaseViewModel
         _synchronisationService.NotebooksFilter.Documents.Add(md);
         _synchronisationService.NotebooksFilter.SortByFolder();
 
-        var syncItem = new SyncItem
-        {
-            Action = SyncAction.Add,
-            Data = md,
-            Direction = SyncDirection.ToDevice,
-            Type = SyncType.Notebook
-        };
-
-        _synchronisationService.AddToSyncQueue(syncItem);
+        md.Upload();
 
         _logger.Information($"Folder '{md.VisibleName}' created");
 
@@ -174,15 +186,7 @@ public class NotebooksPageViewModel : BaseViewModel
 
         md.Save();
 
-        var syncItem = new SyncItem
-        {
-            Action = SyncAction.Update,
-            Data = md,
-            Direction = SyncDirection.ToDevice,
-            Type = SyncType.Notebook
-        };
-
-        _synchronisationService.AddToSyncQueue(syncItem);
+        md.Upload();
 
         DialogService.Close();
     }

@@ -139,5 +139,7 @@
   "An update is Available. Would you like to install it?": "An update is Available. Would you like to install it?",
   "Extracting Update": "Extracting Update",
   "Extracting {0} ({1} %)": "Extracting {0} ({1} %)",
-  "Downloading {0} ({1} %)": "Downloading {0} ({1} %)"
+  "Downloading {0} ({1} %)": "Downloading {0} ({1} %)",
+
+  "Make Folder": "Make Folder"
 }

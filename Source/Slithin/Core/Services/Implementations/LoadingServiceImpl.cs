@@ -70,7 +70,7 @@ public class LoadingServiceImpl : ILoadingService
         }
 
         //Load first templates which are shown to make loading "faster"
-        LoadTemplatesByCategory(ServiceLocator.SyncService.TemplateFilter.Categories.First());
+        LoadTemplatesByCategory(ServiceLocator.SyncService.TemplateFilter.Categories.First(), true);
 
         foreach (var category in ServiceLocator.SyncService.TemplateFilter.Categories)
         {
@@ -78,13 +78,13 @@ public class LoadingServiceImpl : ILoadingService
         }
     }
 
-    public void LoadTemplatesByCategory(string category)
+    public void LoadTemplatesByCategory(string category, bool addToView = false)
     {
         foreach (var t in TemplateStorage.Instance.Templates)
         {
             if (t.Categories.Contains(category))
             {
-                if (!ServiceLocator.SyncService.TemplateFilter.Templates.Contains(t))
+                if (!ServiceLocator.SyncService.TemplateFilter.Templates.Contains(t) && addToView)
                 {
                     ServiceLocator.SyncService.TemplateFilter.Templates.Add(t);
                 }
