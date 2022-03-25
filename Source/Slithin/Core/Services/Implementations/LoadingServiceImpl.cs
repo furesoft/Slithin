@@ -82,13 +82,13 @@ public class LoadingServiceImpl : ILoadingService
     {
         foreach (var t in TemplateStorage.Instance.Templates)
         {
-            if (!ServiceLocator.SyncService.TemplateFilter.Templates.Contains(t))
-            {
-                ServiceLocator.SyncService.TemplateFilter.Templates.Add(t);
-            }
-
             if (t.Categories.Contains(category))
             {
+                if (!ServiceLocator.SyncService.TemplateFilter.Templates.Contains(t))
+                {
+                    ServiceLocator.SyncService.TemplateFilter.Templates.Add(t);
+                }
+
                 t.Load();
             }
         }

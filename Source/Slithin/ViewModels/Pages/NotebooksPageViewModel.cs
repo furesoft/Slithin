@@ -63,15 +63,7 @@ public class NotebooksPageViewModel : BaseViewModel
             MetadataStorage.Local.Move(_movingNotebook, SyncService.NotebooksFilter.Folder);
             IsMoving = false;
 
-            var item = new SyncItem
-            {
-                Direction = SyncDirection.ToDevice,
-                Data = MetadataStorage.Local.GetMetadata(_movingNotebook.ID),
-                Type = SyncType.Notebook,
-                Action = SyncAction.Update
-            };
-
-            SyncService.AddToSyncQueue(item);
+            MetadataStorage.Local.GetMetadata(_movingNotebook.ID).Upload();
 
             SyncService.NotebooksFilter.Documents.Clear();
             foreach (var md in MetadataStorage.Local.GetByParent(SyncService.NotebooksFilter.Folder))

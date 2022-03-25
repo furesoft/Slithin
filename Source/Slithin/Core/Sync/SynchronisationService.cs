@@ -38,11 +38,4 @@ public class SynchronisationService : NotifyObject
         PersistentSyncQueue.Insert(item);
         SynchronizeCommand.RaiseExecuteChanged();
     }
-
-    public void RemoveFromSyncQueue(SyncItem item)
-    {
-        SyncQueue.Remove(item);
-        PersistentSyncQueue.Delete(item._id);
-        SynchronizeCommand.RaiseExecuteChanged();
-    }
 }
