@@ -57,11 +57,6 @@ public class MetadataStorage
 
     public void Move(Metadata md, string folder)
     {
-        if (md.Type != "DocumentType")
-        {
-            return;
-        }
-
         md.Parent = folder;
         md.Version++;
 

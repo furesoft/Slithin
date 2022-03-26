@@ -129,17 +129,6 @@ public class NotebookContextMenu : IContextProvider
     {
         MetadataStorage.Local.Move(md, "trash");
 
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Clear();
-
-        foreach (var mds in MetadataStorage.Local.GetByParent(md.Parent))
-        {
-            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(mds);
-        }
-        if (md.Parent != "")
-        {
-            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = _localisationService.GetString("Up ..") });
-        }
-
-        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+        ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
     }
 }
