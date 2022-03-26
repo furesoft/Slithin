@@ -58,26 +58,26 @@ public class NotebookDataTemplate : IDataTemplate
 
         title.Height = 50;
 
+        var fabImage = new DrawingPresenter();
+
+        if (md.Pinned)
+        {
+            fabImage.Drawing = (GeometryDrawing)Application.Current.FindResource("Entypo+.Star");
+        }
+        else
+        {
+            title.HorizontalAlignment = HorizontalAlignment.Center;
+        }
+
+        fabImage.Width = 20;
+        fabImage.Height = 40;
+        fabImage.HorizontalAlignment = HorizontalAlignment.Left;
+        fabImage.VerticalAlignment = VerticalAlignment.Top;
+
+        titlePanel.Children.Add(fabImage);
+
         if (md.Type == "DocumentType")
         {
-            var fabImage = new DrawingPresenter();
-
-            if (md.Pinned)
-            {
-                fabImage.Drawing = (GeometryDrawing)App.Current.FindResource("Entypo+.Star");
-            }
-            else
-            {
-                title.HorizontalAlignment = HorizontalAlignment.Center;
-            }
-
-            fabImage.Width = 20;
-            fabImage.Height = 40;
-            fabImage.HorizontalAlignment = HorizontalAlignment.Left;
-            fabImage.VerticalAlignment = VerticalAlignment.Top;
-
-            titlePanel.Children.Add(fabImage);
-
             if (Directory.Exists(Path.Combine(notebooksDir, md.ID + ".thumbnails")))
             {
                 var filename = "";

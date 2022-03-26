@@ -9,6 +9,7 @@ Version 1.0.11
 - Add Ability To Login With SSH Key
 - Add Ability To See If Notebook Is Pinned
 - Fixed ContextMenu On Notebooks
+- Fixed Move To Trash
 
 
 Version 1.0.10
