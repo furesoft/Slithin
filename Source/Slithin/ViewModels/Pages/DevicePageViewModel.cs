@@ -97,6 +97,11 @@ public class DevicePageViewModel : BaseViewModel
         });
 
         ShareEmailAddresses = new(_xochitl.GetShareEmailAddresses());
+
+#if DEBUG
+        ShareEmailAddresses = new(new[] { "demo@demo.de", "max.mustermann@muster.de" });
+#endif
+
         HasEmailAddresses = ShareEmailAddresses.Any();
 
         ShareEmailAddresses.CollectionChanged += (s, e) =>
