@@ -4,8 +4,9 @@ using Ionic.Zip;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
+using Slithin.Core.Commands.ContextCommands;
 
-namespace Slithin.Core.Commands.ContextCommands;
+namespace Slithin.Core.Commands.ContextCommands.Notebooks;
 
 [Context(UIContext.Notebook)]
 public class BackupContextCommand : IContextCommand

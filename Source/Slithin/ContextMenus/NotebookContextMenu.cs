@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Avalonia;
 using Avalonia.Controls;
 using Slithin.Core;
 using Slithin.Core.Commands;
@@ -44,13 +43,6 @@ public class NotebookContextMenu : IContextProvider
         {
             return menu;
         }
-
-        menu.Add(new MenuItem
-        {
-            Header = _localisationService.GetString("Copy ID"),
-            Command = new DelegateCommand(async _ =>
-                await Application.Current.Clipboard.SetTextAsync(md.ID))
-        });
 
         if (Feature<ExportFeature>.IsEnabled)
         {
@@ -112,8 +104,6 @@ public class NotebookContextMenu : IContextProvider
 
         menu.Add(new MenuItem { Header = _localisationService.GetString("Rename"), Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj)) });
 
-        menu.Add(new MenuItem { Header = _localisationService.GetString("Move To Trash"), Command = new DelegateCommand(_ => MoveToTrash(md)) });
-
         return menu;
     }
 
@@ -123,12 +113,5 @@ public class NotebookContextMenu : IContextProvider
         {
             MetadataStorage.Local.Move(childMd, "trash");
         }
-    }
-
-    private void MoveToTrash(Metadata md)
-    {
-        MetadataStorage.Local.Move(md, "trash");
-
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
     }
 }
