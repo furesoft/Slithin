@@ -23,7 +23,7 @@ public class NotebooksFilter : NotifyObject
 
     public void SortByFolder()
     {
-        var ordered = Documents.OrderByDescending(_ => _.Pinned);
+        var ordered = Documents.OrderByDescending(_ => _.IsPinned);
         ordered = ordered.OrderByDescending(_ => _.Type == "CollectionType");
         ordered = ordered.OrderByDescending(_ => _.VisibleName?.Equals("Up .."));
 

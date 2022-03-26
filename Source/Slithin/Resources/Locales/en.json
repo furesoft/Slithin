@@ -160,5 +160,8 @@
   "You have to add at least 1 new page": "You have to add at least 1 new page",
   "Title cannot be empty": "Title cannot be empty",
   "The device is not configured using SSH Keys. Enter a password.": "The device is not configured using SSH Keys. Enter a password.",
-  "Use a correct IP Address. Example: 127.0.0.2:22": "Use a correct IP Address. Example: 127.0.0.2:22"
+  "Use a correct IP Address. Example: 127.0.0.2:22": "Use a correct IP Address. Example: 127.0.0.2:22",
+
+  "Unpin": "Unpin",
+  "Pin": "Pin"
 }

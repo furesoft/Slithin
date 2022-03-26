@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Slithin.Controls;
+using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
@@ -9,7 +10,8 @@ using Slithin.ViewModels.Pages;
 
 namespace Slithin.Core.Commands;
 
-public class RemoveTemplateCommand : ICommand
+[Context(UIContext.Template)]
+public class RemoveTemplateCommand : ICommand, IContextCommand
 {
     private readonly DeviceRepository _deviceRepository;
     private readonly ILocalisationService _localisationService;
@@ -31,9 +33,18 @@ public class RemoveTemplateCommand : ICommand
 
     public event EventHandler CanExecuteChanged;
 
+    public object ParentViewModel { get; set; }
+
+    public string Titel => _localisationService.GetString("Remove");
+
     public bool CanExecute(object parameter)
     {
         return parameter is Template;
+    }
+
+    public bool CanHandle(object data)
+    {
+        return CanExecute(data);
     }
 
     public async void Execute(object parameter)
@@ -52,5 +63,10 @@ public class RemoveTemplateCommand : ICommand
         _localRepository.RemoveTemplate(tmpl);
 
         _deviceRepository.RemoveTemplate(tmpl);
+    }
+
+    public void Invoke(object data)
+    {
+        Execute(data);
     }
 }

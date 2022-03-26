@@ -5,7 +5,7 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
 
-namespace Slithin.Core.Commands.ContextCommands;
+namespace Slithin.Core.Commands.ContextCommands.Notebooks;
 
 [Context(UIContext.Notebook)]
 public class ConvertQuicksheetToNotebookContextCommand : IContextCommand

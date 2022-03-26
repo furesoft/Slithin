@@ -87,7 +87,6 @@ public class ConnectionWindowViewModel : BaseViewModel
     private void Connect(object obj)
     {
         ServiceLocator.Container.Resolve<LogInitalizer>().Init();
-        ServiceLocator.Container.Resolve<IContextMenuProvider>().Init();
 
         var logger = ServiceLocator.Container.Resolve<ILogger>();
 
@@ -149,6 +148,8 @@ public class ConnectionWindowViewModel : BaseViewModel
 
             ServiceLocator.Container.Resolve<IMailboxService>().Init();
             ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
+
+            ServiceLocator.Container.Resolve<IContextMenuProvider>().Init();
 
             var pingTimer = new Timer();
             pingTimer.Elapsed += pingTimer_ellapsed;

@@ -60,7 +60,7 @@ public class NotebookDataTemplate : IDataTemplate
 
         var fabImage = new DrawingPresenter();
 
-        if (md.Pinned)
+        if (md.IsPinned)
         {
             fabImage.Drawing = (GeometryDrawing)Application.Current.FindResource("Entypo+.Star");
         }

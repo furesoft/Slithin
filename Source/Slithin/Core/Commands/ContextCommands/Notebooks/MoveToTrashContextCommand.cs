@@ -1,7 +1,6 @@
 ﻿using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
-using Slithin.Core.Commands.ContextCommands;
 
 namespace Slithin.Core.Commands.ContextCommands.Notebooks;
 
@@ -35,6 +34,14 @@ public class MoveToTrashContextCommand : IContextCommand
         }
 
         MetadataStorage.Local.Move(md, "trash");
+
+        if (md.Type == "CollectionType")
+        {
+            foreach (var childMd in MetadataStorage.Local.GetByParent(md.ID))
+            {
+                MetadataStorage.Local.Move(childMd, "trash");
+            }
+        }
 
         ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
     }

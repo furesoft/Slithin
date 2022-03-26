@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Slithin.Controls;
+using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
@@ -9,7 +10,8 @@ using Slithin.ViewModels.Pages;
 
 namespace Slithin.Core.Commands;
 
-public class RemoveNotebookCommand : ICommand
+[Context(UIContext.Notebook)]
+public class RemoveNotebookCommand : ICommand, IContextCommand
 {
     private readonly DeviceRepository _deviceRepository;
     private readonly ILocalisationService _localisationService;
@@ -28,6 +30,9 @@ public class RemoveNotebookCommand : ICommand
 
     public event EventHandler CanExecuteChanged;
 
+    public object ParentViewModel { get; set; }
+    public string Titel => _localisationService.GetString("Remove");
+
     public bool CanExecute(object parameter)
     {
         return parameter != null
@@ -35,6 +40,11 @@ public class RemoveNotebookCommand : ICommand
                && md.VisibleName != _localisationService.GetString("Quick sheets")
                && md.VisibleName != _localisationService.GetString("Up ..")
                && md.VisibleName != _localisationService.GetString("Trash");
+    }
+
+    public bool CanHandle(object data)
+    {
+        return CanExecute(data);
     }
 
     public async void Execute(object parameter)
@@ -67,5 +77,10 @@ public class RemoveNotebookCommand : ICommand
         }
 
         ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+    }
+
+    public void Invoke(object data)
+    {
+        Execute(data);
     }
 }

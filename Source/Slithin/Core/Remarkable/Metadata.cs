@@ -10,6 +10,7 @@ namespace Slithin.Core.Remarkable;
 
 public class Metadata : NotifyObject, IEqualityComparer<Metadata>
 {
+    private bool _pinned;
     private string _visibleName;
 
     [JsonIgnore] public ContentFile Content { get; set; }
@@ -18,14 +19,18 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
 
     [JsonIgnore] public string ID { get; internal set; }
 
+    [JsonProperty("pinned")]
+    public bool IsPinned
+    {
+        get { return _pinned; }
+        set { SetValue(ref _pinned, value); }
+    }
+
     [JsonProperty("lastOpenedPage")] public int LastOpenedPage { get; set; }
 
     [JsonIgnore] public PageData PageData { get; set; }
 
     [JsonProperty("parent")] public string Parent { get; set; }
-
-    [JsonProperty("pinned")] public bool Pinned { get; set; }
-
     [JsonProperty("type")] public string Type { get; set; }
 
     [JsonProperty("version")] public int Version { get; set; }
