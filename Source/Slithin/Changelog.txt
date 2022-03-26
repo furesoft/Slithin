@@ -10,7 +10,9 @@ Version 1.0.11
 - Add Ability To See If Notebook Is Pinned
 - Fixed ContextMenu On Notebooks
 - Fixed Move To Trash
-
+- Add Empty Trash To ContextMenu
+- Fixed Wrong Blue Color
+- Add Pin/Unpin To ContextMenu
 
 Version 1.0.10
 
