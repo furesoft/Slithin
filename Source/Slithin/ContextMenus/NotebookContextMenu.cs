@@ -122,16 +122,12 @@ public class NotebookContextMenu : IContextProvider
         foreach (var childMd in MetadataStorage.Local.GetByParent(md.ID))
         {
             MetadataStorage.Local.Move(childMd, "trash");
-
-            childMd.Upload();
         }
     }
 
     private void MoveToTrash(Metadata md)
     {
         MetadataStorage.Local.Move(md, "trash");
-
-        md.Upload();
 
         ServiceLocator.SyncService.NotebooksFilter.Documents.Clear();
 

@@ -43,7 +43,7 @@
                                         <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularTransfer}" />
                                     </Button>
 
-                                    <Button Classes="Flat" Command="{Binding ResetCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Reset to default'}">
+                                    <Button Classes="Flat" Command="{Binding ResetCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Reset To Default'}">
                                         <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularReset}" />
                                     </Button>
                                 </Grid>

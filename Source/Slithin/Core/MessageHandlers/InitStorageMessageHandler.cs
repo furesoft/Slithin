@@ -9,16 +9,21 @@ public class InitStorageMessageHandler : IMessageHandler<InitStorageMessage>
 {
     private readonly DeviceRepository _device;
     private readonly ILoadingService _loadingService;
+    private readonly ILocalisationService _localisationService;
 
-    public InitStorageMessageHandler(DeviceRepository device, ILoadingService loadingService)
+    public InitStorageMessageHandler(
+        DeviceRepository device,
+        ILocalisationService localisationService,
+        ILoadingService loadingService)
     {
         _device = device;
+        _localisationService = localisationService;
         _loadingService = loadingService;
     }
 
     public void HandleMessage(InitStorageMessage message)
     {
-        NotificationService.Show("Downloading Screens");
+        NotificationService.Show(_localisationService.GetString("Downloading Screens"));
         _device.DownloadCustomScreens();
 
         _device.GetTemplates();

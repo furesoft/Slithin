@@ -4,11 +4,8 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
-using Newtonsoft.Json;
 using Renci.SshNet;
-using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
-using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 
@@ -74,37 +71,12 @@ public class SynchronizeCommand : ICommand
 
         SyncDeviceDeletions();
 
-        foreach (var item in ServiceLocator.SyncService.PersistentSyncQueue.FindAll())
-        {
-            _mailboxService.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
-        }
-
-        ServiceLocator.SyncService.SyncQueue.AnalyseAndAppend();
-
-        ServiceLocator.SyncService.PersistentSyncQueue.DeleteAll();
-        ServiceLocator.SyncService.SyncQueue.Clear();
-
         //ModuleEventStorage.Invoke("OnSynchonized", 0);
     }
 
     public void RaiseExecuteChanged()
     {
         CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void PostDeviceDeletion(string file)
-    {
-        var item = new SyncItem
-        {
-            Data = JsonConvert.DeserializeObject<Metadata>(
-                File.ReadAllText(Path.Combine(_pathManager.NotebooksDir, file))),
-            Direction = SyncDirection.ToLocal,
-            Action = SyncAction.Remove
-        };
-
-        ((Metadata)item.Data)!.ID = Path.GetFileNameWithoutExtension(file);
-
-        _mailboxService.Post(new SyncMessage { Item = item });
     }
 
     private void SyncDeviceDeletions()

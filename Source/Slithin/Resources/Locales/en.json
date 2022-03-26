@@ -115,6 +115,13 @@
   "Filename should be a valid path and not empty": "Filename should be a valid path and not empty",
   "Your remarkable is not reachable. Please check your connection and restart Slithin": "Your remarkable is not reachable. Please check your connection and restart Slithin",
   "Could not connect to host": "Could not connect to host",
+  "Syncing ...": "Syncing ...",
+  "Checking for Updates": "Checking for Updates",
+  "Downloading Notebook Metadata {0}": "Downloading Notebook Metadata {0}",
+  "Downloading Notebook {0}": "Downloading Notebook {0}",
+  "Downloading Notebooks": "Downloading Notebooks",
+  "Downloading {0}": "Downloading {0}",
+  "Downloading Screens": "Downloading Screens",
 
   "Backup": "Backup",
   "Start Compressing {0}": "Start Compressing {0}",
@@ -143,5 +150,7 @@
   "Downloading {0} ({1} %)": "Downloading {0} ({1} %)",
 
   "Make Folder": "Make Folder",
-  "Move Folder Items To Trash": "Move Folder Items To Trash"
+  "Move Folder Items To Trash": "Move Folder Items To Trash",
+
+  "Enter the path to export to": "Enter the path to export to"
 }

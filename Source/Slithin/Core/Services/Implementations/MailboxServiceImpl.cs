@@ -39,8 +39,6 @@ public class MailboxServiceImpl : IMailboxService
 
     public void InitMessageRouter()
     {
-        _messageRouter.Register(ServiceLocator.Container.Resolve<SyncMessageHandler>());
-
         _messageRouter.Register(ServiceLocator.Container.Resolve<InitStorageMessageHandler>());
 
         _messageRouter.Register(ServiceLocator.Container.Resolve<CheckForUpdatesMessageHandler>());

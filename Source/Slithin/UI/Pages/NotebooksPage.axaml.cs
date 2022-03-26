@@ -7,7 +7,6 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
-using Slithin.Core.Sync;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
 
@@ -99,15 +98,9 @@ public class NotebooksPage : UserControl, IPage
 
                         md.Save();
 
-                        var syncItem = new SyncItem
-                        {
-                            Action = SyncAction.Add,
-                            Direction = SyncDirection.ToDevice,
-                            Type = SyncType.Notebook,
-                            Data = md
-                        };
+                        md.Upload();
 
-                        ServiceLocator.SyncService.AddToSyncQueue(syncItem);
+                        //ToDo: implement uploading pdf/epub notebook
                     }
                     else
                     {

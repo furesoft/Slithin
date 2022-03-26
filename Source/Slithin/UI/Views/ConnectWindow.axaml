@@ -21,7 +21,7 @@
                 </Grid>
 
                 <TextBox UseFloatingWatermark="True" wpf:TextFieldAssist.Label="{l:Localisation 'IP Address'}" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.IP}" />
-                <TextBox IsVisible="{Binding UsesKey}" UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.Password}"
+                <TextBox IsVisible="{Binding SelectedLogin.UsesKey}" UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.Password}"
                                                  wpf:TextFieldAssist.Label="{l:Localisation 'Password'}" PasswordChar="*" />
 
                 <controls:Link Title="{l:Localisation 'Where can I find the information?'}" Grid.ColumnSpan="2" Grid.Row="5" Command="{Binding HelpCommand}" />

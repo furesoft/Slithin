@@ -68,6 +68,11 @@ public class MetadataStorage
         _storage[md.ID] = md; //replace metadata with changed md
 
         md.Save();
+
+        md.Upload();
+
+        var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
+        xochitl.ReloadDevice();
     }
 
     public void Remove(Metadata tmpl)

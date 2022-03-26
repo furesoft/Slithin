@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Input;
 using Slithin.Controls;
@@ -11,10 +11,12 @@ namespace Slithin.Core.Commands;
 public class ExportCommand : ICommand
 {
     private readonly IExportProviderFactory _exportProviderFactory;
+    private readonly ILocalisationService _localisationService;
 
-    public ExportCommand(IExportProviderFactory exportProviderFactory)
+    public ExportCommand(IExportProviderFactory exportProviderFactory, ILocalisationService localisationService)
     {
         _exportProviderFactory = exportProviderFactory;
+        _localisationService = localisationService;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -29,7 +31,8 @@ public class ExportCommand : ICommand
     {
         var md = (Metadata)parameter;
 
-        var outputPath = await DialogService.ShowPrompt("Export", "Enter the path to export to");
+        var outputPath = await DialogService.ShowPrompt(_localisationService.GetString("Export"),
+            _localisationService.GetString("Enter the path to export to"));
 
         var provider = _exportProviderFactory.GetExportProvider("SVG Graphics");
 
