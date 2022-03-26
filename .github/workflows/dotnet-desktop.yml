@@ -55,7 +55,8 @@ jobs:
         Configuration: ${{ matrix.configuration }}
     
     - name: Publish OSX Arm64
-      run: dotnet publish -c Release -r osx.12-arm64 --output ./Dist/OSX_Arm64 $env:Solution_Name $env:Solution_Name 
+      run: dotnet publish -c Release -r osx.12-arm64 --output ./Dist/OSX_Arm64 $env:Solution_Name
+      
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
