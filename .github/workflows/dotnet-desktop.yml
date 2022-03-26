@@ -41,7 +41,7 @@ jobs:
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
-      
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
@@ -56,7 +56,7 @@ jobs:
         
     - name: Publish Windows x86
       run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 $env:Solution_Name
-
+    
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
