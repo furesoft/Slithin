@@ -52,8 +52,6 @@ public class InitNotebookMessageHandler : IMessageHandler<InitNotebookMessage>
         }
 
         _scp.Downloading -= OnDownloading;
-
-        NotificationService.Hide();
     }
 
     private void OnDownloading(object sender, ScpDownloadEventArgs e)

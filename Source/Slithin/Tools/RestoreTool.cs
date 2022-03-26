@@ -128,8 +128,6 @@ public class RestoreTool : ITool
                     await Task.Delay(1000);
 
                     _xochitl.ReloadDevice();
-
-                    NotificationService.Hide();
                 });
             }
         }

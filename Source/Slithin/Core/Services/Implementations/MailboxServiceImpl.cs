@@ -74,7 +74,7 @@ public class MailboxServiceImpl : IMailboxService
     {
         _logger.Error(obj.ToString());
 
-        NotificationService.Show(
+        NotificationService.ShowError(
             _localisationService.GetStringFormat(
                 "An Error occured. See ({0})", Path.Combine(_pathManager.SlithinDir, "log.txt")));
     }

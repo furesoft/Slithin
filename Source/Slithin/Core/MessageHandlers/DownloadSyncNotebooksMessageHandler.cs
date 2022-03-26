@@ -47,8 +47,6 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
 
                 _scpClient.Download(PathList.Documents + "/" + file, fi);
             }
-
-            NotificationService.Hide();
         }
     }
 }

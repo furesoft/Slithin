@@ -61,8 +61,6 @@ public class TemplatesPageViewModel : BaseViewModel
             _loadingService.LoadTemplates();
 
             SyncService.TemplateFilter.SelectedCategory = SyncService.TemplateFilter.Categories.First();
-
-            NotificationService.Hide();
         });
     }
 }

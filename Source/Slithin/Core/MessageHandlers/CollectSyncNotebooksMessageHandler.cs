@@ -114,8 +114,6 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
 
         ConvertMetadataToSyncNotebook(mds, allFilenames, notebooksDir, mdLocals);
 
-        NotificationService.Hide();
-
         _mailboxService.Post(new DownloadSyncNotebookMessage(_syncNotebooks));
     }
 

@@ -100,8 +100,6 @@ public class Template : INotifyPropertyChanged
             scp.Upload(new FileInfo(Path.Combine(pathManager.ConfigBaseDir, "templates.json")), PathList.Templates + "templates.json");
 
             xochitl.ReloadDevice();
-
-            NotificationService.Hide();
         });
     }
 }

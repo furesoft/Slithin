@@ -198,8 +198,6 @@ public class DevicePageViewModel : BaseViewModel
             _scp.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
 
             _xochitl.ReloadDevice();
-
-            NotificationService.Hide();
         });
     }
 
@@ -212,7 +210,6 @@ public class DevicePageViewModel : BaseViewModel
             _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
 
             _xochitl.ReloadDevice();
-            NotificationService.Hide();
         });
     }
 }

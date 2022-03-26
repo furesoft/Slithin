@@ -103,8 +103,6 @@ public class DeviceRepository : IRepository
                 new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".svg")));
         }
 
-        NotificationService.Hide();
-
         return null;
     }
 

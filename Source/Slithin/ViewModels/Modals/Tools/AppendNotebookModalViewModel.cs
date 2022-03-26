@@ -93,8 +93,6 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
                 _loadingService.LoadTemplates();
 
                 Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
-
-                NotificationService.Hide();
             });
         }
         else
@@ -192,6 +190,5 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
         });
 
         DialogService.Close();
-        NotificationService.Hide();
     }
 }

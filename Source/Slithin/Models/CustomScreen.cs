@@ -90,8 +90,6 @@ public class CustomScreen : NotifyObject
             scp.Upload(new FileInfo(Path.Combine(pathManager.CustomScreensDir, Filename)), PathList.Screens + Filename);
 
             xochitl.ReloadDevice();
-
-            NotificationService.Hide();
         });
     }
 }

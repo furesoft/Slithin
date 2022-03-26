@@ -107,7 +107,6 @@
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>
      </Compile>
-     <Compile Remove="Slithin.ModuleSystem.Memory\**" />
    </ItemGroup>
    
    <ItemGroup>

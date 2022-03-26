@@ -118,7 +118,5 @@ public class Xochitl
 
         NotificationService.Show("Uploading xochitl.conf");
         _scp.Upload(fileInfo, "/home/root/.config/remarkable/xochitl.conf");
-
-        NotificationService.Hide();
     }
 }

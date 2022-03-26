@@ -163,8 +163,6 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             _loadingService.LoadTemplates();
 
             Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
-
-            NotificationService.Hide();
         });
     }
 
@@ -313,8 +311,6 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             //ToDo: fix thumbnail
             //using var thumbnailStream = File.OpenWrite(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails", md.Content.Pages[0] + ".jpg"));
             //jpedCover.CopyTo(thumbnailStream);
-
-            NotificationService.Hide();
         });
 
         DialogService.Close();

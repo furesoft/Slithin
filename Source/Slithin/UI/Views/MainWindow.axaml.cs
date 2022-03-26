@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml;
 using Renci.SshNet;
 using Slithin.Core;
@@ -17,6 +18,11 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        NotificationService.Manager = new WindowNotificationManager(this);
+        NotificationService.Manager.Position = NotificationPosition.BottomRight;
+        NotificationService.Manager.MaxItems = 1;
+
 #if DEBUG
         this.AttachDevTools();
 #endif

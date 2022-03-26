@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
 using Serilog;
 using Slithin.Controls.Notifications;
@@ -9,6 +10,8 @@ namespace Slithin.Core;
 
 public static class NotificationService
 {
+    public static WindowNotificationManager Manager;
+    private static StatusNotificationViewModel _progressViewModel;
     private static Border notificationContainer;
 
     public static bool GetIsNotificationOutput(Border target)
@@ -37,17 +40,7 @@ public static class NotificationService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            var vm = ((StatusNotificationViewModel)notificationContainer.DataContext);
-            vm.Message = message;
-            vm.Value = 0;
-            vm.MaxValue = 0;
-            vm.IsInfo = true;
-
-            var control = new StatusNotificationControl();
-
-            notificationContainer.Child = control;
-            control.DataContext = vm;
-            notificationContainer.IsVisible = true;
+            Manager.Show(new Notification("Information", message, NotificationType.Error));
         });
     }
 
@@ -58,7 +51,7 @@ public static class NotificationService
             notificationContainer.Child = control;
             control.DataContext = viewModel;
 
-            notificationContainer.IsVisible = true;
+            Manager.Show(control);
         });
     }
 
@@ -89,6 +82,17 @@ public static class NotificationService
         return tcs.Task;
     }
 
+    public static void ShowError(string message)
+    {
+        var logger = ServiceLocator.Container.Resolve<ILogger>();
+        logger.Information(message);
+
+        Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            Manager.Show(new Notification("Error", message, NotificationType.Error));
+        });
+    }
+
     public static void ShowProgress(string message, int value, int maxValue)
     {
         var logger = ServiceLocator.Container.Resolve<ILogger>();
@@ -96,17 +100,24 @@ public static class NotificationService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            var vm = ((StatusNotificationViewModel)notificationContainer.DataContext);
-            vm.Message = message;
-            vm.Value = value;
-            vm.MaxValue = maxValue;
-            vm.IsInfo = false;
+            if (_progressViewModel == null)
+            {
+                var control = new StatusNotificationControl();
 
-            var control = new StatusNotificationControl();
+                _progressViewModel = new();
+                control.DataContext = _progressViewModel;
 
-            notificationContainer.Child = control;
-            control.DataContext = vm;
-            notificationContainer.IsVisible = true;
+                Manager.Show(control);
+            }
+
+            _progressViewModel.Message = message;
+            _progressViewModel.Value = value;
+            _progressViewModel.MaxValue = maxValue;
+
+            if (_progressViewModel.Value == _progressViewModel.MaxValue)
+            {
+                _progressViewModel = null;
+            }
         });
     }
 }

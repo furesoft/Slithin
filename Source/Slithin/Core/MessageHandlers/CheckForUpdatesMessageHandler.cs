@@ -27,7 +27,5 @@ public class CheckForUpdatesMessageHandler : IMessageHandler<CheckForUpdateMessa
         NotificationService.Show(_localisationService.GetString("Checking for Updates"));
 
         Updater.StartUpdate();
-
-        NotificationService.Hide();
     }
 }

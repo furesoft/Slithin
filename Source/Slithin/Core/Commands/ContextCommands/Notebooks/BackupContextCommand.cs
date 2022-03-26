@@ -60,7 +60,6 @@ public class BackupContextCommand : IContextCommand
                 $"Backup_{md.VisibleName}_{DateTime.Now:yyyy-dd-M--HH-mm-ss}.zip"));
 
             zip.Dispose();
-            NotificationService.Hide();
         });
     }
 

@@ -63,7 +63,6 @@ public static class Updater
         if (versionComparison >= 0)
         {
             NotificationService.Show(localisationService.GetString("No Update found"));
-            NotificationService.Hide();
 
             return;
         }
@@ -125,8 +124,6 @@ public static class Updater
             }
 
             File.Delete(fileName);
-
-            NotificationService.Hide();
 
             UpdateScriptGenerator.ApplyUpdate(Path.Combine(tmp, "SlithinUpdate"), Environment.CurrentDirectory);
 

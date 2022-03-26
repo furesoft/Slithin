@@ -110,8 +110,6 @@ public class NotebooksPageViewModel : BaseViewModel
             NotificationService.Show(_localisationService.GetString("Loading Notebooks"));
 
             _loadingService.LoadNotebooks();
-
-            NotificationService.Hide();
         });
     }
 }
