@@ -10,11 +10,12 @@ public class AddTemplateValidator : AbstractValidator<AddTemplateModalViewModel>
 
     public AddTemplateValidator(ILocalisationService localisationService)
     {
-        RuleFor(x => x.Name).NotEmpty();
+        RuleFor(x => x.Name).NotEmpty()
+            .WithMessage(_localisationService.GetString("Name should not be empty"));
 
         RuleFor(x => x.Filename).Custom(FilenameValidator);
-        RuleFor(x => x.IconCode).NotNull();
-        RuleFor(x => x.SelectedCategory).NotNull();
+        RuleFor(x => x.IconCode).NotNull().WithMessage(_localisationService.GetString("An IconCode must be selected"));
+        RuleFor(x => x.SelectedCategory).NotNull().WithMessage(_localisationService.GetString("A Category must be selected"));
         _localisationService = localisationService;
     }
 

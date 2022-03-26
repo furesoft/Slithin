@@ -152,5 +152,13 @@
   "Make Folder": "Make Folder",
   "Move Folder Items To Trash": "Move Folder Items To Trash",
 
-  "Enter the path to export to": "Enter the path to export to"
+  "Enter the path to export to": "Enter the path to export to",
+
+  "Name should not be empty": "Name should not be empty",
+  "An IconCode must be selected": "An IconCode must be selected",
+  "A Category must be selected": "A Category must be selected",
+  "You have to add at least 1 new page": "You have to add at least 1 new page",
+  "Title cannot be empty": "Title cannot be empty",
+  "The device is not configured using SSH Keys. Enter a password.": "The device is not configured using SSH Keys. Enter a password.",
+  "Use a correct IP Address. Example: 127.0.0.2:22": "Use a correct IP Address. Example: 127.0.0.2:22"
 }
