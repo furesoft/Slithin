@@ -91,7 +91,8 @@ public class SynchronizeCommand : ICommand
 
         foreach (var file in deltaLocalFiles)
         {
-            PostDeviceDeletion(file);
+            //ToDo: Sync Device Deletions
+            //PostDeviceDeletion(file);
         }
     }
 }
