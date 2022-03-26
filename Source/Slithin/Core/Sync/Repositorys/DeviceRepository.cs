@@ -17,7 +17,11 @@ public class DeviceRepository : IRepository
     private readonly IPathManager _pathManager;
     private readonly ScpClient _scp;
 
-    public DeviceRepository(IPathManager pathManager, LocalRepository localRepository, ScpClient scp, SshClient client,
+    public DeviceRepository(
+        IPathManager pathManager,
+        LocalRepository localRepository,
+        ScpClient scp,
+        SshClient client,
         ILoadingService loadingService)
     {
         _pathManager = pathManager;
@@ -104,16 +108,16 @@ public class DeviceRepository : IRepository
         return null;
     }
 
-    public void Remove(Metadata data)
+    public void Remove(Metadata md)
     {
-        if (data.Type != "DocumentType")
+        if (md.Type != "DocumentType")
         {
             return;
         }
 
         var cmd = _client.RunCommand("ls " + PathList.Documents);
         var split = cmd.Result.Split('\n');
-        var excluded = split.Where(_ => _.Contains(data.ID));
+        var excluded = split.Where(_ => _.Contains(md.ID));
 
         foreach (var filename in excluded.Select(_ => PathList.Documents + _))
         {

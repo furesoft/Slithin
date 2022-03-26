@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using LiteDB;
+﻿using LiteDB;
 
 namespace Slithin.Core.Services.Implementations;
 
@@ -18,7 +17,7 @@ public class SettingsService : ISettingsService
 
         if (collection.Count() == 1)
         {
-            return collection.FindAll().First();
+            return collection.Query().First();
         }
 
         return new Settings();
@@ -30,7 +29,7 @@ public class SettingsService : ISettingsService
 
         if (collection.Count() == 1)
         {
-            var old = collection.FindAll().First();
+            var old = collection.Query().First();
             settings._id = old._id;
 
             collection.Update(settings);

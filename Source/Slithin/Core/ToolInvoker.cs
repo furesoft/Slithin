@@ -27,7 +27,7 @@ public class ToolInvoker
             Tools.Add(tool.Info.ID, tool);
         }
 
-        _logger.Information("Loading External Tools");
+        //_logger.Information("Loading External Tools");
         //ToDo: add loading scripttools
     }
 

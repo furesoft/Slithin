@@ -55,7 +55,7 @@ public class ContextMenuProviderImpl : IContextMenuProvider
             {
                 c.ParentViewModel = parent;
 
-                if (item is Metadata md)
+                if (item is Metadata md) // Do not show context menu for trash and Up navigation folder
                 {
                     if (md.VisibleName == localisationProvider.GetString("Up ..")
                         || md.VisibleName == localisationProvider.GetString("Trash")

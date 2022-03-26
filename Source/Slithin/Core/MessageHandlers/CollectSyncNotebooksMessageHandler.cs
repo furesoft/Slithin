@@ -49,19 +49,20 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             = allFilenames
                 .Where(x => x.EndsWith(".metadata"))
                 .ToArray();
+
         var mdLocals = new Dictionary<string, Metadata>();
 
         var thumbnailFolders
             = allFilenames
                 .Where(x => x.EndsWith(".thumbnails/"));
-        var iEnumerable = thumbnailFolders as string[] ?? thumbnailFolders.ToArray();
+
         var thumbnailFoldersToSync
-            = iEnumerable
+            = thumbnailFolders
                 .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[..^1])));
 
         var thumbnailsSync = new SyncNotebook { Directories = thumbnailFoldersToSync };
 
-        if (iEnumerable.Any())
+        if (thumbnailFolders.Any())
         {
             _syncNotebooks.Add(thumbnailsSync);
         }

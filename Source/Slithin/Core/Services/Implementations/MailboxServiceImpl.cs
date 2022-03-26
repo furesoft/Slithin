@@ -9,16 +9,22 @@ namespace Slithin.Core.Services.Implementations;
 
 public class MailboxServiceImpl : IMailboxService
 {
+    private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;
     private readonly MessageRouter _messageRouter;
     private readonly IPathManager _pathManager;
     private MailboxProcessor<AsynchronousMessage> _mailbox;
 
-    public MailboxServiceImpl(MessageRouter messageRouter, ILogger logger, IPathManager pathManager)
+    public MailboxServiceImpl(
+        MessageRouter messageRouter,
+        ILogger logger,
+        IPathManager pathManager,
+        ILocalisationService localisationService)
     {
         _messageRouter = messageRouter;
         _logger = logger;
         _pathManager = pathManager;
+        _localisationService = localisationService;
     }
 
     public void Init()
@@ -67,6 +73,9 @@ public class MailboxServiceImpl : IMailboxService
     private void OnError(Exception obj)
     {
         _logger.Error(obj.ToString());
-        NotificationService.Show($"An Error occured. See ({Path.Combine(_pathManager.SlithinDir, "log.txt")})");
+
+        NotificationService.Show(
+            _localisationService.GetStringFormat(
+                "An Error occured. See ({0})", Path.Combine(_pathManager.SlithinDir, "log.txt")));
     }
 }
