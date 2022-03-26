@@ -12,29 +12,29 @@
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
+                    <StackPanel Orientation="Horizontal" Spacing="3" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
     </Design.PreviewWith>
 
     <Style Selector="controls|TagControl">
-        <Setter Property="MinWidth" Value="200" />
+        <Setter Property="MinWidth" Value="215" />
         <Setter Property="MinHeight" Value="35" />
         <Setter Property="IsHitTestVisible" Value="True" />
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="LightGray" CornerRadius="20" Margin="2">
-                    <Grid ColumnDefinitions="*, 28">
-                        <TextBlock TextTrimming="CharacterEllipsis" Text="{TemplateBinding Tag}" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" />
+                <Border Background="LightGray" CornerRadius="12" Margin="1" MinWidth="{TemplateBinding MinWidth}">
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <TextBlock Text="{TemplateBinding Tag}" VerticalAlignment="Center" TextAlignment="Center" Margin="5,0,0,0" MinWidth="200" />
 
-                        <Button CommandParameter="{Binding}" ToolTip.Tip="{l:Localisation 'Remove'}" Command="{TemplateBinding RemoveCommand}" Classes="Flat" FontSize="5" Foreground="Black" Grid.Column="1" Padding="0" Margin="3,0,2,0">
+                        <Button Margin="0,0,10,0" Padding="5" CommandParameter="{Binding}" ToolTip.Tip="{l:Localisation 'Remove'}" Command="{TemplateBinding RemoveCommand}" Classes="Flat" FontSize="5" Foreground="Black">
                             <Grid>
                                 <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Grid>
                         </Button>
-                    </Grid>
+                    </StackPanel>
                 </Border>
             </ControlTemplate>
         </Setter>

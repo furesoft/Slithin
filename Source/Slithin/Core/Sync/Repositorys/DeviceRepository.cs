@@ -110,11 +110,6 @@ public class DeviceRepository : IRepository
 
     public void Remove(Metadata md)
     {
-        if (md.Type != "DocumentType")
-        {
-            return;
-        }
-
         var cmd = _client.RunCommand("ls " + PathList.Documents);
         var split = cmd.Result.Split('\n');
         var excluded = split.Where(_ => _.Contains(md.ID));

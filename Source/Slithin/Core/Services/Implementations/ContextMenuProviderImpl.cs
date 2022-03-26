@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
-using Slithin.ContextMenus;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 
@@ -75,10 +74,9 @@ public class ContextMenuProviderImpl : IContextMenuProvider
             {
                 c.ParentViewModel = parent;
 
-                if (item is Metadata md) // Do not show context menu for trash and Up navigation folder
+                if (item is Metadata md) // Do not show context menu for Up navigation folder and items in trash
                 {
                     if (md.VisibleName == localisationProvider.GetString("Up ..")
-                        || md.VisibleName == localisationProvider.GetString("Trash")
                         || md.Parent == "trash")
                     {
                         return Array.Empty<MenuItem>();

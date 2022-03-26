@@ -163,5 +163,6 @@
   "Use a correct IP Address. Example: 127.0.0.2:22": "Use a correct IP Address. Example: 127.0.0.2:22",
 
   "Unpin": "Unpin",
-  "Pin": "Pin"
+  "Pin": "Pin",
+  "Empty Trash": "Empty Trash"
 }

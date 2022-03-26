@@ -28,7 +28,7 @@ public class BackupContextCommand : IContextCommand
 
     public bool CanHandle(object data)
     {
-        return data is Metadata;
+        return data is Metadata md && md.VisibleName != _localisationService.GetString("Trash");
     }
 
     public void Invoke(object data)
