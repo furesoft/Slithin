@@ -50,7 +50,7 @@ public class QuickSheetsContextMenu : IContextProvider
 
         menu.Add(new MenuItem
         {
-            Header = _localisationService.GetString("Convert to Notebook"),
+            Header = _localisationService.GetString("Convert To Notebook"),
             Command = new DelegateCommand(_ =>
             {
                 ConvertToNotebook(obj as Metadata);

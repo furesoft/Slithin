@@ -3,11 +3,11 @@ using System.IO;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Renci.SshNet;
 using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
-using Slithin.Core.Sync;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
 
@@ -56,12 +56,13 @@ public class NotebooksPage : UserControl, IPage
 
     private void Drop(object sender, DragEventArgs e)
     {
-        var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+        var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
+
+        var notebooksDir = pathManager.NotebooksDir;
 
         if (e.Data.Contains(DataFormats.FileNames))
         {
-            var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
-
             foreach (var filename in e.Data.GetFileNames())
             {
                 var id = Guid.NewGuid().ToString().ToLower();
@@ -91,7 +92,7 @@ public class NotebooksPage : UserControl, IPage
                     {
                         var inputStrm = provider.Import(File.OpenRead(filename));
                         var outputStrm =
-                            File.OpenWrite(Path.Combine(notebooksDir, md.ID + Path.GetExtension(filename)));
+                            File.OpenWrite(Path.Combine(notebooksDir, md.ID + "." + Path.GetExtension(filename)));
                         inputStrm.CopyTo(outputStrm);
 
                         outputStrm.Close();
@@ -99,15 +100,20 @@ public class NotebooksPage : UserControl, IPage
 
                         md.Save();
 
-                        var syncItem = new SyncItem
+                        md.Upload();
+
+                        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+
+                        scp.Uploading += (s, e) =>
                         {
-                            Action = SyncAction.Add,
-                            Direction = SyncDirection.ToDevice,
-                            Type = SyncType.Notebook,
-                            Data = md
+                            NotificationService.ShowProgress(
+                                localisation.GetStringFormat(
+                                    "Uploading '{0}': {1}", md.VisibleName, e.Filename)
+                                , (int)e.Uploaded, (int)e.Size);
                         };
 
-                        ServiceLocator.SyncService.AddToSyncQueue(syncItem);
+                        scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + Path.GetExtension(filename))),
+                            PathList.Documents + md.ID + "." + Path.GetExtension(filename));
                     }
                     else
                     {

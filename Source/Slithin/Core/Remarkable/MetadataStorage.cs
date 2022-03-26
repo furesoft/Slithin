@@ -57,17 +57,17 @@ public class MetadataStorage
 
     public void Move(Metadata md, string folder)
     {
-        if (md.Type != "DocumentType")
-        {
-            return;
-        }
-
         md.Parent = folder;
         md.Version++;
 
         _storage[md.ID] = md; //replace metadata with changed md
 
         md.Save();
+
+        md.Upload();
+
+        var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
+        xochitl.ReloadDevice();
     }
 
     public void Remove(Metadata tmpl)

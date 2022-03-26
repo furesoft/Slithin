@@ -83,6 +83,7 @@
 
   "Page Count must be a number and a template need to be selected": "Page Count must be a number and a template need to be selected",
   "Loading Templates": "Loading Templates",
+  "Loading Notebooks": "Loading Notebooks",
   "Generating {0}": "Generating {0}",
   "Category name has to be set.": "Category name has to be set.",
   "Template already exist. Would you replace it?": "Template already exist. Would you replace it?",
@@ -90,7 +91,7 @@
   "Copy ID": "Copy ID",
   "Quick sheets": "Quick sheets",
   "Export": "Export",
-  "Move to Trash": "Move to Trash",
+  "Move To Trash": "Move To Trash",
   "A new version has been installed to your device. Would you upload your custom templates/screens?": "A new version has been installed to your device. Would you upload your custom templates/screens?",
 
   "Uploading Screens": "Uploading Screens",
@@ -103,7 +104,7 @@
   "Splash": "Splash",
   "Battery Empty": "Battery Empty",
 
-  "Convert to Notebook": "Convert to Notebook",
+  "Convert To Notebook": "Convert To Notebook",
   "Notebook": "Notebook",
   "Uploading '{0}': {1}": "Uploading '{0}': {1}",
 
@@ -114,6 +115,13 @@
   "Filename should be a valid path and not empty": "Filename should be a valid path and not empty",
   "Your remarkable is not reachable. Please check your connection and restart Slithin": "Your remarkable is not reachable. Please check your connection and restart Slithin",
   "Could not connect to host": "Could not connect to host",
+  "Syncing ...": "Syncing ...",
+  "Checking for Updates": "Checking for Updates",
+  "Downloading Notebook Metadata {0}": "Downloading Notebook Metadata {0}",
+  "Downloading Notebook {0}": "Downloading Notebook {0}",
+  "Downloading Notebooks": "Downloading Notebooks",
+  "Downloading {0}": "Downloading {0}",
+  "Downloading Screens": "Downloading Screens",
 
   "Backup": "Backup",
   "Start Compressing {0}": "Start Compressing {0}",
@@ -139,5 +147,10 @@
   "An update is Available. Would you like to install it?": "An update is Available. Would you like to install it?",
   "Extracting Update": "Extracting Update",
   "Extracting {0} ({1} %)": "Extracting {0} ({1} %)",
-  "Downloading {0} ({1} %)": "Downloading {0} ({1} %)"
+  "Downloading {0} ({1} %)": "Downloading {0} ({1} %)",
+
+  "Make Folder": "Make Folder",
+  "Move Folder Items To Trash": "Move Folder Items To Trash",
+
+  "Enter the path to export to": "Enter the path to export to"
 }

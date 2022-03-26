@@ -7,12 +7,16 @@ namespace Slithin.Core.MessageHandlers;
 
 public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncNotebookMessage>
 {
+    private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;
     private readonly ScpClient _scpClient;
 
-    public DownloadSyncNotebooksMessageHandler(IPathManager pathManager, ScpClient scpClient)
+    public DownloadSyncNotebooksMessageHandler(IPathManager pathManager,
+                                               ILocalisationService localisationService,
+                                               ScpClient scpClient)
     {
         _pathManager = pathManager;
+        _localisationService = localisationService;
         _scpClient = scpClient;
     }
 
@@ -20,7 +24,8 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
     {
         for (var i = 0; i < message.Notebooks.Count; i++)
         {
-            NotificationService.ShowProgress($"Downloading Notebook {i + 1}/{message.Notebooks.Count}", i + 1, message.Notebooks.Count);
+            NotificationService.ShowProgress(_localisationService.GetStringFormat(
+                "Downloading Notebook {0}", $"{i + 1}/{message.Notebooks.Count}"), i + 1, message.Notebooks.Count);
 
             var sn = message.Notebooks[i];
 

@@ -39,7 +39,7 @@ public static class NotebooksView
 
         var id = md.ID;
 
-        if (md.VisibleName.Equals(localisation.GetString("Up ..")))
+        if (!string.IsNullOrEmpty(md.VisibleName) && md.VisibleName.Equals(localisation.GetString("Up ..")))
         {
             id = _lastFolderIDs.Pop();
             vm.SyncService.NotebooksFilter.Folder = id;

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
 using Slithin.Core.ItemContext;
+using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Services.Implementations;
 
@@ -36,6 +38,8 @@ public class ContextMenuProviderImpl : IContextMenuProvider
             return null;
         }
 
+        var localisationProvider = ServiceLocator.Container.Resolve<ILocalisationService>();
+
         var providersForContext = _providers[context];
         var availableContexts = providersForContext.Where(p => p.CanHandle(item));
 
@@ -50,6 +54,16 @@ public class ContextMenuProviderImpl : IContextMenuProvider
             Items = iContextProviders.SelectMany(c =>
             {
                 c.ParentViewModel = parent;
+
+                if (item is Metadata md)
+                {
+                    if (md.VisibleName == localisationProvider.GetString("Up ..")
+                        || md.VisibleName == localisationProvider.GetString("Trash")
+                        || md.Parent == "trash")
+                    {
+                        return Array.Empty<MenuItem>();
+                    }
+                }
 
                 return c.GetMenu(item);
             })

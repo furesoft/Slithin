@@ -40,13 +40,18 @@ public class NotebookContextMenu : IContextProvider
         {
             return menu;
         }
+        if (obj is not Metadata md)
+        {
+            return menu;
+        }
 
         menu.Add(new MenuItem
         {
             Header = _localisationService.GetString("Copy ID"),
             Command = new DelegateCommand(async _ =>
-                await Application.Current.Clipboard.SetTextAsync(((Metadata)obj).ID))
+                await Application.Current.Clipboard.SetTextAsync(md.ID))
         });
+
         if (Feature<ExportFeature>.IsEnabled)
         {
             var subItems = new List<MenuItem>();
@@ -93,35 +98,37 @@ public class NotebookContextMenu : IContextProvider
             Command = new DelegateCommand(_ => n.RemoveNotebookCommand.Execute(obj))
         });
 
+        if (md.Type == "CollectionType")
+        {
+            if (md.VisibleName != _localisationService.GetString("Trash"))
+            {
+                menu.Add(new MenuItem
+                {
+                    Header = _localisationService.GetString("Move Folder Items To Trash"),
+                    Command = new DelegateCommand(_ => EmptyFolder(md))
+                });
+            }
+        }
+
         menu.Add(new MenuItem { Header = _localisationService.GetString("Rename"), Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj)) });
 
-        menu.Add(new MenuItem { Header = _localisationService.GetString("Move to Trash"), Command = new DelegateCommand(_ => MoveToTrash(obj)) });
+        menu.Add(new MenuItem { Header = _localisationService.GetString("Move To Trash"), Command = new DelegateCommand(_ => MoveToTrash(md)) });
 
         return menu;
     }
 
-    private void MoveToTrash(object obj)
+    private void EmptyFolder(Metadata md)
     {
-        if (obj is not Metadata md)
+        foreach (var childMd in MetadataStorage.Local.GetByParent(md.ID))
         {
-            return;
+            MetadataStorage.Local.Move(childMd, "trash");
         }
+    }
 
+    private void MoveToTrash(Metadata md)
+    {
         MetadataStorage.Local.Move(md, "trash");
 
-        md.Upload();
-
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Clear();
-
-        foreach (var mds in MetadataStorage.Local.GetByParent(md.Parent))
-        {
-            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(mds);
-        }
-        if (md.Parent != "")
-        {
-            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = _localisationService.GetString("Up ..") });
-        }
-
-        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+        ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
     }
 }

@@ -15,6 +15,7 @@ namespace Slithin.Core.MessageHandlers;
 public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNotebooksMessage>
 {
     private readonly SshClient _client;
+    private readonly ILocalisationService _localisationService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
     private readonly SynchronisationService _synchronisationService;
@@ -22,10 +23,12 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
 
     public CollectSyncNotebooksMessageHandler(IPathManager pathManager,
         SshClient client,
+        ILocalisationService localisationService,
         IMailboxService mailboxService)
     {
         _pathManager = pathManager;
         _client = client;
+        _localisationService = localisationService;
         _mailboxService = mailboxService;
         _synchronisationService = ServiceLocator.SyncService;
     }
@@ -66,7 +69,9 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
         for (var i = 0; i < mdFilenames.Length; i++)
         {
             var md = mdFilenames[i];
-            NotificationService.ShowProgress($"Downloading Notebook Metadata {i + 1} / {mdFilenames.Length}", i, mdFilenames.Length);
+            NotificationService.ShowProgress(
+                _localisationService.GetStringFormat(
+                    "Downloading Notebook Metadata {0}", $"{i + 1} / {mdFilenames.Length}"), i, mdFilenames.Length);
 
             var sshCommand = _client.RunCommand($"cat {PathList.Documents}/{md}");
             var mdContent = sshCommand.Result;
@@ -218,7 +223,10 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
 
             if (!alreadyAdded)
             {
-                _synchronisationService.NotebooksFilter.Documents.Add(mdObj);
+                if (!_synchronisationService.NotebooksFilter.Documents.Contains(mdObj))
+                {
+                    _synchronisationService.NotebooksFilter.Documents.Add(mdObj);
+                }
             }
         }
     }

@@ -4,11 +4,8 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Input;
-using Newtonsoft.Json;
 using Renci.SshNet;
-using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
-using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 
@@ -17,6 +14,7 @@ namespace Slithin.Core.Commands;
 public class SynchronizeCommand : ICommand
 {
     private readonly SshClient _client;
+    private readonly ILocalisationService _localisationService;
     private readonly LocalRepository _localRepository;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
@@ -24,11 +22,13 @@ public class SynchronizeCommand : ICommand
     public SynchronizeCommand(IMailboxService mailboxService,
         LocalRepository localRepository,
         IPathManager pathManager,
+        ILocalisationService localisationService,
         SshClient client)
     {
         _mailboxService = mailboxService;
         _localRepository = localRepository;
         _pathManager = pathManager;
+        _localisationService = localisationService;
         _client = client;
     }
 
@@ -54,8 +54,8 @@ public class SynchronizeCommand : ICommand
 
         if (reply.Status != IPStatus.Success)
         {
-            NotificationService.Show(
-                "Your remarkable is not reachable. Please check your connection and restart Slithin");
+            NotificationService.Show(_localisationService.GetString(
+                "Your remarkable is not reachable. Please check your connection and restart Slithin"));
 
             return;
         }
@@ -65,21 +65,11 @@ public class SynchronizeCommand : ICommand
             _mailboxService.Post(new InitStorageMessage());
         }
 
-        NotificationService.Show("Syncing ...");
+        NotificationService.Show(_localisationService.GetString("Syncing ..."));
 
         _mailboxService.Post(new CollectSyncNotebooksMessage());
 
         SyncDeviceDeletions();
-
-        foreach (var item in ServiceLocator.SyncService.PersistentSyncQueue.FindAll())
-        {
-            _mailboxService.Post(new SyncMessage { Item = item }); // redirect sync job to mailbox for asynchronity
-        }
-
-        ServiceLocator.SyncService.SyncQueue.AnalyseAndAppend();
-
-        ServiceLocator.SyncService.PersistentSyncQueue.DeleteAll();
-        ServiceLocator.SyncService.SyncQueue.Clear();
 
         //ModuleEventStorage.Invoke("OnSynchonized", 0);
     }
@@ -87,21 +77,6 @@ public class SynchronizeCommand : ICommand
     public void RaiseExecuteChanged()
     {
         CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void PostDeviceDeletion(string file)
-    {
-        var item = new SyncItem
-        {
-            Data = JsonConvert.DeserializeObject<Metadata>(
-                File.ReadAllText(Path.Combine(_pathManager.NotebooksDir, file))),
-            Direction = SyncDirection.ToLocal,
-            Action = SyncAction.Remove
-        };
-
-        ((Metadata)item.Data)!.ID = Path.GetFileNameWithoutExtension(file);
-
-        _mailboxService.Post(new SyncMessage { Item = item });
     }
 
     private void SyncDeviceDeletions()
@@ -116,7 +91,8 @@ public class SynchronizeCommand : ICommand
 
         foreach (var file in deltaLocalFiles)
         {
-            PostDeviceDeletion(file);
+            //ToDo: Sync Device Deletions
+            //PostDeviceDeletion(file);
         }
     }
 }
