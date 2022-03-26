@@ -2,8 +2,9 @@
 using Avalonia.Controls;
 using Slithin.Core;
 using Slithin.Core.ItemContext;
+using Slithin.ContextMenus;
 
-namespace Slithin.ContextMenus;
+namespace Slithin.Core.ItemContext;
 
 public class CommandBasedContextMenu : IContextProvider
 {
