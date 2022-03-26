@@ -17,6 +17,7 @@ namespace Slithin.Core.Commands;
 public class SynchronizeCommand : ICommand
 {
     private readonly SshClient _client;
+    private readonly ILocalisationService _localisationService;
     private readonly LocalRepository _localRepository;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
@@ -24,11 +25,13 @@ public class SynchronizeCommand : ICommand
     public SynchronizeCommand(IMailboxService mailboxService,
         LocalRepository localRepository,
         IPathManager pathManager,
+        ILocalisationService localisationService,
         SshClient client)
     {
         _mailboxService = mailboxService;
         _localRepository = localRepository;
         _pathManager = pathManager;
+        _localisationService = localisationService;
         _client = client;
     }
 
@@ -54,8 +57,8 @@ public class SynchronizeCommand : ICommand
 
         if (reply.Status != IPStatus.Success)
         {
-            NotificationService.Show(
-                "Your remarkable is not reachable. Please check your connection and restart Slithin");
+            NotificationService.Show(_localisationService.GetString(
+                "Your remarkable is not reachable. Please check your connection and restart Slithin"));
 
             return;
         }
@@ -65,7 +68,7 @@ public class SynchronizeCommand : ICommand
             _mailboxService.Post(new InitStorageMessage());
         }
 
-        NotificationService.Show("Syncing ...");
+        NotificationService.Show(_localisationService.GetString("Syncing ..."));
 
         _mailboxService.Post(new CollectSyncNotebooksMessage());
 
