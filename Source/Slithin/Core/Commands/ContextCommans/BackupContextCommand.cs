@@ -1,15 +1,20 @@
-﻿namespace Slithin.ContextMenus;
+﻿using System;
+using System.IO;
+using Ionic.Zip;
+using Slithin.Core.ItemContext;
+using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 
-/*
+namespace Slithin.Core.Commands.ContextCommans;
+
 [Context(UIContext.Notebook)]
-public class BackupContextMenu : IContextProvider
+public class BackupContextCommand : IContextCommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
 
-    public BackupContextMenu(
-        ILocalisationService localisationService,
+    public BackupContextCommand(ILocalisationService localisationService,
         IPathManager pathManager,
         IMailboxService mailboxService)
     {
@@ -18,22 +23,16 @@ public class BackupContextMenu : IContextProvider
         _mailboxService = mailboxService;
     }
 
-    public object ParentViewModel { get; set; }
+    public string Titel => _localisationService.GetString("Backup");
 
-    public bool CanHandle(object obj)
+    public bool CanHandle(object data)
     {
-        return obj is Metadata;
+        return data is Metadata;
     }
 
-    public ICollection<MenuItem> GetMenu(object obj)
+    public void Invoke(object data)
     {
-        return new[] {
-            new MenuItem()
-            {
-                Header = _localisationService.GetString("Backup"),
-                Command = new DelegateCommand((_)=> Backup((Metadata)obj)),
-            }
-        };
+        Backup((Metadata)data);
     }
 
     private void Backup(Metadata md)
@@ -87,4 +86,3 @@ public class BackupContextMenu : IContextProvider
         }
     }
 }
-*/

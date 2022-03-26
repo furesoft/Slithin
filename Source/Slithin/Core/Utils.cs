@@ -18,6 +18,15 @@ public static class Utils
         return types;
     }
 
+    public static IEnumerable<Type> FindType<T>()
+    {
+        var types = AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(s => s.GetTypes())
+            .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass);
+
+        return types;
+    }
+
     public static void OpenUrl(string url)
     {
         try

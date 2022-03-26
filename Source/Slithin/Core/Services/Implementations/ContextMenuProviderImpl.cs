@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
+using Slithin.ContextMenus;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 
@@ -15,6 +16,25 @@ public class ContextMenuProviderImpl : IContextMenuProvider
     public void AddProvider(IContextProvider provider)
     {
         var attrs = provider.GetType().GetCustomAttributes<ContextAttribute>();
+
+        foreach (var attr in attrs)
+        {
+            if (_providers.ContainsKey(attr.Context))
+            {
+                _providers[attr.Context].Add(provider);
+                continue;
+            }
+
+            var list = new List<IContextProvider>();
+            list.Add(provider);
+
+            _providers.Add(attr.Context, list);
+        }
+    }
+
+    public void AddProvider(IContextProvider provider, IContextCommand command)
+    {
+        var attrs = command.GetType().GetCustomAttributes<ContextAttribute>();
 
         foreach (var attr in attrs)
         {
@@ -74,11 +94,24 @@ public class ContextMenuProviderImpl : IContextMenuProvider
 
     public void Init()
     {
-        var providers = Utils.Find<IContextProvider>();
+        var providerTypes = Utils.FindType<IContextProvider>();
 
-        foreach (var provider in providers)
+        foreach (var providerType in providerTypes)
         {
-            AddProvider(provider);
+            if (!providerType.IsAssignableFrom(typeof(CommandBasedContextMenu)))
+            {
+                var provider = (IContextProvider)ServiceLocator.Container.Resolve(providerType);
+
+                AddProvider(provider);
+            }
+        }
+
+        var commandTypes = Utils.FindType<IContextCommand>();
+        foreach (var commandType in commandTypes)
+        {
+            var resolvedCommand = (IContextCommand)ServiceLocator.Container.Resolve(commandType);
+
+            AddProvider(new CommandBasedContextMenu(resolvedCommand), resolvedCommand);
         }
     }
 }
