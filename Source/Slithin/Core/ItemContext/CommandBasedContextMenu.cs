@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using Avalonia.Controls;
-using Slithin.Core;
-using Slithin.Core.ItemContext;
-using Slithin.ContextMenus;
 
 namespace Slithin.Core.ItemContext;
 
@@ -24,6 +21,8 @@ public class CommandBasedContextMenu : IContextProvider
 
     public ICollection<MenuItem> GetMenu(object obj)
     {
+        _command.ParentViewModel = ParentViewModel;
+
         return new List<MenuItem>(
             new MenuItem[] {
                 new() {
