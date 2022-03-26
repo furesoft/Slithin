@@ -1,33 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using Avalonia.Controls;
-using Slithin.Core;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
-using Slithin.ViewModels.Pages;
 
-namespace Slithin.ContextMenus;
+namespace Slithin.Core.Commands.ContextCommands;
 
 [Context(UIContext.Notebook)]
-public class QuickSheetsContextMenu : IContextProvider
+public class ConvertQuicksheetToNotebookContextCommand : IContextCommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;
 
-    public QuickSheetsContextMenu(ILocalisationService localisationService, IPathManager pathManager)
+    public ConvertQuicksheetToNotebookContextCommand(
+        ILocalisationService localisationService,
+        IPathManager pathManager)
     {
         _localisationService = localisationService;
         _pathManager = pathManager;
     }
 
     public object ParentViewModel { get; set; }
+    public string Titel => _localisationService.GetString("Convert To Notebook");
 
-    public bool CanHandle(object obj)
+    public bool CanHandle(object data)
     {
-        if (obj is not Metadata md)
+        if (data is not Metadata md)
         {
             return false;
         }
@@ -40,24 +39,9 @@ public class QuickSheetsContextMenu : IContextProvider
         return true;
     }
 
-    public ICollection<MenuItem> GetMenu(object obj)
+    public void Invoke(object data)
     {
-        List<MenuItem> menu = new();
-        if (ParentViewModel is not NotebooksPageViewModel n)
-        {
-            return menu;
-        }
-
-        menu.Add(new MenuItem
-        {
-            Header = _localisationService.GetString("Convert To Notebook"),
-            Command = new DelegateCommand(_ =>
-            {
-                ConvertToNotebook(obj as Metadata);
-            })
-        });
-
-        return menu;
+        ConvertToNotebook(data as Metadata);
     }
 
     private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)

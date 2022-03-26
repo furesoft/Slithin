@@ -5,7 +5,7 @@ using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 
-namespace Slithin.Core.Commands.ContextCommans;
+namespace Slithin.Core.Commands.ContextCommands;
 
 [Context(UIContext.Notebook)]
 public class BackupContextCommand : IContextCommand
@@ -23,6 +23,7 @@ public class BackupContextCommand : IContextCommand
         _mailboxService = mailboxService;
     }
 
+    public object ParentViewModel { get; set; }
     public string Titel => _localisationService.GetString("Backup");
 
     public bool CanHandle(object data)
