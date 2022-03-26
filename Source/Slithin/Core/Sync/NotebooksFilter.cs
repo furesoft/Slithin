@@ -23,7 +23,8 @@ public class NotebooksFilter : NotifyObject
 
     public void SortByFolder()
     {
-        var ordered = Documents.OrderByDescending(_ => _.Type == "CollectionType");
+        var ordered = Documents.OrderByDescending(_ => _.Pinned);
+        ordered = ordered.OrderByDescending(_ => _.Type == "CollectionType");
         ordered = ordered.OrderByDescending(_ => _.VisibleName?.Equals("Up .."));
 
         Documents = new ObservableCollection<Metadata>(ordered);
