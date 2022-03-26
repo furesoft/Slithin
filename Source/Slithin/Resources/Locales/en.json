@@ -83,6 +83,7 @@
 
   "Page Count must be a number and a template need to be selected": "Page Count must be a number and a template need to be selected",
   "Loading Templates": "Loading Templates",
+  "Loading Notebooks": "Loading Notebooks",
   "Generating {0}": "Generating {0}",
   "Category name has to be set.": "Category name has to be set.",
   "Template already exist. Would you replace it?": "Template already exist. Would you replace it?",
