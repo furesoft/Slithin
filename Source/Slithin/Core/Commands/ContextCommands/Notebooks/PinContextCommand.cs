@@ -8,10 +8,12 @@ namespace Slithin.Core.Commands.ContextCommands.Notebooks;
 public class PinContextCommand : IContextCommand
 {
     private readonly ILocalisationService _localisationService;
+    private readonly Xochitl _xochitl;
 
-    public PinContextCommand(ILocalisationService localisationService)
+    public PinContextCommand(ILocalisationService localisationService, Xochitl xochitl)
     {
         _localisationService = localisationService;
+        _xochitl = xochitl;
     }
 
     public object ParentViewModel { get; set; }
@@ -19,7 +21,9 @@ public class PinContextCommand : IContextCommand
 
     public bool CanHandle(object data)
     {
-        return data is Metadata md && !md.IsPinned;
+        return data is Metadata md && !md.IsPinned
+            && md.VisibleName != _localisationService.GetString("Quick sheets")
+            && md.VisibleName != _localisationService.GetString("Trash");
     }
 
     public void Invoke(object data)
@@ -29,13 +33,17 @@ public class PinContextCommand : IContextCommand
             return;
         }
 
-        md.IsPinned = true;
-
         ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
 
         ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
 
+        md.IsPinned = true;
+        md.Version++;
+        md.Save();
+
         md.Upload();
+
+        _xochitl.ReloadDevice();
     }
 }

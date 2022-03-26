@@ -8,10 +8,12 @@ namespace Slithin.Core.Commands.ContextCommands.Notebooks;
 public class UnPinContextCommand : IContextCommand
 {
     private readonly ILocalisationService _localisationService;
+    private readonly Xochitl _xochitl;
 
-    public UnPinContextCommand(ILocalisationService localisationService)
+    public UnPinContextCommand(ILocalisationService localisationService, Xochitl xochitl)
     {
         _localisationService = localisationService;
+        _xochitl = xochitl;
     }
 
     public object ParentViewModel { get; set; }
@@ -29,13 +31,17 @@ public class UnPinContextCommand : IContextCommand
             return;
         }
 
-        md.IsPinned = false;
-
         ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
 
         ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
 
+        md.IsPinned = false;
+        md.Version++;
+        md.Save();
+
         md.Upload();
+
+        _xochitl.ReloadDevice();
     }
 }
