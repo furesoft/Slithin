@@ -98,7 +98,7 @@ public static class NotificationService
         var logger = ServiceLocator.Container.Resolve<ILogger>();
         logger.Information(message);
 
-        Dispatcher.UIThread.InvokeAsync(() =>
+        Dispatcher.UIThread.InvokeAsync(async () =>
         {
             if (_progressViewModel == null)
             {
@@ -109,6 +109,8 @@ public static class NotificationService
 
                 Manager.Show(control);
             }
+
+            //No idea to show notification until the action is done
 
             _progressViewModel.Message = message;
             _progressViewModel.Value = value;
