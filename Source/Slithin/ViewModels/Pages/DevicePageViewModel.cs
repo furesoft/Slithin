@@ -184,9 +184,10 @@ public class DevicePageViewModel : BaseViewModel
     {
         ShareEmailAddresses.Remove(obj.ToString());
 
+#if RELEASE
         _xochitl.SetShareMailAddresses(ShareEmailAddresses);
-
         _mailboxService.PostAction(() => _xochitl.Save());
+#endif
     }
 
     private void UploadScreens()
