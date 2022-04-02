@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
 using Serilog;
 using Slithin.Controls.Notifications;
+using Slithin.Core.Notifications;
 using Slithin.ViewModels;
 
 namespace Slithin.Core;
@@ -12,26 +13,6 @@ public static class NotificationService
 {
     public static WindowNotificationManager Manager;
     private static StatusNotificationViewModel _progressViewModel;
-    private static Border notificationContainer;
-
-    public static bool GetIsNotificationOutput(Border target)
-    {
-        return Equals(target, notificationContainer);
-    }
-
-    public static void Hide()
-    {
-        Dispatcher.UIThread.InvokeAsync(() =>
-        {
-            notificationContainer.IsVisible = false;
-        });
-    }
-
-    public static void SetIsNotificationOutput(Border target, bool value)
-    {
-        notificationContainer = target;
-        notificationContainer.DataContext = new StatusNotificationViewModel();
-    }
 
     public static void Show(string message)
     {
@@ -40,7 +21,7 @@ public static class NotificationService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            Manager.Show(new Notification("Information", message, NotificationType.Error));
+            Manager.Show(new TextBlock { Text = message, Foreground = Avalonia.Media.Brushes.Black }, TimeSpan.FromSeconds(5), null);
         });
     }
 
@@ -48,7 +29,6 @@ public static class NotificationService
     {
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            notificationContainer.Child = control;
             control.DataContext = viewModel;
 
             Manager.Show(control);
@@ -68,7 +48,6 @@ public static class NotificationService
 
             vm.CancelCommand = new DelegateCommand(_ =>
             {
-                Hide();
                 tcs.SetResult(false);
             });
             vm.OKCommand = new DelegateCommand(_ =>
@@ -89,7 +68,7 @@ public static class NotificationService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            Manager.Show(new Notification("Error", message, NotificationType.Error));
+            Manager.Show(new TextBlock { Text = message, Foreground = Avalonia.Media.Brushes.Black }, TimeSpan.FromSeconds(5), "Error");
         });
     }
 
@@ -98,7 +77,7 @@ public static class NotificationService
         var logger = ServiceLocator.Container.Resolve<ILogger>();
         logger.Information(message);
 
-        Dispatcher.UIThread.InvokeAsync(async () =>
+        Dispatcher.UIThread.InvokeAsync(() =>
         {
             if (_progressViewModel == null)
             {
@@ -107,10 +86,8 @@ public static class NotificationService
                 _progressViewModel = new();
                 control.DataContext = _progressViewModel;
 
-                Manager.Show(control);
+                Manager.Show(control, TimeSpan.Zero, "");
             }
-
-            //No idea to show notification until the action is done
 
             _progressViewModel.Message = message;
             _progressViewModel.Value = value;

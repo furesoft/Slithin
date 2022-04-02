@@ -1,8 +1,8 @@
-using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace Slithin.Styles;
+
 public partial class NodeCategoryView : UserControl
 {
     public NodeCategoryView()
