@@ -10,11 +10,6 @@ public class ActionNotificationViewModel : BaseViewModel
 
     private string _okButtonText;
 
-    public ActionNotificationViewModel()
-    {
-        CancelCommand = new DelegateCommand(Cancel);
-    }
-
     public string CancelButtonText
     {
         get { return _cancelButtonText; }
@@ -39,9 +34,4 @@ public class ActionNotificationViewModel : BaseViewModel
     }
 
     public ICommand OKCommand { get; set; }
-
-    private void Cancel(object obj)
-    {
-        NotificationService.Hide();
-    }
 }

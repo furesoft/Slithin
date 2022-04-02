@@ -44,7 +44,6 @@ public class FileChooser : TemplatedControl
         set => SetValue(FilterProperty, value);
     }
 
-
     public string Watermark
     {
         get => GetValue(WatermarkProperty);

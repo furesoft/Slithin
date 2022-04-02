@@ -156,6 +156,7 @@ public class DevicePageViewModel : BaseViewModel
             await DialogService.ShowDialog(
                _localisationService.GetString(
                    "A new version has been installed to your device. Would you upload your custom templates/screens?"));
+
         if (result)
         {
             UploadTemplates();

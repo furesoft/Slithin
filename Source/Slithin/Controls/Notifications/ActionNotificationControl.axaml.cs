@@ -1,8 +1,8 @@
-using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace Slithin.Controls.Notifications;
+
 public partial class ActionNotificationControl : UserControl
 {
     public ActionNotificationControl()
