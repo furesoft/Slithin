@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Renci.SshNet;
 using Slithin.Core.Remarkable;
@@ -67,12 +68,14 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             _syncNotebooks.Add(thumbnailsSync);
         }
 
-        for (var i = 0; i < mdFilenames.Length; i++)
+        int currentMd = 0;
+        Parallel.For(0, mdFilenames.Length, (i, x) =>
         {
             var md = mdFilenames[i];
             NotificationService.ShowProgress(
                 _localisationService.GetStringFormat(
-                    "Downloading Notebook Metadata {0}", $"{i + 1} / {mdFilenames.Length - 1}"), i, mdFilenames.Length - 1);
+                    "Downloading Notebook Metadata {0}", $"{currentMd + 1} / {mdFilenames.Length - 1}"), currentMd, mdFilenames.Length - 1);
+            currentMd++;
 
             var sshCommand = _client.RunCommand($"cat {PathList.Documents}/{md}");
             var mdContent = sshCommand.Result;
@@ -95,7 +98,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
 
             if (string.IsNullOrEmpty(mdContent) || string.IsNullOrWhiteSpace(mdContent))
             {
-                continue;
+                return;
             }
 
             var mdObj = JsonConvert.DeserializeObject<Metadata>(mdContent);
@@ -110,7 +113,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
 
             SaveMetadata(notebooksDir, md, mdObj, mdLocalObj, mds, mdContent, fileNamesContainDotContent, mdDotContent,
                 contentContent, fileNamesContaintDotPagedata, mdDotPagedata, pageDataContent);
-        }
+        });
 
         ConvertMetadataToSyncNotebook(mds, allFilenames, notebooksDir, mdLocals);
 
