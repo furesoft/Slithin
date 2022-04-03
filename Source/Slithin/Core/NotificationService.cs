@@ -14,6 +14,8 @@ public static class NotificationService
     public static WindowNotificationManager Manager;
     private static StatusNotificationViewModel _progressViewModel;
 
+    private static Avalonia.Controls.Notifications.NotificationCard card = null;
+
     public static void Show(string message)
     {
         var logger = ServiceLocator.Container.Resolve<ILogger>();
@@ -21,7 +23,7 @@ public static class NotificationService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            Manager.Show(new TextBlock { Text = message, Foreground = Avalonia.Media.Brushes.Black }, TimeSpan.FromSeconds(5), null);
+            Manager.Show(new TextBlock { Text = message, Foreground = Avalonia.Media.Brushes.Black }, TimeSpan.FromSeconds(2), null);
         });
     }
 
@@ -68,7 +70,7 @@ public static class NotificationService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            Manager.Show(new TextBlock { Text = message, Foreground = Avalonia.Media.Brushes.Black }, TimeSpan.FromSeconds(5), "Error");
+            Manager.Show(new TextBlock { Text = message, Foreground = Avalonia.Media.Brushes.Black }, TimeSpan.FromSeconds(2), "Error");
         });
     }
 
@@ -77,7 +79,7 @@ public static class NotificationService
         var logger = ServiceLocator.Container.Resolve<ILogger>();
         logger.Information(message);
 
-        Dispatcher.UIThread.InvokeAsync(() =>
+        Dispatcher.UIThread.InvokeAsync(async () =>
         {
             if (_progressViewModel == null)
             {
@@ -86,15 +88,20 @@ public static class NotificationService
                 _progressViewModel = new();
                 control.DataContext = _progressViewModel;
 
-                Manager.Show(control, TimeSpan.Zero, "");
+                _progressViewModel.Message = message;
+                _progressViewModel.Value = value;
+                _progressViewModel.MaxValue = maxValue;
+
+                card = await Manager.Show(control, TimeSpan.Zero, "");
             }
 
             _progressViewModel.Message = message;
             _progressViewModel.Value = value;
-            _progressViewModel.MaxValue = maxValue;
 
             if (_progressViewModel.Value == _progressViewModel.MaxValue)
             {
+                card?.Close();
+
                 _progressViewModel = null;
             }
         });

@@ -28,8 +28,8 @@ public class WindowNotificationManager : TemplatedControl, IManagedNotificationM
     /// <summary>
     /// Defines the <see cref="Position"/> property.
     /// </summary>
-    public static readonly StyledProperty<Avalonia.Controls.Notifications.NotificationPosition> PositionProperty =
-      AvaloniaProperty.Register<WindowNotificationManager, Avalonia.Controls.Notifications.NotificationPosition>(nameof(Position), Avalonia.Controls.Notifications.NotificationPosition.TopRight);
+    public static readonly StyledProperty<NotificationPosition> PositionProperty =
+      AvaloniaProperty.Register<WindowNotificationManager, NotificationPosition>(nameof(Position), Avalonia.Controls.Notifications.NotificationPosition.TopRight);
 
     private IList? _items;
 
@@ -74,7 +74,7 @@ public class WindowNotificationManager : TemplatedControl, IManagedNotificationM
     /// Defines which corner of the screen notifications can be displayed in.
     /// </summary>
     /// <seealso cref="NotificationPosition"/>
-    public Avalonia.Controls.Notifications.NotificationPosition Position
+    public NotificationPosition Position
     {
         get { return GetValue(PositionProperty); }
         set { SetValue(PositionProperty, value); }
@@ -83,24 +83,24 @@ public class WindowNotificationManager : TemplatedControl, IManagedNotificationM
     public bool HitTest(Point point) => VisualChildren.HitTestCustom(point);
 
     /// <inheritdoc/>
-    public void Show(INotification content)
+    public Task<NotificationCard> Show(INotification content)
     {
-        Show(content as object);
+        return Show(content as object);
     }
 
-    public void Show(Control control, TimeSpan expiration, string title)
+    public Task<NotificationCard> Show(Control control, TimeSpan expiration, string title)
     {
         var notification = new Notification(title, control, NotificationType.Information, expiration);
 
-        Show(notification);
+        return Show(notification);
     }
 
     /// <inheritdoc/>
-    public async void Show(object content)
+    public async Task<NotificationCard> Show(object content)
     {
         var notification = content as INotification;
 
-        var notificationControl = new Avalonia.Controls.Notifications.NotificationCard
+        var notificationControl = new NotificationCard
         {
             Content = content
         };
@@ -124,24 +124,26 @@ public class WindowNotificationManager : TemplatedControl, IManagedNotificationM
                 notification.OnClick.Invoke();
             }
 
-            (sender as Avalonia.Controls.Notifications.NotificationCard)?.Close();
+            (sender as NotificationCard)?.Close();
         };
 
         _items?.Add(notificationControl);
 
-        if (_items?.OfType<Avalonia.Controls.Notifications.NotificationCard>().Count(i => !i.IsClosing) > MaxItems)
+        if (_items?.OfType<NotificationCard>().Count(i => !i.IsClosing) > MaxItems)
         {
-            _items.OfType<Avalonia.Controls.Notifications.NotificationCard>().First(i => !i.IsClosing).Close();
+            _items.OfType<NotificationCard>().First(i => !i.IsClosing).Close();
         }
 
         if (notification != null && notification.Expiration == TimeSpan.Zero)
         {
-            return;
+            return notificationControl;
         }
 
         await Task.Delay(notification?.Expiration ?? TimeSpan.FromSeconds(5));
 
         notificationControl.Close();
+
+        return null;
     }
 
     /// <inheritdoc/>
@@ -157,7 +159,7 @@ public class WindowNotificationManager : TemplatedControl, IManagedNotificationM
 
         if (change.Property == PositionProperty)
         {
-            UpdatePseudoClasses(change.NewValue.GetValueOrDefault<Avalonia.Controls.Notifications.NotificationPosition>());
+            UpdatePseudoClasses(change.NewValue.GetValueOrDefault<NotificationPosition>());
         }
     }
 
@@ -173,7 +175,7 @@ public class WindowNotificationManager : TemplatedControl, IManagedNotificationM
         adornerLayer?.Children.Add(this);
     }
 
-    private void UpdatePseudoClasses(Avalonia.Controls.Notifications.NotificationPosition position)
+    private void UpdatePseudoClasses(NotificationPosition position)
     {
         PseudoClasses.Set(":topleft", position == Avalonia.Controls.Notifications.NotificationPosition.TopLeft);
         PseudoClasses.Set(":topright", position == Avalonia.Controls.Notifications.NotificationPosition.TopRight);

@@ -1,4 +1,6 @@
-﻿namespace Slithin.Core.Notifications;
+﻿using System.Threading.Tasks;
+
+namespace Slithin.Core.Notifications;
 
 /// <summary>
 /// Represents a notification manager that can be used to show notifications in a window or using
@@ -10,5 +12,5 @@ public interface INotificationManager
     /// Show a notification.
     /// </summary>
     /// <param name="notification">The notification to be displayed.</param>
-    void Show(INotification notification);
+    Task<Avalonia.Controls.Notifications.NotificationCard> Show(INotification notification);
 }
