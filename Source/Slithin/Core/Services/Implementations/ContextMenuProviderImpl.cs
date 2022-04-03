@@ -5,6 +5,7 @@ using System.Reflection;
 using Avalonia.Controls;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Services.Implementations;
 
@@ -15,6 +16,25 @@ public class ContextMenuProviderImpl : IContextMenuProvider
     public void AddProvider(IContextProvider provider)
     {
         var attrs = provider.GetType().GetCustomAttributes<ContextAttribute>();
+
+        foreach (var attr in attrs)
+        {
+            if (_providers.ContainsKey(attr.Context))
+            {
+                _providers[attr.Context].Add(provider);
+                continue;
+            }
+
+            var list = new List<IContextProvider>();
+            list.Add(provider);
+
+            _providers.Add(attr.Context, list);
+        }
+    }
+
+    public void AddProvider(IContextProvider provider, IContextCommand command)
+    {
+        var attrs = command.GetType().GetCustomAttributes<ContextAttribute>();
 
         foreach (var attr in attrs)
         {
@@ -55,10 +75,9 @@ public class ContextMenuProviderImpl : IContextMenuProvider
             {
                 c.ParentViewModel = parent;
 
-                if (item is Metadata md)
+                if (item is Metadata md) // Do not show context menu for Up navigation folder and items in trash
                 {
                     if (md.VisibleName == localisationProvider.GetString("Up ..")
-                        || md.VisibleName == localisationProvider.GetString("Trash")
                         || md.Parent == "trash")
                     {
                         return Array.Empty<MenuItem>();
@@ -74,11 +93,24 @@ public class ContextMenuProviderImpl : IContextMenuProvider
 
     public void Init()
     {
-        var providers = Utils.Find<IContextProvider>();
+        var providerTypes = Utils.FindType<IContextProvider>();
 
-        foreach (var provider in providers)
+        foreach (var providerType in providerTypes)
         {
-            AddProvider(provider);
+            if (!providerType.IsAssignableFrom(typeof(CommandBasedContextMenu)))
+            {
+                var provider = (IContextProvider)ServiceLocator.Container.Resolve(providerType);
+
+                AddProvider(provider);
+            }
+        }
+
+        var commandTypes = Utils.FindType<IContextCommand>();
+        foreach (var commandType in commandTypes)
+        {
+            var resolvedCommand = (IContextCommand)ServiceLocator.Container.Resolve(commandType);
+
+            AddProvider(new CommandBasedContextMenu(resolvedCommand), resolvedCommand);
         }
     }
 }

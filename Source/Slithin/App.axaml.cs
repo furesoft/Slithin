@@ -25,7 +25,7 @@ public class App : Application
 
         AppDomain.CurrentDomain.UnhandledException += (s, e) =>
           {
-              NotificationService.Show(e.ExceptionObject.ToString());
+              NotificationService.ShowError(e.ExceptionObject.ToString());
           };
 
         base.OnFrameworkInitializationCompleted();

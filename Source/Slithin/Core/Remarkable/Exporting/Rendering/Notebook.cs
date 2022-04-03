@@ -4,6 +4,8 @@ using System.IO;
 using System.Text;
 using Renci.SshNet;
 using Slithin.Core.Services;
+using Slithin.Core.Remarkable.Models;
+using Slithin.Core.Remarkable;
 
 namespace Slithin.Core.Remarkable.Exporting.Rendering;
 

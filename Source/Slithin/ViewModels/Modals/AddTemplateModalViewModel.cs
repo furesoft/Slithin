@@ -10,8 +10,10 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
-using Slithin.Core.Validators;
 using Slithin.Models;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
+using Slithin.Validators;
 
 namespace Slithin.ViewModels.Modals;
 

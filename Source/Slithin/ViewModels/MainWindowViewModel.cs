@@ -9,6 +9,8 @@ using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.Models;
 using Slithin.UI.ContextualMenus;
+using Slithin.Core.Menu;
+using Slithin.Core.MVVM;
 
 namespace Slithin.ViewModels;
 

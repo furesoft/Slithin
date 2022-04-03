@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia.Markup.Xaml;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Core;
 

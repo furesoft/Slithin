@@ -1,7 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using LiteDB;
-using Slithin.Core.Commands;
 using Slithin.Models;
+using Slithin.Commands;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Core.Sync;
 

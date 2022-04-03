@@ -9,6 +9,7 @@ using Ionic.Zip;
 using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.Models;
+using Slithin.Core.Tools;
 
 namespace Slithin.Tools;
 
@@ -78,8 +79,6 @@ public class BackupTool : ITool
                 zip.Save(Path.Combine(_pathManager.BackupsDir,
                     $"Backup_from_{DateTime.Now:yyyy-dd-M--HH-mm-ss}" + ".zip"));
             }
-
-            NotificationService.Hide();
         });
     }
 }

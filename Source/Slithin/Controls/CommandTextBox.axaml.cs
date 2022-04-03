@@ -2,6 +2,7 @@
 using Avalonia;
 using Avalonia.Controls.Primitives;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Controls;
 

@@ -6,6 +6,6 @@
              x:Class="Slithin.Controls.Notifications.StatusNotificationControl">
     <StackPanel Orientation="Horizontal" Spacing="7" Margin="5,5,5,5">
         <ProgressBar Value="{Binding Value}" Maximum="{Binding MaxValue}" IsIndeterminate="{Binding IsInfo}" Classes="Circle" Foreground="Black" ShowProgressText="True" />
-        <TextBlock Text="{Binding Message}" FontSize="15" FontWeight="Bold" x:Name="statusTb" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Width="150" FontSize="15" FontWeight="Bold" x:Name="statusTb" VerticalAlignment="Center" />
     </StackPanel>
 </UserControl>

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 
 namespace Slithin.ViewModels;
 
@@ -9,11 +10,6 @@ public class ActionNotificationViewModel : BaseViewModel
     private string _message;
 
     private string _okButtonText;
-
-    public ActionNotificationViewModel()
-    {
-        CancelCommand = new DelegateCommand(Cancel);
-    }
 
     public string CancelButtonText
     {
@@ -39,9 +35,4 @@ public class ActionNotificationViewModel : BaseViewModel
     }
 
     public ICommand OKCommand { get; set; }
-
-    private void Cancel(object obj)
-    {
-        NotificationService.Hide();
-    }
 }

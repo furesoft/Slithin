@@ -11,6 +11,7 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Models;
+using Slithin.Core.MVVM;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -97,6 +98,11 @@ public class DevicePageViewModel : BaseViewModel
         });
 
         ShareEmailAddresses = new(_xochitl.GetShareEmailAddresses());
+
+#if DEBUG
+        ShareEmailAddresses = new(new[] { "demo@demo.de", "max.mustermann@muster.de" });
+#endif
+
         HasEmailAddresses = ShareEmailAddresses.Any();
 
         ShareEmailAddresses.CollectionChanged += (s, e) =>
@@ -151,6 +157,7 @@ public class DevicePageViewModel : BaseViewModel
             await DialogService.ShowDialog(
                _localisationService.GetString(
                    "A new version has been installed to your device. Would you upload your custom templates/screens?"));
+
         if (result)
         {
             UploadTemplates();
@@ -179,9 +186,10 @@ public class DevicePageViewModel : BaseViewModel
     {
         ShareEmailAddresses.Remove(obj.ToString());
 
+#if RELEASE
         _xochitl.SetShareMailAddresses(ShareEmailAddresses);
-
         _mailboxService.PostAction(() => _xochitl.Save());
+#endif
     }
 
     private void UploadScreens()
@@ -193,8 +201,6 @@ public class DevicePageViewModel : BaseViewModel
             _scp.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
 
             _xochitl.ReloadDevice();
-
-            NotificationService.Hide();
         });
     }
 
@@ -207,7 +213,6 @@ public class DevicePageViewModel : BaseViewModel
             _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
 
             _xochitl.ReloadDevice();
-            NotificationService.Hide();
         });
     }
 }

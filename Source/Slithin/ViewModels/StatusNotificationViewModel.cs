@@ -1,25 +1,13 @@
 ﻿using Slithin.Core;
+using Slithin.Core.MVVM;
 
 namespace Slithin.ViewModels;
 
 public class StatusNotificationViewModel : BaseViewModel
 {
-    private bool _isInfo;
     private int _maxValue;
     private string _message;
     private int _value;
-
-    public bool IsInfo
-    {
-        get
-        {
-            return _isInfo;
-        }
-        set
-        {
-            SetValue(ref _isInfo, value);
-        }
-    }
 
     public int MaxValue
     {

@@ -7,6 +7,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Models;
+using Slithin.Core.MVVM;
 
 namespace Slithin.ViewModels.Pages;
 

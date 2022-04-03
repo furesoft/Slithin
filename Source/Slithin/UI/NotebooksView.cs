@@ -5,6 +5,7 @@ using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.ViewModels.Pages;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.UI;
 

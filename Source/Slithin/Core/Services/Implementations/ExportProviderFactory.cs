@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Slithin.Core.Remarkable;
+using Slithin.Core.ImportExport;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Services.Implementations;
 

@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
-using Avalonia;
 using Avalonia.Controls;
 using Slithin.Core;
-using Slithin.Core.Commands;
-using Slithin.Core.Features;
 using Slithin.Core.FeatureToggle;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.ViewModels.Pages;
+using Slithin.Commands;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
+using Slithin.Features;
 
 namespace Slithin.ContextMenus;
 
@@ -44,13 +45,6 @@ public class NotebookContextMenu : IContextProvider
         {
             return menu;
         }
-
-        menu.Add(new MenuItem
-        {
-            Header = _localisationService.GetString("Copy ID"),
-            Command = new DelegateCommand(async _ =>
-                await Application.Current.Clipboard.SetTextAsync(md.ID))
-        });
 
         if (Feature<ExportFeature>.IsEnabled)
         {
@@ -92,43 +86,6 @@ public class NotebookContextMenu : IContextProvider
             });
         }
 
-        menu.Add(new MenuItem
-        {
-            Header = _localisationService.GetString("Remove"),
-            Command = new DelegateCommand(_ => n.RemoveNotebookCommand.Execute(obj))
-        });
-
-        if (md.Type == "CollectionType")
-        {
-            if (md.VisibleName != _localisationService.GetString("Trash"))
-            {
-                menu.Add(new MenuItem
-                {
-                    Header = _localisationService.GetString("Move Folder Items To Trash"),
-                    Command = new DelegateCommand(_ => EmptyFolder(md))
-                });
-            }
-        }
-
-        menu.Add(new MenuItem { Header = _localisationService.GetString("Rename"), Command = new DelegateCommand(_ => n.RenameCommand.Execute(obj)) });
-
-        menu.Add(new MenuItem { Header = _localisationService.GetString("Move To Trash"), Command = new DelegateCommand(_ => MoveToTrash(md)) });
-
         return menu;
-    }
-
-    private void EmptyFolder(Metadata md)
-    {
-        foreach (var childMd in MetadataStorage.Local.GetByParent(md.ID))
-        {
-            MetadataStorage.Local.Move(childMd, "trash");
-        }
-    }
-
-    private void MoveToTrash(Metadata md)
-    {
-        MetadataStorage.Local.Move(md, "trash");
-
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
     }
 }

@@ -15,9 +15,10 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
-using Slithin.Core.Validators;
 using Slithin.Models;
 using Slithin.UI.Views;
+using Slithin.Core.MVVM;
+using Slithin.Validators;
 
 namespace Slithin.ViewModels;
 
@@ -87,7 +88,6 @@ public class ConnectionWindowViewModel : BaseViewModel
     private void Connect(object obj)
     {
         ServiceLocator.Container.Resolve<LogInitalizer>().Init();
-        ServiceLocator.Container.Resolve<IContextMenuProvider>().Init();
 
         var logger = ServiceLocator.Container.Resolve<ILogger>();
 
@@ -149,6 +149,8 @@ public class ConnectionWindowViewModel : BaseViewModel
 
             ServiceLocator.Container.Resolve<IMailboxService>().Init();
             ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
+
+            ServiceLocator.Container.Resolve<IContextMenuProvider>().Init();
 
             var pingTimer = new Timer();
             pingTimer.Elapsed += pingTimer_ellapsed;

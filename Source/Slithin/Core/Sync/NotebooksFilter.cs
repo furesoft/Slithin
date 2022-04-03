@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Slithin.Core.Remarkable;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Sync;
 
@@ -23,7 +25,7 @@ public class NotebooksFilter : NotifyObject
 
     public void SortByFolder()
     {
-        var ordered = Documents.OrderByDescending(_ => _.Pinned);
+        var ordered = Documents.OrderByDescending(_ => _.IsPinned);
         ordered = ordered.OrderByDescending(_ => _.Type == "CollectionType");
         ordered = ordered.OrderByDescending(_ => _.VisibleName?.Equals("Up .."));
 

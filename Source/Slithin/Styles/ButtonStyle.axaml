@@ -1,4 +1,5 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:assists="using:Material.Styles.Assists"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Padding="20">
@@ -20,5 +21,17 @@
 
     <Style Selector="TextBlock">
         <Setter Property="FontFamily" Value="Consolas" />
+    </Style>
+
+    <Style Selector="Button.Flat">
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
+    <Style Selector="ToggleSwitch:checked /template/ Border#Thumb">
+        <Setter Property="Background"
+                Value="Black" />
+    </Style>
+    <Style Selector="ToggleSwitch.Accent:checked /template/ Border#Thumb">
+        <Setter Property="Background" Value="Black" />
     </Style>
 </Styles>

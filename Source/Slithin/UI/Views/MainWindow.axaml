@@ -44,8 +44,6 @@
                             <TextBlock Text="{core:Localisation 'Synchronize'}" />
                         </StackPanel>
                     </Button>
-
-                    <Border core:NotificationService.IsNotificationOutput="True" Grid.Row="2" Margin="7,5,10,-3" HorizontalAlignment="Right" CornerRadius="4" Background="LightGray" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Bottom" />
                 </Grid>
             </SplitView>
         </styles:ColorZone>

@@ -1,34 +1,21 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Serilog;
 using Slithin.Controls.Notifications;
+using Slithin.Core.Notifications;
 using Slithin.ViewModels;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Core;
 
 public static class NotificationService
 {
-    private static Border notificationContainer;
+    public static WindowNotificationManager Manager;
+    private static StatusNotificationViewModel _progressViewModel;
 
-    public static bool GetIsNotificationOutput(Border target)
-    {
-        return Equals(target, notificationContainer);
-    }
-
-    public static void Hide()
-    {
-        Dispatcher.UIThread.InvokeAsync(() =>
-        {
-            notificationContainer.IsVisible = false;
-        });
-    }
-
-    public static void SetIsNotificationOutput(Border target, bool value)
-    {
-        notificationContainer = target;
-        notificationContainer.DataContext = new StatusNotificationViewModel();
-    }
+    private static Avalonia.Controls.Notifications.NotificationCard card = null;
 
     public static void Show(string message)
     {
@@ -37,17 +24,7 @@ public static class NotificationService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            var vm = ((StatusNotificationViewModel)notificationContainer.DataContext);
-            vm.Message = message;
-            vm.Value = 0;
-            vm.MaxValue = 0;
-            vm.IsInfo = true;
-
-            var control = new StatusNotificationControl();
-
-            notificationContainer.Child = control;
-            control.DataContext = vm;
-            notificationContainer.IsVisible = true;
+            Manager.Show(new TextBlock { Text = message, Foreground = Avalonia.Media.Brushes.Black }, TimeSpan.FromSeconds(2), null);
         });
     }
 
@@ -55,10 +32,9 @@ public static class NotificationService
     {
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            notificationContainer.Child = control;
             control.DataContext = viewModel;
 
-            notificationContainer.IsVisible = true;
+            Manager.Show(control);
         });
     }
 
@@ -75,7 +51,6 @@ public static class NotificationService
 
             vm.CancelCommand = new DelegateCommand(_ =>
             {
-                Hide();
                 tcs.SetResult(false);
             });
             vm.OKCommand = new DelegateCommand(_ =>
@@ -89,24 +64,47 @@ public static class NotificationService
         return tcs.Task;
     }
 
-    public static void ShowProgress(string message, int value, int maxValue)
+    public static void ShowError(string message)
     {
         var logger = ServiceLocator.Container.Resolve<ILogger>();
         logger.Information(message);
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            var vm = ((StatusNotificationViewModel)notificationContainer.DataContext);
-            vm.Message = message;
-            vm.Value = value;
-            vm.MaxValue = maxValue;
-            vm.IsInfo = false;
+            Manager.Show(new TextBlock { Text = message, Foreground = Avalonia.Media.Brushes.Black }, TimeSpan.FromSeconds(2), "Error");
+        });
+    }
 
-            var control = new StatusNotificationControl();
+    public static void ShowProgress(string message, int value, int maxValue)
+    {
+        var logger = ServiceLocator.Container.Resolve<ILogger>();
+        logger.Information(message);
 
-            notificationContainer.Child = control;
-            control.DataContext = vm;
-            notificationContainer.IsVisible = true;
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            if (_progressViewModel == null)
+            {
+                var control = new StatusNotificationControl();
+
+                _progressViewModel = new();
+                control.DataContext = _progressViewModel;
+
+                _progressViewModel.Message = message;
+                _progressViewModel.Value = value;
+                _progressViewModel.MaxValue = maxValue;
+
+                card = await Manager.Show(control, TimeSpan.Zero, "");
+            }
+
+            _progressViewModel.Message = message;
+            _progressViewModel.Value = value;
+
+            if (_progressViewModel.Value == _progressViewModel.MaxValue)
+            {
+                card?.Close();
+
+                _progressViewModel = null;
+            }
         });
     }
 }

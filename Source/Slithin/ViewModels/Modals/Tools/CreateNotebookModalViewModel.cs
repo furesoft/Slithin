@@ -16,8 +16,10 @@ using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
-using Slithin.Core.Validators;
 using Slithin.Models;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
+using Slithin.Validators;
 
 namespace Slithin.ViewModels.Modals.Tools;
 
@@ -163,8 +165,6 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             _loadingService.LoadTemplates();
 
             Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
-
-            NotificationService.Hide();
         });
     }
 
@@ -313,8 +313,6 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             //ToDo: fix thumbnail
             //using var thumbnailStream = File.OpenWrite(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails", md.Content.Pages[0] + ".jpg"));
             //jpedCover.CopyTo(thumbnailStream);
-
-            NotificationService.Hide();
         });
 
         DialogService.Close();

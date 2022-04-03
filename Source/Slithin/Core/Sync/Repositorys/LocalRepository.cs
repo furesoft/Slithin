@@ -3,6 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Sync.Repositorys;
 
@@ -78,10 +79,11 @@ public class LocalRepository : IRepository
             File.Delete(file);
         }
 
-        var di = new DirectoryInfo(Path.Combine(_pathManager.NotebooksDir, md.ID));
-        if (di.Exists)
+        var directories = Directory.GetDirectories(_pathManager.NotebooksDir, md.ID + "*");
+
+        foreach (var directory in directories)
         {
-            di.Delete(true);
+            Directory.Delete(directory, true);
         }
     }
 

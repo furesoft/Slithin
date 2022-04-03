@@ -8,6 +8,7 @@ using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Models;
 
@@ -90,8 +91,6 @@ public class CustomScreen : NotifyObject
             scp.Upload(new FileInfo(Path.Combine(pathManager.CustomScreensDir, Filename)), PathList.Screens + Filename);
 
             xochitl.ReloadDevice();
-
-            NotificationService.Hide();
         });
     }
 }

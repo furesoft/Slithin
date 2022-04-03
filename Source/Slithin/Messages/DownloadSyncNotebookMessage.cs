@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Slithin.Core;
 using Slithin.Models;
+using Slithin.Core.Messaging;
 
 namespace Slithin.Messages;
 

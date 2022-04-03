@@ -6,6 +6,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using QRCoder;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Controls;
 

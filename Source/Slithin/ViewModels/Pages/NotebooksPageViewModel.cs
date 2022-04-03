@@ -1,12 +1,12 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Serilog;
-using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
+using Slithin.Commands;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -28,35 +28,14 @@ public class NotebooksPageViewModel : BaseViewModel
         ILogger logger)
     {
         _synchronisationService = ServiceLocator.SyncService;
+
         ExportCommand = ServiceLocator.Container.Resolve<ExportCommand>();
+        MakeFolderCommand = ServiceLocator.Container.Resolve<MakeFolderCommand>();
 
-        MakeFolderCommand = new DelegateCommand(async _ =>
-        {
-            var name = await DialogService.ShowPrompt(localisationService.GetString("Make Folder"),
-                localisationService.GetString("Name"));
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                MakeFolder(name);
-            }
-        });
-
-        RenameCommand = new DelegateCommand(async _ =>
-        {
-            var name = await DialogService.ShowPrompt(localisationService.GetString("Rename"),
-                localisationService.GetString("Name"), ((Metadata)_).VisibleName);
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                Rename((Metadata)_, name);
-            }
-        }, _ => _ != null
-                && _ is Metadata md
-                && md.VisibleName != localisationService.GetString("Quick sheets")
-                && md.VisibleName != localisationService.GetString("Up ..")
-                && md.VisibleName != localisationService.GetString("Trash"));
-
+        RenameCommand = ServiceLocator.Container.Resolve<RenameCommand>();
         RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
+
+        //May replace moving with drag and drop
         MoveCommand = new DelegateCommand(_ =>
             {
                 IsMoving = true;
@@ -133,61 +112,6 @@ public class NotebooksPageViewModel : BaseViewModel
             NotificationService.Show(_localisationService.GetString("Loading Notebooks"));
 
             _loadingService.LoadNotebooks();
-
-            NotificationService.Hide();
         });
-    }
-
-    private void MakeFolder(string name)
-    {
-        var id = Guid.NewGuid().ToString().ToLower();
-
-        var md = new Metadata
-        {
-            ID = id,
-            Parent = _synchronisationService.NotebooksFilter.Folder,
-            Type = "CollectionType",
-            VisibleName = name
-        };
-
-        MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
-
-        if (alreadyAdded)
-        {
-            DialogService.OpenError(_localisationService.GetStringFormat("'{0}' already exists", md.VisibleName));
-            return;
-        }
-
-        md.Save();
-
-        _synchronisationService.NotebooksFilter.Documents.Add(md);
-        _synchronisationService.NotebooksFilter.SortByFolder();
-
-        md.Upload();
-
-        _logger.Information($"Folder '{md.VisibleName}' created");
-
-        DialogService.Close();
-    }
-
-    private void Rename(Metadata md, string newName)
-    {
-        _logger.Information($"Renamed '{md.VisibleName}' to '{newName}'");
-
-        md.VisibleName = newName;
-
-        MetadataStorage.Local.Remove(md);
-        MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
-
-        if (alreadyAdded)
-        {
-            return;
-        }
-
-        md.Save();
-
-        md.Upload();
-
-        DialogService.Close();
     }
 }

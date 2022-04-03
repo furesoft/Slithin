@@ -17,6 +17,7 @@ using Slithin.Core.Services;
 using Slithin.Models;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals.Tools;
+using Slithin.Core.Tools;
 
 namespace Slithin.Tools;
 
@@ -128,8 +129,6 @@ public class RestoreTool : ITool
                     await Task.Delay(1000);
 
                     _xochitl.ReloadDevice();
-
-                    NotificationService.Hide();
                 });
             }
         }

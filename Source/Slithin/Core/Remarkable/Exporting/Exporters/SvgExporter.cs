@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using Slithin.Core.Remarkable.Exporting.Rendering;
+using Slithin.Core.ImportExport;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Remarkable.Exporting.Exporters;
 

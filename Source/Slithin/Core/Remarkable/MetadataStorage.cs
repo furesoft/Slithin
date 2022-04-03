@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Remarkable;
 
