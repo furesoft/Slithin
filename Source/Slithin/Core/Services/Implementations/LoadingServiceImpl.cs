@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Tools;
@@ -46,10 +47,10 @@ public class LoadingServiceImpl : ILoadingService
 
     public void LoadScreens()
     {
-        foreach (var cs in ServiceLocator.SyncService.CustomScreens)
+        Parallel.ForEach(ServiceLocator.SyncService.CustomScreens, (cs) =>
         {
             cs.Load();
-        }
+        });
     }
 
     public void LoadTemplates()
@@ -74,10 +75,10 @@ public class LoadingServiceImpl : ILoadingService
         //Load first templates which are shown to make loading "faster"
         LoadTemplatesByCategory(ServiceLocator.SyncService.TemplateFilter.Categories.First(), true);
 
-        foreach (var category in ServiceLocator.SyncService.TemplateFilter.Categories)
+        Parallel.ForEach(ServiceLocator.SyncService.TemplateFilter.Categories, (category) =>
         {
             LoadTemplatesByCategory(category);
-        }
+        });
     }
 
     public void LoadTemplatesByCategory(string category, bool addToView = false)
