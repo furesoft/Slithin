@@ -32,6 +32,9 @@ public partial class MainWindow : Window
 
     private void MainWindow_Closed(object sender, EventArgs e)
     {
+        ServiceLocator.Container.Resolve<SshClient>().Disconnect();
+        ServiceLocator.Container.Resolve<ScpClient>().Disconnect();
+
         ServiceLocator.Container.Resolve<LiteDB.LiteDatabase>().Dispose();
         ServiceLocator.Container.Resolve<SshClient>().Dispose();
         ServiceLocator.Container.Resolve<ScpClient>().Dispose();

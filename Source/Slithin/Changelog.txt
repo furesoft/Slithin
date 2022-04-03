@@ -1,18 +1,19 @@
 Version 1.0.11
 
-- Add Ability To Backup Single Notebook Or Single Folder
-- Add List Share Email Addresses
-- Add Removing Share Email Addresses
-- Add Reseting Screen To Default
-- Add Ability To Reload Device
-- Add Different Menu Modes
-- Add Ability To Login With SSH Key
-- Add Ability To See If Notebook Is Pinned
+- Added Ability To Backup Single Notebook Or Single Folder
+- Added List Share Email Addresses
+- Added Removing Share Email Addresses
+- Added Reseting Screen To Default
+- Added Ability To Reload Device
+- Added Different Menu Modes
+- Added Ability To Login With SSH Key
+- Added Ability To See If Notebook Is Pinned
 - Fixed ContextMenu On Notebooks
 - Fixed Move To Trash
-- Add Empty Trash To ContextMenu
+- Added Empty Trash To ContextMenu
 - Fixed Wrong Blue Color
-- Add Pin/Unpin To ContextMenu
+- Added Pin/Unpin To ContextMenu
+- Made Synchronizing much faster (Downloading Metadata 84 % faster)
 
 Version 1.0.10
 
