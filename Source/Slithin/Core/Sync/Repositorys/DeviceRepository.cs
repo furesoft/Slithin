@@ -6,6 +6,7 @@ using Renci.SshNet;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Models;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Sync.Repositorys;
 

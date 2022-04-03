@@ -5,6 +5,7 @@ using Material.Styles;
 using Slithin.Core;
 using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Controls;
 

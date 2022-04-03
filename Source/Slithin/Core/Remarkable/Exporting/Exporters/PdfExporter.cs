@@ -8,6 +8,8 @@ using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
 using Svg;
 using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
+using Slithin.Core.ImportExport;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Remarkable.Exporting.Exporters;
 

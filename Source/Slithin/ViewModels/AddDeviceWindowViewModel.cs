@@ -4,8 +4,9 @@ using System.Windows.Input;
 using Material.Styles;
 using Slithin.Core;
 using Slithin.Core.Services;
-using Slithin.Core.Validators;
 using Slithin.Models;
+using Slithin.Core.MVVM;
+using Slithin.Validators;
 
 namespace Slithin.ViewModels;
 

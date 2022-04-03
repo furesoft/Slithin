@@ -6,6 +6,7 @@ using Serilog;
 using Slithin.Controls.Notifications;
 using Slithin.Core.Notifications;
 using Slithin.ViewModels;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Core;
 

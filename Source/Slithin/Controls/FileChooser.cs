@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Controls;
 

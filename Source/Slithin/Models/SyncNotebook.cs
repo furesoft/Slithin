@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Models;
 

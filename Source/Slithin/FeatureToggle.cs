@@ -1,15 +1,13 @@
-﻿using Slithin.Core.FeatureToggle;
-
-namespace Slithin;
+﻿namespace Slithin;
 
 public class FeatureToggle
 {
     public void Init()
     {
-        Features.Collect();
+        Core.FeatureToggle.Features.Collect();
 #if DEBUG
 
-        Features.EnableAll();
+        Core.FeatureToggle.Features.EnableAll();
 #else
 
         /*

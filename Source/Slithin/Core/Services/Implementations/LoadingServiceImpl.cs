@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Models;
+using Slithin.Core.Tools;
 
 namespace Slithin.Core.Services.Implementations;
 

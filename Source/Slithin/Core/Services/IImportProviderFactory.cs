@@ -1,4 +1,6 @@
-﻿namespace Slithin.Core.Services;
+﻿using Slithin.Core.ImportExport;
+
+namespace Slithin.Core.Services;
 
 public interface IImportProviderFactory
 {

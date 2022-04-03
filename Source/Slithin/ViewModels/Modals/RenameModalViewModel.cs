@@ -4,6 +4,8 @@ using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.ViewModels.Modals;
 

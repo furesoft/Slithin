@@ -8,6 +8,7 @@ using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Models;
 

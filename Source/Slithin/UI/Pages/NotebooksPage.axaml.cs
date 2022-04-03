@@ -10,6 +10,8 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
+using Slithin.Core.Menu;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.UI.Pages;
 

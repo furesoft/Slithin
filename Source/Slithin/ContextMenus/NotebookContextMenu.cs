@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using Avalonia.Controls;
 using Slithin.Core;
-using Slithin.Core.Commands;
-using Slithin.Core.Features;
 using Slithin.Core.FeatureToggle;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.ViewModels.Pages;
+using Slithin.Commands;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
+using Slithin.Features;
 
 namespace Slithin.ContextMenus;
 

@@ -15,9 +15,10 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
-using Slithin.Core.Validators;
 using Slithin.Models;
 using Slithin.UI.Views;
+using Slithin.Core.MVVM;
+using Slithin.Validators;
 
 namespace Slithin.ViewModels;
 

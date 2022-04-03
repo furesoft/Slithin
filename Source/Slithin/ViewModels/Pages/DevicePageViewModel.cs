@@ -11,6 +11,7 @@ using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Models;
+using Slithin.Core.MVVM;
 
 namespace Slithin.ViewModels.Pages;
 

@@ -13,6 +13,7 @@ using Slithin.Core;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.UI;
 

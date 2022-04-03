@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiteDB;
+using Slithin.Core.MVVM;
 
 namespace Slithin.Core;
 

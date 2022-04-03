@@ -3,6 +3,7 @@ using Avalonia.Markup.Xaml;
 using Slithin.Core;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
+using Slithin.Core.Menu;
 
 namespace Slithin.UI.Pages;
 

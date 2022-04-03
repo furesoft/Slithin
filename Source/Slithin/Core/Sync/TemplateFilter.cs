@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Slithin.Core.Remarkable;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Sync;
 

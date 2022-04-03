@@ -1,10 +1,12 @@
 ﻿using System.Windows.Input;
 using Serilog;
 using Slithin.Core;
-using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
+using Slithin.Commands;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.ViewModels.Pages;
 

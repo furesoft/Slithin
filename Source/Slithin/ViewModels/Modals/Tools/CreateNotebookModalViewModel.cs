@@ -16,8 +16,10 @@ using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
-using Slithin.Core.Validators;
 using Slithin.Models;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
+using Slithin.Validators;
 
 namespace Slithin.ViewModels.Modals.Tools;
 

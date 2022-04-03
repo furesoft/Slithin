@@ -2,13 +2,15 @@
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
-using Slithin.Core.Commands;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
-using Slithin.Core.Validators;
 using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
+using Slithin.Commands;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
+using Slithin.Validators;
 
 namespace Slithin.ViewModels.Pages;
 

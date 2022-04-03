@@ -4,6 +4,7 @@ using System.Net;
 using Ionic.Zip;
 using Newtonsoft.Json;
 using RestSharp;
+using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Remarkable.Cloud;
 

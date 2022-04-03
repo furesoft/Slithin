@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 
 namespace Slithin.ViewModels;
 

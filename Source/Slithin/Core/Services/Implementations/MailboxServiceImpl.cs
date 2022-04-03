@@ -2,8 +2,9 @@
 using System.IO;
 using Actress;
 using Serilog;
-using Slithin.Core.MessageHandlers;
 using Slithin.Messages;
+using Slithin.Core.Messaging;
+using Slithin.MessageHandlers;
 
 namespace Slithin.Core.Services.Implementations;
 
