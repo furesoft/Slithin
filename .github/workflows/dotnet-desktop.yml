@@ -24,7 +24,8 @@ jobs:
       WAP_PROJECT_DIRECTORY: Deployment/Windows-Store    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
       WAP_PROJECT_PATH: Windows-Store.wapproj                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-      SDK: Source/Slithin.Scripting.Interactive/Slithin.Scripting.Interactive.csproj    
+      SDK: Source/Slithin.Scripting.Interactive/Slithin.Scripting.Interactive.csproj   
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
     steps:
     - name: Checkout
