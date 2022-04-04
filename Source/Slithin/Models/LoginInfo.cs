@@ -15,6 +15,7 @@ public record LoginInfo
 
     public byte[] Key { get; set; }
 
+    [BsonIgnore]
     public bool UsesKey => Key != null;
 
     public override string ToString()
