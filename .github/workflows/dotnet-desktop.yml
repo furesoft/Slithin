@@ -6,77 +6,84 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  SOLUTION_PATH: Source/Slithin
+  SOLUTION_NAME: Source/Slithin/Slithin.csproj                         # Replace with your solution name, i.e. MyWpfApp.sln.
+  TEST_PROJECT_PATH: Source/Slithin.Tests/Slithin.Tests.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+  WAP_PROJECT_DIRECTORY: Deployment/Windows-Store    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
+  WAP_PROJECT_PATH: Windows-Store.wapproj                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  SDK: Source/Slithin.Scripting.Interactive/Slithin.Scripting.Interactive.csproj   
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
-
-  build:
-
-    strategy:
-      matrix:
-        configuration: [Release]
-
-    runs-on: ubuntu-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
-
-    env:
-      SOLUTION_PATH: Source/Slithin
-      SOLUTION_NAME: Source/Slithin/Slithin.csproj                         # Replace with your solution name, i.e. MyWpfApp.sln.
-      TEST_PROJECT_PATH: Source/Slithin.Tests/Slithin.Tests.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-      WAP_PROJECT_DIRECTORY: Deployment/Windows-Store    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      WAP_PROJECT_PATH: Windows-Store.wapproj                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
-      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-      SDK: Source/Slithin.Scripting.Interactive/Slithin.Scripting.Interactive.csproj   
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+  setup:
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-    
     - uses: actions/cache@v3
       with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
-           ${{ runner.os }}-nuget-
-        
-    - name: Publish
-      strategy:
-        matrix:
-          arch: ["win-x86", "win-x64", "linux-x64", "osx-x64", "osx.12-arm64"]
-      run: dotnet publish -c Release -r ${{ matrix.arch }} -p:PublishReadyToRun=true --output ./Dist/${{ matrix.arch }} $SOLUTION_NAME
-        
+            ${{ runner.os }}-nuget-
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
     - name: Installing dotnet-packaging deb
       run: dotnet tool install --global dotnet-deb
-      
     - name: Installing dotnet-packaging rpm
       run: dotnet tool install --global dotnet-rpm
-      
-    - name: Creating Deb-Package
-      run: dotnet deb -r linux-x64 -c Release -o ./Dist/Linux-x64-Deb
-      working-directory: ${{ env.SOLUTION_PATH }}
-      
-    - name: Creating Rpm-Package
-      run: dotnet rpm -r linux-x64 -c Release -o ./Dist/Linux-x64-Rpm
-      working-directory: ${{ env.SOLUTION_PATH }}
-        
-    - name: Ziping
-      uses: montudor/action-zip@v1
-      strategy:
+
+  publish:
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+    strategy:
         matrix:
           arch: ["win-x86", "win-x64", "linux-x64", "osx-x64", "osx.12-arm64"]
+    steps:
+    - name: Publish
+      run: dotnet publish -c Release -r ${{ matrix.arch }} -p:PublishReadyToRun=true --output ./Dist/${{ matrix.arch }} $SOLUTION_NAME
+
+  build-packages:
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+    strategy:
+        matrix:
+          package: ["rpm", "deb"]
+    steps:
+    - name: Creating Deb-Package
+      run: dotnet ${{ matrix.package }} -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }}
+      working-directory: ${{ env.SOLUTION_PATH }}
+
+  zip:
+    runs-on: ubuntu-latest
+    needs:
+      - publish
+    strategy:
+        matrix:
+          arch: ["win-x86", "win-x64", "linux-x64", "osx-x64", "osx.12-arm64"]
+    steps:
+    - name: Ziping
+      uses: montudor/action-zip@v1
       with:
         args: zip -qq -r ./Dist/${{ matrix.arch }}.zip ./Dist/${{ matrix.arch }}
-        
+
+  finally:
+    runs-on: ubuntu-latest
+    needs:
+      - publish
+      - build-packages
+      - zip
+    steps:
     - name: Get version Tag
       id: versiontag
       run: echo ::set-output name=tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
-        
     - name: Generate Release
       run: gh release create ${{ step.versiontag.output.tag }} -F ${{ env.SOLUTION_PATH }}/Changelog.txt ./Dist/*.zip
