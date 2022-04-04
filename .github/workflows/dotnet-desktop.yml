@@ -99,7 +99,6 @@ jobs:
     needs:
       - publish
       - build-packages
-      - zip
     steps:
     - name: Checkout
       uses: actions/checkout@v2
