@@ -120,6 +120,8 @@ jobs:
     - name: Get version Tag
       id: versiontag
       run: |
-        echo ::set-output name=tag::$(cat $SOLUTION_NAME | grep -Eo '<Version>(.*)<\/Version>')
+        echo -e ::set-output name=tag::$(cat $SOLUTION_NAME | grep -Eo '<Version>(.*)<\/Version>')
     - name: Generate Release
-      run: gh release create ${{ steps.versiontag.output.tag }} -F ${{ env.SOLUTION_PATH }}/Changelog.txt ./Dist/*.zip
+      env:
+        TAG: ${{ steps.versiontag.outputs.tag }}
+      run: gh release create $TAG -F ${{ env.SOLUTION_PATH }}/Changelog.txt ./Dist/*.zip
