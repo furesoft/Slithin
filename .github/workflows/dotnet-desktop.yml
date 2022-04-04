@@ -26,10 +26,10 @@ jobs:
         fetch-depth: 0
     - uses: actions/cache@v3
       with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          path: /
+          key: ${{ runner.os }}-ROOT-
           restore-keys: |
-            ${{ runner.os }}-nuget-
+            ${{ runner.os }}-ROOT-
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -47,6 +47,13 @@ jobs:
         matrix:
           arch: ["win-x86", "win-x64", "linux-x64", "osx-x64", "osx.12-arm64"]
     steps:
+    - uses: actions/cache@v3
+      with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-ROOT-
+            ${{ runner.os }}-nuget-
     - name: Publish
       run: dotnet publish -c Release -r ${{ matrix.arch }} -p:PublishReadyToRun=true --output ./Dist/${{ matrix.arch }} $SOLUTION_NAME
 
@@ -58,6 +65,13 @@ jobs:
         matrix:
           package: ["rpm", "deb"]
     steps:
+    - uses: actions/cache@v3
+      with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-ROOT-
+            ${{ runner.os }}-nuget-
     - name: Creating Deb-Package
       run: dotnet ${{ matrix.package }} -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }}
       working-directory: ${{ env.SOLUTION_PATH }}
@@ -70,6 +84,13 @@ jobs:
         matrix:
           arch: ["win-x86", "win-x64", "linux-x64", "osx-x64", "osx.12-arm64"]
     steps:
+    - uses: actions/cache@v3
+      with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-ROOT-
+            ${{ runner.os }}-nuget-
     - name: Ziping
       uses: montudor/action-zip@v1
       with:
@@ -82,8 +103,15 @@ jobs:
       - build-packages
       - zip
     steps:
+    - uses: actions/cache@v3
+      with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-ROOT-
+            ${{ runner.os }}-nuget-
     - name: Get version Tag
       id: versiontag
       run: echo ::set-output name=tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
     - name: Generate Release
-      run: gh release create ${{ steps.versiontag.output.tag }} -F ${{ env.SOLUTION_PATH }}/Changelog.txt ./Dist/*.zip
+      run: gh release create ${{ step.versiontag.output.tag }} -F ${{ env.SOLUTION_PATH }}/Changelog.txt ./Dist/*.zip
