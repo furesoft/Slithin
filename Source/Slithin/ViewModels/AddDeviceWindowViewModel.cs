@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Windows.Input;
 using Material.Styles;
-using Slithin.Core;
+using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 using Slithin.Models;
-using Slithin.Core.MVVM;
 using Slithin.Validators;
 
 namespace Slithin.ViewModels;
@@ -68,6 +67,9 @@ public class AddDeviceWindowViewModel : BaseViewModel
         ParentViewModel.SelectedLogin = SelectedLogin;
 
         _loginService.RememberLoginCredencials(SelectedLogin);
+        _loginService.SetLoginCredential(SelectedLogin);
+
+        _pathManager.Relink();
         _pathManager.InitDeviceDirectory();
 
         this.RequestClose();
