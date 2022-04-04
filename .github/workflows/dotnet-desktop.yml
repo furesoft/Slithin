@@ -41,64 +41,27 @@ jobs:
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Changelog
-        path: Source/Slithin/Changelog.txt
         
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
-    
-    - name: Publish OSX Arm64
-      run: dotnet publish -c Release -r osx.12-arm64 --output ./Dist/OSX_Arm64 $env:Solution_Name
-      
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: OSX_Arm64
-        path: ./Dist/OSX_Arm64
         
     - name: Publish Windows x86
       run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 $env:Solution_Name
-    
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Windows_x86
-        path: ./Dist/Win-x86
         
     - name: Publish Windows x64
       run: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true --output ./Dist/Win-x64 $env:Solution_Name
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Windows_x64
-        path: ./Dist/Win-x64
-
     - name: Publish OSX x64
       run: dotnet publish -c Release -r osx-x64 --output ./Dist/OSX-x64 $env:Solution_Name
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: OSX_x64
-        path: ./Dist/OSX-x64
         
+    - name: Publish OSX Arm64
+      run: dotnet publish -c Release -r osx.12-arm64 --output ./Dist/OSX_Arm64 $env:Solution_Name
+      
     - name: Publish Linux x64
       run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-x64 $env:Solution_Name
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Linux_x64
-        path: ./Dist/Linux-x64
         
     - name: Installing dotnet-packaging deb
       run: dotnet tool install --global dotnet-deb
@@ -110,45 +73,18 @@ jobs:
       run: dotnet deb -r linux-x64 -c Release -o ./Dist/Linux-x64-Deb
       working-directory: Source/Slithin/
       
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Linux_x64_DEB_Installer
-        path: Source/Slithin/Dist/Linux-x64-Deb
-      
     - name: Creating Rpm-Package
       run: dotnet rpm -r linux-x64 -c Release -o ./Dist/Linux-x64-Rpm
       working-directory: Source/Slithin/
         
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Linux_x64_RPM_Installer
-        path: Source/Slithin/Dist/Linux-x64-Rpm
-
-    - name: Publish SDK Windows
-      run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-sdk-x86 $env:SDK
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Windows_SDK_x86
-        path: ./Dist/Win-sdk-x86
-        
-    - name: Publish SDK OSX x64
-      run: dotnet publish -c Release -r osx-x64 --output ./Dist/OSX-sdk-x64 $env:SDK
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: OSX_SDK_x64
-        path: ./Dist/OSX-sdk-x64
-        
-    - name: Publish SDK Linux x64
-      run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-sdk-x64 $env:SDK
+    - name: Ziping Linux
+      run: zip -r ./Dist/Linux-x64.zip ./Dist/Linux-x64
       
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Linux_SDK_x64
-        path: ./Dist/Linux-sdk-x64
+    - name: Ziping Windows
+      run: zip -r ./Dist/Win-x64.zip ./Dist/Win-x64 && ./Dist/Win-x86.zip ./Dist/Win-x86
+      
+    - name: Ziping OSX
+      run: zip -r ./Dist/OSX-x64.zip ./Dist/OSX-x64 && ./Dist/OSX_Arm64.zip ./Dist/OSX_Arm64
+      
+    - name: Generate Release
+      run: gh release create v1.2.3 -F Source/Slithin/Changelog.txt ./Dist/*.zip
