@@ -77,27 +77,27 @@ jobs:
       run: dotnet rpm -r linux-x64 -c Release -o ./Dist/Linux-x64-Rpm
       working-directory: Source/Slithin/
         
-    - name: Ziping Linux
+    - name: Ziping Linux X64
     - uses: montudor/action-zip@v1
       with:
         args: zip -qq -r ./Dist/Linux-x64.zip ./Dist/Linux-x64
       
-    - name: Ziping Windows
+    - name: Ziping Windows X64
     - uses: montudor/action-zip@v1
       with:
         args: zip -qq -r ./Dist/Win-x64.zip ./Dist/Win-x64
         
-    - name: Ziping Windows
+    - name: Ziping Windows X86
     - uses: montudor/action-zip@v1
       with:
         args: zip -qq -r ./Dist/Win-x86.zip ./Dist/Win-x86
       
-    - name: Ziping OSX
+    - name: Ziping OSX x64
     - uses: montudor/action-zip@v1
       with:
         args: zip -qq -r ./Dist/OSX-x64.zip ./Dist/OSX-x64
         
-    - name: Ziping OSX
+    - name: Ziping OSX ARM64
     - uses: montudor/action-zip@v1
       with:
         args: zip -qq -r ./Dist/OSX_Arm64.zip ./Dist/OSX_Arm64
