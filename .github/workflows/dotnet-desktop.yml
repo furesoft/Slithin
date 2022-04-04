@@ -18,11 +18,11 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Path: Source/Slithin/  
-      Solution_Name: Source/Slithin/Slithin.csproj                         # Replace with your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: Source/Slithin.Tests/Slithin.Tests.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-      Wap_Project_Directory: Deployment/Windows-Store    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      Wap_Project_Path: Windows-Store.wapproj                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
+      SOLUTION_PATH: Source/Slithin
+      SOLUTION_NAME: Source/Slithin/Slithin.csproj                         # Replace with your solution name, i.e. MyWpfApp.sln.
+      TEST_PROJECT_PATH: Source/Slithin.Tests/Slithin.Tests.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      WAP_PROJECT_DIRECTORY: Deployment/Windows-Store    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
+      WAP_PROJECT_PATH: Windows-Store.wapproj                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       SDK: Source/Slithin.Scripting.Interactive/Slithin.Scripting.Interactive.csproj    
       
@@ -46,19 +46,19 @@ jobs:
            ${{ runner.os }}-nuget-
         
     - name: Publish Windows x86
-      run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 ${{Solution_Name}}
+      run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 $SOLUTION_NAME
         
     - name: Publish Windows x64
-      run: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true --output ./Dist/Win-x64 ${{Solution_Name}}
+      run: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true --output ./Dist/Win-x64 $SOLUTION_NAME
 
     - name: Publish OSX x64
-      run: dotnet publish -c Release -r osx-x64 --output ./Dist/OSX-x64 ${{Solution_Name}}
+      run: dotnet publish -c Release -r osx-x64 --output ./Dist/OSX-x64 $SOLUTION_NAME
         
     - name: Publish OSX Arm64
-      run: dotnet publish -c Release -r osx.12-arm64 --output ./Dist/OSX_Arm64 ${{Solution_Name}}
+      run: dotnet publish -c Release -r osx.12-arm64 --output ./Dist/OSX_Arm64 $SOLUTION_NAME
       
     - name: Publish Linux x64
-      run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-x64 ${{Solution_Name}}
+      run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-x64 $SOLUTION_NAME
         
     - name: Installing dotnet-packaging deb
       run: dotnet tool install --global dotnet-deb
@@ -68,11 +68,11 @@ jobs:
       
     - name: Creating Deb-Package
       run: dotnet deb -r linux-x64 -c Release -o ./Dist/Linux-x64-Deb
-      working-directory: Source/Slithin/
+      working-directory: ${{ env.SOLUTION_PATH }}
       
     - name: Creating Rpm-Package
       run: dotnet rpm -r linux-x64 -c Release -o ./Dist/Linux-x64-Rpm
-      working-directory: Source/Slithin/
+      working-directory: ${{ env.SOLUTION_PATH }}
         
     - name: Ziping Linux X64
       uses: montudor/action-zip@v1
@@ -100,4 +100,4 @@ jobs:
         args: zip -qq -r ./Dist/OSX_Arm64.zip ./Dist/OSX_Arm64
       
     - name: Generate Release
-      run: gh release create v1.2.3 -F Source/Slithin/Changelog.txt ./Dist/*.zip
+      run: gh release create v1.2.3 -F ${{ env.SOLUTION_PATH }}/Changelog.txt ./Dist/*.zip
