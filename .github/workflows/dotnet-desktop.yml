@@ -25,6 +25,7 @@ jobs:
       with:
         fetch-depth: 0
     - uses: actions/cache@v3
+      id: cache-setup
       with:
           path: |
             ~/.nuget/packages
@@ -34,12 +35,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-
     - name: Install .NET Core
+      if: steps.cache-setup.outputs.cache-hit != 'true'
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
     - name: Installing dotnet-packaging deb
+      if: steps.cache-setup.outputs.cache-hit != 'true'
       run: dotnet tool install --global dotnet-deb
     - name: Installing dotnet-packaging rpm
+      if: steps.cache-setup.outputs.cache-hit != 'true'
       run: dotnet tool install --global dotnet-rpm
   publish:
     runs-on: ubuntu-latest
@@ -115,6 +119,7 @@ jobs:
             ${{ runner.os }}-
     - name: Get version Tag
       id: versiontag
-      run: echo ::set-output name=tag::$(echo ::set-output name=tag::$(cat $SOLUTION_NAME | grep -Eo '<Version>(.*)<\/Version>')
+      run: |
+        echo ::set-output name=tag::$(cat $SOLUTION_NAME | grep -Eo '<Version>(.*)<\/Version>')
     - name: Generate Release
       run: gh release create ${{ steps.versiontag.output.tag }} -F ${{ env.SOLUTION_PATH }}/Changelog.txt ./Dist/*.zip
