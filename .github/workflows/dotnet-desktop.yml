@@ -26,10 +26,13 @@ jobs:
         fetch-depth: 0
     - uses: actions/cache@v3
       with:
-          path: ~/
-          key: ${{ runner.os }}-home-
+          path: |
+            ~/.nuget/packages
+            ~/.dotnet
+            ./Dist
+          key: ${{ runner.os }}-${{ github.ref_name }}
           restore-keys: |
-            ${{ runner.os }}-home-
+            ${{ runner.os }}-
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -38,7 +41,6 @@ jobs:
       run: dotnet tool install --global dotnet-deb
     - name: Installing dotnet-packaging rpm
       run: dotnet tool install --global dotnet-rpm
-
   publish:
     runs-on: ubuntu-latest
     needs:
@@ -47,15 +49,25 @@ jobs:
         matrix:
           arch: ["win-x86", "win-x64", "linux-x64", "osx-x64", "osx.12-arm64"]
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - uses: actions/cache@v3
       with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          path: |
+            ~/.nuget/packages
+            ~/.dotnet
+            ./Dist
+          key: ${{ runner.os }}-${{ github.ref_name }}
           restore-keys: |
-            ${{ runner.os }}-home-
-            ${{ runner.os }}-nuget-
+            ${{ runner.os }}-
     - name: Publish
       run: dotnet publish -c Release -r ${{ matrix.arch }} -p:PublishReadyToRun=true --output ./Dist/${{ matrix.arch }} $SOLUTION_NAME
+    - name: Ziping
+      uses: montudor/action-zip@v1
+      with:
+        args: zip -qq -r ./Dist/${{ matrix.arch }}.zip ./Dist/${{ matrix.arch }}
 
   build-packages:
     runs-on: ubuntu-latest
@@ -65,36 +77,22 @@ jobs:
         matrix:
           package: ["rpm", "deb"]
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - uses: actions/cache@v3
       with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          path: |
+            ~/.nuget/packages
+            ~/.dotnet
+            ./Dist
+          key: ${{ runner.os }}-${{ github.ref_name }}
           restore-keys: |
-            ${{ runner.os }}-home-
-            ${{ runner.os }}-nuget-
+            ${{ runner.os }}-
     - name: Creating Deb-Package
       run: dotnet ${{ matrix.package }} -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }}
       working-directory: ${{ env.SOLUTION_PATH }}
-
-  zip:
-    runs-on: ubuntu-latest
-    needs:
-      - publish
-    strategy:
-        matrix:
-          arch: ["win-x86", "win-x64", "linux-x64", "osx-x64", "osx.12-arm64"]
-    steps:
-    - uses: actions/cache@v3
-      with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-home-
-            ${{ runner.os }}-nuget-
-    - name: Ziping
-      uses: montudor/action-zip@v1
-      with:
-        args: zip -qq -r ./Dist/${{ matrix.arch }}.zip ./Dist/${{ matrix.arch }}
 
   finally:
     runs-on: ubuntu-latest
@@ -103,13 +101,19 @@ jobs:
       - build-packages
       - zip
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - uses: actions/cache@v3
       with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          path: |
+            ~/.nuget/packages
+            ~/.dotnet
+            ./Dist
+          key: ${{ runner.os }}-${{ github.ref_name }}
           restore-keys: |
-            ${{ runner.os }}-home-
-            ${{ runner.os }}-nuget-
+            ${{ runner.os }}-
     - name: Get version Tag
       id: versiontag
       run: echo ::set-output name=tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
