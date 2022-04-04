@@ -115,6 +115,6 @@ jobs:
             ${{ runner.os }}-
     - name: Get version Tag
       id: versiontag
-      run: echo ::set-output name=tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
+      run: echo ::set-output name=tag::$(echo ::set-output name=tag::$(cat $SOLUTION_NAME | grep -Eo '<Version>(.*)<\/Version>')
     - name: Generate Release
       run: gh release create ${{ steps.versiontag.output.tag }} -F ${{ env.SOLUTION_PATH }}/Changelog.txt ./Dist/*.zip
