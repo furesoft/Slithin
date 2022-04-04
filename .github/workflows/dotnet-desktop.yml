@@ -26,10 +26,10 @@ jobs:
         fetch-depth: 0
     - uses: actions/cache@v3
       with:
-          path: /
-          key: ${{ runner.os }}-ROOT-
+          path: ~/.dotnet
+          key: ${{ runner.os }}-dotnet-
           restore-keys: |
-            ${{ runner.os }}-ROOT-
+            ${{ runner.os }}-dotnet-
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -52,7 +52,7 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-ROOT-
+            ${{ runner.os }}-dotnet-
             ${{ runner.os }}-nuget-
     - name: Publish
       run: dotnet publish -c Release -r ${{ matrix.arch }} -p:PublishReadyToRun=true --output ./Dist/${{ matrix.arch }} $SOLUTION_NAME
@@ -70,7 +70,7 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-ROOT-
+            ${{ runner.os }}-dotnet-
             ${{ runner.os }}-nuget-
     - name: Creating Deb-Package
       run: dotnet ${{ matrix.package }} -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }}
@@ -89,7 +89,7 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-ROOT-
+            ${{ runner.os }}-dotnet-
             ${{ runner.os }}-nuget-
     - name: Ziping
       uses: montudor/action-zip@v1
@@ -108,7 +108,7 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-ROOT-
+            ${{ runner.os }}-dotnet-
             ${{ runner.os }}-nuget-
     - name: Get version Tag
       id: versiontag
