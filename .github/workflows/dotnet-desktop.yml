@@ -46,19 +46,19 @@ jobs:
            ${{ runner.os }}-nuget-
         
     - name: Publish Windows x86
-      run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 $env:Solution_Name
+      run: dotnet publish -c Release -r win-x86 -p:PublishReadyToRun=true --output ./Dist/Win-x86 ${{Solution_Name}}
         
     - name: Publish Windows x64
-      run: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true --output ./Dist/Win-x64 $env:Solution_Name
+      run: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true --output ./Dist/Win-x64 ${{Solution_Name}}
 
     - name: Publish OSX x64
       run: dotnet publish -c Release -r osx-x64 --output ./Dist/OSX-x64 $env:Solution_Name
         
     - name: Publish OSX Arm64
-      run: dotnet publish -c Release -r osx.12-arm64 --output ./Dist/OSX_Arm64 $env:Solution_Name
+      run: dotnet publish -c Release -r osx.12-arm64 --output ./Dist/OSX_Arm64 ${{Solution_Name}}
       
     - name: Publish Linux x64
-      run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-x64 $env:Solution_Name
+      run: dotnet publish -c Release -r linux-x64 --output ./Dist/Linux-x64 ${{Solution_Name}}
         
     - name: Installing dotnet-packaging deb
       run: dotnet tool install --global dotnet-deb
