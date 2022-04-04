@@ -86,4 +86,4 @@ jobs:
       id: versiontag
       run: echo ::set-output name=tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
     - name: Generate Release
-      run: gh release create ${{ step.versiontag.output.tag }} -F ${{ env.SOLUTION_PATH }}/Changelog.txt ./Dist/*.zip
+      run: gh release create ${{ steps.versiontag.output.tag }} -F ${{ env.SOLUTION_PATH }}/Changelog.txt ./Dist/*.zip
