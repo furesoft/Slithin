@@ -99,13 +99,13 @@
                                 Background="{TemplateBinding ContentBorderBackground}"
                                 HorizontalAlignment="Center"
                                 CornerRadius="12"
-                                BorderThickness="2"
+                                BorderThickness="1.5"
                                 BorderBrush="{TemplateBinding Foreground}"
                                 Height="24"
                                 MinWidth="24">
                             <TextBlock Foreground="{TemplateBinding Foreground}"
-                                        HorizontalAlignment="Center"
-                                        Text="{Binding Index,RelativeSource={RelativeSource TemplatedParent}}" />
+                                        VerticalAlignment="Center" TextAlignment="Center"
+                                        Text="{Binding Index, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Border>
 
                         <ContentPresenter HorizontalAlignment="Center"
@@ -135,10 +135,9 @@
                                 BorderBrush="{TemplateBinding Foreground}"
                                 Height="24"
                                 MinWidth="24">
-                            <TextBlock
-                                       HorizontalAlignment="Center"
+                            <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"
                                        Foreground="{TemplateBinding Foreground}"
-                                       Text="{Binding Index,RelativeSource={RelativeSource TemplatedParent}}" />
+                                       Text="{Binding Index, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Border>
                     </StackPanel>
                 </ControlTemplate>

@@ -3,20 +3,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:c="using:Slithin.Controls.Ports.StepBar"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:l="using:Slithin.Core"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Icon="avares:/Resources/Icon.png" WindowStartupLocation="CenterScreen"
         x:Class="Slithin.UI.Views.FirstStartWindow"
-        Title="FirstStartWindow">
+        Title="{l:Localisation 'Welcome To Slithin'}">
     <Grid Margin="5">
-        <c:StepBar VerticalAlignment="Top" x:Name="stepbarTop" StepIndex="0" Background="White">
-            <c:StepBarItem Content="Welcome" />
-            <c:StepBarItem Content="Device" />
-            <c:StepBarItem Content="Settings" />
-            <c:StepBarItem Content="Finish" />
-        </c:StepBar>
 
-        <StackPanel VerticalAlignment="Bottom" Margin="10" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Classes="Flat" Content="Previous" Command="{Binding ElementName=stepbarTop, Path=PreviousCommand}" />
-            <Button Classes="Flat" Margin="10,0,0,0" Content="Next" Command="{Binding ElementName=stepbarTop, Path=NextCommand}" />
+        <StackPanel Orientation="Horizontal" Spacing="50">
+            <Image Source="avares:/Resources/Icon.png" Margin="5" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+            <Carousel SelectedIndex="{Binding #stepbarTop.StepIndex, Mode=TwoWay}" Margin="5">
+                <TextBlock Text="Welcome" VerticalAlignment="Top" />
+                <TextBlock Text="device" VerticalAlignment="Top" />
+                <TextBlock Text="settings" VerticalAlignment="Top" />
+                <TextBlock Text="finish" VerticalAlignment="Top" />
+            </Carousel>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Bottom">
+            <c:StepBar x:Name="stepbarTop" StepIndex="{Binding Index, Mode=TwoWay}" VerticalAlignment="Top">
+                <c:StepBarItem Content="{l:Localisation 'Welcome'}" />
+                <c:StepBarItem Content="{l:Localisation 'Device'}" />
+                <c:StepBarItem Content="{l:Localisation 'Settings'}" />
+                <c:StepBarItem Content="{l:Localisation 'Finish'}" />
+            </c:StepBar>
+
+            <StackPanel Margin="10" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Classes="Flat" Content="{l:Localisation 'Previous'}" Command="{Binding ElementName=stepbarTop, Path=PreviousCommand}" />
+                <Button Classes="Flat" Margin="10,0,0,0" Content="{l:Localisation 'Next'}" Command="{Binding ElementName=stepbarTop, Path=NextCommand}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

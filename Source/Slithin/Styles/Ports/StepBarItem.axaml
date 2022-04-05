@@ -21,11 +21,9 @@
                                 BorderBrush="{TemplateBinding Foreground}"
                                 Height="24"
                                 MinWidth="24">
-                            <Grid>
-                                <TextBlock Foreground="{TemplateBinding Foreground}" TextAlignment="Center" VerticalAlignment="Center"
-                                       Margin="5,0,0,0"
-                                       Text="{Binding Index,RelativeSource={RelativeSource TemplatedParent}}" />
-                            </Grid>
+
+                            <TextBlock Foreground="{TemplateBinding Foreground}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Text="{Binding Index, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Border>
 
                         <ContentPresenter HorizontalAlignment="Center"
