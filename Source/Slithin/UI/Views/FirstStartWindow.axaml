@@ -7,7 +7,7 @@
         x:Class="Slithin.UI.Views.FirstStartWindow"
         Title="FirstStartWindow">
     <Grid Margin="5">
-        <c:StepBar VerticalAlignment="Top" x:Name="stepbarTop" StepIndex="0">
+        <c:StepBar VerticalAlignment="Top" x:Name="stepbarTop" StepIndex="0" Background="White">
             <c:StepBarItem Content="Welcome" />
             <c:StepBarItem Content="Device" />
             <c:StepBarItem Content="Settings" />

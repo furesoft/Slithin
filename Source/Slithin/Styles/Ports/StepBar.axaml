@@ -252,8 +252,8 @@
     <Style Selector="controls|StepBar">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="ProgressBackground" Value="{DynamicResource MahApps.Brushes.Accent2}" />
-        <Setter Property="ProgressForeground" Value="{DynamicResource MahApps.Brushes.Accent3}" />
+        <Setter Property="ProgressBackground" Value="White" />
+        <Setter Property="ProgressForeground" Value="LightGray" />
         <Setter Property="ItemsPanel" Value="{StaticResource StepBarHorizontalItemsPanelTemplate}" />
 
         <Setter Property="ItemTemplate">

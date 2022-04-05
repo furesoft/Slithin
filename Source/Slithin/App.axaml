@@ -6,38 +6,31 @@
              x:Class="Slithin.App">
     <Application.Styles>
         <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
-
-        <StyleInclude Source="/Styles/ImageButton.axaml" />
-        <StyleInclude Source="/Styles/ImagePopupButtonStyle.axaml" />
-        <StyleInclude Source="/Styles/ContentDialogStyle.axaml" />
-        <StyleInclude Source="/Styles/DialogControlStyle.axaml" />
-        <StyleInclude Source="/Styles/FileChooser.axaml" />
-        <StyleInclude Source="/Styles/CommandTextBox.axaml" />
-        <StyleInclude Source="/Styles/ButtonStyle.axaml" />
-        <StyleInclude Source="/Styles/GalleryControl.axaml" />
-        <StyleInclude Source="/Styles/IndicatorStyle.axaml" />
-        <StyleInclude Source="/Styles/LinkStyle.axaml" />
-        <StyleInclude Source="/Styles/StoreCardCollection.axaml" />
-
-        <StyleInclude Source="/Styles/KryptoDonateButton.axaml" />
-        <StyleInclude Source="/Styles/Settings/SettingsGroup.axaml" />
-
-        <StyleInclude Source="/Styles/TagControl.axaml" />
-
         <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
 
-        <StyleInclude Source="avares://NodeEditorAvalonia/Themes/NodeEditorTheme.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/ImageButton.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/ImagePopupButtonStyle.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/ContentDialogStyle.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/DialogControlStyle.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/FileChooser.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/CommandTextBox.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/GalleryControl.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/StoreCardCollection.axaml" />
 
-        <StyleInclude Source="avares://Slithin/Styles/SplitViewStyle.axaml" />
-        <StyleInclude Source="avares://Slithin/Styles/NotificationCardStyle.axaml" />
-        <StyleInclude Source="avares://Slithin/Styles/NotificationStyle.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/KryptoDonateButton.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/Settings/SettingsGroup.axaml" />
 
-        <StyleInclude Source="avares://Slithin/Styles/StepBar.axaml" />
-        <StyleInclude Source="avares://Slithin/Styles/StepBarItem.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/TagControl.axaml" />
 
-        <Style Selector="controls|Node /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="IsHitTestVisible" Value="True" />
-        </Style>
+        <StyleInclude Source="avares://Slithin/Styles/System/LinkStyle.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/System/SplitViewStyle.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/System/NotificationCardStyle.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/System/NotificationStyle.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/System/ButtonStyle.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/System/IndicatorStyle.axaml" />
+
+        <StyleInclude Source="avares://Slithin/Styles/Ports/StepBar.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/Ports/StepBarItem.axaml" />
     </Application.Styles>
 
     <Application.Resources>
@@ -53,8 +46,6 @@
                     <Path Data="M 0,0 L 0,10 L 10,10 L 10,0 Z M 10,10 L 10,20 L 20,20 L 20,10 Z" Fill="#FFF0F0F0" />
                 </VisualBrush.Visual>
             </VisualBrush>
-
-            <ImageBrush x:Key="TemplateEditorBackground" Source="Resources/nav.png" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
