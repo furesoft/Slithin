@@ -1,0 +1,53 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Slithin.Controls.Ports.StepBar"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--ported from https://github.com/HandyOrg/HandyControl-->
+
+    <Style Selector="controls|StepBarItem">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="ZIndex" Value="99" />
+        <Setter Property="ContentBorderBackground" Value="White" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <Border Background="{TemplateBinding ContentBorderBackground}" ZIndex="99"
+                                HorizontalAlignment="Center"
+                                CornerRadius="12"
+                                BorderThickness="1"
+                                BorderBrush="{TemplateBinding Foreground}"
+                                Height="24"
+                                MinWidth="24">
+                            <Grid>
+                                <TextBlock Foreground="{TemplateBinding Foreground}" TextAlignment="Center" VerticalAlignment="Center"
+                                       Margin="5,0,0,0"
+                                       Text="{Binding Index,RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Grid>
+                        </Border>
+
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}"
+                                          Margin="0,4,0,0" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Selector="controls|StepBarItem[Status=Complete]">
+        <Setter Property="Foreground" Value="LightGray" />
+    </Style>
+
+    <Style Selector="controls|StepBarItem[Status=UnderWay]">
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
+    <Style Selector="controls|StepBarItem[Status=Waiting]">
+        <Setter Property="Foreground" Value="Gray" />
+    </Style>
+</Styles>

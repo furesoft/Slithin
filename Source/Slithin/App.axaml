@@ -32,6 +32,9 @@
         <StyleInclude Source="avares://Slithin/Styles/NotificationCardStyle.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/NotificationStyle.axaml" />
 
+        <StyleInclude Source="avares://Slithin/Styles/StepBar.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/StepBarItem.axaml" />
+
         <Style Selector="controls|Node /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="IsHitTestVisible" Value="True" />
         </Style>
