@@ -1,8 +1,8 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:ui="using:Slithin.UI.Views"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
-        <Border Padding="5">
-            <TextBlock Text="Something" />
+        <Border Classes="card" Padding="5">
+            <TextBlock Classes="cardHeader" Text="Something" />
         </Border>
     </Design.PreviewWith>
 
