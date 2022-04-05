@@ -15,7 +15,7 @@
 
             <Carousel SelectedIndex="{Binding #stepbarTop.StepIndex, Mode=TwoWay}" HorizontalAlignment="Stretch" Margin="5">
                 <steps:WelcomeStep VerticalAlignment="Top" />
-                <TextBlock Text="device" VerticalAlignment="Top" />
+                <steps:DeviceStep VerticalAlignment="Top" />
                 <TextBlock Text="settings" VerticalAlignment="Top" />
                 <TextBlock Text="finish" VerticalAlignment="Top" />
             </Carousel>
