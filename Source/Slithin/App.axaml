@@ -21,6 +21,7 @@
         <StyleInclude Source="avares://Slithin/Styles/Settings/SettingsGroup.axaml" />
 
         <StyleInclude Source="avares://Slithin/Styles/TagControl.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/FirstWindowCardStyle.axaml" />
 
         <StyleInclude Source="avares://Slithin/Styles/System/LinkStyle.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/System/SplitViewStyle.axaml" />

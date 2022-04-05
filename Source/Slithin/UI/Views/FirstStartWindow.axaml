@@ -4,16 +4,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:c="using:Slithin.Controls.Ports.StepBar"
         xmlns:l="using:Slithin.Core"
+        xmlns:steps="using:Slithin.UI.FirstStartSteps" Height="500" Width="700"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Icon="avares:/Resources/Icon.png" WindowStartupLocation="CenterScreen"
-        x:Class="Slithin.UI.Views.FirstStartWindow"
+        x:Class="Slithin.UI.Views.FirstStartWindow" SystemDecorations="BorderOnly"
         Title="{l:Localisation 'Welcome To Slithin'}">
     <Grid Margin="5">
 
         <StackPanel Orientation="Horizontal" Spacing="50">
             <Image Source="avares:/Resources/Icon.png" Margin="5" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-            <Carousel SelectedIndex="{Binding #stepbarTop.StepIndex, Mode=TwoWay}" Margin="5">
-                <TextBlock Text="Welcome" VerticalAlignment="Top" />
+            <Carousel SelectedIndex="{Binding #stepbarTop.StepIndex, Mode=TwoWay}" HorizontalAlignment="Stretch" Margin="5">
+                <steps:WelcomeStep VerticalAlignment="Top" />
                 <TextBlock Text="device" VerticalAlignment="Top" />
                 <TextBlock Text="settings" VerticalAlignment="Top" />
                 <TextBlock Text="finish" VerticalAlignment="Top" />
@@ -30,7 +31,7 @@
 
             <StackPanel Margin="10" HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button Classes="Flat" Content="{l:Localisation 'Previous'}" Command="{Binding ElementName=stepbarTop, Path=PreviousCommand}" />
-                <Button Classes="Flat" Margin="10,0,0,0" Content="{l:Localisation 'Next'}" Command="{Binding ElementName=stepbarTop, Path=NextCommand}" />
+                <Button Classes="Flat" Margin="10,0,0,0" Content="{l:Localisation 'Next'}" Command="{Binding ElementName=stepbarTop, Path=NextCommand}" IsDefault="True" />
             </StackPanel>
         </StackPanel>
     </Grid>
