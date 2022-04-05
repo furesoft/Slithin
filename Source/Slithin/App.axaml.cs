@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
+using Slithin.Core.Services;
 using Slithin.UI.Views;
 
 namespace Slithin;
@@ -18,9 +19,11 @@ public class App : Application
     {
         ServiceLocator.Init();
 
+        var settings = ServiceLocator.Container.Resolve<ISettingsService>().GetSettings();
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new ConnectWindow();
+            desktop.MainWindow = settings.IsFirstStart ? new FirstStartWindow() : new ConnectWindow();
         }
 
         AppDomain.CurrentDomain.UnhandledException += (s, e) =>

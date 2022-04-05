@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:c="using:Slithin.Controls.Ports.StepBar"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Slithin.UI.Views.FirstStartWindow"
+        Title="FirstStartWindow">
+    <Grid Margin="5">
+        <c:StepBar VerticalAlignment="Top" x:Name="stepbarTop" StepIndex="0">
+            <c:StepBarItem Content="Welcome" />
+            <c:StepBarItem Content="Device" />
+            <c:StepBarItem Content="Settings" />
+            <c:StepBarItem Content="Finish" />
+        </c:StepBar>
+
+        <StackPanel VerticalAlignment="Bottom" Margin="10" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button Classes="Flat" Content="Previous" Command="{Binding ElementName=stepbarTop, Path=PreviousCommand}" />
+            <Button Classes="Flat" Margin="10,0,0,0" Content="Next" Command="{Binding ElementName=stepbarTop, Path=NextCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -15,6 +15,8 @@ public class Settings : NotifyObject
     public bool IsBigMenuMode { get; set; } = true;
     public bool IsDarkMode { get; set; }
 
+    public bool IsFirstStart { get; set; } = true;
+
     public string Get(string key)
     {
         if (CustomSettings.ContainsKey(key))
