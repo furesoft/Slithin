@@ -18,6 +18,10 @@ public partial class FirstStartWindow : Window
 
     private void InitializeComponent()
     {
+        ServiceLocator.Init();
+
+        ServiceLocator.Container.Resolve<LogInitalizer>().Init();
+
         AvaloniaXamlLoader.Load(this);
 
         var vm = ServiceLocator.Container.Resolve<FirstStartViewModel>();
