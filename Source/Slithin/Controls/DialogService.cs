@@ -2,10 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.Threading;
 using Material.Styles;
-using Slithin.Core;
+using Slithin.Core.MVVM;
 using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
-using Slithin.Core.MVVM;
 
 namespace Slithin.Controls;
 
@@ -64,9 +63,12 @@ public static class DialogService
 
     public static void OpenError(string msg)
     {
-        var dc = new { CancelCommand = new DelegateCommand(_ => Close()), Message = msg };
+        Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            var dc = new { CancelCommand = new DelegateCommand(_ => Close()), Message = msg };
 
-        Open(new ErrorModal { DataContext = dc });
+            Open(new ErrorModal { DataContext = dc });
+        });
     }
 
     public static void SetIsHost(ContentDialog target, bool value)

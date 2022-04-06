@@ -21,7 +21,7 @@ public class LoadingServiceImpl : ILoadingService
     public void LoadNotebooks()
     {
         MetadataStorage.Local.Clear();
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Clear();
+        ServiceLocator.SyncService.NotebooksFilter.Documents = new();
 
         foreach (var md in Directory.GetFiles(_pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
         {
