@@ -19,7 +19,7 @@
         <StackPanel VerticalAlignment="Bottom">
             <c:StepBar x:Name="stepbarTop" StepIndex="{Binding Index, Mode=TwoWay}" Items="{Binding StepTitles, Mode=TwoWay}" VerticalAlignment="Top" l:StepManager.ManageStepBar="True" />
 
-            <Button Margin="10" HorizontalAlignment="Right" Classes="Flat" Content="{Binding ButtonText}" Command="{Binding ElementName=stepbarTop, Path=NextCommand}" IsDefault="True" />
+            <Button Margin="10" HorizontalAlignment="Right" Classes="Flat" Content="{Binding ButtonText}" Command="{Binding NextCommand}" IsDefault="True" />
         </StackPanel>
     </Grid>
 </Window>

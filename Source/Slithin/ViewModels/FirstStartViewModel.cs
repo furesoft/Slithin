@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Avalonia.Controls;
 using Slithin.Controls.Ports.StepBar;
+using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 using Slithin.UI.FirstStartSteps;
@@ -22,6 +24,8 @@ public class FirstStartViewModel : BaseViewModel
         AddStep("Device", new DeviceStep());
         AddStep("Settings", new SettingsStep());
         AddStep("Finish", new FinishStep());
+
+        NextCommand = new DelegateCommand(Next);
     }
 
     public string ButtonText
@@ -44,12 +48,27 @@ public class FirstStartViewModel : BaseViewModel
         }
     }
 
+    public ICommand NextCommand { get; set; }
+
     public ObservableCollection<UserControl> StepControls { get; set; } = new();
+
     public ObservableCollection<StepBarItem> StepTitles { get; set; } = new();
 
     public void AddStep(string title, UserControl control)
     {
-        StepTitles.Add(new StepBarItem() { Content = title, VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top });
+        StepTitles.Add(new StepBarItem() { Content = _localisationService.GetString(title), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top });
         StepControls.Add(control);
+    }
+
+    private void Next(object obj)
+    {
+        if (Index < StepTitles.Count - 1)
+        {
+            StepManager.Next();
+        }
+        else
+        {
+            RequestClose();
+        }
     }
 }

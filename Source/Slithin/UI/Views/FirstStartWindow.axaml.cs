@@ -27,6 +27,8 @@ public partial class FirstStartWindow : Window
         var vm = ServiceLocator.Container.Resolve<FirstStartViewModel>();
         vm.Load();
 
+        vm.OnRequestClose += () => Close();
+
         DataContext = vm;
     }
 }
