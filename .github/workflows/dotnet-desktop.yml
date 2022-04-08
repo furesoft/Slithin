@@ -122,9 +122,6 @@ jobs:
       run: |
         echo -e ::set-output name=tag::$(grep '<Version>' < .csproj | sed 's/.<Version>\(.\)<\/Version>/\1/')
     - name: Generate Release
-      needs:
-        - versiontag
-        - setup
       env:
         TAG: ${{ steps.versiontag.outputs.tag }}
       run: gh release create $TAG ./Dist/*.zip -F ${{ env.SOLUTION_PATH }}/Changelog.txt
