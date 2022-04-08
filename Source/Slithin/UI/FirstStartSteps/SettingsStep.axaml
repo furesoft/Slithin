@@ -12,7 +12,7 @@
         <Border HorizontalAlignment="Center" VerticalAlignment="Center" Classes="card" Height="200" Width="350">
             <Grid Margin="5">
                 <StackPanel Spacing="5" Orientation="Vertical">
-                    <TextBlock Classes="cardHeader" Text="Settings" />
+                    <TextBlock Classes="cardHeader" Text="{l:Localisation 'Settings'}" />
 
                     <StackPanel Spacing="5" Orientation="Vertical" Margin="10">
                         <ToggleSwitch Content="{l:Localisation 'Automatic Updates'}" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />

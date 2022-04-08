@@ -12,7 +12,7 @@
     <Grid Height="400" Width="450">
         <Border HorizontalAlignment="Center" VerticalAlignment="Center" Classes="card" Height="200" Width="350">
             <StackPanel Spacing="1" Margin="7">
-                <TextBlock Classes="cardHeader" Text="Setup for Device" />
+                <TextBlock Classes="cardHeader" Text="{l:Localisation 'Setup For Device'}" />
 
                 <Grid ColumnDefinitions="150,10, 175" RowDefinitions="65,65">
                     <TextBox Grid.Row="0" UseFloatingWatermark="True" wpf:TextFieldAssist.Label="{l:Localisation 'Device Name'}" Text="{Binding SelectedLogin.Name, Mode=TwoWay}" />

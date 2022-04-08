@@ -169,5 +169,9 @@
   "Welcome To Slithin": "Welcome To Slithin",
   "Welcome": "Welcome",
   "Finish": "Finish",
-  "Start": "Start"
+  "Start": "Start",
+
+  "Setup For Device": "Setup For Device",
+  "Slithin is now configured and you can start enjoy managing your Remarkable device.": "Slithin is now configured and you can start enjoy managing your Remarkable device.",
+  "Thanks for deciding using Slithin. This little wizard helps you to configure Slithin for your needs. Go to the next step to start configuring.": "Thanks for deciding using Slithin. This little wizard helps you to configure Slithin for your needs. Go to the next step to start configuring."
 }
