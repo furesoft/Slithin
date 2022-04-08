@@ -6,6 +6,7 @@ using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 using Slithin.UI.FirstStartSteps;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.ViewModels;
 
@@ -15,14 +16,17 @@ public class FirstStartViewModel : BaseViewModel
     private string _buttonText;
     private int _index;
 
-    public FirstStartViewModel(ILocalisationService localisationService)
+    public FirstStartViewModel(ILocalisationService localisationService, AddDeviceWindowViewModel deviceVm, SettingsPageViewModel settingsVm)
     {
         ButtonText = localisationService.GetString("Next");
         _localisationService = localisationService;
 
+        DeviceVM = deviceVm;
+        SettingsVM = settingsVm;
+
         AddStep("Welcome", new WelcomeStep());
-        AddStep("Device", new DeviceStep());
-        AddStep("Settings", new SettingsStep());
+        AddStep("Device", new DeviceStep(), DeviceVM);
+        AddStep("Settings", new SettingsStep(), SettingsVM);
         AddStep("Finish", new FinishStep());
 
         NextCommand = new DelegateCommand(Next);
@@ -33,6 +37,8 @@ public class FirstStartViewModel : BaseViewModel
         get { return _buttonText; }
         set { SetValue(ref _buttonText, value); }
     }
+
+    public AddDeviceWindowViewModel DeviceVM { get; set; }
 
     public int Index
     {
@@ -49,13 +55,15 @@ public class FirstStartViewModel : BaseViewModel
     }
 
     public ICommand NextCommand { get; set; }
-
+    public SettingsPageViewModel SettingsVM { get; set; }
     public ObservableCollection<UserControl> StepControls { get; set; } = new();
 
     public ObservableCollection<StepBarItem> StepTitles { get; set; } = new();
 
-    public void AddStep(string title, UserControl control)
+    public void AddStep(string title, UserControl control, BaseViewModel viewModel = null)
     {
+        control.DataContext = viewModel;
+
         StepTitles.Add(new StepBarItem() { Content = _localisationService.GetString(title), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top });
         StepControls.Add(control);
     }
@@ -65,6 +73,12 @@ public class FirstStartViewModel : BaseViewModel
         if (Index < StepTitles.Count - 1)
         {
             StepManager.Next();
+
+            var vm = StepTitles[Index].DataContext;
+            if (vm is BaseViewModel bvm)
+            {
+                bvm.Load();
+            }
         }
         else
         {
