@@ -1,11 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Slithin.Controls.Ports.StepBar;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 using Slithin.UI.FirstStartSteps;
+using Slithin.UI.Views;
 using Slithin.ViewModels.Pages;
 
 namespace Slithin.ViewModels;
@@ -13,17 +15,25 @@ namespace Slithin.ViewModels;
 public class FirstStartViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
+    private readonly ILoginService _loginService;
+    private readonly ISettingsService _settingsService;
     private string _buttonText;
     private int _index;
 
-    public FirstStartViewModel(ILocalisationService localisationService, AddDeviceWindowViewModel deviceVm, SettingsPageViewModel settingsVm)
+    public FirstStartViewModel(
+        ILocalisationService localisationService,
+        AddDeviceWindowViewModel deviceVm,
+        SettingsPageViewModel settingsVm,
+        ISettingsService settingsService,
+        ILoginService loginService)
     {
         ButtonText = localisationService.GetString("Next");
         _localisationService = localisationService;
 
         DeviceVM = deviceVm;
         SettingsVM = settingsVm;
-
+        _settingsService = settingsService;
+        _loginService = loginService;
         AddStep("Welcome", new WelcomeStep());
         AddStep("Device", new DeviceStep(), DeviceVM);
         AddStep("Settings", new SettingsStep(), SettingsVM);
@@ -60,7 +70,10 @@ public class FirstStartViewModel : BaseViewModel
 
     public ObservableCollection<StepBarItem> StepTitles { get; set; } = new();
 
-    public void AddStep(string title, UserControl control, BaseViewModel viewModel = null)
+    public void AddStep(string title,
+                        UserControl control,
+                        BaseViewModel viewModel = null
+                        )
     {
         control.DataContext = viewModel;
 
@@ -83,6 +96,25 @@ public class FirstStartViewModel : BaseViewModel
         else
         {
             RequestClose();
+
+            var connectViewModel = ServiceLocator.Container.Resolve<ConnectionWindowViewModel>();
+
+            _loginService.RememberLoginCredencials(DeviceVM.SelectedLogin);
+            _loginService.SetLoginCredential(DeviceVM.SelectedLogin);
+
+            connectViewModel.SelectedLogin = DeviceVM.SelectedLogin;
+            connectViewModel.ConnectCommand.Execute(null);
+
+            var settings = _settingsService.GetSettings();
+            settings.IsFirstStart = false;
+
+            _settingsService.Save(settings);
+
+            if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                desktop.MainWindow = new MainWindow();
+                desktop.MainWindow.Show();
+            }
         }
     }
 }
