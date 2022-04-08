@@ -47,7 +47,7 @@ public class Xochitl
     {
         var str = GetProperty("ShareEmailAddresses", "General");
 
-        return str.Split(',').Select(_ => _.Trim()).ToArray();
+        return str?.Split(',').Select(_ => _.Trim()).ToArray();
     }
 
     public string GetToken(string key, string section)
