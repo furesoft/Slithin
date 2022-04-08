@@ -63,7 +63,7 @@ jobs:
             ~/.nuget/packages
             ~/.dotnet
             ./Dist
-          key: ${{ runner.os }}-${{ github.ref_name }}
+          key: ${{ runner.os }}-${{ github.ref_name }}-${{matrix.arch}}
           restore-keys: |
             ${{ runner.os }}-
     - name: Publish
@@ -91,7 +91,7 @@ jobs:
             ~/.nuget/packages
             ~/.dotnet
             ./Dist
-          key: ${{ runner.os }}-${{ github.ref_name }}-build-packages
+          key: ${{ runner.os }}-${{ github.ref_name }}--${{matrix.package}}
           restore-keys: |
             ${{ runner.os }}-
     - name: Creating Deb-Package
@@ -116,7 +116,7 @@ jobs:
             ./Dist
           key: ${{ runner.os }}-${{ github.ref_name }}-finally
           restore-keys: |
-            ${{ runner.os }}-
+            ${{ runner.os }}-${{ github.ref_name }}
     - name: Get version Tag
       id: versiontag
       run: |
