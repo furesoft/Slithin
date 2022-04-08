@@ -1,0 +1,317 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Slithin.Controls.Ports.StepBar"
+    xmlns:panels="using:Slithin.Controls.Ports.Panels"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--ported from https://github.com/HandyOrg/HandyControl-->
+
+    <Styles.Resources>
+
+        <ItemsPanelTemplate x:Key="StepBarHorizontalItemsPanelTemplate">
+            <UniformGrid Rows="1" />
+        </ItemsPanelTemplate>
+
+        <ItemsPanelTemplate x:Key="StepBarVerticalItemsPanelTemplate">
+            <UniformGrid Columns="1" />
+        </ItemsPanelTemplate>
+
+        <ControlTemplate x:Key="StepBarHorizontalTopControlTemplate">
+            <panels:SimplePanel>
+                <ProgressBar HorizontalAlignment="Center"
+                            Classes="ProgressBarFlat"
+                            Background="{Binding ProgressBackground, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                            Foreground="{Binding ProgressForeground, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                            Height="4"
+                            Name="PART_ProgressBarBack"
+                            VerticalAlignment="Top"
+                            Margin="0,10,0,0" />
+                <ItemsPresenter
+                        Items="{Binding Items, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                        ItemsPanel="{Binding ItemsPanel, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                        ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource AncestorType=controls:StepBar}}" />
+            </panels:SimplePanel>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="StepBarHorizontalBottomControlTemplate">
+            <panels:SimplePanel>
+                <ProgressBar HorizontalAlignment="Center"
+                             Classes="ProgressBarFlat"
+                             Background="{Binding ProgressBackground, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                             Foreground="{Binding ProgressForeground, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                             Name="PART_ProgressBarBack"
+                             VerticalAlignment="Bottom"
+                             Margin="0,0,0,10" />
+                <ItemsPresenter VerticalAlignment="Bottom"
+                        Items="{Binding Items, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                        ItemsPanel="{Binding ItemsPanel, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                        ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource AncestorType=controls:StepBar}}" />
+            </panels:SimplePanel>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="StepBarVerticalLeftControlTemplate">
+            <panels:SimplePanel>
+                <ProgressBar Classes="ProgressBarFlat"
+                             Orientation="Vertical"
+                             Background="{Binding ProgressBackground, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                             Foreground="{Binding ProgressForeground, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                             HorizontalAlignment="Left"
+                             Width="4"
+                             Name="PART_ProgressBarBack"
+                             VerticalAlignment="Center"
+                             Margin="10,0,0,0"
+                             RenderTransformOrigin="0.5,0.5" />
+                <ItemsPresenter
+                    Items="{Binding Items, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                        ItemsPanel="{Binding ItemsPanel, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                        ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource AncestorType=controls:StepBar}}" />
+            </panels:SimplePanel>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="StepBarVerticalRightControlTemplate">
+            <panels:SimplePanel>
+                <ProgressBar
+                             Classes="ProgressBarFlat"
+                             Orientation="Vertical"
+                             Background="{Binding ProgressBackground, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                             Foreground="{Binding ProgressForeground, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                             HorizontalAlignment="Right"
+                             Name="PART_ProgressBarBack"
+                             VerticalAlignment="Center"
+                             Width="4"
+                             Margin="0,0,10,0"
+                             RenderTransformOrigin="0.5,0.5" />
+                <ItemsPresenter
+                    Items="{Binding Items, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                        ItemsPanel="{Binding ItemsPanel, RelativeSource={RelativeSource AncestorType=controls:StepBar}}"
+                        ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource AncestorType=controls:StepBar}}" />
+            </panels:SimplePanel>
+        </ControlTemplate>
+    </Styles.Resources>
+
+    <Style Selector="controls|StepBarItem.StepBarItemHorizontalTop">
+        <Setter Property="Margin" Value="10,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <Border
+                                Background="{TemplateBinding ContentBorderBackground}"
+                                HorizontalAlignment="Center"
+                                CornerRadius="12"
+                                BorderThickness="1.5"
+                                BorderBrush="{TemplateBinding Foreground}"
+                                Height="24"
+                                MinWidth="24">
+                            <TextBlock Foreground="{TemplateBinding Foreground}"
+                                        VerticalAlignment="Center" TextAlignment="Center"
+                                        Text="{Binding Index, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Border>
+
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          Content="{TemplateBinding Content}"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}"
+                                          Margin="0,4,0,0" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Selector="controls|StepBarItem.StepBarItemHorizontalBottom">
+        <Setter Property="Margin" Value="10,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <ContentPresenter HorizontalAlignment="Center"
+                                        Content="{TemplateBinding Content}"
+                                        TextBlock.Foreground="{TemplateBinding Foreground}"
+                                        Margin="0,0,0,4" />
+                        <Border Background="{TemplateBinding ContentBorderBackground}"
+                                HorizontalAlignment="Center"
+                                CornerRadius="12"
+                                BorderThickness="2"
+                                BorderBrush="{TemplateBinding Foreground}"
+                                Height="24"
+                                MinWidth="24">
+                            <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       Text="{Binding Index, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Border>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Selector="controls|StepBarItem.StepBarItemVerticalLeft">
+        <Setter Property="Margin" Value="0, 10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Background="{TemplateBinding ContentBorderBackground}"
+                                HorizontalAlignment="Center" CornerRadius="12"
+                                BorderThickness="2"
+                                BorderBrush="{TemplateBinding Foreground}"
+                                Height="24"
+                                MinWidth="24">
+                            <TextBlock Foreground="{TemplateBinding Foreground}"
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding Index,RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Border>
+                        <ContentPresenter HorizontalAlignment="Left"
+                            Content="{TemplateBinding Content}"
+                            TextBlock.Foreground="{TemplateBinding Foreground}"
+                            Margin="10,4,0,0" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Selector="controls|StepBarItem.StepBarItemVerticalRight">
+        <Setter Property="Margin" Value="0, 10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <ContentPresenter Grid.Column="0" HorizontalAlignment="Stretch"
+                            Content="{TemplateBinding Content}"
+                            TextBlock.Foreground="{TemplateBinding Foreground}"
+                            Margin="0,0,10,0" />
+
+                        <Border Grid.Column="1" Background="{TemplateBinding ContentBorderBackground}"
+                                HorizontalAlignment="Right" CornerRadius="12"
+                                BorderThickness="2"
+                                BorderBrush="{TemplateBinding Foreground}"
+                                Height="24"
+                                MinWidth="24">
+                            <TextBlock Foreground="{TemplateBinding Foreground}"
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding Index,RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Selector="ProgressBar.ProgressBarFlat">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="Height" Value="4" />
+        <Setter Property="ZIndex" Value="-9" />
+        <!-- Base Progress Style has MinHeight, MinWidth set -->
+        <Setter Property="MinHeight" Value="1" />
+        <Setter Property="MinWidth" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <panels:SimplePanel x:Name="TemplateRoot"
+                                         ClipToBounds="True">
+                        <Rectangle x:Name="PART_Track"
+                                   Fill="{TemplateBinding Background}"
+                                   StrokeThickness="0"
+                                   Stroke="{TemplateBinding BorderBrush}" />
+                        <Border x:Name="PART_Indicator" HorizontalAlignment="Left">
+                            <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" />
+                        </Border>
+                        <Rectangle x:Name="Animation" IsVisible="False"
+                                   Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                </TransformGroup>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                    </panels:SimplePanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Selector="ProgressBar.ProgressBarFlat[IsIndeterminate=true] /template/ Rectangle#Indicator">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <Style Selector="ProgressBar.ProgressBarFlat[IsIndeterminate=true] /template/ Rectangle#Animation">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <Style Selector="ProgressBar.ProgressBarFlat[Orientation=Vertical]">
+        <Setter Property="Height" Value="{x:Static system:Double.NaN}" />
+    </Style>
+
+    <Style Selector="controls|StepBar">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="ProgressBackground" Value="White" />
+        <Setter Property="ProgressForeground" Value="LightGray" />
+        <Setter Property="ItemsPanel" Value="{StaticResource StepBarHorizontalItemsPanelTemplate}" />
+
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <!-- StepBarItem classes will be set in the Render method class: StepBarItem -->
+                        <controls:StepBarItem Classes="StepBarItemHorizontalTop" />
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template" Value="{StaticResource StepBarHorizontalTopControlTemplate}" />
+    </Style>
+
+    <Style Selector="controls|StepBar[Dock=Left]">
+        <Setter Property="ItemsPanel" Value="{StaticResource StepBarVerticalItemsPanelTemplate}" />
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <!-- StepBarItem classes will be set in the Render method class: StepBarItem -->
+                        <controls:StepBarItem Classes="StepBarItemVerticalLeft" />
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template" Value="{StaticResource StepBarVerticalLeftControlTemplate}" />
+    </Style>
+
+    <Style Selector="controls|StepBar[Dock=Bottom]">
+        <Setter Property="ItemsPanel" Value="{StaticResource StepBarHorizontalItemsPanelTemplate}" />
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <!-- StepBarItem classes will be set in the Render method class: StepBarItem -->
+                        <controls:StepBarItem Classes="StepBarItemHorizontalBottom" />
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template" Value="{StaticResource StepBarHorizontalBottomControlTemplate}" />
+    </Style>
+
+    <Style Selector="controls|StepBar[Dock=Right]">
+        <!-- Not the original style:-->
+        <!-- <Setter Property="FlowDirection" Value="RightToLeft" /> -->
+        <Setter Property="ItemsPanel" Value="{StaticResource StepBarVerticalItemsPanelTemplate}" />
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <!-- StepBarItem classes will be set in the Render method class: StepBarItem -->
+                        <controls:StepBarItem Classes="StepBarItemVerticalRight" />
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template" Value="{StaticResource StepBarVerticalRightControlTemplate}" />
+    </Style>
+</Styles>

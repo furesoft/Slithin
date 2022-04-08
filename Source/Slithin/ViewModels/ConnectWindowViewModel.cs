@@ -13,11 +13,11 @@ using Renci.SshNet;
 using Serilog;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Models;
 using Slithin.UI.Views;
-using Slithin.Core.MVVM;
 using Slithin.Validators;
 
 namespace Slithin.ViewModels;
@@ -85,6 +85,15 @@ public class ConnectionWindowViewModel : BaseViewModel
         LoginCredentials = new(li);
     }
 
+    private void client_errocOccured(object s, Renci.SshNet.Common.ExceptionEventArgs _)
+    {
+        DialogService.OpenError(_.Exception.ToString());
+
+        var logger = ServiceLocator.Container.Resolve<ILogger>();
+
+        logger.Error(_.Exception.ToString());
+    }
+
     private void Connect(object obj)
     {
         ServiceLocator.Container.Resolve<LogInitalizer>().Init();
@@ -120,11 +129,7 @@ public class ConnectionWindowViewModel : BaseViewModel
             scp = new ScpClient(ip.Address, ip.Port, "root", SelectedLogin.Password);
         }
 
-        client.ErrorOccurred += (s, _) =>
-        {
-            DialogService.OpenError(_.Exception.ToString());
-            logger.Error(_.Exception.ToString());
-        };
+        client.ErrorOccurred += client_errocOccured;
 
         try
         {
@@ -158,6 +163,8 @@ public class ConnectionWindowViewModel : BaseViewModel
             pingTimer.Start();
 
             _loginService.SetLoginCredential(SelectedLogin);
+
+            client.ErrorOccurred -= client_errocOccured;
 
             desktop.MainWindow.Hide();
             desktop.MainWindow = new MainWindow();

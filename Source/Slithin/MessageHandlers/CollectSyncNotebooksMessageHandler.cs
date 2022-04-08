@@ -222,13 +222,13 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             }
         }
 
-        if (mdObj.Type == "CollectionType" && mdObj.Parent == "")
+        if (mdObj.Type == "CollectionType")
         {
             MetadataStorage.Local.AddMetadata(mdObj, out var alreadyAdded);
 
             if (!alreadyAdded)
             {
-                if (!_synchronisationService.NotebooksFilter.Documents.Contains(mdObj))
+                if (!_synchronisationService.NotebooksFilter.Documents.Contains(mdObj) && mdObj.Parent == "")
                 {
                     _synchronisationService.NotebooksFilter.Documents.Add(mdObj);
                 }

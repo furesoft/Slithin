@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:c="using:Slithin.Controls.Ports.StepBar"
+        xmlns:l="using:Slithin.Core"
+        xmlns:steps="using:Slithin.UI.FirstStartSteps" Height="500" Width="700"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Icon="avares:/Resources/Icon.png" WindowStartupLocation="CenterScreen"
+        x:Class="Slithin.UI.Views.FirstStartWindow" SystemDecorations="BorderOnly"
+        Title="{l:Localisation 'Welcome To Slithin'}">
+    <Grid Margin="5">
+
+        <StackPanel Orientation="Horizontal" Spacing="50">
+            <Image Source="avares:/Resources/Icon.png" Margin="5" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+            <Carousel Items="{Binding StepControls}" l:StepManager.StepContainer="True" SelectedIndex="{Binding #stepbarTop.StepIndex, Mode=TwoWay}" HorizontalAlignment="Stretch" Margin="5" />
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Bottom">
+            <c:StepBar x:Name="stepbarTop" StepIndex="{Binding Index, Mode=TwoWay}" Items="{Binding StepTitles, Mode=TwoWay}" VerticalAlignment="Top" l:StepManager.ManageStepBar="True" />
+
+            <Button Margin="10" HorizontalAlignment="Right" Classes="Flat" Content="{Binding ButtonText}" Command="{Binding NextCommand}" IsDefault="True" />
+        </StackPanel>
+    </Grid>
+</Window>

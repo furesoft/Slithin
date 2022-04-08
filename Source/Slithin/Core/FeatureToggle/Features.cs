@@ -15,7 +15,10 @@ public static class Features
 
         foreach (var type in types)
         {
-            _allFeatures.Add(type.Name, type);
+            if (!type.IsInterface && !type.IsAbstract && !_allFeatures.ContainsKey(type.Name))
+            {
+                _allFeatures.Add(type.Name, type);
+            }
         }
     }
 

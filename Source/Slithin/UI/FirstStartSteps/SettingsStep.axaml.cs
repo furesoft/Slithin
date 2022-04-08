@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.Styles;
+namespace Slithin.UI.FirstStartSteps;
 
-public partial class NodeCategoryView : UserControl
+public partial class SettingsStep : UserControl
 {
-    public NodeCategoryView()
+    public SettingsStep()
     {
         InitializeComponent();
     }
