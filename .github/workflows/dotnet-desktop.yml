@@ -75,7 +75,7 @@ jobs:
       with:
         name: publish-output
         path: |
-          ./Dist/*.zip
+          ./Dist/${{ matrix.arch }}.zip
         retention-days: 1
 
   build-packages:
@@ -107,7 +107,7 @@ jobs:
       with:
         name: build-packages-output
         path: |
-          ./Dist/*.zip
+          ./Dist/Linux-x64-${{ matrix.package }}
         retention-days: 1
 
   finally:
