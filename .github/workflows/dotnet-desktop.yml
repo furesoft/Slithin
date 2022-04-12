@@ -4,7 +4,6 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
 
 env:
   SOLUTION_PATH: Source/Slithin
@@ -30,7 +29,6 @@ jobs:
           path: |
             ~/.nuget/packages
             ~/.dotnet
-            ./Dist
           key: ${{ runner.os }}-${{ github.ref_name }}
           restore-keys: |
             ${{ runner.os }}-
@@ -58,11 +56,11 @@ jobs:
       with:
         fetch-depth: 0
     - uses: actions/cache@v3
+      id: cache-setup
       with:
           path: |
             ~/.nuget/packages
             ~/.dotnet
-            ./Dist
           key: ${{ runner.os }}-${{ github.ref_name }}
           restore-keys: |
             ${{ runner.os }}-
@@ -72,6 +70,13 @@ jobs:
       uses: montudor/action-zip@v1
       with:
         args: zip -qq -r ./Dist/${{ matrix.arch }}.zip ./Dist/${{ matrix.arch }}
+    - name: Upload the build output
+      uses: actions/upload-artifact@v2
+      with:
+        name: publish-output
+        path: |
+          ./Dist/${{ matrix.arch }}.zip
+        retention-days: 1
 
   build-packages:
     runs-on: ubuntu-latest
@@ -86,17 +91,24 @@ jobs:
       with:
         fetch-depth: 0
     - uses: actions/cache@v3
+      id: cache-setup
       with:
           path: |
             ~/.nuget/packages
             ~/.dotnet
-            ./Dist
           key: ${{ runner.os }}-${{ github.ref_name }}
           restore-keys: |
             ${{ runner.os }}-
     - name: Creating Deb-Package
       run: dotnet ${{ matrix.package }} -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }}
       working-directory: ${{ env.SOLUTION_PATH }}
+    - name: Upload the build output
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-packages-output
+        path: |
+          ./Dist/Linux-x64-${{ matrix.package }}
+        retention-days: 1
 
   finally:
     runs-on: ubuntu-latest
@@ -108,23 +120,15 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - uses: actions/cache@v3
-      with:
-          path: |
-            ~/.nuget/packages
-            ~/.dotnet
-            ./Dist
-          key: ${{ runner.os }}-${{ github.ref_name }}
-          restore-keys: |
-            ${{ runner.os }}-
     - name: Get version Tag
       id: versiontag
       run: |
-        echo -e ::set-output name=tag::$(grep '<Version>' < .csproj | sed 's/.<Version>\(.\)<\/Version>/\1/')
-    - name: Generate Release
-      needs:
-        - versiontag
-        - setup
-      env:
-        TAG: ${{ steps.versiontag.outputs.tag }}
-      run: gh release create $TAG ./Dist/*.zip -F ${{ env.SOLUTION_PATH }}/Changelog.txt
+        echo -e ::set-output name=tag::$(grep '<Version>' < $SOLUTION_NAME | sed -n '/\<Version\>/,/\<\/Version\>/p')
+    - uses: ncipollo/release-action@v1
+      if: github.event_name != 'pull_request'
+      name: Generate Release
+      with:
+        artifacts: "./Dist/*.zip"
+        bodyFile: "${{ env.SOLUTION_PATH }}/Changelog.txt"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ steps.versiontag.outputs.tag }}
