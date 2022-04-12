@@ -76,7 +76,7 @@ jobs:
       with:
         name: publish-output
         path: |
-          ./Dist/*
+          ./Dist/*.zip
         retention-days: 1
 
   build-packages:
@@ -108,7 +108,7 @@ jobs:
       with:
         name: build-packages-output
         path: |
-          ./Dist/*
+          ./Dist/*.zip
         retention-days: 1
 
   finally:
@@ -128,7 +128,7 @@ jobs:
     - uses: ncipollo/release-action@v1
       name: Generate Release
       with:
-        artifacts: "./Dist/*"
+        artifacts: "./Dist/*.zip"
         bodyFile: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ steps.versiontag.outputs.tag }}
