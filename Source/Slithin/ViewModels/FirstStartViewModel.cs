@@ -99,16 +99,16 @@ public class FirstStartViewModel : BaseViewModel
 
             var connectViewModel = ServiceLocator.Container.Resolve<ConnectionWindowViewModel>();
 
+            var settings = _settingsService.GetSettings();
+            settings.IsFirstStart = false;
+
+            _settingsService.Save(settings);
+
             _loginService.RememberLoginCredencials(DeviceVM.SelectedLogin);
             _loginService.SetLoginCredential(DeviceVM.SelectedLogin);
 
             connectViewModel.SelectedLogin = DeviceVM.SelectedLogin;
             connectViewModel.ConnectCommand.Execute(null);
-
-            var settings = _settingsService.GetSettings();
-            settings.IsFirstStart = false;
-
-            _settingsService.Save(settings);
 
             if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
