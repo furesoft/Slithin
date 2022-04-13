@@ -25,7 +25,7 @@
                     <ItemsControl Items="{TemplateBinding Cards, Mode=TwoWay}" VerticalAlignment="Top">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <styles:Card Background="Gray" Margin="3" HorizontalAlignment="Center" MaxHeight="275">
+                                <styles:Card Background="#e2e2e2" Margin="3" HorizontalAlignment="Center" MaxHeight="275">
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Text="{Binding Name}" Margin="0,0,0,5" TextAlignment="Center" FontSize="17" FontWeight="Medium" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
 

@@ -21,7 +21,7 @@
             </c:GalleryControl>
 
             <c:StoreCardCollection Cards="{Binding Items}" Category="{l:Localisation 'Templates'}" MoreCommand="{Binding ViewMoreCommand}" />
-            <c:StoreCardCollection Cards="{Binding Items}" Category="{l:Localisation 'Tools'}" MoreCommand="{Binding ViewMoreCommand}" />
+            <c:StoreCardCollection Cards="{Binding Items}" Category="{l:Localisation 'Scripts'}" MoreCommand="{Binding ViewMoreCommand}" />
             <c:StoreCardCollection Cards="{Binding Items}" Category="{l:Localisation 'Notebooks'}" MoreCommand="{Binding ViewMoreCommand}" />
         </StackPanel>
     </ScrollViewer>
