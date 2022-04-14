@@ -23,7 +23,7 @@ public static class Program
             {
                 StartInfo = new System.Diagnostics.ProcessStartInfo(url) { UseShellExecute = true }
             };
-            browser.Start();
+            // browser.Start();
             // Wait for any key to be pressed before disposing of our web server.
             // In a service, we'd manage the lifecycle of our web server using
             // something like a BackgroundWorker or a ManualResetEvent.
@@ -41,12 +41,13 @@ public static class Program
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
             // First, we will configure our web server by adding Modules.
-            .WithModule(new BearerTokenModule("/slithin/api", basicAuthProvider, new string('f', 40)))
-            .WithWebApi("/slithin/api", m =>
+            .WithModule(new BearerTokenModule("/", basicAuthProvider, new string('f', 40)))
+            .WithWebApi("/", m =>
             {
                 m.RegisterController<ScreenController>();
                 m.RegisterController<FilesController>();
             })
+
             .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
 
         // Listen for state changes.

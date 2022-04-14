@@ -40,7 +40,9 @@ public class Repository
 
     public IEnumerable<string> GetScreenIds()
     {
-        return Storage.ListObjects("screens").Select(_ => _.Key);
+        var s3Objects = Storage.ListObjects("screens");
+
+        return s3Objects.Select(_ => _.Key);
     }
 
     public string GetScreens(int? count, int? skip)
