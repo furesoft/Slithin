@@ -128,7 +128,7 @@ jobs:
       if: github.event_name != 'pull_request'
       name: Generate Release
       with:
-        artifacts: "./Dist/*.zip"
+        artifacts: "./Dist/win-x86.zip ./Dist/win-x64.zip"
         bodyFile: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ steps.versiontag.outputs.tag }}
