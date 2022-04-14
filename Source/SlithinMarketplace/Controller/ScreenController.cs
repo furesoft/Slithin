@@ -6,9 +6,9 @@ namespace SlithinMarketplace.Controller;
 
 internal class ScreenController : WebApiController
 {
-    [Route(HttpVerbs.Get, "/screens/list/{count}")]
-    public string ListScreens(int count)
+    [Route(HttpVerbs.Get, "/screens/list/{?skip}/{?count}")]
+    public string List(int? count, int? skip)
     {
-        return ServiceLocator.Repository.GetScreens(count);
+        return ServiceLocator.Repository.GetScreens(count, skip);
     }
 }

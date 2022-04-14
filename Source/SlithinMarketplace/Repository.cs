@@ -43,9 +43,19 @@ public class Repository
         return Storage.ListObjects("screens").Select(_ => _.Key);
     }
 
-    public string GetScreens(int count)
+    public string GetScreens(int? count, int? skip)
     {
-        var ids = GetScreenIds().Take(count);
+        var ids = GetScreenIds();
+
+        if (skip.HasValue)
+        {
+            ids = ids.Skip(skip.Value);
+        }
+
+        if (count.HasValue)
+        {
+            ids = ids.Take(count.Value);
+        }
 
         return Serialize(ids.Select(_ => GetScreen(_)));
     }
