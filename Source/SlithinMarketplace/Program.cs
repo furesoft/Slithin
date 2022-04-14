@@ -1,6 +1,7 @@
 ﻿using EmbedIO;
 using EmbedIO.Actions;
 using EmbedIO.BearerToken;
+using SlithinMarketplace.Controller;
 using Swan.Logging;
 
 namespace SlithinMarketplace;
@@ -40,9 +41,12 @@ public static class Program
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
             // First, we will configure our web server by adding Modules.
-            .WithModule(new BearerTokenModule("/", basicAuthProvider, new string('f', 40)))
-            .WithWebApi("/slithin/api", m => m
-                .RegisterController<ApiController>())
+            .WithModule(new BearerTokenModule("/slithin/api", basicAuthProvider, new string('f', 40)))
+            .WithWebApi("/slithin/api", m =>
+            {
+                m.RegisterController<ScreenController>();
+                m.RegisterController<FilesController>();
+            })
             .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
 
         // Listen for state changes.

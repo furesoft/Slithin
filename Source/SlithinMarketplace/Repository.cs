@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Amazon.S3;
+﻿using Amazon.S3;
 using Newtonsoft.Json;
 using SlithinMarketplace.Models;
 
@@ -14,9 +13,10 @@ public class Repository
 
     public S3Wrapper Storage { get; set; }
 
-    public void AddScreen(string name, Stream strm)
+    public void AddScreen(Screen screen, Stream strm)
     {
-        Storage.UploadObjectFromStream("screens", name, strm);
+        Storage.UploadObject("screens", screen.ID, screen);
+        Storage.UploadObjectFromStream("files", screen.ID, strm);
     }
 
     public void AddUser(string username, string password)
@@ -25,7 +25,29 @@ public class Repository
         user.Username = username;
         user.PasswordHash = Utils.ComputeSha256Hash(password);
 
-        Storage.UploadObjectFromStream("users", username, Serialize(user));
+        Storage.UploadObject("users", username, user);
+    }
+
+    public Stream GetFile(string bucket, string id)
+    {
+        return Storage.GetObjectStream(bucket, id);
+    }
+
+    public Screen GetScreen(string id)
+    {
+        return Storage.GetObject<Screen>("screens", id);
+    }
+
+    public IEnumerable<string> GetScreenIds()
+    {
+        return Storage.ListObjects("screens").Select(_ => _.Key);
+    }
+
+    public string GetScreens(int count)
+    {
+        var ids = GetScreenIds().Take(count);
+
+        return Serialize(ids.Select(_ => GetScreen(_)));
     }
 
     public User GetUser(string username)
@@ -33,11 +55,8 @@ public class Repository
         return Storage.GetObject<User>("users", username);
     }
 
-    private Stream Serialize(object obj)
+    public string Serialize(object obj)
     {
-        var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        var jsonRaw = Encoding.ASCII.GetBytes(json);
-
-        return new MemoryStream(jsonRaw);
+        return JsonConvert.SerializeObject(obj, Formatting.Indented);
     }
 }

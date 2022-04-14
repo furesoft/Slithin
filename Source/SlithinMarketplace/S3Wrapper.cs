@@ -1,4 +1,5 @@
-﻿using Amazon.S3;
+﻿using System.Text;
+using Amazon.S3;
 using Amazon.S3.Model;
 using Newtonsoft.Json;
 
@@ -126,6 +127,19 @@ public class S3Wrapper
         }
 
         return result;
+    }
+
+    public void UploadObject(string bucket, string id, object obj)
+    {
+        static Stream Serialize(object obj)
+        {
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var jsonRaw = Encoding.ASCII.GetBytes(json);
+
+            return new MemoryStream(jsonRaw);
+        }
+
+        UploadObjectFromStream(bucket, id, Serialize(obj));
     }
 
     public void UploadObjectFromFile(string bucketName, string objectName, string filePath)

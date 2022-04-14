@@ -1,6 +1,5 @@
 ﻿using EmbedIO;
 using EmbedIO.BearerToken;
-using EmbedIO.Utilities;
 
 namespace SlithinMarketplace;
 
@@ -10,22 +9,29 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
 
     public async Task ValidateClientAuthentication(ValidateClientAuthenticationContext context)
     {
-        var data = await context.HttpContext.GetRequestFormDataAsync().ConfigureAwait(false);
+        var data = await context.HttpContext.GetRequestDataAsync<Grant>();
 
-        if (data?.ContainsKey("grant_type") == true && data["grant_type"] == "appid")
+        if (data != null && data.grant_type == "appid")
         {
             context.Identity.AddClaim(new System.Security.Claims.Claim("Role", "User"));
 
-            if (data["appid"] != "SlithinBetaID")
+            if (data.appid != "SlithinBeta")
             {
                 context.Rejected();
+                context.Validated(string.Empty);
             }
 
-            context.Validated(data.ContainsKey("username") ? data["username"] : string.Empty);
+            context.Validated(data.appid);
         }
         else
         {
             context.Rejected();
         }
+    }
+
+    private class Grant
+    {
+        public string appid { get; set; }
+        public string grant_type { get; set; }
     }
 }
