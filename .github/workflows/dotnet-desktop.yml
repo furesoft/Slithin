@@ -39,10 +39,10 @@ jobs:
         dotnet-version: 6.0.x
     - name: Installing dotnet-packaging deb
       if: steps.cache-setup.outputs.cache-hit != 'true'
-      run: dotnet tool install dotnet-deb
+      run: dotnet tool install --global dotnet-deb
     - name: Installing dotnet-packaging rpm
       if: steps.cache-setup.outputs.cache-hit != 'true'
-      run: dotnet tool install dotnet-rpm
+      run: dotnet tool install --global dotnet-rpm
   publish:
     runs-on: ubuntu-latest
     needs:
