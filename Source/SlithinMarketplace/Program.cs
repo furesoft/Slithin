@@ -45,7 +45,7 @@ public static class Program
             .WithWebApi("/", m =>
             {
                 m.RegisterController<ScreenController>();
-                m.RegisterController<FilesController>();
+                //m.RegisterController<FilesController>();
             })
 
             .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));

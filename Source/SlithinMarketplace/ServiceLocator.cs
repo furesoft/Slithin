@@ -1,24 +1,26 @@
-﻿using Amazon.S3;
+﻿using BlobHelper;
 using Newtonsoft.Json;
 
 namespace SlithinMarketplace;
 
 public class ServiceLocator
 {
-    static ServiceLocator()
+    public static void s()
     {
         var keys = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("keys.json"));
 
-        var config = new AmazonS3Config
-        {
-            //AuthenticationRegion = RegionEndpoint.USEast1.SystemName, // Should match the `MINIO_REGION` environment variable.
-            ServiceURL = keys["Url"],
-            ForcePathStyle = true // MUST be true to work correctly with MinIO server
-        };
+        AwsSettings settings = new AwsSettings(
+        keys["Url"],      // http://localhost:8000/
+        false,          // enable or disable SSL
+        keys["AccessKey"],
+        keys["SecretKey"],
+        AwsRegion.USEast1,
+        "screens",
+        keys["Url"]        // i.e. http://localhost:8000/{bucket}/{key}
+        );
 
-        var client = new AmazonS3Client(keys["AccessKey"], keys["SecretKey"], config);
-        Repository = new Repository(client);
+        Blobs blobs = new Blobs(settings);
+        var s = blobs.Enumerate().Result;
+        //Repository = new Repository(client);
     }
-
-    public static Repository Repository { get; set; }
 }
