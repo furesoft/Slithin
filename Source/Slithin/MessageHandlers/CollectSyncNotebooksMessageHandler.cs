@@ -76,8 +76,8 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
         {
             var md = mdFilenames[i];
             NotificationService.ShowProgress(
-                _localisationService.GetStringFormat(
-                    "Downloading Notebook Metadata {0}", $"{currentMd + 1} / {mdFilenames.Length - 1}"), currentMd, mdFilenames.Length - 1);
+                _localisationService.GetString(
+                    "Downloading Notebook Metadata"), currentMd, mdFilenames.Length - 1);
             currentMd++;
 
             var sshCommand = _client.RunCommand($"cat {PathList.Documents}/{md}");

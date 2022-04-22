@@ -117,7 +117,7 @@
   "Could not connect to host": "Could not connect to host",
   "Syncing ...": "Syncing ...",
   "Checking for Updates": "Checking for Updates",
-  "Downloading Notebook Metadata {0}": "Downloading Notebook Metadata {0}",
+  "Downloading Notebook Metadata": "Downloading Notebook Metadata",
   "Downloading Notebook {0}": "Downloading Notebook {0}",
   "Downloading Notebooks": "Downloading Notebooks",
   "Downloading {0}": "Downloading {0}",
