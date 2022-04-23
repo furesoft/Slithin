@@ -121,11 +121,19 @@ jobs:
       id: versiontag
       run: |
         echo -e ::set-output name=tag::$(grep '<Version>' < $SOLUTION_NAME | sed 's/<[vV]ersion>\(.*\)<\/[vV]ersion>/\1/')
-    - uses: ncipollo/release-action@v1
+    - uses: actions/download-artifact@v1
+        with:
+          name: build-packages-output
+    - uses: actions/download-artifact@v1
+        with:
+          name: publish-output
+    - uses: softprops/action-gh-release@v1
       if: github.event_name != 'pull_request'
       name: Generate Release
       with:
-        artifacts: "publish-output, build-packages-output"
-        bodyFile: "${{ env.SOLUTION_PATH }}/Changelog.txt"
+        body_path: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ steps.versiontag.outputs.tag }}
+        tag_name: ${{ steps.versiontag.outputs.tag }}
+        files: |
+          ${{ env.SOLUTION_PATH }}/Dist/**/*.*
+          ./Dist/**/*.*
