@@ -15,7 +15,7 @@ public class ServiceLocator
         Amazon.S3.AmazonS3Client client = new(keys["AccessKey"], keys["SecretKey"], config);
         var wrapper = new S3Wrapper(client);
 
-        var buckets = wrapper.ListObjects("test.json");
+        var buckets = wrapper.ListObjects("screens");
 
         //Repository = new Repository(client);
     }
