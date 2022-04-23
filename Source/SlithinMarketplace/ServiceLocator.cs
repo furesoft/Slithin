@@ -5,7 +5,7 @@ namespace SlithinMarketplace;
 
 public class ServiceLocator
 {
-    public static void ListTest()
+    static ServiceLocator()
     {
         var keys = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("keys.json"));
 
@@ -14,11 +14,10 @@ public class ServiceLocator
         config.ForcePathStyle = true;
         config.AuthenticationRegion = Amazon.RegionEndpoint.USEast1.SystemName;
 
-        Amazon.S3.AmazonS3Client client = new(keys["AccessKey"], keys["SecretKey"], config);
-        var wrapper = new S3Wrapper(client);
+        AmazonS3Client client = new(keys["AccessKey"], keys["SecretKey"], config);
 
-        var buckets = wrapper.ListObjects("screens");
-
-        //Repository = new Repository(client);
+        Repository = new Repository(client);
     }
+
+    public static Repository Repository { get; set; }
 }
