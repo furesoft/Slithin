@@ -99,7 +99,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-
     - name: Creating ${{ matrix.package }}-Package
-      run: dotnet ${{ matrix.package }} --version-suffix "" -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }}
+      run: dotnet ${{ matrix.package }} --version-suffix "" -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }} $SOLUTION_NAME
       #working-directory: ${{ env.SOLUTION_PATH }}
     - name: Upload the build output
       uses: actions/upload-artifact@v3
