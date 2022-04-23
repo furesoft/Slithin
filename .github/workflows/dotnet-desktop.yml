@@ -107,7 +107,7 @@ jobs:
       with:
         name: build-packages-output
         path: |
-          ./Dist/Linux-x64-${{ matrix.package }}
+          ./Dist/Linux-x64-${{ matrix.package }}/*
         retention-days: 1
 
   finally:
@@ -128,7 +128,7 @@ jobs:
       if: github.event_name != 'pull_request'
       name: Generate Release
       with:
-        artifacts: "./Dist/*.zip"
+        artifacts: "./Dist/**/*.zip"
         bodyFile: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ steps.versiontag.outputs.tag }}
