@@ -100,7 +100,7 @@ jobs:
             ${{ runner.os }}-
     - name: Creating ${{ matrix.package }}-Package
       run: dotnet ${{ matrix.package }} --version-suffix "" -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }}
-      working-directory: ${{ env.SOLUTION_PATH }}
+      #working-directory: ${{ env.SOLUTION_PATH }}
     - name: Upload the build output
       uses: actions/upload-artifact@v3
       with:
