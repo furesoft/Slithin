@@ -107,7 +107,7 @@ jobs:
       with:
         name: build-packages-output
         path: |
-          ./Dist/Linux-x64-${{ matrix.package }}/*
+          ./Dist/Linux-x64-${{ matrix.package }}/*.${{ matrix.package }}
         retention-days: 1
 
   finally:
