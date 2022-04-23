@@ -135,5 +135,5 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         tag_name: ${{ steps.versiontag.outputs.tag }}
         files: |
-          ${{ env.SOLUTION_PATH }}/Dist/**/*.*
-          ./Dist/**/*.*
+          $SOLUTION_PATH/publish-output/*
+          $SOLUTION_PATH/build-packages-output/*
