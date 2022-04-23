@@ -71,7 +71,7 @@ jobs:
       with:
         args: zip -qq -r ./Dist/${{ matrix.arch }}.zip ./Dist/${{ matrix.arch }}
     - name: Upload the build output
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: publish-output
         path: |
@@ -103,7 +103,7 @@ jobs:
       run: dotnet ${{ matrix.package }} --version-suffix "" -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }}
       working-directory: ${{ env.SOLUTION_PATH }}
     - name: Upload the build output
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: build-packages-output
         path: |
@@ -128,7 +128,7 @@ jobs:
       if: github.event_name != 'pull_request'
       name: Generate Release
       with:
-        artifacts: "./Dist/**/*.zip"
+        artifacts: "./Dist/**/*.zip, ./Dist/**/*.deb, ./Dist/**/*.rpm"
         bodyFile: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ steps.versiontag.outputs.tag }}
