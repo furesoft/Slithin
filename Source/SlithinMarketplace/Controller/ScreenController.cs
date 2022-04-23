@@ -9,7 +9,7 @@ internal class ScreenController : WebApiController
     [Route(HttpVerbs.Get, "/screens/list/{skip}/{count}")]
     public string List(int? count, int? skip)
     {
-        ServiceLocator.s();
+        ServiceLocator.ListTest();
 
         return "";
     }

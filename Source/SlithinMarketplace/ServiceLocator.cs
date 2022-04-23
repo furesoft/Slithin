@@ -5,12 +5,14 @@ namespace SlithinMarketplace;
 
 public class ServiceLocator
 {
-    public static void s()
+    public static void ListTest()
     {
         var keys = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("keys.json"));
 
         AmazonS3Config config = new AmazonS3Config();
         config.ServiceURL = keys["Url"];
+        config.ForcePathStyle = true;
+        config.AuthenticationRegion = Amazon.RegionEndpoint.USEast1.SystemName;
 
         Amazon.S3.AmazonS3Client client = new(keys["AccessKey"], keys["SecretKey"], config);
         var wrapper = new S3Wrapper(client);
