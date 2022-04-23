@@ -74,8 +74,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: publish-output
-        path: |
-          ./Dist/${{ matrix.arch }}.zip
+        path: "./Dist/**/*.*"
         retention-days: 1
 
   build-packages:
@@ -106,8 +105,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: build-packages-output
-        path: |
-          ./Dist/Linux-x64-${{ matrix.package }}/*.${{ matrix.package }}
+        path: "./Dist/**/*.*"
         retention-days: 1
 
   finally:
@@ -128,7 +126,7 @@ jobs:
       if: github.event_name != 'pull_request'
       name: Generate Release
       with:
-        artifacts: "./Dist/**/*.zip, ./Dist/**/*.deb, ./Dist/**/*.rpm"
+        artifacts: "./Dist/**/*.*"
         bodyFile: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ steps.versiontag.outputs.tag }}
