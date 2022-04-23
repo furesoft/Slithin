@@ -100,7 +100,6 @@ jobs:
             ${{ runner.os }}-
     - name: Creating ${{ matrix.package }}-Package
       run: dotnet ${{ matrix.package }} --version-suffix "" -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }} $SOLUTION_NAME
-
     - name: Upload the build output
       uses: actions/upload-artifact@v3
       with:
@@ -108,7 +107,7 @@ jobs:
         path: "${{ env.SOLUTION_PATH }}/Dist/**/*.*"
         retention-days: 1
 
-  finally:
+  release:
     runs-on: ubuntu-latest
     needs:
       - publish
@@ -121,7 +120,7 @@ jobs:
     - name: Get version Tag
       id: versiontag
       run: |
-        echo -e ::set-output name=tag::$(grep '<Version>' < $SOLUTION_NAME | sed -n '/\<Version\>/,/\<\/Version\>/p')
+        echo -e ::set-output name=tag::$(grep '<Version>' < Slithin.csproj | sed 's/<[vV]ersion>\(.*\)<\/[vV]ersion>/\1/')
     - uses: ncipollo/release-action@v1
       if: github.event_name != 'pull_request'
       name: Generate Release
