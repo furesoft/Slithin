@@ -1,4 +1,4 @@
-﻿using BlobHelper;
+﻿using Amazon.S3;
 using Newtonsoft.Json;
 
 namespace SlithinMarketplace;
@@ -9,18 +9,14 @@ public class ServiceLocator
     {
         var keys = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("keys.json"));
 
-        AwsSettings settings = new AwsSettings(
-        keys["Url"],      // http://localhost:8000/
-        false,          // enable or disable SSL
-        keys["AccessKey"],
-        keys["SecretKey"],
-        AwsRegion.USEast1,
-        "screens",
-        keys["Url"]        // i.e. http://localhost:8000/{bucket}/{key}
-        );
+        AmazonS3Config config = new AmazonS3Config();
+        config.ServiceURL = keys["Url"];
 
-        Blobs blobs = new Blobs(settings);
-        var s = blobs.Enumerate().Result;
+        Amazon.S3.AmazonS3Client client = new(keys["AccessKey"], keys["SecretKey"], config);
+        var wrapper = new S3Wrapper(client);
+
+        var buckets = wrapper.ListObjects("test.json");
+
         //Repository = new Repository(client);
     }
 }
