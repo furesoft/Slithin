@@ -100,14 +100,12 @@ jobs:
             ${{ runner.os }}-
     - name: Creating ${{ matrix.package }}-Package
       run: dotnet ${{ matrix.package }} --version-suffix "" -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }} $SOLUTION_NAME
-      #working-directory: ${{ env.SOLUTION_PATH }}
-    - name: fuck github actions
-      run: tree ./
+
     - name: Upload the build output
       uses: actions/upload-artifact@v3
       with:
         name: build-packages-output
-        path: "./Dist/**/*.*"
+        path: "${{ env.SOLUTION_PATH }}/Dist/**/*.*"
         retention-days: 1
 
   finally:
