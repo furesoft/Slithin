@@ -126,7 +126,7 @@ jobs:
       if: github.event_name != 'pull_request'
       name: Generate Release
       with:
-        artifacts: "./Dist/**/*.*"
+        artifacts: "./Dist/**/*.*, ${{ env.SOLUTION_PATH }}/Dist/**/*.*"
         bodyFile: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ steps.versiontag.outputs.tag }}
