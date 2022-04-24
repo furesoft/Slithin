@@ -11,11 +11,19 @@
     <ScrollViewer>
         <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
             <s:SettingsGroup Header="{l:Localisation 'Device'}" Grid.Column="0">
-                <Grid RowDefinitions="*,*">
-                    <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Label VerticalAlignment="Center" Content="{l:Localisation 'Name'}" />
+                <Grid RowDefinitions="*,*,*">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <Label VerticalAlignment="Center" Content="{l:Localisation 'Name'}" />
 
-                        <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
+                            <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <Label VerticalAlignment="Center" Content="{l:Localisation 'SleepTime'}" />
+
+                            <NumericUpDown VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Value="5" />
+                        </StackPanel>
                     </StackPanel>
 
                     <Button IsVisible="{Binding !IsSSHLogin}" HorizontalAlignment="Left" MaxWidth="175" Grid.Row="1" Classes="Flat" Content="{l:Localisation 'Enable SSH Login'}" />
