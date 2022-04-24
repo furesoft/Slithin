@@ -169,7 +169,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
 
             MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
 
-            if (md.Parent == "" && !alreadyAdded)
+            if (md.Parent == "" && !_synchronisationService.NotebooksFilter.Documents.Contains(md) && !alreadyAdded)
             {
                 _synchronisationService.NotebooksFilter.Documents.Add(md);
             }

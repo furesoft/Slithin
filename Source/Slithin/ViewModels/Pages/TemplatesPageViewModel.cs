@@ -1,16 +1,13 @@
-﻿using System.Linq;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using Slithin.Commands;
 using Slithin.Controls;
-using Slithin.Core;
-using Slithin.Core.Remarkable;
+using Slithin.Core.MVVM;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.UI.Modals;
-using Slithin.ViewModels.Modals;
-using Slithin.Commands;
-using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable.Models;
 using Slithin.Validators;
+using Slithin.ViewModels.Modals;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -55,14 +52,5 @@ public class TemplatesPageViewModel : BaseViewModel
     public override void OnLoad()
     {
         base.OnLoad();
-
-        _mailboxService.PostAction(() =>
-        {
-            NotificationService.Show("Loading Templates");
-
-            _loadingService.LoadTemplates();
-
-            SyncService.TemplateFilter.SelectedCategory = SyncService.TemplateFilter.Categories.First();
-        });
     }
 }
