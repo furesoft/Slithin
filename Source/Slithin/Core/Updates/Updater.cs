@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -8,8 +7,6 @@ using System.Threading.Tasks;
 using Ionic.Zip;
 using Octokit;
 using Slithin.Core.Services;
-using Slithin.Core;
-using Slithin.Core.Updates;
 
 namespace Slithin.Core.Updates;
 
@@ -56,7 +53,8 @@ public static class Updater
         var client = new GitHubClient(new ProductHeaderValue("SomeName"));
         var releases = await client.Repository.Release.GetAll("furesoft", "Slithin");
 
-        var latestGitHubVersion = new Version(releases[0].TagName);
+        var release = releases[0];
+        var latestGitHubVersion = new Version(release.TagName);
         var localVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
         //Compare the Versions
@@ -78,8 +76,8 @@ public static class Updater
             return;
         }
 
-        var asset = GetAsset(releases[0]);
-        SaveChangelog(releases);
+        var asset = GetAsset(release);
+        SaveChangelog(release);
 
         var wc = new WebClient();
 
@@ -146,26 +144,9 @@ public static class Updater
         return null;
     }
 
-    private static ReleaseAsset GetChangelogAsset(Release release)
+    private static void SaveChangelog(Release releases)
     {
-        foreach (var asset in release.Assets)
-        {
-            if (asset.Name == "Changelog.txt")
-            {
-                return asset;
-            }
-        }
-
-        return null;
-    }
-
-    private static void SaveChangelog(IReadOnlyList<Release> releases)
-    {
-        var cl = GetChangelogAsset(releases[0]);
-
-        var wc = new WebClient();
-
-        var content = wc.DownloadString(cl.BrowserDownloadUrl);
+        var content = releases.Body;
 
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
