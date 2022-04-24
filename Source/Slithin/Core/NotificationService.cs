@@ -4,9 +4,9 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using Serilog;
 using Slithin.Controls.Notifications;
+using Slithin.Core.MVVM;
 using Slithin.Core.Notifications;
 using Slithin.ViewModels;
-using Slithin.Core.MVVM;
 
 namespace Slithin.Core;
 
@@ -78,7 +78,6 @@ public static class NotificationService
     public static void ShowProgress(string message, int value, int maxValue)
     {
         var logger = ServiceLocator.Container.Resolve<ILogger>();
-        logger.Information(message);
 
         Dispatcher.UIThread.InvokeAsync(async () =>
         {
@@ -101,6 +100,8 @@ public static class NotificationService
 
             if (_progressViewModel.Value == _progressViewModel.MaxValue)
             {
+                logger.Information(message);
+
                 card?.Close();
 
                 _progressViewModel = null;

@@ -64,10 +64,10 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             = thumbnailFolders
                 .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[..^1])));
 
-        var thumbnailsSync = new SyncNotebook { Directories = thumbnailFoldersToSync };
 
-        if (thumbnailFolders.Any())
+        if (thumbnailFoldersToSync.Any())
         {
+        var thumbnailsSync = new SyncNotebook { Directories = thumbnailFoldersToSync };
             _syncNotebooks.Add(thumbnailsSync);
         }
 

@@ -67,8 +67,6 @@ public class SynchronizeCommand : ICommand
             _mailboxService.Post(new InitStorageMessage());
         }
 
-        NotificationService.Show(_localisationService.GetString("Syncing ..."));
-
         _mailboxService.Post(new CollectSyncNotebooksMessage());
 
         SyncDeviceDeletions();
