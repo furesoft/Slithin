@@ -36,7 +36,12 @@ public static class Program
                 m.RegisterController<ScreenController>();
                 m.RegisterController<FilesController>();
             })
+            .HandleHttpException((context, ex) =>
+            {
+                context.SendDataAsync(new { ex.StatusCode });
 
+                return Task.CompletedTask;
+            })
             .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
 
         // Listen for state changes.

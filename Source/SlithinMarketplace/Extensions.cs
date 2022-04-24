@@ -1,4 +1,6 @@
 ﻿using System.Collections.Specialized;
+using System.Security.Claims;
+using EmbedIO;
 
 namespace SlithinMarketplace;
 
@@ -17,5 +19,20 @@ public static class Extensions
         }
 
         return collection;
+    }
+
+    public static void RequireAdmin(this IHttpContext context)
+    {
+        context.RequireRole("Admin");
+    }
+
+    public static void RequireRole(this IHttpContext context, string role)
+    {
+        var principal = (ClaimsPrincipal)context.User;
+
+        if (!principal.IsInRole(role))
+        {
+            throw new HttpException(401);
+        }
     }
 }

@@ -10,6 +10,8 @@ public sealed class ScreenController : WebApiController
     [Route(HttpVerbs.Get, "/screens/")]
     public object List([QueryData] NameValueCollection parameters)
     {
+        HttpContext.RequireRole("Admin");
+
         return ServiceLocator.Repository.GetScreens().FilterByQuery(parameters);
     }
 }
