@@ -107,14 +107,14 @@ jobs:
         path: "${{ env.SOLUTION_PATH }}/Dist/**/*.*"
         retention-days: 1
 
-  beta:
+  prerelease:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     needs:
       - publish
       - build-packages
-    environment: beta
-    concurrency: beta
+    environment: prerelease
+    concurrency: prerelease
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -133,11 +133,12 @@ jobs:
         name: publish-output
         path: ./dist
     - uses: softprops/action-gh-release@v1
-      name: Generate Release
+      name: Generate Prerelease
       with:
         body_path: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag_name: ${{ steps.versiontag.outputs.tag }}-beta
+        tag_name: ${{ steps.versiontag.outputs.tag }}
+        prerelease: true
         files: |
           ./dist/**/*.zip
           ./dist/**/*.deb
@@ -147,7 +148,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     needs:
-      - beta
+      - prerelease
       - publish
       - build-packages
     environment: release
