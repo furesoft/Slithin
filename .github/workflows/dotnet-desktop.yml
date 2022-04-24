@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - uses: actions/cache@v3
@@ -53,7 +53,7 @@ jobs:
           arch: ["win-x86", "win-x64", "linux-x64", "osx-x64", "osx.12-arm64"]
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - uses: actions/cache@v3
@@ -88,7 +88,7 @@ jobs:
           package: ["rpm", "deb"]
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - uses: actions/cache@v3
@@ -120,7 +120,7 @@ jobs:
     concurrency: prerelease
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Get version Tag
@@ -158,7 +158,7 @@ jobs:
     concurrency: release
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Get version Tag
