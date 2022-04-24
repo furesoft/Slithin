@@ -107,11 +107,14 @@ jobs:
         path: "${{ env.SOLUTION_PATH }}/Dist/**/*.*"
         retention-days: 1
 
-  release:
+  prerelease:
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
     needs:
       - publish
       - build-packages
+    environment: prerelease
+    concurrency: prerelease
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -130,7 +133,42 @@ jobs:
         name: publish-output
         path: ./dist
     - uses: softprops/action-gh-release@v1
-      if: github.event_name != 'pull_request'
+      name: Generate Prerelease
+      with:
+        body_path: "${{ env.SOLUTION_PATH }}/Changelog.txt"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag_name: ${{ steps.versiontag.outputs.tag }}
+        prerelease: true
+        files: |
+          ./dist/**/*.zip
+          ./dist/**/*.deb
+          ./dist/**/*.rpm
+
+  release:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    needs:
+      - prerelease
+    environment: release
+    concurrency: release
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Get version Tag
+      id: versiontag
+      run: |
+        echo -e ::set-output name=tag::$(grep '<Version>' < $SOLUTION_NAME | sed 's/<[vV]ersion>\(.*\)<\/[vV]ersion>/\1/')
+    - uses: actions/download-artifact@v1
+      with:
+        name: build-packages-output
+        path: ./dist
+    - uses: actions/download-artifact@v1
+      with:
+        name: publish-output
+        path: ./dist
+    - uses: softprops/action-gh-release@v1
       name: Generate Release
       with:
         body_path: "${{ env.SOLUTION_PATH }}/Changelog.txt"
