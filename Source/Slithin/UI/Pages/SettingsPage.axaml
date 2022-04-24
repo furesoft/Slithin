@@ -20,9 +20,9 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Spacing="5">
-                            <Label VerticalAlignment="Center" Content="{l:Localisation 'SleepTime'}" />
+                            <Label VerticalAlignment="Center" Content="{l:Localisation 'PowerOffDelay'}" />
 
-                            <NumericUpDown VerticalAlignment="Center" MaxWidth="300" MinWidth="175" Value="5" />
+                            <NumericUpDown VerticalAlignment="Center" MaxWidth="300" MinWidth="175" Value="{Binding SuspendPowerOffDelay, Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
 

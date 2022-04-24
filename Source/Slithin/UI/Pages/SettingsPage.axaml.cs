@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Core;
 using Slithin.Core.Menu;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages;
 
@@ -25,6 +27,6 @@ public partial class SettingsPage : UserControl, IPage
     {
         AvaloniaXamlLoader.Load(this);
 
-        //DataContext = ServiceLocator.Container.Resolve<SettingsPageViewModel>();
+        DataContext = ServiceLocator.Container.Resolve<SettingsPageViewModel>();
     }
 }
