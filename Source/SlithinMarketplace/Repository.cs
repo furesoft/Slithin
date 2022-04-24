@@ -42,7 +42,7 @@ public class Repository
         return Storage.ListObjects("screens").Select(_ => _.Key);
     }
 
-    public IEnumerable<Screen> GetScreens(int? count, int? skip)
+    public Screen[] GetScreens(int? count, int? skip)
     {
         var ids = GetScreenIds();
 
@@ -56,7 +56,7 @@ public class Repository
             ids = ids.Take(count.Value);
         }
 
-        return ids.Select(_ => GetScreen(_));
+        return ids.Select(_ => GetScreen(_)).ToArray();
     }
 
     public User GetUser(string username)
