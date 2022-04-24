@@ -14,7 +14,11 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   SDK: Source/Slithin.Scripting.Interactive/Slithin.Scripting.Interactive.csproj   
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+  
+concurrency: 
+  group: prerelease
+  cancel-in-progress: true
+  
 jobs:
   Setup:
     runs-on: ubuntu-latest
