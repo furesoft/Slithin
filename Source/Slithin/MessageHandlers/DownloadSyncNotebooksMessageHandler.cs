@@ -30,7 +30,7 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
         Parallel.For(0, message.Notebooks.Count, (i, notebook) =>
         {
             NotificationService.ShowProgress(_localisationService.GetStringFormat(
-                "Downloading Notebook {0}", $"{currendNotebook + 1}/{message.Notebooks.Count}"), currendNotebook, message.Notebooks.Count);
+                "Downloading Notebook"), currendNotebook, message.Notebooks.Count);
             currendNotebook++;
 
             var sn = message.Notebooks[i];

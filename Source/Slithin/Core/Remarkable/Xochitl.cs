@@ -59,7 +59,7 @@ public class Xochitl
             var start = value.IndexOf("(") + 1;
             var end = value.IndexOf(")");
 
-            return value.Substring(start, end - start);
+            return value[start..end];
         }
 
         return null;

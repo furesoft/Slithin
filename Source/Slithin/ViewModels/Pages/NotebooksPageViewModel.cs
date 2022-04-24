@@ -1,12 +1,12 @@
 ﻿using System.Windows.Input;
 using Serilog;
+using Slithin.Commands;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
-using Slithin.Commands;
-using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -106,12 +106,5 @@ public class NotebooksPageViewModel : BaseViewModel
     public override void OnLoad()
     {
         base.OnLoad();
-
-        _mailboxService.PostAction(() =>
-        {
-            NotificationService.Show(_localisationService.GetString("Loading Notebooks"));
-
-            _loadingService.LoadNotebooks();
-        });
     }
 }

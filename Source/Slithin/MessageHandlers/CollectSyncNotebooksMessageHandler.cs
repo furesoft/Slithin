@@ -64,10 +64,10 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             = thumbnailFolders
                 .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[..^1])));
 
-        var thumbnailsSync = new SyncNotebook { Directories = thumbnailFoldersToSync };
 
-        if (thumbnailFolders.Any())
+        if (thumbnailFoldersToSync.Any())
         {
+        var thumbnailsSync = new SyncNotebook { Directories = thumbnailFoldersToSync };
             _syncNotebooks.Add(thumbnailsSync);
         }
 
@@ -76,8 +76,8 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
         {
             var md = mdFilenames[i];
             NotificationService.ShowProgress(
-                _localisationService.GetStringFormat(
-                    "Downloading Notebook Metadata {0}", $"{currentMd + 1} / {mdFilenames.Length - 1}"), currentMd, mdFilenames.Length - 1);
+                _localisationService.GetString(
+                    "Downloading Notebook Metadata"), currentMd, mdFilenames.Length - 1);
             currentMd++;
 
             var sshCommand = _client.RunCommand($"cat {PathList.Documents}/{md}");
@@ -169,7 +169,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
 
             MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
 
-            if (md.Parent == "" && !alreadyAdded)
+            if (md.Parent == "" && !_synchronisationService.NotebooksFilter.Documents.Contains(md) && !alreadyAdded)
             {
                 _synchronisationService.NotebooksFilter.Documents.Add(md);
             }

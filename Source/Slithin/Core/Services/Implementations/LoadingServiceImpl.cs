@@ -72,7 +72,7 @@ public class LoadingServiceImpl : ILoadingService
             }
         }
 
-        //Load first templates which are shown to make loading "faster"
+        //Load first templates which are shown to make loading "smoother and faster"
         LoadTemplatesByCategory(ServiceLocator.SyncService.TemplateFilter.Categories.First(), true);
 
         Parallel.ForEach(ServiceLocator.SyncService.TemplateFilter.Categories, (category) =>

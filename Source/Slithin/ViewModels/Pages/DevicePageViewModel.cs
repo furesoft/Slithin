@@ -7,11 +7,11 @@ using Renci.SshNet;
 using Serilog;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Models;
-using Slithin.Core.MVVM;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -95,6 +95,11 @@ public class DevicePageViewModel : BaseViewModel
         _mailboxService.PostAction(() =>
         {
             _loadingService.LoadTools();
+            _loadingService.LoadTemplates();
+
+            SyncService.TemplateFilter.SelectedCategory = SyncService.TemplateFilter.Categories.First();
+
+            _loadingService.LoadNotebooks();
         });
 
         ShareEmailAddresses = new(_xochitl.GetShareEmailAddresses());

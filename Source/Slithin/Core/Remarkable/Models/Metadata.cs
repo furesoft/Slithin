@@ -4,10 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Newtonsoft.Json;
 using Renci.SshNet;
-using Slithin.Core.Services;
 using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable.Models;
 
@@ -76,14 +74,7 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
 
     public bool Equals(Metadata x, Metadata y)
     {
-        return x!.Content.Equals(y.Content)
-               && x.Deleted == y.Deleted
-               && x.ID.Equals(y.ID)
-               && x.LastOpenedPage == y.LastOpenedPage
-               && x.Parent.Equals(y.Parent)
-               && x.Type.Equals(y.Type)
-               && x.Version == y.Version
-               && x.VisibleName.Equals(y.VisibleName);
+        return x.ID.Equals(y.ID);
     }
 
     public int GetHashCode([DisallowNull] Metadata obj)

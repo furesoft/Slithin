@@ -1,7 +1,11 @@
 Version 1.0.13
 
+- Loading Is Smoother
+- Bugfix 
 
 Version 1.0.12
+- Bugfix
+
 - Bugfix
 
 

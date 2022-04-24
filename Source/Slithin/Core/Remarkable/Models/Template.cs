@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Windows.Input;
 using Avalonia.Media;
@@ -6,13 +9,12 @@ using Avalonia.Media.Imaging;
 using LiteDB;
 using Newtonsoft.Json;
 using Renci.SshNet;
-using Slithin.Core.Services;
 using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable.Models;
 
-public class Template : INotifyPropertyChanged
+public class Template : INotifyPropertyChanged, IEqualityComparer<Template>
 {
     private IImage _image;
 
@@ -53,6 +55,16 @@ public class Template : INotifyPropertyChanged
     [BsonIgnore]
     [JsonIgnore]
     public ICommand TransferCommand { get; set; }
+
+    public bool Equals(Template x, Template y)
+    {
+        return x.Name.Equals(y.Name) && x.Filename.Equals(y.Filename);
+    }
+
+    public int GetHashCode([DisallowNull] Template obj)
+    {
+        return HashCode.Combine(obj.Filename, obj.Landscape, obj.Name);
+    }
 
     public void Load()
     {

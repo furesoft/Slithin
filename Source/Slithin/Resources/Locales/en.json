@@ -117,8 +117,8 @@
   "Could not connect to host": "Could not connect to host",
   "Syncing ...": "Syncing ...",
   "Checking for Updates": "Checking for Updates",
-  "Downloading Notebook Metadata {0}": "Downloading Notebook Metadata {0}",
-  "Downloading Notebook {0}": "Downloading Notebook {0}",
+  "Downloading Notebook Metadata": "Downloading Notebook Metadata",
+  "Downloading Notebook": "Downloading Notebook",
   "Downloading Notebooks": "Downloading Notebooks",
   "Downloading {0}": "Downloading {0}",
   "Downloading Screens": "Downloading Screens",
@@ -173,5 +173,7 @@
 
   "Setup For Device": "Setup For Device",
   "Slithin is now configured and you can start enjoy managing your Remarkable device.": "Slithin is now configured and you can start enjoy managing your Remarkable device.",
-  "Thanks for deciding using Slithin. This little wizard helps you to configure Slithin for your needs. Go to the next step to start configuring.": "Thanks for deciding using Slithin. This little wizard helps you to configure Slithin for your needs. Go to the next step to start configuring."
+  "Thanks for deciding using Slithin. This little wizard helps you to configure Slithin for your needs. Go to the next step to start configuring.": "Thanks for deciding using Slithin. This little wizard helps you to configure Slithin for your needs. Go to the next step to start configuring.",
+
+  "Scripts": "Scripts"
 }

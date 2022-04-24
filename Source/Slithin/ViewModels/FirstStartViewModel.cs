@@ -1,13 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Slithin.Controls.Ports.StepBar;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 using Slithin.UI.FirstStartSteps;
-using Slithin.UI.Views;
 using Slithin.ViewModels.Pages;
 
 namespace Slithin.ViewModels;
@@ -99,22 +97,16 @@ public class FirstStartViewModel : BaseViewModel
 
             var connectViewModel = ServiceLocator.Container.Resolve<ConnectionWindowViewModel>();
 
-            _loginService.RememberLoginCredencials(DeviceVM.SelectedLogin);
-            _loginService.SetLoginCredential(DeviceVM.SelectedLogin);
-
-            connectViewModel.SelectedLogin = DeviceVM.SelectedLogin;
-            connectViewModel.ConnectCommand.Execute(null);
-
             var settings = _settingsService.GetSettings();
             settings.IsFirstStart = false;
 
             _settingsService.Save(settings);
 
-            if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                desktop.MainWindow = new MainWindow();
-                desktop.MainWindow.Show();
-            }
+            _loginService.RememberLoginCredencials(DeviceVM.SelectedLogin);
+            _loginService.SetLoginCredential(DeviceVM.SelectedLogin);
+
+            connectViewModel.SelectedLogin = DeviceVM.SelectedLogin;
+            connectViewModel.ConnectCommand.Execute(null);
         }
     }
 }
