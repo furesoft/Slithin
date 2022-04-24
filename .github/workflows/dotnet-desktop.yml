@@ -175,6 +175,7 @@ jobs:
       with:
         name: publish-output
         path: ./dist
+    - uses: softprops/action-gh-release@v1
       name: Generate Release
       with:
         body_path: "${{ env.SOLUTION_PATH }}/Changelog.txt"
