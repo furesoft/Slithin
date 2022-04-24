@@ -14,9 +14,8 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
 
         if (data != null && data.grant_type == "password")
         {
-            context.Identity.AddClaim(new System.Security.Claims.Claim("Role", "User"));
-
             var user = ServiceLocator.Repository.GetUser(data.username);
+            context.Identity.AddClaim(new System.Security.Claims.Claim("Role", user.Role == "admin" ? "Admin" : "User"));
 
             if (user == null || Utils.ComputeSha256Hash(data.password) != user.HashedPassword)
             {
