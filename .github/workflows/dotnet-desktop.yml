@@ -79,7 +79,7 @@ jobs:
         path: "./Dist/**/*.*"
         retention-days: 1
 
-  "Build packages":
+  Build_packages:
     runs-on: ubuntu-latest
     needs:
       - setup
@@ -110,7 +110,7 @@ jobs:
         path: "${{ env.SOLUTION_PATH }}/Dist/**/*.*"
         retention-days: 1
 
-  "Create Prerelease":
+  Create_Prerelease:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     needs:
@@ -149,7 +149,7 @@ jobs:
           ./dist/**/*.deb
           ./dist/**/*.rpm
 
-  "Create Release":
+  Create_Release:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     needs:
