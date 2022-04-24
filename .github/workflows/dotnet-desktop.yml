@@ -15,10 +15,6 @@ env:
   SDK: Source/Slithin.Scripting.Interactive/Slithin.Scripting.Interactive.csproj   
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
-concurrency: 
-  group: prerelease
-  cancel-in-progress: true
-  
 jobs:
   Setup:
     runs-on: ubuntu-latest
@@ -121,7 +117,7 @@ jobs:
       - Build
       - Build_Packages
     environment: prerelease
-    concurrency: prerelease
+    concurrency: prereleas
     steps:
     - name: Checkout
       uses: actions/checkout@v3
