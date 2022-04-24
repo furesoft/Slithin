@@ -6,7 +6,7 @@
              xmlns:s="using:Slithin.Controls.Settings"
              xmlns:l="using:Slithin.Core"
              xmlns:f="using:Slithin.Core.FeatureToggle"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
+             mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="500"
              x:Class="Slithin.UI.Pages.SettingsPage">
     <ScrollViewer>
         <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
@@ -16,13 +16,13 @@
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <Label VerticalAlignment="Center" Content="{l:Localisation 'Name'}" />
 
-                            <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
+                            <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" Text="{Binding DeviceName, Mode=TwoWay}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <Label VerticalAlignment="Center" Content="{l:Localisation 'SleepTime'}" />
 
-                            <NumericUpDown VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Value="5" />
+                            <NumericUpDown VerticalAlignment="Center" MaxWidth="300" MinWidth="175" Value="5" />
                         </StackPanel>
                     </StackPanel>
 
