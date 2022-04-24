@@ -149,8 +149,6 @@ jobs:
     if: github.event_name != 'pull_request'
     needs:
       - prerelease
-      - publish
-      - build-packages
     environment: release
     concurrency: release
     steps:
