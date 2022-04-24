@@ -127,6 +127,7 @@ jobs:
     - uses: actions/download-artifact@v1
       with:
         name: publish-output
+        path: ./dist
     - uses: softprops/action-gh-release@v1
       if: github.event_name != 'pull_request'
       name: Generate Release
@@ -135,5 +136,6 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         tag_name: ${{ steps.versiontag.outputs.tag }}
         files: |
-          $SOLUTION_PATH/publish-output/*
-          $SOLUTION_PATH/build-packages-output/*
+          ./dist/**/*.zip
+          ./dist/**/*.deb
+          ./dist/**/*.rpm
