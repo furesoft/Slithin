@@ -60,6 +60,10 @@
                         <Button Classes="Flat" Command="{l:OpenLink 'https://www.facebook.com/groups/slithin/'}">
                             <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Facebook}" HorizontalAlignment="Left" ToolTip.Tip="Facebook" />
                         </Button>
+
+                        <Button Classes="Flat" Command="{l:OpenLink 'https://www.patreon.com/Slithin'}">
+                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource BoxIcons.LogosPatreon}" HorizontalAlignment="Left" ToolTip.Tip="Facebook" />
+                        </Button>
                     </StackPanel>
                 </Grid>
             </s:SettingsGroup>
