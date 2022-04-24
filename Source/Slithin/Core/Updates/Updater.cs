@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -17,7 +18,7 @@ public static class Updater
         var client = new GitHubClient(new ProductHeaderValue("SomeName"));
         var releases = await client.Repository.Release.GetAll("furesoft", "Slithin");
 
-        var latestGitHubVersion = new Version(releases[0].TagName);
+        var latestGitHubVersion = new Version(releases.First(_ => !_.Prerelease).TagName);
         var localVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
         //Compare the Versions
