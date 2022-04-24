@@ -16,7 +16,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  setup:
+  Setup:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -24,6 +24,7 @@ jobs:
       with:
         fetch-depth: 0
     - uses: actions/cache@v3
+      name: Setup Cache
       id: cache-setup
       with:
           path: |
@@ -43,10 +44,10 @@ jobs:
     - name: Installing dotnet-packaging rpm
       continue-on-error: true
       run: dotnet tool install --global dotnet-rpm
-  publish:
+  Build:
     runs-on: ubuntu-latest
     needs:
-      - setup
+      - Setup
     strategy:
         matrix:
           arch: ["win-x86", "win-x64", "linux-x64", "osx-x64", "osx.12-arm64"]
@@ -56,6 +57,7 @@ jobs:
       with:
         fetch-depth: 0
     - uses: actions/cache@v3
+      name: Setup Cache
       id: cache-setup
       with:
           path: |
@@ -64,7 +66,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.ref_name }}
           restore-keys: |
             ${{ runner.os }}-
-    - name: Publish
+    - name: Build ${{ matrix.arch }}
       run: dotnet publish -c Release -r ${{ matrix.arch }} -p:PublishReadyToRun=true --output ./Dist/${{ matrix.arch }} $SOLUTION_NAME
     - name: Ziping
       uses: montudor/action-zip@v1
@@ -77,10 +79,10 @@ jobs:
         path: "./Dist/**/*.*"
         retention-days: 1
 
-  build-packages:
+  Build_Packages:
     runs-on: ubuntu-latest
     needs:
-      - setup
+      - Setup
     strategy:
         matrix:
           package: ["rpm", "deb"]
@@ -90,6 +92,7 @@ jobs:
       with:
         fetch-depth: 0
     - uses: actions/cache@v3
+      name: Setup Cache
       id: cache-setup
       with:
           path: |
@@ -98,7 +101,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.ref_name }}
           restore-keys: |
             ${{ runner.os }}-
-    - name: Creating ${{ matrix.package }}-Package
+    - name: Build ${{ matrix.package }}
       run: dotnet ${{ matrix.package }} --version-suffix "" -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }} $SOLUTION_NAME
     - name: Upload the build output
       uses: actions/upload-artifact@v3
@@ -107,12 +110,12 @@ jobs:
         path: "${{ env.SOLUTION_PATH }}/Dist/**/*.*"
         retention-days: 1
 
-  prerelease:
+  Create_Prerelease:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     needs:
-      - publish
-      - build-packages
+      - Build
+      - Build_Packages
     environment: prerelease
     concurrency: prerelease
     steps:
@@ -125,10 +128,12 @@ jobs:
       run: |
         echo -e ::set-output name=tag::$(grep '<Version>' < $SOLUTION_NAME | sed 's/<[vV]ersion>\(.*\)<\/[vV]ersion>/\1/')
     - uses: actions/download-artifact@v1
+      name: Download package build artifacts
       with:
         name: build-packages-output
         path: ./dist
     - uses: actions/download-artifact@v1
+      name: Download build artifacts
       with:
         name: publish-output
         path: ./dist
@@ -144,11 +149,11 @@ jobs:
           ./dist/**/*.deb
           ./dist/**/*.rpm
 
-  release:
+  Create_Release:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     needs:
-      - prerelease
+      - Create_Prerelease
     environment: release
     concurrency: release
     steps:
@@ -161,10 +166,12 @@ jobs:
       run: |
         echo -e ::set-output name=tag::$(grep '<Version>' < $SOLUTION_NAME | sed 's/<[vV]ersion>\(.*\)<\/[vV]ersion>/\1/')
     - uses: actions/download-artifact@v1
+      name: Download package build artifacts
       with:
         name: build-packages-output
         path: ./dist
     - uses: actions/download-artifact@v1
+      name: Download build artifacts
       with:
         name: publish-output
         path: ./dist
