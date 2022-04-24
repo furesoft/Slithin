@@ -174,6 +174,7 @@ jobs:
         body_path: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag_name: ${{ steps.versiontag.outputs.tag }}
+        prerelease: false
         files: |
           ./dist/**/*.zip
           ./dist/**/*.deb
