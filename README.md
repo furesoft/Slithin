@@ -16,9 +16,15 @@ Slithin is available for Windows, Linux and OSX. The executables are available u
 * Replace Screen Images (PNG, JPEG, TIFF, BMP) or reload default
 * Tools (eg. add pages to PDF, PDF notebook creator)
 * Backup/Restore
+* Backup Single Notebook/Folder
+* Several Mini Tools In Contextmenu (e.g. Empty Trash, Pin/Unpin Notebooks/Folders)
+* Login With SSH Key
+* Reset Screens To Default
+* Small Menu For More Space For Content
+* List/Delete ShareEmail History
 
 # In Testing
-* Login With SSH Key
+* Generate SSH Key
 
 # Planned
 * Custom ScriptLanguage to create powerful new tools
