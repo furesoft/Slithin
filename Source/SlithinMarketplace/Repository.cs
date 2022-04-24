@@ -42,25 +42,15 @@ public class Repository
         return Storage.ListObjects("screens").Select(_ => _.Key);
     }
 
-    public Screen[] GetScreens(int? count, int? skip)
+    public Screen[] GetScreens()
     {
         var ids = GetScreenIds();
-
-        if (skip.HasValue)
-        {
-            ids = ids.Skip(skip.Value);
-        }
-
-        if (count.HasValue)
-        {
-            ids = ids.Take(count.Value);
-        }
 
         return ids.Select(_ => GetScreen(_)).ToArray();
     }
 
     public User GetUser(string username)
     {
-        return Storage.GetObject<User>("users", username);
+        return Storage.GetObject<User>("users", username + ".json");
     }
 }

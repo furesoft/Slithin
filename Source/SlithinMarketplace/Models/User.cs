@@ -1,6 +1,6 @@
 ﻿namespace SlithinMarketplace.Models;
 
-public class User
+public sealed class User
 {
     public string HashedPassword { get; set; }
     public string ID { get; set; }

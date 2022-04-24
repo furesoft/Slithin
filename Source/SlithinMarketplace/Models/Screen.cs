@@ -1,6 +1,6 @@
 ﻿namespace SlithinMarketplace.Models;
 
-public class Screen
+public sealed class Screen
 {
     public string FileID { get; set; }
     public string Filename { get; set; }
