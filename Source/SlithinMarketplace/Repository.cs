@@ -1,4 +1,4 @@
-using Amazon.S3;
+﻿using Amazon.S3;
 using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace;
@@ -12,10 +12,14 @@ public class Repository
 
     public S3Wrapper Storage { get; set; }
 
-    public void AddScreen(Screen screen, Stream strm)
+    public void AddFile(string id, Stream stream)
+    {
+        Storage.UploadObjectFromStream("files", id, stream);
+    }
+
+    public void AddScreen(Screen screen)
     {
         Storage.UploadObject("screens", screen.ID, screen);
-        Storage.UploadObjectFromStream("files", screen.ID, strm);
     }
 
     public void AddUser(string username, string password)
@@ -56,6 +60,6 @@ public class Repository
 
     public User GetUser(string username)
     {
-        return Storage.GetObject<User>("users", username + ".json");
+        return Storage.GetObject<User>("users", username);
     }
 }
