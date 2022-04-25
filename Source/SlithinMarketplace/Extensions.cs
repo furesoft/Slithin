@@ -31,9 +31,7 @@ public static class Extensions
         var principal = (ClaimsPrincipal)context.User;
         var claims = principal.Claims;
 
-        var inRole = principal.HasClaim(_ => _.Value == role && _.Type == "Role");
-
-        if (!inRole)
+        if (!principal.HasClaim(_ => _.Value == role && _.Type == "Role"))
         {
             throw new HttpException(401);
         }

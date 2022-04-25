@@ -3,7 +3,7 @@ using CommandLine;
 
 namespace ApiConsole.Commands;
 
-[Verb("login", HelpText = "Login to the marketplace api")]
+[Verb("login", true, HelpText = "Login to the marketplace api")]
 public class LoginCommand : ICommand
 {
     [Option('p', "password", Required = true, HelpText = "The password to login with")]
