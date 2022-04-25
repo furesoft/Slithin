@@ -11,6 +11,7 @@ using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
+using Slithin.Messages;
 using Slithin.Models;
 
 namespace Slithin.ViewModels.Pages;
@@ -100,6 +101,8 @@ public class DevicePageViewModel : BaseViewModel
             SyncService.TemplateFilter.SelectedCategory = SyncService.TemplateFilter.Categories.First();
 
             _loadingService.LoadNotebooks();
+
+            _mailboxService.Post(new CheckForUpdateMessage());
         });
 
         ShareEmailAddresses = new(_xochitl.GetShareEmailAddresses());
