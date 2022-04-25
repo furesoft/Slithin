@@ -30,4 +30,14 @@ public class MarketplaceAPI
             Console.WriteLine("Login Successful");
         }
     }
+
+    public AssetStream<T> Stream<T>()
+    {
+        var asset = typeof(T).Name;
+
+        var request = new RestRequest($"/{asset.ToLower()}s", Method.Get);
+        request.AddHeader("Authorization", $"Bearer {_token}");
+
+        return new AssetStream<T>(_client, request);
+    }
 }
