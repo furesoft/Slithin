@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net;
 using ApiConsole.Core;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -34,25 +34,23 @@ public class MarketplaceAPI
         }
     }
 
-    public void CreateAndUploadAsset(object? assetObj, string fileToUpload)
+    public async void CreateAndUploadAsset(object? assetObj, string fileToUpload)
     {
         var request = new RestRequest($"/{assetObj.GetType().Name.ToLower()}s", Method.Put);
         request.AddBody(assetObj);
 
-        var result = _client.PutAsync<UploadRequest>(request).Result;
+        var result = await _client.PutAsync<UploadRequest>(request);
 
-        var wc = new HttpClient();
-        wc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-
-        wc.BaseAddress = _client.BuildUri(new RestRequest(result.UploadEndpoint));
+        var wc = new WebClient();
+        wc.Headers.Add("Authorization", "Bearer " + _token);
 
         var ms = new MemoryStream();
         using (var fs = File.OpenRead(fileToUpload))
         {
-            fs.CopyTo(ms);
+            await fs.CopyToAsync(ms);
         }
 
-        wc.PostAsync(result.UploadEndpoint, new StreamContent(ms));
+        wc.UploadData(_client.BuildUri(new RestRequest(result.UploadEndpoint)), ms.ToArray());
     }
 
     public T Get<T>(string asset)
