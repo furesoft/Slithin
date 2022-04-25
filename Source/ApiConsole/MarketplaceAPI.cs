@@ -39,4 +39,9 @@ public class MarketplaceAPI
 
         return _client.GetAsync<T>(request).Result;
     }
+
+    internal UploadRequest CreateScreen(Screen? screen)
+    {
+        throw new NotImplementedException();
+    }
 }
