@@ -18,4 +18,15 @@ public sealed class FilesController : WebApiController
             await fileStrm.CopyToAsync(stream);
         }
     }
+
+    [Route(HttpVerbs.Post, "/files/upload/{id}")]
+    public void Upload(string id)
+    {
+        var ms = new MemoryStream();
+        HttpContext.Request.InputStream.CopyTo(ms);
+
+        ServiceLocator.Repository.AddFile(id, ms);
+
+        ms.Close();
+    }
 }

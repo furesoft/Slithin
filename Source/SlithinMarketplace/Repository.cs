@@ -1,4 +1,4 @@
-﻿using Amazon.S3;
+using Amazon.S3;
 using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace;
@@ -25,6 +25,11 @@ public class Repository
         user.HashedPassword = Utils.ComputeSha256Hash(password);
 
         Storage.UploadObject("users", username, user);
+    }
+
+    public UploadRequest CreateUploadRequest(string id)
+    {
+        return new() { UploadEndpoint = $"/files/upload/{id}" };
     }
 
     public Stream GetFile(string bucket, string id)
