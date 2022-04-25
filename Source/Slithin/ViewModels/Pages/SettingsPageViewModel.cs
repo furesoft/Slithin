@@ -90,12 +90,6 @@ public class SettingsPageViewModel : BaseViewModel
         get { return _loginService.GetCurrentCredential().Key != null; }
     }
 
-    public int SuspendPowerOffDelay
-    {
-        get { return _xochitl.GetPowerOffDelay(); }
-        set { _xochitl.SetPowerOffDelay(value); }
-    }
-
     private void CheckForUpdates(object obj)
     {
         _mailboxService.Post(new Messages.CheckForUpdateMessage());

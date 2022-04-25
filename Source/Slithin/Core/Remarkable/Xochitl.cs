@@ -38,13 +38,6 @@ public class Xochitl
         return false;
     }
 
-    //Given in milliseconds
-    public int GetPowerOffDelay()
-    {
-        return int.Parse(
-            GetProperty("SuspendPowerOffDelay", "General"));
-    }
-
     public string GetProperty(string key, string section)
     {
         return _data[section][key];

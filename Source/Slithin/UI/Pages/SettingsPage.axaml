@@ -18,12 +18,6 @@
 
                             <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" Text="{Binding DeviceName, Mode=TwoWay}" />
                         </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            <Label VerticalAlignment="Center" Content="{l:Localisation 'PowerOffDelay'}" />
-
-                            <NumericUpDown VerticalAlignment="Center" MaxWidth="300" MinWidth="175" Value="{Binding SuspendPowerOffDelay, Mode=TwoWay}" />
-                        </StackPanel>
                     </StackPanel>
 
                     <Button IsVisible="{Binding !IsSSHLogin}" HorizontalAlignment="Left" MaxWidth="175" Grid.Row="1" Classes="Flat" Content="{l:Localisation 'Enable SSH Login'}" />
