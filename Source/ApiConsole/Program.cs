@@ -8,7 +8,14 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        Parser.Default
-            .ParseArguments<LoginCommand, ScreensCommand, TemplatesCommand>(args).WithParsed<ICommand>(t => t.Execute());
+        while (true)
+        {
+            Console.Write("> ");
+            var cmd = Console.ReadLine();
+
+            Parser.Default
+            .ParseArguments<LoginCommand, ScreensCommand, TemplatesCommand>(cmd.Split(' '))
+            .WithParsed<ICommand>(t => t.Execute());
+        }
     }
 }

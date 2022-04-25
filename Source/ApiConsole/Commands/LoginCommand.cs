@@ -14,6 +14,6 @@ public class LoginCommand : ICommand
 
     public void Execute()
     {
-        Console.WriteLine("Executing login");
+        ServiceLocator.API.Authenticate(Username, Password);
     }
 }

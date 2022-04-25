@@ -13,4 +13,8 @@
     <PackageReference Include="RestSharp" Version="107.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
+  </ItemGroup>
+
 </Project>
