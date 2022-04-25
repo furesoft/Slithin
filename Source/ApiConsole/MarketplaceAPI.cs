@@ -31,13 +31,12 @@ public class MarketplaceAPI
         }
     }
 
-    public AssetStream<T> Stream<T>()
+    public T Get<T>(string asset)
     {
-        var asset = typeof(T).Name;
-
-        var request = new RestRequest($"/{asset.ToLower()}s", Method.Get);
+        var request = new RestRequest($"/{asset}", Method.Get);
         request.AddHeader("Authorization", $"Bearer {_token}");
+        var r = _client.GetAsync(request).Result;
 
-        return new AssetStream<T>(_client, request);
+        return _client.GetAsync<T>(request).Result;
     }
 }

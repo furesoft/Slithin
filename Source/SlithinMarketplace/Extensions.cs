@@ -29,8 +29,11 @@ public static class Extensions
     public static void RequireRole(this IHttpContext context, string role)
     {
         var principal = (ClaimsPrincipal)context.User;
+        var claims = principal.Claims;
 
-        if (!principal.IsInRole(role))
+        var inRole = principal.HasClaim(_ => _.Value == role && _.Type == "Role");
+
+        if (!inRole)
         {
             throw new HttpException(401);
         }

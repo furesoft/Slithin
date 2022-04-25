@@ -15,7 +15,7 @@ public class ScreensCommand : ICommand
     {
         if (Get)
         {
-            var screens = ServiceLocator.API.Stream<Screen>().Get();
+            var screens = ServiceLocator.API.Get<Screen[]>("screens");
 
             Console.WriteLine(JsonConvert.SerializeObject(screens));
         }
