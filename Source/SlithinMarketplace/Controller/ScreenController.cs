@@ -2,6 +2,7 @@
 using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
+using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace.Controller;
 
@@ -10,8 +11,19 @@ public sealed class ScreenController : WebApiController
     [Route(HttpVerbs.Get, "/screens/")]
     public object List([QueryData] NameValueCollection parameters)
     {
-        HttpContext.RequireRole("Admin");
-
         return ServiceLocator.Repository.GetScreens().FilterByQuery(parameters);
+    }
+
+    [Route(HttpVerbs.Put, "/screens")]
+    public async Task<UploadRequest> Upload()
+    {
+        var body = await HttpContext.GetRequestDataAsync<Screen>();
+        body.InitIDs();
+
+        body.CreatorID = ServiceLocator.Repository.GetUser(HttpContext.User.Identity.Name).ID;
+
+        ServiceLocator.Repository.AddScreen(body);
+
+        return ServiceLocator.Repository.CreateUploadRequest(body.FileID);
     }
 }
