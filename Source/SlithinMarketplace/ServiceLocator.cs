@@ -1,4 +1,5 @@
 ﻿using Amazon.S3;
+using Amazon.RegionEndpoint;
 
 namespace SlithinMarketplace;
 
@@ -9,7 +10,7 @@ public class ServiceLocator
         AmazonS3Config config = new AmazonS3Config();
         config.ServiceURL = Environment.GetEnvironmentVariable("MINIO_HOST");
         config.ForcePathStyle = true;
-        config.AuthenticationRegion = AuthenticationRegion.USEast1.SystemName;
+        config.AuthenticationRegion = RegionEndpoint.USEast1.SystemName;
 
         AmazonS3Client client = new(
             Environment.GetEnvironmentVariable("MINIO_ACCESS_KEY"),
