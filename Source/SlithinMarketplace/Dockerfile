@@ -1,20 +1,25 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# Nutze SDK Image als base
+FROM mcr.microsoft.com/dotnet/sdk:6.0 as base
+# Erstele arbeitsbereich im Image
+WORKDIR /srv 
 
-FROM mcr.microsoft.com/dotnet/runtime:6.0 AS base
+# Kopiere Project in Arbeitsbereich
+COPY . /srv
+
+# Restore & Cache
+RUN dotnet restore SlithinMarketplace.csproj
+
+# Build & Publish
+RUN dotnet build "SlithinMarketplace.csproj" -c Release -o /srv/build && \
+    dotnet publish "SlithinMarketplace.csproj" -c Release -o /srv/publish
+
+# Nutze runtime Image nö sehe das hier
+FROM mcr.microsoft.com/dotnet/runtime:6.0
+# Erstele arbeitsbereich im Image.
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["../SlithinMarketplace/SlithinMarketplace.csproj", "../SlithinMarketplace/"]
-RUN dotnet restore "../SlithinMarketplace/SlithinMarketplace.csproj"
-COPY . .
-WORKDIR "/src/../SlithinMarketplace"
-RUN dotnet build "SlithinMarketplace.csproj" -c Release -o /app/build
+# Kopiere aus base
+COPY --from=base /srv/publish /app
 
-FROM build AS publish
-RUN dotnet publish "SlithinMarketplace.csproj" -c Release -o /app/publish
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "SlithinMarketplace.dll"]
+# Starte Andwendung
+CMD ["dotnet", "run", "/app/SlithinMarketplace.dll"] #The referenced project '../Slithin.Marketplace.Models/Slithin.Marketplace.Models.csproj' does not exist. [/srv/SlithinMarketplace.csproj]
