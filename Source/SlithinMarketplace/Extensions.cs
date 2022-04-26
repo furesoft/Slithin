@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Security.Claims;
 using EmbedIO;
+using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace;
 
@@ -19,6 +20,14 @@ public static class Extensions
         }
 
         return collection;
+    }
+
+    public static void InitAsset(this AssetModel asset, IHttpContext context)
+    {
+        asset.ID = Guid.NewGuid().ToString();
+        asset.FileID = Guid.NewGuid().ToString();
+
+        asset.CreatorID = ServiceLocator.Repository.GetUser(context.User.Identity.Name).ID;
     }
 
     public static void RequireAdmin(this IHttpContext context)

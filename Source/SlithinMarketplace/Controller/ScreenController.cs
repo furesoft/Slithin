@@ -18,9 +18,7 @@ public sealed class ScreenController : WebApiController
     public async Task<UploadRequest> Upload()
     {
         var body = await HttpContext.GetRequestDataAsync<Screen>();
-        body.InitIDs();
-
-        body.CreatorID = ServiceLocator.Repository.GetUser(HttpContext.User.Identity.Name).ID;
+        body.InitAsset(HttpContext);
 
         ServiceLocator.Repository.AddScreen(body);
 
