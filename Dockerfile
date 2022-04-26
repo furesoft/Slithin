@@ -10,5 +10,6 @@ RUN dotnet build "./Source/SlithinMarketplace/SlithinMarketplace.csproj" -c Rele
 FROM mcr.microsoft.com/dotnet/runtime:6.0
 WORKDIR /app
 
+EXPOSE 6969
 COPY --from=base /srv/publish /app
 ENTRYPOINT ["dotnet", "/app/SlithinMarketplace.dll"]
