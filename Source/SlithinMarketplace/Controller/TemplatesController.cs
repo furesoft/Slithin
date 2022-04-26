@@ -12,7 +12,7 @@ public sealed class TemplatesController : WebApiController
     [Route(HttpVerbs.Get, "/templates")]
     public object List([QueryData] NameValueCollection parameters)
     {
-        return ServiceLocator.Repository.GetScreens().FilterByQuery(parameters);
+        return ServiceLocator.Repository.GetTemplates().FilterByQuery(parameters);
     }
 
     [Route(HttpVerbs.Put, "/templates")]
