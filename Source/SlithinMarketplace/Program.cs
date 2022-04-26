@@ -8,20 +8,15 @@ namespace SlithinMarketplace;
 
 public static class Program
 {
-    public static void Main()
+    public static async Task Main()
     {
         var url = "https://*:9696/";
 
         // Our web server is disposable.
-        using (var server = CreateWebServer(url))
-        {
-            // Once we've registered our modules and configured them, we call the RunAsync() method.
-            server.RunAsync();
-        }
+        var server = CreateWebServer(url);
 
-        while (true)
-        {
-        }
+        // Once we've registered our modules and configured them, we call the RunAsync() method.
+        await server.RunAsync();
     }
 
     private static WebServer CreateWebServer(string url)
