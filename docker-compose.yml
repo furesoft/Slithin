@@ -1,0 +1,21 @@
+version: '3'
+services:
+  slithin-api:
+    build: .
+    networks:
+      - proxy
+    environment:
+      - MINIO_HOST=
+      - MINIO_ACCESS_KEY=
+      - MINIO_SECRET_KEY=
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.slithin-api.entrypoints=https"
+      - "traefik.http.routers.slithin-api.tls.certresolver=http"
+      - "traefik.http.routers.slithin-api.rule=Host(`slithin-api.example.org`)"
+      - "traefik.http.services.slithin-api.loadbalancer.server.port=6969"
+      - "traefik.docker.network=proxy"
+
+networks:
+  proxy:
+    external: true
