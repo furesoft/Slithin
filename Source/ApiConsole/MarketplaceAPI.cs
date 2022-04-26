@@ -53,9 +53,9 @@ public class MarketplaceAPI
         wc.UploadData(_client.BuildUri(new RestRequest(result.UploadEndpoint)), ms.ToArray());
     }
 
-    public T Get<T>(string asset)
+    public T Get<T>(string bucket)
     {
-        var request = new RestRequest($"/{asset}", Method.Get);
+        var request = new RestRequest($"/{bucket}", Method.Get);
         var r = _client.GetAsync(request).Result;
 
         return _client.GetAsync<T>(request).Result;
