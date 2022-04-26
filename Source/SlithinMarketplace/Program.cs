@@ -10,7 +10,7 @@ public static class Program
 {
     public static async Task Main()
     {
-        var url = "http://0.0.0.0:9696/";
+        var url = "http://*:9696/";
 
         // Our web server is disposable.
         var server = CreateWebServer(url);
