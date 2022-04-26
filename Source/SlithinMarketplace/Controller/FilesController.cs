@@ -1,17 +1,32 @@
-﻿using EmbedIO.WebApi;
+﻿using EmbedIO;
+using EmbedIO.Routing;
+using EmbedIO.WebApi;
 
 namespace SlithinMarketplace.Controller;
 
-internal class FilesController : WebApiController
+public sealed class FilesController : WebApiController
 {
-    /* [Route(HttpVerbs.Get, "/files/{bucket}/{id}")]
-     public async Task GetFile(string bucket, string id)
-     {
-         var fileStrm = ServiceLocator.Repository.GetFile(bucket, id);
+    [Route(HttpVerbs.Get, "/files/{id}")]
+    public async Task GetFile(string id)
+    {
+        var fileStrm = ServiceLocator.Repository.GetFile("files", id);
 
-         using (var stream = HttpContext.OpenResponseStream())
-         {
-             await fileStrm.CopyToAsync(stream);
-         }
-     }*/
+        HttpContext.Response.ContentType = "application/octetstream";
+
+        using (var stream = HttpContext.OpenResponseStream())
+        {
+            await fileStrm.CopyToAsync(stream);
+        }
+    }
+
+    [Route(HttpVerbs.Post, "/files/upload/{id}")]
+    public void Upload(string id)
+    {
+        var ms = new MemoryStream();
+        HttpContext.Request.InputStream.CopyTo(ms);
+
+        ServiceLocator.Repository.AddFile(id, ms);
+
+        ms.Close();
+    }
 }

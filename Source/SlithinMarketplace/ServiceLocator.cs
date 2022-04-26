@@ -12,7 +12,7 @@ public class ServiceLocator
         AmazonS3Config config = new AmazonS3Config();
         config.ServiceURL = keys["Url"];
         config.ForcePathStyle = true;
-        config.AuthenticationRegion = Amazon.RegionEndpoint.USEast1.SystemName;
+        config.AuthenticationRegion = "us-east1";
 
         AmazonS3Client client = new(keys["AccessKey"], keys["SecretKey"], config);
 
