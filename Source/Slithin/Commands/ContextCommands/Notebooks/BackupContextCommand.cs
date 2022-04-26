@@ -127,7 +127,7 @@ public class RestoreNotebookContextCommand : IContextCommand
             var zip = new ZipFile();
 
             //ToDo: implement restore single notebook
-            BackupNotebookOrFolder(md, zip);
+            //BackupNotebookOrFolder(md, zip);
 
             zip.ExtractProgress += (s, e) =>
             {
