@@ -77,6 +77,7 @@ public class S3Wrapper
             responseStream.CopyTo(strm);
 
             strm.Seek(0, SeekOrigin.Begin);
+            strm.Close();
         }
         catch (AmazonS3Exception e)
         {

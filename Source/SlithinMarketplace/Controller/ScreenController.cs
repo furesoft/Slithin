@@ -1,27 +1,14 @@
-﻿using System.Collections.Specialized;
-using EmbedIO;
+﻿using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
-using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace.Controller;
 
-public sealed class ScreenController : WebApiController
+internal class ScreenController : WebApiController
 {
-    [Route(HttpVerbs.Get, "/screens")]
-    public object List([QueryData] NameValueCollection parameters)
+    [Route(HttpVerbs.Get, "/screens/list/{skip}/{count}")]
+    public object List(int? count, int? skip)
     {
-        return ServiceLocator.Repository.GetAssets<Screen>("screens").FilterByQuery(parameters);
-    }
-
-    [Route(HttpVerbs.Put, "/screens")]
-    public async Task<UploadRequest> Upload()
-    {
-        var body = await HttpContext.GetRequestDataAsync<Screen>();
-        body.InitAsset(HttpContext);
-
-        ServiceLocator.Repository.AddAsset("screens", body);
-
-        return ServiceLocator.Repository.CreateUploadRequest(body.FileID);
+        return ServiceLocator.Repository.GetScreens(count, skip);
     }
 }

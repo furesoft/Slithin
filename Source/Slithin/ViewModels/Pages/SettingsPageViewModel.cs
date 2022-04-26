@@ -3,10 +3,9 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Serilog;
 using Slithin.Core;
-using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Models;
+using Slithin.Core.MVVM;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -19,13 +18,11 @@ public class SettingsPageViewModel : BaseViewModel
     private readonly IPathManager _pathManager;
     private readonly Settings _settings;
     private readonly ISettingsService _settingsService;
-    private readonly Xochitl _xochitl;
 
     public SettingsPageViewModel(ILoginService loginService,
-                                     ISettingsService settingsService,
+                                 ISettingsService settingsService,
                                  IPathManager pathManager,
                                  IMailboxService mailboxService,
-                                 Xochitl xochitl,
                                  ILogger logger)
     {
         _credential = loginService.GetCurrentCredential();
@@ -36,7 +33,6 @@ public class SettingsPageViewModel : BaseViewModel
         _settingsService = settingsService;
         _pathManager = pathManager;
         _mailboxService = mailboxService;
-        _xochitl = xochitl;
         _logger = logger;
 
         _settings = settingsService.GetSettings();

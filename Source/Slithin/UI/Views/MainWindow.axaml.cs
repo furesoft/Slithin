@@ -59,5 +59,7 @@ public partial class MainWindow : Window
         {
             mailboxService.Post(new InitNotebookMessage());
         }
+
+        mailboxService.Post(new CheckForUpdateMessage());
     }
 }

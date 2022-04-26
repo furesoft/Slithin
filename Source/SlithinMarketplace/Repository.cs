@@ -12,14 +12,10 @@ public class Repository
 
     public S3Wrapper Storage { get; set; }
 
-    public void AddAsset(string bucket, AssetModel asset)
+    public void AddScreen(Screen screen, Stream strm)
     {
-        Storage.UploadObject(bucket, asset.ID, asset);
-    }
-
-    public void AddFile(string id, Stream stream)
-    {
-        Storage.UploadObjectFromStream("files", id, stream);
+        Storage.UploadObject("screens", screen.ID, screen);
+        Storage.UploadObjectFromStream("files", screen.ID, strm);
     }
 
     public void AddUser(string username, string password)
@@ -31,31 +27,36 @@ public class Repository
         Storage.UploadObject("users", username, user);
     }
 
-    public UploadRequest CreateUploadRequest(string id)
-    {
-        return new() { UploadEndpoint = $"/files/upload/{id}" };
-    }
-
-    public T GetAsset<T>(string bucket, string id)
-    {
-        return Storage.GetObject<T>(bucket, id);
-    }
-
-    public T[] GetAssets<T>(string bucket)
-    {
-        var ids = GetIds("screens");
-
-        return ids.Select(_ => GetAsset<T>(bucket, _)).ToArray();
-    }
-
     public Stream GetFile(string bucket, string id)
     {
         return Storage.GetObjectStream(bucket, id);
     }
 
-    public IEnumerable<string> GetIds(string bucket)
+    public Screen GetScreen(string id)
     {
-        return Storage.ListObjects(bucket).Select(_ => _.Key);
+        return Storage.GetObject<Screen>("screens", id);
+    }
+
+    public IEnumerable<string> GetScreenIds()
+    {
+        return Storage.ListObjects("screens").Select(_ => _.Key);
+    }
+
+    public IEnumerable<Screen> GetScreens(int? count, int? skip)
+    {
+        var ids = GetScreenIds();
+
+        if (skip.HasValue)
+        {
+            ids = ids.Skip(skip.Value);
+        }
+
+        if (count.HasValue)
+        {
+            ids = ids.Take(count.Value);
+        }
+
+        return ids.Select(_ => GetScreen(_));
     }
 
     public User GetUser(string username)

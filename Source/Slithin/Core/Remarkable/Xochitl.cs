@@ -101,12 +101,6 @@ public class Xochitl
         ReloadDevice();
     }
 
-    public void SetPowerOffDelay(int value)
-    {
-        SetProperty("SuspendPowerOffDelay", "General", value.ToString());
-        Save();
-    }
-
     public void SetProperty(string key, string section, object value)
     {
         _data[section][key] = value.ToString();

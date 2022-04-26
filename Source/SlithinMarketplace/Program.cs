@@ -34,15 +34,9 @@ public static class Program
             .WithWebApi("/", m =>
             {
                 m.RegisterController<ScreenController>();
-                m.RegisterController<FilesController>();
-                m.RegisterController<TemplatesController>();
+                //m.RegisterController<FilesController>();
             })
-            .HandleHttpException((context, ex) =>
-            {
-                context.SendDataAsync(new { ex.StatusCode });
 
-                return Task.CompletedTask;
-            })
             .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
 
         // Listen for state changes.

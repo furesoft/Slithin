@@ -6,18 +6,16 @@
              xmlns:s="using:Slithin.Controls.Settings"
              xmlns:l="using:Slithin.Core"
              xmlns:f="using:Slithin.Core.FeatureToggle"
-             mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="500"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
              x:Class="Slithin.UI.Pages.SettingsPage">
     <ScrollViewer>
         <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
             <s:SettingsGroup Header="{l:Localisation 'Device'}" Grid.Column="0">
-                <Grid RowDefinitions="*,*,*">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            <Label VerticalAlignment="Center" Content="{l:Localisation 'Name'}" />
+                <Grid RowDefinitions="*,*">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Label VerticalAlignment="Center" Content="{l:Localisation 'Name'}" />
 
-                            <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" Text="{Binding DeviceName, Mode=TwoWay}" />
-                        </StackPanel>
+                        <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" HorizontalAlignment="Left" Text="{Binding DeviceName, Mode=TwoWay}" />
                     </StackPanel>
 
                     <Button IsVisible="{Binding !IsSSHLogin}" HorizontalAlignment="Left" MaxWidth="175" Grid.Row="1" Classes="Flat" Content="{l:Localisation 'Enable SSH Login'}" />
@@ -61,10 +59,6 @@
 
                         <Button Classes="Flat" Command="{l:OpenLink 'https://www.facebook.com/groups/slithin/'}">
                             <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Facebook}" HorizontalAlignment="Left" ToolTip.Tip="Facebook" />
-                        </Button>
-
-                        <Button Classes="Flat" Command="{l:OpenLink 'https://www.patreon.com/Slithin'}">
-                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource BoxIcons.LogosPatreon}" HorizontalAlignment="Left" ToolTip.Tip="Facebook" />
                         </Button>
                     </StackPanel>
                 </Grid>
