@@ -40,7 +40,7 @@ public static class Program
 
                 return Task.CompletedTask;
             })
-            .
+
             .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
 
         // Listen for state changes.
