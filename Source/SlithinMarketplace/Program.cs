@@ -10,7 +10,7 @@ public static class Program
 {
     public static async Task Main()
     {
-        var url = "https://*:9696/";
+        var url = "https://0.0.0.0:9696/";
 
         // Our web server is disposable.
         var server = CreateWebServer(url);
@@ -40,6 +40,7 @@ public static class Program
 
                 return Task.CompletedTask;
             })
+            .
             .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
 
         // Listen for state changes.
