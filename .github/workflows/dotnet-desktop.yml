@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
   pull_request:
+    paths:
+      - Deployment/
+      - Source/
 
 env:
   SOLUTION_PATH: Source/Slithin
@@ -112,6 +115,7 @@ jobs:
 
   Pre_Release:
     runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request }}
     environment: "prerelease"
     concurrency: "prerelease"
     needs:
@@ -150,6 +154,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request }}
     environment: "prerelease"
     concurrency: "prerelease"
     needs:
