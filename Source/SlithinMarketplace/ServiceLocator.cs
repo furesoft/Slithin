@@ -1,5 +1,5 @@
 ﻿using Amazon.S3;
-using Amazon.RegionEndpoint;
+using Amazon;
 
 namespace SlithinMarketplace;
 
