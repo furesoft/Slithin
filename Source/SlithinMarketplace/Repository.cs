@@ -1,4 +1,5 @@
 ﻿using Amazon.S3;
+using Slithin.Marketplace.Models;
 using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace;
@@ -22,6 +23,11 @@ public class Repository
         Storage.UploadObject("screens", screen.ID, screen);
     }
 
+    public void AddTemplate(Template template)
+    {
+        Storage.UploadObject("templates", template.ID, template);
+    }
+
     public void AddUser(string username, string password)
     {
         var user = new User();
@@ -41,21 +47,33 @@ public class Repository
         return Storage.GetObjectStream(bucket, id);
     }
 
+    public IEnumerable<string> GetIds(string bucket)
+    {
+        return Storage.ListObjects(bucket).Select(_ => _.Key);
+    }
+
     public Screen GetScreen(string id)
     {
         return Storage.GetObject<Screen>("screens", id);
     }
 
-    public IEnumerable<string> GetScreenIds()
-    {
-        return Storage.ListObjects("screens").Select(_ => _.Key);
-    }
-
     public Screen[] GetScreens()
     {
-        var ids = GetScreenIds();
+        var ids = GetIds("screens");
 
         return ids.Select(_ => GetScreen(_)).ToArray();
+    }
+
+    public Template GetTemplate(string id)
+    {
+        return Storage.GetObject<Template>("templates", id);
+    }
+
+    public Template[] GetTemplates()
+    {
+        var ids = GetIds("templates");
+
+        return ids.Select(_ => GetTemplate(_)).ToArray();
     }
 
     public User GetUser(string username)

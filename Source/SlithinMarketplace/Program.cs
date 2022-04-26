@@ -35,6 +35,7 @@ public static class Program
             {
                 m.RegisterController<ScreenController>();
                 m.RegisterController<FilesController>();
+                m.RegisterController<TemplatesController>();
             })
             .HandleHttpException((context, ex) =>
             {
