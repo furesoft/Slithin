@@ -17,8 +17,10 @@ public static class Program
         {
             // Once we've registered our modules and configured them, we call the RunAsync() method.
             server.RunAsync();
+        }
 
-            Console.ReadKey(true);
+        while (true)
+        {
         }
     }
 
