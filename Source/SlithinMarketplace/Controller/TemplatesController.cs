@@ -12,7 +12,7 @@ public sealed class TemplatesController : WebApiController
     [Route(HttpVerbs.Get, "/templates")]
     public object List([QueryData] NameValueCollection parameters)
     {
-        return ServiceLocator.Repository.GetTemplates().FilterByQuery(parameters);
+        return ServiceLocator.Repository.GetAssets<Template>("templates").FilterByQuery(parameters);
     }
 
     [Route(HttpVerbs.Put, "/templates")]
@@ -21,7 +21,7 @@ public sealed class TemplatesController : WebApiController
         var body = await HttpContext.GetRequestDataAsync<Template>();
         body.InitAsset(HttpContext);
 
-        ServiceLocator.Repository.AddTemplate(body);
+        ServiceLocator.Repository.AddAsset("templates", body);
 
         return ServiceLocator.Repository.CreateUploadRequest(body.FileID);
     }

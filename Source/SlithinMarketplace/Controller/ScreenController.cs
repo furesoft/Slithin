@@ -11,7 +11,7 @@ public sealed class ScreenController : WebApiController
     [Route(HttpVerbs.Get, "/screens")]
     public object List([QueryData] NameValueCollection parameters)
     {
-        return ServiceLocator.Repository.GetScreens().FilterByQuery(parameters);
+        return ServiceLocator.Repository.GetAssets<Screen>("screens").FilterByQuery(parameters);
     }
 
     [Route(HttpVerbs.Put, "/screens")]
@@ -20,7 +20,7 @@ public sealed class ScreenController : WebApiController
         var body = await HttpContext.GetRequestDataAsync<Screen>();
         body.InitAsset(HttpContext);
 
-        ServiceLocator.Repository.AddScreen(body);
+        ServiceLocator.Repository.AddAsset("screens", body);
 
         return ServiceLocator.Repository.CreateUploadRequest(body.FileID);
     }
