@@ -1,5 +1,6 @@
 ﻿using EmbedIO;
 using EmbedIO.BearerToken;
+using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace;
 
@@ -11,17 +12,18 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
     {
         var data = await context.HttpContext.GetRequestDataAsync<Grant>();
 
-        if (data != null && data.grant_type == "appid")
+        if (data != null && data.grant_type == "password")
         {
-            context.Identity.AddClaim(new System.Security.Claims.Claim("Role", "User"));
+            var user = ServiceLocator.Repository.GetUser(data.username);
+            context.Identity.AddClaim(new System.Security.Claims.Claim("Role", user?.Role == "admin" ? "Admin" : "User"));
 
-            if (data.appid != "SlithinBeta")
+            if (user == null || Utils.ComputeSha256Hash(data.password) != user.HashedPassword)
             {
                 context.Rejected();
                 context.Validated(string.Empty);
             }
 
-            context.Validated(data.appid);
+            context.Validated(data.username);
         }
         else
         {

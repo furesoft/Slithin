@@ -14,10 +14,10 @@ using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
+using Slithin.Core.Tools;
 using Slithin.Models;
 using Slithin.UI.Tools;
 using Slithin.ViewModels.Modals.Tools;
-using Slithin.Core.Tools;
 
 namespace Slithin.Tools;
 
@@ -67,7 +67,7 @@ public class RestoreTool : ITool
         var vm = new SelectBackupViewModel
         {
             Backups = new ObservableCollection<Backup>(Directory.GetFiles(_pathManager.BackupsDir, "*.zip")
-                .Select(_ => new Backup(Path.GetFileNameWithoutExtension(_).Replace("Backup_from_", ""), _)))
+                .Except(Directory.GetFiles(_pathManager.BackupsDir, "*.notebook.zip")).Select(_ => new Backup(Path.GetFileNameWithoutExtension(_).Replace("Backup_from_", ""), _)))
         };
 
         var result = await DialogService.ShowDialog("Select Backup", new SelectBackupModal { DataContext = vm });

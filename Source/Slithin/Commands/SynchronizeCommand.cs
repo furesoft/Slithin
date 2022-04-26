@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
@@ -91,8 +92,23 @@ public class SynchronizeCommand : ICommand
 
         foreach (var file in deltaLocalFiles)
         {
-            //ToDo: Sync Device Deletions
-            //PostDeviceDeletion(file);
+            var id = file.Substring(0, file.Length - ".metadata".Length);
+            var md = Metadata.Load(id);
+
+            var files = Directory.GetFiles(_pathManager.NotebooksDir, $"{id}.*");
+            foreach (var f in files)
+            {
+                File.Delete(f);
+            }
+
+            var directories = Directory.GetDirectories(_pathManager.NotebooksDir, $"{id}.*");
+            foreach (var dir in directories)
+            {
+                Directory.Delete(dir, true);
+            }
+
+            MetadataStorage.Local.Remove(md);
+            ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
         }
     }
 }
