@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Messaging;
@@ -26,13 +25,8 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
 
     public void HandleMessage(DownloadSyncNotebookMessage message)
     {
-        int currendNotebook = 0;
-        Parallel.For(0, message.Notebooks.Count, (i, notebook) =>
+        for (int i = 0; i < message.Notebooks.Count; i++)
         {
-            NotificationService.ShowProgress(_localisationService.GetStringFormat(
-                "Downloading Notebook"), currendNotebook, message.Notebooks.Count);
-            currendNotebook++;
-
             var sn = message.Notebooks[i];
 
             foreach (var folder in sn.Directories)
@@ -44,6 +38,12 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
                     di.Create();
                 }
 
+                _scpClient.Downloading += (s, e) =>
+                {
+                    NotificationService.ShowProgress(_localisationService.GetStringFormat(
+                        "Downloading Notebook"), (int)e.Downloaded, (int)e.Size);
+                };
+
                 _scpClient.Download(PathList.Documents + "/" + folder, di);
             }
 
@@ -53,6 +53,6 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
 
                 _scpClient.Download(PathList.Documents + "/" + file, fi);
             }
-        });
+        }
     }
 }
