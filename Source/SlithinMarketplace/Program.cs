@@ -10,7 +10,7 @@ public static class Program
 {
     public static void Main()
     {
-        var url = "https://0.0.0.0:9696/";
+        var url = "https://*:9696/";
 
         // Our web server is disposable.
         using (var server = CreateWebServer(url))
