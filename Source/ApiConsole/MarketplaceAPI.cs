@@ -13,7 +13,7 @@ public class MarketplaceAPI
 
     public MarketplaceAPI()
     {
-        _client = new RestClient("http://localhost:9696");
+        _client = new RestClient("http://slithin-api.multiplayer.co.at:9696");
     }
 
     public void Authenticate(string username, string password)
