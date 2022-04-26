@@ -1,5 +1,7 @@
 ﻿using ApiConsole.Core;
 using CommandLine;
+using Newtonsoft.Json;
+using Slithin.Marketplace.Models;
 
 namespace ApiConsole.Commands;
 
@@ -17,6 +19,22 @@ public class TemplatesCommand : ICommand
 
     public void Execute()
     {
-        Console.WriteLine("Executing templates");
+        if (Get)
+        {
+            var screens = ServiceLocator.API.Get<Template[]>("screens");
+
+            Console.WriteLine(JsonConvert.SerializeObject(screens));
+        }
+
+        if (UploadRequest)
+        {
+            /*var screen = new Template
+            {
+                name = Name,
+                filename = Filename
+            };
+
+            ServiceLocator.API.CreateAndUploadAsset(screen, FileToUpload);*/
+        }
     }
 }
