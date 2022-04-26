@@ -130,12 +130,12 @@ jobs:
       id: versiontag
       run: |
         echo -e ::set-output name=tag::$(grep '<Version>' < $SOLUTION_NAME | sed 's/<[vV]ersion>\(.*\)<\/[vV]ersion>/\1/')
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v3
       name: "Download artifacts"
       with:
         name: build-packages-output
         path: ./dist
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v3
       name: "Download artifacts"
       with:
         name: publish-output
@@ -168,12 +168,12 @@ jobs:
       id: versiontag
       run: |
         echo -e ::set-output name=tag::$(grep '<Version>' < $SOLUTION_NAME | sed 's/<[vV]ersion>\(.*\)<\/[vV]ersion>/\1/')
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v3
       name: "Download artifacts"
       with:
         name: build-packages-output
         path: ./dist
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v3
       name: "Download artifacts"
       with:
         name: publish-output
