@@ -10,7 +10,7 @@ public static class Program
 {
     public static void Main()
     {
-        var url = "http://localhost:9696/";
+        var url = "https://slithin-api.multiplayer.co.at:9696/";
 
         // Our web server is disposable.
         using (var server = CreateWebServer(url))
