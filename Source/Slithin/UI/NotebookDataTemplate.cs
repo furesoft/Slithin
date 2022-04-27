@@ -11,9 +11,8 @@ using Avalonia.Platform;
 using Material.Styles;
 using Slithin.Core;
 using Slithin.Core.ItemContext;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Services;
 using Slithin.Core.Remarkable.Models;
+using Slithin.Core.Services;
 
 namespace Slithin.UI;
 
@@ -130,7 +129,7 @@ public class NotebookDataTemplate : IDataTemplate
         stackPanel.Children.Add(titlePanel);
         stackPanel.Children.Add(img);
 
-        var card = new Card { Content = stackPanel };
+        var card = new Card { Content = stackPanel, Background = (IBrush)new BrushConverter().ConvertFromString("#e2e2e2") };
 
         card.Initialized += (s, e) =>
         {
