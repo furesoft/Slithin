@@ -23,7 +23,7 @@ public class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = settings.IsFirstStart ? new FirstStartWindow() : new ConnectWindow();
+            desktop.MainWindow = new ConnectWindow();
         }
 
         AppDomain.CurrentDomain.UnhandledException += (s, e) =>
