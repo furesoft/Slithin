@@ -9,7 +9,7 @@
   <Identity
     Name="26730furesoft.Slithin"
     Publisher="CN=5ACB020A-08BD-4A21-8149-2506891BB87A"
-    Version="1.0.13.0" />
+    Version="1.0.14.0" />
 
   <Properties>
     <DisplayName>Slithin</DisplayName>
