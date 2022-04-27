@@ -11,4 +11,5 @@ FROM mcr.microsoft.com/dotnet/runtime:6.0
 WORKDIR /app
 
 COPY --from=base /srv/publish /app
+EXPOSE 9696
 ENTRYPOINT ["dotnet", "/app/SlithinMarketplace.dll"]
