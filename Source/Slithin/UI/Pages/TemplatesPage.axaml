@@ -11,7 +11,7 @@
         <ListBox DragDrop.AllowDrop="True" Items="{Binding SyncService.TemplateFilter.Templates, Mode=TwoWay}" Margin="16,0,0,0" x:Name="templatesListBox" SelectedItem="{Binding SelectedTemplate}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <styles:Card Background="Gray" Margin="3" HorizontalAlignment="Center" context:UIContextMenuBuilder.Enable="Template">
+                    <styles:Card Background="#e2e2e2" Margin="3" HorizontalAlignment="Center" context:UIContextMenuBuilder.Enable="Template">
                         <StackPanel Orientation="Vertical" Margin="2">
                             <Grid>
                                 <Button Classes="Flat" Command="{Binding TransferCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Transfer to Device'}">

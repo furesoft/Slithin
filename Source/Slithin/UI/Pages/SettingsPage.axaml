@@ -64,7 +64,7 @@
                         </Button>
 
                         <Button Classes="Flat" Command="{l:OpenLink 'https://www.patreon.com/Slithin'}">
-                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource BoxIcons.LogosPatreon}" HorizontalAlignment="Left" ToolTip.Tip="Facebook" />
+                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource BoxIcons.LogosPatreon}" HorizontalAlignment="Left" ToolTip.Tip="Patreon" />
                         </Button>
                     </StackPanel>
                 </Grid>
