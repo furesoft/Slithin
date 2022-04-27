@@ -1,5 +1,5 @@
 ﻿using Amazon.S3;
-using Newtonsoft.Json;
+using Amazon;
 
 namespace SlithinMarketplace;
 
@@ -7,14 +7,14 @@ public class ServiceLocator
 {
     static ServiceLocator()
     {
-        var keys = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("keys.json"));
-
         AmazonS3Config config = new AmazonS3Config();
-        config.ServiceURL = keys["Url"];
+        config.ServiceURL = Environment.GetEnvironmentVariable("MINIO_HOST");
         config.ForcePathStyle = true;
-        config.AuthenticationRegion = "us-east1";
+        config.AuthenticationRegion = RegionEndpoint.USEast1.SystemName;
 
-        AmazonS3Client client = new(keys["AccessKey"], keys["SecretKey"], config);
+        AmazonS3Client client = new(
+            Environment.GetEnvironmentVariable("MINIO_ACCESS_KEY"),
+            Environment.GetEnvironmentVariable("MINIO_SECRET_KEY"), config);
 
         Repository = new Repository(client);
     }
