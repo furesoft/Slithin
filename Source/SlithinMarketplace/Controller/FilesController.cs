@@ -29,4 +29,10 @@ public sealed class FilesController : WebApiController
 
         ms.Close();
     }
+
+    [Route(HttpVerbs.Get, "/files/request/{id}")]
+    public object UploadRequest(string id)
+    {
+        return ServiceLocator.Repository.CreateUploadRequest(id);
+    }
 }

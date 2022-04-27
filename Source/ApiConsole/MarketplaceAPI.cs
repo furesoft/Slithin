@@ -2,6 +2,7 @@
 using ApiConsole.Core;
 using RestSharp;
 using RestSharp.Authenticators;
+using Slithin.Marketplace.Models;
 using SlithinMarketplace.Models;
 
 namespace ApiConsole;
@@ -53,11 +54,39 @@ public class MarketplaceAPI
         wc.UploadData(_client.BuildUri(new RestRequest(result.UploadEndpoint)), ms.ToArray());
     }
 
+    public void CreateAndUploadTemplate(Template? template, string templateInfoPath)
+    {
+        CreateAndUploadAsset(template, templateInfoPath);
+
+        var templateBasePath = new FileInfo(templateInfoPath).Directory.FullName;
+        var filePath = Path.Combine(templateBasePath, template.Filename);
+
+        UploadFile(template.SvgFileID, filePath);
+    }
+
     public T Get<T>(string bucket)
     {
         var request = new RestRequest($"/{bucket}", Method.Get);
         var r = _client.GetAsync(request).Result;
 
         return _client.GetAsync<T>(request).Result;
+    }
+
+    public async void UploadFile(string id, string fileToUpload)
+    {
+        var request = new RestRequest($"/files/request/{id}", Method.Get);
+
+        var result = await _client.GetAsync<UploadRequest>(request);
+
+        var wc = new WebClient();
+        wc.Headers.Add("Authorization", "Bearer " + _token);
+
+        var ms = new MemoryStream();
+        using (var fs = File.OpenRead(fileToUpload))
+        {
+            await fs.CopyToAsync(ms);
+        }
+
+        wc.UploadData(_client.BuildUri(new RestRequest(result.UploadEndpoint)), ms.ToArray());
     }
 }
