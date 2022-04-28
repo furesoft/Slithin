@@ -8,14 +8,24 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        while (true)
-        {
-            Console.Write("> ");
-            var cmd = Console.ReadLine();
+        if(args.Length == 2) {
+            if(args[0] == "--interactive" || args[0] == "-i") {
+                while (true)
+                {
+                    Console.Write("> ");
+                    var cmd = Console.ReadLine();
 
-            Parser.Default
-            .ParseArguments<LoginCommand, ScreensCommand, TemplatesCommand>(cmd.Split(' '))
-            .WithParsed<ICommand>(t => t.Execute());
+                    InvokeCommand(cmd.Split(' '));
+                }
+            }
         }
+
+       InvokeCommand(args);
+    }
+
+    private static void InvokeCommand(string[] args) {
+        Parser.Default
+                    .ParseArguments<LoginCommand, ScreensCommand, TemplatesCommand>(args)
+                    .WithParsed<ICommand>(t => t.Execute());
     }
 }
