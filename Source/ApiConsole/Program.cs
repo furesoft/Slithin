@@ -25,7 +25,7 @@ public static class Program
 
     private static void InvokeCommand(string[] args) {
         Parser.Default
-                    .ParseArguments<LoginCommand, ScreensCommand, TemplatesCommand>(args)
+                    .ParseArguments<LoginCommand, ScreensCommand, TemplatesCommand, ScriptsCommand>(args)
                     .WithParsed<ICommand>(t => t.Execute());
     }
 }
