@@ -72,7 +72,8 @@ public class MarketplaceAPI
         var wc = new WebClient();
         wc.Headers.Add("Authorization", "Bearer " + _token);
 
-        wc.DownloadFile(_client.BuildUri(new RestRequest($"/files/{id}")), filename);
+        var data = wc.DownloadData(_client.BuildUri(new RestRequest($"/files/{id}")));
+        File.WriteAllBytes(filename, data);
     }
 
     public T Get<T>(string bucket)
