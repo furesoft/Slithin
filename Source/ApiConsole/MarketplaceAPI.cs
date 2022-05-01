@@ -25,8 +25,7 @@ public class MarketplaceAPI
             .AddBody(new Grant { GrantType = "password", Username = username, Password = password });
 
         var cts = new CancellationTokenSource();
-
-        var result = await _client.PostAsync<AuthenticationResult>(request, cts.Token);
+        var result = _client.PostAsync<AuthenticationResult>(request, cts.Token).Result;
 
         if (result != null)
         {
@@ -50,7 +49,7 @@ public class MarketplaceAPI
         var ms = new MemoryStream();
         using (var fs = File.OpenRead(fileToUpload))
         {
-            await fs.CopyToAsync(ms);
+            fs.CopyTo(ms);
         }
 
         wc.UploadData(_client.BuildUri(new RestRequest(result.UploadEndpoint)), ms.ToArray());
@@ -66,6 +65,14 @@ public class MarketplaceAPI
         CreateAndUploadAsset(template, pngPath);
 
         UploadFile(template.SvgFileID, svgPath);
+    }
+
+    public async void DownloadFile(string id, string filename)
+    {
+        var wc = new WebClient();
+        wc.Headers.Add("Authorization", "Bearer " + _token);
+
+        wc.DownloadFile(_client.BuildUri(new RestRequest($"/files/{id}")), filename);
     }
 
     public T Get<T>(string bucket)
