@@ -123,5 +123,10 @@
      <Folder Include="TemplateEditor\Components\Views\" />
    </ItemGroup>
    
+   <ItemGroup>
+     <ProjectReference Include="..\Slithin.API.Lib\Slithin.API.Lib.csproj" />
+     <ProjectReference Include="..\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
+   </ItemGroup>
+   
    <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 </Project>
