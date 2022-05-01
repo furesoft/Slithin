@@ -57,6 +57,7 @@ public class MarketplaceAPI
     public void CreateAndUploadTemplate(Template? template, string templateInfoPath)
     {
         var templateBasePath = new FileInfo(templateInfoPath).Directory.FullName;
+
         var svgPath = Path.Combine(templateBasePath, template.filename + ".svg");
         var pngPath = Path.Combine(templateBasePath, template.filename + ".png");
 

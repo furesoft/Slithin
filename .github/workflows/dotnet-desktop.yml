@@ -146,6 +146,7 @@ jobs:
       with:
         body_path: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
+        prerelease: true
         tag_name: ${{ steps.versiontag.outputs.tag }}
         files: |
           ./dist/**/*.zip
@@ -184,6 +185,7 @@ jobs:
       with:
         body_path: "${{ env.SOLUTION_PATH }}/Changelog.txt"
         token: ${{ secrets.GITHUB_TOKEN }}
+        prerelease: false
         tag_name: ${{ steps.versiontag.outputs.tag }}
         files: |
           ./dist/**/*.zip
