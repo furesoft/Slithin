@@ -15,7 +15,7 @@ public sealed class FilesController : WebApiController
 
         using (var stream = HttpContext.OpenResponseStream())
         {
-            await fileStrm.CopyToAsync(stream);
+            fileStrm.CopyTo(stream);
         }
     }
 

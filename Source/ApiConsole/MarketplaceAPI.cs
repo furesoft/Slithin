@@ -68,6 +68,14 @@ public class MarketplaceAPI
         UploadFile(template.SvgFileID, svgPath);
     }
 
+    public async void DownloadFile(string id, string filename)
+    {
+        var wc = new WebClient();
+        wc.Headers.Add("Authorization", "Bearer " + _token);
+
+        wc.DownloadFile(_client.BuildUri(new RestRequest($"/files/{id}")), filename);
+    }
+
     public T Get<T>(string bucket)
     {
         var request = new RestRequest($"/{bucket}", Method.Get);
