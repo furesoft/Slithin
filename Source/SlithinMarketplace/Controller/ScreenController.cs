@@ -17,7 +17,7 @@ public sealed class ScreenController : WebApiController
     [Route(HttpVerbs.Put, "/screens")]
     public async Task<UploadRequest> Upload()
     {
-        var body = await HttpContext.GetRequestDataAsync<Screen>();
+        var body = await HttpContext.GetRequestObjectAsync<Screen>();
         body.InitAsset(HttpContext);
 
         ServiceLocator.Repository.AddAsset("screens", body);

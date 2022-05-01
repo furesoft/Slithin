@@ -1,5 +1,4 @@
-﻿using EmbedIO;
-using EmbedIO.BearerToken;
+﻿using EmbedIO.BearerToken;
 using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace;
@@ -10,7 +9,7 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
 
     public async Task ValidateClientAuthentication(ValidateClientAuthenticationContext context)
     {
-        var data = await context.HttpContext.GetRequestDataAsync<Grant>();
+        var data = await context.HttpContext.GetRequestObjectAsync<Grant>();
 
         if (data != null && data.grant_type == "password")
         {

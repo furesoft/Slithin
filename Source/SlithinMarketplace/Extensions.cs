@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Security.Claims;
 using EmbedIO;
+using Newtonsoft.Json;
 using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace;
@@ -22,6 +23,13 @@ public static class Extensions
         return collection;
     }
 
+    public static async Task<T> GetRequestObjectAsync<T>(this IHttpContext context)
+    {
+        var json = await context.GetRequestBodyAsStringAsync();
+
+        return JsonConvert.DeserializeObject<T>(json);
+    }
+
     public static void InitAsset(this AssetModel asset, IHttpContext context)
     {
         asset.ID = Guid.NewGuid().ToString();
@@ -38,7 +46,6 @@ public static class Extensions
     public static void RequireRole(this IHttpContext context, string role)
     {
         var principal = (ClaimsPrincipal)context.User;
-        var claims = principal.Claims;
 
         if (!principal.HasClaim(_ => _.Value == role && _.Type == "Role"))
         {
