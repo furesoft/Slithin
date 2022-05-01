@@ -18,7 +18,7 @@ public sealed class TemplatesController : WebApiController
     [Route(HttpVerbs.Put, "/templates")]
     public async Task<UploadRequest> Upload()
     {
-        var body = await HttpContext.GetRequestDataAsync<Template>();
+        var body = await HttpContext.GetRequestObjectAsync<Template>();
         body.InitAsset(HttpContext);
 
         ServiceLocator.Repository.AddAsset("templates", body);

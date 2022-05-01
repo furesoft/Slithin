@@ -2,7 +2,7 @@
 
 public sealed class Screen : AssetModel
 {
-    public string filename { get; set; }
+    public string Filename { get; set; }
 
-    public string name { get; set; }
+    public string Name { get; set; }
 }

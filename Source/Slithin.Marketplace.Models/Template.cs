@@ -4,10 +4,10 @@ namespace Slithin.Marketplace.Models;
 
 public sealed class Template : AssetModel
 {
-    public string[] categories { get; set; }
-    public string filename { get; set; }
-    public string iconcode { get; set; }
-    public bool islandscape { get; set; }
-    public string name { get; set; }
-    public string svgfileid { get; set; }
+    public string[] Categories { get; set; }
+    public string Filename { get; set; }
+    public string IconCode { get; set; }
+    public bool IsLandscape { get; set; }
+    public string Name { get; set; }
+    public string SvgFileID { get; set; }
 }

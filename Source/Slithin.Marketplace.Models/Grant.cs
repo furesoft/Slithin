@@ -1,10 +1,13 @@
-﻿namespace SlithinMarketplace.Models;
+﻿using Newtonsoft.Json;
+
+namespace SlithinMarketplace.Models;
 
 public sealed class Grant
 {
-    public string grant_type { get; set; }
+    [JsonProperty("grant_type")]
+    public string GrantType { get; set; }
 
-    public string password { get; set; }
+    public string Password { get; set; }
 
-    public string username { get; set; }
+    public string Username { get; set; }
 }
