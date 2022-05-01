@@ -50,7 +50,7 @@ public class MarketplaceAPI
         var ms = new MemoryStream();
         using (var fs = File.OpenRead(fileToUpload))
         {
-            await fs.CopyToAsync(ms);
+            fs.CopyTo(ms);
         }
 
         wc.UploadData(_client.BuildUri(new RestRequest(result.UploadEndpoint)), ms.ToArray());
