@@ -132,7 +132,11 @@ public class S3Wrapper
     {
         static Stream Serialize(object obj)
         {
-            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
+
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented, serializerSettings);
+
             var jsonRaw = Encoding.ASCII.GetBytes(json);
 
             return new MemoryStream(jsonRaw);
