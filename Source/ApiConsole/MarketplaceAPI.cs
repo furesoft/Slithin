@@ -19,13 +19,12 @@ public class MarketplaceAPI
         _client.UseNewtonsoftJson();
     }
 
-    public void Authenticate(string username, string password)
+    public async void Authenticate(string username, string password)
     {
         var request = new RestRequest("/token", Method.Post)
             .AddBody(new Grant { GrantType = "password", Username = username, Password = password });
 
         var cts = new CancellationTokenSource();
-
         var result = _client.PostAsync<AuthenticationResult>(request, cts.Token).Result;
 
         if (result != null)
