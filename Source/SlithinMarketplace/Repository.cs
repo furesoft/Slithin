@@ -43,7 +43,7 @@ public class Repository
 
     public T[] GetAssets<T>(string bucket)
     {
-        var ids = GetIds("screens");
+        var ids = GetIds(bucket);
 
         return ids.Select(_ => GetAsset<T>(bucket, _)).ToArray();
     }

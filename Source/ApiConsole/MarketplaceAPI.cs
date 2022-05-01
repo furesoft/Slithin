@@ -2,6 +2,7 @@
 using ApiConsole.Core;
 using RestSharp;
 using RestSharp.Authenticators;
+using RestSharp.Serializers.NewtonsoftJson;
 using Slithin.Marketplace.Models;
 using SlithinMarketplace.Models;
 
@@ -15,20 +16,21 @@ public class MarketplaceAPI
     public MarketplaceAPI()
     {
         _client = new RestClient("https://slithin-api.multiplayer.co.at");
+        _client.UseNewtonsoftJson();
     }
 
-    public void Authenticate(string username, string password)
+    public async void Authenticate(string username, string password)
     {
         var request = new RestRequest("/token", Method.Post)
             .AddBody(new Grant { GrantType = "password", Username = username, Password = password });
 
         var cts = new CancellationTokenSource();
 
-        var result = _client.PostAsync<AuthenticationResult>(request, cts.Token);
+        var result = await _client.PostAsync<AuthenticationResult>(request, cts.Token);
 
         if (result != null)
         {
-            _token = result.Result.access_token;
+            _token = result.AccessToken;
             _client.Authenticator = new JwtAuthenticator(_token);
 
             Console.WriteLine("Login Successful");
@@ -63,13 +65,12 @@ public class MarketplaceAPI
 
         CreateAndUploadAsset(template, pngPath);
 
-        UploadFile(template.svgfileid, svgPath);
+        UploadFile(template.SvgFileID, svgPath);
     }
 
     public T Get<T>(string bucket)
     {
         var request = new RestRequest($"/{bucket}", Method.Get);
-        var r = _client.GetAsync(request).Result;
 
         return _client.GetAsync<T>(request).Result;
     }
