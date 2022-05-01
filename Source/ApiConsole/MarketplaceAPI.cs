@@ -63,7 +63,7 @@ public class MarketplaceAPI
 
         CreateAndUploadAsset(template, pngPath);
 
-        UploadFile(template.SvgFileID, svgPath);
+        UploadFile(template.svgfileid, svgPath);
     }
 
     public T Get<T>(string bucket)
