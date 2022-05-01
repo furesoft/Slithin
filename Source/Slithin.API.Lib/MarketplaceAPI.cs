@@ -1,12 +1,11 @@
 ﻿using System.Net;
-using ApiConsole.Core;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Serializers.NewtonsoftJson;
 using Slithin.Marketplace.Models;
 using SlithinMarketplace.Models;
 
-namespace ApiConsole;
+namespace Slithin.API.Lib;
 
 public class MarketplaceAPI
 {
