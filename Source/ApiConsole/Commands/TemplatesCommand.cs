@@ -28,7 +28,8 @@ public class TemplatesCommand : ICommand
 
         if (UploadRequest)
         {
-            var template = JsonConvert.DeserializeObject<Template>(TemplateInfoPath);
+            var template = JsonConvert.DeserializeObject<Template>(File.ReadAllText(TemplateInfoPath));
+
             template.SvgFileID = Guid.NewGuid().ToString();
 
             ServiceLocator.API.CreateAndUploadTemplate(template, TemplateInfoPath);

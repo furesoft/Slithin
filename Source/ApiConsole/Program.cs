@@ -8,8 +8,10 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        if(args.Length == 2) {
-            if(args[0] == "--interactive" || args[0] == "-i") {
+        if (args.Length == 1)
+        {
+            if (args[0] == "--interactive" || args[0] == "-i")
+            {
                 while (true)
                 {
                     Console.Write("> ");
@@ -20,12 +22,13 @@ public static class Program
             }
         }
 
-       InvokeCommand(args);
+        InvokeCommand(args);
     }
 
-    private static void InvokeCommand(string[] args) {
+    private static void InvokeCommand(string[] args)
+    {
         Parser.Default
-                    .ParseArguments<LoginCommand, ScreensCommand, TemplatesCommand, ScriptsCommand>(args)
+                    .ParseArguments<LoginCommand, ScreensCommand, TemplatesCommand>(args)
                     .WithParsed<ICommand>(t => t.Execute());
     }
 }

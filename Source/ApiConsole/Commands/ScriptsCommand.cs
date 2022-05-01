@@ -1,7 +1,7 @@
-using ApiConsole.Core;
+﻿using ApiConsole.Core;
 using CommandLine;
 using Newtonsoft.Json;
-using Slithin.Marketplace.Models;
+using SlithinMarketplace.Models;
 
 namespace ApiConsole.Commands;
 
@@ -11,10 +11,10 @@ public class ScriptsCommand : ICommand
     [Option('g', "getall", HelpText = "Flag for Getting all Templates")]
     public bool Get { get; set; }
 
-    [Option('s', "scriptinfo", HelpText = "The path of the file to describe the script as json")]
-    public string ScriptInfoFile { get; set; }
-
     [Option('f', "file", HelpText = "The path of the file of the script")]
+    public string ScriptFile { get; set; }
+
+    [Option('s', "scriptinfo", HelpText = "The path of the file to describe the script as json")]
     public string ScriptInfoFile { get; set; }
 
     [Option('c', "create", HelpText = "Create Template and make upload request")]
