@@ -20,7 +20,7 @@ public class MarketplaceAPI
     public void Authenticate(string username, string password)
     {
         var request = new RestRequest("/token", Method.Post)
-            .AddBody(new Grant { grant_type = "password", username = username, password = password });
+            .AddBody(new Grant { GrantType = "password", Username = username, Password = password });
 
         var cts = new CancellationTokenSource();
 
@@ -58,12 +58,12 @@ public class MarketplaceAPI
     {
         var templateBasePath = new FileInfo(templateInfoPath).Directory.FullName;
 
-        var svgPath = Path.Combine(templateBasePath, template.filename + ".svg");
-        var pngPath = Path.Combine(templateBasePath, template.filename + ".png");
+        var svgPath = Path.Combine(templateBasePath, template.Filename + ".svg");
+        var pngPath = Path.Combine(templateBasePath, template.Filename + ".png");
 
         CreateAndUploadAsset(template, pngPath);
 
-        UploadFile(template.svgfileid, svgPath);
+        UploadFile(template.SvgFileID, svgPath);
     }
 
     public T Get<T>(string bucket)

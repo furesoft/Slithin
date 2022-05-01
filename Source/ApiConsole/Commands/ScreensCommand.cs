@@ -36,8 +36,8 @@ public class ScreensCommand : ICommand
         {
             var screen = new Screen
             {
-                name = Name,
-                filename = Filename
+                Name = Name,
+                Filename = Filename
             };
 
             ServiceLocator.API.CreateAndUploadAsset(screen, FileToUpload);
