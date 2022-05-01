@@ -29,7 +29,7 @@ public class TemplatesCommand : ICommand
         if (UploadRequest)
         {
             var template = JsonConvert.DeserializeObject<Template>(File.ReadAllText(TemplateInfoPath));
-
+            
             template.svgfileid = Guid.NewGuid().ToString();
 
             ServiceLocator.API.CreateAndUploadTemplate(template, TemplateInfoPath);
