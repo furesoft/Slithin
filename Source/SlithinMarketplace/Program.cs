@@ -1,6 +1,9 @@
-﻿using EmbedIO;
+﻿using System.Text;
+using EmbedIO;
 using EmbedIO.Actions;
 using EmbedIO.BearerToken;
+using EmbedIO.Utilities;
+using Newtonsoft.Json;
 using SlithinMarketplace.Controller;
 using Swan.Logging;
 
@@ -28,12 +31,12 @@ public static class Program
                 .WithMode(HttpListenerMode.EmbedIO))
             // First, we will configure our web server by adding Modules.
             .WithModule(new BearerTokenModule("/", basicAuthProvider, new string('f', 40)))
-            .WithWebApi("/", m =>
-            {
-                m.RegisterController<ScreenController>();
-                m.RegisterController<FilesController>();
-                m.RegisterController<TemplatesController>();
-            })
+            .WithWebApi("/", SerializeCalback, m =>
+             {
+                 m.RegisterController<ScreenController>();
+                 m.RegisterController<FilesController>();
+                 m.RegisterController<TemplatesController>();
+             })
             .HandleHttpException((context, ex) =>
             {
                 context.SendDataAsync(new { ex.StatusCode });
@@ -47,5 +50,18 @@ public static class Program
         server.StateChanged += (s, e) => $"WebServer New State - {e.NewState}".Info();
 
         return server;
+    }
+
+    private static async Task SerializeCalback(IHttpContext context, object? data)
+    {
+        Validate.NotNull(nameof(context), context).Response.ContentType = MimeType.Json;
+        using var text = context.OpenResponseText(new UTF8Encoding(false));
+
+        var serializerSettings = new JsonSerializerSettings();
+        serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
+
+        var json = JsonConvert.SerializeObject(data, Formatting.Indented, serializerSettings);
+
+        await text.WriteAsync(json).ConfigureAwait(false);
     }
 }
