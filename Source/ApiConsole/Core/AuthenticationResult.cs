@@ -1,6 +1,9 @@
-﻿namespace ApiConsole.Core;
+﻿using Newtonsoft.Json;
+
+namespace ApiConsole.Core;
 
 public class AuthenticationResult
 {
-    public string access_token { get; set; }
+    [JsonProperty("access_token")]
+    public string AccessToken { get; set; }
 }
