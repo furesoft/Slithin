@@ -71,7 +71,6 @@ public class MarketplaceAPI
     public T Get<T>(string bucket)
     {
         var request = new RestRequest($"/{bucket}", Method.Get);
-        var r = _client.GetAsync(request).Result;
 
         return _client.GetAsync<T>(request).Result;
     }
