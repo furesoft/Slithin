@@ -56,12 +56,13 @@ public class MarketplaceAPI
 
     public void CreateAndUploadTemplate(Template? template, string templateInfoPath)
     {
-        CreateAndUploadAsset(template, templateInfoPath);
-
         var templateBasePath = new FileInfo(templateInfoPath).Directory.FullName;
-        var filePath = Path.Combine(templateBasePath, template.Filename);
+        var svgPath = Path.Combine(templateBasePath, template.filename + ".svg");
+        var pngPath = Path.Combine(templateBasePath, template.filename + ".png");
 
-        UploadFile(template.SvgFileID, filePath);
+        CreateAndUploadAsset(template, pngPath);
+
+        UploadFile(template.SvgFileID, svgPath);
     }
 
     public T Get<T>(string bucket)
