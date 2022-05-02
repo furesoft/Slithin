@@ -14,7 +14,7 @@ public class MarketplaceAPI
 
     public MarketplaceAPI()
     {
-        _client = new RestClient("https://slithin-api.multiplayer.co.at");
+        _client = new RestClient("https://slithin-api.multiplayer.co.at/api");
         _client.UseNewtonsoftJson();
     }
 
