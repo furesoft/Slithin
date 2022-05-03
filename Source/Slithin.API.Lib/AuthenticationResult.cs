@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ApiConsole.Core;
+namespace Slithin.API.Lib;
 
 public class AuthenticationResult
 {

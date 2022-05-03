@@ -30,8 +30,12 @@ public static class Program
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
             // First, we will configure our web server by adding Modules.
-            .WithModule(new BearerTokenModule("/", basicAuthProvider, new string('f', 40)))
-            .WithWebApi("/", SerializeCalback, m =>
+            .WithWebApi("/users", m =>
+            {
+                m.RegisterController<RegisterUserController>();
+            })
+            .WithModule(new BearerTokenModule("/api", basicAuthProvider, new string('f', 40)))
+            .WithWebApi("/api", SerializeCalback, m =>
              {
                  m.RegisterController<ScreenController>();
                  m.RegisterController<FilesController>();

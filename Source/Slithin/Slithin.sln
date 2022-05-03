@@ -22,7 +22,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlithinMarketplace", "..\Sl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Marketplace.Models", "..\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj", "{8198F07C-D6CB-470D-B524-8A7CE9A7EE23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiConsole", "..\ApiConsole\ApiConsole.csproj", "{875A7860-4C94-4425-A6E1-2F85C43142C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiConsole", "..\ApiConsole\ApiConsole.csproj", "{875A7860-4C94-4425-A6E1-2F85C43142C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.API.Lib", "..\Slithin.API.Lib\Slithin.API.Lib.csproj", "{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -208,6 +210,26 @@ Global
 		{875A7860-4C94-4425-A6E1-2F85C43142C0}.Release|x64.Build.0 = Release|Any CPU
 		{875A7860-4C94-4425-A6E1-2F85C43142C0}.Release|x86.ActiveCfg = Release|Any CPU
 		{875A7860-4C94-4425-A6E1-2F85C43142C0}.Release|x86.Build.0 = Release|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Debug|ARM.Build.0 = Debug|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Debug|x64.Build.0 = Debug|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Debug|x86.Build.0 = Debug|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Release|ARM.Build.0 = Release|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Release|ARM64.Build.0 = Release|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Release|x64.ActiveCfg = Release|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Release|x64.Build.0 = Release|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{21D4B33C-F0E8-46F4-88D9-FAB94FD223C6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

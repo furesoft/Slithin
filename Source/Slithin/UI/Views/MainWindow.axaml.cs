@@ -1,14 +1,10 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml;
 using Renci.SshNet;
 using Slithin.Core;
-using Slithin.Core.Services;
-using Slithin.Messages;
 using Slithin.ViewModels;
 
 namespace Slithin.UI.Views;
@@ -47,17 +43,5 @@ public partial class MainWindow : Window
         AvaloniaXamlLoader.Load(this);
 
         DataContext = ServiceLocator.Container.Resolve<MainWindowViewModel>();
-        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
-        var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
-
-        if (!Directory.GetFiles(pathManager.TemplatesDir).Any())
-        {
-            mailboxService.Post(new InitStorageMessage());
-        }
-
-        if (!Directory.GetFiles(pathManager.NotebooksDir).Any())
-        {
-            mailboxService.Post(new InitNotebookMessage());
-        }
     }
 }

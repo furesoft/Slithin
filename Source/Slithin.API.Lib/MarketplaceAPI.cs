@@ -1,12 +1,11 @@
 ﻿using System.Net;
-using ApiConsole.Core;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Serializers.NewtonsoftJson;
 using Slithin.Marketplace.Models;
 using SlithinMarketplace.Models;
 
-namespace ApiConsole;
+namespace Slithin.API.Lib;
 
 public class MarketplaceAPI
 {
@@ -15,7 +14,7 @@ public class MarketplaceAPI
 
     public MarketplaceAPI()
     {
-        _client = new RestClient("https://slithin-api.multiplayer.co.at");
+        _client = new RestClient("https://slithin-api.multiplayer.co.at/api");
         _client.UseNewtonsoftJson();
     }
 
@@ -72,7 +71,8 @@ public class MarketplaceAPI
         var wc = new WebClient();
         wc.Headers.Add("Authorization", "Bearer " + _token);
 
-        wc.DownloadFile(_client.BuildUri(new RestRequest($"/files/{id}")), filename);
+        var data = wc.DownloadData(_client.BuildUri(new RestRequest($"/files/{id}")));
+        File.WriteAllBytes(filename, data);
     }
 
     public T Get<T>(string bucket)
