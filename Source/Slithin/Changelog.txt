@@ -1,3 +1,7 @@
+Version 1.0.15
+
+- Bugfix 
+
 Version 1.0.13
 
 - Loading Is Smoother
@@ -5,9 +9,6 @@ Version 1.0.13
 
 Version 1.0.12
 - Bugfix
-
-- Bugfix
-
 
 Version 1.0.11
 
@@ -25,21 +26,3 @@ Version 1.0.11
 - Fixed Wrong Blue Color
 - Added Pin/Unpin To ContextMenu
 - Made Synchronizing much faster (Downloading Metadata 84 % faster)
-
-Version 1.0.10
-
-- Bugfixes
-- UI Package Updates
-- Notification Improvements
-
-Version 1.0.9
-
-- Bugfixes
-
-Version 1.0.6
-
-- Performance improvements
-- Design fixes
-- Bugfixes
-- Settings added
-- Reupload screen images
