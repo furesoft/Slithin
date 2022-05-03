@@ -2,9 +2,9 @@
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
 using Slithin.Core.FeatureToggle;
-using Slithin.ViewModels.Pages;
 using Slithin.Core.Menu;
 using Slithin.Features;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.Pages;
 
@@ -32,6 +32,6 @@ public partial class MarketplacePage : UserControl, IPage
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = ServiceLocator.Container.Resolve<SharablesPageViewModel>();
+        DataContext = ServiceLocator.Container.Resolve<MarketplacePageViewModel>();
     }
 }
