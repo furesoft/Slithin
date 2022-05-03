@@ -28,6 +28,7 @@ public class Repository
         user.Username = username;
         user.HashedPassword = Utils.ComputeSha256Hash(password);
         user.ID = Guid.NewGuid().ToString();
+        user.Role = "User";
 
         Storage.UploadObject("users", username, user);
     }
