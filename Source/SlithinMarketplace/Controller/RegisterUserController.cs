@@ -11,7 +11,7 @@ public sealed class RegisterUserController : WebApiController
     public void Register()
     {
         var user = HttpContext.GetRequestObjectAsync<User>().Result;
-
+        
         ServiceLocator.Repository.AddUser(user.Username, user.HashedPassword);
     }
 }
