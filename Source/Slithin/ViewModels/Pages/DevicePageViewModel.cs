@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Messages;
 using Slithin.Models;
+using Slithin.Tools;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -20,12 +22,14 @@ public class DevicePageViewModel : BaseViewModel
 {
     private readonly ILoadingService _loadingService;
     private readonly ILocalisationService _localisationService;
+    private readonly DeviceRepository _device;
     private readonly LocalRepository _localRepostory;
     private readonly ILogger _logger;
     private readonly ILoginService _loginService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
     private readonly ScpClient _scp;
+    private readonly SshClient _client;
     private readonly ISettingsService _settingsService;
     private readonly IVersionService _versionService;
 
@@ -38,8 +42,10 @@ public class DevicePageViewModel : BaseViewModel
         ILoadingService loadingService,
         IMailboxService mailboxService,
         ILocalisationService localisationService,
+        DeviceRepository device,
         LocalRepository localRepostory,
         ScpClient scp,
+        SshClient client,
         IPathManager pathManager,
         ISettingsService settingsService,
         ILoginService loginService,
@@ -49,8 +55,10 @@ public class DevicePageViewModel : BaseViewModel
         _loadingService = loadingService;
         _mailboxService = mailboxService;
         _localisationService = localisationService;
+        _device = device;
         _localRepostory = localRepostory;
         _scp = scp;
+        _client = client;
         _pathManager = pathManager;
         _settingsService = settingsService;
         _loginService = loginService;
@@ -86,15 +94,34 @@ public class DevicePageViewModel : BaseViewModel
     {
         base.OnLoad();
 
+        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+        var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
+
+        pathManager.InitDeviceDirectory();
+
         _xochitl = ServiceLocator.Container.Resolve<Xochitl>();
         _xochitl.Init();
 
-        InitScreens();
+        if (!Directory.GetFiles(pathManager.TemplatesDir).Any() || !Directory.GetFiles(pathManager.NotebooksDir).Any())
+        {
+            _mailboxService.PostAction(() =>
+            {
+                NotificationService.Show("Downloading Custom Screens");
+                _device.DownloadCustomScreens();
 
-        _loadingService.LoadScreens();
+                _device.GetTemplates();
+
+                InitNotebooks();
+
+                ServiceLocator.Container.Resolve<BackupTool>().Invoke(null);
+            });
+        }
+
+        InitScreens();
 
         _mailboxService.PostAction(() =>
         {
+            _loadingService.LoadScreens();
             _loadingService.LoadTools();
             _loadingService.LoadTemplates();
 
@@ -126,6 +153,32 @@ public class DevicePageViewModel : BaseViewModel
         }
 
         await DoAfterDeviceUpdate();
+    }
+
+    public void InitNotebooks()
+    {
+        var notebooksDir = _pathManager.NotebooksDir;
+        NotificationService.Show(_localisationService.GetString("Downloading Notebooks"));
+
+        var cmd = _client.RunCommand("ls -p " + PathList.Documents);
+        var allNodes
+            = cmd.Result
+                .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                .Where(_ => !_.EndsWith(".zip") && !_.EndsWith(".zip.part")).ToArray();
+
+        for (int i = 0; i < allNodes.Length; i++)
+        {
+            var node = allNodes[i];
+            if (!node.EndsWith("/"))
+            {
+                _scp.Download(PathList.Documents + "/" + node, new FileInfo(Path.Combine(notebooksDir, node)));
+                continue;
+            }
+
+            Directory.CreateDirectory(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1)));
+            NotificationService.ShowProgress("Downloading Notebooks", i, allNodes.Length - 1);
+            _scp.Download(PathList.Documents + "/" + node, new DirectoryInfo(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1))));
+        }
     }
 
     private async Task DoAfterDeviceUpdate()

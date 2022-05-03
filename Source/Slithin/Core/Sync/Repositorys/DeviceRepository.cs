@@ -4,9 +4,9 @@ using System.Linq;
 using Newtonsoft.Json;
 using Renci.SshNet;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.Models;
-using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Sync.Repositorys;
 
@@ -103,6 +103,8 @@ public class DeviceRepository : IRepository
             _scp.Download(PathList.Templates + "/" + t.Filename + ".svg",
                 new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".svg")));
         }
+
+        _loadingService.LoadTemplates();
 
         return null;
     }

@@ -2,9 +2,9 @@
 using System.IO;
 using Actress;
 using Serilog;
-using Slithin.Messages;
 using Slithin.Core.Messaging;
 using Slithin.MessageHandlers;
+using Slithin.Messages;
 
 namespace Slithin.Core.Services.Implementations;
 
@@ -46,8 +46,6 @@ public class MailboxServiceImpl : IMailboxService
 
     public void InitMessageRouter()
     {
-        _messageRouter.Register(ServiceLocator.Container.Resolve<InitStorageMessageHandler>());
-
         _messageRouter.Register(ServiceLocator.Container.Resolve<CheckForUpdatesMessageHandler>());
 
         _messageRouter.Register(ServiceLocator.Container.Resolve<AttentionRequiredMessageHandler>());
@@ -55,8 +53,6 @@ public class MailboxServiceImpl : IMailboxService
         _messageRouter.Register(ServiceLocator.Container.Resolve<PostActionMessageHandler>());
 
         _messageRouter.Register(ServiceLocator.Container.Resolve<CollectSyncNotebooksMessageHandler>());
-
-        _messageRouter.Register(ServiceLocator.Container.Resolve<InitNotebookMessageHandler>());
 
         _messageRouter.Register(ServiceLocator.Container.Resolve<DownloadSyncNotebooksMessageHandler>());
     }

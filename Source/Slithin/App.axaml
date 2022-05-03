@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              xmlns:local="using:Slithin.UI"
-             xmlns:sty="using:FluentAvalonia.Styling"
              xmlns:controls="using:NodeEditor.Controls"
              x:Class="Slithin.App">
     <Application.Styles>
@@ -33,8 +32,6 @@
 
         <StyleInclude Source="avares://Slithin/Styles/Ports/StepBar.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/Ports/StepBarItem.axaml" />
-
-        <sty:FluentAvaloniaTheme />
     </Application.Styles>
 
     <Application.Resources>
