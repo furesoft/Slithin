@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using LiteDB;
 using Slithin.Core.MVVM;
+using SlithinMarketplace.Models;
 
 namespace Slithin.Core;
 
@@ -16,6 +17,7 @@ public class Settings : NotifyObject
     public bool IsDarkMode { get; set; }
 
     public bool IsFirstStart { get; set; } = true;
+    public User MarketplaceCredential { get; set; }
 
     public string Get(string key)
     {

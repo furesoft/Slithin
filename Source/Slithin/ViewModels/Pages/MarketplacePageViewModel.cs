@@ -5,15 +5,20 @@ using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.MVVM;
+using Slithin.Core.Services;
 using Slithin.Models;
+using Slithin.UI.Modals;
 
 namespace Slithin.ViewModels.Pages;
 
 public class MarketplacePageViewModel : BaseViewModel
 {
-    public MarketplacePageViewModel()
+    private readonly ISettingsService _settingsService;
+
+    public MarketplacePageViewModel(ISettingsService settingsService)
     {
         Templates.Add(new() { ID = "1", IsInstalled = false, Name = "Not Installed Template 1", Image = LoadImage("backup"), Author = "Furesoft" });
         Templates.Add(new() { ID = "2", IsInstalled = true, Name = "Installed Template 2", Image = LoadImage("epub"), Author = "Furesoft" });
@@ -26,11 +31,24 @@ public class MarketplacePageViewModel : BaseViewModel
         {
             NotificationService.Show(_.ToString());
         });
+        _settingsService = settingsService;
     }
 
     public ObservableCollection<Sharable> Templates { get; set; } = new();
 
     public ICommand ViewMoreCommand { get; set; }
+
+    public override void OnLoad()
+    {
+        base.OnLoad();
+
+        var settings = _settingsService.GetSettings();
+
+        if (settings.MarketplaceCredential == null)
+        {
+            DialogService.Open(new RegisterModal());
+        }
+    }
 
     private IImage LoadImage(string name)
     {
