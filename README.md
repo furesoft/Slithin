@@ -41,8 +41,9 @@ Slithin is available for Windows, Linux and OSX. The executables are available u
 
 | App                                  	| Platforms         	| Price    	| Support 	| Usability                                                                           	| Docs 	| Export  	| Cloud   	|
 |--------------------------------------	|-------------------	|----------	|---------	|-------------------------------------------------------------------------------------	|---------------	|---------	|---------	|
-| Slithin                              	| Windows/Linux/Mac 	| Free     	| ✅     	| - Non Blocking Actions<br><br>- Considered Design<br><br>- Designed For Performance 	| 🕐       	| 🕐 	| 🕐 	|
-| Official Client                      	| Windows/Mac       	| Free     	| ✅     	| - No Ability For Tweaking                                                           	| ✅           	| ✅     	| ✅     	|
-| rM2 Template Helper & Custom Screens 	| Windows           	| Freemium 	| ❓     	| - Blocking Calls                                                                    	| ✅           	| ✅     	| ✅     	|
-| Eink Pad Template Installer          	| Windows/Mac       	| 💵     	| ❓    	| - Only For Adding Templates                                                         	| ❓           	| ❌      	| ❌      	|
-| reMarkable Connection Utility        	| Windows/Linux/Mac 	| 💵     	| ✅     	| ❓                                                                                 	| ✅           	| ✅     	| ❌      	|
+| Slithin                              	| 🪟🐧/Mac 	| Free     	| ✅     	| - Non Blocking Actions<br>- Considered Design<br>- Designed For Performance 	| 🕐       	| 🕐 	| 🕐 	|
+| Official Client                      	| 🪟/Mac       	| Free     	| ✅     	| - No Ability For Tweaking                                                           	| ✅           	| ✅     	| ✅     	|
+| rM2 Template Helper & Custom Screens 	| 🪟           	| Freemium 	| ❓     	| - Blocking Calls                                                                    	| ✅           	| ✅     	| ✅     	|
+| Eink Pad Template Installer          	| 🪟/Mac       	| 💵     	| ❓    	| - Only For Adding Templates                                                         	| ❓           	| ❌      	| ❌      	|
+| reMarkable Connection Utility        	| 🪟🐧/Mac 	| 💵     	| ✅     	| ❓                                                                                 	| ✅           	| ✅     	| ❌      	|
+
