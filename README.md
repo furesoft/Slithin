@@ -41,8 +41,8 @@ Slithin is available for Windows, Linux and OSX. The executables are available u
 
 | App                                  	| Platforms         	| Price    	| Support 	| Usability                                                                           	| Documentation 	| Export  	| Cloud   	|
 |--------------------------------------	|-------------------	|----------	|---------	|-------------------------------------------------------------------------------------	|---------------	|---------	|---------	|
-| Slithin                              	| Windows/Linux/Mac 	| Free     	| Yes     	| - Non Blocking Actions<br><br>- Considered Design<br><br>- Designed For Performance 	| Not Yet       	| Not Yet 	| Not Yet 	|
-| Official Client                      	| Windows/Mac       	| Free     	| Yes     	| - No Ability For Tweaking                                                           	| Yes           	| Yes     	| Yes     	|
-| rM2 Template Helper & Custom Screens 	| Windows           	| Freemium 	| n/a     	| - Blocking Calls                                                                    	| Yes           	| Yes     	| Yes     	|
-| Eink Pad Template Installer          	| Windows/Mac       	| Paid     	| n/a     	| - Only For Adding Templates                                                         	| n/a           	| No      	| No      	|
-| reMarkable Connection Utility        	| Windows/Linux/Mac 	| Paid     	| Yes     	| n/a                                                                                 	| Yes           	| Yes     	| No      	|
+| Slithin                              	| Windows/Linux/Mac 	| Free     	| ✅     	| - Non Blocking Actions<br><br>- Considered Design<br><br>- Designed For Performance 	| 🕐       	| 🕐 	| 🕐 	|
+| Official Client                      	| Windows/Mac       	| Free     	| ✅     	| - No Ability For Tweaking                                                           	| ✅           	| ✅     	| ✅     	|
+| rM2 Template Helper & Custom Screens 	| Windows           	| Freemium 	| ❓     	| - Blocking Calls                                                                    	| ✅           	| ✅     	| ✅     	|
+| Eink Pad Template Installer          	| Windows/Mac       	| 💵     	| ❓    	| - Only For Adding Templates                                                         	| ❓           	| ❌      	| ❌      	|
+| reMarkable Connection Utility        	| Windows/Linux/Mac 	| 💵     	| ✅     	| ❓                                                                                 	| ✅           	| ✅     	| ❌      	|
