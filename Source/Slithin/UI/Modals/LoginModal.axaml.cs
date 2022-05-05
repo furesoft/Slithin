@@ -16,6 +16,9 @@ public partial class LoginModal : UserControl
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = ServiceLocator.Container.Resolve<LoginModalViewModel>();
+        if (!Design.IsDesignMode)
+        {
+            DataContext = ServiceLocator.Container.Resolve<LoginModalViewModel>();
+        }
     }
 }

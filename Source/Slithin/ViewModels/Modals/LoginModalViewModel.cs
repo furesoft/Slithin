@@ -5,6 +5,10 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
     private string _password;
     private string _username;
 
+    public LoginModalViewModel()
+    {
+    }
+
     public string Password
     {
         get { return _password; }

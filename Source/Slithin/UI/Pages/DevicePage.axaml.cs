@@ -5,12 +5,12 @@ using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.Menu;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Models;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
-using Slithin.Core.Menu;
 
 namespace Slithin.UI.Pages;
 
@@ -93,7 +93,10 @@ public partial class DevicePage : UserControl, IPage
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = ServiceLocator.Container.Resolve<DevicePageViewModel>();
+        if (!Design.IsDesignMode)
+        {
+            DataContext = ServiceLocator.Container.Resolve<DevicePageViewModel>();
+        }
 
         AddHandler(DragDrop.DropEvent, Drop);
         AddHandler(DragDrop.DragOverEvent, DragOver);
