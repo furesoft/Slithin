@@ -46,7 +46,7 @@ public class MarketplacePageViewModel : BaseViewModel
 
         if (settings.MarketplaceCredential == null)
         {
-            DialogService.Open(new RegisterModal());
+            DialogService.Open(new LoginModal());
         }
     }
 

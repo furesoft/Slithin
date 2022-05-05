@@ -1,6 +1,6 @@
 ﻿namespace Slithin.ViewModels.Modals;
 
-public sealed class RegisterModalViewModel : ModalBaseViewModel
+public sealed class LoginModalViewModel : ModalBaseViewModel
 {
     private string _password;
     private string _username;

@@ -5,9 +5,9 @@ using Slithin.ViewModels.Modals;
 
 namespace Slithin.UI.Modals;
 
-public partial class RegisterModal : UserControl
+public partial class LoginModal : UserControl
 {
-    public RegisterModal()
+    public LoginModal()
     {
         InitializeComponent();
     }
@@ -16,6 +16,6 @@ public partial class RegisterModal : UserControl
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = ServiceLocator.Container.Resolve<RegisterModalViewModel>();
+        DataContext = ServiceLocator.Container.Resolve<LoginModalViewModel>();
     }
 }

@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:l="using:Slithin.Core"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="using:Slithin.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.UI.Modals.LoginModal">
+    <c:DialogControl Header="{l:Localisation 'Login'}" CommandText="{l:Localisation 'OK'}" IsCancelEnabled="True"
+                       Command="{Binding ConfirmCommand}" MinHeight="300" MaxWidth="800">
+        <Carousel>
+            <Grid RowDefinitions="40,40,40">
+                <TextBox Grid.Row="0" Watermark="{l:Localisation 'Username'}" Text="{Binding Username}" Margin="0,0,0,7" />
+                <TextBox Grid.Row="1" Watermark="{l:Localisation 'Password'}" PasswordChar="*" Text="{Binding Password}" Margin="0,0,0,7" />
+
+                <Button Classes="Link" Grid.Row="2" Content="Register" />
+            </Grid>
+
+            <Grid RowDefinitions="40,40,40">
+                <TextBox Grid.Row="0" Watermark="{l:Localisation 'Username'}" Text="{Binding Username}" Margin="0,0,0,7" />
+                <TextBox Grid.Row="1" Watermark="{l:Localisation 'Password'}" PasswordChar="*" Text="{Binding Password}" Margin="0,0,0,7" />
+
+                <Button Classes="Link" Grid.Row="2" Content="Login" />
+            </Grid>
+        </Carousel>
+    </c:DialogControl>
+</UserControl>
