@@ -8,6 +8,8 @@ Installation guide can be found on the [Wiki](https://github.com/furesoft/Slithi
 
 Slithin is available for Windows, Linux and OSX. The executables are available under [Releases](https://github.com/furesoft/Slithin/releases) or get it from the [Microsoft Store](https://www.microsoft.com/de-de/p/slithin/9pkxtcbn8mq8?cid=storebadge&ocid=badge&rtc=1&activetab=pivot:overviewtab).
 
+# This is a beta, so use it on your own risk
+
 # Features
 * Connect your Remarkable Device with WIFI or USB
 * Manage multiple Devices
@@ -44,5 +46,3 @@ Slithin is available for Windows, Linux and OSX. The executables are available u
 | rM2 Template Helper & Custom Screens 	| Windows           	| Freemium 	| n/a     	| - Blocking Calls                                                                    	| Yes           	| Yes     	| Yes     	|
 | Eink Pad Template Installer          	| Windows/Mac       	| Paid     	| n/a     	| - Only For Adding Templates                                                         	| n/a           	| No      	| No      	|
 | reMarkable Connection Utility        	| Windows/Linux/Mac 	| Paid     	| Yes     	| n/a                                                                                 	| Yes           	| Yes     	| No      	|
-
-# This is a beta, so use it on your own risk
