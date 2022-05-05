@@ -39,7 +39,7 @@ Slithin is available for Windows, Linux and OSX. The executables are available u
 
 # Comparison To Other Tools
 
-| App                                  	| Platforms         	| Price    	| Support 	| Usability                                                                           	| Documentation 	| Export  	| Cloud   	|
+| App                                  	| Platforms         	| Price    	| Support 	| Usability                                                                           	| Docs 	| Export  	| Cloud   	|
 |--------------------------------------	|-------------------	|----------	|---------	|-------------------------------------------------------------------------------------	|---------------	|---------	|---------	|
 | Slithin                              	| Windows/Linux/Mac 	| Free     	| ✅     	| - Non Blocking Actions<br><br>- Considered Design<br><br>- Designed For Performance 	| 🕐       	| 🕐 	| 🕐 	|
 | Official Client                      	| Windows/Mac       	| Free     	| ✅     	| - No Ability For Tweaking                                                           	| ✅           	| ✅     	| ✅     	|
