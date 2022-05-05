@@ -104,8 +104,8 @@
      <Compile Update="UI\Modals\LoginModal.axaml.cs">
        <DependentUpon>LoginModal.axaml</DependentUpon>
      </Compile>
-     <Compile Update="UI\Pages\MarketplacePage.axaml.cs">
-       <DependentUpon>MarketplacePage.axaml</DependentUpon>
+     <Compile Update="UI\Pages\ResourcesPage.axaml.cs">
+       <DependentUpon>ResourcesPage.axaml</DependentUpon>
      </Compile>
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>

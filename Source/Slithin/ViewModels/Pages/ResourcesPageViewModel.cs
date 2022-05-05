@@ -14,11 +14,11 @@ using Slithin.UI.Modals;
 
 namespace Slithin.ViewModels.Pages;
 
-public class MarketplacePageViewModel : BaseViewModel
+public class ResourcesPageViewModel : BaseViewModel
 {
     private readonly ISettingsService _settingsService;
 
-    public MarketplacePageViewModel(ISettingsService settingsService)
+    public ResourcesPageViewModel(ISettingsService settingsService)
     {
         Templates.Add(new() { ID = "1", IsInstalled = false, Name = "Not Installed Template 1", Image = LoadImage("backup"), Author = "Furesoft" });
         Templates.Add(new() { ID = "2", IsInstalled = true, Name = "Installed Template 2", Image = LoadImage("epub"), Author = "Furesoft" });

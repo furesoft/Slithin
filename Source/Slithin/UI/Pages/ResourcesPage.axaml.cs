@@ -9,21 +9,21 @@ using Slithin.ViewModels.Pages;
 namespace Slithin.UI.Pages;
 
 [PreserveIndex(3)]
-[PageIcon("Marketplace")]
-public partial class MarketplacePage : UserControl, IPage
+[PageIcon("Modern.Resource")]
+public partial class ResourcesPage : UserControl, IPage
 {
-    public MarketplacePage()
+    public ResourcesPage()
     {
         InitializeComponent();
     }
 
-    public string Title => "Marketplace";
+    public string Title => "Resources";
 
     public Control GetContextualMenu() => null;
 
     bool IPage.IsEnabled()
     {
-        return Feature<MarketplaceFeature>.IsEnabled;
+        return Feature<ResourcesFeature>.IsEnabled;
     }
 
     public bool UseContextualMenu() => false;
@@ -32,6 +32,6 @@ public partial class MarketplacePage : UserControl, IPage
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = ServiceLocator.Container.Resolve<MarketplacePageViewModel>();
+        DataContext = ServiceLocator.Container.Resolve<ResourcesPageViewModel>();
     }
 }
