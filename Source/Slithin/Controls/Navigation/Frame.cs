@@ -38,6 +38,11 @@ public partial class Frame : ContentControl
         ForwardStack = forw;
     }
 
+    public static Frame GetFrame(string name)
+    {
+        return _frames[name];
+    }
+
     public static string GetFrameName(Frame target)
     {
         return string.Empty;

@@ -5,12 +5,13 @@ using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Slithin.Controls;
+using Slithin.Controls.Navigation;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 using Slithin.Models;
 using Slithin.UI.Modals;
+using Slithin.UI.ResourcesPage;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -42,11 +43,17 @@ public class ResourcesPageViewModel : BaseViewModel
     {
         base.OnLoad();
 
+        var frame = Frame.GetFrame("resourcesFrame");
+
         var settings = _settingsService.GetSettings();
 
         if (settings.MarketplaceCredential == null)
         {
-            DialogService.Open(new LoginModal());
+            frame.Navigate(typeof(LoginModal));
+        }
+        else
+        {
+            frame.Navigate(typeof(ResourcesMainPage));
         }
     }
 

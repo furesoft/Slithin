@@ -10,13 +10,12 @@
              x:Class="Slithin.UI.Modals.LoginModal">
     <c:DialogControl Header="{l:Localisation 'Login'}" CommandText="{l:Localisation 'OK'}" IsCancelEnabled="True"
                        Command="{Binding ConfirmCommand}" MinHeight="300" MaxWidth="800">
-        <f:Frame f:Frame.FrameName="loginFrame">
-            <Grid RowDefinitions="40,40,40">
-                <TextBox Grid.Row="0" Watermark="{l:Localisation 'Username'}" Text="{Binding Username}" Margin="0,0,0,7" />
-                <TextBox Grid.Row="1" Watermark="{l:Localisation 'Password'}" PasswordChar="*" Text="{Binding Password}" Margin="0,0,0,7" />
 
-                <controls:Link Title="{l:Localisation 'Register'}" Grid.Row="2" Command="{Binding SwitchCommand}" CommandParameter="Register" />
-            </Grid>
-        </f:Frame>
+        <Grid RowDefinitions="40,40,40">
+            <TextBox Grid.Row="0" Watermark="{l:Localisation 'Username'}" Text="{Binding Username}" Margin="0,0,0,7" />
+            <TextBox Grid.Row="1" Watermark="{l:Localisation 'Password'}" PasswordChar="*" Text="{Binding Password}" Margin="0,0,0,7" />
+
+            <f:Frame f:Frame.FrameName="loginFrame" Grid.Row="2" />
+        </Grid>
     </c:DialogControl>
 </UserControl>
