@@ -19,6 +19,7 @@ namespace Slithin.Controls.Navigation;
 /// </summary>
 public partial class Frame : ContentControl
 {
+    private static Dictionary<string, Frame> _frames = new Dictionary<string, Frame>();
     private List<IControl> _cache = new List<IControl>(10);
 
     private bool _isNavigating = false;
@@ -35,6 +36,16 @@ public partial class Frame : ContentControl
 
         BackStack = back;
         ForwardStack = forw;
+    }
+
+    public static string GetFrameName(Frame target)
+    {
+        return string.Empty;
+    }
+
+    public static void SetFrameName(Frame target, string name)
+    {
+        _frames.Add(name, target);
     }
 
     /// <summary>
