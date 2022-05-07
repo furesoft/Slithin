@@ -2,12 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:l="using:Slithin.Core"
              xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              xmlns:c="using:Slithin.Controls"
              xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1500"
-             x:Class="Slithin.UI.Pages.MarketplacePage">
+             x:Class="Slithin.UI.ResourcesPage.ResourcesMainPage">
     <ScrollViewer>
         <StackPanel Spacing="5" Margin="2">
             <TextBlock Text="{l:Localisation 'Featured'}" FontSize="22" FontWeight="Bold" Margin="3" />
@@ -20,7 +20,7 @@
                 <Image Height="250" Source="/Resources/Covers/Folder-Grey.png" />
             </c:GalleryControl>
 
-            <c:StoreCardCollection Cards="{Binding Items}" Category="{l:Localisation 'Templates'}" MoreCommand="{Binding ViewMoreCommand}" />
+            <c:StoreCardCollection Cards="{Binding Templates}" Category="{l:Localisation 'Templates'}" MoreCommand="{Binding ViewMoreCommand}" />
             <c:StoreCardCollection Cards="{Binding Items}" Category="{l:Localisation 'Scripts'}" MoreCommand="{Binding ViewMoreCommand}" />
             <c:StoreCardCollection Cards="{Binding Items}" Category="{l:Localisation 'Notebooks'}" MoreCommand="{Binding ViewMoreCommand}" />
         </StackPanel>

@@ -40,7 +40,7 @@ public class MarketplaceAPI
         var request = new RestRequest($"/{assetObj.GetType().Name.ToLower()}s", Method.Put);
         request.AddBody(assetObj);
 
-        var result = await _client.PutAsync<UploadRequest>(request);
+        var result = _client.PutAsync<UploadRequest>(request).Result;
 
         var wc = new WebClient();
         wc.Headers.Add("Authorization", "Bearer " + _token);
@@ -86,7 +86,7 @@ public class MarketplaceAPI
     {
         var request = new RestRequest($"/files/request/{id}", Method.Get);
 
-        var result = await _client.GetAsync<UploadRequest>(request);
+        var result = _client.GetAsync<UploadRequest>(request).Result;
 
         var wc = new WebClient();
         wc.Headers.Add("Authorization", "Bearer " + _token);
@@ -94,7 +94,7 @@ public class MarketplaceAPI
         var ms = new MemoryStream();
         using (var fs = File.OpenRead(fileToUpload))
         {
-            await fs.CopyToAsync(ms);
+            fs.CopyTo(ms);
         }
 
         wc.UploadData(_client.BuildUri(new RestRequest(result.UploadEndpoint)), ms.ToArray());

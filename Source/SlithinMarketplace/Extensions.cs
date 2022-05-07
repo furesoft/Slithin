@@ -36,6 +36,7 @@ public static class Extensions
         asset.FileID = Guid.NewGuid().ToString();
 
         asset.CreatorID = ServiceLocator.Repository.GetUser(context.User.Identity.Name).ID;
+        asset.UploadTime = DateTime.Now;
     }
 
     public static void RequireAdmin(this IHttpContext context)

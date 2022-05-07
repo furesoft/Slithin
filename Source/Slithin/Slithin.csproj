@@ -101,8 +101,14 @@
      <Compile Update="UI\ContextualMenus\EmptyContextualMenu.axaml.cs">
        <DependentUpon>EmptyContextualMenu.axaml</DependentUpon>
      </Compile>
-     <Compile Update="UI\Pages\MarketplacePage.axaml.cs">
-       <DependentUpon>MarketplacePage.axaml</DependentUpon>
+     <Compile Update="UI\RegisterFramePage.axaml.cs">
+       <DependentUpon>RegisterFramePage.axaml</DependentUpon>
+     </Compile>
+     <Compile Update="UI\Modals\LoginModal.axaml.cs">
+       <DependentUpon>LoginModal.axaml</DependentUpon>
+     </Compile>
+     <Compile Update="UI\Pages\ResourcesPage.axaml.cs">
+       <DependentUpon>ResourcesPage.axaml</DependentUpon>
      </Compile>
      <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
        <DependentUpon>NotebooksPage.axaml</DependentUpon>

@@ -15,7 +15,7 @@
   "Templates": "Templates",
   "Tools": "Tools",
   "Settings": "Settings",
-  "Marketplace": "Market",
+  "Resources": "Resources",
   "Notebooks": "Notebooks",
 
   "Folder": "Folder",
@@ -176,5 +176,9 @@
   "Slithin is now configured and you can start enjoy managing your Remarkable device.": "Slithin is now configured and you can start enjoy managing your Remarkable device.",
   "Thanks for deciding using Slithin. This little wizard helps you to configure Slithin for your needs. Go to the next step to start configuring.": "Thanks for deciding using Slithin. This little wizard helps you to configure Slithin for your needs. Go to the next step to start configuring.",
 
-  "Scripts": "Scripts"
+  "Scripts": "Scripts",
+
+  "Register": "Register",
+  "Username": "Username",
+  "Login": "Login"
 }

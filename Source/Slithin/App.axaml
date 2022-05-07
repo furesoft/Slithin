@@ -30,6 +30,8 @@
         <StyleInclude Source="avares://Slithin/Styles/System/ButtonStyle.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/System/IndicatorStyle.axaml" />
 
+        <StyleInclude Source="avares://Slithin/Styles/FrameStyles.axaml" />
+
         <StyleInclude Source="avares://Slithin/Styles/Ports/StepBar.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/Ports/StepBarItem.axaml" />
     </Application.Styles>
