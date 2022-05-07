@@ -58,7 +58,7 @@ public class ResourcesPageViewModel : BaseViewModel
             {
                 var _marketplaceAPI = ServiceLocator.Container.Resolve<MarketplaceAPI>();
                 var templates = _marketplaceAPI.Get<Template[]>("templates", 5)
-                        .Select(_ => new Sharable() { Name = _.Name });
+                        .Select(_ => new Sharable() { Asset = _ });
 
                 Templates = new(templates);
 

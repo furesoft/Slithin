@@ -27,12 +27,12 @@
                             <DataTemplate>
                                 <styles:Card Background="#e2e2e2" Margin="3" HorizontalAlignment="Center" MaxHeight="275">
                                     <StackPanel Spacing="5">
-                                        <TextBlock Text="{Binding Name}" Margin="0,0,0,5" TextAlignment="Center" FontSize="17" FontWeight="Medium" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding Asset.Name}" Margin="0,0,0,5" TextAlignment="Center" FontSize="17" FontWeight="Medium" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
 
                                         <Image Source="{Binding Image, Mode=TwoWay}" Margin="2" Height="120" Width="80" />
 
                                         <Grid>
-                                            <TextBlock Text="{Binding Author}" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding Asset.Author}" VerticalAlignment="Center" />
 
                                             <Button IsVisible="{Binding !IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right" Command="{TemplateBinding InstallCommand}" CommandParameter="{Binding}">
                                                 <DrawingPresenter Width="40" Height="40" Drawing="{DynamicResource Microns.Download}" />
