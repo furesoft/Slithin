@@ -68,10 +68,7 @@ public class MarketplaceAPI
 
     public async void DownloadFile(string id, string filename)
     {
-        var wc = new WebClient();
-        wc.Headers.Add("Authorization", "Bearer " + _token);
-
-        var data = wc.DownloadData(_client.BuildUri(new RestRequest($"/files/{id}")));
+        var data = GetBytes(id);
         File.WriteAllBytes(filename, data);
     }
 
@@ -89,6 +86,14 @@ public class MarketplaceAPI
         }
 
         return _client.GetAsync<T>(request).Result;
+    }
+
+    public byte[] GetBytes(string fileID)
+    {
+        var wc = new WebClient();
+        wc.Headers.Add("Authorization", "Bearer " + _token);
+
+        return wc.DownloadData(_client.BuildUri(new RestRequest($"/files/{fileID}")));
     }
 
     public async void UploadFile(string id, string fileToUpload)

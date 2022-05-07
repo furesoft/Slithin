@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Media;
@@ -56,8 +58,8 @@ public class ResourcesPageViewModel : BaseViewModel
         {
             _mailboxService.PostAction(async () =>
             {
-                var _marketplaceAPI = ServiceLocator.Container.Resolve<MarketplaceAPI>();
-                var templates = _marketplaceAPI.Get<Template[]>("templates", 5)
+                var marketplaceAPI = ServiceLocator.Container.Resolve<MarketplaceAPI>();
+                var templates = marketplaceAPI.Get<Template[]>("templates", 5)
                         .Select(_ => new Sharable() { Asset = _ });
 
                 Templates = new(templates);
@@ -68,6 +70,17 @@ public class ResourcesPageViewModel : BaseViewModel
                 {
                     frame.Navigate(typeof(ResourcesMainPage));
                 });
+
+                Parallel.For(0, Templates.Count, async (index) =>
+                {
+                    var template = Templates[index];
+                    var bytes = marketplaceAPI.GetBytes(template.Asset.FileID);
+
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        Templates[index].Image = LoadImage(bytes);
+                    });
+                });
             });
         }
     }
@@ -77,5 +90,10 @@ public class ResourcesPageViewModel : BaseViewModel
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
         return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{name}.png")));
+    }
+
+    private IImage LoadImage(byte[] bytes)
+    {
+        return new Bitmap(new MemoryStream(bytes));
     }
 }
