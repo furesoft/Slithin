@@ -57,7 +57,8 @@ public class ResourcesPageViewModel : BaseViewModel
             _mailboxService.PostAction(async () =>
             {
                 var _marketplaceAPI = ServiceLocator.Container.Resolve<MarketplaceAPI>();
-                var templates = _marketplaceAPI.Get<Template[]>("templates", 5).Select(_ => new Sharable() { Name = _.Filename });
+                var templates = _marketplaceAPI.Get<Template[]>("templates", 5)
+                        .Select(_ => new Sharable() { Name = _.Name });
 
                 Templates = new(templates);
 

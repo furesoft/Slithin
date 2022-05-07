@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Slithin.API.Lib;
 using Slithin.Core.Remarkable;
@@ -29,10 +30,14 @@ public class LoadingServiceImpl : ILoadingService
 
         if (settings.MarketplaceCredential != null)
         {
-            var api = new MarketplaceAPI();
-            api.Authenticate(settings.MarketplaceCredential.Username, settings.MarketplaceCredential.HashedPassword);
+            var authThread = new Thread(() =>
+            {
+                var api = new MarketplaceAPI();
+                api.Authenticate(settings.MarketplaceCredential.Username, settings.MarketplaceCredential.HashedPassword);
 
-            ServiceLocator.Container.Register(api);
+                ServiceLocator.Container.Register(api);
+            });
+            authThread.Start();
         }
     }
 
