@@ -129,6 +129,8 @@ public class DevicePageViewModel : BaseViewModel
 
             _loadingService.LoadNotebooks();
 
+            _loadingService.LoadApiToken();
+
             _mailboxService.Post(new CheckForUpdateMessage());
         });
 

@@ -2,6 +2,8 @@
 
 public interface ILoadingService
 {
+    void LoadApiToken();
+
     void LoadNotebooks();
 
     void LoadScreens();

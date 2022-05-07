@@ -1,8 +1,10 @@
-using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Core;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.UI.ResourcesPage;
+
 public partial class ResourcesMainPage : UserControl
 {
     public ResourcesMainPage()
@@ -13,5 +15,7 @@ public partial class ResourcesMainPage : UserControl
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+
+        DataContext = ServiceLocator.Container.Resolve<ResourcesPageViewModel>();
     }
 }

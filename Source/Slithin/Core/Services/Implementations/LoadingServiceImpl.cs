@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Slithin.API.Lib;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Tools;
@@ -11,11 +12,28 @@ public class LoadingServiceImpl : ILoadingService
 {
     private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;
+    private readonly ISettingsService _settingsService;
 
-    public LoadingServiceImpl(IPathManager pathManager, ILocalisationService localisationService)
+    public LoadingServiceImpl(IPathManager pathManager,
+                              ILocalisationService localisationService,
+                              ISettingsService settingsService)
     {
         _pathManager = pathManager;
         _localisationService = localisationService;
+        _settingsService = settingsService;
+    }
+
+    public void LoadApiToken()
+    {
+        var settings = _settingsService.GetSettings();
+
+        if (settings.MarketplaceCredential != null)
+        {
+            var api = new MarketplaceAPI();
+            api.Authenticate(settings.MarketplaceCredential.Username, settings.MarketplaceCredential.HashedPassword);
+
+            ServiceLocator.Container.Register(api);
+        }
     }
 
     public void LoadNotebooks()

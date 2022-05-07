@@ -75,9 +75,18 @@ public class MarketplaceAPI
         File.WriteAllBytes(filename, data);
     }
 
-    public T Get<T>(string bucket)
+    public T Get<T>(string bucket, int count = 0, int skip = 0)
     {
         var request = new RestRequest($"/{bucket}", Method.Get);
+
+        if (count != 0)
+        {
+            request.AddQueryParameter("count", count);
+        }
+        if (skip != 0)
+        {
+            request.AddQueryParameter("skip", skip);
+        }
 
         return _client.GetAsync<T>(request).Result;
     }

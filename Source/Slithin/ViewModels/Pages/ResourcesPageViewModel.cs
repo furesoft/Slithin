@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Avalonia.Threading;
+using Slithin.API.Lib;
 using Slithin.Controls.Navigation;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
+using Slithin.Marketplace.Models;
 using Slithin.Models;
 using Slithin.UI.Modals;
 using Slithin.UI.ResourcesPage;
@@ -17,22 +21,19 @@ namespace Slithin.ViewModels.Pages;
 
 public class ResourcesPageViewModel : BaseViewModel
 {
+    private readonly IMailboxService _mailboxService;
     private readonly ISettingsService _settingsService;
 
-    public ResourcesPageViewModel(ISettingsService settingsService)
+    public ResourcesPageViewModel(ISettingsService settingsService,
+                                  IMailboxService mailboxService)
     {
-        Templates.Add(new() { ID = "1", IsInstalled = false, Name = "Not Installed Template 1", Image = LoadImage("backup"), Author = "Furesoft" });
-        Templates.Add(new() { ID = "2", IsInstalled = true, Name = "Installed Template 2", Image = LoadImage("epub"), Author = "Furesoft" });
-        Templates.Add(new() { ID = "3", IsInstalled = false, Name = "Not Installed Template 3", Image = LoadImage("folder"), Author = "Furesoft" });
-        Templates.Add(new() { ID = "4", IsInstalled = true, Name = "Installed Template 4", Image = LoadImage("pdf"), Author = "Furesoft" });
-        Templates.Add(new() { ID = "5", IsInstalled = true, Name = "Installed Template 5", Image = LoadImage("folder"), Author = "Furesoft" });
-        Templates.Add(new() { ID = "6", IsInstalled = false, Name = "Not Installed Template 5", Image = LoadImage("backup"), Author = "Furesoft" });
-
         ViewMoreCommand = new DelegateCommand(_ =>
         {
             NotificationService.Show(_.ToString());
         });
+
         _settingsService = settingsService;
+        _mailboxService = mailboxService;
     }
 
     public ObservableCollection<Sharable> Templates { get; set; } = new();
@@ -53,7 +54,20 @@ public class ResourcesPageViewModel : BaseViewModel
         }
         else
         {
-            frame.Navigate(typeof(ResourcesMainPage));
+            _mailboxService.PostAction(async () =>
+            {
+                var _marketplaceAPI = ServiceLocator.Container.Resolve<MarketplaceAPI>();
+                var templates = _marketplaceAPI.Get<Template[]>("templates", 5).Select(_ => new Sharable() { Name = _.Filename });
+
+                Templates = new(templates);
+
+                ServiceLocator.Container.Register(this);
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    frame.Navigate(typeof(ResourcesMainPage));
+                });
+            });
         }
     }
 
