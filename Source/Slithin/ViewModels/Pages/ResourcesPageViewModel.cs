@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using Avalonia.Threading;
 using Slithin.API.Lib;
 using Slithin.Controls.Navigation;
@@ -18,7 +15,6 @@ using Slithin.Marketplace.Models;
 using Slithin.Models;
 using Slithin.UI.Modals;
 using Slithin.UI.ResourcesPage;
-using SlithinMarketplace.Models;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -30,37 +26,7 @@ public class ResourcesPageViewModel : BaseViewModel
     public ResourcesPageViewModel(ISettingsService settingsService,
                                   IMailboxService mailboxService)
     {
-        ViewMoreCommand = new DelegateCommand(asset =>
-        {
-            _mailboxService.PostAction(async () =>
-            {
-                var marketplaceAPI = ServiceLocator.Container.Resolve<MarketplaceAPI>();
-                var items = marketplaceAPI.Get<AssetModel[]>(asset.ToString().ToLower())
-                        .Select(_ => new Sharable() { Asset = _ });
-
-                var vm = new ResourceListViewModel();
-                vm.Items = new(items);
-
-                ServiceLocator.Container.Register(vm);
-
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    var frame = Frame.GetFrame("resourcesFrame");
-                    frame.Navigate(typeof(ListPage));
-                });
-
-                Parallel.For(0, vm.Items.Count, async (index) =>
-                {
-                    var template = vm.Items[index];
-                    var bytes = marketplaceAPI.GetBytes(template.Asset.FileID);
-
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        vm.Items[index].Image = LoadImage(bytes);
-                    });
-                });
-            });
-        });
+        ViewMoreTemplatesCommand = CreateLoadCommand<Template>();
 
         _settingsService = settingsService;
         _mailboxService = mailboxService;
@@ -68,7 +34,7 @@ public class ResourcesPageViewModel : BaseViewModel
 
     public ObservableCollection<Sharable> Templates { get; set; } = new();
 
-    public ICommand ViewMoreCommand { get; set; }
+    public ICommand ViewMoreTemplatesCommand { get; set; }
 
     public override void OnLoad()
     {
@@ -113,11 +79,40 @@ public class ResourcesPageViewModel : BaseViewModel
         }
     }
 
-    private IImage LoadImage(string name)
+    private DelegateCommand CreateLoadCommand<T>()
+        where T : SlithinMarketplace.Models.AssetModel
     {
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+        return new DelegateCommand(asset =>
+        {
+            _mailboxService.PostAction(async () =>
+            {
+                var marketplaceAPI = ServiceLocator.Container.Resolve<MarketplaceAPI>();
+                var items = marketplaceAPI.Get<T[]>(asset.ToString().ToLower())
+                        .Select(_ => new Sharable() { Asset = _ });
 
-        return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{name}.png")));
+                var vm = new ResourceListViewModel();
+                vm.Items = new(items);
+
+                ServiceLocator.Container.Register(vm);
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    var frame = Frame.GetFrame("resourcesFrame");
+                    frame.Navigate(typeof(ListPage));
+                });
+
+                Parallel.For(0, vm.Items.Count, async (index) =>
+                {
+                    var template = vm.Items[index];
+                    var bytes = marketplaceAPI.GetBytes(template.Asset.FileID);
+
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        vm.Items[index].Image = LoadImage(bytes);
+                    });
+                });
+            });
+        });
     }
 
     private IImage LoadImage(byte[] bytes)
