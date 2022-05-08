@@ -18,6 +18,7 @@ using Slithin.Marketplace.Models;
 using Slithin.Models;
 using Slithin.UI.Modals;
 using Slithin.UI.ResourcesPage;
+using SlithinMarketplace.Models;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -29,9 +30,36 @@ public class ResourcesPageViewModel : BaseViewModel
     public ResourcesPageViewModel(ISettingsService settingsService,
                                   IMailboxService mailboxService)
     {
-        ViewMoreCommand = new DelegateCommand(_ =>
+        ViewMoreCommand = new DelegateCommand(asset =>
         {
-            NotificationService.Show(_.ToString());
+            _mailboxService.PostAction(async () =>
+            {
+                var marketplaceAPI = ServiceLocator.Container.Resolve<MarketplaceAPI>();
+                var items = marketplaceAPI.Get<AssetModel[]>(asset.ToString().ToLower())
+                        .Select(_ => new Sharable() { Asset = _ });
+
+                var vm = new ResourceListViewModel();
+                vm.Items = new(items);
+
+                ServiceLocator.Container.Register(vm);
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    var frame = Frame.GetFrame("resourcesFrame");
+                    frame.Navigate(typeof(ListPage));
+                });
+
+                Parallel.For(0, vm.Items.Count, async (index) =>
+                {
+                    var template = vm.Items[index];
+                    var bytes = marketplaceAPI.GetBytes(template.Asset.FileID);
+
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        vm.Items[index].Image = LoadImage(bytes);
+                    });
+                });
+            });
         });
 
         _settingsService = settingsService;

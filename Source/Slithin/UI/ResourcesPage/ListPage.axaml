@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.UI.ResourcesPage.ListPage">
+    <ScrollViewer>
+        <ItemsControl Items="{Binding Items, Mode=TwoWay}" VerticalAlignment="Top">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <styles:Card Background="#e2e2e2" Margin="3" HorizontalAlignment="Center" MaxHeight="275">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="{Binding Asset.Name}" Margin="0,0,0,5" TextAlignment="Center" FontSize="17" FontWeight="Medium" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
+
+                            <Image Source="{Binding Image, Mode=TwoWay}" Margin="2" Height="120" Width="80" />
+
+                            <Grid>
+                                <TextBlock Text="{Binding Asset.Author}" VerticalAlignment="Center" />
+
+                                <Button IsVisible="{Binding !IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right" Command="{Binding InstallCommand}" CommandParameter="{Binding}">
+                                    <DrawingPresenter Width="40" Height="40" Drawing="{DynamicResource Microns.Download}" />
+                                </Button>
+
+                                <Button IsVisible="{Binding IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right" Command="{Binding UninstallCommand}" CommandParameter="{Binding}">
+                                    <DrawingPresenter Width="40" Height="40" Drawing="{DynamicResource EvaIcons.Minus}" />
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </styles:Card>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="5" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </ScrollViewer>
+</UserControl>
