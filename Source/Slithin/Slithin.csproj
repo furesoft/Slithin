@@ -8,6 +8,9 @@
     <PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
     <Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
     <LangVersion>10</LangVersion>
+    <IsWindows Condition="$([MSBuild]::IsOSPlatform('Windows'))">true</IsWindows>
+    <IsLinux Condition="$([MSBuild]::IsOSPlatform('Linux'))">true</IsLinux>
+    <IsOSX Condition="$([MSBuild]::IsOSPlatform('OSX'))">true</IsOSX>
   </PropertyGroup>
   
   <ItemGroup>
@@ -18,7 +21,7 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.13" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="0.10.13" />
     <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.7" />
-    <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
+    <PackageReference Condition="'$(IsWindows)'=='true'" Include="DesktopBridge.Helpers" Version="1.2.2" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
     <PackageReference Include="FluentValidation" Version="11.0.0" />
     <PackageReference Include="ini-parser" Version="2.5.2" />
