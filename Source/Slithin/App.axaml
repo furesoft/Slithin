@@ -17,6 +17,7 @@
         <StyleInclude Source="avares://Slithin/Styles/GalleryControl.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/StoreCardCollection.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/PreviewImageControl.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/RadioImage.axaml" />
 
         <StyleInclude Source="avares://Slithin/Styles/KryptoDonateButton.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/Settings/SettingsGroup.axaml" />
