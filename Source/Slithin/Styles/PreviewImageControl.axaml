@@ -1,0 +1,21 @@
+<Styles xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:controls="using:Slithin.Controls">
+    <Style Selector="controls|PreviewImageControl">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Image Source="{TemplateBinding Source}" x:Name="Background" />
+
+                    <Popup Name="PART_Popup"
+						   IsOpen="{TemplateBinding IsPointerOver}" PlacementGravity="TopLeft" PlacementAnchor="TopLeft" PlacementMode="AnchorAndGravity"
+						   PlacementTarget="Background" MaxWidth="{TemplateBinding PreviewMaxWidth}">
+                        <Border Background="White" BorderBrush="Black" BorderThickness="1">
+                            <Image Source="{TemplateBinding Source}" />
+                        </Border>
+                    </Popup>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

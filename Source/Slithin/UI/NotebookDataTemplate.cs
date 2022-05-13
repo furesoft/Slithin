@@ -9,6 +9,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Material.Styles;
+using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable.Models;
@@ -37,7 +38,7 @@ public class NotebookDataTemplate : IDataTemplate
             MaxHeight = 275
         };
 
-        var img = new Image
+        dynamic img = new Image()
         {
             MinWidth = 25,
             MinHeight = 25,
@@ -45,6 +46,18 @@ public class NotebookDataTemplate : IDataTemplate
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Bottom,
         };
+
+        if (md.Type == "DocumentType")
+        {
+            img = new PreviewImageControl
+            {
+                MinWidth = 25,
+                MinHeight = 25,
+                MaxHeight = 135,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom,
+            };
+        }
 
         var titlePanel = new StackPanel();
         titlePanel.Orientation = Orientation.Horizontal;

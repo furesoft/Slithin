@@ -16,6 +16,7 @@
         <StyleInclude Source="avares://Slithin/Styles/CommandTextBox.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/GalleryControl.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/StoreCardCollection.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/PreviewImageControl.axaml" />
 
         <StyleInclude Source="avares://Slithin/Styles/KryptoDonateButton.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/Settings/SettingsGroup.axaml" />
@@ -39,7 +40,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <themes:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="Amber" />
+                <themes:BundledTheme BaseTheme="Light" PrimaryColor="Grey" SecondaryColor="Amber" />
 
                 <ResourceInclude Source="avares://Slithin/Assets/Icons.axaml" />
             </ResourceDictionary.MergedDictionaries>

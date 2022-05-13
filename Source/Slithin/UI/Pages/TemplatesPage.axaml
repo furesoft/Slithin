@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:l="using:Slithin.Core"
+             xmlns:c="using:Slithin.Controls"
              xmlns:context="using:Slithin.Core.ItemContext"
              xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -20,7 +21,7 @@
                             </Grid>
 
                             <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                                <Image Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" Margin="2" />
+                                <c:PreviewImageControl Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" Margin="2" />
                             </Border>
 
                             <TextBlock Text="{Binding Name}" TextAlignment="Center" />
