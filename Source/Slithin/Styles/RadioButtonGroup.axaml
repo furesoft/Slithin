@@ -1,0 +1,21 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Slithin.Controls">
+    <Design.PreviewWith>
+        <controls:RadioButtonGroup />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|RadioButtonGroup">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ItemsPresenter Items="{TemplateBinding Items}">
+                    <ItemsPresenter.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Margin="5" Orientation="{TemplateBinding Orientation}" />
+                        </ItemsPanelTemplate>
+                    </ItemsPresenter.ItemsPanel>
+                </ItemsPresenter>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

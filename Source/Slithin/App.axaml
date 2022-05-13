@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              xmlns:local="using:Slithin.UI"
-             xmlns:controls="using:NodeEditor.Controls"
              x:Class="Slithin.App">
     <Application.Styles>
         <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
@@ -18,6 +17,7 @@
         <StyleInclude Source="avares://Slithin/Styles/StoreCardCollection.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/PreviewImageControl.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/RadioImage.axaml" />
+        <StyleInclude Source="avares://Slithin/Styles/RadioButtonGroup.axaml" />
 
         <StyleInclude Source="avares://Slithin/Styles/KryptoDonateButton.axaml" />
         <StyleInclude Source="avares://Slithin/Styles/Settings/SettingsGroup.axaml" />
