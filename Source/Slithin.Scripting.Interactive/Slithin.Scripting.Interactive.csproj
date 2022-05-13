@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Slithin.Scripting\Slithin.Scripting.csproj" />
-    <ProjectReference Include="..\Slithin.Scripting\Slithin.Scripting.csproj" />
   </ItemGroup>
 
 </Project>

@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
-    <ProjectReference Include="..\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Keys.json">
