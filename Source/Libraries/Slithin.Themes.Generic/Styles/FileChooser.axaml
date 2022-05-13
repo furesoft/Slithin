@@ -1,0 +1,18 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://github.com/furesoft/Slithin">
+    <Design.PreviewWith>
+        <controls:FileChooser />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|FileChooser">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="*,55" Margin="2">
+                    <TextBox Text="{TemplateBinding Filename, Mode=TwoWay}" Height="35" MinWidth="90" Watermark="{TemplateBinding Watermark}" />
+                    <Button Grid.Column="1" Content="..." Classes="Flat" Command="{TemplateBinding BrowseCommand}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

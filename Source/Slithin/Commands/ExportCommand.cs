@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Input;
-using Slithin.Controls;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Services;
 using Slithin.Core.Remarkable.Models;
+using Slithin.Core;
 
 namespace Slithin.Commands;
 

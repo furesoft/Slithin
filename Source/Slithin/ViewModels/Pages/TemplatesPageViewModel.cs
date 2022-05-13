@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 using Slithin.Commands;
-using Slithin.Controls;
+using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;

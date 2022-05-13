@@ -11,7 +11,6 @@ using LiteDB;
 using Material.Styles;
 using Renci.SshNet;
 using Serilog;
-using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;

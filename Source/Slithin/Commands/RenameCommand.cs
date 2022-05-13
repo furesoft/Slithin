@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
 using Serilog;
-using Slithin.Controls;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Remarkable.Models;
+using Slithin.Core;
 
 namespace Slithin.Commands;
 

@@ -10,7 +10,6 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Ionic.Zip;
 using Renci.SshNet;
-using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Renci.SshNet;
 using Serilog;
-using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;

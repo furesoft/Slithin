@@ -1,0 +1,29 @@
+<Styles xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:controls="http://github.com/furesoft/Slithin">
+    <Design.PreviewWith>
+        <controls:RadioImage />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|RadioImage">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Margin="3">
+                    <Image Margin="3" Source="{TemplateBinding Image}" />
+
+                    <Grid Name="hoverOverlay" Width="{TemplateBinding Width}"
+						  Height="{TemplateBinding Height}" IsVisible="{TemplateBinding IsPointerOver}"
+						  Background="{DynamicResource PrimaryHueDarkBrush}" Opacity="0.4" />
+
+                    <Grid Name="selectionOverlay" Width="{TemplateBinding Width}"
+						  Height="{TemplateBinding Height}" IsVisible="{TemplateBinding IsChecked}"
+						  Background="{DynamicResource PrimaryHueDarkBrush}" Opacity="0.4" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="controls|RadioImage:pointerover">
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+</Styles>

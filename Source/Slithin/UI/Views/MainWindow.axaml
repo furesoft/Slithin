@@ -5,12 +5,12 @@
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         xmlns:core="using:Slithin.Core"
-        xmlns:controls="using:Slithin.Controls"
+        xmlns:controls="http://github.com/furesoft/Slithin"
         xmlns:flyouts="using:Slithin.UI.Flyouts"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinWidth="1105" MinHeight="450" WindowStartupLocation="CenterScreen"
         x:Class="Slithin.UI.Views.MainWindow" Icon="avares:/Resources/Icon.png"
         Title="{Binding Title}">
-    <controls:ContentDialog controls:DialogService.IsHost="True">
+    <controls:ContentDialog core:DialogService.IsHost="True">
         <styles:ColorZone Mode="Light" Height="{Binding $parent[Window].Height}">
             <SplitView DisplayMode="CompactInline" OpenPaneLength="190" IsPaneOpen="{core:Setting 'IsBigMenuMode'}}">
                 <SplitView.Pane>

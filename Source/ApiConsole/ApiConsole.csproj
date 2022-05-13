@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Libraries\Slithin.API.Lib\Slithin.API.Lib.csproj" />
+    <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
     <ProjectReference Include="..\Slithin.API.Lib\Slithin.API.Lib.csproj" />
     <ProjectReference Include="..\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
   </ItemGroup>

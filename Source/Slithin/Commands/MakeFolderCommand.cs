@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
 using Serilog;
-using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;

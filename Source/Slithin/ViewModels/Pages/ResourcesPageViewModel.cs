@@ -15,6 +15,7 @@ using Slithin.Marketplace.Models;
 using Slithin.Models;
 using Slithin.UI.Modals;
 using Slithin.UI.ResourcesPage;
+using SlithinMarketplace.Models;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -80,7 +81,7 @@ public class ResourcesPageViewModel : BaseViewModel
     }
 
     private DelegateCommand CreateLoadCommand<T>()
-        where T : SlithinMarketplace.Models.AssetModel
+        where T : AssetModel
     {
         return new DelegateCommand(asset =>
         {

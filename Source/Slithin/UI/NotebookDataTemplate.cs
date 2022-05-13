@@ -142,7 +142,7 @@ public class NotebookDataTemplate : IDataTemplate
         stackPanel.Children.Add(titlePanel);
         stackPanel.Children.Add(img);
 
-        var card = new Card { Content = stackPanel, Background = (IBrush)new BrushConverter().ConvertFromString("#e2e2e2") };
+        var card = new Card { CornerRadius = new(0), Content = stackPanel, Background = (IBrush)new BrushConverter().ConvertFromString("#e2e2e2") };
 
         card.Initialized += (s, e) =>
         {

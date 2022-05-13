@@ -20,9 +20,9 @@
                 <Image Height="250" Source="/Resources/Covers/Folder-Grey.png" />
             </c:GalleryControl>
 
-            <c:StoreCardCollection Cards="{Binding Templates}" Category="{l:Localisation 'Templates'}" MoreCommand="{Binding ViewMoreTemplatesCommand}" />
-            <c:StoreCardCollection Cards="{Binding Items}" Category="{l:Localisation 'Scripts'}" MoreCommand="{Binding ViewMoreCommand}" />
-            <c:StoreCardCollection Cards="{Binding Items}" Category="{l:Localisation 'Notebooks'}" MoreCommand="{Binding ViewMoreCommand}" />
+            <c:StoreCardCollection MoreTitle="{l:Localisation 'More'}" Cards="{Binding Templates}" Category="{l:Localisation 'Templates'}" MoreCommand="{Binding ViewMoreTemplatesCommand}" />
+            <c:StoreCardCollection MoreTitle="{l:Localisation 'More'}" Cards="{Binding Items}" Category="{l:Localisation 'Scripts'}" MoreCommand="{Binding ViewMoreCommand}" />
+            <c:StoreCardCollection MoreTitle="{l:Localisation 'More'}" Cards="{Binding Items}" Category="{l:Localisation 'Notebooks'}" MoreCommand="{Binding ViewMoreCommand}" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>
