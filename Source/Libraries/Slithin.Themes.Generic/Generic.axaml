@@ -6,13 +6,14 @@
     <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/DialogControlStyle.axaml" />
     <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/FileChooser.axaml" />
     <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/CommandTextBox.axaml" />
-    <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/GalleryControl.axaml" />
-    <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/StoreCardCollection.axaml" />
     <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/PreviewImageControl.axaml" />
     <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/RadioImage.axaml" />
     <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/RadioButtonGroup.axaml" />
 
-    <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/KryptoDonateButton.axaml" />
+    <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/Marketplace/GalleryControl.axaml" />
+    <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/Marketplace/StoreCardCollection.axaml" />
+
+    <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/Settings/KryptoDonateButton.axaml" />
     <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/Settings/SettingsGroup.axaml" />
 
     <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/TagControl.axaml" />
