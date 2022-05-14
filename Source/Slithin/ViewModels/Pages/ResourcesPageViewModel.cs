@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
@@ -31,10 +29,6 @@ public class ResourcesPageViewModel : BaseViewModel
     {
         ViewMoreTemplatesCommand = CreateLoadCommand<Template>();
 
-        ViewMoreCommand = new DelegateCommand(_ =>
-        {
-            NotificationService.Show(_.ToString());
-        });
         _settingsService = settingsService;
         _mailboxService = mailboxService;
     }
@@ -69,7 +63,7 @@ public class ResourcesPageViewModel : BaseViewModel
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-            frame.Navigate(typeof(ResourcesMainPage));
+                    frame.Navigate(typeof(ResourcesMainPage));
                 });
 
                 Parallel.For(0, Templates.Count, async (index) =>
@@ -114,7 +108,7 @@ public class ResourcesPageViewModel : BaseViewModel
                     var bytes = marketplaceAPI.GetBytes(template.Asset.FileID);
 
                     await Dispatcher.UIThread.InvokeAsync(() =>
-    {
+                    {
                         vm.Items[index].Image = LoadImage(bytes);
                     });
                 });
