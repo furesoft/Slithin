@@ -20,7 +20,7 @@ public class ServiceLocator
             Environment.GetEnvironmentVariable("MINIO_ACCESS_KEY"),
             Environment.GetEnvironmentVariable("MINIO_SECRET_KEY"), config);
 
-        MongoClient = new MongoClient("mongodb://root:7b6gzDPSnkzEJJvF0CAd2FtjY9OJsjyhuSnIV4mN@mongodb");
+        MongoClient = new MongoClient($"mongodb://{Environment.GetEnvironmentVariable("MONGODB_USERNAME")}:{Environment.GetEnvironmentVariable("MONGODB_PASSWORD")}@{Environment.GetEnvironmentVariable("MONGODB_HOST")}:{Environment.GetEnvironmentVariable("MONGODB_PORT")}");
         Database = MongoClient.GetDatabase("slithin");
         Repository = new Repository(client);
     }
