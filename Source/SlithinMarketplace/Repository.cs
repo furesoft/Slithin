@@ -1,4 +1,5 @@
 ﻿using Amazon.S3;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using SlithinMarketplace.Models;
 
@@ -28,7 +29,6 @@ public class Repository
         var user = new User();
         user.Username = username;
         user.HashedPassword = Utils.ComputeSha256Hash(password);
-        user.ID = Guid.NewGuid().ToString();
         user.Role = "User";
 
         ServiceLocator.Database.GetCollection<User>("users").InsertOne(user);
@@ -39,7 +39,7 @@ public class Repository
         return new() { UploadEndpoint = $"/files/upload/{id}" };
     }
 
-    public async Task<T> GetAsset<T>(string bucket, string id)
+    public async Task<T> GetAsset<T>(string bucket, ObjectId id)
         where T : AssetModel
     {
         var filter = Builders<T>.Filter;

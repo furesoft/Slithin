@@ -32,10 +32,9 @@ public static class Extensions
 
     public static void InitAsset(this AssetModel asset, IHttpContext context)
     {
-        asset.ID = Guid.NewGuid().ToString();
         asset.FileID = Guid.NewGuid().ToString();
 
-        asset.CreatorID = ServiceLocator.Repository.GetUser(context.User.Identity.Name).ID;
+        asset.CreatorID = ServiceLocator.Repository.GetUser(context.User.Identity.Name)._id;
         asset.UploadTime = DateTime.Now;
     }
 
