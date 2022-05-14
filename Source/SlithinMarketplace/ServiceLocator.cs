@@ -22,6 +22,7 @@ public class ServiceLocator
 
         MongoClient = new MongoClient("mongodb://root:7b6gzDPSnkzEJJvF0CAd2FtjY9OJsjyhuSnIV4mN@mongodb");
         Database = MongoClient.GetDatabase("slithin");
+
         Repository = new Repository(client);
     }
 
