@@ -29,7 +29,7 @@ public static class Program
         var server = new WebServer(o => o
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
-            // First, we will configure our web server by adding Modules.
+
             .WithWebApi("/users", m =>
             {
                 m.RegisterController<RegisterUserController>();
@@ -55,7 +55,12 @@ public static class Program
                 return Task.CompletedTask;
             })
 
-            .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
+            .WithModule(new ActionModule("/", HttpVerbs.Any, ctx =>
+            {
+                ctx.Response.StatusCode = 500;
+
+                return ctx.SendDataAsync(new { Message = "Endpoint Not Found" });
+            }));
 
         // Listen for state changes.
         server.StateChanged += (s, e) => $"WebServer New State - {e.NewState}".Info();
