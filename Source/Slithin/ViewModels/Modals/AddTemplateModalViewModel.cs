@@ -4,15 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Avalonia.Collections;
-using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
 using Slithin.Core.Sync.Repositorys;
 using Slithin.Models;
-using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable.Models;
 using Slithin.Validators;
 
 namespace Slithin.ViewModels.Modals;
@@ -113,8 +112,6 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
             IconCodes.Add(item);
         }
-
-        //ToDo: Load Stuff For Template Editor
     }
 
     private void AddCategory(object obj)
@@ -147,8 +144,6 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
         if (UseTemplateEditor && Step == 1 || !UseTemplateEditor)
         {
-            //ToDo: Save Template From Editor
-
             var template = BuildTemplate();
 
             if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))

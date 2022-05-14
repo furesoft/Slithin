@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Input;
-using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;

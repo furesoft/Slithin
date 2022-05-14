@@ -16,6 +16,9 @@ public static class ServiceLocator
         Container = TinyIoCContainer.Current;
         Container.AutoRegister();
 
+        var errorTracker = Container.Resolve<IErrorTrackingService>();
+        errorTracker.Init();
+
         var featureEnabler = Container.Resolve<Slithin.FeatureToggle>();
         featureEnabler.Init();
 

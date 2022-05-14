@@ -1,0 +1,22 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://github.com/furesoft/Slithin"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+    <Style Selector="controls|ContentDialog">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Grid>
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                        <Rectangle IsVisible="{TemplateBinding IsOpened}" Fill="Black" Opacity="0.5">
+                        </Rectangle>
+                    </Grid>
+
+                    <ContentPresenter Content="{TemplateBinding DialogContent}" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{TemplateBinding IsOpened}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

@@ -1,43 +1,41 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
+using Avalonia.Threading;
+using Slithin.API.Lib;
 using Slithin.Controls.Navigation;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
+using Slithin.Marketplace.Models;
 using Slithin.Models;
 using Slithin.UI.Modals;
 using Slithin.UI.ResourcesPage;
+using SlithinMarketplace.Models;
 
 namespace Slithin.ViewModels.Pages;
 
 public class ResourcesPageViewModel : BaseViewModel
 {
+    private readonly IMailboxService _mailboxService;
     private readonly ISettingsService _settingsService;
 
-    public ResourcesPageViewModel(ISettingsService settingsService)
+    public ResourcesPageViewModel(ISettingsService settingsService,
+                                  IMailboxService mailboxService)
     {
-        Templates.Add(new() { ID = "1", IsInstalled = false, Name = "Not Installed Template 1", Image = LoadImage("backup"), Author = "Furesoft" });
-        Templates.Add(new() { ID = "2", IsInstalled = true, Name = "Installed Template 2", Image = LoadImage("epub"), Author = "Furesoft" });
-        Templates.Add(new() { ID = "3", IsInstalled = false, Name = "Not Installed Template 3", Image = LoadImage("folder"), Author = "Furesoft" });
-        Templates.Add(new() { ID = "4", IsInstalled = true, Name = "Installed Template 4", Image = LoadImage("pdf"), Author = "Furesoft" });
-        Templates.Add(new() { ID = "5", IsInstalled = true, Name = "Installed Template 5", Image = LoadImage("folder"), Author = "Furesoft" });
-        Templates.Add(new() { ID = "6", IsInstalled = false, Name = "Not Installed Template 5", Image = LoadImage("backup"), Author = "Furesoft" });
+        ViewMoreTemplatesCommand = CreateLoadCommand<Template>();
 
-        ViewMoreCommand = new DelegateCommand(_ =>
-        {
-            NotificationService.Show(_.ToString());
-        });
         _settingsService = settingsService;
+        _mailboxService = mailboxService;
     }
 
     public ObservableCollection<Sharable> Templates { get; set; } = new();
 
-    public ICommand ViewMoreCommand { get; set; }
+    public ICommand ViewMoreTemplatesCommand { get; set; }
 
     public override void OnLoad()
     {
@@ -53,14 +51,73 @@ public class ResourcesPageViewModel : BaseViewModel
         }
         else
         {
-            frame.Navigate(typeof(ResourcesMainPage));
+            _mailboxService.PostAction(async () =>
+            {
+                var marketplaceAPI = ServiceLocator.Container.Resolve<MarketplaceAPI>();
+                var templates = marketplaceAPI.Get<Template[]>("templates", 5)
+                        .Select(_ => new Sharable() { Asset = _ });
+
+                Templates = new(templates);
+
+                ServiceLocator.Container.Register(this);
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    frame.Navigate(typeof(ResourcesMainPage));
+                });
+
+                Parallel.For(0, Templates.Count, async (index) =>
+                {
+                    var template = Templates[index];
+                    var bytes = marketplaceAPI.GetBytes(template.Asset.FileID);
+
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        Templates[index].Image = LoadImage(bytes);
+                    });
+                });
+            });
         }
     }
 
-    private IImage LoadImage(string name)
+    private DelegateCommand CreateLoadCommand<T>()
+        where T : AssetModel
     {
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+        return new DelegateCommand(asset =>
+        {
+            _mailboxService.PostAction(async () =>
+            {
+                var marketplaceAPI = ServiceLocator.Container.Resolve<MarketplaceAPI>();
+                var items = marketplaceAPI.Get<T[]>(asset.ToString().ToLower())
+                        .Select(_ => new Sharable() { Asset = _ });
 
-        return new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{name}.png")));
+                var vm = new ResourceListViewModel();
+                vm.Items = new(items);
+
+                ServiceLocator.Container.Register(vm);
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    var frame = Frame.GetFrame("resourcesFrame");
+                    frame.Navigate(typeof(ListPage));
+                });
+
+                Parallel.For(0, vm.Items.Count, async (index) =>
+                {
+                    var template = vm.Items[index];
+                    var bytes = marketplaceAPI.GetBytes(template.Asset.FileID);
+
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        vm.Items[index].Image = LoadImage(bytes);
+                    });
+                });
+            });
+        });
+    }
+
+    private IImage LoadImage(byte[] bytes)
+    {
+        return new Bitmap(new MemoryStream(bytes));
     }
 }

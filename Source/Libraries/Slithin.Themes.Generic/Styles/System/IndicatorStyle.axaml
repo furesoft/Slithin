@@ -1,0 +1,49 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://github.com/furesoft/Slithin">
+
+    <Design.PreviewWith>
+        <controls:GalleryControl />
+    </Design.PreviewWith>
+
+    <Style Selector="ListBox.indicator ListBoxItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="Padding" Value="2 1" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Width="15" Height="7" Background="{TemplateBinding Foreground}" CornerRadius="4" />
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="ListBox.indicator ListBoxItem:selected">
+        <Setter Property="Foreground" Value="LightGray" />
+    </Style>
+
+    <Style Selector="ListBox.indicator">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="ListBox.indicator ListBoxItem:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style Selector="Button.indicator">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Background="{TemplateBinding Background}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="Button.indicator:pointerover">
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+</Styles>

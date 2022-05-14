@@ -8,6 +8,9 @@
     <PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
     <Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
     <LangVersion>10</LangVersion>
+    <IsWindows Condition="$([MSBuild]::IsOSPlatform('Windows'))">true</IsWindows>
+    <IsLinux Condition="$([MSBuild]::IsOSPlatform('Linux'))">true</IsLinux>
+    <IsOSX Condition="$([MSBuild]::IsOSPlatform('OSX'))">true</IsOSX>
   </PropertyGroup>
   
   <ItemGroup>
@@ -18,7 +21,7 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.13" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="0.10.13" />
     <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.7" />
-    <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
+    <PackageReference Condition="'$(IsWindows)'=='true'" Include="DesktopBridge.Helpers" Version="1.2.2" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
     <PackageReference Include="FluentValidation" Version="11.0.0" />
     <PackageReference Include="ini-parser" Version="2.5.2" />
@@ -35,6 +38,7 @@
     <PackageReference Include="PdfSharpCore" Version="1.3.18" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="RestSharp" Version="107.3.0" />
+    <PackageReference Include="Sentry" Version="3.17.1" />
     <PackageReference Include="Serilog" Version="2.11.0" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
@@ -101,7 +105,7 @@
      <Compile Update="UI\ContextualMenus\EmptyContextualMenu.axaml.cs">
        <DependentUpon>EmptyContextualMenu.axaml</DependentUpon>
      </Compile>
-     <Compile Update="UI\RegisterFramePage.axaml.cs">
+     <Compile Update="UI\ResourcesPage\RegisterFramePage.axaml.cs">
        <DependentUpon>RegisterFramePage.axaml</DependentUpon>
      </Compile>
      <Compile Update="UI\Modals\LoginModal.axaml.cs">
@@ -130,8 +134,11 @@
    </ItemGroup>
    
    <ItemGroup>
-     <ProjectReference Include="..\Slithin.API.Lib\Slithin.API.Lib.csproj" />
-     <ProjectReference Include="..\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
+     <ProjectReference Include="..\Libraries\Slithin.API.Lib\Slithin.API.Lib.csproj" />
+     <ProjectReference Include="..\Libraries\Slithin.Controls\Slithin.Controls.csproj" />
+     <ProjectReference Include="..\Libraries\Slithin.Core\Slithin.Core.csproj" />
+     <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
+     <ProjectReference Include="..\Libraries\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj" />
    </ItemGroup>
    
    <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>

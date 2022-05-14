@@ -3,7 +3,6 @@ using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.Menu;
 using Slithin.Core.Services;

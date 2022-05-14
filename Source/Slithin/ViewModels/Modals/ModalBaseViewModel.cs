@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 

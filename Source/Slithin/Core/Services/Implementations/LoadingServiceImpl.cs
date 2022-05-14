@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Slithin.API.Lib;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Tools;
@@ -9,17 +11,43 @@ namespace Slithin.Core.Services.Implementations;
 
 public class LoadingServiceImpl : ILoadingService
 {
+    private readonly IErrorTrackingService _errorTrackingService;
     private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;
+    private readonly ISettingsService _settingsService;
 
-    public LoadingServiceImpl(IPathManager pathManager, ILocalisationService localisationService)
+    public LoadingServiceImpl(IPathManager pathManager,
+                              ILocalisationService localisationService,
+                              ISettingsService settingsService,
+                              IErrorTrackingService errorTrackingService)
     {
         _pathManager = pathManager;
         _localisationService = localisationService;
+        _settingsService = settingsService;
+        _errorTrackingService = errorTrackingService;
+    }
+
+    public void LoadApiToken()
+    {
+        var settings = _settingsService.GetSettings();
+
+        if (settings.MarketplaceCredential != null)
+        {
+            var authThread = new Thread(() =>
+            {
+                var api = new MarketplaceAPI();
+                api.Authenticate(settings.MarketplaceCredential.Username, settings.MarketplaceCredential.HashedPassword);
+
+                ServiceLocator.Container.Register(api);
+            });
+            authThread.Start();
+        }
     }
 
     public void LoadNotebooks()
     {
+        var monitor = _errorTrackingService.StartPerformanceMonitoring("Loading", "Notebooks");
+
         MetadataStorage.Local.Clear();
         ServiceLocator.SyncService.NotebooksFilter.Documents = new();
 
@@ -43,6 +71,8 @@ public class LoadingServiceImpl : ILoadingService
         }
 
         ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+
+        monitor.Dispose();
     }
 
     public void LoadScreens()
@@ -55,6 +85,7 @@ public class LoadingServiceImpl : ILoadingService
 
     public void LoadTemplates()
     {
+        var monitor = _errorTrackingService.StartPerformanceMonitoring("Loading", "Templates");
         // Load local Templates
         TemplateStorage.Instance?.Load();
 
@@ -74,6 +105,8 @@ public class LoadingServiceImpl : ILoadingService
 
         //Load first templates which are shown to make loading "smoother and faster"
         LoadTemplatesByCategory(ServiceLocator.SyncService.TemplateFilter.Categories.First(), true);
+
+        monitor.Dispose();
 
         Parallel.ForEach(ServiceLocator.SyncService.TemplateFilter.Categories, (category) =>
         {

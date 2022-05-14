@@ -2,17 +2,16 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Renci.SshNet;
 using Serilog;
-using Slithin.Controls;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
-using Slithin.Messages;
 using Slithin.Models;
 using Slithin.Tools;
 
@@ -121,6 +120,8 @@ public class DevicePageViewModel : BaseViewModel
 
         _mailboxService.PostAction(() =>
         {
+            _loadingService.LoadApiToken();
+
             _loadingService.LoadScreens();
             _loadingService.LoadTools();
             _loadingService.LoadTemplates();
@@ -129,7 +130,11 @@ public class DevicePageViewModel : BaseViewModel
 
             _loadingService.LoadNotebooks();
 
-            _mailboxService.Post(new CheckForUpdateMessage());
+            var updateThread = new Thread(() =>
+            {
+                Core.Updates.Updater.StartUpdate();
+            });
+            updateThread.Start();
         });
 
         ShareEmailAddresses = new(_xochitl.GetShareEmailAddresses());

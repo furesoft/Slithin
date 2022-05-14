@@ -1,4 +1,5 @@
 ﻿using Amazon.S3;
+using MongoDB.Driver;
 using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace;
@@ -14,7 +15,7 @@ public class Repository
 
     public void AddAsset(string bucket, AssetModel asset)
     {
-        Storage.UploadObject(bucket, asset.ID, asset);
+        ServiceLocator.Database.GetCollection<AssetModel>(bucket).InsertOne(asset);
     }
 
     public void AddFile(string id, Stream stream)
@@ -30,7 +31,7 @@ public class Repository
         user.ID = Guid.NewGuid().ToString();
         user.Role = "User";
 
-        Storage.UploadObject("users", username, user);
+        ServiceLocator.Database.GetCollection<User>("users").InsertOne(user);
     }
 
     public UploadRequest CreateUploadRequest(string id)
@@ -38,16 +39,21 @@ public class Repository
         return new() { UploadEndpoint = $"/files/upload/{id}" };
     }
 
-    public T GetAsset<T>(string bucket, string id)
+    public async Task<T> GetAsset<T>(string bucket, string id)
+        where T : AssetModel
     {
-        return Storage.GetObject<T>(bucket, id);
+        var filter = Builders<T>.Filter;
+
+        var asset = await ServiceLocator.Database.GetCollection<T>(bucket)
+            .FindAsync(filter.Eq(_ => _.ID, id));
+
+        return asset.First();
     }
 
-    public T[] GetAssets<T>(string bucket)
+    public List<T> GetAssets<T>(string bucket)
+        where T : AssetModel
     {
-        var ids = GetIds(bucket);
-
-        return ids.Select(_ => GetAsset<T>(bucket, _)).ToArray();
+        return ServiceLocator.Database.GetCollection<T>(bucket).Find(Builders<T>.Filter.Empty).ToList();
     }
 
     public Stream GetFile(string bucket, string id)
@@ -55,13 +61,8 @@ public class Repository
         return Storage.GetObjectStream(bucket, id);
     }
 
-    public IEnumerable<string> GetIds(string bucket)
-    {
-        return Storage.ListObjects(bucket).Select(_ => _.Key);
-    }
-
     public User GetUser(string username)
     {
-        return Storage.GetObject<User>("users", username);
+        return ServiceLocator.Database.GetCollection<User>("users").Find(Builders<User>.Filter.Eq(_ => _.Username, username)).First();
     }
 }

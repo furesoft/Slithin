@@ -11,14 +11,13 @@ using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using Renci.SshNet;
-using Slithin.Controls;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Exporting.Rendering;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.Models;
-using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable.Models;
 using Slithin.Validators;
 
 namespace Slithin.ViewModels.Modals.Tools;
@@ -307,12 +306,6 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             SyncService.NotebooksFilter.SortByFolder();
 
             Notebook.UploadDocument(md);
-
-            //Directory.CreateDirectory(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails"));
-
-            //ToDo: fix thumbnail
-            //using var thumbnailStream = File.OpenWrite(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails", md.Content.Pages[0] + ".jpg"));
-            //jpedCover.CopyTo(thumbnailStream);
         });
 
         DialogService.Close();

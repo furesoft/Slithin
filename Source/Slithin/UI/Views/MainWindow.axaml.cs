@@ -15,7 +15,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        NotificationService.Manager = new Core.Notifications.WindowNotificationManager(this);
+        NotificationService.Manager = new(this);
         NotificationService.Manager.Position = NotificationPosition.BottomRight;
         NotificationService.Manager.MaxItems = 1;
 

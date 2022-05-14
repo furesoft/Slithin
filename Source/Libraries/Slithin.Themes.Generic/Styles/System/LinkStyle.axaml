@@ -1,0 +1,24 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://github.com/furesoft/Slithin">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <controls:Link Title="Hello World" />
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="controls|Link">
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <TextBlock Text="{TemplateBinding Title}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" TextDecorations="{TemplateBinding TextDecorations}" />
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|Link:pointerover TextBlock">
+    <Setter Property="TextDecorations" Value="Underline" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Opacity" Value="0.8" />
+  </Style>
+</Styles>
