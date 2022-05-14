@@ -64,9 +64,8 @@ public class Repository
 
     public User GetUser(string username)
     {
-        var find = ServiceLocator.Database.GetCollection<User>("users")
-            .Find(Builders<User>.Filter.Eq("username", username));
-        var user = find.First();
+        var user = ServiceLocator.Database.GetCollection<User>("users")
+            .Find(Builders<User>.Filter.Eq("username", username)).Limit(1).Single();
 
         Console.WriteLine(JsonConvert.SerializeObject(user, Formatting.Indented));
 
