@@ -28,7 +28,8 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
             }
             catch (Exception ex)
             {
-                context.Rejected(ex);
+                context.Rejected();
+                context.Validated(string.Empty);
             }
         }
         else
