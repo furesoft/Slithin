@@ -1,10 +1,12 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SlithinMarketplace.Models;
 
 public sealed class User
 {
-    public string _id { get; set; }
+    [BsonElement("id")]
+    public ObjectId _id { get; set; }
 
     [BsonElement("hashedPassword")]
     public string HashedPassword { get; set; }
