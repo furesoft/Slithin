@@ -63,6 +63,6 @@ public class Repository
 
     public User GetUser(string username)
     {
-        return ServiceLocator.Database.GetCollection<User>("users").Find(Builders<User>.Filter.Eq(_ => _.Username, username)).First();
+        return ServiceLocator.Database.GetCollection<User>("users").Find(Builders<User>.Filter.Eq(_ => _.username, username)).First();
     }
 }
