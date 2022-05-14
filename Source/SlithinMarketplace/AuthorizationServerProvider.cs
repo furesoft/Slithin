@@ -11,7 +11,7 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
     {
         var data = context.HttpContext.GetRequestObjectAsync<Grant>().Result;
 
-        if (data is null) Console.WriteLine("grant is null");
+        Console.WriteLine(data.Username);
 
         if (data != null && data.GrantType == "password")
         {
