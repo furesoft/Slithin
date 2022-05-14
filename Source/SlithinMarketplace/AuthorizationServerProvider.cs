@@ -19,7 +19,6 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
             if (user == null || Utils.ComputeSha256Hash(data.Password) != user.HashedPassword)
             {
                 context.Rejected();
-                context.Validated(string.Empty);
             }
 
             context.Validated(data.Username);
