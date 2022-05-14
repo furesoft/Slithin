@@ -28,6 +28,7 @@ public class App : Application
 
         AppDomain.CurrentDomain.UnhandledException += (s, e) =>
           {
+              ServiceLocator.Container.Resolve<IErrorTrackingService>().TrackException(e.ExceptionObject as Exception);
               NotificationService.ShowError(e.ExceptionObject.ToString());
           };
 
