@@ -7,9 +7,9 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
 {
     public long GetExpirationDate() => DateTime.UtcNow.AddHours(1).Ticks;
 
-    public async Task ValidateClientAuthentication(ValidateClientAuthenticationContext context)
+    public Task ValidateClientAuthentication(ValidateClientAuthenticationContext context)
     {
-        var data = await context.HttpContext.GetRequestObjectAsync<Grant>();
+        var data = context.HttpContext.GetRequestObjectAsync<Grant>().Result;
 
         if (data is null) Console.WriteLine("grant is null");
 
@@ -36,5 +36,7 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
         {
             context.Rejected();
         }
+
+        return Task.CompletedTask;
     }
 }
