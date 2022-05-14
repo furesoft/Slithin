@@ -17,14 +17,12 @@ public class ErrorTrackingImpl : IErrorTrackingService
         _service = SentrySdk.Init(o =>
         {
             o.Dsn = "https://9e8ac6689c704e8493d1753b8788fc57@o207953.ingest.sentry.io/6366736";
-            // When configuring for the first time, to see what the SDK is doing:
+
+#if DEBUG
             o.Debug = true;
-            // Set traces_sample_rate to 1.0 to capture 100% of transactions for performance monitoring.
-            // We recommend adjusting this value in production.
+#endif
             o.TracesSampleRate = 1.0;
         });
-
-        SentrySdk.CaptureMessage("Hello World");
     }
 
     public IDisposable StartPerformanceMonitoring(string name, string operation)
