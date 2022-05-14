@@ -13,7 +13,7 @@ public class LocalisationServiceImpl : ILocalisationService
 
     public string GetString(string key)
     {
-        return _localization.ContainsKey(key) ? _localization[key] : "[No Value]";
+        return _localization.ContainsKey(key) ? _localization[key] : "[No Value] - " + key;
     }
 
     public void Init()
