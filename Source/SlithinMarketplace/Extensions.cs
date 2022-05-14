@@ -34,7 +34,7 @@ public static class Extensions
     {
         asset.FileID = Guid.NewGuid().ToString();
 
-        asset.CreatorID = ServiceLocator.Repository.GetUser(context.User.Identity.Name)._id;
+        asset.CreatorID = ServiceLocator.Repository.GetUser(context.User.Identity.Name).ID;
         asset.UploadTime = DateTime.Now;
     }
 
