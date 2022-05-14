@@ -5,11 +5,11 @@ namespace SlithinMarketplace.Models;
 
 public sealed class User
 {
-    [BsonElement("id")]
-    public ObjectId _id { get; set; }
-
     [BsonElement("hashedPassword")]
     public string HashedPassword { get; set; }
+
+    [BsonElement("_id")]
+    public ObjectId ID { get; set; }
 
     [BsonElement("role")]
     public string Role { get; set; }
