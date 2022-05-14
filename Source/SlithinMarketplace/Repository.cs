@@ -1,6 +1,7 @@
 ﻿using Amazon.S3;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using SlithinMarketplace.Models;
 
 namespace SlithinMarketplace;
@@ -65,6 +66,9 @@ public class Repository
     {
         var find = ServiceLocator.Database.GetCollection<User>("users").Find(Builders<User>.Filter.Eq(_ => _.Username, username));
         var user = find.First();
+
+        Console.WriteLine(JsonConvert.SerializeObject(user, Formatting.Indented));
+
         return user;
     }
 }
