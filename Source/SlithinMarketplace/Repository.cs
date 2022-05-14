@@ -64,7 +64,8 @@ public class Repository
 
     public User GetUser(string username)
     {
-        Console.WriteLine(username);
+        Console.WriteLine($"{username}");
+
         var user = ServiceLocator.Database.GetCollection<User>("users")
             .Find(Builders<User>.Filter.Eq(_ => _.Username, username)).Single();
 
