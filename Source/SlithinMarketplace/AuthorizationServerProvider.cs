@@ -10,7 +10,7 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
     public Task ValidateClientAuthentication(ValidateClientAuthenticationContext context)
     {
         var data = context.HttpContext.GetRequestObjectAsync<Grant>().Result;
-
+        
         Console.WriteLine(data.Username);
 
         if (data != null && data.GrantType == "password")

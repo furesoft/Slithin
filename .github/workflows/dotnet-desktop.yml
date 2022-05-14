@@ -5,8 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     paths:
-      - Deployment/
-      - Source/
+      - Deployment/*
+      - Source/*
 
 env:
   SOLUTION_PATH: Source/Slithin
