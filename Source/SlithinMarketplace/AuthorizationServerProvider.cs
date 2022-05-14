@@ -11,13 +11,12 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
     {
         var data = context.HttpContext.GetRequestObjectAsync<Grant>().Result;
 
-        Console.WriteLine(data.Username);
-
         if (data != null && data.GrantType == "password")
         {
             try
             {
                 var user = ServiceLocator.Repository.GetUser(data.Username);
+                Console.WriteLine(user.Role);
                 context.Identity.AddClaim(new System.Security.Claims.Claim("Role", user?.Role == "admin" ? "Admin" : "User"));
 
                 if (user == null || Utils.ComputeSha256Hash(data.Password) != user.HashedPassword)

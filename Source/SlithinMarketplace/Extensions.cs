@@ -26,7 +26,7 @@ public static class Extensions
     public static async Task<T> GetRequestObjectAsync<T>(this IHttpContext context)
     {
         var json = await context.GetRequestBodyAsStringAsync();
-        Console.WriteLine(json);
+
         return JsonConvert.DeserializeObject<T>(json);
     }
 
