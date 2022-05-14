@@ -13,6 +13,7 @@
     <PackageReference Include="EmbedIO" Version="3.4.3" />
     <PackageReference Include="EmbedIO.BearerToken" Version="3.4.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.15.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
