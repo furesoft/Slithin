@@ -36,7 +36,7 @@ public class EmptyTrashContextCommand : IContextCommand
 
     public void Invoke(object data)
     {
-        foreach (var trashedMd in MetadataStorage.Local.GetByParent("trash")) //ToDo: may parallelize
+        foreach (var trashedMd in MetadataStorage.Local.GetByParent("trash"))
         {
             DeleteNotebook(trashedMd);
         }
