@@ -41,6 +41,13 @@ public static class Program
                  m.RegisterController<FilesController>();
                  m.RegisterController<TemplatesController>();
              })
+            .HandleUnhandledException((context, ex) =>
+            {
+                context.Response.StatusCode = 500;
+                context.SendDataAsync(new { Error = ex.ToString() });
+
+                return Task.CompletedTask;
+            })
             .HandleHttpException((context, ex) =>
             {
                 context.SendDataAsync(new { ex.StatusCode });
