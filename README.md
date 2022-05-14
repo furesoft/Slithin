@@ -8,6 +8,8 @@ Installation guide can be found on the [Wiki](https://github.com/furesoft/Slithi
 
 Slithin is available for Windows, Linux and OSX. The executables are available under [Releases](https://github.com/furesoft/Slithin/releases) or get it from the [Microsoft Store](https://www.microsoft.com/de-de/p/slithin/9pkxtcbn8mq8?cid=storebadge&ocid=badge&rtc=1&activetab=pivot:overviewtab).
 
+# This is a beta, so use it on your own risk
+
 # Features
 * Connect your Remarkable Device with WIFI or USB
 * Manage multiple Devices
@@ -35,5 +37,13 @@ Slithin is available for Windows, Linux and OSX. The executables are available u
     - Merge Notebooks
     - Use Shapes on your device
 
+# Comparison To Other Tools
 
-# This is a beta, so use it on your own risk
+| App                                  	| Platforms         	| Price    	| Support 	| Usability                                                                           	| Docs 	| Export  	| Cloud   	|
+|--------------------------------------	|-------------------	|----------	|---------	|-------------------------------------------------------------------------------------	|---------------	|---------	|---------	|
+| Slithin                              	| <img src="https://img.icons8.com/office/452/windows-10.png" alt="windows" width="20"/><img src="https://img.icons8.com/color/344/linux--v1.png" alt="linux" width="20"/><img src="https://img.icons8.com/color/344/mac-os-logo.png" alt="mac" width="20"/> 	| Free     	| ✅     	| - Non Blocking Actions<br>- Considered Design<br>- Designed For Performance 	| 🕐       	| 🕐 	| 🕐 	|
+| Official Client                      	| <img src="https://img.icons8.com/office/452/windows-10.png" alt="windows" width="20"/><img src="https://img.icons8.com/color/344/mac-os-logo.png" alt="mac" width="20"/>       	| Free     	| ✅     	| - No Ability For Tweaking                                                           	| ✅           	| ✅     	| ✅     	|
+| rM2 Template Helper & Custom Screens 	| <img src="https://img.icons8.com/office/452/windows-10.png" alt="windows" width="20"/>           	| Freemium 	| ❓     	| - Blocking Calls                                                                    	| ✅           	| ✅     	| ✅     	|
+| Eink Pad Template Installer          	| <img src="https://img.icons8.com/office/452/windows-10.png" alt="windows" width="20"/><img src="https://img.icons8.com/color/344/mac-os-logo.png" alt="mac" width="20"/>       	| 💵     	| ❓    	| - Only For Adding Templates                                                         	| ❓           	| ❌      	| ❌      	|
+| reMarkable Connection Utility        	| <img src="https://img.icons8.com/office/452/windows-10.png" alt="windows" width="20"/><img src="https://img.icons8.com/color/344/linux--v1.png" alt="linux" width="20"/><img src="https://img.icons8.com/color/344/mac-os-logo.png" alt="mac" width="20"/> 	| 💵     	| ✅     	| ❓                                                                                 	| ✅           	| ✅     	| ❌      	|
+
