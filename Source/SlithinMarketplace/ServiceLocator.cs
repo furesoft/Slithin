@@ -22,6 +22,7 @@ public class ServiceLocator
 
         MongoClient = new MongoClient($"mongodb://{Environment.GetEnvironmentVariable("MONGODB_USERNAME")}:{Environment.GetEnvironmentVariable("MONGODB_PASSWORD")}@{Environment.GetEnvironmentVariable("MONGODB_HOST")}:{Environment.GetEnvironmentVariable("MONGODB_PORT")}");
         Database = MongoClient.GetDatabase("slithin");
+
         Repository = new Repository(client);
     }
 
