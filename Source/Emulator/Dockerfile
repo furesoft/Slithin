@@ -11,7 +11,5 @@ RUN apk add --update --no-cache openssh && \
     echo "alias restart=\"\"" >> ~/.bashrc && \
     echo "alias xochitl=\"\"" >> ~/.bashrc
 
-RUN mkdir -p /home/remarkeble/.ssh/danjsndla7Dausnda7/ndaksndkansd/dnaksndlka
-
 EXPOSE 22
 CMD ["ssh"]
