@@ -21,9 +21,6 @@ public class App : Application
 
         var settings = ServiceLocator.Container.Resolve<ISettingsService>().GetSettings();
 
-        var discovery = ServiceLocator.Container.Resolve<IDeviceDiscovery>();
-        var devices = await discovery.Discover();
-
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new ConnectWindow();

@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Timers;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -154,11 +153,6 @@ public class ConnectionWindowViewModel : BaseViewModel
 
             ServiceLocator.Container.Resolve<IContextMenuProvider>().Init();
 
-            var pingTimer = new Timer();
-            pingTimer.Elapsed += pingTimer_ellapsed;
-            pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
-            pingTimer.Start();
-
             _loginService.SetLoginCredential(SelectedLogin);
 
             client.ErrorOccurred -= client_errocOccured;
@@ -191,23 +185,5 @@ public class ConnectionWindowViewModel : BaseViewModel
         vm.OnRequestClose += () => wndw.Close();
 
         wndw.ShowDialog(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
-    }
-
-    private void pingTimer_ellapsed(object sender, ElapsedEventArgs e)
-    {
-        var discovery = ServiceLocator.Container.Resolve<IDeviceDiscovery>();
-
-        var ip = ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host;
-
-        if (discovery.PingDevice(System.Net.IPAddress.Parse(ip)))
-        {
-            const string message = "Your remarkable is not reachable. Please check your connection and restart Slithin";
-
-            var logger = ServiceLocator.Container.Resolve<ILogger>();
-
-            NotificationService.Show(_localisationService.GetString(
-                message));
-            logger.Warning(message);
-        }
     }
 }

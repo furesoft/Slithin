@@ -10,7 +10,7 @@ public class DeviceDiscoveryImpl : IDeviceDiscovery
     public IPAddress Discover()
     {
         return Dns.GetHostAddresses("remarkable")
-            .First(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+            .FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
     }
 
     public bool PingDevice(IPAddress address)
@@ -27,6 +27,6 @@ public class DeviceDiscoveryImpl : IDeviceDiscovery
         var reply = pingSender.Send(address, timeout, buffer,
             options);
 
-        return reply.Status != IPStatus.Success;
+        return reply.Status == IPStatus.Success;
     }
 }
