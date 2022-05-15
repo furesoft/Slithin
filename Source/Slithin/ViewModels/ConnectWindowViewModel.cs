@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
 using System.Timers;
 using System.Windows.Input;
 using Avalonia;
@@ -197,19 +195,11 @@ public class ConnectionWindowViewModel : BaseViewModel
 
     private void pingTimer_ellapsed(object sender, ElapsedEventArgs e)
     {
-        var pingSender = new Ping();
+        var discovery = ServiceLocator.Container.Resolve<IDeviceDiscovery>();
 
-        var data = new string('a', 32);
-        var buffer = Encoding.ASCII.GetBytes(data);
+        var ip = ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host;
 
-        var timeout = 10000;
-
-        var options = new PingOptions(64, true);
-
-        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer,
-            options);
-
-        if (reply.Status != IPStatus.Success)
+        if (discovery.PingDevice(IPAddress.Parse(ip)))
         {
             const string message = "Your remarkable is not reachable. Please check your connection and restart Slithin";
 

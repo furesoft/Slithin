@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
+using System.Net;
 using System.Windows.Input;
 using Renci.SshNet;
 using Slithin.Core;
@@ -44,18 +43,11 @@ public class SynchronizeCommand : ICommand
 
     public void Execute(object parameter)
     {
-        var pingSender = new Ping();
+        var discovery = ServiceLocator.Container.Resolve<IDeviceDiscovery>();
 
-        var buffer = Encoding.ASCII.GetBytes(new string('a', 32));
+        var ip = ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host;
 
-        const int Timeout = 10000;
-
-        var options = new PingOptions(64, true);
-
-        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, Timeout, buffer,
-            options);
-
-        if (reply.Status != IPStatus.Success)
+        if (discovery.PingDevice(IPAddress.Parse(ip)))
         {
             NotificationService.Show(_localisationService.GetString(
                 "Your remarkable is not reachable. Please check your connection and restart Slithin"));

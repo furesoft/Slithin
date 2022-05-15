@@ -13,7 +13,6 @@ public class DeviceDiscoveryImpl : IDeviceDiscovery
             .First(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
     }
 
-    //ToDo: Replace other Ping Calls with this
     public bool PingDevice(IPAddress address)
     {
         var pingSender = new Ping();
