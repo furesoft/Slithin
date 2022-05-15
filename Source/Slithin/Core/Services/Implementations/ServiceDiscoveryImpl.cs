@@ -16,23 +16,25 @@ public class ServiceDiscoveryImpl : IServiceDiscovery
 {
 
     public async Task<Dictionary<string, IPAddress>> Discover() {
-        var address = GetLocalAddress();
-        var subnet = string.Join('.', address.Address.ToString().Split(".").Where((part, index) => index <= 2));
+        var subnets = GetHostSubnets();
         var devices = new Dictionary<string, IPAddress>();
 
-        await Parallel.ForEachAsync(Enumerable.Range(1, 255), (i, token) =>
+        await Parallel.ForEachAsync(subnets, async (i, subnet) =>
         {
-            var ipAddress = IPAddress.Parse($"{subnet}.{i}");
-            var isAlive = PingDevice(ipAddress);
-            if (!isAlive) return ValueTask.CompletedTask;
-
-            var hostname = GetHostname(ipAddress);
-            if (hostname.ToLower().StartsWith("remarkable"))
+            await Parallel.ForEachAsync(Enumerable.Range(1, 255), (i, token) =>
             {
-                var macAddress = GetMacAddress(ipAddress);
-                devices.Add(macAddress, ipAddress);
-            }
-            return ValueTask.CompletedTask;
+                var ipAddress = IPAddress.Parse($"{subnet}.{i}");
+                var isAlive = PingDevice(ipAddress);
+                if (!isAlive) return ValueTask.CompletedTask;
+
+                var hostname = GetHostname(ipAddress);
+                if (hostname.ToLower().StartsWith("remarkable"))
+                {
+                    var macAddress = GetMacAddress(ipAddress);
+                    devices.Add(macAddress, ipAddress);
+                }
+                return ValueTask.CompletedTask;
+            });
         });
 
         return devices;
@@ -59,15 +61,16 @@ public class ServiceDiscoveryImpl : IServiceDiscovery
         return reply.Status != IPStatus.Success;
     }
 
-    private IPAddress GetLocalAddress() {
+    private List<string> GetHostSubnets() {
         var host = Dns.GetHostEntry(Dns.GetHostName());
-
-        foreach (var ip in host.AddressList) {
-            if (ip.AddressFamily == AddressFamily.InterNetwork) {
-                return ip.MapToIPv4();
-            }
+        var subnets = new List<string>();
+        foreach (var address in host.AddressList) {
+            subnets.Add(string.Join('.', address.Address.ToString().Split(".").Where((part, index) => index <= 2)));
         }
-
+        if (subnets.Count > 0)
+        {
+            return subnets;
+        }
         throw new Exception("No Network adapters with Ipv4 address in the system!");
     }
 
