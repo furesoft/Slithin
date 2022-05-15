@@ -182,5 +182,12 @@
   "Username": "Username",
   "Login": "Login",
 
-  "Restore": "Restore"
+  "Restore": "Restore",
+
+  "Leave a feedback": "Leave a feedback",
+  "Usability": "Usability",
+  "Performance": "Performance",
+  "Features": "Features",
+  "Compatibility": "Compatibility",
+  "Send": "Send"
 }
