@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -95,11 +95,36 @@ public class ConnectionWindowViewModel : BaseViewModel
         ServiceLocator.Container.Resolve<LogInitalizer>().Init();
 
         var logger = ServiceLocator.Container.Resolve<ILogger>();
+        var discovery = ServiceLocator.Container.Resolve<IDeviceDiscovery>();
+        var loginService = ServiceLocator.Container.Resolve<ILoginService>();
 
         SshClient client = null;
         ScpClient scp = null;
 
-        var ip = IPAddress.Parse(SelectedLogin.IP);
+        if (!discovery.PingDevice(System.Net.IPAddress.Parse(SelectedLogin.IP))
+            && SelectedLogin.Name != _localisationService.GetString("No Device Saved"))
+        {
+            var newIP = discovery.Discover();
+
+            if (newIP != default)
+            {
+                SelectedLogin.IP = newIP.ToString();
+
+                //Replace Old IP To New IP
+                loginService.SetLoginCredential(SelectedLogin);
+                loginService.UpdateIPAfterUpdate();
+            }
+            else
+            {
+                const string message = "Your remarkable is not reachable. Please check your connection and restart Slithin";
+
+                NotificationService.Show(_localisationService.GetString(
+                    message));
+                logger.Warning(message);
+            }
+        }
+
+        IPAddress ip = IPAddress.Parse(SelectedLogin.IP);
 
         if (SelectedLogin.UsesKey)
         {

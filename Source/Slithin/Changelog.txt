@@ -1,6 +1,7 @@
 Version 1.0.16
 
 - Add Bigger Preview For Templates And Notebooks
+- Add Automatic IP-Address Adjustment After Update
 
 Version 1.0.15
 
