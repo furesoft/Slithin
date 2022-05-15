@@ -180,5 +180,7 @@
 
   "Register": "Register",
   "Username": "Username",
-  "Login": "Login"
+  "Login": "Login",
+
+  "Restore": "Restore"
 }
