@@ -7,15 +7,16 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
 {
     public long GetExpirationDate() => DateTime.UtcNow.AddHours(1).Ticks;
 
-    public async Task ValidateClientAuthentication(ValidateClientAuthenticationContext context)
+    public Task ValidateClientAuthentication(ValidateClientAuthenticationContext context)
     {
-        var data = await context.HttpContext.GetRequestObjectAsync<Grant>();
+        var data = context.HttpContext.GetRequestObjectAsync<Grant>().Result;
 
         if (data != null && data.GrantType == "password")
         {
             try
             {
                 var user = ServiceLocator.Repository.GetUser(data.Username);
+
                 context.Identity.AddClaim(new System.Security.Claims.Claim("Role", user?.Role == "admin" ? "Admin" : "User"));
 
                 if (user == null || Utils.ComputeSha256Hash(data.Password) != user.HashedPassword)
@@ -34,5 +35,7 @@ internal class AuthorizationServerProvider : IAuthorizationServerProvider
         {
             context.Rejected();
         }
+
+        return Task.CompletedTask;
     }
 }
