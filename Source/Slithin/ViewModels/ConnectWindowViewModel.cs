@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Timers;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -95,36 +98,11 @@ public class ConnectionWindowViewModel : BaseViewModel
         ServiceLocator.Container.Resolve<LogInitalizer>().Init();
 
         var logger = ServiceLocator.Container.Resolve<ILogger>();
-        var discovery = ServiceLocator.Container.Resolve<IDeviceDiscovery>();
-        var loginService = ServiceLocator.Container.Resolve<ILoginService>();
 
         SshClient client = null;
         ScpClient scp = null;
 
-        if (!discovery.PingDevice(System.Net.IPAddress.Parse(SelectedLogin.IP))
-            && SelectedLogin.Name != _localisationService.GetString("No Device Saved"))
-        {
-            var newIP = discovery.Discover();
-
-            if (newIP != default)
-            {
-                SelectedLogin.IP = newIP.ToString();
-
-                //Replace Old IP To New IP
-                loginService.SetLoginCredential(SelectedLogin);
-                loginService.UpdateIPAfterUpdate();
-            }
-            else
-            {
-                const string message = "Your remarkable is not reachable. Please check your connection and restart Slithin";
-
-                NotificationService.Show(_localisationService.GetString(
-                    message));
-                logger.Warning(message);
-            }
-        }
-
-        IPAddress ip = IPAddress.Parse(SelectedLogin.IP);
+        var ip = IPAddress.Parse(SelectedLogin.IP);
 
         if (SelectedLogin.UsesKey)
         {
@@ -178,6 +156,11 @@ public class ConnectionWindowViewModel : BaseViewModel
 
             ServiceLocator.Container.Resolve<IContextMenuProvider>().Init();
 
+            var pingTimer = new Timer();
+            pingTimer.Elapsed += pingTimer_ellapsed;
+            pingTimer.Interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
+            pingTimer.Start();
+
             _loginService.SetLoginCredential(SelectedLogin);
 
             client.ErrorOccurred -= client_errocOccured;
@@ -210,5 +193,31 @@ public class ConnectionWindowViewModel : BaseViewModel
         vm.OnRequestClose += () => wndw.Close();
 
         wndw.ShowDialog(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
+    }
+
+    private void pingTimer_ellapsed(object sender, ElapsedEventArgs e)
+    {
+        var pingSender = new Ping();
+
+        var data = new string('a', 32);
+        var buffer = Encoding.ASCII.GetBytes(data);
+
+        var timeout = 10000;
+
+        var options = new PingOptions(64, true);
+
+        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer,
+            options);
+
+        if (reply.Status != IPStatus.Success)
+        {
+            const string message = "Your remarkable is not reachable. Please check your connection and restart Slithin";
+
+            var logger = ServiceLocator.Container.Resolve<ILogger>();
+
+            NotificationService.Show(_localisationService.GetString(
+                message));
+            logger.Warning(message);
+        }
     }
 }
