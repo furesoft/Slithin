@@ -199,7 +199,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         var ip = ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host;
 
-        if (discovery.PingDevice(IPAddress.Parse(ip)))
+        if (discovery.PingDevice(System.Net.IPAddress.Parse(ip)))
         {
             const string message = "Your remarkable is not reachable. Please check your connection and restart Slithin";
 
