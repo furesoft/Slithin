@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Renci.SshNet;
 
 namespace Slithin.Core.Services.Implementations;
 
@@ -17,7 +17,7 @@ public class DeviceDiscoveryImpl : IDeviceDiscovery
         var subnets = GetHostSubnets();
         var devices = new Dictionary<string, IPAddress>();
 
-        await Parallel.ForEachAsync(subnets, async (i, subnet) =>
+        foreach (var subnet in subnets)
         {
             await Parallel.ForEachAsync(Enumerable.Range(1, 255), (i, token) =>
             {
@@ -26,14 +26,14 @@ public class DeviceDiscoveryImpl : IDeviceDiscovery
                 if (!isAlive) return ValueTask.CompletedTask;
 
                 var hostname = GetHostname(ipAddress);
-                if (hostname.ToLower().StartsWith("remarkable"))
+                if (hostname != null && hostname.ToLower().StartsWith("remarkable"))
                 {
                     var macAddress = GetMacAddress(ipAddress);
                     devices.Add(macAddress, ipAddress);
                 }
                 return ValueTask.CompletedTask;
             });
-        });
+        }
 
         return devices;
     }
@@ -86,7 +86,7 @@ public class DeviceDiscoveryImpl : IDeviceDiscovery
 
         var options = new PingOptions(64, true);
 
-        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer,
+        var reply = pingSender.Send(address, timeout, buffer,
             options);
 
         return reply.Status != IPStatus.Success;
@@ -94,7 +94,15 @@ public class DeviceDiscoveryImpl : IDeviceDiscovery
 
     private string GetHostname(IPAddress address)
     {
-        return Dns.GetHostByAddress(address).HostName;
+        try
+        {
+            var iPHostEntry = Dns.GetHostEntry(address); //ToDo: fix
+            return iPHostEntry?.HostName;
+        }
+        catch (SocketException ex)
+        {
+            return null;
+        }
     }
 
     private List<string> GetHostSubnets()
@@ -103,7 +111,9 @@ public class DeviceDiscoveryImpl : IDeviceDiscovery
         var subnets = new List<string>();
         foreach (var address in host.AddressList)
         {
-            subnets.Add(string.Join('.', address.Address.ToString().Split(".").Where((part, index) => index <= 2)));
+            if (address.ToString().Contains(":")) continue;
+
+            subnets.Add(string.Join('.', address.ToString().Split(".").Where((part, index) => index <= 2)));
         }
         if (subnets.Count > 0)
         {

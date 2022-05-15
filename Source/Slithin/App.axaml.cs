@@ -15,11 +15,14 @@ public class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
-    public override void OnFrameworkInitializationCompleted()
+    public override async void OnFrameworkInitializationCompleted()
     {
         ServiceLocator.Init();
 
         var settings = ServiceLocator.Container.Resolve<ISettingsService>().GetSettings();
+
+        var discovery = ServiceLocator.Container.Resolve<IDeviceDiscovery>();
+        var devices = await discovery.Discover();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
