@@ -30,4 +30,7 @@
 
     <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/Ports/StepBar.axaml" />
     <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/Ports/StepBarItem.axaml" />
+
+    <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/Ports/RateItem.axaml" />
+    <StyleInclude Source="avares://Slithin.Themes.Generic/Styles/Ports/RatingControl.axaml" />
 </Styles>
