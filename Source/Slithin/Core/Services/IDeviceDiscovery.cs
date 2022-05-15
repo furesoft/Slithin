@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 
 namespace Slithin.Core.Services;
 
-public interface IServiceDiscovery
+public interface IDeviceDiscovery
 {
     Task<Dictionary<string, IPAddress>> Discover();
+
     bool PingDevice(IPAddress address);
 }

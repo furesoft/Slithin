@@ -1,21 +1,19 @@
-﻿using System.Collections.Concurrent;
-using System.Net;
-using System.Net.Sockets;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
-using Renci.SshNet;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Renci.SshNet;
 
 namespace Slithin.Core.Services.Implementations;
 
-public class ServiceDiscoveryImpl : IServiceDiscovery
+public class DeviceDiscoveryImpl : IDeviceDiscovery
 {
-
-    public async Task<Dictionary<string, IPAddress>> Discover() {
+    public async Task<Dictionary<string, IPAddress>> Discover()
+    {
         var subnets = GetHostSubnets();
         var devices = new Dictionary<string, IPAddress>();
 
@@ -38,40 +36,6 @@ public class ServiceDiscoveryImpl : IServiceDiscovery
         });
 
         return devices;
-    }
-
-    private string GetHostname(IPAddress address) {
-        return Dns.GetHostByAddress(address).HostName;
-    }
-
-    //ToDo: Replace other Ping Calls with this
-    public bool PingDevice(IPAddress address) {
-        var pingSender = new Ping();
-
-        var data = new string('a', 32);
-        var buffer = Encoding.ASCII.GetBytes(data);
-
-        var timeout = 10000;
-
-        var options = new PingOptions(64, true);
-
-        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer,
-            options);
-
-        return reply.Status != IPStatus.Success;
-    }
-
-    private List<string> GetHostSubnets() {
-        var host = Dns.GetHostEntry(Dns.GetHostName());
-        var subnets = new List<string>();
-        foreach (var address in host.AddressList) {
-            subnets.Add(string.Join('.', address.Address.ToString().Split(".").Where((part, index) => index <= 2)));
-        }
-        if (subnets.Count > 0)
-        {
-            return subnets;
-        }
-        throw new Exception("No Network adapters with Ipv4 address in the system!");
     }
 
     public string GetMacAddress(IPAddress ipAddress)
@@ -110,10 +74,47 @@ public class ServiceDiscoveryImpl : IServiceDiscovery
         }
     }
 
-    public struct MacIpPair
+    //ToDo: Replace other Ping Calls with this
+    public bool PingDevice(IPAddress address)
     {
-        public string MacAddress;
-        public string IpAddress;
+        var pingSender = new Ping();
+
+        var data = new string('a', 32);
+        var buffer = Encoding.ASCII.GetBytes(data);
+
+        var timeout = 10000;
+
+        var options = new PingOptions(64, true);
+
+        var reply = pingSender.Send(ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host, timeout, buffer,
+            options);
+
+        return reply.Status != IPStatus.Success;
     }
 
+    private string GetHostname(IPAddress address)
+    {
+        return Dns.GetHostByAddress(address).HostName;
+    }
+
+    private List<string> GetHostSubnets()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        var subnets = new List<string>();
+        foreach (var address in host.AddressList)
+        {
+            subnets.Add(string.Join('.', address.Address.ToString().Split(".").Where((part, index) => index <= 2)));
+        }
+        if (subnets.Count > 0)
+        {
+            return subnets;
+        }
+        throw new Exception("No Network adapters with Ipv4 address in the system!");
+    }
+
+    public struct MacIpPair
+    {
+        public string IpAddress;
+        public string MacAddress;
+    }
 }
