@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace Slithin.Core.Services;
 
 public interface IDeviceDiscovery
 {
-    Task<Dictionary<string, IPAddress>> Discover();
+    IPAddress Discover();
 
     bool PingDevice(IPAddress address);
 }
