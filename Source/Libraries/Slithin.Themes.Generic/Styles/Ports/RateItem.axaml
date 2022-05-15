@@ -33,6 +33,7 @@
     <Style Selector="Controls|RateItem:pointerenter /template/ Grid#mainGrid">
         <Setter Property="ScaleTransform.ScaleX" Value="1.1" />
         <Setter Property="ScaleTransform.ScaleY" Value="1.1" />
+        <Setter Property="Cursor" Value="Hand" />
     </Style>
 
     <Style Selector="Controls|RateItem:pointerleave /template/ Grid#mainGrid">

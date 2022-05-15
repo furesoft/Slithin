@@ -13,8 +13,8 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Icon" Value="{StaticResource StarGeometry}" />
-        <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Accent}" />
-        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Gray6}" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="LightGray" />
         <!-- <Setter Property="ItemContainerStyle" Value="{StaticResource RateRateItemBaseStyle}" /> -->
         <Setter Property="Text" Value="{Binding Value,RelativeSource={RelativeSource Self},StringFormat={}{0:0.0}}" />
         <Setter Property="Template">
@@ -22,7 +22,7 @@
                 <ControlTemplate>
                     <StackPanel Background="Transparent" Orientation="Horizontal">
                         <UniformGrid Rows="1" Margin="-5,0" x:Name="PART_Panel" />
-                        <TextBlock IsVisible="{TemplateBinding ShowText}"
+                        <TextBlock IsVisible="{TemplateBinding ShowText}" FontSize="{TemplateBinding FontSize}"
                           Text="{TemplateBinding Text}" Margin="10,0,0,0" VerticalAlignment="Center" />
                     </StackPanel>
                 </ControlTemplate>
