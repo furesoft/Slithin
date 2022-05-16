@@ -7,6 +7,7 @@ using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Models;
+using Slithin.UI.Views;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -32,6 +33,7 @@ public class SettingsPageViewModel : BaseViewModel
         _loginService = loginService;
 
         CheckForUpdatesCommand = new DelegateCommand(CheckForUpdates);
+        FeedbackCommand = new DelegateCommand(Feedback);
 
         _settingsService = settingsService;
         _pathManager = pathManager;
@@ -73,6 +75,8 @@ public class SettingsPageViewModel : BaseViewModel
         }
     }
 
+    public ICommand FeedbackCommand { get; set; }
+
     public bool IsBigMenuMode
     {
         get { return _settings.IsBigMenuMode; }
@@ -95,6 +99,12 @@ public class SettingsPageViewModel : BaseViewModel
         _mailboxService.Post(new Messages.CheckForUpdateMessage());
     }
 
+    private void Feedback(object obj)
+    {
+        var feedbackWindow = new FeedbackWindow();
+        feedbackWindow.Show();
+    }
+
     private void SaveSetting([CallerMemberName] string property = null)
     {
         _settingsService.Save(_settings);
@@ -107,13 +117,14 @@ public class SettingsPageViewModel : BaseViewModel
     private void UpdateDeviceName(string newName)
     {
         _credential.Name = newName;
-        _loginService.UpdateLoginCredential(_credential);
 
         var path = new DirectoryInfo(_pathManager.ConfigBaseDir);
 
         _pathManager.Relink();
 
         path.MoveTo(_pathManager.ConfigBaseDir);
+
+        _loginService.UpdateLoginCredential(_credential);
 
         _logger.Information("Setting changed 'Device Name'");
     }

@@ -71,15 +71,19 @@
             </s:SettingsGroup>
 
             <s:SettingsGroup Header="{l:Localisation 'Support Slithin'}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2">
-                <UniformGrid Columns="7">
-                    <controls:KryptoDonateButton CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="{DynamicResource BoxIcons.LogosBitcoin}" />
-                    <controls:KryptoDonateButton CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource SimpleIcons.Ethereum}" />
-                    <controls:KryptoDonateButton CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Image="{DynamicResource SimpleIcons.Litecoin}" />
-                    <controls:KryptoDonateButton CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="{DynamicResource Unicons.BitcoinCircle}" />
-                    <controls:KryptoDonateButton CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource Unicons.UsdCircle}" />
-                    <controls:KryptoDonateButton CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="{DynamicResource SimpleIcons.Dogecoin}" />
-                    <controls:KryptoDonateButton CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="{DynamicResource SimpleIcons.Dash}" />
-                </UniformGrid>
+                <StackPanel Spacing="5" Margin="3">
+                    <UniformGrid Columns="7">
+                        <controls:KryptoDonateButton CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="{DynamicResource BoxIcons.LogosBitcoin}" />
+                        <controls:KryptoDonateButton CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource SimpleIcons.Ethereum}" />
+                        <controls:KryptoDonateButton CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Image="{DynamicResource SimpleIcons.Litecoin}" />
+                        <controls:KryptoDonateButton CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="{DynamicResource Unicons.BitcoinCircle}" />
+                        <controls:KryptoDonateButton CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource Unicons.UsdCircle}" />
+                        <controls:KryptoDonateButton CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="{DynamicResource SimpleIcons.Dogecoin}" />
+                        <controls:KryptoDonateButton CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="{DynamicResource SimpleIcons.Dash}" />
+                    </UniformGrid>
+
+                    <Button Content="{l:Localisation 'Leave a feedback'}" Classes="Flat" Command="{Binding FeedbackCommand}" />
+                </StackPanel>
             </s:SettingsGroup>
         </Grid>
     </ScrollViewer>
