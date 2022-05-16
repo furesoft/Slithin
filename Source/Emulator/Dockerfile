@@ -5,8 +5,8 @@ ARG ROOT_PASSWORD
 ENV ROOT_PASSWORD=${ROOT_PASSWORD:-remarkeble}
 
 RUN apk add --update --no-cache openssh && \
-    sed -e 's/#PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
-    passwd root -d ${ROOT_PASSWORD} && \
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin without-password/g' /etc/ssh/sshd_config && \
+    sed -i 's/#StrictModes yes/StrictModes no/g' /etc/ssh/sshd_config && \
     echo "alias systemctl=\"\"" >> ~/.bashrc && \
     echo "alias restart=\"\"" >> ~/.bashrc && \
     echo "alias xochitl=\"\"" >> ~/.bashrc
