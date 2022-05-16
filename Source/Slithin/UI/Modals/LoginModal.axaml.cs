@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Slithin.Core;
-using Slithin.ViewModels.Modals;
+using Slithin.ViewModels.ResourcePages;
 
 namespace Slithin.UI.Modals;
 

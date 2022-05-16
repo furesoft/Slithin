@@ -1,22 +1,25 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Slithin.API.Lib;
 using Slithin.Controls.Navigation;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 using Slithin.UI;
 using Slithin.UI.ResourcesPage;
+using Slithin.ViewModels.Modals;
 
-namespace Slithin.ViewModels.Modals;
+namespace Slithin.ViewModels.ResourcePages;
 
 public sealed class LoginModalViewModel : ModalBaseViewModel
 {
     private readonly MarketplaceAPI _api;
+    private readonly IMailboxService _mailboxService;
     private readonly ISettingsService _settingsService;
     private string _password;
     private string _username;
 
-    public LoginModalViewModel(MarketplaceAPI api, ISettingsService settingsService)
+    public LoginModalViewModel(MarketplaceAPI api,
+                               ISettingsService settingsService,
+                               IMailboxService mailboxService)
     {
         OnLoad();
 
@@ -37,6 +40,7 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
         ConfirmCommand = new DelegateCommand(Confirm);
         _api = api;
         _settingsService = settingsService;
+        _mailboxService = mailboxService;
     }
 
     public ICommand ConfirmCommand { get; set; }
@@ -65,7 +69,7 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
 
     private void Confirm(object obj)
     {
-        try
+        _mailboxService.PostAction(() =>
         {
             _api.Authenticate(Username, Password);
 
@@ -75,9 +79,6 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
             _settingsService.Save(settings);
 
             Frame.GetFrame("resourcesFrame").Navigate(typeof(ResourcesMainPage));
-        }
-        catch (Exception ex)
-        {
-        }
+        });
     }
 }
