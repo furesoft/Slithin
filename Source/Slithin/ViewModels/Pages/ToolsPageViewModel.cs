@@ -3,10 +3,10 @@ using System.Linq;
 using System.Windows.Input;
 using Slithin.Controls;
 using Slithin.Core;
-using Slithin.UI.Modals;
-using Slithin.ViewModels.Modals;
 using Slithin.Core.MVVM;
 using Slithin.Core.Tools;
+using Slithin.UI.Modals;
+using Slithin.ViewModels.Modals;
 
 namespace Slithin.ViewModels.Pages;
 
@@ -46,12 +46,12 @@ public class ToolsPageViewModel : BaseViewModel
     {
         base.OnLoad();
 
-        SyncService.ToolsFilter.AllTools = _invoker.Tools.Values.Where(_ => _.Info.IsListed).ToList();
-        SyncService.ToolsFilter.Tools = new ObservableCollection<ITool>(SyncService.ToolsFilter.AllTools);
+        ServiceLocator.SyncService.ToolsFilter.AllTools = _invoker.Tools.Values.Where(_ => _.Info.IsListed).ToList();
+        ServiceLocator.SyncService.ToolsFilter.Tools = new ObservableCollection<ITool>(ServiceLocator.SyncService.ToolsFilter.AllTools);
 
         var categories = _invoker.Tools.Where(_ => _.Value.Info.IsListed).Select(_ => _.Value.Info.Category);
 
-        SyncService.ToolsFilter.Categories = new ObservableCollection<string>(categories.Distinct());
+        ServiceLocator.SyncService.ToolsFilter.Categories = new ObservableCollection<string>(categories.Distinct());
     }
 
     private static void ShowConfigModal(object _)

@@ -3,9 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.ViewModels.Pages;
-using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.UI;
 
@@ -36,18 +36,18 @@ public static class NotebooksView
 
         var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
 
-        vm.SyncService.NotebooksFilter.Documents.Clear();
+        ServiceLocator.SyncService.NotebooksFilter.Documents.Clear();
 
         var id = md.ID;
 
         if (!string.IsNullOrEmpty(md.VisibleName) && md.VisibleName.Equals(localisation.GetString("Up ..")))
         {
             id = _lastFolderIDs.Pop();
-            vm.SyncService.NotebooksFilter.Folder = id;
+            ServiceLocator.SyncService.NotebooksFilter.Folder = id;
 
             if (id == "")
             {
-                vm.SyncService.NotebooksFilter.Documents.Add(new Metadata
+                ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata
                 {
                     Type = "CollectionType",
                     VisibleName = localisation.GetString("Trash"),
@@ -67,19 +67,19 @@ public static class NotebooksView
 
         foreach (var mds in MetadataStorage.Local.GetByParent(id))
         {
-            vm.SyncService.NotebooksFilter.Documents.Add(mds);
+            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(mds);
         }
 
         if (_lastFolderIDs.Count > 0)
         {
-            vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = localisation.GetString("Up ..") });
-            vm.SyncService.NotebooksFilter.Folder = id;
+            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = localisation.GetString("Up ..") });
+            ServiceLocator.SyncService.NotebooksFilter.Folder = id;
         }
         else
         {
-            vm.SyncService.NotebooksFilter.Folder = "";
+            ServiceLocator.SyncService.NotebooksFilter.Folder = "";
         }
 
-        vm.SyncService.NotebooksFilter.SortByFolder();
+        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
     }
 }

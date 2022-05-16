@@ -10,7 +10,6 @@ using Avalonia.Platform;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
@@ -28,7 +27,6 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
     private readonly ILocalisationService _localisationService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
-    private readonly ScpClient _scp;
     private readonly CreateNotebookValidator _validator;
     private IImage _cover;
 
@@ -46,8 +44,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         CreateNotebookValidator validator,
         ILoadingService loadingService,
         IMailboxService mailboxService,
-        ILocalisationService localisationService,
-        ScpClient scpClient)
+        ILocalisationService localisationService)
     {
         AddPagesCommand = new DelegateCommand(AddPages);
         OKCommand = new DelegateCommand(OK);
@@ -57,7 +54,6 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         _loadingService = loadingService;
         _mailboxService = mailboxService;
         _localisationService = localisationService;
-        _scp = scpClient;
     }
 
     public ICommand AddPagesCommand { get; set; }
@@ -192,7 +188,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
     private string[] GeneratePageIDS(int count)
     {
-        string[] ids = new string[count];
+        var ids = new string[count];
 
         for (int i = 0; i < count; i++)
         {
@@ -302,8 +298,8 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
             MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
 
-            SyncService.NotebooksFilter.Documents.Add(md);
-            SyncService.NotebooksFilter.SortByFolder();
+            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
+            ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
 
             Notebook.UploadDocument(md);
         });

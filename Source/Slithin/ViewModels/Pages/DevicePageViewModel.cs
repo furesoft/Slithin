@@ -126,7 +126,7 @@ public class DevicePageViewModel : BaseViewModel
             _loadingService.LoadTools();
             _loadingService.LoadTemplates();
 
-            SyncService.TemplateFilter.SelectedCategory = SyncService.TemplateFilter.Categories.First();
+            ServiceLocator.SyncService.TemplateFilter.SelectedCategory = ServiceLocator.SyncService.TemplateFilter.Categories.First();
 
             _loadingService.LoadNotebooks();
 
@@ -233,12 +233,12 @@ public class DevicePageViewModel : BaseViewModel
 
     private void InitScreens()
     {
-        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Starting"), Filename = "starting.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Power Off"), Filename = "poweroff.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Suspended"), Filename = "suspended.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Rebooting"), Filename = "rebooting.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Splash"), Filename = "splash.png" });
-        SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Battery Empty"), Filename = "batteryempty.png" });
+        ServiceLocator.SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Starting"), Filename = "starting.png" });
+        ServiceLocator.SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Power Off"), Filename = "poweroff.png" });
+        ServiceLocator.SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Suspended"), Filename = "suspended.png" });
+        ServiceLocator.SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Rebooting"), Filename = "rebooting.png" });
+        ServiceLocator.SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Splash"), Filename = "splash.png" });
+        ServiceLocator.SyncService.CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Battery Empty"), Filename = "batteryempty.png" });
 
         _logger.Information("Initialize Screens");
     }
