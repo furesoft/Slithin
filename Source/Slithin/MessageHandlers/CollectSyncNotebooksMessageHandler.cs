@@ -63,7 +63,6 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
         var thumbnailFoldersToSync
             = thumbnailFolders
                 .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[..^1])));
-        //ToDo: add collecting thumbnails that are not transfered yet: check for title thumbnail if it not exists - transfer whole directory
 
         if (thumbnailFoldersToSync.Any())
         {
@@ -116,11 +115,38 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
 
             SaveMetadata(notebooksDir, md, mdObj, mdLocalObj, mds, mdContent, fileNamesContainDotContent, mdDotContent,
                 contentContent, fileNamesContaintDotPagedata, mdDotPagedata, pageDataContent);
+
+            //ToDo: add collecting thumbnails that are not transfered yet: check for title thumbnail if it not exists - transfer whole directory
+
+            var thumbnailFilename = GetThumbnailFilename(mdLocalObj);
+            var thumbnailFolder = Path.Combine(notebooksDir, md + ".thumbnails");
+            var thumbnailPath = Path.Combine(thumbnailFolder, thumbnailFilename);
+
+            if (!File.Exists(thumbnailPath))
+            {
+                _syncNotebooks.Add(new SyncNotebook() { Directories = new[] { thumbnailFolder } });
+            }
         });
 
         ConvertMetadataToSyncNotebook(mds, allFilenames, notebooksDir, mdLocals);
 
         _mailboxService.Post(new DownloadSyncNotebookMessage(_syncNotebooks));
+    }
+
+    private static string GetThumbnailFilename(Metadata mdLocalObj)
+    {
+        if (mdLocalObj?.Content.CoverPageNumber == 0)
+        {
+            // load first page
+            return mdLocalObj.Content.Pages[0];
+        }
+        else if (mdLocalObj?.Content.CoverPageNumber == -1)
+        {
+            // load last page opened, set in md.LastOpenedPage
+            return mdLocalObj.Content.Pages[mdLocalObj.LastOpenedPage];
+        }
+
+        return string.Empty;
     }
 
     private static void InitMetadata(Metadata mdObj, string md, ContentFile contentObj, string pageDataContent,
