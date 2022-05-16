@@ -116,7 +116,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             SaveMetadata(notebooksDir, md, mdObj, mdLocalObj, mds, mdContent, fileNamesContainDotContent, mdDotContent,
                 contentContent, fileNamesContaintDotPagedata, mdDotPagedata, pageDataContent);
 
-            //ToDo: add collecting thumbnails that are not transfered yet: check for title thumbnail if it not exists - transfer whole directory
+            //add collecting thumbnails that are not transfered yet: check for title thumbnail if it not exists - transfer whole directory
 
             var thumbnailFilename = GetThumbnailFilename(mdLocalObj);
             var thumbnailFolder = Path.Combine(notebooksDir, mdLocalObj.ID + ".thumbnails");

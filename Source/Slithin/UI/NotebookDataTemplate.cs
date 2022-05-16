@@ -59,35 +59,40 @@ public class NotebookDataTemplate : IDataTemplate
             };
         }
 
-        var titlePanel = new StackPanel();
-        titlePanel.Orientation = Orientation.Horizontal;
-        titlePanel.Spacing = 5;
+        var titlePanel = new Grid();
 
         var title = new TextBlock { [!TextBlock.TextProperty] = new Binding("VisibleName") };
 
         title.TextAlignment = TextAlignment.Center;
         title.TextWrapping = TextWrapping.Wrap;
+        title.Width = 125;
         title.VerticalAlignment = VerticalAlignment.Center;
+        title.FontWeight = FontWeight.Bold;
 
         title.Height = 50;
 
-        var fabImage = new DrawingPresenter();
+        var favImage = new Image();
 
         if (md.IsPinned)
         {
-            fabImage.Drawing = (GeometryDrawing)Application.Current.FindResource("Entypo+.Star");
+            favImage.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Entypo+.Star"));
+            titlePanel.ColumnDefinitions.Add(new(new GridLength(20)));
+            titlePanel.ColumnDefinitions.Add(new(new GridLength(125, GridUnitType.Star)));
+
+            Grid.SetColumn(title, 1);
+            Grid.SetColumn(favImage, 0);
         }
         else
         {
             title.HorizontalAlignment = HorizontalAlignment.Center;
         }
 
-        fabImage.Width = 20;
-        fabImage.Height = 40;
-        fabImage.HorizontalAlignment = HorizontalAlignment.Left;
-        fabImage.VerticalAlignment = VerticalAlignment.Top;
+        favImage.Width = 20;
+        favImage.Height = 20;
+        favImage.HorizontalAlignment = HorizontalAlignment.Left;
+        favImage.VerticalAlignment = VerticalAlignment.Top;
 
-        titlePanel.Children.Add(fabImage);
+        titlePanel.Children.Add(favImage);
 
         if (md.Type == "DocumentType")
         {
@@ -128,13 +133,13 @@ public class NotebookDataTemplate : IDataTemplate
         }
         else if (md.ID == "trash")
         {
-            img.Source = cache.GetObject("trash",
-                new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/trash.png"))));
+            img.Margin = new Thickness(10);
+            img.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Cool.TrashFull"));
         }
         else
         {
-            img.Source = cache.GetObject("folder",
-                new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/folder.png"))));
+            img.Margin = new Thickness(10);
+            img.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Bootstrap.FolderFill"));
         }
 
         titlePanel.Children.Add(title);
@@ -142,7 +147,7 @@ public class NotebookDataTemplate : IDataTemplate
         stackPanel.Children.Add(titlePanel);
         stackPanel.Children.Add(img);
 
-        var card = new Card { CornerRadius = new(0), Content = stackPanel, Background = (IBrush)new BrushConverter().ConvertFromString("#e2e2e2") };
+        var card = new Card { Content = stackPanel, Background = (IBrush)new BrushConverter().ConvertFromString("#e2e2e2") };
 
         card.Initialized += (s, e) =>
         {
