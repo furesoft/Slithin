@@ -47,7 +47,7 @@ public class SynchronizeCommand : ICommand
 
         var ip = ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host;
 
-        if (discovery.PingDevice(IPAddress.Parse(ip)))
+        if (!discovery.PingDevice(IPAddress.Parse(ip)))
         {
             NotificationService.Show(_localisationService.GetString(
                 "Your remarkable is not reachable. Please check your connection and restart Slithin"));

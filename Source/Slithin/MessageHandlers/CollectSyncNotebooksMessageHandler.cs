@@ -63,11 +63,11 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
         var thumbnailFoldersToSync
             = thumbnailFolders
                 .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[..^1])));
-
+        //ToDo: add collecting thumbnails that are not transfered yet: check for title thumbnail if it not exists - transfer whole directory
 
         if (thumbnailFoldersToSync.Any())
         {
-        var thumbnailsSync = new SyncNotebook { Directories = thumbnailFoldersToSync };
+            var thumbnailsSync = new SyncNotebook { Directories = thumbnailFoldersToSync };
             _syncNotebooks.Add(thumbnailsSync);
         }
 
