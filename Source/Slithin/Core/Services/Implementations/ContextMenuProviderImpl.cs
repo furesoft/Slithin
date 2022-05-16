@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
 using Slithin.Core.ItemContext;
+using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Services.Implementations;

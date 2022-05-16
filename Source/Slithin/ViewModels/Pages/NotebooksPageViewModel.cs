@@ -54,26 +54,26 @@ public class NotebooksPageViewModel : BaseViewModel
 
         MoveHereCommand = new DelegateCommand(_ =>
         {
-            MetadataStorage.Local.Move(_movingNotebook, _synchronisationService.NotebooksFilter.Folder);
+            MetadataStorage.Local.Move(_movingNotebook, SyncService.NotebooksFilter.Folder);
             IsMoving = false;
 
             MetadataStorage.Local.GetMetadata(_movingNotebook.ID).Upload();
 
-            _synchronisationService.NotebooksFilter.Documents.Clear();
-            foreach (var md in MetadataStorage.Local.GetByParent(_synchronisationService.NotebooksFilter.Folder))
+            SyncService.NotebooksFilter.Documents.Clear();
+            foreach (var md in MetadataStorage.Local.GetByParent(SyncService.NotebooksFilter.Folder))
             {
-                _synchronisationService.NotebooksFilter.Documents.Add(md);
+                SyncService.NotebooksFilter.Documents.Add(md);
             }
 
-            _synchronisationService.NotebooksFilter.Documents.Add(new Metadata
+            SyncService.NotebooksFilter.Documents.Add(new Metadata
             {
                 Type = "CollectionType",
                 VisibleName = localisationService.GetString("Up ..")
             });
 
-            _synchronisationService.NotebooksFilter.SortByFolder();
+            SyncService.NotebooksFilter.SortByFolder();
 
-            logger.Information($"Moved {_movingNotebook.VisibleName} to {_synchronisationService.NotebooksFilter.Folder}");
+            logger.Information($"Moved {_movingNotebook.VisibleName} to {SyncService.NotebooksFilter.Folder}");
         });
 
         _loadingService = loadingService;

@@ -37,7 +37,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         ILocalisationService localisationService,
         AddTemplateValidator validator)
     {
-        Categories = ServiceLocator.SyncService.TemplateFilter.Categories;
+        Categories = SyncService.TemplateFilter.Categories;
 
         AddTemplateCommand = new DelegateCommand(AddTemplate);
         AddCategoryCommand = new DelegateCommand(AddCategory);
@@ -118,7 +118,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
     {
         if (!string.IsNullOrEmpty(obj?.ToString()))
         {
-            _synchronisationService.TemplateFilter.Categories.Add(obj.ToString());
+            SyncService.TemplateFilter.Categories.Add(obj.ToString());
         }
         else
         {
