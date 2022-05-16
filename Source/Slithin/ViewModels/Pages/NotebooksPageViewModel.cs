@@ -24,18 +24,16 @@ public class NotebooksPageViewModel : BaseViewModel
 
         RenameCommand = ServiceLocator.Container.Resolve<RenameCommand>();
         RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
-        RestoreCommand = new DelegateCommand(_ =>
+        RestoreCommand = new DelegateCommand(obj =>
         {
-            var md = (Metadata)_;
+            var md = (Metadata)obj;
             md.Parent = "";
+
             md.Save();
             md.Upload(onlyMetadata: true);
         }, _ => _ is not null && ((Metadata)_).VisibleName != localisationService.GetString("Up .."));
 
-        EmptyTrashCommand = new DelegateCommand(_ =>
-        {
-            ServiceLocator.Container.Resolve<EmptyTrashCommand>().Invoke(_);
-        });
+        EmptyTrashCommand = ServiceLocator.Container.Resolve<EmptyTrashCommand>();
 
         MoveCommand = new DelegateCommand(_ =>
             {
