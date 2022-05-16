@@ -6,36 +6,37 @@ using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
-using Slithin.Core.Sync;
 
 namespace Slithin.ViewModels.Pages;
 
 public class NotebooksPageViewModel : BaseViewModel
 {
-    private readonly ILoadingService _loadingService;
-    private readonly ILocalisationService _localisationService;
-    private readonly ILogger _logger;
-    private readonly IMailboxService _mailboxService;
-    private readonly SynchronisationService _synchronisationService;
+    private bool _isInTrash;
     private bool _isMoving;
     private Metadata _movingNotebook;
     private Metadata _selectedNotebook;
 
-    public NotebooksPageViewModel(
-        ILoadingService loadingService,
-        IMailboxService mailboxService,
-        ILocalisationService localisationService,
-        ILogger logger)
+    public NotebooksPageViewModel(ILocalisationService localisationService,
+                                  ILogger logger)
     {
-        _synchronisationService = ServiceLocator.SyncService;
-
         ExportCommand = ServiceLocator.Container.Resolve<ExportCommand>();
         MakeFolderCommand = ServiceLocator.Container.Resolve<MakeFolderCommand>();
 
         RenameCommand = ServiceLocator.Container.Resolve<RenameCommand>();
         RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
+        RestoreCommand = new DelegateCommand(_ =>
+        {
+            var md = (Metadata)_;
+            md.Parent = "";
+            md.Save();
+            md.Upload(onlyMetadata: true);
+        }, _ => _ is not null && ((Metadata)_).VisibleName != localisationService.GetString("Up .."));
 
-        //May replace moving with drag and drop
+        EmptyTrashCommand = new DelegateCommand(_ =>
+        {
+            ServiceLocator.Container.Resolve<EmptyTrashCommand>().Invoke(_);
+        });
+
         MoveCommand = new DelegateCommand(_ =>
             {
                 IsMoving = true;
@@ -75,14 +76,17 @@ public class NotebooksPageViewModel : BaseViewModel
 
             logger.Information($"Moved {_movingNotebook.VisibleName} to {SyncService.NotebooksFilter.Folder}");
         });
-
-        _loadingService = loadingService;
-        _mailboxService = mailboxService;
-        _localisationService = localisationService;
-        _logger = logger;
     }
 
+    public ICommand EmptyTrashCommand { get; set; }
+
     public ICommand ExportCommand { get; set; }
+
+    public bool IsInTrash
+    {
+        get { return _isInTrash; }
+        set { SetValue(ref _isInTrash, value); }
+    }
 
     public bool IsMoving
     {
@@ -96,6 +100,7 @@ public class NotebooksPageViewModel : BaseViewModel
     public ICommand MoveHereCommand { get; set; }
     public ICommand RemoveNotebookCommand { get; set; }
     public ICommand RenameCommand { get; set; }
+    public ICommand RestoreCommand { get; set; }
 
     public Metadata SelectedNotebook
     {

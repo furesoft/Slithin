@@ -1,21 +1,21 @@
-﻿using Slithin.Core;
-using Slithin.Core.ItemContext;
+﻿using System;
+using System.Windows.Input;
+using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
 
-namespace Slithin.Commands.ContextCommands.Notebooks;
+namespace Slithin.Commands;
 
-[Context(UIContext.Notebook)]
-public class EmptyTrashContextCommand : IContextCommand
+public class EmptyTrashCommand : ICommand
 {
     private readonly DeviceRepository _deviceRepository;
     private readonly ILocalisationService _localisationService;
     private readonly LocalRepository _localRepository;
     private readonly Xochitl _xochitl;
 
-    public EmptyTrashContextCommand(ILocalisationService localisationService,
+    public EmptyTrashCommand(ILocalisationService localisationService,
                                     LocalRepository localRepository,
                                     DeviceRepository deviceRepository,
                                     Xochitl xochitl)
@@ -26,15 +26,14 @@ public class EmptyTrashContextCommand : IContextCommand
         _xochitl = xochitl;
     }
 
-    public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Empty Trash");
+    public event EventHandler CanExecuteChanged;
 
-    public bool CanHandle(object data)
+    public bool CanExecute(object data)
     {
         return data is Metadata md && md.VisibleName == _localisationService.GetString("Trash");
     }
 
-    public void Invoke(object data)
+    public void Execute(object data)
     {
         foreach (var trashedMd in MetadataStorage.Local.GetByParent("trash"))
         {
