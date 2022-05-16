@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Slithin.Core;
 
-public static class Utils
+public static partial class Utils
 {
     public static IEnumerable<T> Find<T>()
     {
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass)
-            .Select(type => (T)ServiceLocator.Container.Resolve(type));
+            .Select(type => (T)TinyIoCContainer.Current.Resolve(type));
 
         return types;
     }
