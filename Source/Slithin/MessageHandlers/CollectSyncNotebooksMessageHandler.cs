@@ -119,22 +119,33 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             //ToDo: add collecting thumbnails that are not transfered yet: check for title thumbnail if it not exists - transfer whole directory
 
             var thumbnailFilename = GetThumbnailFilename(mdLocalObj);
-            var thumbnailFolder = Path.Combine(notebooksDir, md + ".thumbnails");
+            var thumbnailFolder = Path.Combine(notebooksDir, mdLocalObj.ID + ".thumbnails");
             var thumbnailPath = Path.Combine(thumbnailFolder, thumbnailFilename);
 
-            if (!File.Exists(thumbnailPath))
+            if (!File.Exists(thumbnailPath) && !string.IsNullOrEmpty(thumbnailFilename))
             {
-                _syncNotebooks.Add(new SyncNotebook() { Directories = new[] { thumbnailFolder } });
+                _syncNotebooks.Add(new SyncNotebook()
+                {
+                    Directories = allFilenames.Where(x => x.EndsWith(mdLocalObj.ID + ".thumbnails"))
+                });
             }
         });
 
         ConvertMetadataToSyncNotebook(mds, allFilenames, notebooksDir, mdLocals);
 
-        _mailboxService.Post(new DownloadSyncNotebookMessage(_syncNotebooks));
+        if (_syncNotebooks.Any())
+        {
+            _mailboxService.Post(new DownloadSyncNotebookMessage(_syncNotebooks));
+        }
     }
 
     private static string GetThumbnailFilename(Metadata mdLocalObj)
     {
+        if (mdLocalObj?.Content.Pages == null)
+        {
+            return string.Empty;
+        }
+
         if (mdLocalObj?.Content.CoverPageNumber == 0)
         {
             // load first page
