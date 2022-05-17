@@ -52,7 +52,7 @@ public static class Program
                 context.SendDataAsync(new { ex.StatusCode });
 
                 return Task.CompletedTask;
-            })
+            });
 
         // Listen for state changes.
         server.StateChanged += (s, e) => $"WebServer New State - {e.NewState}".Info();
