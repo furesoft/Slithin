@@ -11,12 +11,8 @@
   },
   "servers": [
     {
-      "url": "https://virtserver.swaggerhub.com/furesoft/SlithinApi/1.0.0",
-      "description": "SwaggerHub API Auto Mocking"
-    },
-    {
       "url": "https://slithin-api.multiplayer.co.at/\n",
-      "description": "SwaggerHub API Auto Mocking"
+      "description": "Main"
     }
   ],
   "tags": [
@@ -28,6 +24,9 @@
       "name": "developers",
       "description": "Operations available to regular developers"
     }
+  ],
+  "schemes": [
+    "https"
   ],
   "paths": {
     "/inventory": {
