@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Serilog;
@@ -69,7 +70,7 @@ public class SettingsPageViewModel : BaseViewModel
         get { return _credential.Name; }
         set
         {
-            UpdateDeviceName(value);
+            new Action<string>((v) => UpdateDeviceName(v)).Debounce(750);
 
             OnChange();
         }
