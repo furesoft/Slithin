@@ -4,25 +4,20 @@ WORKDIR /
 ARG ROOT_PASSWORD
 ENV ROOT_PASSWORD=${ROOT_PASSWORD:-remarkable}
 
-RUN apk add --update --no-cache openssh
-RUN mkdir /var/run/sshd
-RUN echo 'root:remarkable' | chpasswd
-
-
-RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
-RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
-
-
-RUN echo "alias systemctl=\"\"" >> ~/.bashrc && \
+RUN apk add --update --no-cache openssh && \
+    mkdir /var/run/sshd && \
+    echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
+    echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && \
+    echo "alias systemctl=\"\"" >> ~/.bashrc && \
     echo "alias restart=\"\"" >> ~/.bashrc && \
-    echo "alias xochitl=\"\"" >> ~/.bashrc
+    echo "alias xochitl=\"\"" >> ~/.bashrc && \
+    echo "Welcome to the Remarkable Emulator" >> /etc/motd && \
+    rm -rf /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key && \
+    ssh-keygen -A
 
-RUN echo "Welcome to the Remarkable Emulator" >> /etc/motd
+COPY remarkable_data/ /
 
-RUN mv -v home /home/
-
-RUN rm -rf /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key && \
-    ssh-keygen -A	
+RUN echo "root:${ROOT_PASSWORD}" | chpasswd
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
