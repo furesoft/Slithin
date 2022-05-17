@@ -1,7 +1,7 @@
 window.onload = function () {
     //<editor-fold desc="Changeable Configuration Block">
     window.ui = SwaggerUIBundle({
-        url: "https://petstore.swagger.io/v2/swagger.json",
+        url: "https://slithin-api.multiplayer.co.at/swagger_definition.json",
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
