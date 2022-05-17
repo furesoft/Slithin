@@ -39,7 +39,8 @@ public static class Program
                  m.RegisterController<ScreenController>();
                  m.RegisterController<FilesController>();
                  m.RegisterController<TemplatesController>();
-             }).WithStaticFolder("/", "/Content", true, (_) =>
+             })
+            .WithStaticFolder("/", Path.Combine(Environment.CurrentDirectory, "Content"), false, (_) =>
              {
              })
             .HandleUnhandledException((context, ex) =>
