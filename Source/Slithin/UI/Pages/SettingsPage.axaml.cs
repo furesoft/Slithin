@@ -27,6 +27,9 @@ public partial class SettingsPage : UserControl, IPage
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = ServiceLocator.Container.Resolve<SettingsPageViewModel>();
+        if (!Design.IsDesignMode)
+        {
+            DataContext = ServiceLocator.Container.Resolve<SettingsPageViewModel>();
+        }
     }
 }

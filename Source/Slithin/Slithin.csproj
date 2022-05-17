@@ -78,7 +78,6 @@
      <None Remove="Resources\Locales\en.json" />
      <None Remove="Resources\nav.png" />
      <None Remove="Resources\notebook.png" />
-     <None Remove="Resources\trash.png" />
      <EmbeddedResource Include="Resources\Cover.png" />
      <None Remove="Resources\Covers\Folder-DBlue.png" />
      <None Remove="Resources\Covers\Folder-Green.png" />
@@ -93,7 +92,6 @@
      <None Remove="Resources\Covers\Folder-White.png" />
      <None Remove="Resources\Covers\Folder-Yellow.png" />
      <None Remove="Resources\epub.png" />
-     <None Remove="Resources\folder.png" />
      <None Remove="Resources\pdf.png" />
      <None Remove="Resources\restore.png" />
    </ItemGroup>

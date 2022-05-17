@@ -105,7 +105,7 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
         return VisibleName;
     }
 
-    public void Upload()
+    public void Upload(bool onlyMetadata = false)
     {
         var scp = ServiceLocator.Container.Resolve<ScpClient>();
         var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
@@ -114,7 +114,7 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
                                 PathList.Documents + "/" + ID + ".metadata");
 
         if (Type == "DocumentType" &&
-                                (Content.FileType == "pdf" || Content.FileType == "epub"))
+                                (Content.FileType == "pdf" || Content.FileType == "epub") && !onlyMetadata)
         {
             scp.Upload(new FileInfo(Path.Combine(notebooksDir, ID + "." + Content.FileType)),
                 PathList.Documents + "/" + ID + "." + Content.FileType);

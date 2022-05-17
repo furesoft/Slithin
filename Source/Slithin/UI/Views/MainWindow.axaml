@@ -15,9 +15,7 @@
             <SplitView DisplayMode="CompactInline" OpenPaneLength="190" IsPaneOpen="{core:Setting 'IsBigMenuMode'}}">
                 <SplitView.Pane>
                     <Grid RowDefinitions="175,*" Margin="0,20,0,0">
-                        <Button Classes="Flat" Command="{core:OpenLink 'https://github.com/furesoft/Slithin'}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                            <Image Source="avares:/Resources/new_logo.png" Classes="header" />
-                        </Button>
+                        <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Source="avares:/Resources/new_logo.png" Classes="header" />
 
                         <ListBox Items="{Binding Menu}" Grid.Row="1" SelectedItem="{Binding SelectedTab}" Classes="Drawer" Name="Drawer" VerticalAlignment="Bottom">
                             <ListBox.ItemTemplate>

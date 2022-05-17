@@ -31,16 +31,16 @@ public class UnPinContextCommand : IContextCommand
         if (data is not Metadata md)
         {
             return;
-        }
+        } 
+
+        md.IsPinned = false;
+        md.Version++;
+        md.Save();
 
         ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
 
         ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
-
-        md.IsPinned = false;
-        md.Version++;
-        md.Save();
 
         md.Upload();
 

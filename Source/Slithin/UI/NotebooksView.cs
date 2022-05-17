@@ -3,9 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.ViewModels.Pages;
-using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.UI;
 
@@ -64,6 +64,8 @@ public static class NotebooksView
         {
             _lastFolderIDs.Push(md.Parent);
         }
+
+        vm.IsInTrash = id == "trash";
 
         foreach (var mds in MetadataStorage.Local.GetByParent(id))
         {
