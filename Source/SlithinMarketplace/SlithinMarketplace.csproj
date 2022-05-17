@@ -16,6 +16,7 @@
     <PackageReference Include="MongoDB.Driver" Version="2.15.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Libraries\Slithin.Api.Swagger\Slithin.Api.Swagger.csproj" />
     <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +75,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Content\swagger_definition.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\theme-newspaper.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Keys.json">

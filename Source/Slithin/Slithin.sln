@@ -34,9 +34,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{CC79
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Controls", "..\Libraries\Slithin.Controls\Slithin.Controls.csproj", "{9DB72556-42AE-4890-946A-CBA8152D4DE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Core", "..\Libraries\Slithin.Core\Slithin.Core.csproj", "{71E09ECE-6F69-403F-A733-615185ED262A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Core", "..\Libraries\Slithin.Core\Slithin.Core.csproj", "{71E09ECE-6F69-403F-A733-615185ED262A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Themes.Generic", "..\Libraries\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj", "{09C553F7-C13A-4904-B5C7-6313C2681393}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Themes.Generic", "..\Libraries\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj", "{09C553F7-C13A-4904-B5C7-6313C2681393}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Api.Swagger", "..\Libraries\Slithin.Api.Swagger\Slithin.Api.Swagger.csproj", "{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -302,6 +304,26 @@ Global
 		{09C553F7-C13A-4904-B5C7-6313C2681393}.Release|x64.Build.0 = Release|Any CPU
 		{09C553F7-C13A-4904-B5C7-6313C2681393}.Release|x86.ActiveCfg = Release|Any CPU
 		{09C553F7-C13A-4904-B5C7-6313C2681393}.Release|x86.Build.0 = Release|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Debug|ARM.Build.0 = Debug|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Debug|x64.Build.0 = Debug|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Debug|x86.Build.0 = Debug|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Release|ARM.ActiveCfg = Release|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Release|ARM.Build.0 = Release|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Release|ARM64.Build.0 = Release|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Release|x64.ActiveCfg = Release|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Release|x64.Build.0 = Release|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Release|x86.ActiveCfg = Release|Any CPU
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -316,6 +338,7 @@ Global
 		{9DB72556-42AE-4890-946A-CBA8152D4DE8} = {CC79EF3D-0A78-4398-B981-45F04413CF9D}
 		{71E09ECE-6F69-403F-A733-615185ED262A} = {CC79EF3D-0A78-4398-B981-45F04413CF9D}
 		{09C553F7-C13A-4904-B5C7-6313C2681393} = {CC79EF3D-0A78-4398-B981-45F04413CF9D}
+		{34E3D9FD-2E72-4802-B053-4E8BF99D51AF} = {FEA8CA71-3E10-4590-8601-E0C3E6E91318}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AEF28834-827B-4DA8-AC92-207A90616579}
