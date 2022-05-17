@@ -76,6 +76,9 @@
     <None Update="Content\swagger_definition.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Content\theme-newspaper.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Keys.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
