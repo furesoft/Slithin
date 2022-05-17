@@ -116,6 +116,8 @@ public class SettingsPageViewModel : BaseViewModel
 
     private void UpdateDeviceName(string newName)
     {
+        if (string.IsNullOrEmpty(newName)) return;
+
         _credential.Name = newName;
 
         var path = new DirectoryInfo(_pathManager.ConfigBaseDir);
