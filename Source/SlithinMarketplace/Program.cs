@@ -29,7 +29,7 @@ public static class Program
         var server = new WebServer(o => o
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
-
+            .WithStaticFolder("/", "/Content", true, (_) => { })
             .WithWebApi("/users", m =>
             {
                 m.RegisterController<RegisterUserController>();
