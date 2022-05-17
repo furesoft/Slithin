@@ -3,6 +3,7 @@ using EmbedIO;
 using EmbedIO.BearerToken;
 using EmbedIO.Utilities;
 using Newtonsoft.Json;
+using Slithin.Api.Swagger;
 using SlithinMarketplace.Controller;
 using Swan.Logging;
 
@@ -29,6 +30,7 @@ public static class Program
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
 
+            .WithOpenAPI("/swagger")
             .WithWebApi("/users", m =>
             {
                 m.RegisterController<RegisterUserController>();
