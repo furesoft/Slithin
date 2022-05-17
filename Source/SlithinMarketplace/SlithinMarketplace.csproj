@@ -74,9 +74,6 @@
     <None Update="Content\swagger-ui.js.map">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Content\swagger_definition.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Content\theme-newspaper.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
