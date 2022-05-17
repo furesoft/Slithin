@@ -15,7 +15,7 @@ RUN apk add --update --no-cache openssh && \
     rm -rf /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key && \
     ssh-keygen -A
 
-COPY remarkable_data/ /
+COPY remarkable_data/* /
 
 RUN echo "root:${ROOT_PASSWORD}" | chpasswd
 
