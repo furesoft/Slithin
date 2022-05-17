@@ -35,14 +35,14 @@ public class PinContextCommand : IContextCommand
             return;
         }
 
+        md.IsPinned = true;
+        md.Version++;
+        md.Save();
+
         ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
         ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
 
         ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
-
-        md.IsPinned = true;
-        md.Version++;
-        md.Save();
 
         md.Upload();
 
