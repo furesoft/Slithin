@@ -27,7 +27,7 @@ Slithin is available for Windows, Linux and OSX. The executables are available u
 * Generate SSH Key
 
 # Planned
-* Custom ScriptLanguage to create powerful new tools
+* Custom ScriptLanguage to automate tools
 * Share your assets with other users
 * Cloud Connection
 * Dark Mode
