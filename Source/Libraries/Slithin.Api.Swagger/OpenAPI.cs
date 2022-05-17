@@ -6,6 +6,27 @@ public class OpenAPI
 {
     public static OpenApiDocument GetDocument()
     {
+        var openApiSecurityRequirements = new List<OpenApiSecurityRequirement>
+            {
+                new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "bearer",
+                            Name = "Bearer",
+                            BearerFormat = "JWT",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                }
+            };
         var document = new OpenApiDocument
         {
             Info = new OpenApiInfo
@@ -17,8 +38,26 @@ public class OpenAPI
             {
                 new OpenApiServer { Url = "https://slithin-api.multiplayer.co.at/" }
             },
+            SecurityRequirements = openApiSecurityRequirements,
             Paths = new OpenApiPaths
             {
+                ["/api/token"] = new OpenApiPathItem
+                {
+                    Operations = new Dictionary<OperationType, OpenApiOperation>
+                    {
+                        [OperationType.Post] = new OpenApiOperation
+                        {
+                            Description = "Returns a JWT Authentication Token",
+                            Responses = new OpenApiResponses
+                            {
+                                ["200"] = new OpenApiResponse
+                                {
+                                    Description = "OK"
+                                }
+                            },
+                        }
+                    }
+                },
                 ["/pets"] = new OpenApiPathItem
                 {
                     Operations = new Dictionary<OperationType, OpenApiOperation>
@@ -32,7 +71,8 @@ public class OpenAPI
                                 {
                                     Description = "OK"
                                 }
-                            }
+                            },
+                            Security = openApiSecurityRequirements
                         }
                     }
                 }
