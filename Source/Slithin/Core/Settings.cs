@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Avalonia;
 using LiteDB;
 using Slithin.Core.MVVM;
 using Slithin.Models;
@@ -15,9 +16,10 @@ public class Settings : NotifyObject
     public Dictionary<string, string> CustomSettings { get; set; } = new();
     public bool IsBigMenuMode { get; set; } = true;
     public bool IsDarkMode { get; set; }
-
     public bool IsFirstStart { get; set; } = true;
     public MarketplaceUser MarketplaceCredential { get; set; }
+    public bool UsedMultiScreen { get; set; }
+    public Rect WindowPosition { get; set; }
 
     public string Get(string key)
     {
