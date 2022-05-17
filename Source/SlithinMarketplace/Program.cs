@@ -28,9 +28,7 @@ public static class Program
         var server = new WebServer(o => o
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
-            .WithStaticFolder("/", "/Content", true, (_) =>
-            {
-            })
+
             .WithWebApi("/users", m =>
             {
                 m.RegisterController<RegisterUserController>();
@@ -41,6 +39,8 @@ public static class Program
                  m.RegisterController<ScreenController>();
                  m.RegisterController<FilesController>();
                  m.RegisterController<TemplatesController>();
+             }).WithStaticFolder("/", "/Content", true, (_) =>
+             {
              })
             .HandleUnhandledException((context, ex) =>
             {
