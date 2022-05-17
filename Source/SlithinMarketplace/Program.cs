@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using EmbedIO;
-using EmbedIO.Actions;
 using EmbedIO.BearerToken;
 using EmbedIO.Utilities;
 using Newtonsoft.Json;
@@ -54,13 +53,6 @@ public static class Program
 
                 return Task.CompletedTask;
             })
-
-            .WithModule(new ActionModule("/", HttpVerbs.Any, ctx =>
-            {
-                ctx.Response.StatusCode = 500;
-
-                return ctx.SendDataAsync(new { Message = "Endpoint Not Found" });
-            }));
 
         // Listen for state changes.
         server.StateChanged += (s, e) => $"WebServer New State - {e.NewState}".Info();
