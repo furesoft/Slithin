@@ -20,4 +20,5 @@ COPY fs-root/ /
 RUN echo "root:${ROOT_PASSWORD}" | chpasswd
 
 EXPOSE 22
+VOLUME ["/home/root", "/usr/share/remarkable"]
 CMD ["/usr/sbin/sshd", "-D"]
