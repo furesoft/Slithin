@@ -15,7 +15,7 @@ public class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
-    public override async void OnFrameworkInitializationCompleted()
+    public override void OnFrameworkInitializationCompleted()
     {
         ServiceLocator.Init();
 
