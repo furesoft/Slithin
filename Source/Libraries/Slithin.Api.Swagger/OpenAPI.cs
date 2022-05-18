@@ -6,11 +6,22 @@ using EmbedIO.Routing;
 using EmbedIO.WebApi;
 using Microsoft.OpenApi.Models;
 using Slithin.Api.Swagger.Attributes;
+using SlithinMarketplace.Models;
 
 namespace Slithin.Api.Swagger;
 
 public class OpenAPI
 {
+    private static readonly Dictionary<string, OpenApiSchema> Schemas = new();
+
+    public static void AddSchema(Type type)
+    {
+        if (!Schemas.ContainsKey(type.Name))
+        {
+            Schemas.Add(type.Name, type.GenerateSchema());
+        }
+    }
+
     public static OpenApiDocument GetDocument(IEnumerable<IWebModule> modules)
     {
         var openApiSecurityRequirements = new List<OpenApiSecurityRequirement>
@@ -20,13 +31,9 @@ public class OpenAPI
                     {
                         new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
                             Scheme = "bearer",
                             Name = "Bearer",
+                            Type = SecuritySchemeType.Http,
                             BearerFormat = "JWT",
                             In = ParameterLocation.Header,
                         },
@@ -42,6 +49,7 @@ public class OpenAPI
             if (module is BearerTokenModule bearerTokenModule)
             {
                 paths.Add("/token", GetTokenPath(bearerTokenModule));
+                AddSchema(typeof(Grant));
             }
             else if (module is WebApiModule webApiModule)
             {
@@ -66,8 +74,11 @@ public class OpenAPI
                 new OpenApiServer { Url = "https://slithin-api.multiplayer.co.at/" }
             },
             SecurityRequirements = openApiSecurityRequirements,
-            Paths = paths
+            Paths = paths,
+            Components = new OpenApiComponents() { Schemas = Schemas }
         };
+
+        document.ResolveReferences();
 
         return document;
     }
@@ -84,6 +95,62 @@ public class OpenAPI
         var attribute = controller.GetCustomAttribute<DescriptionAttribute>();
 
         return attribute is not null ? attribute.Description : "";
+    }
+
+    private static (OperationType, OpenApiOperation) GetOperation(RouteAttribute route, MethodInfo methodInfo)
+    {
+        var bodyType = methodInfo.GetCustomAttribute<BodyTypeAttribute>();
+        var withoutAuth = methodInfo.GetCustomAttribute<WithoutAuthenticationAttribute>();
+        var responseType = methodInfo.GetCustomAttribute<ResponseContentTypeAttribute>();
+
+        if (bodyType is not null)
+        {
+            AddSchema(bodyType.Type);
+        }
+
+        return (GetOperationType(route.Verb), new OpenApiOperation
+        {
+            Description = GetDescription(methodInfo),
+            Parameters = GetParameters(methodInfo),
+            Tags = new List<OpenApiTag>() { GetTag(methodInfo) },
+            Security = withoutAuth is null ? new List<OpenApiSecurityRequirement>()
+            {
+               new OpenApiSecurityRequirement
+                {
+                    [
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                        }
+                    ] = new List<string>()
+                   }
+            } : new List<OpenApiSecurityRequirement>(),
+            Responses = new OpenApiResponses
+            {
+                ["200"] = GetResponse(methodInfo, responseType),
+                ["401"] = new OpenApiResponse()
+                {
+                    Description = "Unauthorized"
+                },
+            },
+            RequestBody = new OpenApiRequestBody
+            {
+                Content =
+                    {
+                        ["application/json"] = new OpenApiMediaType
+                            {
+                                Schema = bodyType is not null ? new OpenApiSchema
+                                {
+                                    Reference = new OpenApiReference
+                                    {
+                                        Id = bodyType.Type.Name,
+                                            Type = ReferenceType.Schema
+                                    }
+                                } : null
+                        }
+                    }
+            }
+        });
     }
 
     private static OperationType GetOperationType(HttpVerbs verb)
@@ -148,55 +215,46 @@ public class OpenAPI
 
             foreach (var op in operations)
             {
-                var attribute = op.GetCustomAttribute<RouteAttribute>();
+                var route = op.GetCustomAttribute<RouteAttribute>();
 
-                if (attribute is not null)
+                if (route is not null)
                 {
-                    var o = GetOperation(attribute, op);
+                    var o = GetOperation(route, op);
 
                     if (!path.Operations.ContainsKey(o.Item1))
                     {
                         path.Operations.Add(o.Item1, o.Item2);
                     }
 
-                    yield return (attribute.Route, path);
+                    yield return (route.Route, path);
                 }
             }
         }
+    }
 
-        static (OperationType, OpenApiOperation) GetOperation(RouteAttribute route, MethodInfo methodInfo)
+    private static OpenApiResponse GetResponse(MethodInfo methodInfo, ResponseContentTypeAttribute? responseType)
+    {
+        return new OpenApiResponse
         {
-            return (GetOperationType(route.Verb), new OpenApiOperation
+            Description = "OK",
+            Content = new Dictionary<string, OpenApiMediaType>
             {
-                Description = GetDescription(methodInfo),
-                Parameters = GetParameters(methodInfo),
-                Tags = new List<OpenApiTag>() { GetTag(methodInfo) },
-                Responses = new OpenApiResponses
+                [responseType is not null ? responseType.Type : "application/json"] = new OpenApiMediaType
                 {
-                    ["200"] = new OpenApiResponse
+                    Schema = responseType is not null ? new OpenApiSchema
                     {
-                        Description = "OK"
-                    },
-                    ["401"] = new OpenApiResponse()
-                    {
-                        Description = "Unauthorized"
-                    }
-                },
-                RequestBody = new OpenApiRequestBody
-                {
-                    Content =
-                    {
-                        ["application/json"] = new OpenApiMediaType
+                        Reference = methodInfo.ReturnType.Name != "Void" ? new OpenApiReference
                         {
-                            Schema = new OpenApiSchema
-                            {
-                                Type = "grant"
-                            }
-                        }
+                            Type = ReferenceType.Schema,
+                            Id = methodInfo.ReturnType.Name
+                        } : null
+                    } : new OpenApiSchema
+                    {
+                        Format = "binary"
                     }
                 }
-            });
-        }
+            }
+        };
     }
 
     private static IEnumerable<(string, OpenApiPathItem)> GetSanitisedPath(WebApiModule webApiModule)
@@ -257,7 +315,11 @@ public class OpenAPI
                                     {
                                         Schema = new OpenApiSchema
                                         {
-                                            Type = "grant"
+                                            Reference = new OpenApiReference
+                                            {
+                                                Id = "Grant",
+                                                Type = ReferenceType.Schema
+                                            }
                                         }
                                     }
                                 }
