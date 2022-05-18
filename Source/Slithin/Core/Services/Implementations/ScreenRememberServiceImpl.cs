@@ -3,11 +3,11 @@ using Avalonia.Controls.ApplicationLifetimes;
 
 namespace Slithin.Core.Services.Implementations;
 
-public class ScreenRememberScreenImpl : IScreenRememberService
+public class ScreenRememberServiceImpl : IScreenRememberService
 {
     private readonly ISettingsService _settingsService;
 
-    public ScreenRememberScreenImpl(ISettingsService settingsService)
+    public ScreenRememberServiceImpl(ISettingsService settingsService)
     {
         _settingsService = settingsService;
     }
