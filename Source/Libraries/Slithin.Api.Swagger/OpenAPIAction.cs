@@ -12,7 +12,8 @@ public static class OpenAPIAction
         {
             context.Response.ContentType = "text/json";
 
-            var document = OpenAPI.GetDocument();
+            var server = opts;
+            var document = OpenAPI.GetDocument(opts.Modules);
 
             var outputString = context.OpenResponseText();
             var writer = new OpenApiJsonWriter(outputString, new OpenApiJsonWriterSettings

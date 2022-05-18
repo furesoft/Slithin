@@ -30,7 +30,6 @@ public static class Program
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
 
-            .WithOpenAPI("/swagger")
             .WithWebApi("/users", m =>
             {
                 m.RegisterController<RegisterUserController>();
@@ -42,6 +41,7 @@ public static class Program
                  m.RegisterController<FilesController>();
                  m.RegisterController<TemplatesController>();
              })
+            .WithOpenAPI("/swagger")
             .WithStaticFolder("/", Path.Combine(Environment.CurrentDirectory, "Content"), false, (_) =>
              {
              })
