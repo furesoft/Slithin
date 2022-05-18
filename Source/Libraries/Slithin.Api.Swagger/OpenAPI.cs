@@ -31,13 +31,9 @@ public class OpenAPI
                     {
                         new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
                             Scheme = "bearer",
                             Name = "Bearer",
+                            Type = SecuritySchemeType.Http,
                             BearerFormat = "JWT",
                             In = ParameterLocation.Header,
                         },
@@ -116,6 +112,18 @@ public class OpenAPI
             Description = GetDescription(methodInfo),
             Parameters = GetParameters(methodInfo),
             Tags = new List<OpenApiTag>() { GetTag(methodInfo) },
+            Security = new List<OpenApiSecurityRequirement>()
+            {
+               new OpenApiSecurityRequirement
+                {
+                    [
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                        }
+                    ] = new List<string>()
+                   }
+            },
             Responses = new OpenApiResponses
             {
                 ["200"] = GetResponse(methodInfo, responseType),
