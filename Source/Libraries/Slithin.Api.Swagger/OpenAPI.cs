@@ -100,6 +100,7 @@ public class OpenAPI
     private static (OperationType, OpenApiOperation) GetOperation(RouteAttribute route, MethodInfo methodInfo)
     {
         var bodyType = methodInfo.GetCustomAttribute<BodyTypeAttribute>();
+        var withoutAuth = methodInfo.GetCustomAttribute<WithoutAuthenticationAttribute>();
         var responseType = methodInfo.GetCustomAttribute<ResponseContentTypeAttribute>();
 
         if (bodyType is not null)
@@ -112,7 +113,7 @@ public class OpenAPI
             Description = GetDescription(methodInfo),
             Parameters = GetParameters(methodInfo),
             Tags = new List<OpenApiTag>() { GetTag(methodInfo) },
-            Security = new List<OpenApiSecurityRequirement>()
+            Security = withoutAuth is null ? new List<OpenApiSecurityRequirement>()
             {
                new OpenApiSecurityRequirement
                 {
@@ -123,7 +124,7 @@ public class OpenAPI
                         }
                     ] = new List<string>()
                    }
-            },
+            } : new List<OpenApiSecurityRequirement>(),
             Responses = new OpenApiResponses
             {
                 ["200"] = GetResponse(methodInfo, responseType),
@@ -242,11 +243,11 @@ public class OpenAPI
                 {
                     Schema = responseType is not null ? new OpenApiSchema
                     {
-                        Reference = new OpenApiReference
+                        Reference = methodInfo.ReturnType.Name != "Void" ? new OpenApiReference
                         {
                             Type = ReferenceType.Schema,
                             Id = methodInfo.ReturnType.Name
-                        }
+                        } : null
                     } : new OpenApiSchema
                     {
                         Format = "binary"
