@@ -5,6 +5,7 @@ using EmbedIO.BearerToken;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
 using Microsoft.OpenApi.Models;
+using Slithin.Api.Swagger.Attributes;
 
 namespace Slithin.Api.Swagger;
 
@@ -78,6 +79,13 @@ public class OpenAPI
         return attribute is not null ? attribute.Description : "";
     }
 
+    private static string GetDescription(Type controller)
+    {
+        var attribute = controller.GetCustomAttribute<DescriptionAttribute>();
+
+        return attribute is not null ? attribute.Description : "";
+    }
+
     private static OperationType GetOperationType(HttpVerbs verb)
     {
         return verb switch
@@ -93,6 +101,40 @@ public class OpenAPI
         };
     }
 
+    private static IList<OpenApiParameter> GetParameters(MethodInfo methodInfo)
+    {
+        var result = new List<OpenApiParameter>();
+
+        foreach (var parameter in methodInfo.GetParameters())
+        {
+            var queryData = parameter.GetCustomAttribute<QueryDataAttribute>();
+
+            if (queryData is not null)
+            {
+                result.Add(new()
+                {
+                    Name = "skip",
+                    In = ParameterLocation.Query,
+                });
+                result.Add(new()
+                {
+                    Name = "count",
+                    In = ParameterLocation.Query,
+                });
+            }
+            else
+            {
+                result.Add(new()
+                {
+                    Name = parameter.Name,
+                    In = ParameterLocation.Path,
+                });
+            }
+        }
+
+        return result;
+    }
+
     private static IEnumerable<(string, OpenApiPathItem)> GetPaths(WebApiModule webApiModule)
     {
         var controllerTypes = webApiModule.GetType().BaseType.GetField("_controllerTypes", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
@@ -102,6 +144,7 @@ public class OpenAPI
 
             var path = new OpenApiPathItem();
             path.Operations = new Dictionary<OperationType, OpenApiOperation>();
+            path.Description = GetDescription(controller);
 
             foreach (var op in operations)
             {
@@ -126,6 +169,8 @@ public class OpenAPI
             return (GetOperationType(route.Verb), new OpenApiOperation
             {
                 Description = GetDescription(methodInfo),
+                Parameters = GetParameters(methodInfo),
+                Tags = new List<OpenApiTag>() { GetTag(methodInfo) },
                 Responses = new OpenApiResponses
                 {
                     ["200"] = new OpenApiResponse
@@ -176,6 +221,13 @@ public class OpenAPI
         return result.Select(_ => (_.Key, _.Value));
     }
 
+    private static OpenApiTag GetTag(MethodInfo methodInfo)
+    {
+        var attr = methodInfo.GetCustomAttribute<WithoutAuthenticationAttribute>();
+
+        return attr is null ? new OpenApiTag { Name = "Authorized" } : new OpenApiTag { Name = "Default" };
+    }
+
     private static OpenApiPathItem GetTokenPath(BearerTokenModule bearerTokenModule)
     {
         return new OpenApiPathItem
@@ -184,6 +236,7 @@ public class OpenAPI
             {
                 [OperationType.Post] = new OpenApiOperation
                 {
+                    Tags = new List<OpenApiTag>() { new() { Name = "Default" } },
                     Description = "Returns a JWT Authentication Token",
                     Responses = new OpenApiResponses
                     {
