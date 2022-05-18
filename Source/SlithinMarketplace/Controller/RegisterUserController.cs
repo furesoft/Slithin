@@ -12,6 +12,7 @@ public sealed class RegisterUserController : WebApiController
     [Route(HttpVerbs.Put, "/register")]
     [Description("Register User")]
     [WithoutAuthentication]
+    [BodyType(typeof(User))]
     public void Register()
     {
         var user = HttpContext.GetRequestObjectAsync<User>().Result;

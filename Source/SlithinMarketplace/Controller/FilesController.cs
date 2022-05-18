@@ -2,6 +2,7 @@
 using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
+using Slithin.Api.Swagger.Attributes;
 
 namespace SlithinMarketplace.Controller;
 
@@ -9,7 +10,8 @@ public sealed class FilesController : WebApiController
 {
     [Route(HttpVerbs.Get, "/files/{id}")]
     [Description("Get Content of file specified by id")]
-    public async Task GetFile(string id)
+    [ResponseContentType("application/octetstream")]
+    public void GetFile(string id)
     {
         var fileStrm = ServiceLocator.Repository.GetFile("files", id);
 
