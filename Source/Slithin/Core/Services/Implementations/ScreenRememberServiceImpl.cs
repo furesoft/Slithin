@@ -12,6 +12,16 @@ public class ScreenRememberServiceImpl : IScreenRememberService
         _settingsService = settingsService;
     }
 
+    public bool HasMultipleScreens()
+    {
+        if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            return desktop.MainWindow.Screens.All.Count > 1;
+        }
+
+        return false;
+    }
+
     public void Remember()
     {
         var settings = _settingsService.GetSettings();

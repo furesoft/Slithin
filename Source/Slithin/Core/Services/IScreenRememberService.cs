@@ -2,6 +2,8 @@
 
 public interface IScreenRememberService
 {
+    bool HasMultipleScreens();
+
     void Remember();
 
     void Restore();
