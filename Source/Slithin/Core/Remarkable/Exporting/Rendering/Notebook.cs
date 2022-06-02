@@ -251,7 +251,6 @@ public class Notebook
         // what is/was 6? :-)
         curLine.BrushType = (Brushes)fstream.ReadInt32();
 
-        // color (0: black, 1: grey, 2: white)
         curLine.Color = (Colors)fstream.ReadInt32();
 
         // unknown 4 Byte (int32_t?), always zero?

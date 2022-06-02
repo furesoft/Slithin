@@ -17,6 +17,7 @@ public static class SvgRenderer
 
         var group = new SvgGroup();
         svgDoc.Children.Add(group);
+        group.Fill = new SvgColourServer(Color.Transparent);
 
         var template = GetBase64Template(index, md);
 
@@ -48,8 +49,6 @@ public static class SvgRenderer
 
             i++;
         }
-
-        psl.Add(new SvgClosePathSegment());
 
         return psl;
     }
@@ -93,13 +92,19 @@ public static class SvgRenderer
             {
                 Colors.Grey => new SvgColourServer(Color.Gray),
                 Colors.White => new SvgColourServer(Color.White),
+                Colors.Blue => new SvgColourServer(Color.Blue),
+                Colors.Green => new SvgColourServer(Color.Green),
+                Colors.Pink => new SvgColourServer(Color.Pink),
+                Colors.Red => new SvgColourServer(Color.Red),
+                Colors.Yellow => new SvgColourServer(Color.Yellow),
                 _ => new SvgColourServer(Color.Black)
             };
+
         path.StrokeWidth
             = line.BrushType switch
             {
                 Brushes.Highlighter or Brushes.Rubber => new SvgUnit(20 * BaseSizes.GetValue(line.BrushBaseSize)),
-                _ => new SvgUnit(18 * BaseSizes.GetValue(line.BrushBaseSize) - 32)
+                _ => new SvgUnit(BaseSizes.GetValue(line.BrushBaseSize))
             };
 
         if (line.BrushType == Brushes.Highlighter)
@@ -108,8 +113,14 @@ public static class SvgRenderer
             path.Stroke = new SvgColourServer(Color.Yellow);
         }
 
-        path.StrokeLineJoin = SvgStrokeLineJoin.Round;
-        path.StrokeLineCap = SvgStrokeLineCap.Round;
+        /* path.StrokeDashArray = new() {
+             new SvgUnit(4),
+             new SvgUnit(8),
+         };*/
+
+        path.Fill = new SvgColourServer(Color.Transparent);
+        path.StrokeLineJoin = SvgStrokeLineJoin.Bevel;
+        path.StrokeLineCap = SvgStrokeLineCap.Butt;
 
         group.Children.Add(path);
     }
