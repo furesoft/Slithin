@@ -9,7 +9,7 @@
     <StartupObject>SlithinMarketplace.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="3.7.8.23" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.9.11" />
     <PackageReference Include="EmbedIO" Version="3.4.3" />
     <PackageReference Include="EmbedIO.BearerToken" Version="3.4.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />

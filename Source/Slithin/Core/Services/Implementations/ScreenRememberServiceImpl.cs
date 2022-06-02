@@ -16,7 +16,7 @@ public class ScreenRememberServiceImpl : IScreenRememberService
     {
         if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            return desktop.MainWindow.Screens.All.Count > 1;
+            return desktop.MainWindow?.Screens.All.Count > 1;
         }
 
         return false;
