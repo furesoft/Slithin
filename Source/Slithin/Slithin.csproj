@@ -100,6 +100,9 @@
      <Compile Update="UI\ContextualMenus\EmptyContextualMenu.axaml.cs">
        <DependentUpon>EmptyContextualMenu.axaml</DependentUpon>
      </Compile>
+     <Compile Update="UI\Modals\ExportModal.axaml.cs">
+       <DependentUpon>ExportModal.axaml</DependentUpon>
+     </Compile>
      <Compile Update="UI\ResourcesPage\RegisterFramePage.axaml.cs">
        <DependentUpon>RegisterFramePage.axaml</DependentUpon>
      </Compile>

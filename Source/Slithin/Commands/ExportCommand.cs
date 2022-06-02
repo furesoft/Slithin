@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Input;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Exporting.Rendering;
-using Slithin.Core.Services;
-using Slithin.Core.Remarkable.Models;
 using Slithin.Core;
+using Slithin.Core.FeatureToggle;
+using Slithin.Core.Remarkable.Exporting.Rendering;
+using Slithin.Core.Remarkable.Models;
+using Slithin.Core.Services;
+using Slithin.Features;
+using Slithin.UI.Modals;
 
 namespace Slithin.Commands;
 
@@ -24,7 +26,7 @@ public class ExportCommand : ICommand
 
     public bool CanExecute(object parameter)
     {
-        return parameter is Metadata { Type: "DocumentType" } md &&
+        return Feature<ExportFeature>.IsEnabled && parameter is Metadata { Type: "DocumentType" } md &&
                _exportProviderFactory.GetAvailableProviders(md).Any();
     }
 
@@ -32,14 +34,17 @@ public class ExportCommand : ICommand
     {
         var md = (Metadata)parameter;
 
-        var outputPath = await DialogService.ShowPrompt(_localisationService.GetString("Export"),
-            _localisationService.GetString("Enter the path to export to"));
+        var modal = new ExportModal();
+        if (await DialogService.ShowDialog("Export", modal))
+        {
+            var outputPath = @"C:\Users\chris\OneDrive\Desktop\Spiele\Export";
 
-        var provider = _exportProviderFactory.GetExportProvider("SVG Graphics");
+            var provider = _exportProviderFactory.GetExportProvider("SVG Graphics");
 
-        var notebook = Notebook.Load(md);
-        var options = ExportOptions.Create(notebook, "1-120");
+            var notebook = Notebook.Load(md);
+            var options = ExportOptions.Create(notebook, "1-120");
 
-        provider.Export(options, md, outputPath);
+            provider.Export(options, md, outputPath);
+        }
     }
 }

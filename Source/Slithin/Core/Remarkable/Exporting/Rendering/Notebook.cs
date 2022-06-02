@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Renci.SshNet;
-using Slithin.Core.Services;
 using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Remarkable;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable.Exporting.Rendering;
 
@@ -15,8 +14,13 @@ public class Notebook
     {
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
 
-        var files = Directory.GetFiles(Path.Combine(pathManager.NotebooksDir, md.ID), "*.rm");
-        PageCount = files.Length;
+        var path = Path.Combine(pathManager.NotebooksDir, md.ID);
+
+        if (Directory.Exists(path))
+        {
+            var files = Directory.GetFiles(path, "*.rm");
+            PageCount = files.Length;
+        }
 
         Version = 5;
         ID = md.ID;

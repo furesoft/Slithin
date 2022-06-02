@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Svg;
 using Svg.Pathing;
-using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Remarkable.Exporting.Rendering;
 
@@ -29,6 +29,8 @@ public static class SvgRenderer
 
         var stream = new MemoryStream();
         svgDoc.Write(stream);
+
+        stream.Seek(0, SeekOrigin.Begin);
 
         return stream;
     }
@@ -59,7 +61,7 @@ public static class SvgRenderer
             return null;
         }
 
-        var filename = md.PageData.Data[i];
+        var filename = i < md.PageData.Data.Length ? md.PageData.Data[i] : "Blank";
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var buffer = File.ReadAllBytes(Path.Combine(pathManager.TemplatesDir, filename + ".png"));
 
@@ -72,7 +74,7 @@ public static class SvgRenderer
         {
             foreach (var line in layer.Lines)
             {
-                if (line is { BrushType: Brushes.Eraseall } && line.BrushType != Brushes.Rubber)
+                if (line is not { BrushType: Brushes.Eraseall } && line.BrushType != Brushes.Rubber)
                 {
                     RenderLine(line, group);
                 }
