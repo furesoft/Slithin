@@ -70,9 +70,11 @@ public class SettingsPageViewModel : BaseViewModel
         get { return _credential.Name; }
         set
         {
-            new Action<string>((v) => UpdateDeviceName(v)).Debounce(750);
-
-            OnChange();
+            new Action<string>((v) =>
+            {
+                UpdateDeviceName(v);
+                OnChange();
+            }).Debounce()(value);
         }
     }
 
