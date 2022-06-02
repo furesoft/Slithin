@@ -8,6 +8,7 @@ using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.Features;
 using Slithin.UI.Modals;
+using Slithin.ViewModels.Modals;
 
 namespace Slithin.Commands;
 
@@ -35,6 +36,8 @@ public class ExportCommand : ICommand
         var md = (Metadata)parameter;
 
         var modal = new ExportModal();
+        modal.DataContext = new ExportModalViewModel(md, ServiceLocator.Container.Resolve<IExportProviderFactory>());
+
         if (await DialogService.ShowDialog("Export", modal))
         {
             var outputPath = @"C:\Users\chris\OneDrive\Desktop\Spiele\Export";

@@ -113,11 +113,6 @@ public static class SvgRenderer
             path.Stroke = new SvgColourServer(Color.Yellow);
         }
 
-        /* path.StrokeDashArray = new() {
-             new SvgUnit(4),
-             new SvgUnit(8),
-         };*/
-
         path.Fill = new SvgColourServer(Color.Transparent);
         path.StrokeLineJoin = SvgStrokeLineJoin.Bevel;
         path.StrokeLineCap = SvgStrokeLineCap.Butt;

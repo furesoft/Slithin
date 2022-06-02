@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using Avalonia.Controls;
+using Slithin.Commands;
 using Slithin.Core;
 using Slithin.Core.FeatureToggle;
 using Slithin.Core.ItemContext;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Services;
-using Slithin.ViewModels.Pages;
-using Slithin.Commands;
 using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable.Models;
+using Slithin.Core.Services;
 using Slithin.Features;
+using Slithin.ViewModels.Pages;
 
 namespace Slithin.ContextMenus;
 
@@ -48,41 +47,11 @@ public class NotebookContextMenu : IContextProvider
 
         if (Feature<ExportFeature>.IsEnabled)
         {
-            var subItems = new List<MenuItem>();
-
-            if (Feature<ExportPdfFeature>.IsEnabled)
-            {
-                subItems.Add(new()
-                {
-                    Header = "PDF",
-                    Command = new DelegateCommand(_ =>
-                        ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
-                });
-            }
-            if (Feature<ExportPngFeature>.IsEnabled)
-            {
-                subItems.Add(new()
-                {
-                    Header = "PNG",
-                    Command = new DelegateCommand(_ =>
-                        ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
-                });
-            }
-
-            if (Feature<ExportSvgFeature>.IsEnabled)
-            {
-                subItems.Add(new()
-                {
-                    Header = "SVG",
-                    Command = new DelegateCommand(_ =>
-                        ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
-                });
-            }
-
             menu.Add(new MenuItem
             {
                 Header = _localisationService.GetString("Export"),
-                Items = subItems
+                Command = new DelegateCommand(_ =>
+                       ServiceLocator.Container.Resolve<ExportCommand>().Execute(obj))
             });
         }
 
