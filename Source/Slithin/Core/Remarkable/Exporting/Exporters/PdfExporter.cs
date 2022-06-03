@@ -47,6 +47,8 @@ public class PdfExporter : IExportProvider
                 var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
 
                 var pdfPage = document.AddPage();
+                pdfPage.Size = PageSize.Letter;
+
                 var graphics = XGraphics.FromPdfPage(pdfPage);
 
                 var page = notebook.Pages[options.PagesIndices[i]];
@@ -64,7 +66,8 @@ public class PdfExporter : IExportProvider
 
                 pngStrm.Seek(0, SeekOrigin.Begin);
 
-                graphics.DrawImage(XImage.FromStream(() => pngStrm), new XPoint(0, 0));
+                var size = PageSizeConverter.ToSize(PageSize.Letter);
+                graphics.DrawImage(XImage.FromStream(() => pngStrm), 0, 0, size.Width, size.Height);
 
                 progress.Report(percent);
             }
