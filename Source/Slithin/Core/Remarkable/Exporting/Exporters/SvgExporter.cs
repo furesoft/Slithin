@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Slithin.Core.FeatureToggle;
 using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Remarkable.Models;
@@ -14,7 +15,7 @@ public class SvgExporter : IExportProvider
 
     public bool CanHandle(Metadata md)
     {
-        return md.Content.FileType == "notebook";
+        return Feature<Features.ExportSvgFeature>.IsEnabled && md.Content.FileType == "notebook";
     }
 
     public bool Export(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)

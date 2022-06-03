@@ -5,6 +5,7 @@ using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
+using Slithin.Core.FeatureToggle;
 using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Remarkable.Models;
@@ -28,7 +29,7 @@ public class PdfExporter : IExportProvider
 
     public bool CanHandle(Metadata md)
     {
-        return md.Content.FileType == "notebook";
+        return Feature<Features.ExportPdfFeature>.IsEnabled && md.Content.FileType == "notebook";
     }
 
     public bool Export(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
