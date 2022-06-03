@@ -46,8 +46,6 @@ public class ExportCommand : ICommand
 
         if (await DialogService.ShowDialog(_localisationService.GetString("Export"), modal))
         {
-            var outputPath = @"C:\Users\chris\OneDrive\Desktop\Spiele\Export";
-
             var provider = vm.SelectedFormat;
 
             var notebook = Notebook.Load(md);
@@ -63,12 +61,12 @@ public class ExportCommand : ICommand
                         _localisationService.GetStringFormat("Exporting {0}", md.VisibleName), e, 100);
                 };
 
-                if (!Directory.Exists(outputPath))
+                if (!Directory.Exists(vm.ExportPath))
                 {
-                    Directory.CreateDirectory(outputPath);
+                    Directory.CreateDirectory(vm.ExportPath);
                 }
 
-                provider.Export(options, md, outputPath, progress);
+                provider.Export(options, md, vm.ExportPath, progress);
 
                 NotificationService.Show(_localisationService.GetStringFormat("{0} Exported", md.VisibleName));
             });
