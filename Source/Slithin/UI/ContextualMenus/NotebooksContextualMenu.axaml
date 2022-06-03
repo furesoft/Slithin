@@ -9,14 +9,18 @@
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="100"
              x:Class="Slithin.UI.ContextualMenus.NotebooksContextualMenu">
     <DockPanel>
-        <StackPanel IsVisible="{Binding !IsInTrash, Mode=TwoWay}" Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
+        <StackPanel IsVisible="{Binding !IsInTrash, Mode=TwoWay}" Spacing="7" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Folder'}" Command="{Binding MakeFolderCommand}" Image="{DynamicResource Ionicons.AddiOS}" />
 
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Remove'}" Command="{Binding RemoveNotebookCommand}" Image="{DynamicResource Cool.TrashFull}" CommandParameter="{Binding SelectedNotebook}" />
 
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Move'}" Command="{Binding MoveCommand}" Image="{DynamicResource Material.FolderMove}" CommandParameter="{Binding SelectedNotebook}" />
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Rename'}" Command="{Binding RenameCommand}" Image="{DynamicResource BoxIcons.RegularRename}" CommandParameter="{Binding SelectedNotebook}" />
+
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Export'}" Command="{Binding ExportCommand}" Image="{DynamicResource Material.ExportVariant}" CommandParameter="{Binding SelectedNotebook}" />
+
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Pin'}" Command="{Binding PinCommand}" Image="{DynamicResource Entypo+.Star}" CommandParameter="{Binding SelectedNotebook}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Unpin'}" Command="{Binding UnPinCommand}" Image="{DynamicResource Entypo+.StarOutline}" CommandParameter="{Binding SelectedNotebook}" />
 
             <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Search'}" Image="{DynamicResource Entypo+.MagnifyingGlass}" IsVisible="False">
                 <controls:ImagePopupButton.PopupContent>
