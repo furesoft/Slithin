@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.ImportExport;
+using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Remarkable.Exporting.Exporters;
@@ -8,6 +8,7 @@ namespace Slithin.Core.Remarkable.Exporting.Exporters;
 public class SvgExporter : IExportProvider
 {
     public bool ExportSingleDocument => false;
+
     public string Title => "SVG Graphics";
 
     public bool CanHandle(Metadata md)
@@ -44,4 +45,6 @@ public class SvgExporter : IExportProvider
 
         return true;
     }
+
+    public override string ToString() => Title;
 }

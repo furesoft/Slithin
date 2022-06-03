@@ -1,10 +1,10 @@
 ﻿using System.Drawing.Imaging;
 using System.IO;
+using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
+using Slithin.Core.Remarkable.Models;
 using Svg;
 using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
-using Slithin.Core.ImportExport;
-using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Remarkable.Exporting.Exporters;
 
@@ -40,4 +40,6 @@ public class PngExporter : IExportProvider
 
         return true;
     }
+
+    public override string ToString() => Title;
 }

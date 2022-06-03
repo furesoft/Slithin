@@ -4,12 +4,12 @@ using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
+using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Svg;
 using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
-using Slithin.Core.ImportExport;
-using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Remarkable.Exporting.Exporters;
 
@@ -63,7 +63,7 @@ public class PdfExporter : IExportProvider
                 graphics.DrawImage(XImage.FromStream(() => pngStrm), new XPoint(0, 0));
             }
 
-            document.Save(outputPath);
+            document.Save(Path.Combine(outputPath, metadata.VisibleName + ".pdf"));
 
             return true;
         }
@@ -121,4 +121,6 @@ public class PdfExporter : IExportProvider
 
         return true;
     }
+
+    public override string ToString() => Title;
 }
