@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:controls="using:Slithin.Controls"
+             xmlns:f="using:Slithin.Core.FeatureToggle"
              xmlns:l="using:Slithin.Core"
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="100"
              x:Class="Slithin.UI.ContextualMenus.NotebooksContextualMenu">
@@ -13,9 +14,9 @@
 
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Remove'}" Command="{Binding RemoveNotebookCommand}" Image="{DynamicResource Cool.TrashFull}" CommandParameter="{Binding SelectedNotebook}" />
 
-            <controls:ImageButton MinHeight="60" Classes="Flat" IsVisible="False" Text="{l:Localisation 'Export'}" Command="{Binding ExportCommand}" Image="{DynamicResource Material.ExportVariant}" CommandParameter="{Binding SelectedNotebook}" />
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Move'}" Command="{Binding MoveCommand}" Image="{DynamicResource Material.FolderMove}" CommandParameter="{Binding SelectedNotebook}" />
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Rename'}" Command="{Binding RenameCommand}" Image="{DynamicResource BoxIcons.RegularRename}" CommandParameter="{Binding SelectedNotebook}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Export'}" Command="{Binding ExportCommand}" Image="{DynamicResource Material.ExportVariant}" CommandParameter="{Binding SelectedNotebook}" />
 
             <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Search'}" Image="{DynamicResource Entypo+.MagnifyingGlass}" IsVisible="False">
                 <controls:ImagePopupButton.PopupContent>

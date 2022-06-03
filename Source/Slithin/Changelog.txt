@@ -6,6 +6,8 @@ Version 1.0.16
 - Design Fixes
 - Add Special ContextualMenu For Trash
 - Stability Improvements
+- Design Improvements
+- Export Notebooks
 
 Version 1.0.15
 

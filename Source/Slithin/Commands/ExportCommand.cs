@@ -32,8 +32,14 @@ public class ExportCommand : ICommand
 
     public bool CanExecute(object parameter)
     {
-        return Feature<ExportFeature>.IsEnabled && parameter is Metadata { Type: "DocumentType" } md &&
-               _exportProviderFactory.GetAvailableProviders(md).Any();
+        return parameter != null
+               && parameter is Metadata md
+               && md.VisibleName != _localisationService.GetString("Quick sheets")
+               && md.VisibleName != _localisationService.GetString("Up ..")
+               && md.VisibleName != _localisationService.GetString("Trash")
+               && Feature<ExportFeature>.IsEnabled
+               && md.Type.Equals("DocumentType")
+               && _exportProviderFactory.GetAvailableProviders(md).Any();
     }
 
     public async void Execute(object parameter)

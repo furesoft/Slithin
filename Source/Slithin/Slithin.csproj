@@ -127,6 +127,7 @@
   </ItemGroup>
    
    <ItemGroup>
+     <Folder Include="ContextMenus\" />
      <Folder Include="TemplateEditor\Components\Nodes\" />
      <Folder Include="TemplateEditor\Components\Views\" />
    </ItemGroup>

@@ -29,7 +29,7 @@ public class PdfExporter : IExportProvider
 
     public bool CanHandle(Metadata md)
     {
-        return Feature<Features.ExportPdfFeature>.IsEnabled && md.Content.FileType == "notebook";
+        return Feature<Features.ExportPdfFeature>.IsEnabled && (md.Content.FileType == "notebook" || md.Content.FileType == "pdf");
     }
 
     public bool Export(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
