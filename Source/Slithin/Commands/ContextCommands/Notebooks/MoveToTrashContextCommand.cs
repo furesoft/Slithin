@@ -19,7 +19,7 @@ public class MoveToTrashContextCommand : IContextCommand
     public object ParentViewModel { get; set; }
     public string Titel => _localisationService.GetString("Move To Trash");
 
-    public bool CanHandle(object data)
+    public bool CanExecute(object data)
     {
         return data != null
                 && data is Metadata md
@@ -28,7 +28,7 @@ public class MoveToTrashContextCommand : IContextCommand
                 && md.VisibleName != _localisationService.GetString("Trash");
     }
 
-    public void Invoke(object data)
+    public void Execute(object data)
     {
         if (data is not Metadata md)
         {

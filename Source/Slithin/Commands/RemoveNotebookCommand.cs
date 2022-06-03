@@ -43,11 +43,6 @@ public class RemoveNotebookCommand : ICommand, IContextCommand
                && md.VisibleName != _localisationService.GetString("Trash");
     }
 
-    public bool CanHandle(object data)
-    {
-        return CanExecute(data);
-    }
-
     public async void Execute(object parameter)
     {
         if (parameter is not Metadata md
@@ -78,10 +73,5 @@ public class RemoveNotebookCommand : ICommand, IContextCommand
         }
 
         ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
-    }
-
-    public void Invoke(object data)
-    {
-        Execute(data);
     }
 }

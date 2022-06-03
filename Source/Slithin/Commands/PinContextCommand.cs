@@ -20,9 +20,6 @@ public class PinCommand : ICommand
 
     public event EventHandler CanExecuteChanged;
 
-    public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Pin");
-
     public bool CanExecute(object data)
     {
         return data is Metadata md && !md.IsPinned

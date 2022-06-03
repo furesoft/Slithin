@@ -25,12 +25,12 @@ public class RestoreNotebookContextCommand : IContextCommand
     public object ParentViewModel { get; set; }
     public string Titel => _localisationService.GetString("Restore");
 
-    public bool CanHandle(object data)
+    public bool CanExecute(object data)
     {
         return data is Metadata md && md.VisibleName != _localisationService.GetString("Trash");
     }
 
-    public void Invoke(object data)
+    public void Execute(object data)
     {
         Restore((Metadata)data);
     }

@@ -43,11 +43,6 @@ public class RemoveTemplateCommand : ICommand, IContextCommand
         return parameter is Template;
     }
 
-    public bool CanHandle(object data)
-    {
-        return CanExecute(data);
-    }
-
     public async void Execute(object parameter)
     {
         if (parameter is not Template tmpl
@@ -64,10 +59,5 @@ public class RemoveTemplateCommand : ICommand, IContextCommand
         _localRepository.RemoveTemplate(tmpl);
 
         _deviceRepository.RemoveTemplate(tmpl);
-    }
-
-    public void Invoke(object data)
-    {
-        Execute(data);
     }
 }
