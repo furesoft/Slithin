@@ -4,7 +4,6 @@ using System.IO;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using PdfSharpCore.Pdf.IO;
 using Slithin.Core.FeatureToggle;
 using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
@@ -81,32 +80,29 @@ public class PdfExporter : IExportProvider
             return false;
 
         var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
-        var pdfStream = File.OpenRead(filename);
-        var doc = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Import);
+        var doc = options.Document.AsT0;
         var result = new PdfDocument();
 
         result.Info.Title = metadata.VisibleName;
 
         for (var i = 0; i < options.PagesIndices.Count; i++)
         {
+            var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
             var rm = metadata.Content.Pages[i];
             var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
 
             //todo: figure out index
-            PdfPage p;
+            PdfPage p = result.AddPage(doc.Pages[i], AnnotationCopyingType.DeepCopy);
             if (!File.Exists(rmPath))
             {
-                //copy
-                p = result.AddPage(doc.Pages[i], AnnotationCopyingType.DeepCopy);
                 continue;
             }
-            p = result.AddPage();
 
             //render
             var notebookStream = File.OpenRead(rmPath);
             var page = Notebook.LoadPage(notebookStream);
 
-            var psize = PageSizeConverter.ToSize(doc.Pages[i].Size);
+            var psize = PageSizeConverter.ToSize(PageSize.A4);
             var svgStrm = SvgRenderer.RenderPage(page, i, metadata, (int)psize.Width, (int)psize.Height);
             var pngStrm = new MemoryStream();
 
@@ -124,9 +120,11 @@ public class PdfExporter : IExportProvider
             var pngImage = XImage.FromStream(() => pngStrm);
 
             graphics.DrawImage(pngImage, new XPoint(0, 0));
+
+            progress.Report(percent);
         }
 
-        result.Save(outputPath);
+        result.Save(Path.Combine(outputPath, result.Info.Title + ".pdf"));
 
         return true;
     }

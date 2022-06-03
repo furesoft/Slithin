@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using PdfSharpCore.Pdf.IO;
 using Slithin.Core;
 using Slithin.Core.FeatureToggle;
 using Slithin.Core.Remarkable.Exporting.Rendering;
@@ -54,8 +55,21 @@ public class ExportCommand : ICommand
         {
             var provider = vm.SelectedFormat;
 
-            var notebook = Notebook.Load(md);
-            var options = ExportOptions.Create(notebook, vm.PagesSelector);
+            ExportOptions options = null;
+            if (md.Content.FileType == "notebook")
+            {
+                var notebook = Notebook.Load(md);
+                options = ExportOptions.Create(notebook, vm.PagesSelector);
+            }
+            else if (md.Content.FileType == "pdf")
+            {
+                var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+                var path = Path.Combine(pathManager.NotebooksDir, md.ID + ".pdf");
+
+                var pdfStream = File.OpenRead(path);
+                var notebook = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Import);
+                options = ExportOptions.Create(notebook, vm.PagesSelector);
+            }
 
             _mailboxService.PostAction(() =>
             {

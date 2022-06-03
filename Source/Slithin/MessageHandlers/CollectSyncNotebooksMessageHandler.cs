@@ -64,10 +64,21 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             = thumbnailFolders
                 .Where(x => !Directory.Exists(Path.Combine(notebooksDir, x[..^1])));
 
+        var pdfFoldersToSync
+            = mdFilenames
+                .Where(x => !Directory.Exists(Path.Combine(notebooksDir, Path.GetFileNameWithoutExtension(x))))
+                .Select(_ => Path.GetFileNameWithoutExtension(_));
+
         if (thumbnailFoldersToSync.Any())
         {
             var thumbnailsSync = new SyncNotebook { Directories = thumbnailFoldersToSync };
             _syncNotebooks.Add(thumbnailsSync);
+        }
+
+        if (pdfFoldersToSync.Any())
+        {
+            var pdfSync = new SyncNotebook { Directories = pdfFoldersToSync.Where(_ => allFilenames.Contains(_ + "/")) };
+            _syncNotebooks.Add(pdfSync);
         }
 
         int currentMd = 0;
@@ -219,9 +230,12 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
     {
         if (File.Exists(Path.Combine(notebooksDir, md)))
         {
-            if (!mdObj.Deleted && mdObj.Version > mdLocalObj.Version || mdObj.Parent != mdLocalObj.Parent)
+            if (!mdObj.Deleted && mdObj.Version > mdLocalObj.Version
+                || mdObj.Parent != mdLocalObj.Parent)
             {
-                if (mdObj.Type == "DocumentType")
+                // mdObj.Modified = false;
+
+                if (mdObj.Type.Equals("DocumentType"))
                 {
                     mds.Add(mdObj);
                 }

@@ -29,6 +29,7 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
 
     [JsonProperty("lastOpenedPage")] public int LastOpenedPage { get; set; }
 
+    [JsonProperty("modified")] public bool Modified { get; set; }
     [JsonIgnore] public PageData PageData { get; set; }
 
     [JsonProperty("parent")] public string Parent { get; set; }

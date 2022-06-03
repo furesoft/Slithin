@@ -31,7 +31,7 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
 
             foreach (var folder in sn.Directories)
             {
-                var di = new DirectoryInfo(Path.Combine(_pathManager.NotebooksDir, folder));
+                var di = new DirectoryInfo(Path.Combine(_pathManager.NotebooksDir, folder.TrimStart('/')));
 
                 if (!di.Exists)
                 {
@@ -44,7 +44,7 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
                         "Downloading Notebook"), (int)e.Downloaded, (int)e.Size);
                 };
 
-                _scpClient.Download(PathList.Documents + "/" + folder, di);
+                _scpClient.Download(PathList.Documents + folder.TrimStart('/'), di);
             }
 
             foreach (var file in sn.Files)
