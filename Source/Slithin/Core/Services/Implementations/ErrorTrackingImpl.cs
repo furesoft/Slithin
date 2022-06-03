@@ -20,6 +20,7 @@ public class ErrorTrackingImpl : IErrorTrackingService
 
 #if DEBUG
             o.Debug = true;
+            o.Environment = "Debug";
 #endif
             o.TracesSampleRate = 1.0;
         });
