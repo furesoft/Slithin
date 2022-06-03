@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Slithin.Core;
@@ -54,8 +55,21 @@ public class ExportCommand : ICommand
 
             _mailboxService.PostAction(() =>
             {
-                NotificationService.Show(_localisationService.GetStringFormat("Exporting {0}", md.VisibleName));
-                provider.Export(options, md, outputPath);
+                var progress = new Progress<int>();
+
+                progress.ProgressChanged += (s, e) =>
+                {
+                    NotificationService.ShowProgress(
+                        _localisationService.GetStringFormat("Exporting {0}", md.VisibleName), e, 100);
+                };
+
+                if (!Directory.Exists(outputPath))
+                {
+                    Directory.CreateDirectory(outputPath);
+                }
+
+                provider.Export(options, md, outputPath, progress);
+
                 NotificationService.Show(_localisationService.GetStringFormat("{0} Exported", md.VisibleName));
             });
         }

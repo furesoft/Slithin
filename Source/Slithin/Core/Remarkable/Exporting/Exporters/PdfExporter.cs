@@ -1,4 +1,5 @@
-﻿using System.Drawing.Imaging;
+﻿using System;
+using System.Drawing.Imaging;
 using System.IO;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
@@ -30,7 +31,7 @@ public class PdfExporter : IExportProvider
         return md.Content.FileType == "notebook";
     }
 
-    public bool Export(ExportOptions options, Metadata metadata, string outputPath)
+    public bool Export(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
     {
         if (options.Document.IsT1)
         {
@@ -42,8 +43,10 @@ public class PdfExporter : IExportProvider
 
             for (var i = 0; i < options.PagesIndices.Count; i++)
             {
+                var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
+
                 var pdfPage = document.AddPage();
-                var graphics = XGraphics.FromPdfPage(pdfPage); //Dipose?
+                var graphics = XGraphics.FromPdfPage(pdfPage);
 
                 var page = notebook.Pages[options.PagesIndices[i]];
 
@@ -61,6 +64,8 @@ public class PdfExporter : IExportProvider
                 pngStrm.Seek(0, SeekOrigin.Begin);
 
                 graphics.DrawImage(XImage.FromStream(() => pngStrm), new XPoint(0, 0));
+
+                progress.Report(percent);
             }
 
             document.Save(Path.Combine(outputPath, metadata.VisibleName + ".pdf"));

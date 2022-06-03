@@ -1,6 +1,5 @@
-﻿using Slithin.Core.Remarkable;
+﻿using System;
 using Slithin.Core.Remarkable.Exporting.Rendering;
-using Slithin.Core;
 using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.ImportExport;
@@ -12,5 +11,5 @@ public interface IExportProvider
 
     bool CanHandle(Metadata md);
 
-    bool Export(ExportOptions options, Metadata metadata, string outputPath);
+    bool Export(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress);
 }
