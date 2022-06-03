@@ -106,7 +106,7 @@ public class PdfExporter : IExportProvider
             var notebookStream = File.OpenRead(rmPath);
             var page = Notebook.LoadPage(notebookStream);
 
-            var psize = PageSizeConverter.ToSize(PageSize.A4);
+            var psize = PageSizeConverter.ToSize(doc.Pages[i].Size);
             var svgStrm = SvgRenderer.RenderPage(page, i, metadata, (int)psize.Width, (int)psize.Height);
             var pngStrm = new MemoryStream();
 
