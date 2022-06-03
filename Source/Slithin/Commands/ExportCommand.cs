@@ -16,11 +16,15 @@ public class ExportCommand : ICommand
 {
     private readonly IExportProviderFactory _exportProviderFactory;
     private readonly ILocalisationService _localisationService;
+    private readonly IMailboxService _mailboxService;
 
-    public ExportCommand(IExportProviderFactory exportProviderFactory, ILocalisationService localisationService)
+    public ExportCommand(IExportProviderFactory exportProviderFactory,
+                         ILocalisationService localisationService,
+                         IMailboxService mailboxService)
     {
         _exportProviderFactory = exportProviderFactory;
         _localisationService = localisationService;
+        _mailboxService = mailboxService;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -36,18 +40,24 @@ public class ExportCommand : ICommand
         var md = (Metadata)parameter;
 
         var modal = new ExportModal();
-        modal.DataContext = new ExportModalViewModel(md, ServiceLocator.Container.Resolve<IExportProviderFactory>());
+        var vm = new ExportModalViewModel(md, ServiceLocator.Container.Resolve<IExportProviderFactory>());
+        modal.DataContext = vm;
 
-        if (await DialogService.ShowDialog("Export", modal))
+        if (await DialogService.ShowDialog(_localisationService.GetString("Export"), modal))
         {
             var outputPath = @"C:\Users\chris\OneDrive\Desktop\Spiele\Export";
 
-            var provider = _exportProviderFactory.GetExportProvider("SVG Graphics");
+            var provider = vm.SelectedFormat;
 
             var notebook = Notebook.Load(md);
-            var options = ExportOptions.Create(notebook, "1-120");
+            var options = ExportOptions.Create(notebook, vm.PagesSelector);
 
-            provider.Export(options, md, outputPath);
+            _mailboxService.PostAction(() =>
+            {
+                NotificationService.Show(_localisationService.GetStringFormat("Exporting {0}", md.VisibleName));
+                provider.Export(options, md, outputPath);
+                NotificationService.Show(_localisationService.GetStringFormat("{0} Exported", md.VisibleName));
+            });
         }
     }
 }
