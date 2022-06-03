@@ -4,7 +4,7 @@ public enum Colors
 {
     Black = 0,
 
-    Grey = 1,
+    Gray = 1,
 
     White = 2,
     Yellow = 3,

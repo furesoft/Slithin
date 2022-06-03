@@ -35,50 +35,67 @@ public class PdfExporter : IExportProvider
     {
         if (options.Document.IsT1)
         {
-            var notebook = options.Document.AsT1;
-
-            var document = new PdfDocument();
-
-            document.Info.Title = metadata.VisibleName;
-
-            for (var i = 0; i < options.PagesIndices.Count; i++)
-            {
-                var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
-
-                var pdfPage = document.AddPage();
-                pdfPage.Size = PageSize.Letter;
-
-                var graphics = XGraphics.FromPdfPage(pdfPage);
-
-                var page = notebook.Pages[options.PagesIndices[i]];
-
-                var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
-                var pngStrm = new MemoryStream();
-
-                svgStrm.Seek(0, SeekOrigin.Begin);
-
-                var svgDoc = SvgDocument.Open<SvgDocument>(svgStrm);
-                var bitmap = svgDoc.Draw();
-                bitmap.Save(pngStrm, ImageFormat.Png);
-
-                svgStrm.Close();
-
-                pngStrm.Seek(0, SeekOrigin.Begin);
-
-                var size = PageSizeConverter.ToSize(PageSize.Letter);
-                graphics.DrawImage(XImage.FromStream(() => pngStrm), 0, 0, size.Width, size.Height);
-
-                progress.Report(percent);
-            }
-
-            document.Save(Path.Combine(outputPath, metadata.VisibleName + ".pdf"));
-
-            return true;
+            return ExportNotebook(options, metadata, outputPath, progress);
         }
 
         if (!options.Document.IsT0)
             return false;
 
+        return ExportPDF(options, metadata, outputPath, progress);
+    }
+
+    public override string ToString() => Title;
+
+    private static bool ExportNotebook(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
+    {
+        var notebook = options.Document.AsT1;
+
+        var document = new PdfDocument();
+
+        document.Info.Title = metadata.VisibleName;
+
+        for (var i = 0; i < options.PagesIndices.Count; i++)
+        {
+            var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
+
+            var pdfPage = document.AddPage();
+            pdfPage.Size = PageSize.Letter;
+
+            var graphics = XGraphics.FromPdfPage(pdfPage);
+
+            var page = notebook.Pages[options.PagesIndices[i]];
+
+            var size = PageSizeConverter.ToSize(PageSize.Letter);
+            var pngStrm = RenderSVGAsPng(metadata, i, page, ref size);
+
+            graphics.DrawImage(XImage.FromStream(() => pngStrm), 0, 0, size.Width, size.Height);
+
+            progress.Report(percent);
+        }
+
+        document.Save(Path.Combine(outputPath, metadata.VisibleName + ".pdf"));
+
+        return true;
+    }
+
+    private static MemoryStream RenderSVGAsPng(Metadata metadata, int pageIndex, Page page, ref XSize psize)
+    {
+        var svgStrm = SvgRenderer.RenderPage(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
+        var pngStrm = new MemoryStream();
+
+        svgStrm.Seek(0, SeekOrigin.Begin);
+
+        var d = SvgDocument.Open<SvgDocument>(svgStrm);
+        var bitmap = d.Draw();
+        bitmap.Save(pngStrm, ImageFormat.Png);
+        pngStrm.Seek(0, SeekOrigin.Begin);
+
+        svgStrm.Close();
+        return pngStrm;
+    }
+
+    private bool ExportPDF(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
+    {
         var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
         var doc = options.Document.AsT0;
         var result = new PdfDocument();
@@ -91,8 +108,7 @@ public class PdfExporter : IExportProvider
             var rm = metadata.Content.Pages[i];
             var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
 
-            //todo: figure out index
-            PdfPage p = result.AddPage(doc.Pages[i], AnnotationCopyingType.DeepCopy);
+            PdfPage p = doc.Pages[i];
             if (!File.Exists(rmPath))
             {
                 continue;
@@ -102,32 +118,20 @@ public class PdfExporter : IExportProvider
             var notebookStream = File.OpenRead(rmPath);
             var page = Notebook.LoadPage(notebookStream);
 
-            var psize = PageSizeConverter.ToSize(PageSize.A4);
-            var svgStrm = SvgRenderer.RenderPage(page, i, metadata, (int)psize.Width, (int)psize.Height);
-            var pngStrm = new MemoryStream();
-
-            svgStrm.Seek(0, SeekOrigin.Begin);
-
-            var d = SvgDocument.Open<SvgDocument>(svgStrm);
-            var bitmap = d.Draw();
-            bitmap.Save(pngStrm, ImageFormat.Png);
-
-            svgStrm.Close();
+            var psize = new XSize(1404, 1872);
+            var pngStrm = RenderSVGAsPng(metadata, i, page, ref psize);
 
             var graphics = XGraphics.FromPdfPage(p);
 
-            pngStrm.Seek(0, SeekOrigin.Begin);
             var pngImage = XImage.FromStream(() => pngStrm);
 
-            graphics.DrawImage(pngImage, new XPoint(0, 0));
+            graphics.DrawImage(pngImage, 0, 0, psize.Width, psize.Height);
 
             progress.Report(percent);
         }
 
-        result.Save(Path.Combine(outputPath, result.Info.Title + ".pdf"));
+        doc.Save(Path.Combine(outputPath, result.Info.Title + ".pdf"));
 
         return true;
     }
-
-    public override string ToString() => Title;
 }

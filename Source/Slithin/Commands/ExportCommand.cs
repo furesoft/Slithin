@@ -67,7 +67,7 @@ public class ExportCommand : ICommand
                 var path = Path.Combine(pathManager.NotebooksDir, md.ID + ".pdf");
 
                 var pdfStream = File.OpenRead(path);
-                var notebook = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Import);
+                var notebook = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Modify);
                 options = ExportOptions.Create(notebook, vm.PagesSelector);
             }
 
