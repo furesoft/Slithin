@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing.Imaging;
 using System.IO;
 using PdfSharpCore;
@@ -125,7 +125,7 @@ public class PdfExporter : IExportProvider
 
             var pngImage = XImage.FromStream(() => pngStrm);
 
-            graphics.DrawImage(pngImage, 0, 0, psize.Width, psize.Height);
+            graphics.DrawImage(pngImage, 0, 0, p.Width, p.Height);
 
             progress.Report(percent);
         }
