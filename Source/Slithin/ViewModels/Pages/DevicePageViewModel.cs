@@ -120,6 +120,12 @@ public class DevicePageViewModel : BaseViewModel
 
         _mailboxService.PostAction(() =>
         {
+            var updateThread = new Thread(() =>
+            {
+                Core.Updates.Updater.StartUpdate();
+            });
+            updateThread.Start();
+
             _loadingService.LoadApiToken();
 
             _loadingService.LoadScreens();
@@ -129,12 +135,6 @@ public class DevicePageViewModel : BaseViewModel
             SyncService.TemplateFilter.SelectedCategory = SyncService.TemplateFilter.Categories.First();
 
             _loadingService.LoadNotebooks();
-
-            var updateThread = new Thread(() =>
-            {
-                Core.Updates.Updater.StartUpdate();
-            });
-            updateThread.Start();
         });
 
         ShareEmailAddresses = new(_xochitl.GetShareEmailAddresses());

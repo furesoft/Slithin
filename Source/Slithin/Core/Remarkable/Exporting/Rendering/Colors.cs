@@ -2,20 +2,14 @@
 
 public enum Colors
 {
-    /**
-         * Black color.
-         */
     Black = 0,
 
-    /**
-         * Grey color.
-         */
-    Grey = 1,
+    Gray = 1,
 
-    /**
-         * White color.
-         */
     White = 2,
-
-    //ToDo: find extra exported color values
+    Yellow = 3,
+    Green = 4,
+    Blue = 6,
+    Red = 7,
+    Pink = 5
 }

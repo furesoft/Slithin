@@ -22,6 +22,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
     private readonly ILoginService _loginService;
+    private readonly IScreenRememberService _screenRememberService;
     private readonly ISettingsService _settingsService;
     private readonly LoginInfoValidator _validator;
     private ObservableCollection<LoginInfo> _loginCredentials;
@@ -31,13 +32,14 @@ public class ConnectionWindowViewModel : BaseViewModel
     public ConnectionWindowViewModel(ILoginService loginService,
                                      LoginInfoValidator validator,
                                      ILocalisationService localisationService,
-                                     ISettingsService settingsService)
+                                     ISettingsService settingsService,
+                                     IScreenRememberService screenRememberService)
     {
         _loginService = loginService;
         _validator = validator;
         _localisationService = localisationService;
         _settingsService = settingsService;
-
+        _screenRememberService = screenRememberService;
         ConnectCommand = new DelegateCommand(Connect);
         HelpCommand = new DelegateCommand(Help);
         OpenAddDeviceCommand = new DelegateCommand(OpenAddDevice);
@@ -79,6 +81,11 @@ public class ConnectionWindowViewModel : BaseViewModel
         SelectedLogin = li.FirstOrDefault() ?? new LoginInfo();
 
         LoginCredentials = new(li);
+
+        if (_screenRememberService.HasMultipleScreens() && _settingsService.GetSettings().UsedMultiScreen)
+        {
+            _screenRememberService.Remember();
+        }
     }
 
     private void client_errocOccured(object s, Renci.SshNet.Common.ExceptionEventArgs _)

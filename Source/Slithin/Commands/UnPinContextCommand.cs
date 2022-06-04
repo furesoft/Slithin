@@ -1,37 +1,33 @@
-﻿using Slithin.Core;
-using Slithin.Core.ItemContext;
+﻿using System;
+using System.Windows.Input;
+using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
 
-namespace Slithin.Commands.ContextCommands.Notebooks;
+namespace Slithin.Commands;
 
-[Context(UIContext.Notebook)]
-public class UnPinContextCommand : IContextCommand
+public class UnPinCommand : ICommand
 {
-    private readonly ILocalisationService _localisationService;
     private readonly Xochitl _xochitl;
 
-    public UnPinContextCommand(ILocalisationService localisationService, Xochitl xochitl)
+    public UnPinCommand(Xochitl xochitl)
     {
-        _localisationService = localisationService;
         _xochitl = xochitl;
     }
 
-    public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Unpin");
+    public event EventHandler CanExecuteChanged;
 
-    public bool CanHandle(object data)
+    public bool CanExecute(object data)
     {
         return data is Metadata md && md.IsPinned;
     }
 
-    public void Invoke(object data)
+    public void Execute(object data)
     {
         if (data is not Metadata md)
         {
             return;
-        } 
+        }
 
         md.IsPinned = false;
         md.Version++;

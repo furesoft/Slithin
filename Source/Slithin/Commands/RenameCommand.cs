@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
 using Serilog;
+using Slithin.Core;
 using Slithin.Core.ItemContext;
 using Slithin.Core.Remarkable;
-using Slithin.Core.Services;
 using Slithin.Core.Remarkable.Models;
-using Slithin.Core;
+using Slithin.Core.Services;
 
 namespace Slithin.Commands;
 
@@ -35,11 +35,6 @@ public class RenameCommand : ICommand, IContextCommand
                && md.VisibleName != _localisationService.GetString("Trash");
     }
 
-    public bool CanHandle(object data)
-    {
-        return CanExecute(data);
-    }
-
     public async void Execute(object parameter)
     {
         var name = await DialogService.ShowPrompt(_localisationService.GetString("Rename"),
@@ -49,11 +44,6 @@ public class RenameCommand : ICommand, IContextCommand
         {
             Rename((Metadata)parameter, name);
         }
-    }
-
-    public void Invoke(object data)
-    {
-        Execute(data);
     }
 
     private void Rename(Metadata md, string newName)

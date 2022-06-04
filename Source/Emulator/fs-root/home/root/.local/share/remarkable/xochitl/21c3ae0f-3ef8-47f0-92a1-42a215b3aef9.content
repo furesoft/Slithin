@@ -1,0 +1,30 @@
+{
+    "coverPageNumber": 0,
+    "documentMetadata": {
+        "authors": [
+            "Topmenz"
+        ]
+    },
+    "dummyDocument": false,
+    "extraMetadata": {
+    },
+    "fileType": "pdf",
+    "fontName": "",
+    "formatVersion": 1,
+    "lineHeight": -1,
+    "margins": 125,
+    "orientation": "portrait",
+    "originalPageCount": 2,
+    "pageCount": 2,
+    "pages": [
+        "bf2e6b2c-757a-495f-93c7-fe5de5b2d3b4",
+        "8ed0e8fa-8056-4e6c-bec4-5597c44adb85"
+    ],
+    "redirectionPageMap": [
+        0,
+        1
+    ],
+    "sizeInBytes": "305277",
+    "textAlignment": "justify",
+    "textScale": 1
+}

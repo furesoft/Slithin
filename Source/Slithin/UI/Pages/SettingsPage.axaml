@@ -82,7 +82,12 @@
                         <controls:KryptoDonateButton CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="{DynamicResource SimpleIcons.Dash}" />
                     </UniformGrid>
 
-                    <Button Content="{l:Localisation 'Leave a feedback'}" Classes="Flat" Command="{Binding FeedbackCommand}" />
+                    <Button Classes="Flat" Command="{Binding FeedbackCommand}">
+                        <StackPanel Spacing="5" Orientation="Horizontal">
+                            <DrawingPresenter Width="25" Height="25" Drawing="{DynamicResource VSImageLib2019.FeedbackSmile_grey_16x}" HorizontalAlignment="Left" />
+                            <TextBlock VerticalAlignment="Center" Text="{l:Localisation 'Leave a feedback'}" />
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </s:SettingsGroup>
         </Grid>

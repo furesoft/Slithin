@@ -17,7 +17,7 @@ public class CommandBasedContextMenu : IContextProvider
 
     public bool CanHandle(object obj)
     {
-        return _command.CanHandle(obj);
+        return _command.CanExecute(obj);
     }
 
     public ICollection<MenuItem> GetMenu(object obj)
@@ -28,7 +28,7 @@ public class CommandBasedContextMenu : IContextProvider
             new MenuItem[] {
                 new() {
                     Header = _command.Titel,
-                    Command = new DelegateCommand(_ => _command.Invoke(obj)) } }
+                    Command = new DelegateCommand(_ => _command.Execute(obj)) } }
             );
     }
 }

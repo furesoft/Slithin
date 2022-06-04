@@ -9,9 +9,9 @@ public enum BrushBaseSize
 
 public struct BaseSizes
 {
-    public const float Large = 2.125f;
+    public const float Large = 30f;
     public const float Mid = 2.0f;
-    public const float Small = 1.875f;
+    public const float Small = 1.75f;
 
     public static float GetValue(BrushBaseSize size)
         => size switch

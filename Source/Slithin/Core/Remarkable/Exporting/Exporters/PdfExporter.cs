@@ -1,15 +1,15 @@
-﻿using System.Drawing.Imaging;
+﻿using System;
+using System.Drawing.Imaging;
 using System.IO;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using PdfSharpCore.Pdf.IO;
+using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Svg;
 using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
-using Slithin.Core.ImportExport;
-using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Remarkable.Exporting.Exporters;
 
@@ -27,97 +27,113 @@ public class PdfExporter : IExportProvider
 
     public bool CanHandle(Metadata md)
     {
-        return md.Content.FileType == "notebook";
+        return md.Content.FileType == "notebook" || md.Content.FileType == "pdf";
     }
 
-    public bool Export(ExportOptions options, Metadata metadata, string outputPath)
+    public bool Export(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
     {
         if (options.Document.IsT1)
         {
-            var notebook = options.Document.AsT1;
-
-            var document = new PdfDocument();
-
-            document.Info.Title = metadata.VisibleName;
-
-            for (var i = 0; i < options.PagesIndices.Count; i++)
-            {
-                var pdfPage = document.AddPage();
-                var graphics = XGraphics.FromPdfPage(pdfPage); //Dipose?
-
-                var page = notebook.Pages[options.PagesIndices[i]];
-
-                var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
-                var pngStrm = new MemoryStream();
-
-                svgStrm.Seek(0, SeekOrigin.Begin);
-
-                var svgDoc = SvgDocument.Open<SvgDocument>(svgStrm);
-                var bitmap = svgDoc.Draw();
-                bitmap.Save(pngStrm, ImageFormat.Png);
-
-                svgStrm.Close();
-
-                pngStrm.Seek(0, SeekOrigin.Begin);
-
-                graphics.DrawImage(XImage.FromStream(() => pngStrm), new XPoint(0, 0));
-            }
-
-            document.Save(outputPath);
-
-            return true;
+            return ExportNotebook(options, metadata, outputPath, progress);
         }
 
         if (!options.Document.IsT0)
             return false;
 
+        return ExportPDF(options, metadata, outputPath, progress);
+    }
+
+    public override string ToString() => Title;
+
+    private static bool ExportNotebook(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
+    {
+        var notebook = options.Document.AsT1;
+
+        var document = new PdfDocument();
+
+        document.Info.Title = metadata.VisibleName;
+
+        for (var i = 0; i < options.PagesIndices.Count; i++)
+        {
+            var pageIndex = options.PagesIndices[i];
+            var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
+
+            var pdfPage = document.AddPage();
+            pdfPage.Size = PageSize.Letter;
+
+            var graphics = XGraphics.FromPdfPage(pdfPage);
+
+            var page = notebook.Pages[pageIndex];
+
+            var size = new XSize(1404, 1872);
+            var pngStrm = RenderSVGAsPng(metadata, i, page, ref size);
+
+            graphics.DrawImage(XImage.FromStream(() => pngStrm), 0, 0, pdfPage.Width, pdfPage.Height);
+
+            progress.Report(percent);
+        }
+
+        document.Save(Path.Combine(outputPath, metadata.VisibleName + ".pdf"));
+
+        return true;
+    }
+
+    private static MemoryStream RenderSVGAsPng(Metadata metadata, int pageIndex, Page page, ref XSize psize)
+    {
+        var svgStrm = SvgRenderer.RenderPage(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
+        var pngStrm = new MemoryStream();
+
+        svgStrm.Seek(0, SeekOrigin.Begin);
+
+        var d = SvgDocument.Open<SvgDocument>(svgStrm);
+        d.Ppi = 226;
+
+        var bitmap = d.Draw();
+        bitmap.Save(pngStrm, ImageFormat.Png);
+        pngStrm.Seek(0, SeekOrigin.Begin);
+
+        svgStrm.Close();
+        return pngStrm;
+    }
+
+    private bool ExportPDF(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
+    {
         var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
-        var pdfStream = File.OpenRead(filename);
-        var doc = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Import);
+        var doc = options.Document.AsT0;
         var result = new PdfDocument();
 
         result.Info.Title = metadata.VisibleName;
 
         for (var i = 0; i < options.PagesIndices.Count; i++)
         {
-            var rm = metadata.Content.Pages[i];
+            var pageIndex = options.PagesIndices[i];
+            var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
+            var rm = metadata.Content.Pages[pageIndex];
             var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
 
-            //todo: figure out index
-            PdfPage p;
+            PdfPage p = doc.Pages[pageIndex];
             if (!File.Exists(rmPath))
             {
-                //copy
-                p = result.AddPage(doc.Pages[i], AnnotationCopyingType.DeepCopy);
                 continue;
             }
-            p = result.AddPage();
 
             //render
             var notebookStream = File.OpenRead(rmPath);
             var page = Notebook.LoadPage(notebookStream);
 
-            var psize = PageSizeConverter.ToSize(PageSize.A4);
-            var svgStrm = SvgRenderer.RenderPage(page, i, metadata, (int)psize.Width, (int)psize.Height);
-            var pngStrm = new MemoryStream();
-
-            svgStrm.Seek(0, SeekOrigin.Begin);
-
-            var d = SvgDocument.Open<SvgDocument>(svgStrm);
-            var bitmap = d.Draw();
-            bitmap.Save(pngStrm, ImageFormat.Png);
-
-            svgStrm.Close();
+            var psize = new XSize(1404, 1872);
+            var pngStrm = RenderSVGAsPng(metadata, pageIndex, page, ref psize);
 
             var graphics = XGraphics.FromPdfPage(p);
 
-            pngStrm.Seek(0, SeekOrigin.Begin);
             var pngImage = XImage.FromStream(() => pngStrm);
 
-            graphics.DrawImage(pngImage, new XPoint(0, 0));
+            graphics.DrawImage(pngImage, 0, 0, p.Width, p.Height);
+
+            progress.Report(percent);
         }
 
-        result.Save(outputPath);
+        doc.Save(Path.Combine(outputPath, result.Info.Title + ".pdf"));
 
         return true;
     }

@@ -34,6 +34,8 @@ public class NotebooksPageViewModel : BaseViewModel
         }, _ => _ is not null && ((Metadata)_).VisibleName != localisationService.GetString("Up .."));
 
         EmptyTrashCommand = ServiceLocator.Container.Resolve<EmptyTrashCommand>();
+        PinCommand = ServiceLocator.Container.Resolve<PinCommand>();
+        UnPinCommand = ServiceLocator.Container.Resolve<UnPinCommand>();
 
         MoveCommand = new DelegateCommand(_ =>
             {
@@ -77,7 +79,6 @@ public class NotebooksPageViewModel : BaseViewModel
     }
 
     public ICommand EmptyTrashCommand { get; set; }
-
     public ICommand ExportCommand { get; set; }
 
     public bool IsInTrash
@@ -96,6 +97,7 @@ public class NotebooksPageViewModel : BaseViewModel
     public ICommand MoveCancelCommand { get; set; }
     public ICommand MoveCommand { get; set; }
     public ICommand MoveHereCommand { get; set; }
+    public ICommand PinCommand { get; set; }
     public ICommand RemoveNotebookCommand { get; set; }
     public ICommand RenameCommand { get; set; }
     public ICommand RestoreCommand { get; set; }
@@ -105,6 +107,8 @@ public class NotebooksPageViewModel : BaseViewModel
         get => _selectedNotebook;
         set => SetValue(ref _selectedNotebook, value);
     }
+
+    public ICommand UnPinCommand { get; set; }
 
     public override void OnLoad()
     {

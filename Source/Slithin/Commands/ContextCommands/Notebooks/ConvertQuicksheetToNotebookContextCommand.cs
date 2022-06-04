@@ -26,7 +26,7 @@ public class ConvertQuicksheetToNotebookContextCommand : IContextCommand
     public object ParentViewModel { get; set; }
     public string Titel => _localisationService.GetString("Convert To Notebook");
 
-    public bool CanHandle(object data)
+    public bool CanExecute(object data)
     {
         if (data is not Metadata md)
         {
@@ -41,7 +41,7 @@ public class ConvertQuicksheetToNotebookContextCommand : IContextCommand
         return true;
     }
 
-    public void Invoke(object data)
+    public void Execute(object data)
     {
         ConvertToNotebook(data as Metadata);
     }

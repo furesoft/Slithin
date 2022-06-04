@@ -5,6 +5,10 @@ Version 1.0.16
 - Better Icons
 - Design Fixes
 - Add Special ContextualMenu For Trash
+- Stability Improvements
+- Design Improvements
+- Export Notebooks
+- Export PDF With Annotations
 
 Version 1.0.15
 

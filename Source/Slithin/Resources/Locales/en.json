@@ -189,5 +189,10 @@
   "Performance": "Performance",
   "Features": "Features",
   "Compatibility": "Compatibility",
-  "Send": "Send"
+  "Send": "Send",
+
+  "Pages": "Pages",
+  "{0} Exported": "{0} Exported",
+  "Exporting {0}": "Exporting {0}",
+  "Folder To Export To": "Folder To Export To"
 }

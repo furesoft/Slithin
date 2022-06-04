@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Svg;
 using Svg.Pathing;
-using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.Core.Remarkable.Exporting.Rendering;
 
 public static class SvgRenderer
 {
-    public static Stream RenderPage(Page page, int index, Metadata md, int width = 1404, int height = 1872)
+    public static Stream RenderPage(Page page, int pageIndex, Metadata md, int width = 1404, int height = 1872)
     {
         var svgDoc = new SvgDocument { Width = width, Height = height, ViewBox = new SvgViewBox(0, 0, width, height) };
 
         var group = new SvgGroup();
         svgDoc.Children.Add(group);
+        group.Fill = new SvgColourServer(Color.Transparent);
 
-        var template = GetBase64Template(index, md);
+        var template = GetBase64Template(pageIndex, md);
 
         if (template != null)
         {
@@ -30,7 +31,33 @@ public static class SvgRenderer
         var stream = new MemoryStream();
         svgDoc.Write(stream);
 
+        stream.Seek(0, SeekOrigin.Begin);
+
         return stream;
+    }
+
+    private static SvgUnit CalculateStrokeWidth(Line line)
+    {
+        return line.BrushType switch
+        {
+            Brushes.Highlighter or Brushes.Rubber => new SvgUnit(20 * BaseSizes.GetValue(line.BrushBaseSize)),
+            _ => new SvgUnit(BaseSizes.GetValue(line.BrushBaseSize))
+        };
+    }
+
+    private static SvgColourServer ConvertColor(Line line)
+    {
+        return line.Color switch
+        {
+            Colors.Gray => new SvgColourServer(Color.Gray),
+            Colors.White => new SvgColourServer(Color.White),
+            Colors.Blue => new SvgColourServer(Color.Blue),
+            Colors.Green => new SvgColourServer(Color.Green),
+            Colors.Pink => new SvgColourServer(Color.Pink),
+            Colors.Red => new SvgColourServer(Color.Red),
+            Colors.Yellow => new SvgColourServer(Color.Yellow),
+            _ => new SvgColourServer(Color.Black)
+        };
     }
 
     private static SvgPathSegmentList GeneratePathData(IReadOnlyList<Point> points)
@@ -47,8 +74,6 @@ public static class SvgRenderer
             i++;
         }
 
-        psl.Add(new SvgClosePathSegment());
-
         return psl;
     }
 
@@ -59,7 +84,7 @@ public static class SvgRenderer
             return null;
         }
 
-        var filename = md.PageData.Data[i];
+        var filename = i < md.PageData.Data.Length ? md.PageData.Data[i] : "Blank";
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var buffer = File.ReadAllBytes(Path.Combine(pathManager.TemplatesDir, filename + ".png"));
 
@@ -72,7 +97,7 @@ public static class SvgRenderer
         {
             foreach (var line in layer.Lines)
             {
-                if (line is { BrushType: Brushes.Eraseall } && line.BrushType != Brushes.Rubber)
+                if (line is not { BrushType: Brushes.Eraseall } && line.BrushType != Brushes.Rubber)
                 {
                     RenderLine(line, group);
                 }
@@ -86,28 +111,18 @@ public static class SvgRenderer
 
         path.PathData = GeneratePathData(line.Points);
 
-        path.Stroke
-            = line.Color switch
-            {
-                Colors.Grey => new SvgColourServer(Color.Gray),
-                Colors.White => new SvgColourServer(Color.White),
-                _ => new SvgColourServer(Color.Black)
-            };
-        path.StrokeWidth
-            = line.BrushType switch
-            {
-                Brushes.Highlighter or Brushes.Rubber => new SvgUnit(20 * BaseSizes.GetValue(line.BrushBaseSize)),
-                _ => new SvgUnit(18 * BaseSizes.GetValue(line.BrushBaseSize) - 32)
-            };
+        path.Stroke = ConvertColor(line);
+
+        path.StrokeWidth = CalculateStrokeWidth(line);
 
         if (line.BrushType == Brushes.Highlighter)
         {
             path.Opacity = 0.25f;
-            path.Stroke = new SvgColourServer(Color.Yellow);
         }
 
-        path.StrokeLineJoin = SvgStrokeLineJoin.Round;
-        path.StrokeLineCap = SvgStrokeLineCap.Round;
+        path.Fill = new SvgColourServer(Color.Transparent);
+        path.StrokeLineJoin = SvgStrokeLineJoin.Bevel;
+        path.StrokeLineCap = SvgStrokeLineCap.Butt;
 
         group.Children.Add(path);
     }

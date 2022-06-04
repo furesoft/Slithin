@@ -1,34 +1,33 @@
-﻿using Slithin.Core;
-using Slithin.Core.ItemContext;
+﻿using System;
+using System.Windows.Input;
+using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 
-namespace Slithin.Commands.ContextCommands.Notebooks;
+namespace Slithin.Commands;
 
-[Context(UIContext.Notebook)]
-public class PinContextCommand : IContextCommand
+public class PinCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly Xochitl _xochitl;
 
-    public PinContextCommand(ILocalisationService localisationService, Xochitl xochitl)
+    public PinCommand(ILocalisationService localisationService, Xochitl xochitl)
     {
         _localisationService = localisationService;
         _xochitl = xochitl;
     }
 
-    public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Pin");
+    public event EventHandler CanExecuteChanged;
 
-    public bool CanHandle(object data)
+    public bool CanExecute(object data)
     {
         return data is Metadata md && !md.IsPinned
             && md.VisibleName != _localisationService.GetString("Quick sheets")
             && md.VisibleName != _localisationService.GetString("Trash");
     }
 
-    public void Invoke(object data)
+    public void Execute(object data)
     {
         if (data is not Metadata md)
         {

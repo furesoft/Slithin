@@ -1,8 +1,7 @@
 ﻿using Avalonia;
 using Slithin.Core.ItemContext;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Services;
 using Slithin.Core.Remarkable.Models;
+using Slithin.Core.Services;
 
 namespace Slithin.Commands.ContextCommands.Notebooks;
 
@@ -19,7 +18,7 @@ public class CopyIDContextCommand : IContextCommand
     public object ParentViewModel { get; set; }
     public string Titel => _localisationService.GetString("Copy ID");
 
-    public bool CanHandle(object data)
+    public bool CanExecute(object data)
     {
         return data != null
                 && data is Metadata md
@@ -28,7 +27,7 @@ public class CopyIDContextCommand : IContextCommand
                 && md.VisibleName != _localisationService.GetString("Trash");
     }
 
-    public async void Invoke(object data)
+    public async void Execute(object data)
     {
         if (data is not Metadata md)
         {
