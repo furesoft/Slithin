@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing.Imaging;
 using System.IO;
 using PdfSharpCore;
@@ -65,10 +65,10 @@ public class PdfExporter : IExportProvider
 
             var page = notebook.Pages[options.PagesIndices[i]];
 
-            var size = PageSizeConverter.ToSize(PageSize.Letter);
+            var size = new XSize(1404, 1872);
             var pngStrm = RenderSVGAsPng(metadata, i, page, ref size);
 
-            graphics.DrawImage(XImage.FromStream(() => pngStrm), 0, 0, size.Width, size.Height);
+            graphics.DrawImage(XImage.FromStream(() => pngStrm), 0, 0, pdfPage.Width, pdfPage.Height);
 
             progress.Report(percent);
         }
@@ -86,6 +86,8 @@ public class PdfExporter : IExportProvider
         svgStrm.Seek(0, SeekOrigin.Begin);
 
         var d = SvgDocument.Open<SvgDocument>(svgStrm);
+        d.Ppi = 226;
+
         var bitmap = d.Draw();
         bitmap.Save(pngStrm, ImageFormat.Png);
         pngStrm.Seek(0, SeekOrigin.Begin);
@@ -102,7 +104,7 @@ public class PdfExporter : IExportProvider
 
         result.Info.Title = metadata.VisibleName;
 
-        for (var i = 0; i < options.PagesIndices.Count; i++)
+        foreach (var i in options.PagesIndices)
         {
             var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
             var rm = metadata.Content.Pages[i];
