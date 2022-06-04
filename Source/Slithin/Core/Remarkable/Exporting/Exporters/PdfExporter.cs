@@ -100,9 +100,8 @@ public class PdfExporter : IExportProvider
     {
         var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
         var doc = options.Document.AsT0;
-        var result = new PdfDocument();
 
-        result.Info.Title = metadata.VisibleName;
+        doc.Info.Title = metadata.VisibleName;
 
         for (var i = 0; i < options.PagesIndices.Count; i++)
         {
@@ -133,7 +132,7 @@ public class PdfExporter : IExportProvider
             progress.Report(percent);
         }
 
-        doc.Save(Path.Combine(outputPath, result.Info.Title + ".pdf"));
+        doc.Save(Path.Combine(outputPath, doc.Info.Title + ".pdf"));
 
         return true;
     }
