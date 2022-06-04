@@ -4,7 +4,6 @@ using System.IO;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using Slithin.Core.FeatureToggle;
 using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Remarkable.Models;
@@ -28,7 +27,7 @@ public class PdfExporter : IExportProvider
 
     public bool CanHandle(Metadata md)
     {
-        return Feature<Features.ExportPdfFeature>.IsEnabled && (md.Content.FileType == "notebook" || md.Content.FileType == "pdf");
+        return md.Content.FileType == "notebook" || md.Content.FileType == "pdf";
     }
 
     public bool Export(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
@@ -56,6 +55,7 @@ public class PdfExporter : IExportProvider
 
         for (var i = 0; i < options.PagesIndices.Count; i++)
         {
+            var pageIndex = options.PagesIndices[i];
             var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
 
             var pdfPage = document.AddPage();
@@ -63,7 +63,7 @@ public class PdfExporter : IExportProvider
 
             var graphics = XGraphics.FromPdfPage(pdfPage);
 
-            var page = notebook.Pages[options.PagesIndices[i]];
+            var page = notebook.Pages[pageIndex];
 
             var size = new XSize(1404, 1872);
             var pngStrm = RenderSVGAsPng(metadata, i, page, ref size);
@@ -104,13 +104,14 @@ public class PdfExporter : IExportProvider
 
         result.Info.Title = metadata.VisibleName;
 
-        foreach (var i in options.PagesIndices)
+        for (var i = 0; i < options.PagesIndices.Count; i++)
         {
+            var pageIndex = options.PagesIndices[i];
             var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
-            var rm = metadata.Content.Pages[i];
+            var rm = metadata.Content.Pages[pageIndex];
             var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
 
-            PdfPage p = doc.Pages[i];
+            PdfPage p = doc.Pages[pageIndex];
             if (!File.Exists(rmPath))
             {
                 continue;
@@ -121,7 +122,7 @@ public class PdfExporter : IExportProvider
             var page = Notebook.LoadPage(notebookStream);
 
             var psize = new XSize(1404, 1872);
-            var pngStrm = RenderSVGAsPng(metadata, i, page, ref psize);
+            var pngStrm = RenderSVGAsPng(metadata, pageIndex, page, ref psize);
 
             var graphics = XGraphics.FromPdfPage(p);
 

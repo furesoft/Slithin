@@ -2,5 +2,5 @@
 
 namespace Slithin.Features;
 
-internal class ExportFeature : IFeature
+internal class ExportEpubFeature : IFeature
 { }

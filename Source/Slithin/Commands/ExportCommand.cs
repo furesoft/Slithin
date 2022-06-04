@@ -4,11 +4,9 @@ using System.Linq;
 using System.Windows.Input;
 using PdfSharpCore.Pdf.IO;
 using Slithin.Core;
-using Slithin.Core.FeatureToggle;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
-using Slithin.Features;
 using Slithin.UI.Modals;
 using Slithin.ViewModels.Modals;
 
@@ -38,7 +36,6 @@ public class ExportCommand : ICommand
                && md.VisibleName != _localisationService.GetString("Quick sheets")
                && md.VisibleName != _localisationService.GetString("Up ..")
                && md.VisibleName != _localisationService.GetString("Trash")
-               && Feature<ExportFeature>.IsEnabled
                && md.Type.Equals("DocumentType")
                && _exportProviderFactory.GetAvailableProviders(md).Any();
     }

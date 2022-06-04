@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing.Imaging;
 using System.IO;
-using Slithin.Core.FeatureToggle;
 using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Remarkable.Models;
@@ -17,7 +16,7 @@ public class PngExporter : IExportProvider
 
     public bool CanHandle(Metadata md)
     {
-        return Feature<Features.ExportPngFeature>.IsEnabled && md.Content.FileType == "notebook";
+        return md.Content.FileType == "notebook";
     }
 
     public bool Export(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
