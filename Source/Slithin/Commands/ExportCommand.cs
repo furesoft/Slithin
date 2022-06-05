@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using EpubSharp;
 using PdfSharpCore.Pdf.IO;
 using Slithin.Core;
 using Slithin.Core.Remarkable.Exporting.Rendering;
@@ -65,6 +66,14 @@ public class ExportCommand : ICommand
 
                 var pdfStream = File.OpenRead(path);
                 var notebook = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Modify);
+                options = ExportOptions.Create(notebook, vm.PagesSelector);
+            }
+            else if (md.Content.FileType == "epub")
+            {
+                var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+                var path = Path.Combine(pathManager.NotebooksDir, md.ID + ".epub");
+
+                var notebook = EpubReader.Read(path);
                 options = ExportOptions.Create(notebook, vm.PagesSelector);
             }
 

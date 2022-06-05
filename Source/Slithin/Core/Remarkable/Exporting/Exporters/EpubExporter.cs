@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using EpubSharp;
+using PdfSharpCore.Drawing;
 using Slithin.Core.FeatureToggle;
 using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
@@ -30,20 +33,42 @@ public class EpubExporter : IExportProvider
 
     public bool Export(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
     {
-        var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".epub");
         var doc = options.Document.AsT2;
 
-        for (var i = 0; i < options.PagesIndices.Count; i++)
+        for (var pageIndex = 0; pageIndex < doc.Resources.Html.Count; pageIndex++)
         {
-            var pageIndex = options.PagesIndices[i];
-            var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
+            var percent = (int)((float)pageIndex / (float)options.PagesIndices.Count * 100);
             var rm = metadata.Content.Pages[pageIndex];
             var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
 
             //ToDo: implement epub export
 
+            var p = ((IReadOnlyList<EpubTextFile>)doc.Resources.Html)[pageIndex];
+            if (!File.Exists(rmPath))
+            {
+                continue;
+            }
+
+            //render
+            var notebookStream = File.OpenRead(rmPath);
+            var page = Notebook.LoadPage(notebookStream);
+
+            var psize = new XSize(1404, 1872);
+            var svgStrm = (MemoryStream)SvgRenderer.RenderPage(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
+
+            svgStrm.Seek(0, SeekOrigin.Begin);
+
+            doc.Resources.Images.Add(new EpubByteFile()
+            {
+                Content = svgStrm.ToArray(),
+                ContentType = EpubSharp.Format.EpubContentType.ImageSvg,
+                FileName = pageIndex + ".svg"
+            });
+
             progress.Report(percent);
         }
+
+        EpubWriter.Write(doc, Path.Combine(outputPath, doc.Title + ".epub"));
 
         return true;
     }
