@@ -25,6 +25,24 @@ public class PdfExporter : IExportProvider
     public bool ExportSingleDocument => true;
     public string Title => "PDF Document";
 
+    public static MemoryStream RenderSVGAsPng(Metadata metadata, int pageIndex, Page page, ref XSize psize)
+    {
+        var svgStrm = SvgRenderer.RenderPage(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
+        var pngStrm = new MemoryStream();
+
+        svgStrm.Seek(0, SeekOrigin.Begin);
+
+        var d = SvgDocument.Open<SvgDocument>(svgStrm);
+        d.Ppi = 226;
+
+        var bitmap = d.Draw();
+        bitmap.Save(pngStrm, ImageFormat.Png);
+        pngStrm.Seek(0, SeekOrigin.Begin);
+
+        svgStrm.Close();
+        return pngStrm;
+    }
+
     public bool CanHandle(Metadata md)
     {
         return md.Content.FileType == "notebook" || md.Content.FileType == "pdf";
@@ -70,6 +88,39 @@ public class PdfExporter : IExportProvider
 
             graphics.DrawImage(XImage.FromStream(() => pngStrm), 0, 0, pdfPage.Width, pdfPage.Height);
 
+        if (!options.Document.IsT0)
+            return false;
+
+        return ExportPDF(options, metadata, outputPath, progress);
+    }
+
+    public override string ToString() => Title;
+
+    private static bool ExportNotebook(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
+    {
+        var notebook = options.Document.AsT1;
+
+        var document = new PdfDocument();
+
+        document.Info.Title = metadata.VisibleName;
+
+        for (var i = 0; i < options.PagesIndices.Count; i++)
+        {
+            var pageIndex = options.PagesIndices[i];
+            var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
+
+            var pdfPage = document.AddPage();
+            pdfPage.Size = PageSize.Letter;
+
+            var graphics = XGraphics.FromPdfPage(pdfPage);
+
+            var page = notebook.Pages[pageIndex];
+
+            var size = new XSize(1404, 1872);
+            var pngStrm = RenderSVGAsPng(metadata, i, page, ref size);
+
+            graphics.DrawImage(XImage.FromStream(() => pngStrm), 0, 0, pdfPage.Width, pdfPage.Height);
+
             progress.Report(percent);
         }
 
@@ -77,6 +128,7 @@ public class PdfExporter : IExportProvider
 
         return true;
     }
+
 
     private static MemoryStream RenderSVGAsPng(Metadata metadata, int pageIndex, Page page, ref XSize psize)
     {
@@ -102,7 +154,7 @@ public class PdfExporter : IExportProvider
         var doc = options.Document.AsT0;
         var result = new PdfDocument();
 
-        result.Info.Title = metadata.VisibleName;
+        doc.Info.Title = metadata.VisibleName;
 
         for (var i = 0; i < options.PagesIndices.Count; i++)
         {
@@ -133,7 +185,7 @@ public class PdfExporter : IExportProvider
             progress.Report(percent);
         }
 
-        doc.Save(Path.Combine(outputPath, result.Info.Title + ".pdf"));
+        doc.Save(Path.Combine(outputPath, doc.Info.Title + ".pdf"));
 
         return true;
     }
