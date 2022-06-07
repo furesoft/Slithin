@@ -126,13 +126,13 @@ public class DevicePageViewModel : BaseViewModel
             });
             updateThread.Start();
 
-            _loadingService.LoadApiToken();
+            //_loadingService.LoadApiToken();
 
             _loadingService.LoadScreens();
             _loadingService.LoadTools();
             _loadingService.LoadTemplates();
 
-            SyncService.TemplateFilter.SelectedCategory = SyncService.TemplateFilter.Categories.First();
+            SyncService.TemplateFilter.SelectedCategory = SyncService.TemplateFilter.Categories.FirstOrDefault();
 
             _loadingService.LoadNotebooks();
         });
