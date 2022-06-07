@@ -11,7 +11,7 @@ namespace Slithin.ViewModels.Modals;
 public class ExportModalViewModel : BaseViewModel
 {
     private IExportProvider _selectedFormat;
-
+    
     public ExportModalViewModel(Metadata md, IExportProviderFactory exportProviderFactory)
     {
         Notebook = md;
