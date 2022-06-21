@@ -122,7 +122,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         }
         else
         {
-            DialogService.OpenDialogError(_localisationService.GetString("Category name has to be set."));
+            DialogService.OpenError(_localisationService.GetString("Category name has to be set."));
         }
     }
 
@@ -132,7 +132,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
         if (!validationResult.IsValid)
         {
-            DialogService.OpenDialogError(validationResult.Errors.First().ToString());
+            DialogService.OpenError(validationResult.Errors.First().ToString());
             return;
         }
 
@@ -162,7 +162,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
             if (bitmap.Width != 1404 && bitmap.Height != 1872)
             {
-                DialogService.OpenDialogError(
+                DialogService.OpenError(
                     _localisationService.GetString("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));
 
                 return;

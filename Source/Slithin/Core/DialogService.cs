@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
-using Material.Styles;
 using Slithin.Controls;
 using Slithin.Core.MVVM;
 using Slithin.UI.Modals;
+using Slithin.UI.Views;
 using Slithin.ViewModels.Modals;
 
 namespace Slithin.Core;
@@ -57,18 +57,20 @@ public static class DialogService
         }
     }
 
-    public static void OpenDialogError(string message)
-    {
-        SnackbarHost.Post(message, "dialogError");
-    }
-
     public static void OpenError(string msg)
     {
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            var dc = new { CancelCommand = new DelegateCommand(_ => Close()), Message = msg };
+            var dc = new MessageBoxModalViewModel { Message = msg };
 
-            Open(new ErrorModal { DataContext = dc });
+            var errorWindow = new ErrorWindow();
+            errorWindow.Content = new ErrorModal();
+
+            dc.AcceptCommand = new DelegateCommand(_ => errorWindow.Close());
+            dc.CancelCommand = dc.AcceptCommand;
+            errorWindow.DataContext = dc;
+
+            errorWindow.Show();
         });
     }
 
@@ -150,7 +152,7 @@ public static class DialogService
             }
             else
             {
-                OpenDialogError($"{vm.Watermark} cannot be empty");
+                OpenError($"{vm.Watermark} cannot be empty");
             }
         });
         vm.CancelCommand = new DelegateCommand(_ =>
