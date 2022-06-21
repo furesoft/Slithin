@@ -185,12 +185,15 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
     private Template BuildTemplate()
     {
+        int iconCodeValue = int.Parse(IconCode.Name, System.Globalization.NumberStyles.HexNumber);
+        string iconCode = char.ConvertFromUtf32(iconCodeValue).ToString();
+
         return new Template
         {
             Categories = ((AvaloniaList<object>)SelectedCategory).Select(_ => _.ToString()).ToArray(),
             Filename = Path.GetFileNameWithoutExtension(Filename),
             Name = Name,
-            IconCode = @"\" + "u" + IconCode.Name,
+            IconCode = iconCode,
             Landscape = IsLandscape
         };
     }
