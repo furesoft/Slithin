@@ -137,7 +137,7 @@ public class DevicePageViewModel : BaseViewModel
             _loadingService.LoadNotebooks();
         });
 
-        ShareEmailAddresses = new(_xochitl.GetShareEmailAddresses());
+        ShareEmailAddresses = new(_xochitl?.GetShareEmailAddresses());
 
 #if DEBUG
         ShareEmailAddresses = new(new[] { "demo@demo.de", "max.mustermann@muster.de" });

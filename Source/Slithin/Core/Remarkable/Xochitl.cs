@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IniParser;
@@ -40,14 +41,24 @@ public class Xochitl
 
     public string GetProperty(string key, string section)
     {
+        if (!_data.Sections.ContainsSection(section) || !_data[section].ContainsKey(key))
+        {
+            return string.Empty;
+        }
+
         return _data[section][key];
     }
 
     public string[] GetShareEmailAddresses()
     {
         var str = GetProperty("ShareEmailAddresses", "General");
+        var splt = str?.Split(',');
+        if (splt.Any())
+        {
+            return splt.Select(_ => _.Trim()).ToArray();
+        }
 
-        return str?.Split(',').Select(_ => _.Trim()).ToArray();
+        return Array.Empty<string>();
     }
 
     public string GetToken(string key, string section)

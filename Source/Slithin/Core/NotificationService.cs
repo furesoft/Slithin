@@ -24,7 +24,7 @@ public static class NotificationService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            Manager.Show(new TextBlock { Text = message, Foreground = Avalonia.Media.Brushes.Black }, TimeSpan.FromSeconds(2), null);
+            Manager?.Show(new TextBlock { Text = message, Foreground = Avalonia.Media.Brushes.Black }, TimeSpan.FromSeconds(2), "");
         });
     }
 
