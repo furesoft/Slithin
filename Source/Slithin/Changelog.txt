@@ -1,4 +1,4 @@
-Version 1.0.17
+Version 1.0.18
 
 - Bugfixes
 
@@ -13,32 +13,3 @@ Version 1.0.16
 - Design Improvements
 - Export Notebooks
 - Export PDF With Annotations
-
-Version 1.0.15
-
-- Bugfix
-
-Version 1.0.13
-
-- Loading Is Smoother
-- Bugfix 
-
-Version 1.0.12
-- Bugfix
-
-Version 1.0.11
-
-- Added Ability To Backup Single Notebook Or Single Folder
-- Added List Share Email Addresses
-- Added Removing Share Email Addresses
-- Added Reseting Screen To Default
-- Added Ability To Reload Device
-- Added Different Menu Modes
-- Added Ability To Login With SSH Key
-- Added Ability To See If Notebook Is Pinned
-- Fixed ContextMenu On Notebooks
-- Fixed Move To Trash
-- Added Empty Trash To ContextMenu
-- Fixed Wrong Blue Color
-- Added Pin/Unpin To ContextMenu
-- Made Synchronizing much faster (Downloading Metadata about 84 % faster)
