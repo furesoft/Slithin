@@ -9,8 +9,15 @@ public class DeviceDiscoveryImpl : IDeviceDiscovery
 {
     public IPAddress Discover()
     {
-        return Dns.GetHostAddresses("remarkable")
-            .FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+        try
+        {
+            return Dns.GetHostAddresses("remarkable")
+                .FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public bool PingDevice(IPAddress address)
