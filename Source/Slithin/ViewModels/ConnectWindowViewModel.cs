@@ -108,6 +108,14 @@ public class ConnectionWindowViewModel : BaseViewModel
         SshClient client = null;
         ScpClient scp = null;
 
+        var validationResult = _validator.Validate(SelectedLogin);
+
+        if (!validationResult.IsValid)
+        {
+            DialogService.OpenError(string.Join("\n", validationResult.Errors));
+            return;
+        }
+
         if (!discovery.PingDevice(System.Net.IPAddress.Parse(SelectedLogin.IP))
             && SelectedLogin.Name != _localisationService.GetString("No Device Saved"))
         {
@@ -140,14 +148,6 @@ public class ConnectionWindowViewModel : BaseViewModel
         }
         else
         {
-            var validationResult = _validator.Validate(SelectedLogin);
-
-            if (!validationResult.IsValid)
-            {
-                SnackbarHost.Post(string.Join("\n", validationResult.Errors));
-                return;
-            }
-
             if (string.IsNullOrEmpty(SelectedLogin.Name))
             {
                 SelectedLogin.Name = "DefaultDevice";

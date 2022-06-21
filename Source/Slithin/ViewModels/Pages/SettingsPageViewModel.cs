@@ -121,16 +121,19 @@ public class SettingsPageViewModel : BaseViewModel
     {
         if (string.IsNullOrEmpty(newName)) return;
 
-        _credential.Name = newName;
-
         var path = new DirectoryInfo(_pathManager.ConfigBaseDir);
 
-        _pathManager.Relink();
+        if (!path.Exists)
+        {
+            _credential.Name = newName;
 
-        path.MoveTo(_pathManager.ConfigBaseDir);
+            _pathManager.Relink();
 
-        _loginService.UpdateLoginCredential(_credential);
+            path.MoveTo(_pathManager.ConfigBaseDir);
 
-        _logger.Information("Setting changed 'Device Name'");
+            _loginService.UpdateLoginCredential(_credential);
+
+            _logger.Information("Setting changed 'Device Name'");
+        }
     }
 }

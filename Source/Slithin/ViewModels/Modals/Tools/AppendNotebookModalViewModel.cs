@@ -8,12 +8,12 @@ using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf.IO;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Exporting.Rendering;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.Models;
-using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable.Models;
 using Slithin.Validators;
 
 namespace Slithin.ViewModels.Modals.Tools;
@@ -122,7 +122,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
         }
         else
         {
-            DialogService.OpenDialogError(_localisationService.GetString("Page Count must be a number and a template need to be selected"));
+            DialogService.OpenError(_localisationService.GetString("Page Count must be a number and a template need to be selected"));
         }
     }
 
@@ -132,7 +132,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
         if (!validationResult.IsValid)
         {
-            DialogService.OpenDialogError(validationResult.Errors.First().ToString());
+            DialogService.OpenError(validationResult.Errors.First().ToString());
             return;
         }
 

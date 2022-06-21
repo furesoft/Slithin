@@ -172,7 +172,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         if (!int.TryParse(PageCount, out var pcount) ||
             SelectedTemplate == null && string.IsNullOrEmpty(CustomTemplateFilename))
         {
-            DialogService.OpenDialogError(_localisationService.GetString("Page Count must be a number and a template need to be selected"));
+            DialogService.OpenError(_localisationService.GetString("Page Count must be a number and a template need to be selected"));
             return;
         }
 
@@ -208,7 +208,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
         if (!validationResult.IsValid)
         {
-            DialogService.OpenDialogError(validationResult.Errors.First().ToString());
+            DialogService.OpenError(validationResult.Errors.First().ToString());
             return;
         }
 
