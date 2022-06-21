@@ -1,3 +1,7 @@
+Version 1.0.17
+
+- Bugfixes
+
 Version 1.0.16
 
 - Add Bigger Preview For Templates And Notebooks
