@@ -16,6 +16,9 @@ public partial class ResourcesMainPage : UserControl
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = ServiceLocator.Container.Resolve<ResourcesPageViewModel>();
+        if (!Design.IsDesignMode)
+        {
+            DataContext = ServiceLocator.Container.Resolve<ResourcesPageViewModel>();
+        }
     }
 }
