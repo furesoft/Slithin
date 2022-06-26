@@ -10,6 +10,25 @@
              x:Class="Slithin.UI.ContextualMenus.NotebooksContextualMenu">
     <DockPanel>
         <StackPanel IsVisible="{Binding !IsInTrash, Mode=TwoWay}" Spacing="12" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
+            <controls:ImagePopupButton MinHeight="60" MinWidth="50" Classes="Flat" Text="{l:Localisation 'View'}" Image="{DynamicResource Material.FormatWrapTopBottom}">
+                <controls:ImagePopupButton.PopupContent>
+                    <Border Background="White">
+                        <controls:RadioButtonGroup Orientation="Horizontal">
+                            <controls:RadioImage Width="60">
+                                <controls:RadioImage.Image>
+                                    <DrawingImage Drawing="{DynamicResource Vaadin.List}" />
+                                </controls:RadioImage.Image>
+                            </controls:RadioImage>
+                            <controls:RadioImage Width="60">
+                                <controls:RadioImage.Image>
+                                    <DrawingImage Drawing="{DynamicResource Material.FormatWrapTopBottom}" />
+                                </controls:RadioImage.Image>
+                            </controls:RadioImage>
+                        </controls:RadioButtonGroup>
+                    </Border>
+                </controls:ImagePopupButton.PopupContent>
+            </controls:ImagePopupButton>
+
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Folder'}" Command="{Binding MakeFolderCommand}" Image="{DynamicResource Ionicons.AddiOS}" />
 
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Remove'}" Command="{Binding RemoveNotebookCommand}" Image="{DynamicResource Cool.TrashFull}" CommandParameter="{Binding SelectedNotebook}" />
@@ -21,14 +40,6 @@
 
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Pin'}" Command="{Binding PinCommand}" Image="{DynamicResource Entypo+.Star}" CommandParameter="{Binding SelectedNotebook}" />
             <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Unpin'}" Command="{Binding UnPinCommand}" Image="{DynamicResource Entypo+.StarOutline}" CommandParameter="{Binding SelectedNotebook}" />
-
-            <controls:ImagePopupButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Search'}" Image="{DynamicResource Entypo+.MagnifyingGlass}" IsVisible="False">
-                <controls:ImagePopupButton.PopupContent>
-                    <Border>
-                        <TextBox Watermark="Search ..." MinWidth="175" Height="35" IsVisible="True" />
-                    </Border>
-                </controls:ImagePopupButton.PopupContent>
-            </controls:ImagePopupButton>
         </StackPanel>
 
         <StackPanel IsVisible="{Binding IsInTrash, Mode=TwoWay}" Spacing="12" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">

@@ -194,5 +194,7 @@
   "Pages": "Pages",
   "{0} Exported": "{0} Exported",
   "Exporting {0}": "Exporting {0}",
-  "Destination": "Destination"
+  "Destination": "Destination",
+
+  "View": "View"
 }
