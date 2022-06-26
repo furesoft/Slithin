@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -158,7 +157,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
                 }
             }
 
-            var bitmap = Image.FromFile(Filename);
+            var bitmap = System.Drawing.Image.FromFile(Filename);
 
             if (bitmap.Width != 1404 && bitmap.Height != 1872)
             {
@@ -185,8 +184,13 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
     private Template BuildTemplate()
     {
-        int iconCodeValue = int.Parse(IconCode.Name, System.Globalization.NumberStyles.HexNumber);
-        string iconCode = char.ConvertFromUtf32(iconCodeValue).ToString();
+        var iconCodeValue = int.Parse(IconCode.Name, System.Globalization.NumberStyles.HexNumber);
+        var iconCode = char.ConvertFromUtf32(iconCodeValue).ToString();
+
+        if (SelectedCategory == null)
+        {
+            SelectedCategory = new AvaloniaList<object> { "Grids" };
+        }
 
         return new Template
         {
