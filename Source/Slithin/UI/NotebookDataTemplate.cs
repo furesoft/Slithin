@@ -61,15 +61,16 @@ public class NotebookDataTemplate : IDataTemplate
 
         var titlePanel = new Grid();
 
-        var title = new TextBlock { [!TextBlock.TextProperty] = new Binding("VisibleName") };
-
-        title.TextAlignment = TextAlignment.Center;
-        title.TextWrapping = TextWrapping.Wrap;
-        title.Width = 125;
-        title.VerticalAlignment = VerticalAlignment.Center;
-        title.FontWeight = FontWeight.Bold;
-
-        title.Height = 50;
+        var title = new TextBlock
+        {
+            [!TextBlock.TextProperty] = new Binding("VisibleName"),
+            TextAlignment = TextAlignment.Center,
+            TextWrapping = TextWrapping.Wrap,
+            Width = 125,
+            VerticalAlignment = VerticalAlignment.Center,
+            FontWeight = FontWeight.Bold,
+            Height = 50
+        };
 
         var favImage = new Image();
 
@@ -102,12 +103,18 @@ public class NotebookDataTemplate : IDataTemplate
                 if (md?.Content.CoverPageNumber == 0)
                 {
                     // load first page
-                    filename = md.Content.Pages[0];
+                    if (md.Content.Pages != null)
+                    {
+                        filename = md.Content.Pages[0];
+                    }
                 }
                 else if (md?.Content.CoverPageNumber == -1)
                 {
                     // load last page opened, set in md.LastOpenedPage
-                    filename = md.Content.Pages[md.LastOpenedPage];
+                    if (md.Content.Pages != null)
+                    {
+                        filename = md.Content.Pages[md.LastOpenedPage];
+                    }
                 }
 
                 if (!string.IsNullOrEmpty(filename))
@@ -116,19 +123,19 @@ public class NotebookDataTemplate : IDataTemplate
 
                     if (File.Exists(thumbnail))
                     {
-                        img.Source = cache.GetObject(thumbnail, new Bitmap(File.OpenRead(thumbnail)));
+                        img.Source = cache.GetObject(thumbnail, () => new Bitmap(File.OpenRead(thumbnail)));
                     }
                     else
                     {
                         img.Source = cache.GetObject("notebook-" + md.Content.FileType,
-                            new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
+                            () => new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
                     }
                 }
             }
             else
             {
                 img.Source = cache.GetObject("notebook-" + md.Content.FileType,
-                    new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
+                   () => new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
             }
         }
         else if (md.ID == "trash")
@@ -147,7 +154,11 @@ public class NotebookDataTemplate : IDataTemplate
         stackPanel.Children.Add(titlePanel);
         stackPanel.Children.Add(img);
 
-        var card = new Card { Content = stackPanel, Background = (IBrush)new BrushConverter().ConvertFromString("#e2e2e2") };
+        var card = new Card
+        {
+            Content = stackPanel,
+            Background = (IBrush)new BrushConverter().ConvertFromString("#e2e2e2")
+        };
 
         card.Initialized += (s, e) =>
         {
