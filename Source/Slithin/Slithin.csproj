@@ -18,7 +18,6 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.15" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="0.10.15" />
     <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.7" />
-    <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
     <PackageReference Include="EpubSharp.dll" Version="1.1.5" />
     <PackageReference Include="FluentValidation" Version="11.1.0" />
@@ -44,6 +43,14 @@
     <PackageReference Include="SshKeyGenerator" Version="1.1.50" />
     <PackageReference Include="Svg" Version="3.4.2" />
    </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+    <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
+  </ItemGroup>
 
    <ItemGroup>
      <AvaloniaResource Include="Resources\**" />
