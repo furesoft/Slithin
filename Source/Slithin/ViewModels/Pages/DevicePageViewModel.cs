@@ -172,13 +172,13 @@ public class DevicePageViewModel : BaseViewModel
             var node = allNodes[i];
             if (!node.EndsWith("/"))
             {
-                _ssh.Download(PathList.Documents + "/" + node, new FileInfo(Path.Combine(notebooksDir, node)));
+                _ssh.Download(PathList.Documents + node, new FileInfo(Path.Combine(notebooksDir, node)));
                 continue;
             }
 
             Directory.CreateDirectory(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1)));
             NotificationService.ShowProgress("Downloading Notebooks", i, allNodes.Length - 1);
-            _ssh.Download(PathList.Documents + "/" + node, new DirectoryInfo(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1))));
+            _ssh.Download(PathList.Documents + node, new DirectoryInfo(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1))));
         }
     }
 
