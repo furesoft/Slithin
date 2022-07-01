@@ -42,14 +42,11 @@
     <PackageReference Include="SSH.NET" Version="2020.0.2" />
     <PackageReference Include="SshKeyGenerator" Version="1.1.50" />
     <PackageReference Include="Svg" Version="3.4.2" />
+    <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
    </ItemGroup>
 
   <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
     <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-    <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
   </ItemGroup>
 
    <ItemGroup>
