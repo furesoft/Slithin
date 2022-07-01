@@ -3,14 +3,13 @@ using System.IO;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using Renci.SshNet;
 using Slithin.Core;
+using Slithin.Core.Menu;
 using Slithin.Core.Remarkable;
+using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.UI.ContextualMenus;
 using Slithin.ViewModels.Pages;
-using Slithin.Core.Menu;
-using Slithin.Core.Remarkable.Models;
 
 namespace Slithin.UI.Pages;
 
@@ -22,7 +21,10 @@ public class NotebooksPage : UserControl, IPage
     {
         InitializeComponent();
 
-        DataContext = ServiceLocator.Container.Resolve<NotebooksPageViewModel>();
+        if (!Design.IsDesignMode)
+        {
+            DataContext = ServiceLocator.Container.Resolve<NotebooksPageViewModel>();
+        }
     }
 
     public string Title => "Notebooks";
@@ -103,7 +105,7 @@ public class NotebooksPage : UserControl, IPage
 
                         md.Upload();
 
-                        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+                        var scp = ServiceLocator.Container.Resolve<ISSHService>();
 
                         scp.Uploading += (s, e) =>
                         {

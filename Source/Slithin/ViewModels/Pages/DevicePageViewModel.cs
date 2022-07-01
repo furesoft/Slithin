@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Renci.SshNet;
 using Serilog;
 using Slithin.Core;
 using Slithin.Core.MVVM;
@@ -23,12 +22,11 @@ public class DevicePageViewModel : BaseViewModel
     private readonly ILocalisationService _localisationService;
     private readonly DeviceRepository _device;
     private readonly LocalRepository _localRepostory;
+    private readonly ISSHService _ssh;
     private readonly ILogger _logger;
     private readonly ILoginService _loginService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
-    private readonly ScpClient _scp;
-    private readonly SshClient _client;
     private readonly ISettingsService _settingsService;
     private readonly IVersionService _versionService;
 
@@ -43,8 +41,7 @@ public class DevicePageViewModel : BaseViewModel
         ILocalisationService localisationService,
         DeviceRepository device,
         LocalRepository localRepostory,
-        ScpClient scp,
-        SshClient client,
+        ISSHService ssh,
         IPathManager pathManager,
         ISettingsService settingsService,
         ILoginService loginService,
@@ -56,8 +53,7 @@ public class DevicePageViewModel : BaseViewModel
         _localisationService = localisationService;
         _device = device;
         _localRepostory = localRepostory;
-        _scp = scp;
-        _client = client;
+        _ssh = ssh;
         _pathManager = pathManager;
         _settingsService = settingsService;
         _loginService = loginService;
@@ -165,7 +161,7 @@ public class DevicePageViewModel : BaseViewModel
         var notebooksDir = _pathManager.NotebooksDir;
         NotificationService.Show(_localisationService.GetString("Downloading Notebooks"));
 
-        var cmd = _client.RunCommand("ls -p " + PathList.Documents);
+        var cmd = _ssh.RunCommand("ls -p " + PathList.Documents);
         var allNodes
             = cmd.Result
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries)
@@ -176,13 +172,13 @@ public class DevicePageViewModel : BaseViewModel
             var node = allNodes[i];
             if (!node.EndsWith("/"))
             {
-                _scp.Download(PathList.Documents + "/" + node, new FileInfo(Path.Combine(notebooksDir, node)));
+                _ssh.Download(PathList.Documents + node, new FileInfo(Path.Combine(notebooksDir, node)));
                 continue;
             }
 
             Directory.CreateDirectory(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1)));
             NotificationService.ShowProgress("Downloading Notebooks", i, allNodes.Length - 1);
-            _scp.Download(PathList.Documents + "/" + node, new DirectoryInfo(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1))));
+            _ssh.Download(PathList.Documents + node, new DirectoryInfo(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1))));
         }
     }
 
@@ -263,7 +259,7 @@ public class DevicePageViewModel : BaseViewModel
         {
             NotificationService.Show(_localisationService.GetString("Uploading Screens"));
 
-            _scp.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
+            _ssh.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
 
             _xochitl.ReloadDevice();
         });
@@ -275,7 +271,7 @@ public class DevicePageViewModel : BaseViewModel
         {
             NotificationService.Show(_localisationService.GetString("Uploading Templates"));
 
-            _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
+            _ssh.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
 
             _xochitl.ReloadDevice();
         });

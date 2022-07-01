@@ -4,6 +4,7 @@ using System.IO;
 using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Remarkable.Models;
+using Slithin.Core.Services;
 using Svg;
 using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
 
@@ -11,6 +12,13 @@ namespace Slithin.Core.Remarkable.Exporting.Exporters;
 
 public class PngExporter : IExportProvider
 {
+    private readonly ILocalisationService _localisationService;
+
+    public PngExporter(ILocalisationService localisationService)
+    {
+        _localisationService = localisationService;
+    }
+
     public bool ExportSingleDocument => false;
     public string Title => "PNG Graphics";
 
@@ -25,6 +33,12 @@ public class PngExporter : IExportProvider
             return false;
 
         var notebook = options.Document.AsT1;
+
+        if (options.PagesIndices.Count == 0)
+        {
+            NotificationService.ShowError(_localisationService.GetString("No Pages To Export Selected"));
+            return false;
+        }
 
         for (var i = 0; i < options.PagesIndices.Count; i++)
         {

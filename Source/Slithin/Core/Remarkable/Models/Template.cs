@@ -8,7 +8,6 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LiteDB;
 using Newtonsoft.Json;
-using Renci.SshNet;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 
@@ -89,7 +88,7 @@ public class Template : INotifyPropertyChanged, IEqualityComparer<Template>
     {
         var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
-        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+        var scp = ServiceLocator.Container.Resolve<ISSHService>();
         var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
 
         mailboxService.PostAction(() =>

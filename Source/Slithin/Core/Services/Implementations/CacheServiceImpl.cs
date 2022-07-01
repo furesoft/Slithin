@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 
 namespace Slithin.Core.Services.Implementations;
 
@@ -11,7 +12,7 @@ public class CacheServiceImpl : ICacheService
         _cache.AddOrUpdate(name, obj, (_, _) => obj);
     }
 
-    public T GetObject<T>(string name, T obj = default)
+    public T GetObject<T>(string name, Func<T> obj = default)
     {
         if (_cache.ContainsKey(name))
         {
@@ -20,8 +21,10 @@ public class CacheServiceImpl : ICacheService
 
         if (obj != null)
         {
-            AddObject(name, obj);
-            return obj;
+            var instance = obj();
+            AddObject(name, instance);
+
+            return instance;
         }
 
         return default;

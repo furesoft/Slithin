@@ -3,11 +3,19 @@ using System.IO;
 using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Remarkable.Models;
+using Slithin.Core.Services;
 
 namespace Slithin.Core.Remarkable.Exporting.Exporters;
 
 public class SvgExporter : IExportProvider
 {
+    private readonly ILocalisationService _localisationService;
+
+    public SvgExporter(ILocalisationService localisationService)
+    {
+        _localisationService = localisationService;
+    }
+
     public bool ExportSingleDocument => false;
 
     public string Title => "SVG Graphics";
@@ -26,7 +34,12 @@ public class SvgExporter : IExportProvider
 
         var notebook = options.Document.AsT1;
 
-        //ToDo: May parallize
+        if (options.PagesIndices.Count == 0)
+        {
+            NotificationService.ShowError(_localisationService.GetString("No Pages To Export Selected"));
+            return false;
+        }
+
         for (var i = 0; i < options.PagesIndices.Count; i++)
         {
             var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);

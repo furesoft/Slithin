@@ -9,6 +9,7 @@ using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.UI.Modals;
+using Slithin.Validators;
 using Slithin.ViewModels.Modals;
 
 namespace Slithin.Commands;
@@ -18,14 +19,17 @@ public class ExportCommand : ICommand
     private readonly IExportProviderFactory _exportProviderFactory;
     private readonly ILocalisationService _localisationService;
     private readonly IMailboxService _mailboxService;
+    private readonly ExportValidator _validator;
 
     public ExportCommand(IExportProviderFactory exportProviderFactory,
                          ILocalisationService localisationService,
-                         IMailboxService mailboxService)
+                         IMailboxService mailboxService,
+                         ExportValidator validator)
     {
         _exportProviderFactory = exportProviderFactory;
         _localisationService = localisationService;
         _mailboxService = mailboxService;
+        _validator = validator;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -51,6 +55,14 @@ public class ExportCommand : ICommand
 
         if (await DialogService.ShowDialog(_localisationService.GetString("Export"), modal))
         {
+            var validationResult = _validator.Validate(vm);
+
+            if (!validationResult.IsValid)
+            {
+                NotificationService.ShowError(string.Join("\n", validationResult.Errors));
+                return;
+            }
+
             var provider = vm.SelectedFormat;
 
             ExportOptions options = null;

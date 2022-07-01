@@ -15,11 +15,13 @@ namespace Slithin.Core.Remarkable.Exporting.Exporters;
 
 public class PdfExporter : IExportProvider
 {
+    private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;
 
-    public PdfExporter(IPathManager pathManager)
+    public PdfExporter(IPathManager pathManager, ILocalisationService localisationService)
     {
         _pathManager = pathManager;
+        _localisationService = localisationService;
     }
 
     public bool ExportSingleDocument => true;
@@ -45,13 +47,37 @@ public class PdfExporter : IExportProvider
 
     public override string ToString() => Title;
 
-    private static bool ExportNotebook(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
+    private static MemoryStream RenderSVGAsPng(Metadata metadata, int pageIndex, Page page, ref XSize psize)
+    {
+        var svgStrm = SvgRenderer.RenderPage(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
+        var pngStrm = new MemoryStream();
+
+        svgStrm.Seek(0, SeekOrigin.Begin);
+
+        var d = SvgDocument.Open<SvgDocument>(svgStrm);
+        d.Ppi = 226;
+
+        var bitmap = d.Draw();
+        bitmap.Save(pngStrm, ImageFormat.Png);
+        pngStrm.Seek(0, SeekOrigin.Begin);
+
+        svgStrm.Close();
+        return pngStrm;
+    }
+
+    private bool ExportNotebook(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
     {
         var notebook = options.Document.AsT1;
 
         var document = new PdfDocument();
 
         document.Info.Title = metadata.VisibleName;
+
+        if (options.PagesIndices.Count == 0)
+        {
+            NotificationService.ShowError(_localisationService.GetString("No Pages To Export Selected"));
+            return false;
+        }
 
         for (var i = 0; i < options.PagesIndices.Count; i++)
         {
@@ -78,30 +104,18 @@ public class PdfExporter : IExportProvider
         return true;
     }
 
-    private static MemoryStream RenderSVGAsPng(Metadata metadata, int pageIndex, Page page, ref XSize psize)
-    {
-        var svgStrm = SvgRenderer.RenderPage(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
-        var pngStrm = new MemoryStream();
-
-        svgStrm.Seek(0, SeekOrigin.Begin);
-
-        var d = SvgDocument.Open<SvgDocument>(svgStrm);
-        d.Ppi = 226;
-
-        var bitmap = d.Draw();
-        bitmap.Save(pngStrm, ImageFormat.Png);
-        pngStrm.Seek(0, SeekOrigin.Begin);
-
-        svgStrm.Close();
-        return pngStrm;
-    }
-
     private bool ExportPDF(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
     {
         var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
         var doc = options.Document.AsT0;
 
         doc.Info.Title = metadata.VisibleName;
+
+        if (options.PagesIndices.Count == 0)
+        {
+            NotificationService.ShowError(_localisationService.GetString("No Pages To Export Selected"));
+            return false;
+        }
 
         for (var i = 0; i < options.PagesIndices.Count; i++)
         {

@@ -84,7 +84,7 @@ public static class Updater
 
         var tmp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-        var fileName = Path.Combine(tmp, Path.GetFileName(asset.BrowserDownloadUrl));
+        var fileName = Path.Combine(tmp, Path.GetFileName(asset?.BrowserDownloadUrl));
 
         if (File.Exists(fileName))
         {

@@ -11,6 +11,7 @@ using Serilog;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
+using Slithin.Core.Services.Implementations;
 using Slithin.Core.Sync;
 using Slithin.Models;
 using Slithin.UI.Views;
@@ -175,8 +176,7 @@ public class ConnectionWindowViewModel : BaseViewModel
                 return;
             }
 
-            ServiceLocator.Container.Register(client);
-            ServiceLocator.Container.Register(scp);
+            ServiceLocator.Container.Register(new SshServiceImpl(client, scp));
 
             ServiceLocator.SyncService = new SynchronisationService(ServiceLocator.Container.Resolve<LiteDatabase>());
 

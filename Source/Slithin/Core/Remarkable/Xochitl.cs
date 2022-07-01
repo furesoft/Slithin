@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using IniParser;
 using IniParser.Model;
-using Renci.SshNet;
 using Serilog;
 using Slithin.Core.Services;
 
@@ -12,19 +11,17 @@ namespace Slithin.Core.Remarkable;
 
 public class Xochitl
 {
-    private readonly SshClient _client;
     private readonly ILogger _logger;
     private readonly IPathManager _pathManager;
-    private readonly ScpClient _scp;
+    private readonly ISSHService _ssh;
     private IniData _data;
     private FileIniDataParser _ini;
 
-    public Xochitl(ScpClient scp, IPathManager pathManager, ILogger logger, SshClient client)
+    public Xochitl(IPathManager pathManager, ILogger logger, ISSHService ssh)
     {
-        _scp = scp;
         _pathManager = pathManager;
         _logger = logger;
-        _client = client;
+        _ssh = ssh;
     }
 
     public bool GetIsBeta()
@@ -87,7 +84,7 @@ public class Xochitl
             fileInfo.Delete();
         }
 
-        _scp.Download("/home/root/.config/remarkable/xochitl.conf", fileInfo);
+        _ssh.Download("/home/root/.config/remarkable/xochitl.conf", fileInfo);
 
         _ini = new FileIniDataParser();
 
@@ -96,7 +93,7 @@ public class Xochitl
 
     public void ReloadDevice()
     {
-        var result = _client.RunCommand("systemctl restart xochitl");
+        var result = _ssh.RunCommand("systemctl restart xochitl");
 
         if (result.ExitStatus != 0)
         {
@@ -134,6 +131,6 @@ public class Xochitl
         var fileInfo = new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"));
 
         NotificationService.Show("Uploading xochitl.conf");
-        _scp.Upload(fileInfo, "/home/root/.config/remarkable/xochitl.conf");
+        _ssh.Upload(fileInfo, "/home/root/.config/remarkable/xochitl.conf");
     }
 }
