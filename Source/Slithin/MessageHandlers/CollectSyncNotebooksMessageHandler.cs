@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Messaging;
 using Slithin.Core.Remarkable;
@@ -18,20 +17,20 @@ namespace Slithin.MessageHandlers;
 
 public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNotebooksMessage>
 {
-    private readonly SshClient _client;
     private readonly ILocalisationService _localisationService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
+    private readonly ISSHService _ssh;
     private readonly SynchronisationService _synchronisationService;
     private readonly List<SyncNotebook> _syncNotebooks = new();
 
     public CollectSyncNotebooksMessageHandler(IPathManager pathManager,
-        SshClient client,
+        ISSHService ssh,
         ILocalisationService localisationService,
         IMailboxService mailboxService)
     {
         _pathManager = pathManager;
-        _client = client;
+        _ssh = ssh;
         _localisationService = localisationService;
         _mailboxService = mailboxService;
         _synchronisationService = ServiceLocator.SyncService;
@@ -41,7 +40,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
     {
         var notebooksDir = _pathManager.NotebooksDir;
 
-        var cmd = _client.RunCommand($"ls -p {PathList.Documents}");
+        var cmd = _ssh.RunCommand($"ls -p {PathList.Documents}");
         var allFilenames
             = cmd.Result
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries)
@@ -90,7 +89,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
                     "Downloading Notebook Metadata"), currentMd, mdFilenames.Length - 1);
             currentMd++;
 
-            var sshCommand = _client.RunCommand($"cat {PathList.Documents}/{md}");
+            var sshCommand = _ssh.RunCommand($"cat {PathList.Documents}/{md}");
             var mdContent = sshCommand.Result;
             var contentContent = "{}";
             var pageDataContent = "";
@@ -99,14 +98,14 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             var fileNamesContainDotContent = allFilenames.Contains(mdDotContent);
             if (fileNamesContainDotContent)
             {
-                contentContent = _client.RunCommand($"cat {PathList.Documents}/{mdDotContent}").Result;
+                contentContent = _ssh.RunCommand($"cat {PathList.Documents}/{mdDotContent}").Result;
             }
 
             var mdDotPagedata = Path.ChangeExtension(md, ".pagedata");
             var fileNamesContaintDotPagedata = allFilenames.Contains(mdDotPagedata);
             if (fileNamesContaintDotPagedata)
             {
-                pageDataContent = _client.RunCommand($"cat {PathList.Documents}/{mdDotPagedata}").Result;
+                pageDataContent = _ssh.RunCommand($"cat {PathList.Documents}/{mdDotPagedata}").Result;
             }
 
             if (string.IsNullOrEmpty(mdContent) || string.IsNullOrWhiteSpace(mdContent))

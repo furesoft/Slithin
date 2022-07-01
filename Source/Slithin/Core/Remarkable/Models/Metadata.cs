@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Newtonsoft.Json;
-using Renci.SshNet;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 
@@ -108,7 +107,7 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
 
     public void Upload(bool onlyMetadata = false)
     {
-        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+        var scp = ServiceLocator.Container.Resolve<ISSHService>();
         var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
 
         scp.Upload(new FileInfo(Path.Combine(notebooksDir, ID + ".metadata")),

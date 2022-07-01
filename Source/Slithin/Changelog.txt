@@ -1,5 +1,7 @@
 Version 1.0.19
+
 - Bugfixes
+- Add Automatic Reconnection For SSH
 
 Version 1.0.18
 

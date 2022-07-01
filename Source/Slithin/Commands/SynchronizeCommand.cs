@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows.Input;
-using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
@@ -15,23 +14,23 @@ namespace Slithin.Commands;
 
 public class SynchronizeCommand : ICommand
 {
-    private readonly SshClient _client;
     private readonly ILocalisationService _localisationService;
     private readonly LocalRepository _localRepository;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
+    private readonly ISSHService _ssh;
 
     public SynchronizeCommand(IMailboxService mailboxService,
         LocalRepository localRepository,
         IPathManager pathManager,
         ILocalisationService localisationService,
-        SshClient client)
+        ISSHService ssh)
     {
         _mailboxService = mailboxService;
         _localRepository = localRepository;
         _pathManager = pathManager;
         _localisationService = localisationService;
-        _client = client;
+        _ssh = ssh;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -45,7 +44,7 @@ public class SynchronizeCommand : ICommand
     {
         var discovery = ServiceLocator.Container.Resolve<IDeviceDiscovery>();
 
-        var ip = ServiceLocator.Container.Resolve<ScpClient>().ConnectionInfo.Host;
+        var ip = ServiceLocator.Container.Resolve<ISSHService>().ConnectionInfo.Host;
 
         if (!discovery.PingDevice(IPAddress.Parse(ip)))
         {
@@ -74,7 +73,7 @@ public class SynchronizeCommand : ICommand
 
     private void SyncDeviceDeletions()
     {
-        var sshCommand = _client.RunCommand("ls -p " + PathList.Documents);
+        var sshCommand = _ssh.RunCommand("ls -p " + PathList.Documents);
         var deviceFiles = sshCommand.Result
             .Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
         var localFiles = Directory.GetFiles(_pathManager.NotebooksDir).Where(_ => _.EndsWith(".metadata"))

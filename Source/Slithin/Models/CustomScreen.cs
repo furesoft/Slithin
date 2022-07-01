@@ -4,11 +4,10 @@ using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LiteDB;
-using Renci.SshNet;
 using Slithin.Core;
+using Slithin.Core.MVVM;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
-using Slithin.Core.MVVM;
 
 namespace Slithin.Models;
 
@@ -80,7 +79,7 @@ public class CustomScreen : NotifyObject
     {
         var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
-        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+        var scp = ServiceLocator.Container.Resolve<ISSHService>();
         var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
         var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
 

@@ -3,7 +3,6 @@ using System.IO;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Menu;
 using Slithin.Core.Remarkable;
@@ -106,7 +105,7 @@ public class NotebooksPage : UserControl, IPage
 
                         md.Upload();
 
-                        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+                        var scp = ServiceLocator.Container.Resolve<ISSHService>();
 
                         scp.Uploading += (s, e) =>
                         {

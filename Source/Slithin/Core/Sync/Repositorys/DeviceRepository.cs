@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using Renci.SshNet;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
@@ -12,29 +11,26 @@ namespace Slithin.Core.Sync.Repositorys;
 
 public class DeviceRepository : IRepository
 {
-    private readonly SshClient _client;
     private readonly ILoadingService _loadingService;
     private readonly LocalRepository _localRepository;
     private readonly IPathManager _pathManager;
-    private readonly ScpClient _scp;
+    private readonly ISSHService _ssh;
 
     public DeviceRepository(
         IPathManager pathManager,
         LocalRepository localRepository,
-        ScpClient scp,
-        SshClient client,
+        ISSHService ssh,
         ILoadingService loadingService)
     {
         _pathManager = pathManager;
         _localRepository = localRepository;
-        _scp = scp;
-        _client = client;
+        _ssh = ssh;
         _loadingService = loadingService;
     }
 
     public void Add(CustomScreen screen)
     {
-        _scp.Upload(new FileInfo(Path.Combine(_pathManager.CustomScreensDir, screen.Title + ".png")),
+        _ssh.Upload(new FileInfo(Path.Combine(_pathManager.CustomScreensDir, screen.Title + ".png")),
             PathList.Screens + screen.Title + ".png");
     }
 
@@ -44,7 +40,7 @@ public class DeviceRepository : IRepository
         //2. add template to template.json
 
         var deviceTemplatePath = Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png");
-        _scp?.Upload(File.OpenRead(deviceTemplatePath), PathList.Templates + template.Filename + ".png");
+        _ssh?.Upload(File.OpenRead(deviceTemplatePath), PathList.Templates + template.Filename + ".png");
 
         // modifiy template.json
 
@@ -64,18 +60,18 @@ public class DeviceRepository : IRepository
 
         // upload modified template.json
         var jsonStrm = File.OpenRead(path);
-        _scp!.Upload(jsonStrm, PathList.Templates + "/templates.json");
+        _ssh!.Upload(jsonStrm, PathList.Templates + "/templates.json");
     }
 
     public void DownloadCustomScreens()
     {
-        var cmd = _client.RunCommand("ls -p " + PathList.Screens);
+        var cmd = _ssh.RunCommand("ls -p " + PathList.Screens);
         var filenames = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".png"));
 
         // download files to custom screen dir
         foreach (var file in filenames)
         {
-            _scp.Download(PathList.Screens + file,
+            _ssh.Download(PathList.Screens + file,
                 new FileInfo(Path.Combine(_pathManager.CustomScreensDir, Path.GetFileName(file))));
         }
 
@@ -84,7 +80,7 @@ public class DeviceRepository : IRepository
 
     public Template[] GetTemplates()
     {
-        _scp.Download(PathList.Templates + "templates.json",
+        _ssh.Download(PathList.Templates + "templates.json",
             new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")));
         //Get template.json
         //sort out all synced templates
@@ -98,9 +94,9 @@ public class DeviceRepository : IRepository
 
         foreach (var t in toSyncTemplates)
         {
-            _scp.Download(PathList.Templates + "/" + t.Filename + ".png",
+            _ssh.Download(PathList.Templates + "/" + t.Filename + ".png",
                 new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".png")));
-            _scp.Download(PathList.Templates + "/" + t.Filename + ".svg",
+            _ssh.Download(PathList.Templates + "/" + t.Filename + ".svg",
                 new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".svg")));
         }
 
@@ -111,13 +107,13 @@ public class DeviceRepository : IRepository
 
     public void Remove(Metadata md)
     {
-        var cmd = _client.RunCommand("ls " + PathList.Documents);
+        var cmd = _ssh.RunCommand("ls " + PathList.Documents);
         var split = cmd.Result.Split('\n');
         var excluded = split.Where(_ => _.Contains(md.ID));
 
         foreach (var filename in excluded.Select(_ => PathList.Documents + _))
         {
-            _client.RunCommand("rm -fr " + filename);
+            _ssh.RunCommand("rm -fr " + filename);
         }
     }
 
@@ -129,8 +125,8 @@ public class DeviceRepository : IRepository
         templateJson.Remove(template);
         templateJson.Save();
 
-        _scp.Upload(File.OpenRead(path),
+        _ssh.Upload(File.OpenRead(path),
             Path.Combine(PathList.Templates, "templates.json"));
-        _client.RunCommand("rm -fr " + PathList.Templates + template.Filename + ".png");
+        _ssh.RunCommand("rm -fr " + PathList.Templates + template.Filename + ".png");
     }
 }

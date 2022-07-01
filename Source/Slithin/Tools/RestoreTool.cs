@@ -9,7 +9,6 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Ionic.Zip;
-using Renci.SshNet;
 using Slithin.Core;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
@@ -22,23 +21,20 @@ namespace Slithin.Tools;
 
 public class RestoreTool : ITool
 {
-    private readonly SshClient _client;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
-    private readonly ScpClient _scp;
+    private readonly ISSHService _ssh;
     private readonly Xochitl _xochitl;
 
     public RestoreTool(
         IPathManager pathManager,
+        ISSHService ssh,
         IMailboxService mailboxService,
-        SshClient client,
-        ScpClient scp,
         Xochitl xochitl)
     {
         _pathManager = pathManager;
+        _ssh = ssh;
         _mailboxService = mailboxService;
-        _client = client;
-        _scp = scp;
         _xochitl = xochitl;
     }
 
@@ -104,25 +100,25 @@ public class RestoreTool : ITool
                     //upload all data
 
                     NotificationService.Show("Removing Notebooks From Device");
-                    _client.RunCommand("rm -fr " + PathList.Documents).Dispose();
-                    _client.RunCommand("mkdir " + PathList.Documents).Dispose();
+                    _ssh.RunCommand("rm -fr " + PathList.Documents).Dispose();
+                    _ssh.RunCommand("mkdir " + PathList.Documents).Dispose();
 
                     NotificationService.Show("Removing Screens From Device");
-                    _client.RunCommand("rm -fr " + PathList.Screens).Dispose();
-                    _client.RunCommand("mkdir " + PathList.Screens).Dispose();
+                    _ssh.RunCommand("rm -fr " + PathList.Screens).Dispose();
+                    _ssh.RunCommand("mkdir " + PathList.Screens).Dispose();
 
                     NotificationService.Show("Removing Templates From Device");
-                    _client.RunCommand("rm -fr " + PathList.Templates).Dispose();
-                    _client.RunCommand("mkdir " + PathList.Templates).Dispose();
+                    _ssh.RunCommand("rm -fr " + PathList.Templates).Dispose();
+                    _ssh.RunCommand("mkdir " + PathList.Templates).Dispose();
 
                     NotificationService.Show("Uploading Notebooks");
-                    _scp.Upload(new DirectoryInfo(_pathManager.NotebooksDir), PathList.Documents);
+                    _ssh.Upload(new DirectoryInfo(_pathManager.NotebooksDir), PathList.Documents);
 
                     NotificationService.Show("Uploading Screens");
-                    _scp.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
+                    _ssh.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
 
                     NotificationService.Show("Uploading Templates");
-                    _scp.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
+                    _ssh.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
 
                     NotificationService.Show("Finished");
                     await Task.Delay(1000);

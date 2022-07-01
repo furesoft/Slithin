@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Renci.SshNet;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 
@@ -93,7 +92,7 @@ public class Notebook
         NotificationService.Show("Uploading " + md.VisibleName);
 
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
-        var scp = ServiceLocator.Container.Resolve<ScpClient>();
+        var scp = ServiceLocator.Container.Resolve<ISSHService>();
         var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
 
         var notebooksDir = pathManager.NotebooksDir;
@@ -113,21 +112,20 @@ public class Notebook
     {
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var LocalisationService = ServiceLocator.Container.Resolve<ILocalisationService>();
-        var scp = ServiceLocator.Container.Resolve<ScpClient>();
-        var client = ServiceLocator.Container.Resolve<SshClient>();
+        var ssh = ServiceLocator.Container.Resolve<ISSHService>();
         var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>(); var xochitl = ServiceLocator.Container.Resolve<Xochitl>();
 
         var notebooksDir = pathManager.NotebooksDir;
 
         mailboxService.PostAction(() =>
         {
-            scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
+            ssh.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
                    PathList.Documents + "/" + md.ID + ".metadata");
 
-            client.RunCommand("mkdir " + PathList.Documents + md.ID);
-            client.RunCommand("mkdir " + PathList.Documents + md.ID + ".thumbnails");
+            ssh.RunCommand("mkdir " + PathList.Documents + md.ID);
+            ssh.RunCommand("mkdir " + PathList.Documents + md.ID + ".thumbnails");
 
-            scp.Uploading += (s, e) =>
+            ssh.Uploading += (s, e) =>
               {
                   NotificationService.ShowProgress(
                       LocalisationService.GetStringFormat(
@@ -135,12 +133,12 @@ public class Notebook
                       , (int)e.Uploaded, (int)e.Size);
               };
 
-            scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
+            ssh.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
                PathList.Documents + md.ID + ".content");
 
-            scp.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)),
+            ssh.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)),
                 PathList.Documents + md.ID);
-            scp.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)),
+            ssh.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)),
                 PathList.Documents + "/" + md.ID + ".thumbnails");
 
             xochitl.ReloadDevice();

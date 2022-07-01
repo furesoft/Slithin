@@ -1,24 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Renci.SshNet;
 
 namespace Slithin.Core.Services.Implementations;
 
 public class VersionServiceImpl : IVersionService
 {
     private readonly IPathManager _pathManager;
-    private readonly SshClient _sshClient;
+    private readonly ISSHService _ssh;
 
-    public VersionServiceImpl(IPathManager pathManager, SshClient sshClient)
+    public VersionServiceImpl(IPathManager pathManager, ISSHService ssh)
     {
         _pathManager = pathManager;
-        _sshClient = sshClient;
+        _ssh = ssh;
     }
 
     public Version GetDeviceVersion()
     {
-        var str = _sshClient.RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf").Result;
+        var str = _ssh.RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf").Result;
         str = str.Replace("REMARKABLE_RELEASE_VERSION=", "").Replace("\n", "");
 
         return new(str);
