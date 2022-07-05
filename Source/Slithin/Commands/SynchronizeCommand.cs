@@ -18,19 +18,16 @@ public class SynchronizeCommand : ICommand
     private readonly LocalRepository _localRepository;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
-    private readonly ISSHService _ssh;
 
     public SynchronizeCommand(IMailboxService mailboxService,
         LocalRepository localRepository,
         IPathManager pathManager,
-        ILocalisationService localisationService,
-        ISSHService ssh)
+        ILocalisationService localisationService)
     {
         _mailboxService = mailboxService;
         _localRepository = localRepository;
         _pathManager = pathManager;
         _localisationService = localisationService;
-        _ssh = ssh;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -73,7 +70,9 @@ public class SynchronizeCommand : ICommand
 
     private void SyncDeviceDeletions()
     {
-        var sshCommand = _ssh.RunCommand("ls -p " + PathList.Documents);
+        var ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
+        var sshCommand = ssh.RunCommand("ls -p " + PathList.Documents);
         var deviceFiles = sshCommand.Result
             .Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".metadata"));
         var localFiles = Directory.GetFiles(_pathManager.NotebooksDir).Where(_ => _.EndsWith(".metadata"))
