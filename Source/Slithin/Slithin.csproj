@@ -30,7 +30,7 @@
     <PackageReference Include="NodeEditorAvalonia.Model" Version="0.10.14" />
     <PackageReference Include="NodeEditorAvalonia.ReactiveUI" Version="0.10.14" />
     <PackageReference Include="NodeEditorAvalonia.Serializer" Version="0.10.14" />
-    <PackageReference Include="Octokit" Version="0.51.0" />
+    <PackageReference Include="Octokit" Version="0.52.0" />
     <PackageReference Include="OneOf" Version="3.0.223" />
     <PackageReference Include="PdfSharpCore" Version="1.3.32" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
