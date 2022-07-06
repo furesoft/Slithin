@@ -3,16 +3,19 @@
         xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:controls="http://github.com/furesoft/Slithin">
     <Design.PreviewWith>
-        <controls:ImageButton />
+        <controls:ImageButton Text="Hello" />
     </Design.PreviewWith>
 
     <Style Selector="controls|ImageButton">
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="{TemplateBinding Background}" CornerRadius="2">
-                    <Grid RowDefinitions="40,*" VerticalAlignment="Center">
-                        <DrawingPresenter Grid.Row="0" Width="40" Height="40" Drawing="{TemplateBinding Image}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBlock Grid.Row="1" Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17" />
+                <Border Background="{TemplateBinding Background}">
+                    <Grid RowDefinitions="40,*" VerticalAlignment="Center" Margin="2">
+                        <Viewbox Grid.Row="0" Width="40" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <DrawingPresenter Drawing="{TemplateBinding Image}" />
+                        </Viewbox>
+
+                        <TextBlock Grid.Row="1" Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17" HorizontalAlignment="Center" />
                     </Grid>
                 </Border>
             </ControlTemplate>
