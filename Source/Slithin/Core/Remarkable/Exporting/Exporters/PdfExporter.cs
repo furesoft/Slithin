@@ -94,6 +94,8 @@ public class PdfExporter : IExportProvider
             var size = new XSize(1404, 1872);
             var pngStrm = RenderSVGAsPng(metadata, i, page, ref size);
 
+            DrawTemplate(metadata, graphics, i);
+
             graphics.DrawImage(XImage.FromStream(() => pngStrm), 0, 0, pdfPage.Width, pdfPage.Height);
 
             progress.Report(percent);
@@ -102,6 +104,19 @@ public class PdfExporter : IExportProvider
         document.Save(Path.Combine(outputPath, metadata.VisibleName + ".pdf"));
 
         return true;
+    }
+
+    private void DrawTemplate(Metadata metadata, XGraphics graphics, int index)
+    {
+        if (metadata.PageData.Data == null) return;
+
+        var templateBackgroundFilename = metadata.PageData.Data[index];
+        var templatePath = Path.Combine(_pathManager.TemplatesDir, templateBackgroundFilename + ".png");
+
+        if (File.Exists(templatePath))
+        {
+            graphics.DrawImage(XImage.FromFile(templatePath), new XPoint(0, 0));
+        }
     }
 
     private bool ExportPDF(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
