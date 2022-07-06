@@ -23,17 +23,14 @@ public class RestoreTool : ITool
 {
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
-    private readonly ISSHService _ssh;
     private readonly Xochitl _xochitl;
 
     public RestoreTool(
         IPathManager pathManager,
-        ISSHService ssh,
         IMailboxService mailboxService,
         Xochitl xochitl)
     {
         _pathManager = pathManager;
-        _ssh = ssh;
         _mailboxService = mailboxService;
         _xochitl = xochitl;
     }
@@ -59,6 +56,8 @@ public class RestoreTool : ITool
 
     public async void Invoke(object data)
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         var vm = new SelectBackupViewModel
         {
             Backups = new ObservableCollection<Backup>(Directory.GetFiles(_pathManager.BackupsDir, "*.zip")

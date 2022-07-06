@@ -7,14 +7,8 @@ namespace Slithin.Core.Services.Implementations;
 
 public class SshServiceImpl : ISSHService
 {
-    private readonly SshClient _client;
-    private readonly ScpClient _scp;
-
-    public SshServiceImpl(SshClient client, ScpClient scp)
-    {
-        _client = client;
-        _scp = scp;
-    }
+    private SshClient _client;
+    private ScpClient _scp;
 
     public event EventHandler<ScpDownloadEventArgs> Downloading
     {
@@ -41,6 +35,15 @@ public class SshServiceImpl : ISSHService
     }
 
     public ConnectionInfo ConnectionInfo => _client.ConnectionInfo;
+
+    public static ISSHService New(SshClient client, ScpClient scp)
+    {
+        var service = new SshServiceImpl();
+        service._client = client;
+        service._scp = scp;
+
+        return service;
+    }
 
     public void Dispose()
     {

@@ -13,15 +13,13 @@ public class Xochitl
 {
     private readonly ILogger _logger;
     private readonly IPathManager _pathManager;
-    private readonly ISSHService _ssh;
     private IniData _data;
     private FileIniDataParser _ini;
 
-    public Xochitl(IPathManager pathManager, ILogger logger, ISSHService ssh)
+    public Xochitl(IPathManager pathManager, ILogger logger)
     {
         _pathManager = pathManager;
         _logger = logger;
-        _ssh = ssh;
     }
 
     public bool GetIsBeta()
@@ -75,6 +73,8 @@ public class Xochitl
 
     public void Init()
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         var fileInfo = new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"));
 
         _logger.Information("Downloading 'xochitl.conf'");
@@ -93,6 +93,8 @@ public class Xochitl
 
     public void ReloadDevice()
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         var result = _ssh.RunCommand("systemctl restart xochitl");
 
         if (result.ExitStatus != 0)
@@ -128,6 +130,8 @@ public class Xochitl
 
     public void Upload()
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         var fileInfo = new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"));
 
         NotificationService.Show("Uploading xochitl.conf");

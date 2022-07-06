@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using LiteDB;
-using Slithin.Models;
 using Slithin.Commands;
 using Slithin.Core.MVVM;
+using Slithin.Models;
 
 namespace Slithin.Core.Sync;
 
@@ -13,8 +13,6 @@ public class SynchronisationService : NotifyObject
         TemplateFilter = new();
         NotebooksFilter = new();
         ToolsFilter = new();
-
-        SynchronizeCommand = ServiceLocator.Container.Resolve<SynchronizeCommand>();
     }
 
     public ObservableCollection<CustomScreen> CustomScreens { get; set; } = new();

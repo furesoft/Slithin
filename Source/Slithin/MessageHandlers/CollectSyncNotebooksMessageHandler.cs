@@ -20,17 +20,15 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
     private readonly ILocalisationService _localisationService;
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
-    private readonly ISSHService _ssh;
     private readonly SynchronisationService _synchronisationService;
     private readonly List<SyncNotebook> _syncNotebooks = new();
 
     public CollectSyncNotebooksMessageHandler(IPathManager pathManager,
-        ISSHService ssh,
         ILocalisationService localisationService,
         IMailboxService mailboxService)
     {
         _pathManager = pathManager;
-        _ssh = ssh;
+
         _localisationService = localisationService;
         _mailboxService = mailboxService;
         _synchronisationService = ServiceLocator.SyncService;
@@ -39,8 +37,9 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
     public void HandleMessage(CollectSyncNotebooksMessage message)
     {
         var notebooksDir = _pathManager.NotebooksDir;
+        var ssh = ServiceLocator.Container.Resolve<ISSHService>();
 
-        var cmd = _ssh.RunCommand($"ls -p {PathList.Documents}");
+        var cmd = ssh.RunCommand($"ls -p {PathList.Documents}");
         var allFilenames
             = cmd.Result
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries)
@@ -89,7 +88,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
                     "Downloading Notebook Metadata"), currentMd, mdFilenames.Length - 1);
             currentMd++;
 
-            var sshCommand = _ssh.RunCommand($"cat {PathList.Documents}/{md}");
+            var sshCommand = ssh.RunCommand($"cat {PathList.Documents}/{md}");
             var mdContent = sshCommand.Result;
             var contentContent = "{}";
             var pageDataContent = "";
@@ -98,14 +97,14 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             var fileNamesContainDotContent = allFilenames.Contains(mdDotContent);
             if (fileNamesContainDotContent)
             {
-                contentContent = _ssh.RunCommand($"cat {PathList.Documents}/{mdDotContent}").Result;
+                contentContent = ssh.RunCommand($"cat {PathList.Documents}/{mdDotContent}").Result;
             }
 
             var mdDotPagedata = Path.ChangeExtension(md, ".pagedata");
             var fileNamesContaintDotPagedata = allFilenames.Contains(mdDotPagedata);
             if (fileNamesContaintDotPagedata)
             {
-                pageDataContent = _ssh.RunCommand($"cat {PathList.Documents}/{mdDotPagedata}").Result;
+                pageDataContent = ssh.RunCommand($"cat {PathList.Documents}/{mdDotPagedata}").Result;
             }
 
             if (string.IsNullOrEmpty(mdContent) || string.IsNullOrWhiteSpace(mdContent))
@@ -205,9 +204,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
                 for (var i = 0; i < otherfiles.Length; i++)
                 {
                     var fi = new FileInfo(Path.Combine(notebooksDir, otherfiles[i]));
-                    if (!md.Deleted
-                        && md.Version > mdLocals[md.ID].Version
-                        && !fi.Exists)
+                    if (!fi.Exists)
                     {
                         _syncNotebooks.Add(sn);
                     }

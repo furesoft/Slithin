@@ -5,12 +5,11 @@ using System.Linq;
 using System.Reflection;
 using Avalonia.Controls;
 using Material.Styles;
-using Slithin.Core;
+using Slithin.Core.Menu;
+using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 using Slithin.Models;
 using Slithin.UI.ContextualMenus;
-using Slithin.Core.Menu;
-using Slithin.Core.MVVM;
 
 namespace Slithin.ViewModels;
 

@@ -7,16 +7,16 @@ namespace Slithin.Core.Services.Implementations;
 public class VersionServiceImpl : IVersionService
 {
     private readonly IPathManager _pathManager;
-    private readonly ISSHService _ssh;
 
-    public VersionServiceImpl(IPathManager pathManager, ISSHService ssh)
+    public VersionServiceImpl(IPathManager pathManager)
     {
         _pathManager = pathManager;
-        _ssh = ssh;
     }
 
     public Version GetDeviceVersion()
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         var str = _ssh.RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf").Result;
         str = str.Replace("REMARKABLE_RELEASE_VERSION=", "").Replace("\n", "");
 
