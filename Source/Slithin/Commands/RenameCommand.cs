@@ -10,7 +10,7 @@ using Slithin.Core.Services;
 namespace Slithin.Commands;
 
 [Context(UIContext.Notebook)]
-public class RenameCommand : ICommand, IContextCommand
+public class RenameCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;
