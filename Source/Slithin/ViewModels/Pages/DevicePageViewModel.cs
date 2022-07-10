@@ -22,7 +22,6 @@ public class DevicePageViewModel : BaseViewModel
     private readonly ILocalisationService _localisationService;
     private readonly DeviceRepository _device;
     private readonly LocalRepository _localRepostory;
-    private readonly ISSHService _ssh;
     private readonly ILogger _logger;
     private readonly ILoginService _loginService;
     private readonly IMailboxService _mailboxService;
@@ -41,7 +40,6 @@ public class DevicePageViewModel : BaseViewModel
         ILocalisationService localisationService,
         DeviceRepository device,
         LocalRepository localRepostory,
-        ISSHService ssh,
         IPathManager pathManager,
         ISettingsService settingsService,
         ILoginService loginService,
@@ -53,7 +51,6 @@ public class DevicePageViewModel : BaseViewModel
         _localisationService = localisationService;
         _device = device;
         _localRepostory = localRepostory;
-        _ssh = ssh;
         _pathManager = pathManager;
         _settingsService = settingsService;
         _loginService = loginService;
@@ -158,6 +155,8 @@ public class DevicePageViewModel : BaseViewModel
 
     public void InitNotebooks()
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         var notebooksDir = _pathManager.NotebooksDir;
         NotificationService.Show(_localisationService.GetString("Downloading Notebooks"));
 
@@ -255,6 +254,8 @@ public class DevicePageViewModel : BaseViewModel
 
     private void UploadScreens()
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         _mailboxService.PostAction(() =>
         {
             NotificationService.Show(_localisationService.GetString("Uploading Screens"));
@@ -267,6 +268,8 @@ public class DevicePageViewModel : BaseViewModel
 
     private void UploadTemplates()
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         _mailboxService.PostAction(() =>
         {
             NotificationService.Show(_localisationService.GetString("Uploading Templates"));

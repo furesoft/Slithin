@@ -11,19 +11,24 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
 {
     private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;
-    private readonly ISSHService _ssh;
 
     public DownloadSyncNotebooksMessageHandler(IPathManager pathManager,
-                                               ILocalisationService localisationService,
-                                               ISSHService ssh)
+                                               ILocalisationService localisationService)
     {
         _pathManager = pathManager;
         _localisationService = localisationService;
-        _ssh = ssh;
     }
 
     public void HandleMessage(DownloadSyncNotebookMessage message)
     {
+        var ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
+        ssh.Downloading += (s, e) =>
+        {
+            NotificationService.ShowProgress(_localisationService.GetStringFormat(
+                "Downloading Notebook"), (int)e.Downloaded, (int)e.Size);
+        };
+
         for (int i = 0; i < message.Notebooks.Count; i++)
         {
             var sn = message.Notebooks[i];
@@ -37,20 +42,14 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
                     di.Create();
                 }
 
-                _ssh.Downloading += (s, e) =>
-                {
-                    NotificationService.ShowProgress(_localisationService.GetStringFormat(
-                        "Downloading Notebook"), (int)e.Downloaded, (int)e.Size);
-                };
-
-                _ssh.Download(PathList.Documents + folder.TrimStart('/'), di);
+                ssh.Download(PathList.Documents + folder.TrimStart('/'), di);
             }
 
             foreach (var file in sn.Files)
             {
                 var fi = new FileInfo(Path.Combine(_pathManager.NotebooksDir, file));
 
-                _ssh.Download(PathList.Documents + "/" + file, fi);
+                ssh.Download(PathList.Documents + "/" + file, fi);
             }
         }
     }

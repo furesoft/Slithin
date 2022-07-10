@@ -14,22 +14,21 @@ public class DeviceRepository : IRepository
     private readonly ILoadingService _loadingService;
     private readonly LocalRepository _localRepository;
     private readonly IPathManager _pathManager;
-    private readonly ISSHService _ssh;
 
     public DeviceRepository(
         IPathManager pathManager,
         LocalRepository localRepository,
-        ISSHService ssh,
         ILoadingService loadingService)
     {
         _pathManager = pathManager;
         _localRepository = localRepository;
-        _ssh = ssh;
         _loadingService = loadingService;
     }
 
     public void Add(CustomScreen screen)
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         _ssh.Upload(new FileInfo(Path.Combine(_pathManager.CustomScreensDir, screen.Title + ".png")),
             PathList.Screens + screen.Title + ".png");
     }
@@ -38,6 +37,7 @@ public class DeviceRepository : IRepository
     {
         //1. copy template to device
         //2. add template to template.json
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
 
         var deviceTemplatePath = Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png");
         _ssh?.Upload(File.OpenRead(deviceTemplatePath), PathList.Templates + template.Filename + ".png");
@@ -65,6 +65,8 @@ public class DeviceRepository : IRepository
 
     public void DownloadCustomScreens()
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         var cmd = _ssh.RunCommand("ls -p " + PathList.Screens);
         var filenames = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".png"));
 
@@ -80,6 +82,8 @@ public class DeviceRepository : IRepository
 
     public Template[] GetTemplates()
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         _ssh.Download(PathList.Templates + "templates.json",
             new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")));
         //Get template.json
@@ -107,6 +111,8 @@ public class DeviceRepository : IRepository
 
     public void Remove(Metadata md)
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         var cmd = _ssh.RunCommand("ls " + PathList.Documents);
         var split = cmd.Result.Split('\n');
         var excluded = split.Where(_ => _.Contains(md.ID));
@@ -119,6 +125,8 @@ public class DeviceRepository : IRepository
 
     public void RemoveTemplate(Template template)
     {
+        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+
         // modifiy template.json
         var path = Path.Combine(_pathManager.ConfigBaseDir, "templates.json");
         var templateJson = JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path));

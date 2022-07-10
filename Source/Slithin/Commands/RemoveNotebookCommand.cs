@@ -12,7 +12,7 @@ using Slithin.ViewModels.Pages;
 namespace Slithin.Commands;
 
 [Context(UIContext.Notebook)]
-public class RemoveNotebookCommand : ICommand, IContextCommand
+public class RemoveNotebookCommand : ICommand
 {
     private readonly DeviceRepository _deviceRepository;
     private readonly ILocalisationService _localisationService;

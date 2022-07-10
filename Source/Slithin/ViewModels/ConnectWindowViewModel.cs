@@ -8,6 +8,7 @@ using LiteDB;
 using Material.Styles;
 using Renci.SshNet;
 using Serilog;
+using Slithin.Commands;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
@@ -176,9 +177,10 @@ public class ConnectionWindowViewModel : BaseViewModel
                 return;
             }
 
-            ServiceLocator.Container.Register(new SshServiceImpl(client, scp));
+            ServiceLocator.Container.Register(SshServiceImpl.New(client, scp));
 
             ServiceLocator.SyncService = new SynchronisationService(ServiceLocator.Container.Resolve<LiteDatabase>());
+            ServiceLocator.SyncService.SynchronizeCommand = ServiceLocator.Container.Resolve<SynchronizeCommand>();
 
             ServiceLocator.Container.Resolve<IMailboxService>().Init();
             ServiceLocator.Container.Resolve<IMailboxService>().InitMessageRouter();
@@ -191,6 +193,8 @@ public class ConnectionWindowViewModel : BaseViewModel
 
             desktop.MainWindow.Hide();
             desktop.MainWindow = new MainWindow();
+
+            ServiceLocator.SyncService.SynchronizeCommand = ServiceLocator.Container.Resolve<SynchronizeCommand>();
 
             desktop.MainWindow.Show();
         }

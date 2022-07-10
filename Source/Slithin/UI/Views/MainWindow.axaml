@@ -20,7 +20,7 @@
                         <ListBox Items="{Binding Menu}" Grid.Row="1" SelectedItem="{Binding SelectedTab}" Classes="Drawer" Name="Drawer" VerticalAlignment="Bottom">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Height="35" ColumnDefinitions="33,*">
+                                    <Grid Height="35" ColumnDefinitions="33,*" ToolTip.Tip="{Binding Header}" Background="{Binding Background}" ToolTip.IsOpen="{core:Setting 'IsBigMenuMode'}">
                                         <DrawingPresenter Drawing="{Binding Icon}" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" />
 
                                         <TextBlock Text="{Binding Header}" Grid.Column="1" Margin="5,0,0,0" Classes="Body1 bigFont" VerticalAlignment="Center" FontSize="25" />
