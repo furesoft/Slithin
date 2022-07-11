@@ -98,9 +98,9 @@ public class DeviceRepository : IRepository
 
         foreach (var t in toSyncTemplates)
         {
-            _ssh.Download(PathList.Templates + "/" + t.Filename + ".png",
+            _ssh.Download(PathList.Templates + t.Filename + ".png",
                 new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".png")));
-            _ssh.Download(PathList.Templates + "/" + t.Filename + ".svg",
+            _ssh.Download(PathList.Templates + t.Filename + ".svg",
                 new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".svg")));
         }
 
