@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using LiteDB;
 using Slithin.Core.Services;
 using Slithin.Core.Sync;
@@ -34,6 +35,12 @@ public static class ServiceLocator
         var exportProviderFactory = Container.Resolve<IExportProviderFactory>();
         exportProviderFactory.Init();
 
-        Container.Register(new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db")));
+        var database = new LiteDatabase(Path.Combine(pathManager.ConfigBaseDir, "slithin.db"));
+        Container.Register(database);
+
+        AppDomain.CurrentDomain.ProcessExit += (s, e) =>
+        {
+            database.Dispose();
+        };
     }
 }
