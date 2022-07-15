@@ -294,7 +294,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
             md.Save();
 
-            document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
+            document.Save(Path.Combine(_pathManager.NotebooksDir, $"\\{md.ID}.pdf"));
 
             MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
 

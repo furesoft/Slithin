@@ -98,12 +98,12 @@ public class Notebook
         var notebooksDir = pathManager.NotebooksDir;
 
         scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
-               PathList.Documents + "/" + md.ID + ".metadata");
+               PathList.Documents + md.ID + ".metadata");
 
         scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)),
-            PathList.Documents + "/" + md.ID + "." + md.Content.FileType);
+            PathList.Documents + md.ID + "." + md.Content.FileType);
         scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
-            PathList.Documents + "/" + md.ID + ".content");
+            PathList.Documents + md.ID + ".content");
 
         xochitl.ReloadDevice();
     }
@@ -120,7 +120,7 @@ public class Notebook
         mailboxService.PostAction(() =>
         {
             ssh.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
-                   PathList.Documents + "/" + md.ID + ".metadata");
+                   PathList.Documents + md.ID + ".metadata");
 
             ssh.RunCommand("mkdir " + PathList.Documents + md.ID);
             ssh.RunCommand("mkdir " + PathList.Documents + md.ID + ".thumbnails");
@@ -139,7 +139,7 @@ public class Notebook
             ssh.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)),
                 PathList.Documents + md.ID);
             ssh.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)),
-                PathList.Documents + "/" + md.ID + ".thumbnails");
+                PathList.Documents + md.ID + ".thumbnails");
 
             xochitl.ReloadDevice();
         });

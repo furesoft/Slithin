@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Core", "..\Librarie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Themes.Generic", "..\Libraries\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj", "{09C553F7-C13A-4904-B5C7-6313C2681393}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Api.Swagger", "..\Libraries\Slithin.Api.Swagger\Slithin.Api.Swagger.csproj", "{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Api.Swagger", "..\Libraries\Slithin.Api.Swagger\Slithin.Api.Swagger.csproj", "{34E3D9FD-2E72-4802-B053-4E8BF99D51AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
