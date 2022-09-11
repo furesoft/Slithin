@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,7 +22,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
     private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
     private readonly SynchronisationService _synchronisationService;
-    private readonly List<SyncNotebook> _syncNotebooks = new();
+    private readonly ConcurrentBag<SyncNotebook> _syncNotebooks = new();
 
     public CollectSyncNotebooksMessageHandler(IPathManager pathManager,
         ILocalisationService localisationService,
