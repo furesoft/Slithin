@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EmbedIO" Version="3.5.0" />
+    <PackageReference Include="EmbedIO" Version="3.5.2" />
     <PackageReference Include="EmbedIO.BearerToken" Version="3.4.2" />
-    <PackageReference Include="Microsoft.OpenApi" Version="1.4.3" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.4.4" />
   </ItemGroup>
 
   <ItemGroup>
