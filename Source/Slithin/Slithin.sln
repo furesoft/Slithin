@@ -50,17 +50,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{12F6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Host", "..\New\Modules\Slithin.Host\Slithin.Host.csproj", "{C3FC0BF8-9AE0-41F9-AABF-172EAD7E94BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Updater", "..\New\Modules\Slithin.Modules.Updater\Slithin.Modules.Updater.csproj", "{CC22A8B7-A0E8-4863-8794-2A788548A8A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Updater", "..\New\Modules\Slithin.Modules.Updater\Slithin.Modules.Updater.csproj", "{CC22A8B7-A0E8-4863-8794-2A788548A8A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Initializer", "..\New\Modules\Slithin.Modules.Initializer\Slithin.Modules.Initializer.csproj", "{CEB1055C-9F7A-455F-8BB7-2D4038008837}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Initializer", "..\New\Modules\Slithin.Modules.Initializer\Slithin.Modules.Initializer.csproj", "{CEB1055C-9F7A-455F-8BB7-2D4038008837}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Device", "..\New\Modules\Slithin.Modules.Device\Slithin.Modules.Device.csproj", "{EEFCDCB4-856C-445C-948D-33ECCE35911C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Device", "..\New\Modules\Slithin.Modules.Device\Slithin.Modules.Device.csproj", "{EEFCDCB4-856C-445C-948D-33ECCE35911C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Repository", "..\New\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj", "{7EE7125B-AF9A-43B2-BB7B-EBBDDE1D6481}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Repository", "..\New\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj", "{7EE7125B-AF9A-43B2-BB7B-EBBDDE1D6481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Diagnostics.Sentry", "..\New\Modules\Slithin.Modules.Diagnostics.Sentry\Slithin.Modules.Diagnostics.Sentry.csproj", "{80143AA4-7CF5-4B34-933E-9A5439671547}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Diagnostics.Sentry", "..\New\Modules\Slithin.Modules.Diagnostics.Sentry\Slithin.Modules.Diagnostics.Sentry.csproj", "{80143AA4-7CF5-4B34-933E-9A5439671547}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.MarketplaceIntegration", "..\New\Modules\Slithin.Modules.MarketplaceIntegration\Slithin.Modules.MarketplaceIntegration.csproj", "{19E39809-FDB1-4AF1-B7AF-6B91AC44050B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.MarketplaceIntegration", "..\New\Modules\Slithin.Modules.MarketplaceIntegration\Slithin.Modules.MarketplaceIntegration.csproj", "{19E39809-FDB1-4AF1-B7AF-6B91AC44050B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.I18N", "..\New\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj", "{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Diagnostics.Sentry.Models", "..\New\Modules\Slithin.Modules.Diagnostics.Sentry.Models\Slithin.Modules.Diagnostics.Sentry.Models.csproj", "{7DD20245-111F-4D2A-8039-6EEF8B089FD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -594,6 +598,54 @@ Global
 		{19E39809-FDB1-4AF1-B7AF-6B91AC44050B}.Release|x64.Build.0 = Release|Any CPU
 		{19E39809-FDB1-4AF1-B7AF-6B91AC44050B}.Release|x86.ActiveCfg = Release|Any CPU
 		{19E39809-FDB1-4AF1-B7AF-6B91AC44050B}.Release|x86.Build.0 = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|ARM.Build.0 = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|x64.Build.0 = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Debug|x86.Build.0 = Debug|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|ARM.ActiveCfg = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|ARM.Build.0 = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|ARM32.Build.0 = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|ARM64.Build.0 = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|x64.ActiveCfg = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|x64.Build.0 = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|x86.ActiveCfg = Release|Any CPU
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749}.Release|x86.Build.0 = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|ARM.Build.0 = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|x64.Build.0 = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Debug|x86.Build.0 = Debug|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|ARM.Build.0 = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|ARM32.Build.0 = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|ARM64.Build.0 = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|x64.ActiveCfg = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|x64.Build.0 = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|x86.ActiveCfg = Release|Any CPU
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -624,6 +676,8 @@ Global
 		{7EE7125B-AF9A-43B2-BB7B-EBBDDE1D6481} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
 		{80143AA4-7CF5-4B34-933E-9A5439671547} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
 		{19E39809-FDB1-4AF1-B7AF-6B91AC44050B} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
+		{51CD62AA-92DD-4DF0-A061-8F8CDDA87749} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
+		{7DD20245-111F-4D2A-8039-6EEF8B089FD6} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AEF28834-827B-4DA8-AC92-207A90616579}

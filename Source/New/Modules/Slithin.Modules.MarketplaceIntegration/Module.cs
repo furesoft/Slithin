@@ -1,9 +1,11 @@
-﻿namespace Slithin.Modules.MarketplaceIntegration;
+﻿using AuroraModularis;
+
+namespace Slithin.Modules.MarketplaceIntegration;
 
 public class Module : AuroraModularis.Module
 {
-    public override Task OnStart()
+    public override Task OnStart(TinyIoCContainer container)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }

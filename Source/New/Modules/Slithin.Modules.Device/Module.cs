@@ -1,8 +1,11 @@
-﻿namespace Slithin.Modules.Device;
+﻿using AuroraModularis;
+
+namespace Slithin.Modules.Device;
+
 public class Module : AuroraModularis.Module
 {
-    public override Task OnStart()
+    public override Task OnStart(TinyIoCContainer container)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }

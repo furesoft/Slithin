@@ -1,6 +1,6 @@
 ﻿using AuroraModularis;
 
-namespace Slithin.Modules.Initializer;
+namespace Slithin.Modules.I18N;
 
 public class Module : AuroraModularis.Module
 {
