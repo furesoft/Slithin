@@ -7,12 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.3" />
     <PackageReference Include="Sentry" Version="3.24.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Slithin.Modules.Diagnostics.Sentry.Models\Slithin.Modules.Diagnostics.Sentry.Models.csproj" />
   </ItemGroup>
 
 </Project>
