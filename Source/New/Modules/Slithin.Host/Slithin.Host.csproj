@@ -262,6 +262,7 @@
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.4.2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\Slithin.Controls\Slithin.Controls.csproj" />
     <ProjectReference Include="..\..\..\Libraries\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj" />
   </ItemGroup>
 </Project>

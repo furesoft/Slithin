@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
     <Version>1.0.20.0</Version>
 	<RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64;osx.12-arm64</RuntimeIdentifiers>
