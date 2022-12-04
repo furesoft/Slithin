@@ -10,10 +10,17 @@
 
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.2" />
+    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.2" />
+    <PackageReference Include="AuroraModularis.Modules.Logging.SeriLog" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Modules\Slithin.Host\Slithin.Host.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Device\Slithin.Modules.Device.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Diagnostics.Sentry\Slithin.Modules.Diagnostics.Sentry.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Initializer\Slithin.Modules.Initializer.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Updater\Slithin.Modules.Updater.csproj" />
   </ItemGroup>
 
 </Project>
