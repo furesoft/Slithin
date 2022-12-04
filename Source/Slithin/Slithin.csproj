@@ -67,6 +67,14 @@
     <PackageId>$(VersionNumber)</PackageId>
     <SignAssembly>False</SignAssembly>
   </PropertyGroup>
+  
+
+  <ItemGroup>
+    <AvaloniaXaml Remove="TemplateEditor\Components\**" />
+    <Compile Remove="TemplateEditor\Components\**" />
+    <EmbeddedResource Remove="TemplateEditor\Components\**" />
+    <None Remove="TemplateEditor\Components\**" />
+  </ItemGroup>
 
    <ItemGroup>
      <None Remove="Resources\backup.png" />
@@ -130,11 +138,6 @@
       <LinuxPath>/usr/share/icons/hicolor/48x48/apps/Slithin.png</LinuxPath>
     </Content>
   </ItemGroup>
-   
-   <ItemGroup>
-     <Folder Include="TemplateEditor\Components\Nodes\" />
-     <Folder Include="TemplateEditor\Components\Views\" />
-   </ItemGroup>
    
    <ItemGroup>
      <ProjectReference Include="..\Libraries\Slithin.API.Lib\Slithin.API.Lib.csproj" />
