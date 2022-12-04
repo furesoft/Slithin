@@ -12,7 +12,6 @@ internal class Module : AuroraModularis.Module
 
     public override void RegisterServices(TinyIoCContainer container)
     {
-        container.Register(new PathList());
         container.Register<IRemarkableDevice>(new DeviceImplementation());
     }
 }
