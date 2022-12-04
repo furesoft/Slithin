@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.3" />
+    <PackageReference Include="DotNetZip" Version="1.16.0" />
+    <PackageReference Include="Octokit" Version="4.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Updater.Models\Slithin.Modules.Updater.Models.csproj" />
   </ItemGroup>
 
 </Project>

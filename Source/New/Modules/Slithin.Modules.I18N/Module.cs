@@ -3,6 +3,7 @@ using Slithin.Core.Services.Implementations;
 
 namespace Slithin.Modules.I18N;
 
+[Priority(ModulePriority.High)]
 public class Module : AuroraModularis.Module
 {
     public override Task OnStart(TinyIoCContainer container)

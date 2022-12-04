@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Models\Slithin.Modules.Device.Models\Slithin.Modules.Device.Models.csproj" />
-    <ProjectReference Include="..\Models\Slithin.Modules.Device.Models\Slithin.Modules.Device.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
   </ItemGroup>
 
 </Project>
