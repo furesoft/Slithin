@@ -1,0 +1,22 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
+             x:Class="Slithin.Host.App">
+    <Application.Styles>
+        <FluentTheme Mode="Light" />
+
+        <StyleInclude Source="avares://Slithin.Themes.Generic/Generic.axaml" />
+        <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
+        <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
+    </Application.Styles>
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <themes:BundledTheme BaseTheme="Light" PrimaryColor="Grey" SecondaryColor="Amber" />
+
+                <ResourceInclude Source="avares://Slithin.Host/Assets/Icons.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
