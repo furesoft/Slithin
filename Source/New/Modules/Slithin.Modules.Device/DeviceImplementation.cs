@@ -1,21 +1,25 @@
-﻿using Slithin.Modules.Device.Models;
+﻿using Renci.SshNet;
+using Slithin.Modules.Device.Models;
 
 namespace Slithin.Modules.Device;
 
 internal class DeviceImplementation : IRemarkableDevice
 {
+    private SshClient client;
+
     public void Connect(string ip, string password)
     {
-        throw new NotImplementedException();
+        client = new(ip, 22, "root", password);
+        client.Connect();
     }
 
     public void Disconned()
     {
-        throw new NotImplementedException();
+        client.Disconnect();
     }
 
     public void Reload()
     {
-        throw new NotImplementedException();
+        client.RunCommand("systemctl restart xochitl");
     }
 }

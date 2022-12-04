@@ -7,4 +7,6 @@ public interface IRemarkableDevice
     void Reload();
 
     void Disconned();
+
+    object GetXochitl();
 }
