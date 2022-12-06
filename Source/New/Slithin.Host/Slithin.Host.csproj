@@ -252,15 +252,15 @@
     <TrimmableAssembly Include="Avalonia.Themes.Default" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.3" />
-    <PackageReference Include="AuroraModularis.Modules.Logging.SeriLog" Version="1.0.5" />
+    <PackageReference Include="AuroraModularis" Version="1.0.5" />
+    <PackageReference Include="AuroraModularis.Modules.Logging.SeriLog" Version="1.0.6" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
     <PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.90-nightly" />
     <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.8" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
-    <PackageReference Include="XamlNameReferenceGenerator" Version="1.4.2" />
+    <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Slithin.Controls\Slithin.Controls.csproj" />

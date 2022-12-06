@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.3" />
-    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.3" />
-    <PackageReference Include="AuroraModularis.Modules.Logging.SeriLog" Version="1.0.5" />
+    <PackageReference Include="AuroraModularis" Version="1.0.5" />
+    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.5" />
+    <PackageReference Include="AuroraModularis.Modules.Logging.SeriLog" Version="1.0.6" />
   </ItemGroup>
 
   <ItemGroup>

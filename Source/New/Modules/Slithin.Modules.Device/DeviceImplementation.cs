@@ -18,6 +18,11 @@ internal class DeviceImplementation : IRemarkableDevice
         client.Disconnect();
     }
 
+    public object GetXochitl()
+    {
+        throw new NotImplementedException();
+    }
+
     public void Reload()
     {
         client.RunCommand("systemctl restart xochitl");

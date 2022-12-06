@@ -33,7 +33,7 @@ public class Module : AuroraModularis.Module
 
     public override void OnInit()
     {
-        UseSettings = true;
+        //UseSettings = true;
         Settings = new SettingsModel();
     }
 
