@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Modules\Slithin.Modules.Caching\Slithin.Modules.Caching.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Device\Slithin.Modules.Device.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Diagnostics.Sentry\Slithin.Modules.Diagnostics.Sentry.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
