@@ -14,5 +14,6 @@ public class Module : AuroraModularis.Module
     public override void RegisterServices(TinyIoCContainer container)
     {
         container.Register<IPathManager>(new PathManagerImpl());
+        container.Register<IVersionService>(new VersionServiceImpl(container));
     }
 }
