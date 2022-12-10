@@ -8,5 +8,9 @@ public interface IRemarkableDevice
 
     void Disconned();
 
-    object GetXochitl();
+    void Download(string path, FileInfo fileInfo);
+
+    void Upload(FileInfo fileInfo, string path);
+
+    CommandResult RunCommand(string cmd);
 }
