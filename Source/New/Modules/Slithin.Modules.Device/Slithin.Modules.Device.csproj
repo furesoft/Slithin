@@ -8,11 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.5" />
+    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.5" />
+    <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
     <PackageReference Include="SSH.NET" Version="2020.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Models\Slithin.Modules.Device.Models\Slithin.Modules.Device.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
   </ItemGroup>
 
 </Project>

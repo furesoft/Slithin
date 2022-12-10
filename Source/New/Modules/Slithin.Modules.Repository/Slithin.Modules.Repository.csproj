@@ -11,4 +11,8 @@
     <PackageReference Include="LiteDB" Version="5.0.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
+  </ItemGroup>
+
 </Project>
