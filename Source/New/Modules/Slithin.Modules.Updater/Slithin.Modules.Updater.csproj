@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.5" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
-    <PackageReference Include="Octokit" Version="4.0.3" />
+    <PackageReference Include="nUpdate" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>

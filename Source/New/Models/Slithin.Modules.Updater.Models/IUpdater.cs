@@ -4,5 +4,5 @@ public interface IUpdater
 {
     public Task<bool> CheckForUpdate();
 
-    public void StartUpdate();
+    public Task StartUpdate();
 }
