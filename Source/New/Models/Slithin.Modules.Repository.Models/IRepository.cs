@@ -1,7 +1,7 @@
 ﻿using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
+using Slithin.Entities;
 
-namespace Slithin.Core.Sync;
+namespace Slithin.Modules.Repository.Models;
 
 public interface IRepository
 {

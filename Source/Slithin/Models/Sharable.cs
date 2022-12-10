@@ -1,6 +1,6 @@
 ﻿using Avalonia.Media;
 using Slithin.Core.MVVM;
-using SlithinMarketplace.Models;
+using Slithin.Marketplace.Models;
 
 namespace Slithin.Models;
 

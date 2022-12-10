@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
-using SlithinMarketplace.Models;
+using Slithin.Marketplace.Models;
 
 namespace SlithinMarketplace;
 

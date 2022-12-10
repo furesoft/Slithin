@@ -4,7 +4,7 @@ using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
 using Slithin.Api.Swagger.Attributes;
-using SlithinMarketplace.Models;
+using Slithin.Marketplace.Models;
 
 namespace SlithinMarketplace.Controller;
 

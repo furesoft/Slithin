@@ -1,4 +1,6 @@
-﻿namespace Slithin.Core.Services.Implementations;
+﻿using Slithin.Modules.Repository.Models;
+
+namespace Slithin.Modules.Repository;
 
 public class PathManagerImpl : IPathManager
 {

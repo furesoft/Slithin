@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
-namespace Slithin.Core.Remarkable.Models;
+namespace Slithin.Entities;
 
 public class Metadata : NotifyObject, IEqualityComparer<Metadata>
 {

@@ -1,5 +1,4 @@
-﻿using Slithin.Core.Remarkable;
-namespace Slithin.Core.Remarkable.Models;
+﻿namespace Slithin.Entities;
 
 public struct PageData
 {
@@ -7,6 +6,6 @@ public struct PageData
 
     public void Parse(string content)
     {
-        Data = content.Split('\n', System.StringSplitOptions.RemoveEmptyEntries);
+        Data = content.Split('\n', StringSplitOptions.RemoveEmptyEntries);
     }
 }

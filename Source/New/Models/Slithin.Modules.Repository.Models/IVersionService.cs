@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Slithin.Core.Services;
+namespace Slithin.Modules.Repository.Models;
 
 public interface IVersionService
 {

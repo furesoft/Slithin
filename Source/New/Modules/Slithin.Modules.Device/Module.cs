@@ -1,5 +1,4 @@
 ﻿using AuroraModularis;
-using Slithin.Core.Remarkable;
 using Slithin.Modules.Device.Models;
 
 namespace Slithin.Modules.Device;

@@ -2,7 +2,7 @@
 using nUpdate.Updating;
 using Slithin.Modules.Updater.Models;
 
-namespace Slithin.Core.Updates;
+namespace Slithin.Modules.Updater;
 
 public class UpdaterImplementation : IUpdater
 {

@@ -1,6 +1,4 @@
-﻿using SlithinMarketplace.Models;
-
-namespace Slithin.Marketplace.Models;
+﻿namespace Slithin.Marketplace.Models;
 
 public sealed class Template : AssetModel
 {

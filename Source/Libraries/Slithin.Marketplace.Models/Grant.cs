@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SlithinMarketplace.Models;
+namespace Slithin.Marketplace.Models;
 
 public sealed class Grant
 {

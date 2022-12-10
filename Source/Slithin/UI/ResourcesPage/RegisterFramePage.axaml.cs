@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.UI;
+namespace Slithin.UI.ResourcesPage;
 
 public partial class RegisterFramePage : UserControl
 {

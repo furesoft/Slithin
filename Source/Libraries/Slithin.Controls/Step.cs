@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace Slithin.Core;
+namespace Slithin.Controls;
 
 public class Step
 {

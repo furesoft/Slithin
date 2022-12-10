@@ -1,4 +1,4 @@
-﻿namespace Slithin.Core.Remarkable;
+﻿namespace Slithin.Modules.Device;
 
 public class CustomIniSerializer
 {

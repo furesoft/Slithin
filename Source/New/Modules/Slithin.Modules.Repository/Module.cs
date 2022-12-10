@@ -1,8 +1,5 @@
 ﻿using AuroraModularis;
-using Slithin.Core.Services;
-using Slithin.Core.Services.Implementations;
-using Slithin.Core.Sync;
-using Slithin.Core.Sync.Repositorys;
+using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
 

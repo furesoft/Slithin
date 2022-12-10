@@ -1,5 +1,4 @@
 ﻿using AuroraModularis;
-using Slithin.Core.Updates;
 using Slithin.Modules.Updater.Models;
 
 namespace Slithin.Modules.Updater;

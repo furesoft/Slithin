@@ -15,7 +15,6 @@ using Slithin.Marketplace.Models;
 using Slithin.Models;
 using Slithin.UI.Modals;
 using Slithin.UI.ResourcesPage;
-using SlithinMarketplace.Models;
 
 namespace Slithin.ViewModels.Pages;
 

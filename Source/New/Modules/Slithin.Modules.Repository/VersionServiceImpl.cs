@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
 using AuroraModularis;
 using Slithin.Modules.Device.Models;
+using Slithin.Modules.Repository.Models;
 
-namespace Slithin.Core.Services.Implementations;
+namespace Slithin.Modules.Repository;
 
 public class VersionServiceImpl : IVersionService
 {

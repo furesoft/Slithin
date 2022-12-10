@@ -1,4 +1,4 @@
-﻿namespace SlithinMarketplace.Models;
+﻿namespace Slithin.Marketplace.Models;
 
 public sealed class Screen : AssetModel
 {

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Remarkable;
 
-namespace Slithin.Core.Remarkable.Models;
+namespace Slithin.Entities;
 
 public struct ContentFile : IEqualityComparer<ContentFile>
 {

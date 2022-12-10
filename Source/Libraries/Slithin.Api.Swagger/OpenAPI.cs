@@ -6,7 +6,7 @@ using EmbedIO.Routing;
 using EmbedIO.WebApi;
 using Microsoft.OpenApi.Models;
 using Slithin.Api.Swagger.Attributes;
-using SlithinMarketplace.Models;
+using Slithin.Marketplace.Models;
 
 namespace Slithin.Api.Swagger;
 

@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Slithin.Controls.Ports.StepBar;
 
-namespace Slithin.Core;
+namespace Slithin.Controls;
 
 public static class StepManager
 {

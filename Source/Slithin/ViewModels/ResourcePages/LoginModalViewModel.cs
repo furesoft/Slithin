@@ -3,7 +3,6 @@ using Slithin.API.Lib;
 using Slithin.Controls.Navigation;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
-using Slithin.UI;
 using Slithin.UI.ResourcesPage;
 using Slithin.ViewModels.Modals;
 

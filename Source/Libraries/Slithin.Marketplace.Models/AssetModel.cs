@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace SlithinMarketplace.Models;
+namespace Slithin.Marketplace.Models;
 
 public class AssetModel
 {

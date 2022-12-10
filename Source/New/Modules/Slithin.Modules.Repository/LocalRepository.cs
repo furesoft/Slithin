@@ -1,10 +1,9 @@
 ﻿using AuroraModularis;
 using Newtonsoft.Json;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
+using Slithin.Entities;
+using Slithin.Modules.Repository.Models;
 
-namespace Slithin.Core.Sync.Repositorys;
+namespace Slithin.Modules.Repository;
 
 public class LocalRepository : IRepository
 {

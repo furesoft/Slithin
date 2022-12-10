@@ -1,8 +1,7 @@
 ﻿using System.Reflection;
 using Newtonsoft.Json;
-using Slithin.Modules.I18N;
 
-namespace Slithin.Core.Services.Implementations;
+namespace Slithin.Modules.I18N;
 
 public class LocalisationServiceImpl : ILocalisationService
 {
@@ -21,7 +20,7 @@ public class LocalisationServiceImpl : ILocalisationService
                                     .Select(_ => Path.GetFileNameWithoutExtension(_))
                                     .ToArray();
 
-        string resourceName = localeNames.FirstOrDefault(_ => _ == Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
+        var resourceName = localeNames.FirstOrDefault(_ => _ == Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
         if (resourceName == null)
         {
             resourceName = "en";

@@ -1,6 +1,5 @@
 ﻿using AuroraModularis;
 using AuroraModularis.Core;
-using Slithin.Core.Services.Implementations;
 
 namespace Slithin.Modules.I18N;
 
