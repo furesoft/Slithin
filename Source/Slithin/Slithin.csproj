@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
     <Version>1.0.20.0</Version>
-	<RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64;osx.12-arm64</RuntimeIdentifiers>
+	  <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64;osx.12-arm64</RuntimeIdentifiers>
     <PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
     <Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
     <LangVersion>10</LangVersion>
@@ -141,10 +141,7 @@
    
    <ItemGroup>
      <ProjectReference Include="..\Libraries\Slithin.API.Lib\Slithin.API.Lib.csproj" />
-     <ProjectReference Include="..\Libraries\Slithin.Controls\Slithin.Controls.csproj" />
-     <ProjectReference Include="..\Libraries\Slithin.Core\Slithin.Core.csproj" />
      <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
-     <ProjectReference Include="..\Libraries\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj" />
    </ItemGroup>
    
    <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>

@@ -16,7 +16,6 @@
     <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Libraries\Slithin.Api.Swagger\Slithin.Api.Swagger.csproj" />
     <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
   </ItemGroup>
   <ItemGroup>

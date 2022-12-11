@@ -7,10 +7,8 @@ internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(TinyIoCContainer container)
     {
-        Inbox.Subscribe<GetXochitlMessage, Xochitl>(msg =>
-        {
-            return container.Resolve<Xochitl>();
-        });
+        var xochitl = container.Resolve<IXochitlService>();
+        //xochitl.Init();
 
         return Task.CompletedTask;
     }
@@ -18,5 +16,6 @@ internal class Module : AuroraModularis.Module
     public override void RegisterServices(TinyIoCContainer container)
     {
         container.Register<IRemarkableDevice>(new DeviceImplementation());
+        container.Register<IXochitlService>(new XochitlImpl(container));
     }
 }

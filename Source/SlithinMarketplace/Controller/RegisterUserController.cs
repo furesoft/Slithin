@@ -1,8 +1,6 @@
-﻿using System.ComponentModel;
-using EmbedIO;
+﻿using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
-using Slithin.Api.Swagger.Attributes;
 using Slithin.Marketplace.Models;
 
 namespace SlithinMarketplace.Controller;
@@ -10,9 +8,6 @@ namespace SlithinMarketplace.Controller;
 public sealed class RegisterUserController : WebApiController
 {
     [Route(HttpVerbs.Put, "/register")]
-    [Description("Register User")]
-    [WithoutAuthentication]
-    [BodyType(typeof(User))]
     public void Register()
     {
         var user = HttpContext.GetRequestObjectAsync<User>().Result;

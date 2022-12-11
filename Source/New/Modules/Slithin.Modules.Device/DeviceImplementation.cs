@@ -27,11 +27,6 @@ internal class DeviceImplementation : IRemarkableDevice
         _scp.Download(path, fileInfo);
     }
 
-    public Xochitl GetXochitl()
-    {
-        return new Xochitl(null, null, this);
-    }
-
     public void Reload()
     {
         _client.RunCommand("systemctl restart xochitl");

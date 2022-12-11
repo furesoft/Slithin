@@ -5,6 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.UI.LoginFramePage">
+             x:Class="Slithin.UI.ResourcesPage.LoginFramePage">
     <controls:Link Title="{l:Localisation 'Register'}" Grid.Row="2" Command="{Binding ShowRegisterCommand}" CommandParameter="Register" />
 </UserControl>

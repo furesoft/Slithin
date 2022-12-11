@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="Icon.png" />
     <None Remove="Resources\backup.png" />
     <None Remove="Resources\copy.png" />
     <None Remove="Resources\Cover.png" />
@@ -245,6 +246,12 @@
     <AvaloniaResource Include="Resources\restore.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icon.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <LinuxPath>/usr/share/icons/hicolor/48x48/apps/Slithin.png</LinuxPath>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <!--This helps with theme dll-s trimming.
 	If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
 	https://github.com/AvaloniaUI/Avalonia/issues/5593 -->
@@ -262,10 +269,9 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
   </ItemGroup>
-  
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\Slithin.Controls\Slithin.Controls.csproj" />
-    <ProjectReference Include="..\..\Libraries\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj" />
+    <ProjectReference Include="..\Slithin.Core\Slithin.Core.csproj" />
+    <ProjectReference Include="..\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj" />
   </ItemGroup>
 
   <Import Project="$(SolutionDir)\Version.props" />

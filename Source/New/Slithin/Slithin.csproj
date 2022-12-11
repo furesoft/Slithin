@@ -6,12 +6,29 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
+  	 <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64;osx.12-arm64</RuntimeIdentifiers>
+    <PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
+    <Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
   </PropertyGroup>
 
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.10" />
     <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.10" />
     <PackageReference Include="AuroraModularis.Modules.Logging.SeriLog" Version="1.0.10" />
+    <PackageReference Include="Packaging.Targets" Version="0.1.220">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="linux.desktop" CopyToPublishDirectory="PreserveNewest">
+      <LinuxPath>/usr/share/applications/Slithin.desktop</LinuxPath>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -19,7 +36,6 @@
     <ProjectReference Include="..\Modules\Slithin.Modules.Device\Slithin.Modules.Device.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Diagnostics.Sentry\Slithin.Modules.Diagnostics.Sentry.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
-    <ProjectReference Include="..\Modules\Slithin.Modules.MarketplaceIntegration\Slithin.Modules.MarketplaceIntegration.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Updater\Slithin.Modules.Updater.csproj" />
     <ProjectReference Include="..\Slithin.Host\Slithin.Host.csproj" />

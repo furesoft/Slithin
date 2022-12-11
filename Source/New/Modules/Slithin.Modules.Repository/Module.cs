@@ -7,6 +7,9 @@ public class Module : AuroraModularis.Module
 {
     public override Task OnStart(TinyIoCContainer container)
     {
+        var pathManager = container.Resolve<IPathManager>();
+        pathManager.Init();
+
         return Task.CompletedTask;
     }
 
