@@ -20,7 +20,7 @@ public class TemplateStorage
 
     public void Load()
     {
-        Instance.Templates = ServiceLocator.Container.Resolve<LocalRepository>().GetTemplates();
+        //Instance.Templates = ServiceLocator.Container.Resolve<LocalRepository>().GetTemplates();
     }
 
     public void Remove(Template tmpl)
@@ -30,9 +30,10 @@ public class TemplateStorage
 
         Templates = tmp.ToArray();
 
-        Save();
+        //Save();
     }
 
+    /*
     public void Save()
     {
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
@@ -42,5 +43,5 @@ public class TemplateStorage
 
         var path = Path.Combine(pathManager.ConfigBaseDir, "templates.json");
         File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, serializerSettings));
-    }
+    }*/
 }

@@ -13,4 +13,6 @@ public interface IRemarkableDevice
     void Upload(FileInfo fileInfo, string path);
 
     CommandResult RunCommand(string cmd);
+
+    Xochitl GetXochitl();
 }

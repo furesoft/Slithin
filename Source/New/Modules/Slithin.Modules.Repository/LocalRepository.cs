@@ -98,7 +98,7 @@ public class LocalRepository : IRepository
     {
         var pathManager = _container.Resolve<IPathManager>();
 
-        File.Delete(Path.Combine(pathManager.TemplatesDir, template.Filename + ".png"));
+        //File.Delete(Path.Combine(pathManager.TemplatesDir, template.Filename + ".png"));
     }
 
     public void UpdateVersion(Version version)

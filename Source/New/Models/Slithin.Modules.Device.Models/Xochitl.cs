@@ -100,7 +100,7 @@ public class Xochitl
 
     public void Save()
     {
-        CustomIniSerializer.WriteFile(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"), _data);
+        //CustomIniSerializer.WriteFile(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"), _data);
         Upload();
 
         ReloadDevice();

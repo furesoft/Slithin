@@ -3,7 +3,6 @@ using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Serializers.NewtonsoftJson;
 using Slithin.Marketplace.Models;
-using SlithinMarketplace.Models;
 
 namespace Slithin.API.Lib;
 

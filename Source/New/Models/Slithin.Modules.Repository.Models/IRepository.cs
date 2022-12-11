@@ -1,5 +1,4 @@
-﻿using Slithin.Core.Remarkable;
-using Slithin.Entities;
+﻿using Slithin.Entities;
 
 namespace Slithin.Modules.Repository.Models;
 

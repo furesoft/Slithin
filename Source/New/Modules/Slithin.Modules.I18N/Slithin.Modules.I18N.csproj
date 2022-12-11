@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.5" />
+    <PackageReference Include="AuroraModularis" Version="1.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 
@@ -23,4 +23,5 @@
     <ProjectReference Include="..\..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
   </ItemGroup>
 
+  <Import Project="$(SolutionDir)\Version.props" />
 </Project>

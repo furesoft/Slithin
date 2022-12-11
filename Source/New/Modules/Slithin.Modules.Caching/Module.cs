@@ -7,7 +7,7 @@ public class Module : AuroraModularis.Module
 {
     public override Task OnStart(TinyIoCContainer container)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
     public override void RegisterServices(TinyIoCContainer container)

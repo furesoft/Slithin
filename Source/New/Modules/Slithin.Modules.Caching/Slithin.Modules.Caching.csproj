@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.5" />
+    <PackageReference Include="AuroraModularis" Version="1.0.10" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Models\Slitnin.Modules.Cache.Models\Slitnin.Modules.Cache.Models.csproj" />
   </ItemGroup>
 
+  <Import Project="$(SolutionDir)\Version.props" />
 </Project>

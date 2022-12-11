@@ -10,4 +10,5 @@
     <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />
   </ItemGroup>
 
+  <Import Project="$(SolutionDir)\Version.props" />
 </Project>

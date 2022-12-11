@@ -6,4 +6,5 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <Import Project="$(SolutionDir)\Version.props" />
 </Project>
