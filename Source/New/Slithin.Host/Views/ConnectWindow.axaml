@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+        xmlns:wpf="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+        xmlns:controls="using:Slithin.Controls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+        x:Class="Slithin.Host.Views.ConnectWindow" Icon="avares:/Resources/Icon.png"
+        Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" MinHeight="485" MinWidth="342" MaxWidth="342" MaxHeight="485">
+    <styles:SnackbarHost HostName="connect">
+        <styles:ColorZone Mode="Light" Height="485">
+            <Grid RowDefinitions="250,45,55,55,7,15,40" ColumnDefinitions="*,AUTO" Margin="5">
+                <Image Source="avares:/Resources/new_logo.png" Grid.ColumnSpan="2" Margin="0,0,0,3" />
+
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="*,45">
+                    <ComboBox PlaceholderText="No Device Saved" Items="{Binding LoginCredentials}" SelectedItem="{Binding SelectedLogin}" />
+
+                    <Button Classes="Flat" Content="+" Width="45" Grid.Column="1" Command="{Binding OpenAddDeviceCommand}" ToolTip.Tip="Add Device" />
+                </Grid>
+
+                <TextBox UseFloatingWatermark="True" wpf:TextFieldAssist.Label="IP Address" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.IP}" />
+                <TextBox IsVisible="{Binding !SelectedLogin.UsesKey}" UseFloatingWatermark="True" Classes="revealPasswordButton" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.Password}"
+                                                 wpf:TextFieldAssist.Label="Password" PasswordChar="*" />
+
+                <controls:Link Title="Where can I find the information?" Grid.ColumnSpan="2" Grid.Row="5" Command="{Binding HelpCommand}" />
+
+                <Button Classes="Flat" Grid.Row="6" Grid.Column="1" Command="{Binding ConnectCommand}" IsDefault="True" Width="150" Margin="2" Content="Connect" />
+            </Grid>
+        </styles:ColorZone>
+    </styles:SnackbarHost>
+</Window>

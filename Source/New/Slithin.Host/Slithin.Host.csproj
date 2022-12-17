@@ -273,6 +273,17 @@
     <ProjectReference Include="..\Slithin.Core\Slithin.Core.csproj" />
     <ProjectReference Include="..\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <AvaloniaXaml Update="Views\ConnectWindow.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaXaml>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\ConnectWindow.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
   <Import Project="$(SolutionDir)\Version.props" />
 </Project>
