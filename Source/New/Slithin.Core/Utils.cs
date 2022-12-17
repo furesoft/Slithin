@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using AuroraModularis;
+using AuroraModularis.Core;
 
 namespace Slithin.Core;
 
@@ -11,7 +11,7 @@ public static partial class Utils
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass)
-            .Select(type => (T)TinyIoCContainer.Current.Resolve(type));
+            .Select(type => (T)Container.Current.Resolve<T>(type));
 
         return types;
     }

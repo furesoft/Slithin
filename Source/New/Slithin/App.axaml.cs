@@ -15,17 +15,18 @@ public partial class App : Application
 
     public override async void OnFrameworkInitializationCompleted()
     {
+        var bootstrapper = BootstrapperBuilder.StartConfigure()
+            .WithAppName("Slithin")
+            .WithModulesBasePath(".")
+            .WithSettingsBasePath(".")
+            .WithSettingsProvider<LiteDbSettingsProvider>();
+
+        await bootstrapper.BuildAndStartAsync();
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new ConnectWindow();
         }
-
-        await BootstrapperBuilder.StartConfigure()
-            .WithAppName("Slithin")
-            .WithModulesBasePath(".")
-            .WithSettingsBasePath(".")
-            .WithSettingsProvider<LiteDbSettingsProvider>()
-            .BuildAndStartAsync();
 
         base.OnFrameworkInitializationCompleted();
     }

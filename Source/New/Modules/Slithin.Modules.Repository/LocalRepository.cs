@@ -1,4 +1,4 @@
-﻿using AuroraModularis;
+﻿using AuroraModularis.Core;
 using Newtonsoft.Json;
 using Slithin.Entities;
 using Slithin.Modules.Repository.Models;
@@ -7,9 +7,9 @@ namespace Slithin.Modules.Repository;
 
 public class LocalRepository : IRepository
 {
-    private readonly TinyIoCContainer _container;
+    private readonly Container _container;
 
-    public LocalRepository(TinyIoCContainer container)
+    public LocalRepository(Container container)
     {
         _container = container;
     }

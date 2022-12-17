@@ -1,21 +1,20 @@
-﻿using AuroraModularis;
-using AuroraModularis.Core;
+﻿using AuroraModularis.Core;
+using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.I18N;
 
 [Priority(ModulePriority.High)]
 public class Module : AuroraModularis.Module
 {
-    public override Task OnStart(TinyIoCContainer container)
+    public override Task OnStart(Container container)
     {
         return Task.CompletedTask;
     }
 
-    public override void RegisterServices(TinyIoCContainer container)
+    public override void RegisterServices(Container container)
     {
         var service = new LocalisationServiceImpl();
-        service.Init();
 
-        container.Register<ILocalisationService>(service);
+        container.Register<ILocalisationService>(service).AsSingleton();
     }
 }

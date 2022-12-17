@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Newtonsoft.Json;
+using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.I18N;
 
@@ -7,12 +8,7 @@ public class LocalisationServiceImpl : ILocalisationService
 {
     private Dictionary<string, string> _localization = new Dictionary<string, string>();
 
-    public string GetString(string key)
-    {
-        return _localization.ContainsKey(key) ? _localization[key] : "[No Value] - " + key;
-    }
-
-    public void Init()
+    public LocalisationServiceImpl()
     {
         var localeNames = Assembly.GetExecutingAssembly()
                                     .GetManifestResourceNames()
@@ -30,5 +26,10 @@ public class LocalisationServiceImpl : ILocalisationService
         var json = new StreamReader(strm).ReadToEnd();
 
         _localization = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+    }
+
+    public string GetString(string key)
+    {
+        return _localization.ContainsKey(key) ? _localization[key] : "[No Value] - " + key;
     }
 }

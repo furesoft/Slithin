@@ -1,4 +1,4 @@
-﻿using AuroraModularis;
+﻿using AuroraModularis.Core;
 using Sentry;
 using Slithin.Modules.Diagnostics.Sentry.Models;
 
@@ -8,12 +8,12 @@ public class Module : AuroraModularis.Module
 {
     private IDisposable _service;
 
-    public override Task OnStart(TinyIoCContainer container)
+    public override Task OnStart(Container container)
     {
         return Task.CompletedTask;
     }
 
-    public override void RegisterServices(TinyIoCContainer container)
+    public override void RegisterServices(Container container)
     {
         var settings = (SettingsModel)Settings;
 
@@ -28,7 +28,7 @@ public class Module : AuroraModularis.Module
             o.TracesSampleRate = settings.TracesSampleRate;
         });
 
-        container.Register<IDiagnosticService>(new DiagnosticService());
+        container.Register<IDiagnosticService>(new DiagnosticService()).AsSingleton();
     }
 
     public override void OnInit()

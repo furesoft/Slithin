@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using AuroraModularis;
+using AuroraModularis.Core;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 
@@ -7,9 +7,9 @@ namespace Slithin.Modules.Repository;
 
 public class VersionServiceImpl : IVersionService
 {
-    private readonly TinyIoCContainer _container;
+    private readonly Container _container;
 
-    public VersionServiceImpl(TinyIoCContainer container)
+    public VersionServiceImpl(Container container)
     {
         _container = container;
     }

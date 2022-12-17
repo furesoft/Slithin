@@ -1,4 +1,6 @@
-﻿namespace Slithin.Entities;
+﻿using Slithin.Entities;
+
+namespace Slithin.Modules.Repository;
 
 public class MetadataStorage
 {

@@ -1,4 +1,6 @@
-﻿namespace Slithin.Modules.Device.Mock;
+﻿using Slithin.Modules.Device.Models;
+
+namespace Slithin.Modules.Device.Mock;
 
 public class XochitlMock : IXochitlService
 {

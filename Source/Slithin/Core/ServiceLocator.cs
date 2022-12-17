@@ -8,13 +8,13 @@ namespace Slithin.Core;
 
 public static class ServiceLocator
 {
-    public static TinyIoCContainer Container;
+    public static Container Container;
 
     public static SynchronisationService SyncService;
 
     public static void Init()
     {
-        Container = TinyIoCContainer.Current;
+        Container = Container.Current;
         Container.AutoRegister();
 
         var errorTracker = Container.Resolve<IErrorTrackingService>();

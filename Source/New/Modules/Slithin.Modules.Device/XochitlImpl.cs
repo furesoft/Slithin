@@ -1,4 +1,4 @@
-﻿using AuroraModularis;
+﻿using AuroraModularis.Core;
 using AuroraModularis.Logging.Models;
 using IniParser;
 using IniParser.Model;
@@ -9,11 +9,11 @@ namespace Slithin.Modules.Device;
 
 public class XochitlImpl : IXochitlService
 {
-    private readonly TinyIoCContainer _container;
+    private readonly Container _container;
     private IniData _data;
     private FileIniDataParser _ini;
 
-    public XochitlImpl(TinyIoCContainer container)
+    public XochitlImpl(Container container)
     {
         _container = container;
     }

@@ -1,4 +1,4 @@
-﻿using AuroraModularis;
+﻿using AuroraModularis.Core;
 using nUpdate.Updating;
 using Slithin.Modules.Updater.Models;
 
@@ -7,9 +7,9 @@ namespace Slithin.Modules.Updater;
 public class UpdaterImplementation : IUpdater
 {
     private readonly UpdateManager _manager;
-    private TinyIoCContainer _container;
+    private Container _container;
 
-    public UpdaterImplementation(TinyIoCContainer container)
+    public UpdaterImplementation(Container container)
     {
         _container = container;
         //_manager = new(new Uri(), pubK);

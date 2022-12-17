@@ -1,11 +1,11 @@
-﻿using AuroraModularis;
+﻿using AuroraModularis.Core;
 using Slithin.Modules.Device.Models;
 
 namespace Slithin.Modules.Device;
 
 internal class Module : AuroraModularis.Module
 {
-    public override Task OnStart(TinyIoCContainer container)
+    public override Task OnStart(Container container)
     {
         var xochitl = container.Resolve<IXochitlService>();
         //xochitl.Init();
@@ -13,9 +13,9 @@ internal class Module : AuroraModularis.Module
         return Task.CompletedTask;
     }
 
-    public override void RegisterServices(TinyIoCContainer container)
+    public override void RegisterServices(Container container)
     {
-        container.Register<IRemarkableDevice>(new DeviceImplementation());
-        container.Register<IXochitlService>(new XochitlImpl(container));
+        container.Register<IRemarkableDevice>(new DeviceImplementation()).AsSingleton();
+        container.Register<IXochitlService>(new XochitlImpl(container)).AsSingleton();
     }
 }
