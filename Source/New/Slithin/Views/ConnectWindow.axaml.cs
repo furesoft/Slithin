@@ -2,7 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.Host.Views;
+namespace Slithin.Views;
 
 public partial class ConnectWindow : Window
 {

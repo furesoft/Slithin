@@ -4,9 +4,11 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <TrimMode>copyused</TrimMode>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <Nullable>enable</Nullable>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
-  	 <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64;osx.12-arm64</RuntimeIdentifiers>
+  	<RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64;osx.12-arm64</RuntimeIdentifiers>
     <PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
     <Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
   </PropertyGroup>
@@ -14,11 +16,140 @@
   <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
     <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaXaml Remove="Assets\Icons.axaml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\Icons.axaml" />
+    <AvaloniaResource Include="Resources\backup.png" />
+    <AvaloniaResource Include="Resources\copy.png" />
+    <AvaloniaResource Include="Resources\Cover.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-DBlue.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-Green.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-Grey.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-LBlue.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-Lime.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-Orange.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-Pink.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-Purple.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-Red.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-Turquoise.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-White.png" />
+    <AvaloniaResource Include="Resources\Covers\Folder-Yellow.png" />
+    <AvaloniaResource Include="Resources\cubes.png" />
+    <AvaloniaResource Include="Resources\data-transfer.png" />
+    <AvaloniaResource Include="Resources\DefaultScreens\batteryempty.png" />
+    <AvaloniaResource Include="Resources\DefaultScreens\lowbattery.png" />
+    <AvaloniaResource Include="Resources\DefaultScreens\poweroff.png" />
+    <AvaloniaResource Include="Resources\DefaultScreens\rebooting.png" />
+    <AvaloniaResource Include="Resources\DefaultScreens\splash.png" />
+    <AvaloniaResource Include="Resources\DefaultScreens\starting.png" />
+    <AvaloniaResource Include="Resources\DefaultScreens\suspended.png" />
+    <AvaloniaResource Include="Resources\epub.png" />
+    <AvaloniaResource Include="Resources\error.png" />
+    <AvaloniaResource Include="Resources\Icon.ico" />
+    <AvaloniaResource Include="Resources\Icon.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e970.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e975.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e976.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e977.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e978.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e979.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e97b.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e982.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e98c.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e98d.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e98e.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e98f.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e990.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e991.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e993.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e994.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e995.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e996.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e997.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e999.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99a.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99b.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99c.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99d.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99e.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99f.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a0.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a1.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a5.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a6.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a7.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a8.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a9.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9aa.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ab.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ac.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ad.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b2.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b4.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b5.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b6.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b7.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b8.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b9.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ba.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9bb.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9bc.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9c0.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9c5.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9c8.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9c9.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ca.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9cb.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9cc.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9cd.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ce.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9cf.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d0.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d1.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d2.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d3.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d4.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d5.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d6.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d7.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d8.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d9.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9da.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9db.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9dc.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9f8.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9f9.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9fa.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9fb.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9fc.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9fd.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9fe.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ff.png" />
+    <AvaloniaResource Include="Resources\IconTiles\ea00.png" />
+    <AvaloniaResource Include="Resources\Locales\en.json" />
+    <AvaloniaResource Include="Resources\nav.png" />
+    <AvaloniaResource Include="Resources\new_logo.png" />
+    <AvaloniaResource Include="Resources\notebook.png" />
+    <AvaloniaResource Include="Resources\pdf.png" />
+    <AvaloniaResource Include="Resources\pdf_append.png" />
+    <AvaloniaResource Include="Resources\restore.png" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.10" />
     <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.10" />
     <PackageReference Include="AuroraModularis.Modules.Logging.SeriLog" Version="1.0.10" />
+    <PackageReference Include="Avalonia" Version="0.10.18" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
+    <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="0.10.18" />
+    <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.8" />
+    <PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.90-nightly" />
     <PackageReference Include="Packaging.Targets" Version="0.1.220">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -26,9 +157,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Icon.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <LinuxPath>/usr/share/icons/hicolor/48x48/apps/Slithin.png</LinuxPath>
+    </Content>
     <Content Include="linux.desktop" CopyToPublishDirectory="PreserveNewest">
       <LinuxPath>/usr/share/applications/Slithin.desktop</LinuxPath>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--This helps with theme dll-s trimming.
+	If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
+	https://github.com/AvaloniaUI/Avalonia/issues/5593 -->
+    <TrimmableAssembly Include="Avalonia.Themes.Fluent" />
+    <TrimmableAssembly Include="Avalonia.Themes.Default" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,7 +181,20 @@
     <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Updater\Slithin.Modules.Updater.csproj" />
-    <ProjectReference Include="..\Slithin.Host\Slithin.Host.csproj" />
+    <ProjectReference Include="..\Slithin.Controls\Slithin.Controls.csproj" />
+    <ProjectReference Include="..\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="App.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="MainWindow.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ConnectWindow.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <Import Project="$(SolutionDir)\Version.props" />

@@ -1,9 +1,10 @@
-﻿using Avalonia;
+﻿using AuroraModularis;
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Slithin.Host.Views;
+using Slithin.Views;
 
-namespace Slithin.Host;
+namespace Slithin;
 
 public partial class App : Application
 {
@@ -12,12 +13,19 @@ public partial class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
-    public override void OnFrameworkInitializationCompleted()
+    public override async void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new ConnectWindow();
         }
+
+        await BootstrapperBuilder.StartConfigure()
+            .WithAppName("Slithin")
+            .WithModulesBasePath(".")
+            .WithSettingsBasePath(".")
+            .WithSettingsProvider<LiteDbSettingsProvider>()
+            .BuildAndStartAsync();
 
         base.OnFrameworkInitializationCompleted();
     }

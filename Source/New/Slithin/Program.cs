@@ -1,4 +1,4 @@
-﻿using AuroraModularis;
+﻿using Avalonia;
 using nUpdate;
 using Slithin;
 
@@ -6,14 +6,16 @@ using Slithin;
 
 public class Program
 {
+    // Avalonia configuration, don't remove; also used by visual designer.
+    public static AppBuilder BuildAvaloniaApp()
+        => AppBuilder.Configure<App>()
+            .UsePlatformDetect()
+            .LogToTrace();
+
     [STAThread]
-    public static Task Main()
+    public static void Main()
     {
-        return BootstrapperBuilder.StartConfigure()
-            .WithAppName("Slithin")
-            .WithModulesBasePath(".")
-            .WithSettingsBasePath(".")
-            .WithSettingsProvider<LiteDbSettingsProvider>()
-            .BuildAndStartAsync();
+        BuildAvaloniaApp()
+            .StartWithClassicDesktopLifetime(Environment.GetCommandLineArgs());
     }
 }

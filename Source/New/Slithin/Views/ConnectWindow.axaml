@@ -6,7 +6,7 @@
         xmlns:wpf="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
         xmlns:controls="using:Slithin.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
-        x:Class="Slithin.Host.Views.ConnectWindow" Icon="avares:/Resources/Icon.png"
+        x:Class="Slithin.Views.ConnectWindow" Icon="avares:/Resources/Icon.png"
         Title="Slithin Remarkable Tools" WindowStartupLocation="CenterScreen" Width="342" MinHeight="485" MinWidth="342" MaxWidth="342" MaxHeight="485">
     <styles:SnackbarHost HostName="connect">
         <styles:ColorZone Mode="Light" Height="485">
