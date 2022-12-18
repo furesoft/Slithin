@@ -1,4 +1,4 @@
-﻿namespace Slithin.Entities;
+﻿namespace Slithin.Entities.Remarkable;
 
 public struct PageData
 {

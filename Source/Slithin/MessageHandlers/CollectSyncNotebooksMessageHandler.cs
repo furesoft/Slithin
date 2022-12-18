@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Slithin.Core;
-using Slithin.Core.Messaging;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
@@ -145,7 +144,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
 
         if (_syncNotebooks.Any())
         {
-            _mailboxService.Post(new DownloadSyncNotebookMessage(_syncNotebooks));
+            //_mailboxService.Post(new DownloadSyncNotebookMessage(_syncNotebooks));
         }
     }
 

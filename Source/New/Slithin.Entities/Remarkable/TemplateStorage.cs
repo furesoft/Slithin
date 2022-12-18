@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Slithin.Entities;
+namespace Slithin.Entities.Remarkable;
 
 public class TemplateStorage
 {

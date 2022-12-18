@@ -10,6 +10,9 @@ public class Module : AuroraModularis.Module
         var pathManager = container.Resolve<IPathManager>();
         pathManager.Init();
 
+        var loginService = container.Resolve<ILoginService>();
+        loginService.Init();
+
         return Task.CompletedTask;
     }
 
@@ -18,5 +21,7 @@ public class Module : AuroraModularis.Module
         container.Register<IPathManager>(new PathManagerImpl());
         container.Register<IVersionService>(new VersionServiceImpl(container));
         container.Register<IRepository>(new LocalRepository(container));
+        container.Register<ILoginService>(new LoginServiceImpl(container));
+        container.Register<IDatabaseService>(new DatabaseServiceImpl(container));
     }
 }

@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <AvaloniaXaml Remove="Assets\Icons.axaml" />
+    <AvaloniaXaml Remove="Theme\Generic.axaml" />
   </ItemGroup>
 
 
@@ -138,6 +139,7 @@
     <AvaloniaResource Include="Resources\pdf.png" />
     <AvaloniaResource Include="Resources\pdf_append.png" />
     <AvaloniaResource Include="Resources\restore.png" />
+    <AvaloniaResource Include="Theme\Generic.axaml" />
   </ItemGroup>
   
   <ItemGroup>
@@ -154,6 +156,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="QRCoder" Version="1.4.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -181,15 +184,25 @@
     <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Updater\Slithin.Modules.Updater.csproj" />
-    <ProjectReference Include="..\Slithin.Controls\Slithin.Controls.csproj" />
-    <ProjectReference Include="..\Slithin.Themes.Generic\Slithin.Themes.Generic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Update="App.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Notifications\ActionNotificationControl.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Notifications\StatusNotificationControl.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Settings\SettingsGroup.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
     <Compile Update="MainWindow.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Theme\Styles\RadioButtonGroup.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="Views\ConnectWindow.axaml.cs">

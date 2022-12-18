@@ -6,20 +6,13 @@ namespace Slithin;
 
 internal class LiteDbSettingsProvider : IModuleSettingsProvider
 {
-    private readonly LiteDatabase _db;
-    private readonly ILiteCollection<BsonDocument> _settingsCollection;
-
-    public LiteDbSettingsProvider()
-    {
-        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin", "slithin2.db");
-
-        _db = new LiteDatabase(path);
-        _settingsCollection = _db.GetCollection<BsonDocument>("settings");
-    }
-
     public object Load(string path, Type type)
     {
-        var settingsObj = _settingsCollection.FindOne(Query.EQ("$type", type.FullName));
+        var dbpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin", "slithin2.db");
+
+        var db = new LiteDatabase(dbpath);
+        var settingsCollection = db.GetCollection<BsonDocument>("settings");
+        var settingsObj = settingsCollection.FindOne(Query.EQ("$type", type.FullName));
 
         if (settingsObj != null)
         {
@@ -28,6 +21,8 @@ internal class LiteDbSettingsProvider : IModuleSettingsProvider
 
         var newInstance = Activator.CreateInstance(type);
 
+        db.Dispose();
+
         Save(newInstance, path);
 
         return newInstance;
@@ -35,19 +30,28 @@ internal class LiteDbSettingsProvider : IModuleSettingsProvider
 
     public void Save(object data, string path)
     {
-        var settingsObj = _settingsCollection.FindOne(Query.EQ("type", data.GetType().FullName));
+        var dbpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin", "slithin2.db");
+
+        var db = new LiteDatabase(dbpath);
+        var settingsCollection = db.GetCollection<BsonDocument>("settings");
+
+        var settingsObj = settingsCollection.FindOne(Query.EQ("type", data.GetType().FullName));
         var serializedData = JsonConvert.SerializeObject(data);
 
         if (settingsObj != null)
         {
             settingsObj["obj"] = serializedData;
-            _settingsCollection.Update(settingsObj);
+            settingsCollection.Update(settingsObj);
+
+            db.Dispose();
             return;
         }
 
         settingsObj = new();
-        settingsObj.Add("type", data.GetType().FullName);
+        settingsObj.Add("$type", data.GetType().FullName);
         settingsObj.Add("obj", serializedData);
-        _settingsCollection.Insert(settingsObj);
+        settingsCollection.Insert(settingsObj);
+
+        db.Dispose();
     }
 }
