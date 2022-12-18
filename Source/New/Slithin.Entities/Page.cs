@@ -1,4 +1,4 @@
-﻿namespace Slithin.Models;
+﻿namespace Slithin.Entities;
 
 public class Page
 {

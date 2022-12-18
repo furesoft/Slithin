@@ -41,6 +41,9 @@ public class Metadata //: NotifyObject, IEqualityComparer<Metadata>
     }
     */
 
+    [JsonProperty("visibleName")]
+    public string VisibleName { get; set; }
+
     public bool Equals(Metadata x, Metadata y)
     {
         return x.ID.Equals(y.ID);

@@ -1,4 +1,5 @@
-﻿using Slithin.Modules.Device.Models;
+﻿using Slithin.Entities;
+using Slithin.Modules.Device.Models;
 using Zio;
 using Zio.FileSystems;
 
@@ -8,9 +9,14 @@ public class MockDevice : IRemarkableDevice
 {
     private IFileSystem _filesystem;
 
-    public void Connect(string ip, string password)
+    ~MockDevice()
     {
-        _filesystem = new ZipArchiveFileSystem(new System.IO.Compression.ZipArchive(File.Open("device.zip", FileMode.OpenOrCreate)));
+        Disconned();
+    }
+
+    public void Connect(IPAddress ip, string password)
+    {
+        _filesystem = new ZipArchiveFileSystem(new System.IO.Compression.ZipArchive(File.Open("device.zip", FileMode.OpenOrCreate), System.IO.Compression.ZipArchiveMode.Update));
     }
 
     public void Disconned()

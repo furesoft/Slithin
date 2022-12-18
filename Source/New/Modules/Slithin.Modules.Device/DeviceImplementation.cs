@@ -1,4 +1,5 @@
 ﻿using Renci.SshNet;
+using Slithin.Entities;
 using Slithin.Modules.Device.Models;
 
 namespace Slithin.Modules.Device;
@@ -8,12 +9,12 @@ internal class DeviceImplementation : IRemarkableDevice
     private SshClient _client;
     private ScpClient _scp;
 
-    public void Connect(string ip, string password)
+    public void Connect(IPAddress ip, string password)
     {
-        _client = new(ip, 22, "root", password);
+        _client = new(ip.Address, ip.Port, "root", password);
         _client.Connect();
 
-        _scp = new(ip, 22, "root", password);
+        _scp = new(ip.Address, ip.Port, "root", password);
         _scp.Connect();
     }
 

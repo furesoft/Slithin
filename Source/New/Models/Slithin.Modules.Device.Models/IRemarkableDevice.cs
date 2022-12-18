@@ -1,8 +1,10 @@
-﻿namespace Slithin.Modules.Device.Models;
+﻿using Slithin.Entities;
+
+namespace Slithin.Modules.Device.Models;
 
 public interface IRemarkableDevice
 {
-    void Connect(string ip, string password);
+    void Connect(IPAddress ip, string password);
 
     void Reload();
 

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
+using AuroraModularis.Core;
 using Avalonia.Controls;
 using Slithin.Core.ItemContext;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Core.Services.Implementations;
 
@@ -58,7 +56,7 @@ public class ContextMenuProviderImpl : IContextMenuProvider
             return null;
         }
 
-        var localisationProvider = ServiceLocator.Container.Resolve<ILocalisationService>();
+        var localisationProvider = Container.Current.Resolve<ILocalisationService>();
 
         var providersForContext = _providers[context];
         var availableContexts = providersForContext.Where(p => p.CanHandle(item));
@@ -99,7 +97,7 @@ public class ContextMenuProviderImpl : IContextMenuProvider
         {
             if (!providerType.IsAssignableFrom(typeof(CommandBasedContextMenu)))
             {
-                var provider = (IContextProvider)ServiceLocator.Container.Resolve(providerType);
+                var provider = Container.Current.Resolve<IContextProvider>(providerType);
 
                 AddProvider(provider);
             }
@@ -108,7 +106,7 @@ public class ContextMenuProviderImpl : IContextMenuProvider
         var commandTypes = Utils.FindType<IContextCommand>();
         foreach (var commandType in commandTypes)
         {
-            var resolvedCommand = (IContextCommand)ServiceLocator.Container.Resolve(commandType);
+            var resolvedCommand = Container.Current.Resolve<IContextCommand>(commandType);
 
             AddProvider(new CommandBasedContextMenu(resolvedCommand), resolvedCommand);
         }

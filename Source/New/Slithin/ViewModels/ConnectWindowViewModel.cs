@@ -1,27 +1,34 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using AuroraModularis.Core;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
+using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
+using Slithin.Views;
 
 namespace Slithin.ViewModels;
 
 public class ConnectionWindowViewModel : BaseViewModel
 {
     private readonly ILoginService _loginService;
+    private readonly IRemarkableDevice _remarkableDevice;
     private ObservableCollection<LoginInfo> _loginCredentials;
 
     private LoginInfo _selectedLogin;
 
-    public ConnectionWindowViewModel(ILoginService loginService)
+    public ConnectionWindowViewModel(ILoginService loginService, IRemarkableDevice remarkableDevice)
     {
         ConnectCommand = new DelegateCommand(Connect);
         HelpCommand = new DelegateCommand(Help);
-        //OpenAddDeviceCommand = new DelegateCommand(OpenAddDevice);
+        OpenAddDeviceCommand = new DelegateCommand(OpenAddDevice);
 
         SelectedLogin = new LoginInfo();
         _loginService = loginService;
+        _remarkableDevice = remarkableDevice;
     }
 
     public ICommand ConnectCommand { get; set; }
@@ -57,7 +64,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         SelectedLogin = li.FirstOrDefault() ?? new LoginInfo();
 
-        LoginCredentials = new();
+        LoginCredentials = new(li);
     }
 
     private void Connect(object obj)
@@ -68,6 +75,15 @@ public class ConnectionWindowViewModel : BaseViewModel
         {
             SelectedLogin.Name = "DefaultDevice";
         }
+
+        _loginService.SetLoginCredential(SelectedLogin);
+        _remarkableDevice.Connect(ip, SelectedLogin.Password);
+
+        var mainWindow = new MainWindow();
+        ApplyViewModel<MainWindowViewModel>(mainWindow);
+        mainWindow.Show();
+
+        RequestClose();
     }
 
     private void Help(object obj)
@@ -75,11 +91,10 @@ public class ConnectionWindowViewModel : BaseViewModel
         Utils.OpenUrl("https://tinyurl.com/remarkable-ssh");
     }
 
-    /*
     private void OpenAddDevice(object obj)
     {
         var wndw = new AddDeviceWindow();
-        var vm = ServiceLocator.Container.Resolve<AddDeviceWindowViewModel>();
+        var vm = Container.Current.Resolve<AddDeviceWindowViewModel>();
         vm.ParentViewModel = this;
 
         wndw.DataContext = vm;
@@ -87,5 +102,5 @@ public class ConnectionWindowViewModel : BaseViewModel
         vm.OnRequestClose += () => wndw.Close();
 
         wndw.ShowDialog(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
-    }*/
+    }
 }

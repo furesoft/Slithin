@@ -2,9 +2,48 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Slithin.MainWindow"
-        Icon="avares:/Resources/Icon.png"
-        Title="Slithin">
-    Welcome to Avalonia!
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+        xmlns:core="using:Slithin.Core"
+        xmlns:controls="http://github.com/furesoft/Slithin"
+        xmlns:flyouts="using:Slithin.UI.Flyouts"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinWidth="1105" MinHeight="450" WindowStartupLocation="CenterScreen"
+        x:Class="Slithin.MainWindow" Icon="avares:/Resources/Icon.png"
+        Title="{Binding Title}">
+    <controls:ContentDialog>
+        <styles:ColorZone Mode="Light" Height="{Binding $parent[Window].Height}">
+            <SplitView DisplayMode="CompactInline" OpenPaneLength="190" IsPaneOpen="true">
+                <SplitView.Pane>
+                    <Grid RowDefinitions="175,*" Margin="0,20,0,0">
+                        <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Source="avares:/Resources/new_logo.png" Classes="header" />
+
+                        <ListBox Items="{Binding Menu}" Grid.Row="1" SelectedItem="{Binding SelectedTab}" Classes="Drawer" Name="Drawer" VerticalAlignment="Bottom">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Height="35" ColumnDefinitions="33,*" ToolTip.Tip="{Binding Header}" Background="{Binding Background}" ToolTip.IsOpen="True">
+                                        <DrawingPresenter Drawing="{Binding Icon}" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" />
+
+                                        <TextBlock Text="{Binding Header}" Grid.Column="1" Margin="5,0,0,0" Classes="Body1 bigFont" VerticalAlignment="Center" FontSize="25" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </SplitView.Pane>
+
+                <Grid RowDefinitions="AUTO,*,*" ColumnDefinitions="*,130" Margin="5">
+                    <styles:Card Grid.Row="0" MinWidth="800" MaxHeight="100" HorizontalAlignment="Stretch" Content="{Binding ContextualMenu, Mode=TwoWay}" />
+
+                    <Carousel Margin="0,10,0,0" Grid.Row="1" SelectedIndex="{Binding #Drawer.SelectedIndex}" Items="{Binding Tabs}" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+
+                    <Button Classes="Flat" Command="{Binding SyncService.SynchronizeCommand}" Grid.Column="1" MaxHeight="90" Margin="0,0,12,0" HorizontalAlignment="Right">
+                        <StackPanel>
+                            <DrawingPresenter Width="48" Height="48" Drawing="{DynamicResource Material.Refresh}" />
+                            <TextBlock Text="{core:Localisation 'Synchronize'}" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </SplitView>
+        </styles:ColorZone>
+    </controls:ContentDialog>
 </Window>
