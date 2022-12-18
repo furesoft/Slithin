@@ -1,17 +1,10 @@
-﻿using System.IO;
-using System.Linq;
+﻿using AuroraModularis.Core;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using Slithin.Core;
-using Slithin.Core.Menu;
-using Slithin.Core.Services;
-using Slithin.Core.Sync.Repositorys;
-using Slithin.Models;
-using Slithin.UI.ContextualMenus;
-using Slithin.ViewModels.Pages;
+using Slithin.Modules.Menu.Models.Menu;
 
-namespace Slithin.UI.Pages;
+namespace Slithin.Modules.Device.UI;
 
 [PreserveIndex(0)]
 [PageIcon("Typicons.DeviceTablet")]
@@ -27,8 +20,6 @@ public partial class DevicePage : UserControl, IPage
     public Control GetContextualMenu() => new DeviceContextualMenu();
 
     bool IPage.IsEnabled() => true;
-
-    public bool UseContextualMenu() => true;
 
     private void DragOver(object sender, DragEventArgs e)
     {
@@ -46,6 +37,8 @@ public partial class DevicePage : UserControl, IPage
         if (e.Data.Contains(DataFormats.FileNames))
         {
             var filename = e.Data.GetFileNames().First();
+
+            /*
             var provider = ServiceLocator.Container.Resolve<IImportProviderFactory>().GetImportProvider(".png", filename);
             var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
 
@@ -85,6 +78,7 @@ public partial class DevicePage : UserControl, IPage
             {
                 DialogService.OpenError(localisation.GetStringFormat("The file '{0}' has the wrong Filetype", filename));
             }
+            */
         }
     }
 
@@ -94,7 +88,7 @@ public partial class DevicePage : UserControl, IPage
 
         if (!Design.IsDesignMode)
         {
-            DataContext = ServiceLocator.Container.Resolve<DevicePageViewModel>();
+            DataContext = Container.Current.Resolve<DevicePageViewModel>();
         }
 
         AddHandler(DragDrop.DropEvent, Drop);

@@ -1,6 +1,6 @@
 ﻿using AuroraModularis.Core;
 
-namespace Slithin.Modules.MarketplaceIntegration;
+namespace Slithin.Modules.Device.UI;
 
 public class Module : AuroraModularis.Module
 {

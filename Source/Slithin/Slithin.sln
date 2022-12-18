@@ -68,11 +68,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Menu.Models
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Menu", "..\New\Modules\Slithin.Modules.Menu\Slithin.Modules.Menu.csproj", "{CC1B5CA6-189A-41E7-B374-86AA70DF12FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Controls", "..\Slithin.Controls\Slithin.Controls.csproj", "{04B78F04-FFB4-4769-815F-44D5246CCE9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Controls", "..\Slithin.Controls\Slithin.Controls.csproj", "{04B78F04-FFB4-4769-815F-44D5246CCE9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Settings", "..\New\Modules\Slithin.Modules.Settings\Slithin.Modules.Settings.csproj", "{B798FCF2-DC77-43FD-B449-510F88158AC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Settings", "..\New\Modules\Slithin.Modules.Settings\Slithin.Modules.Settings.csproj", "{B798FCF2-DC77-43FD-B449-510F88158AC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Settings.Models", "..\New\Models\Slithin.Modules.Settings.Models\Slithin.Modules.Settings.Models.csproj", "{E7C4B084-A070-4C94-B1ED-CE26CB90D3C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Settings.Models", "..\New\Models\Slithin.Modules.Settings.Models\Slithin.Modules.Settings.Models.csproj", "{E7C4B084-A070-4C94-B1ED-CE26CB90D3C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Device.UI", "..\New\Modules\Slithin.Modules.Device.UI\Slithin.Modules.Device.UI.csproj", "{3FB1ADB4-C415-4DF4-9E24-2151214CD056}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -774,6 +776,30 @@ Global
 		{E7C4B084-A070-4C94-B1ED-CE26CB90D3C8}.Release|x64.Build.0 = Release|Any CPU
 		{E7C4B084-A070-4C94-B1ED-CE26CB90D3C8}.Release|x86.ActiveCfg = Release|Any CPU
 		{E7C4B084-A070-4C94-B1ED-CE26CB90D3C8}.Release|x86.Build.0 = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|x64.Build.0 = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Debug|x86.Build.0 = Debug|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|ARM.Build.0 = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|ARM32.Build.0 = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|ARM64.Build.0 = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|x64.ActiveCfg = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|x64.Build.0 = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|x86.ActiveCfg = Release|Any CPU
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -810,6 +836,7 @@ Global
 		{04B78F04-FFB4-4769-815F-44D5246CCE9C} = {A17CBB1C-7E50-41AA-9CBF-D8E8BB74F38E}
 		{B798FCF2-DC77-43FD-B449-510F88158AC2} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
 		{E7C4B084-A070-4C94-B1ED-CE26CB90D3C8} = {B45E51FF-56E7-4204-8A26-2AF63A270E60}
+		{3FB1ADB4-C415-4DF4-9E24-2151214CD056} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AEF28834-827B-4DA8-AC92-207A90616579}

@@ -38,6 +38,11 @@ public class MockDevice : IRemarkableDevice
 
     public CommandResult RunCommand(string cmd)
     {
+        if (cmd == "grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf")
+        {
+            return new(null, "2.13.5");
+        }
+
         return new(null, "");
     }
 
@@ -47,5 +52,8 @@ public class MockDevice : IRemarkableDevice
         using var zipStream = _filesystem.CreateFile(path);
 
         fileStream.CopyTo(zipStream);
+
+        _filesystem.Dispose();
+        Connect(default, null);
     }
 }

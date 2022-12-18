@@ -5,7 +5,7 @@
              xmlns:l="using:Slithin.Core"
              xmlns:c="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.UI.Pages.DevicePage">
+             x:Class="Slithin.Modules.Device.UI.DevicePage">
     <StackPanel>
         <Grid Margin="4">
             <TextBlock Text="{l:Localisation 'Version'}" FontSize="18" />
@@ -33,7 +33,7 @@
         <StackPanel>
             <TextBlock Text="{l:Localisation 'Screens'}" Margin="4" FontSize="18" />
 
-            <ItemsControl Items="{Binding SyncService.CustomScreens, Mode=TwoWay}" Margin="16,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ItemsControl Items="{Binding CustomScreens, Mode=TwoWay}" Margin="16,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Visible">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Margin="2">

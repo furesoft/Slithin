@@ -1,5 +1,4 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Core.Services.Implementations;
 using Slithin.Modules.Menu.Models;
 
 namespace Slithin.Modules.Menu;
