@@ -9,7 +9,7 @@
 <Import Project="$(SolutionDir)\Version.props" />
 
 <ItemGroup>
-  <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.17" />
+  <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.18" />
   <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
 </ItemGroup>
 
