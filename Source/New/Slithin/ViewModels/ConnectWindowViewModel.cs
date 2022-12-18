@@ -25,6 +25,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         ConnectCommand = new DelegateCommand(Connect);
         HelpCommand = new DelegateCommand(Help);
         OpenAddDeviceCommand = new DelegateCommand(OpenAddDevice);
+        RemoveDeviceCommand = new DelegateCommand(RemoveDevice);
 
         SelectedLogin = new LoginInfo();
         _loginService = loginService;
@@ -32,6 +33,7 @@ public class ConnectionWindowViewModel : BaseViewModel
     }
 
     public ICommand ConnectCommand { get; set; }
+
     public ICommand HelpCommand { get; set; }
 
     public ObservableCollection<LoginInfo> LoginCredentials
@@ -42,6 +44,8 @@ public class ConnectionWindowViewModel : BaseViewModel
 
     public ICommand OpenAddDeviceCommand { get; set; }
 
+    public ICommand RemoveDeviceCommand { get; set; }
+
     public LoginInfo SelectedLogin
     {
         get => _selectedLogin;
@@ -51,7 +55,11 @@ public class ConnectionWindowViewModel : BaseViewModel
     public override void OnLoad()
     {
         base.OnLoad();
+        InitDeviceList();
+    }
 
+    private void InitDeviceList()
+    {
         var li = _loginService.GetLoginCredentials();
 
         for (var i = 0; i < li.Length; i++)
@@ -65,6 +73,14 @@ public class ConnectionWindowViewModel : BaseViewModel
         SelectedLogin = li.FirstOrDefault() ?? new LoginInfo();
 
         LoginCredentials = new(li);
+    }
+
+    private void RemoveDevice(object obj)
+    {
+        _loginService.Remove(SelectedLogin);
+        SelectedLogin = new();
+
+        InitDeviceList();
     }
 
     private void Connect(object obj)

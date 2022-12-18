@@ -1,5 +1,4 @@
-﻿using LiteDB;
-using Slithin.Entities;
+﻿using Slithin.Entities;
 
 namespace Slithin.Modules.Repository.Models;
 
@@ -18,24 +17,6 @@ public interface ILoginService
     void UpdateLoginCredential(LoginInfo info);
 
     void Init();
-}
 
-public interface IDatabaseService
-{
-    DatabaseAccessor GetDatabase();
-}
-
-public class DatabaseAccessor
-{
-    public DatabaseAccessor(LiteDatabase dB)
-    {
-        DB = dB;
-    }
-
-    ~DatabaseAccessor()
-    {
-        DB.Dispose();
-    }
-
-    public LiteDatabase DB { get; set; }
+    void Remove(LoginInfo loginInfo);
 }

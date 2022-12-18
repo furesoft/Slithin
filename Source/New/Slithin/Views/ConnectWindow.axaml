@@ -14,10 +14,11 @@
             <Grid RowDefinitions="250,45,55,55,7,15,40" ColumnDefinitions="*,AUTO" Margin="5">
                 <Image Source="avares:/Resources/new_logo.png" Grid.ColumnSpan="2" Margin="0,0,0,3" />
 
-                <Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="*,45">
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="*,45,45">
                     <ComboBox PlaceholderText="{l:Localisation 'No Device Saved'}" Items="{Binding LoginCredentials}" SelectedItem="{Binding SelectedLogin}" />
 
                     <Button Classes="Flat" Content="+" Width="45" Grid.Column="1" Command="{Binding OpenAddDeviceCommand}" ToolTip.Tip="{l:Localisation 'Add Device'}" />
+                    <Button Classes="Flat" Content="-" Width="45" Grid.Column="2" Command="{Binding RemoveDeviceCommand}" ToolTip.Tip="{l:Localisation 'Remove Device'}" />
                 </Grid>
 
                 <TextBox UseFloatingWatermark="True" wpf:TextFieldAssist.Label="{l:Localisation 'IP Address'}" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3,0,3" Text="{Binding SelectedLogin.IP}" />

@@ -66,20 +66,12 @@ public class LoginServiceImpl : ILoginService
 
         collection.Update(info);
     }
-}
 
-public class DatabaseServiceImpl : IDatabaseService
-{
-    private Container _container;
-
-    public DatabaseServiceImpl(Container container)
+    public void Remove(LoginInfo loginInfo)
     {
-        _container = container;
-    }
+        var db = _dbService.GetDatabase();
 
-    public DatabaseAccessor GetDatabase()
-    {
-        var pathManager = _container.Resolve<IPathManager>();
-        return new(new(Path.Combine(pathManager.SlithinDir, "slithin2.db")));
+        var collection = db.DB.GetCollection<LoginInfo>();
+        collection.Delete(loginInfo._id);
     }
 }
