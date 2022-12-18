@@ -14,7 +14,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Models\Slithin.Modules.Device.Models\Slithin.Modules.Device.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Diagnostics.Sentry.Models\Slithin.Modules.Diagnostics.Sentry.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Settings.Models\Slithin.Modules.Settings.Models.csproj" />
     <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />
   </ItemGroup>
 

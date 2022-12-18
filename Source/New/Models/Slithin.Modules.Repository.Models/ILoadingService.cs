@@ -1,12 +1,10 @@
-﻿namespace Slithin.Core.Services;
+﻿namespace Slithin.Modules.Repository.Models;
 
 public interface ILoadingService
 {
     void LoadApiToken();
 
     void LoadNotebooks();
-
-    void LoadScreens();
 
     void LoadTemplates();
 

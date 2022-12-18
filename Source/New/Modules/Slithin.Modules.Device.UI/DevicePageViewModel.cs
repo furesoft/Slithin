@@ -93,11 +93,10 @@ public class DevicePageViewModel : BaseViewModel
 
         InitScreens();
 
-        //temporarly load screens- replace later with loading module
-        foreach (var cs in CustomScreens)
+        Parallel.ForEach(CustomScreens, (cs) =>
         {
             cs.Load();
-        }
+        });
 
         /*
         _mailboxService.PostAction(() =>
