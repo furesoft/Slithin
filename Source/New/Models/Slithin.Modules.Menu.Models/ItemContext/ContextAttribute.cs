@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Slithin.Core.ItemContext;
+namespace Slithin.Modules.Menu.Models.ItemContext;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 public class ContextAttribute : Attribute

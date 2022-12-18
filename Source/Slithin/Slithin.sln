@@ -64,9 +64,9 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Windows-Store", "..\Windows
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Device.Mock", "..\New\Modules\Slithin.Modules.Device.Mock\Slithin.Modules.Device.Mock.csproj", "{D16A5DBD-8BED-4A9D-8A9A-F1474D8D0AFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.ContextMenu.Models", "..\New\Models\Slithin.Modules.ContextMenu.Models\Slithin.Modules.ContextMenu.Models.csproj", "{7AB5366A-AF40-4C03-9267-43153F3BA95A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Menu.Models", "..\New\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj", "{7AB5366A-AF40-4C03-9267-43153F3BA95A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.ContextMenu", "..\New\Modules\Slithin.Modules.ContextMenu\Slithin.Modules.ContextMenu.csproj", "{CC1B5CA6-189A-41E7-B374-86AA70DF12FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Menu", "..\New\Modules\Slithin.Modules.Menu\Slithin.Modules.Menu.csproj", "{CC1B5CA6-189A-41E7-B374-86AA70DF12FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

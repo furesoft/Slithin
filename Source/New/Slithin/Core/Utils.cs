@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Runtime.Loader;
 using AuroraModularis.Core;
 
 namespace Slithin.Core;
@@ -18,7 +19,7 @@ public static class Utils
 
     public static IEnumerable<Type> FindType<T>()
     {
-        var types = AppDomain.CurrentDomain.GetAssemblies()
+        var types = AssemblyLoadContext.Default.Assemblies
             .SelectMany(s => s.GetTypes())
             .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass);
 

@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.LogicalTree;
 
-namespace Slithin.Themes.Generic.Styles
+namespace Slithin.Theme.Styles
 {
     public class RadioButtonGroup : ItemsControl
     {

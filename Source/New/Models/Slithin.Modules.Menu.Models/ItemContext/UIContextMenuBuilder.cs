@@ -1,8 +1,7 @@
 ﻿using AuroraModularis.Core;
 using Avalonia.Controls;
-using Slithin.Core.Services;
 
-namespace Slithin.Core.ItemContext;
+namespace Slithin.Modules.Menu.Models.ItemContext;
 
 public class UIContextMenuBuilder
 {

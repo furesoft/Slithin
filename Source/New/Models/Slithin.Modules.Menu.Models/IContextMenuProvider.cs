@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
-using Slithin.Core.ItemContext;
+using Slithin.Modules.Menu.Models.ItemContext;
 
-namespace Slithin.Core.Services;
+namespace Slithin.Modules.Menu.Models;
 
 public interface IContextMenuProvider
 {

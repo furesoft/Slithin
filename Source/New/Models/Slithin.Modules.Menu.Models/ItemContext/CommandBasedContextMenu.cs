@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Slithin.Core.MVVM;
 
-namespace Slithin.Core.ItemContext;
+namespace Slithin.Modules.Menu.Models.ItemContext;
 
 public class CommandBasedContextMenu : IContextProvider
 {

@@ -1,5 +1,5 @@
 ﻿using AuroraModularis.Core;
-using Slitnin.Modules.Cache.Models;
+using Slithin.Modules.Cache.Models;
 
 namespace Slithin.Modules.Caching;
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Models\Slithin.Modules.ContextMenu.Models\Slithin.Modules.ContextMenu.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
     <ProjectReference Include="..\..\Slithin.Core\Slithin.Core.csproj" />
     <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />

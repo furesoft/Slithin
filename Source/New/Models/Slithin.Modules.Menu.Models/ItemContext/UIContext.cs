@@ -1,4 +1,4 @@
-﻿namespace Slithin.Core.ItemContext;
+﻿namespace Slithin.Modules.Menu.Models.ItemContext;
 
 public enum UIContext
 {

@@ -1,11 +1,13 @@
 ﻿using System.Reflection;
 using AuroraModularis.Core;
 using Avalonia.Controls;
-using Slithin.Core.ItemContext;
+using Slithin.Core;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Menu.Models;
+using Slithin.Modules.Menu.Models.ItemContext;
 
-namespace Slithin.Core.Services.Implementations;
+namespace Slithin.Modules.Menu;
 
 public class ContextMenuProviderImpl : IContextMenuProvider
 {

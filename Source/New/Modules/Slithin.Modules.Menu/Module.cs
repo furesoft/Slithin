@@ -1,8 +1,8 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Core.Services;
 using Slithin.Core.Services.Implementations;
+using Slithin.Modules.Menu.Models;
 
-namespace Slithin.Modules.ContextMenu;
+namespace Slithin.Modules.Menu;
 
 public class Module : AuroraModularis.Module
 {

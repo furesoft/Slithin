@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using Avalonia.Controls;
-using Slithin.Core.Menu;
+using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Repository.Models;
-using Slithin.UI.ContextualMenus;
+using Slithin.Views.ContextualMenus;
 
 namespace Slithin.ViewModels;
 
@@ -54,11 +55,23 @@ public class MainWindowViewModel : BaseViewModel
         set => SetValue(ref _title, value);
     }
 
+    private static object? GetIcon(PageIconAttribute? pageIconAttribute, Type type)
+    {
+        //ToDo: enable icon loading from module assembly
+        var iconStream = type.Assembly.GetManifestResourceStream(pageIconAttribute.Key);
+        if (iconStream != null)
+        {
+        }
+
+        return App.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
+    }
+
     private void LoadMenu()
     {
         var toRearrange = new List<(int index, Page page, Control view)>();
 
-        foreach (var type in typeof(App).Assembly.GetTypes())
+        var types = Utils.FindType<IPage>();
+        foreach (var type in types)
         {
             if (!typeof(IPage).IsAssignableFrom(type) || type.IsInterface)
 
@@ -78,11 +91,12 @@ public class MainWindowViewModel : BaseViewModel
                 DataContext = controlInstance.DataContext,
             };
 
-            page.Icon = App.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
+            page.Icon = GetIcon(pageIconAttribute, type);
 
-            if (pageInstance.UseContextualMenu())
+            var contextMenu = pageInstance.GetContextualMenu();
+            if (contextMenu != null)
             {
-                page.Tag = pageInstance.GetContextualMenu();
+                page.Tag = contextMenu;
             }
             else
             {
