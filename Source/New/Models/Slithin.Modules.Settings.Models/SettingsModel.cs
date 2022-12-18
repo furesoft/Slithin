@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using Avalonia;
+﻿using Avalonia;
 using LiteDB;
 using Slithin.Core.MVVM;
-using Slithin.Models;
 
 namespace Slithin.Core;
 
-public class Settings : NotifyObject
+public class SettingsModel : NotifyObject
 {
     public ObjectId _id { get; set; }
 
@@ -17,7 +15,6 @@ public class Settings : NotifyObject
     public bool IsBigMenuMode { get; set; } = true;
     public bool IsDarkMode { get; set; }
     public bool IsFirstStart { get; set; } = true;
-    public MarketplaceUser MarketplaceCredential { get; set; }
     public bool UsedMultiScreen { get; set; }
     public Rect WindowPosition { get; set; }
 

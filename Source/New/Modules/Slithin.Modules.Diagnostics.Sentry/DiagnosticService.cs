@@ -3,7 +3,7 @@ using Slithin.Modules.Diagnostics.Sentry.Models;
 
 namespace Slithin.Modules.Diagnostics.Sentry;
 
-internal class DiagnosticService : IDiagnosticService
+internal class DiagnosticServiceImpl : IDiagnosticService
 {
     public IDisposable StartPerformanceMonitoring(string name, string operation)
     {

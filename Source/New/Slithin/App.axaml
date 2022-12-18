@@ -6,7 +6,7 @@
 
         <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
         <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
-        <StyleInclude Source="avares://Slithin/Theme/Generic.axaml" />
+        <StyleInclude Source="avares://Slithin.Controls/Theme/Generic.axaml" />
     </Application.Styles>
 
     <Application.Resources>

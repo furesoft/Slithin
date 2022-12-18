@@ -28,7 +28,8 @@ public class Module : AuroraModularis.Module
             o.TracesSampleRate = settings.TracesSampleRate;
         });
 
-        container.Register<IDiagnosticService>(new DiagnosticService()).AsSingleton();
+        container.Register<IDiagnosticService>(new DiagnosticServiceImpl()).AsSingleton();
+        container.Register<IFeedbackService>(new FeedbackServiceImpl()).AsSingleton();
     }
 
     public override void OnInit()

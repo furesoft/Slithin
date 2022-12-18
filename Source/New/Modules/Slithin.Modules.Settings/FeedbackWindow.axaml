@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="425"
+        x:Class="Slithin.Modules.Settings.FeedbackWindow"
+        xmlns:loc="using:Slithin.Core"
+        xmlns:controls="http://github.com/furesoft/Slithin"
+        Width="400" Height="425" WindowStartupLocation="CenterScreen" Icon="avares:/Icon.png"
+        Title="Leave a feedback">
+    <StackPanel Margin="7" Spacing="9" HorizontalAlignment="Center">
+        <controls:RatingControl Value="{Binding Usability}" FontSize="25" Foreground="Black" Text="{loc:Localisation 'Usability'}" ShowText="True" Background="LightGray" AllowHalf="True" Count="5" />
+        <controls:RatingControl Value="{Binding Appeareance}" FontSize="25" Foreground="Black" Text="{loc:Localisation 'Appeareance'}" ShowText="True" Background="LightGray" AllowHalf="True" Count="5" />
+        <controls:RatingControl Value="{Binding Performance}" FontSize="25" Foreground="Black" Text="{loc:Localisation 'Performance'}" ShowText="True" Background="LightGray" AllowHalf="True" Count="5" />
+        <controls:RatingControl Value="{Binding Features}" FontSize="25" Foreground="Black" Text="{loc:Localisation 'Features'}" ShowText="True" Background="LightGray" AllowHalf="True" Count="5" />
+        <controls:RatingControl Value="{Binding Compatibility}" FontSize="25" Foreground="Black" Text="{loc:Localisation 'Compatibility'}" ShowText="True" Background="LightGray" AllowHalf="True" Count="5" />
+
+        <TextBox Text="{Binding Comment}" Watermark="{loc:Localisation 'Leave a feedback'}" Height="150" TextWrapping="Wrap" AcceptsReturn="True" />
+        <Button Command="{Binding SendCommand}" Classes="Flat" Content="{loc:Localisation 'Send'}" Margin="10" />
+    </StackPanel>
+</Window>

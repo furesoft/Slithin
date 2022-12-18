@@ -17,6 +17,11 @@ public class UpdaterImplementation : IUpdaterService
 
     public Task<bool> CheckForUpdate()
     {
+        if (_manager == null)
+        {
+            return Task.FromResult(false);
+        }
+
         return _manager.SearchForUpdatesAsync();
     }
 

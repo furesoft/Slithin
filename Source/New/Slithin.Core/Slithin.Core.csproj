@@ -16,4 +16,8 @@
     <PackageReference Include="SSH.NET" Version="2020.0.2" />
     <PackageReference Include="SshKeyGenerator" Version="1.1.50" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
+  </ItemGroup>
 </Project>
