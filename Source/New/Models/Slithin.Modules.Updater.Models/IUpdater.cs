@@ -1,6 +1,6 @@
 ﻿namespace Slithin.Modules.Updater.Models;
 
-public interface IUpdater
+public interface IUpdaterService
 {
     public Task<bool> CheckForUpdate();
 

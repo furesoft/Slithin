@@ -8,6 +8,7 @@ using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Updater.Models;
 using Slithin.Views;
 
 namespace Slithin.ViewModels;
@@ -16,11 +17,14 @@ public class ConnectionWindowViewModel : BaseViewModel
 {
     private readonly ILoginService _loginService;
     private readonly IRemarkableDevice _remarkableDevice;
+    private readonly IUpdaterService _updaterService;
     private ObservableCollection<LoginInfo> _loginCredentials;
 
     private LoginInfo _selectedLogin;
 
-    public ConnectionWindowViewModel(ILoginService loginService, IRemarkableDevice remarkableDevice)
+    public ConnectionWindowViewModel(ILoginService loginService,
+                                     IRemarkableDevice remarkableDevice,
+                                     IUpdaterService updaterService)
     {
         ConnectCommand = new DelegateCommand(Connect);
         HelpCommand = new DelegateCommand(Help);
@@ -30,6 +34,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         SelectedLogin = new LoginInfo();
         _loginService = loginService;
         _remarkableDevice = remarkableDevice;
+        _updaterService = updaterService;
     }
 
     public ICommand ConnectCommand { get; set; }
@@ -52,10 +57,15 @@ public class ConnectionWindowViewModel : BaseViewModel
         set => SetValue(ref _selectedLogin, value);
     }
 
-    public override void OnLoad()
+    public override async void OnLoad()
     {
         base.OnLoad();
         InitDeviceList();
+
+        if (await _updaterService.CheckForUpdate())
+        {
+            await _updaterService.StartUpdate();
+        }
     }
 
     private void InitDeviceList()

@@ -12,6 +12,6 @@ public class Module : AuroraModularis.Module
 
     public override void RegisterServices(Container container)
     {
-        container.Register<IUpdater>(new UpdaterImplementation(container));
+        container.Register<IUpdaterService>(new UpdaterImplementation(container));
     }
 }
