@@ -2,23 +2,23 @@
 using LiteDB;
 using Slithin.Core.MVVM;
 
-namespace Slithin.Core;
+namespace Slithin.Modules.Settings.Models;
 
 public class SettingsModel : NotifyObject
 {
-    public ObjectId _id { get; set; }
+    public ObjectId? _id { get; set; }
 
     public bool AutomaticScreenRecovery { get; set; }
     public bool AutomaticTemplateRecovery { get; set; }
     public bool AutomaticUpdates { get; set; } = true;
-    public Dictionary<string, string> CustomSettings { get; set; } = new();
+    public Dictionary<string, object> CustomSettings { get; set; } = new();
     public bool IsBigMenuMode { get; set; } = true;
     public bool IsDarkMode { get; set; }
     public bool IsFirstStart { get; set; } = true;
     public bool UsedMultiScreen { get; set; }
     public Rect WindowPosition { get; set; }
 
-    public string Get(string key)
+    public object Get(string key)
     {
         if (CustomSettings.ContainsKey(key))
         {
@@ -28,7 +28,7 @@ public class SettingsModel : NotifyObject
         return string.Empty;
     }
 
-    public void Put(string key, string value)
+    public void Put(string key, object value)
     {
         if (CustomSettings.ContainsKey(key))
         {

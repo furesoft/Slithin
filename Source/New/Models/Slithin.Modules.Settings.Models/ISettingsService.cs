@@ -1,6 +1,4 @@
-﻿using Slithin.Core;
-
-namespace Slithin.Modules.Settings.Models;
+﻿namespace Slithin.Modules.Settings.Models;
 
 public interface ISettingsService
 {

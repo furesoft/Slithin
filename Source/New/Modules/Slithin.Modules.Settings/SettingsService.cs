@@ -1,5 +1,4 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Core;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
 

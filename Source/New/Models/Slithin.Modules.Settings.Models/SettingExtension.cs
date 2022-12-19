@@ -1,9 +1,8 @@
 ﻿using AuroraModularis.Core;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
-using Slithin.Modules.Settings.Models;
 
-namespace Slithin.Core;
+namespace Slithin.Modules.Settings.Models;
 
 public class SettingExtension : MarkupExtension
 {
@@ -16,10 +15,10 @@ public class SettingExtension : MarkupExtension
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        var viewModel = Container.Current.Resolve<ISettingsService>();
+        var settingsService = Container.Current.Resolve<ISettingsService>();
 
         var binding = new Binding(Key);
-        binding.Source = viewModel;
+        binding.Source = settingsService.GetSettings();
         binding.Mode = BindingMode.TwoWay;
 
         return binding;
