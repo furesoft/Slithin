@@ -1,4 +1,5 @@
-﻿using Slithin.Entities;
+﻿using AuroraModularis.Core;
+using Slithin.Entities;
 using Slithin.Modules.Device.Models;
 using Zio;
 using Zio.FileSystems;
@@ -7,7 +8,13 @@ namespace Slithin.Modules.Device.Mock;
 
 public class MockDevice : IRemarkableDevice
 {
+    private readonly Container _container;
     private IFileSystem _filesystem;
+
+    public MockDevice(Container container)
+    {
+        _container = container;
+    }
 
     ~MockDevice()
     {
@@ -16,7 +23,10 @@ public class MockDevice : IRemarkableDevice
 
     public void Connect(IPAddress ip, string password)
     {
-        _filesystem = new ZipArchiveFileSystem(new System.IO.Compression.ZipArchive(File.Open("device.zip", FileMode.OpenOrCreate), System.IO.Compression.ZipArchiveMode.Update));
+        _filesystem = new ZipArchiveFileSystem(new System.IO.Compression.ZipArchive(File.Open("device.zip", FileMode.Open), System.IO.Compression.ZipArchiveMode.Update));
+
+        var xochitl = _container.Resolve<IXochitlService>();
+        xochitl.Init();
     }
 
     public void Disconned()

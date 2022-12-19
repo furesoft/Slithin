@@ -7,12 +7,14 @@ public class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {
+        //Todo: copy device.zip to bin directory if not exits
+
         return Task.CompletedTask;
     }
 
     public override void RegisterServices(Container container)
     {
-        container.Register<IRemarkableDevice>(new MockDevice()).AsSingleton();
-        container.Register<IXochitlService>(new XochitlMock()).AsSingleton();
+        container.Register<IRemarkableDevice>(new MockDevice(container)).AsSingleton();
+        container.Register<IXochitlService>(new XochitlImpl(container)).AsSingleton();
     }
 }

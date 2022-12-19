@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="device.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="device.zip">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.18" />
     <PackageReference Include="Zio" Version="0.16.1" />
   </ItemGroup>

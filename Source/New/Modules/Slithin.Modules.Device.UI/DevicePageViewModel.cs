@@ -23,8 +23,6 @@ public class DevicePageViewModel : BaseViewModel
     private ObservableCollection<string> _shareEmailAddresses;
     private string _version;
 
-    public ObservableCollection<CustomScreen> CustomScreens { get; set; } = new();
-
     public DevicePageViewModel(IVersionService versionService,
         IXochitlService xochitlService,
         IRemarkableDevice remarkableDevice,
@@ -46,6 +44,8 @@ public class DevicePageViewModel : BaseViewModel
         RemoveEmailCommand = new DelegateCommand(RemoveEmail);
         ReloadDeviceCommand = new DelegateCommand(ReloadDevice);
     }
+
+    public ObservableCollection<CustomScreen> CustomScreens { get; set; } = new();
 
     public bool HasEmailAddresses
     {
@@ -114,10 +114,6 @@ public class DevicePageViewModel : BaseViewModel
         */
 
         ShareEmailAddresses = new(_xochitlService.GetShareEmailAddresses());
-
-#if DEBUG
-        ShareEmailAddresses = new(new[] { "demo@demo.de", "max.mustermann@muster.de" });
-#endif
 
         HasEmailAddresses = ShareEmailAddresses.Any();
 
@@ -231,10 +227,8 @@ public class DevicePageViewModel : BaseViewModel
     {
         ShareEmailAddresses.Remove(obj.ToString());
 
-#if RELEASE
-        _xochitl.SetShareMailAddresses(ShareEmailAddresses);
-        _mailboxService.PostAction(() => _xochitl.Save());
-#endif
+        _xochitlService.SetShareMailAddresses(ShareEmailAddresses);
+        _xochitlService.Save();
     }
 
     /*
