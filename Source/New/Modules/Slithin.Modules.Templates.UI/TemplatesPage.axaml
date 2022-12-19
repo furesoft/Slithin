@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:l="using:Slithin.Core"
              xmlns:c="using:Slithin.Controls"
-             xmlns:context="using:Slithin.Core.ItemContext"
+             xmlns:context="using:Slithin.Modules.Menu.Models.ItemContext"
              xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.UI.Pages.TemplatesPage">
+             x:Class="Slithin.Modules.Templates.UI.TemplatesPage">
     <Grid>
         <ListBox DragDrop.AllowDrop="True" Items="{Binding SyncService.TemplateFilter.Templates, Mode=TwoWay}" Margin="16,0,0,0" x:Name="templatesListBox" SelectedItem="{Binding SelectedTemplate}">
             <ListBox.ItemTemplate>

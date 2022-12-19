@@ -1,31 +1,19 @@
 ﻿using System.Windows.Input;
-using Slithin.Commands;
-using Slithin.Core;
 using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
-using Slithin.Core.Sync.Repositorys;
-using Slithin.UI.Modals;
-using Slithin.Validators;
-using Slithin.ViewModels.Modals;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Repository.Models;
 
-namespace Slithin.ViewModels.Pages;
+namespace Slithin.Modules.Templates.UI;
 
 public class TemplatesPageViewModel : BaseViewModel
 {
-    private readonly ILoadingService _loadingService;
-    private readonly IMailboxService _mailboxService;
-
     private Template _selectedTemplate;
 
-    public TemplatesPageViewModel(ILoadingService loadingService,
-        IMailboxService mailboxService,
-        LocalRepository localRepository,
-        IPathManager pathManager,
-        DeviceRepository deviceRepository,
-        ILocalisationService localisationService,
-        AddTemplateValidator validator)
+    public TemplatesPageViewModel(IPathManager pathManager,
+        ILocalisationService localisationService)
     {
+        /*
         OpenAddModalCommand = new DelegateCommand(_ =>
         {
             DialogService.Open(new AddTemplateModal(),
@@ -34,9 +22,7 @@ public class TemplatesPageViewModel : BaseViewModel
 
         RemoveTemplateCommand = new RemoveTemplateCommand(this, localisationService,
             deviceRepository, localRepository);
-
-        _loadingService = loadingService;
-        _mailboxService = mailboxService;
+        */
     }
 
     public ICommand OpenAddModalCommand { get; set; }

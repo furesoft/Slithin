@@ -1,19 +1,10 @@
-﻿using System.IO;
-using System.Linq;
+﻿using AuroraModularis.Core;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using Slithin.Core;
-using Slithin.Core.Services;
-using Slithin.Core.Sync.Repositorys;
-using Slithin.UI.ContextualMenus;
-using Slithin.UI.Modals;
-using Slithin.ViewModels.Modals;
-using Slithin.ViewModels.Pages;
-using Slithin.Core.Menu;
-using Slithin.Validators;
+using Slithin.Modules.Menu.Models.Menu;
 
-namespace Slithin.UI.Pages;
+namespace Slithin.Modules.Templates.UI;
 
 [PreserveIndex(2)]
 [PageIcon("Vaadin.List")]
@@ -23,7 +14,7 @@ public partial class TemplatesPage : UserControl, IPage
     {
         InitializeComponent();
 
-        DataContext = ServiceLocator.Container.Resolve<TemplatesPageViewModel>();
+        DataContext = Container.Current.Resolve<TemplatesPageViewModel>();
     }
 
     public string Title => "Templates";
@@ -34,11 +25,6 @@ public partial class TemplatesPage : UserControl, IPage
     }
 
     bool IPage.IsEnabled() => true;
-
-    public bool UseContextualMenu()
-    {
-        return true;
-    }
 
     private void DragOver(object sender, DragEventArgs e)
     {
@@ -55,6 +41,7 @@ public partial class TemplatesPage : UserControl, IPage
     {
         if (e.Data.Contains(DataFormats.FileNames))
         {
+            /*
             var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
 
             var filename = e.Data.GetFileNames().First();
@@ -89,6 +76,7 @@ public partial class TemplatesPage : UserControl, IPage
             {
                 DialogService.OpenError(localisation.GetStringFormat("The file '{0}' has the wrong Filetype", filename));
             }
+            */
         }
     }
 
