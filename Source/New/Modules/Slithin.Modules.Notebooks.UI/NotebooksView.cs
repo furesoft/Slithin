@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using AuroraModularis.Core;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Slithin.Core;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
-using Slithin.ViewModels.Pages;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.I18N.Models;
 
-namespace Slithin.UI;
+namespace Slithin.Modules.Notebooks.UI;
 
 public static class NotebooksView
 {
@@ -34,20 +31,20 @@ public static class NotebooksView
             return;
         }
 
-        var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
-
-        vm.SyncService.NotebooksFilter.Documents.Clear();
+        var localisation = Container.Current.Resolve<ILocalisationService>();
+        /*
+        NotebooksFilter.Documents.Clear();
 
         var id = md.ID;
 
         if (!string.IsNullOrEmpty(md.VisibleName) && md.VisibleName.Equals(localisation.GetString("Up ..")))
         {
             id = _lastFolderIDs.Pop();
-            vm.SyncService.NotebooksFilter.Folder = id;
+            NotebooksFilter.Folder = id;
 
             if (id == "")
             {
-                vm.SyncService.NotebooksFilter.Documents.Add(new Metadata
+                NotebooksFilter.Documents.Add(new Metadata
                 {
                     Type = "CollectionType",
                     VisibleName = localisation.GetString("Trash"),
@@ -69,19 +66,20 @@ public static class NotebooksView
 
         foreach (var mds in MetadataStorage.Local.GetByParent(id))
         {
-            vm.SyncService.NotebooksFilter.Documents.Add(mds);
+            NotebooksFilter.Documents.Add(mds);
         }
 
         if (_lastFolderIDs.Count > 0)
         {
-            vm.SyncService.NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = localisation.GetString("Up ..") });
-            vm.SyncService.NotebooksFilter.Folder = id;
+            NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = localisation.GetString("Up ..") });
+            NotebooksFilter.Folder = id;
         }
         else
         {
-            vm.SyncService.NotebooksFilter.Folder = "";
+            NotebooksFilter.Folder = "";
         }
 
-        vm.SyncService.NotebooksFilter.SortByFolder();
+        NotebooksFilter.SortByFolder();
+        */
     }
 }

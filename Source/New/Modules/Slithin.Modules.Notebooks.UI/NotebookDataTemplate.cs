@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using AuroraModularis.Core;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
@@ -10,21 +9,22 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Material.Styles;
 using Slithin.Controls;
-using Slithin.Core;
-using Slithin.Core.ItemContext;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.Cache.Models;
+using Slithin.Modules.Menu.Models;
+using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Repository.Models;
 
-namespace Slithin.UI;
+namespace Slithin.Modules.Notebooks.UI;
 
 public class NotebookDataTemplate : IDataTemplate
 {
     public IControl Build(object param)
     {
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-        var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
-        var cache = ServiceLocator.Container.Resolve<ICacheService>();
-        var contextProvider = ServiceLocator.Container.Resolve<IContextMenuProvider>();
+        var notebooksDir = Container.Current.Resolve<IPathManager>().NotebooksDir;
+        var cache = Container.Current.Resolve<ICacheService>();
+        var contextProvider = Container.Current.Resolve<IContextMenuProvider>();
 
         if (param is not Metadata md)
         {
@@ -74,7 +74,7 @@ public class NotebookDataTemplate : IDataTemplate
 
         var favImage = new Image();
 
-        if (md.IsPinned)
+        //if (md.IsPinned)
         {
             favImage.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Entypo+.Star"));
             titlePanel.ColumnDefinitions.Add(new(new GridLength(20)));
@@ -83,7 +83,7 @@ public class NotebookDataTemplate : IDataTemplate
             Grid.SetColumn(title, 1);
             Grid.SetColumn(favImage, 0);
         }
-        else
+        //else
         {
             title.HorizontalAlignment = HorizontalAlignment.Center;
         }

@@ -1,25 +1,23 @@
-﻿using System;
-using System.Windows.Input;
-using Slithin.Core;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
+﻿using System.Windows.Input;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.Device.Models;
 
-namespace Slithin.Commands;
+namespace Slithin.Modules.Notebooks.UI.Commands;
 
 public class UnPinCommand : ICommand
 {
-    private readonly Xochitl _xochitl;
+    private readonly IRemarkableDevice _remarkableDevice;
 
-    public UnPinCommand(Xochitl xochitl)
+    public UnPinCommand(IRemarkableDevice remarkableDevice)
     {
-        _xochitl = xochitl;
+        _remarkableDevice = remarkableDevice;
     }
 
     public event EventHandler CanExecuteChanged;
 
     public bool CanExecute(object data)
     {
-        return data is Metadata md && md.IsPinned;
+        return data is Metadata md;// && md.IsPinned;
     }
 
     public void Execute(object data)
@@ -28,7 +26,7 @@ public class UnPinCommand : ICommand
         {
             return;
         }
-
+        /*
         md.IsPinned = false;
         md.Version++;
         md.Save();
@@ -39,7 +37,7 @@ public class UnPinCommand : ICommand
         ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
 
         md.Upload();
-
-        _xochitl.ReloadDevice();
+        */
+        _remarkableDevice.Reload();
     }
 }

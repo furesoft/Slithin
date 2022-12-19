@@ -1,13 +1,10 @@
-﻿using System;
-using System.Windows.Input;
-using Serilog;
-using Slithin.Core;
-using Slithin.Core.ItemContext;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
+﻿using System.Windows.Input;
+using AuroraModularis.Logging.Models;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Menu.Models.ItemContext;
 
-namespace Slithin.Commands;
+namespace Slithin.Modules.Notebooks.UI.Commands;
 
 [Context(UIContext.Notebook)]
 public class RenameCommand : ICommand
@@ -37,19 +34,21 @@ public class RenameCommand : ICommand
 
     public async void Execute(object parameter)
     {
+        /*
         var name = await DialogService.ShowPrompt(_localisationService.GetString("Rename"),
                 _localisationService.GetString("Name"), ((Metadata)parameter).VisibleName);
 
         if (!string.IsNullOrEmpty(name))
         {
             Rename((Metadata)parameter, name);
-        }
+        }*/
     }
 
     private void Rename(Metadata md, string newName)
     {
-        _logger.Information($"Renamed '{md.VisibleName}' to '{newName}'");
+        _logger.Info($"Renamed '{md.VisibleName}' to '{newName}'");
 
+        /*
         md.VisibleName = newName;
 
         MetadataStorage.Local.Remove(md);
@@ -65,5 +64,6 @@ public class RenameCommand : ICommand
         md.Upload();
 
         DialogService.Close();
+        */
     }
 }

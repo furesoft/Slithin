@@ -1,28 +1,26 @@
-﻿using System;
-using System.Windows.Input;
-using Slithin.Core;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
+﻿using System.Windows.Input;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.Device.Models;
+using Slithin.Modules.I18N.Models;
 
-namespace Slithin.Commands;
+namespace Slithin.Modules.Notebooks.UI.Commands;
 
 public class PinCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
-    private readonly Xochitl _xochitl;
+    private readonly IRemarkableDevice _remarkableDevice;
 
-    public PinCommand(ILocalisationService localisationService, Xochitl xochitl)
+    public PinCommand(ILocalisationService localisationService, IRemarkableDevice remarkableDevice)
     {
         _localisationService = localisationService;
-        _xochitl = xochitl;
+        _remarkableDevice = remarkableDevice;
     }
 
     public event EventHandler CanExecuteChanged;
 
     public bool CanExecute(object data)
     {
-        return data is Metadata md && !md.IsPinned
+        return data is Metadata md //&& !md.IsPinned
             && md.VisibleName != _localisationService.GetString("Quick sheets")
             && md.VisibleName != _localisationService.GetString("Trash");
     }
@@ -34,6 +32,7 @@ public class PinCommand : ICommand
             return;
         }
 
+        /*
         md.IsPinned = true;
         md.Version++;
         md.Save();
@@ -45,6 +44,7 @@ public class PinCommand : ICommand
 
         md.Upload();
 
-        _xochitl.ReloadDevice();
+        */
+        _remarkableDevice.Reload();
     }
 }

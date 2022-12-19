@@ -7,7 +7,7 @@
              xmlns:f="using:Slithin.Core.FeatureToggle"
              xmlns:l="using:Slithin.Core"
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="100"
-             x:Class="Slithin.UI.ContextualMenus.NotebooksContextualMenu">
+             x:Class="Slithin.Modules.Notebooks.UI.NotebooksContextualMenu">
     <DockPanel>
         <StackPanel IsVisible="{Binding !IsInTrash, Mode=TwoWay}" Spacing="12" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
             <controls:ImagePopupButton IsVisible="{f:FeatureEnabled 'ListViewFeature'}" MinHeight="60" MinWidth="50" Classes="Flat" Text="{l:Localisation 'View'}" Image="{DynamicResource Material.FormatWrapTopBottom}">

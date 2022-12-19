@@ -1,29 +1,20 @@
-﻿using System;
-using System.Windows.Input;
-using Slithin.Core;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
-using Slithin.Core.Sync.Repositorys;
+﻿using System.Windows.Input;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.Device.Models;
+using Slithin.Modules.I18N.Models;
 
-namespace Slithin.Commands;
+namespace Slithin.Modules.Notebooks.UI.Commands;
 
 public class EmptyTrashCommand : ICommand
 {
-    private readonly DeviceRepository _deviceRepository;
     private readonly ILocalisationService _localisationService;
-    private readonly LocalRepository _localRepository;
-    private readonly Xochitl _xochitl;
+    private readonly IRemarkableDevice _remarkableDevice;
 
     public EmptyTrashCommand(ILocalisationService localisationService,
-                                    LocalRepository localRepository,
-                                    DeviceRepository deviceRepository,
-                                    Xochitl xochitl)
+                                    IRemarkableDevice remarkableDevice)
     {
         _localisationService = localisationService;
-        _localRepository = localRepository;
-        _deviceRepository = deviceRepository;
-        _xochitl = xochitl;
+        _remarkableDevice = remarkableDevice;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -35,14 +26,16 @@ public class EmptyTrashCommand : ICommand
 
     public void Execute(object data)
     {
+        /*
         foreach (var trashedMd in MetadataStorage.Local.GetByParent("trash"))
         {
             DeleteNotebook(trashedMd);
-        }
+        }*/
 
-        _xochitl.ReloadDevice();
+        _remarkableDevice.Reload();
     }
 
+    /*
     private void DeleteNotebook(Metadata md)
     {
         MetadataStorage.Local.Remove(md);
@@ -51,5 +44,5 @@ public class EmptyTrashCommand : ICommand
 
         ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
         ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
-    }
+    }*/
 }

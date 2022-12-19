@@ -1,35 +1,24 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Windows.Input;
-using EpubSharp;
-using PdfSharpCore.Pdf.IO;
-using Slithin.Core;
-using Slithin.Core.Remarkable.Exporting.Rendering;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
-using Slithin.UI.Modals;
-using Slithin.Validators;
-using Slithin.ViewModels.Modals;
+﻿using System.Windows.Input;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.I18N.Models;
 
-namespace Slithin.Commands;
+namespace Slithin.Modules.Notebooks.UI.Commands;
 
 public class ExportCommand : ICommand
 {
-    private readonly IExportProviderFactory _exportProviderFactory;
+    //private readonly IExportProviderFactory _exportProviderFactory;
     private readonly ILocalisationService _localisationService;
-    private readonly IMailboxService _mailboxService;
-    private readonly ExportValidator _validator;
 
-    public ExportCommand(IExportProviderFactory exportProviderFactory,
-                         ILocalisationService localisationService,
-                         IMailboxService mailboxService,
-                         ExportValidator validator)
+    //private readonly ExportValidator _validator;
+
+    public ExportCommand(//IExportProviderFactory exportProviderFactory,
+                         ILocalisationService localisationService
+                         //ExportValidator validator
+                         )
     {
-        _exportProviderFactory = exportProviderFactory;
+        //_exportProviderFactory = exportProviderFactory;
         _localisationService = localisationService;
-        _mailboxService = mailboxService;
-        _validator = validator;
+        //_validator = validator;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -41,14 +30,15 @@ public class ExportCommand : ICommand
                && md.VisibleName != _localisationService.GetString("Quick sheets")
                && md.VisibleName != _localisationService.GetString("Up ..")
                && md.VisibleName != _localisationService.GetString("Trash")
-               && md.Type.Equals("DocumentType")
-               && _exportProviderFactory.GetAvailableProviders(md).Any();
+               && md.Type.Equals("DocumentType");
+        //&& _exportProviderFactory.GetAvailableProviders(md).Any();
     }
 
     public async void Execute(object parameter)
     {
         var md = (Metadata)parameter;
 
+        /*
         var modal = new ExportModal();
         var vm = new ExportModalViewModel(md, ServiceLocator.Container.Resolve<IExportProviderFactory>());
         modal.DataContext = vm;
@@ -109,5 +99,6 @@ public class ExportCommand : ICommand
                 NotificationService.Show(_localisationService.GetStringFormat("{0} Exported", md.VisibleName));
             });
         }
+        */
     }
 }

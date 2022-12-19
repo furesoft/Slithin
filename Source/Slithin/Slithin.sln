@@ -81,11 +81,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{2ABB14AF-1890-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Templates.UI", "..\New\Modules\Slithin.Modules.Templates.UI\Slithin.Modules.Templates.UI.csproj", "{5EADA6FA-BD16-46AB-BE22-7C67360AD5E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Tools.UI", "..\New\Modules\Slithin.Modules.Tools.UI\Slithin.Modules.Tools.UI.csproj", "{C1D0F8FD-1EB7-4694-883E-9B9A79AAD533}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Tools.UI", "..\New\Modules\Slithin.Modules.Tools.UI\Slithin.Modules.Tools.UI.csproj", "{C1D0F8FD-1EB7-4694-883E-9B9A79AAD533}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Tools", "..\New\Modules\Slithin.Modules.Tools\Slithin.Modules.Tools.csproj", "{86763077-282D-4F5A-A96B-968F157C8325}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Tools", "..\New\Modules\Slithin.Modules.Tools\Slithin.Modules.Tools.csproj", "{86763077-282D-4F5A-A96B-968F157C8325}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Tools.Models", "..\New\Models\Slithin.Modules.Tools.Models\Slithin.Modules.Tools.Models.csproj", "{DE1299D2-41F7-4F77-86E0-FA740D7C7E8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Tools.Models", "..\New\Models\Slithin.Modules.Tools.Models\Slithin.Modules.Tools.Models.csproj", "{DE1299D2-41F7-4F77-86E0-FA740D7C7E8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Notebooks.UI", "..\New\Modules\Slithin.Modules.Notebooks.UI\Slithin.Modules.Notebooks.UI.csproj", "{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -907,6 +909,30 @@ Global
 		{DE1299D2-41F7-4F77-86E0-FA740D7C7E8F}.Release|x64.Build.0 = Release|Any CPU
 		{DE1299D2-41F7-4F77-86E0-FA740D7C7E8F}.Release|x86.ActiveCfg = Release|Any CPU
 		{DE1299D2-41F7-4F77-86E0-FA740D7C7E8F}.Release|x86.Build.0 = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|x64.Build.0 = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Debug|x86.Build.0 = Debug|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|ARM.Build.0 = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|ARM32.Build.0 = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|ARM64.Build.0 = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|x64.ActiveCfg = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|x64.Build.0 = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|x86.ActiveCfg = Release|Any CPU
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -949,6 +975,7 @@ Global
 		{C1D0F8FD-1EB7-4694-883E-9B9A79AAD533} = {2ABB14AF-1890-44E1-83E2-35453C7804E0}
 		{86763077-282D-4F5A-A96B-968F157C8325} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
 		{DE1299D2-41F7-4F77-86E0-FA740D7C7E8F} = {B45E51FF-56E7-4204-8A26-2AF63A270E60}
+		{06559B3F-AFE5-47D0-8378-D71DEAAD7B5B} = {2ABB14AF-1890-44E1-83E2-35453C7804E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AEF28834-827B-4DA8-AC92-207A90616579}

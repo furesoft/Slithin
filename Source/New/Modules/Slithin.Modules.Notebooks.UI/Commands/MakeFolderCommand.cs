@@ -1,12 +1,8 @@
-﻿using System;
-using System.Windows.Input;
-using Serilog;
-using Slithin.Core;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
+﻿using System.Windows.Input;
+using AuroraModularis.Logging.Models;
+using Slithin.Modules.I18N.Models;
 
-namespace Slithin.Commands;
+namespace Slithin.Modules.Notebooks.UI.Commands;
 
 public class MakeFolderCommand : ICommand
 {
@@ -28,19 +24,21 @@ public class MakeFolderCommand : ICommand
 
     public async void Execute(object parameter)
     {
+        /*
         var name = await DialogService.ShowPrompt(_localisationService.GetString("Make Folder"),
                 _localisationService.GetString("Name"));
 
         if (!string.IsNullOrEmpty(name))
         {
             MakeFolder(name);
-        }
+        }*/
     }
 
     private void MakeFolder(string name)
     {
         var id = Guid.NewGuid().ToString().ToLower();
 
+        /*
         var md = new Metadata
         {
             ID = id,
@@ -67,5 +65,6 @@ public class MakeFolderCommand : ICommand
         _logger.Information($"Folder '{md.VisibleName}' created");
 
         DialogService.Close();
+        */
     }
 }

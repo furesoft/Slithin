@@ -1,17 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using AuroraModularis.Core;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using Slithin.Core;
-using Slithin.Core.Menu;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
-using Slithin.UI.ContextualMenus;
-using Slithin.ViewModels.Pages;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Menu.Models.Menu;
+using Slithin.Modules.Repository.Models;
 
-namespace Slithin.UI.Pages;
+namespace Slithin.Modules.Notebooks.UI;
 
 [PreserveIndex(1)]
 [PageIcon("Codeicons.Notebook")]
@@ -23,7 +18,7 @@ public class NotebooksPage : UserControl, IPage
 
         if (!Design.IsDesignMode)
         {
-            DataContext = ServiceLocator.Container.Resolve<NotebooksPageViewModel>();
+            DataContext = Container.Current.Resolve<NotebooksPageViewModel>();
         }
     }
 
@@ -35,11 +30,6 @@ public class NotebooksPage : UserControl, IPage
     }
 
     bool IPage.IsEnabled()
-    {
-        return true;
-    }
-
-    public bool UseContextualMenu()
     {
         return true;
     }
@@ -59,8 +49,8 @@ public class NotebooksPage : UserControl, IPage
 
     private void Drop(object sender, DragEventArgs e)
     {
-        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
-        var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();
+        var pathManager = Container.Current.Resolve<IPathManager>();
+        var localisation = Container.Current.Resolve<ILocalisationService>();
 
         var notebooksDir = pathManager.NotebooksDir;
 
@@ -69,8 +59,8 @@ public class NotebooksPage : UserControl, IPage
             foreach (var filename in e.Data.GetFileNames())
             {
                 var id = Guid.NewGuid().ToString().ToLower();
-
-                var importProviderFactory = ServiceLocator.Container.Resolve<IImportProviderFactory>();
+                /*
+                var importProviderFactory = Container.Current.Resolve<IImportProviderFactory>();
                 var provider = importProviderFactory.GetImportProvider(".pdf", filename);
 
                 var cnt = new ContentFile { FileType = provider == null ? "epub" : "pdf" };
@@ -80,14 +70,14 @@ public class NotebooksPage : UserControl, IPage
                     var md = new Metadata
                     {
                         ID = id,
-                        Parent = ServiceLocator.SyncService.NotebooksFilter.Folder,
+                        Parent = NotebooksFilter.Folder,
                         Content = cnt,
                         Version = 1,
                         Type = "DocumentType",
                         VisibleName = Path.GetFileNameWithoutExtension(filename)
                     };
                     MetadataStorage.Local.AddMetadata(md, out _);
-                    ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
+                    NotebooksFilter.Documents.Add(md);
 
                     provider = importProviderFactory.GetImportProvider($".{cnt.FileType}", filename);
 
@@ -127,6 +117,7 @@ public class NotebooksPage : UserControl, IPage
                 {
                     DialogService.OpenError(localisation.GetStringFormat("The filetype '{0}' is not supported", Path.GetExtension(filename)));
                 }
+                */
             }
         }
     }

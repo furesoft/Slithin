@@ -1,32 +1,18 @@
-﻿using System;
-using System.Windows.Input;
-using Slithin.Core;
-using Slithin.Core.ItemContext;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
-using Slithin.Core.Sync;
-using Slithin.Core.Sync.Repositorys;
-using Slithin.ViewModels.Pages;
+﻿using System.Windows.Input;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Menu.Models.ItemContext;
 
-namespace Slithin.Commands;
+namespace Slithin.Modules.Notebooks.UI.Commands;
 
 [Context(UIContext.Notebook)]
 public class RemoveNotebookCommand : ICommand
 {
-    private readonly DeviceRepository _deviceRepository;
     private readonly ILocalisationService _localisationService;
-    private readonly LocalRepository _localRepository;
-    private readonly SynchronisationService _synchronisationService;
 
-    public RemoveNotebookCommand(LocalRepository localRepository,
-                                 ILocalisationService localisationService,
-                                 DeviceRepository deviceRepository)
+    public RemoveNotebookCommand(ILocalisationService localisationService)
     {
-        _localRepository = localRepository;
         _localisationService = localisationService;
-        _deviceRepository = deviceRepository;
-        _synchronisationService = ServiceLocator.SyncService;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -45,6 +31,7 @@ public class RemoveNotebookCommand : ICommand
 
     public async void Execute(object parameter)
     {
+        /*
         if (parameter is not Metadata md
             || !await DialogService.ShowDialog(
                 _localisationService.GetStringFormat("Would you really want to delete '{0}'?", md.VisibleName)))
@@ -73,5 +60,6 @@ public class RemoveNotebookCommand : ICommand
         }
 
         ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+        */
     }
 }

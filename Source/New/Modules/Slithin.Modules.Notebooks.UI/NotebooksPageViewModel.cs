@@ -1,13 +1,12 @@
 ﻿using System.Windows.Input;
-using Serilog;
-using Slithin.Commands;
-using Slithin.Core;
+using AuroraModularis.Core;
+using AuroraModularis.Logging.Models;
 using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Notebooks.UI.Commands;
 
-namespace Slithin.ViewModels.Pages;
+namespace Slithin.Modules.Notebooks.UI;
 
 public class NotebooksPageViewModel : BaseViewModel
 {
@@ -19,23 +18,23 @@ public class NotebooksPageViewModel : BaseViewModel
     public NotebooksPageViewModel(ILocalisationService localisationService,
                                   ILogger logger)
     {
-        ExportCommand = ServiceLocator.Container.Resolve<ExportCommand>();
-        MakeFolderCommand = ServiceLocator.Container.Resolve<MakeFolderCommand>();
+        ExportCommand = Container.Current.Resolve<ExportCommand>();
+        MakeFolderCommand = Container.Current.Resolve<MakeFolderCommand>();
 
-        RenameCommand = ServiceLocator.Container.Resolve<RenameCommand>();
-        RemoveNotebookCommand = ServiceLocator.Container.Resolve<RemoveNotebookCommand>();
+        RenameCommand = Container.Current.Resolve<RenameCommand>();
+        RemoveNotebookCommand = Container.Current.Resolve<RemoveNotebookCommand>();
         RestoreCommand = new DelegateCommand(obj =>
         {
             var md = (Metadata)obj;
             md.Parent = "";
 
-            md.Save();
-            md.Upload(onlyMetadata: true);
+            // md.Save();
+            //  md.Upload(onlyMetadata: true);
         }, _ => _ is not null && ((Metadata)_).VisibleName != localisationService.GetString("Up .."));
 
-        EmptyTrashCommand = ServiceLocator.Container.Resolve<EmptyTrashCommand>();
-        PinCommand = ServiceLocator.Container.Resolve<PinCommand>();
-        UnPinCommand = ServiceLocator.Container.Resolve<UnPinCommand>();
+        EmptyTrashCommand = Container.Current.Resolve<EmptyTrashCommand>();
+        PinCommand = Container.Current.Resolve<PinCommand>();
+        UnPinCommand = Container.Current.Resolve<UnPinCommand>();
 
         MoveCommand = new DelegateCommand(_ =>
             {
@@ -53,29 +52,31 @@ public class NotebooksPageViewModel : BaseViewModel
             IsMoving = false;
         });
 
+        /*
         MoveHereCommand = new DelegateCommand(_ =>
         {
-            MetadataStorage.Local.Move(_movingNotebook, SyncService.NotebooksFilter.Folder);
+            MetadataStorage.Local.Move(_movingNotebook, NotebooksFilter.Folder);
             IsMoving = false;
 
             MetadataStorage.Local.GetMetadata(_movingNotebook.ID).Upload();
 
-            SyncService.NotebooksFilter.Documents.Clear();
-            foreach (var md in MetadataStorage.Local.GetByParent(SyncService.NotebooksFilter.Folder))
+            NotebooksFilter.Documents.Clear();
+            foreach (var md in MetadataStorage.Local.GetByParent(NotebooksFilter.Folder))
             {
-                SyncService.NotebooksFilter.Documents.Add(md);
+                NotebooksFilter.Documents.Add(md);
             }
 
-            SyncService.NotebooksFilter.Documents.Add(new Metadata
+            NotebooksFilter.Documents.Add(new Metadata
             {
                 Type = "CollectionType",
                 VisibleName = localisationService.GetString("Up ..")
             });
 
-            SyncService.NotebooksFilter.SortByFolder();
+            NotebooksFilter.SortByFolder();
 
-            logger.Information($"Moved {_movingNotebook.VisibleName} to {SyncService.NotebooksFilter.Folder}");
+            logger.Info($"Moved {_movingNotebook.VisibleName} to {NotebooksFilter.Folder}");
         });
+            */
     }
 
     public ICommand EmptyTrashCommand { get; set; }
@@ -109,9 +110,4 @@ public class NotebooksPageViewModel : BaseViewModel
     }
 
     public ICommand UnPinCommand { get; set; }
-
-    public override void OnLoad()
-    {
-        base.OnLoad();
-    }
 }
