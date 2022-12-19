@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -7,23 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\DefaultScreens\batteryempty.png" />
-    <None Remove="Resources\DefaultScreens\lowbattery.png" />
-    <None Remove="Resources\DefaultScreens\poweroff.png" />
-    <None Remove="Resources\DefaultScreens\rebooting.png" />
-    <None Remove="Resources\DefaultScreens\splash.png" />
-    <None Remove="Resources\DefaultScreens\starting.png" />
-    <None Remove="Resources\DefaultScreens\suspended.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\DefaultScreens\batteryempty.png" />
-    <EmbeddedResource Include="Resources\DefaultScreens\lowbattery.png" />
-    <EmbeddedResource Include="Resources\DefaultScreens\poweroff.png" />
-    <EmbeddedResource Include="Resources\DefaultScreens\rebooting.png" />
-    <EmbeddedResource Include="Resources\DefaultScreens\splash.png" />
-    <EmbeddedResource Include="Resources\DefaultScreens\starting.png" />
-    <EmbeddedResource Include="Resources\DefaultScreens\suspended.png" />
+    <AvaloniaResource Include="Resources\**" />
+    <EmbeddedResource Include="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>

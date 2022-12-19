@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AvaloniaXaml Remove="Resources\Icons.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Icon.png" />
   </ItemGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Icon.png" />
+    <AvaloniaResource Include="Resources\Icons.axaml" />
   </ItemGroup>
 
   <ItemGroup>

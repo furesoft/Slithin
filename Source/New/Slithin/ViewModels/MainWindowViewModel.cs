@@ -1,6 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
@@ -57,10 +60,17 @@ public class MainWindowViewModel : BaseViewModel
 
     private static object? GetIcon(PageIconAttribute? pageIconAttribute, Type type)
     {
-        //ToDo: enable icon loading from module assembly
-        var iconStream = type.Assembly.GetManifestResourceStream(pageIconAttribute.Key);
-        if (iconStream != null)
+        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+
+        var uri = new Uri("avares://" + type.Namespace + "/Resources/Icons.xml");
+        if (assets.Exists(uri))
         {
+            var resDictionary = (ResourceDictionary)AvaloniaRuntimeXamlLoader.Load(assets.Open(uri), type.Assembly);
+
+            if (resDictionary.ContainsKey(pageIconAttribute.Key))
+            {
+                return resDictionary[pageIconAttribute.Key];
+            }
         }
 
         return App.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
