@@ -15,11 +15,13 @@ public class SettingExtension : MarkupExtension
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        var settingsService = Container.Current.Resolve<ISettingsService>();
+        var settings = Container.Current.Resolve<SettingsModel>();
 
-        var binding = new Binding(Key);
-        binding.Source = settingsService.GetSettings();
-        binding.Mode = BindingMode.TwoWay;
+        var binding = new Binding(Key)
+        {
+            Source = settings,
+            Mode = BindingMode.TwoWay
+        };
 
         return binding;
     }

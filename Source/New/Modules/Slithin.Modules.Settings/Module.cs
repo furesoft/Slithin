@@ -7,6 +7,11 @@ public class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {
+        var settingsService = container.Resolve<ISettingsService>();
+        var settingsObject = settingsService.GetSettings();
+
+        container.Register(settingsObject).AsSingleton();
+
         return Task.CompletedTask;
     }
 
