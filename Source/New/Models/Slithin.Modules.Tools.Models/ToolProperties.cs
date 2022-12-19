@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Slithin.Core;
 
-namespace Slithin.Core.Tools;
+namespace Slithin.Modules.Tools.Models;
 
 public class ToolProperties : Dictionary<string, object>
 {

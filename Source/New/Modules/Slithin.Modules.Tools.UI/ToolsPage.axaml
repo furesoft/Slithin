@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.UI.Pages.ToolsPage">
+             x:Class="Slithin.Modules.Tools.UI.ToolsPage">
     <ListBox Items="{Binding SyncService.ToolsFilter.Tools, Mode=TwoWay}" Margin="16,0,0,0" SelectedItem="{Binding SelectedScript, Mode=TwoWay}">
         <ListBox.ItemTemplate>
             <DataTemplate>

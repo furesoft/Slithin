@@ -180,6 +180,8 @@
     <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Settings\Slithin.Modules.Settings.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Templates.UI\Slithin.Modules.Templates.UI.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Tools.UI\Slithin.Modules.Tools.UI.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Tools\Slithin.Modules.Tools.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Updater\Slithin.Modules.Updater.csproj" />
   </ItemGroup>
 

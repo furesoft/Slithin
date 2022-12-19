@@ -54,7 +54,6 @@
      <EmbeddedResource Include="Resources\IconTiles\**" />
      <EmbeddedResource Include="Resources\Covers\**" />
      <EmbeddedResource Include="Resources\DefaultScreens\**" />
-     <AvaloniaResource Include="Assets\**" />
      <EmbeddedResource Include="Resources\Locales\**" />
    </ItemGroup>
   
@@ -131,9 +130,6 @@
    </ItemGroup>
    
    <ItemGroup>
-    <Content Include="linux.desktop" CopyToPublishDirectory="PreserveNewest">
-      <LinuxPath>/usr/share/applications/Slithin.desktop</LinuxPath>
-    </Content>
    <Content Include="Icon.png" CopyToPublishDirectory="PreserveNewest">
       <LinuxPath>/usr/share/icons/hicolor/48x48/apps/Slithin.png</LinuxPath>
     </Content>

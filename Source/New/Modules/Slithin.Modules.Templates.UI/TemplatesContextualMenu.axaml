@@ -17,8 +17,8 @@
                     <styles:Card>
                         <Grid RowDefinitions="*,AUTO" Margin="4">
                             <TextBox Watermark="{l:Localisation 'Search ...'}" MinWidth="175" Margin="0,0,0,10" IsVisible="False" />
-                            <CheckBox Grid.Row="1" Content="{l:Localisation 'Is Landscape'}" IsChecked="{Binding SyncService.TemplateFilter.Landscape, Mode=TwoWay}" />
-                            <ComboBox Items="{Binding SyncService.TemplateFilter.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.TemplateFilter.SelectedCategory}" MinWidth="175" />
+                            <CheckBox Grid.Row="1" Content="{l:Localisation 'Is Landscape'}" IsChecked="{Binding TemplateFilter.Landscape, Mode=TwoWay}" />
+                            <ComboBox Items="{Binding TemplateFilter.Categories, Mode=TwoWay}" SelectedItem="{Binding TemplateFilter.SelectedCategory}" MinWidth="175" />
                         </Grid>
                     </styles:Card>
                 </controls:ImagePopupButton.PopupContent>

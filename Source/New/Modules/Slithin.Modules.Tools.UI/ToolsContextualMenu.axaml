@@ -7,9 +7,8 @@
              xmlns:f="using:Slithin.Core.FeatureToggle"
              xmlns:l="using:Slithin.Core"
              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="100"
-             x:Class="Slithin.UI.ContextualMenus.ToolsContextualMenu">
+             x:Class="Slithin.Modules.Tools.UI.ToolsContextualMenu">
     <StackPanel Spacing="4" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-        <controls:ImageButton MinHeight="60" IsVisible="{f:FeatureEnabled 'NewToolFeature'}" Classes="Flat" Text="{l:Localisation 'New'}" Command="{Binding NewScriptCommand}" Image="{DynamicResource Ionicons.AddiOS}" />
         <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Execute'}" Command="{Binding ExecuteScriptCommand}" Image="{DynamicResource Material.HexagonMultiple}" CommandParameter="{Binding SelectedScript}" />
         <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Config'}" Command="{Binding ConfigurateScriptCommand}" Image="{DynamicResource Vaadin.CogOutline}" CommandParameter="{Binding SelectedScript}" />
 

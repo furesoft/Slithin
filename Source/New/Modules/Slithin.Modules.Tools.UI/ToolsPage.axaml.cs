@@ -1,11 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using AuroraModularis.Core;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Slithin.Core;
-using Slithin.UI.ContextualMenus;
-using Slithin.ViewModels.Pages;
-using Slithin.Core.Menu;
+using Slithin.Modules.Menu.Models.Menu;
 
-namespace Slithin.UI.Pages;
+namespace Slithin.Modules.Tools.UI;
 
 [PreserveIndex(4)]
 [PageIcon("FeatherIcons.Tool")]
@@ -25,12 +23,10 @@ public partial class ToolsPage : UserControl, IPage
         return true;
     }
 
-    public bool UseContextualMenu() => true;
-
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = ServiceLocator.Container.Resolve<ToolsPageViewModel>();
+        DataContext = Container.Current.Resolve<ToolsPageViewModel>();
     }
 }
