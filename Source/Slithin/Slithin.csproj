@@ -90,6 +90,7 @@
      <None Remove="Resources\Locales\en.json" />
      <None Remove="Resources\nav.png" />
      <None Remove="Resources\notebook.png" />
+     <None Remove="Version.props" />
      <EmbeddedResource Include="Resources\Cover.png" />
      <None Remove="Resources\Covers\Folder-DBlue.png" />
      <None Remove="Resources\Covers\Folder-Green.png" />
@@ -109,9 +110,6 @@
    </ItemGroup>
 
    <ItemGroup>
-     <Compile Update="UI\ContextualMenus\EmptyContextualMenu.axaml.cs">
-       <DependentUpon>EmptyContextualMenu.axaml</DependentUpon>
-     </Compile>
      <Compile Update="UI\Modals\ExportModal.axaml.cs">
        <DependentUpon>ExportModal.axaml</DependentUpon>
      </Compile>
@@ -124,9 +122,6 @@
      <Compile Update="UI\Pages\ResourcesPage.axaml.cs">
        <DependentUpon>ResourcesPage.axaml</DependentUpon>
      </Compile>
-     <Compile Update="UI\Pages\NotebooksPage.axaml.cs">
-       <DependentUpon>NotebooksPage.axaml</DependentUpon>
-     </Compile>
    </ItemGroup>
    
    <ItemGroup>
@@ -138,6 +133,7 @@
    <ItemGroup>
      <ProjectReference Include="..\Libraries\Slithin.API.Lib\Slithin.API.Lib.csproj" />
      <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
+     <ProjectReference Include="..\Slithin.Controls\Slithin.Controls.csproj" />
    </ItemGroup>
    
    <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>

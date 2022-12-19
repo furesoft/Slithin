@@ -1,5 +1,4 @@
 ﻿using AuroraModularis.Core;
-using Newtonsoft.Json;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Repository.Models;
 
@@ -29,6 +28,7 @@ public class LocalRepository : IRepository
 
     public void AddTemplate(Template template)
     {
+        /*
         var pathManager = _container.Resolve<IPathManager>();
 
         var path = Path.Combine(pathManager.ConfigBaseDir, "templates.json");
@@ -50,15 +50,19 @@ public class LocalRepository : IRepository
         serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
 
         File.WriteAllText(path, JsonConvert.SerializeObject(templateJson, Formatting.Indented, serializerSettings));
+   */
     }
 
     public Template[] GetTemplates()
     {
+        /*
         var pathManager = _container.Resolve<IPathManager>();
 
         var path = Path.Combine(pathManager.ConfigBaseDir, "templates.json");
 
         return JsonConvert.DeserializeObject<TemplateStorage>(File.ReadAllText(path)).Templates;
+        */
+        return null;
     }
 
     public Version GetVersion()
