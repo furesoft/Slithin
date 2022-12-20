@@ -5,7 +5,7 @@ using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
-public class PinCommand : ICommand
+internal class PinCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly IRemarkableDevice _remarkableDevice;

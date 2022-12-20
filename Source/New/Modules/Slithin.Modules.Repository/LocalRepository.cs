@@ -4,7 +4,7 @@ using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
 
-public class LocalRepository : IRepository
+internal class LocalRepository : IRepository
 {
     private readonly Container _container;
 

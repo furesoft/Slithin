@@ -6,7 +6,7 @@ using Slithin.Modules.Menu.Models.ItemContext;
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
 [Context(UIContext.Notebook)]
-public class RemoveNotebookCommand : ICommand
+internal class RemoveNotebookCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
 

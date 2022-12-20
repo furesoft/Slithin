@@ -6,7 +6,7 @@ using Zio.FileSystems;
 
 namespace Slithin.Modules.Device.Mock;
 
-public class MockDevice : IRemarkableDevice
+internal class MockDevice : IRemarkableDevice
 {
     private readonly Container _container;
     private IFileSystem _filesystem;

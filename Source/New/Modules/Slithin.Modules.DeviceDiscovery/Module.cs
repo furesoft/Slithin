@@ -4,7 +4,7 @@ using Slithin.Modules.DeviceDiscovery.Models;
 
 namespace Slithin.Modules.Diagnostics.Sentry;
 
-public class Module : AuroraModularis.Module
+internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {

@@ -6,7 +6,7 @@ using Slithin.Modules.Tools.Models;
 
 namespace Slithin.Modules.Tools.UI;
 
-public class ToolsPageViewModel : BaseViewModel
+internal class ToolsPageViewModel : BaseViewModel
 {
     private readonly IToolInvokerService _invoker;
     private ITool _selectedScript;

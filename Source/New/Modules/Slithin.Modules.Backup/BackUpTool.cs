@@ -11,7 +11,7 @@ using Slithin.Modules.Tools.Models;
 
 namespace Slithin.Modules.Backup;
 
-public class BackupTool : ITool
+internal class BackupTool : ITool
 {
     private readonly ILocalisationService _localisationService;
     private readonly INotificationService _notificationService;

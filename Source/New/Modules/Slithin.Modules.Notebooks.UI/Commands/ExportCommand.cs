@@ -4,7 +4,7 @@ using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
-public class ExportCommand : ICommand
+internal class ExportCommand : ICommand
 {
     //private readonly IExportProviderFactory _exportProviderFactory;
     private readonly ILocalisationService _localisationService;

@@ -8,7 +8,7 @@ using Slithin.Modules.Notebooks.UI.Commands;
 
 namespace Slithin.Modules.Notebooks.UI;
 
-public class NotebooksPageViewModel : BaseViewModel
+internal class NotebooksPageViewModel : BaseViewModel
 {
     private bool _isInTrash;
     private bool _isMoving;

@@ -2,7 +2,7 @@
 
 namespace Slithin.Modules.Repository;
 
-public class PathManagerImpl : IPathManager
+internal class PathManagerImpl : IPathManager
 {
     public string BackupsDir => Path.Combine(ConfigBaseDir, "Backups");
     public string ConfigBaseDir { get; set; }
@@ -11,7 +11,6 @@ public class PathManagerImpl : IPathManager
 
     public string DevicesDir => Path.Combine(SlithinDir, "Devices");
     public string NotebooksDir => Path.Combine(ConfigBaseDir, "Notebooks");
-    public string ScriptsDir => Path.Combine(ConfigBaseDir, "Scripts");
     public string SlithinDir => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin");
     public string TemplatesDir => Path.Combine(ConfigBaseDir, "Templates");
 
@@ -37,7 +36,6 @@ public class PathManagerImpl : IPathManager
             Directory.CreateDirectory(DevicesDir);
             Directory.CreateDirectory(TemplatesDir);
             Directory.CreateDirectory(NotebooksDir);
-            Directory.CreateDirectory(ScriptsDir);
             Directory.CreateDirectory(CustomScreensDir);
             Directory.CreateDirectory(BackupsDir);
 
@@ -46,7 +44,6 @@ public class PathManagerImpl : IPathManager
 
         InitDir(TemplatesDir);
         InitDir(NotebooksDir);
-        InitDir(ScriptsDir);
         InitDir(BackupsDir);
         InitDir(CustomScreensDir);
     }

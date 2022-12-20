@@ -10,7 +10,7 @@ using Slithin.Modules.Settings.Models;
 
 namespace Slithin.Modules.Settings;
 
-public class SettingsPageViewModel : BaseViewModel
+internal class SettingsPageViewModel : BaseViewModel
 {
     private readonly LoginInfo _credential;
     private readonly ILogger _logger;

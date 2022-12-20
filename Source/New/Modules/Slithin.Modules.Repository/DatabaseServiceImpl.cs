@@ -4,7 +4,7 @@ using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
 
-public class DatabaseServiceImpl : IDatabaseService
+internal class DatabaseServiceImpl : IDatabaseService
 {
     private Container _container;
 

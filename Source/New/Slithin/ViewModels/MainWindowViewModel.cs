@@ -7,6 +7,7 @@ using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
+using Slithin.Models.Events;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Repository.Models;
@@ -17,6 +18,7 @@ namespace Slithin.ViewModels;
 public class MainWindowViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
+    private readonly IEventService _eventService;
     private object _contextualMenu;
     private Page _selectedTab;
 
@@ -24,9 +26,11 @@ public class MainWindowViewModel : BaseViewModel
 
     public MainWindowViewModel(IVersionService versionService,
                                ILoginService loginService,
-                               ILocalisationService localisationService)
+                               ILocalisationService localisationService,
+                               IEventService eventService)
     {
         _localisationService = localisationService;
+        _eventService = eventService;
         Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
 
         LoadMenu();
@@ -46,7 +50,7 @@ public class MainWindowViewModel : BaseViewModel
         set
         {
             SetValue(ref _selectedTab, value);
-            Refresh();
+            RefreshPage();
         }
     }
 
@@ -123,7 +127,7 @@ public class MainWindowViewModel : BaseViewModel
         }
     }
 
-    private void Refresh()
+    private void RefreshPage()
     {
         if (SelectedTab?.Tag is not Control context)
         {
@@ -143,5 +147,7 @@ public class MainWindowViewModel : BaseViewModel
 
         context.DataContext = SelectedTab?.DataContext;
         ContextualMenu = context;
+
+        _eventService.Invoke("PageChanged", SelectedTab);
     }
 }

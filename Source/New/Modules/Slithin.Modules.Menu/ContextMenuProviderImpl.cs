@@ -9,7 +9,7 @@ using Slithin.Modules.Menu.Models.ItemContext;
 
 namespace Slithin.Modules.Menu;
 
-public class ContextMenuProviderImpl : IContextMenuProvider
+internal class ContextMenuProviderImpl : IContextMenuProvider
 {
     private readonly Dictionary<UIContext, List<IContextProvider>> _providers = new();
 

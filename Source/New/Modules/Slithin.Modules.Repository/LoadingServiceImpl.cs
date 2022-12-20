@@ -6,7 +6,7 @@ using Slithin.Modules.Settings.Models;
 
 namespace Slithin.Modules.Repository;
 
-public class LoadingServiceImpl : ILoadingService
+internal class LoadingServiceImpl : ILoadingService
 {
     private readonly IDiagnosticService _errorTrackingService;
     private readonly ILocalisationService _localisationService;

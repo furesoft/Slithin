@@ -4,7 +4,7 @@ using Slithin.Modules.Tools.Models;
 
 namespace Slithin.Core.Sync;
 
-public class ToolsFilter : NotifyObject
+internal class ToolsFilter : NotifyObject
 {
     private List<ITool> _allTools;
     private string _selectedCategory;

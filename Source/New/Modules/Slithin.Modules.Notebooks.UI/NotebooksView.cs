@@ -6,7 +6,7 @@ using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.Notebooks.UI;
 
-public static class NotebooksView
+internal static class NotebooksView
 {
     private static readonly Stack<string> _lastFolderIDs = new();
     private static ListBox _lb;

@@ -4,7 +4,7 @@ using Slithin.Modules.Updater.Models;
 
 namespace Slithin.Modules.Updater;
 
-public class UpdaterImplementation : IUpdaterService
+internal class UpdaterImplementation : IUpdaterService
 {
     private readonly UpdateManager _manager;
     private Container _container;

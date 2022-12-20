@@ -6,7 +6,7 @@ using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Templates.UI;
 
-public class TemplatesPageViewModel : BaseViewModel
+internal class TemplatesPageViewModel : BaseViewModel
 {
     private Template _selectedTemplate;
 

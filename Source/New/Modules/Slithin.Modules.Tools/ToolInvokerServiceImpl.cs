@@ -2,7 +2,7 @@
 
 namespace Slithin.Core.Tools;
 
-public class ToolInvokerServiceImpl : IToolInvokerService
+internal class ToolInvokerServiceImpl : IToolInvokerService
 {
     private static readonly Dictionary<string, ITool> _tools = new();
 

@@ -4,7 +4,7 @@ using Slithin.Modules.Diagnostics.Sentry.Models;
 
 namespace Slithin.Modules.Diagnostics.Sentry;
 
-public class Module : AuroraModularis.Module
+internal class Module : AuroraModularis.Module
 {
     private IDisposable _service;
 

@@ -7,7 +7,7 @@ using Slithin.Modules.Menu.Models.ItemContext;
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
 [Context(UIContext.Notebook)]
-public class RenameCommand : ICommand
+internal class RenameCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;

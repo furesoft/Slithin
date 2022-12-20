@@ -4,7 +4,7 @@ using Slithin.Modules.Device.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
-public class UnPinCommand : ICommand
+internal class UnPinCommand : ICommand
 {
     private readonly IRemarkableDevice _remarkableDevice;
 

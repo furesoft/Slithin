@@ -7,7 +7,7 @@ using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Device;
 
-public class XochitlImpl : IXochitlService
+internal class XochitlImpl : IXochitlService
 {
     private readonly Container _container;
     private IniData _data;

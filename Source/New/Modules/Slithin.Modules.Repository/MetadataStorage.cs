@@ -2,7 +2,7 @@
 
 namespace Slithin.Modules.Repository;
 
-public class MetadataStorage
+internal class MetadataStorage
 {
     public static MetadataStorage Local = new();
 

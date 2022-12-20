@@ -9,7 +9,7 @@ using Slithin.Modules.Settings.Models;
 
 namespace Slithin.Modules.Device.UI;
 
-public class DevicePageViewModel : BaseViewModel
+internal class DevicePageViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;
@@ -19,6 +19,7 @@ public class DevicePageViewModel : BaseViewModel
     private readonly IVersionService _versionService;
     private readonly IXochitlService _xochitlService;
     private readonly IRemarkableDevice _remarkableDevice;
+
     private bool _hasEmailAddresses;
     private ObservableCollection<string> _shareEmailAddresses;
     private string _version;

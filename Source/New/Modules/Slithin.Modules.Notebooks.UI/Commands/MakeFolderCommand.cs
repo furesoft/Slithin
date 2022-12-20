@@ -4,7 +4,7 @@ using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
-public class MakeFolderCommand : ICommand
+internal class MakeFolderCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;

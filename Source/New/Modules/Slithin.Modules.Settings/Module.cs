@@ -3,7 +3,7 @@ using Slithin.Modules.Settings.Models;
 
 namespace Slithin.Modules.Settings;
 
-public class Module : AuroraModularis.Module
+internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {

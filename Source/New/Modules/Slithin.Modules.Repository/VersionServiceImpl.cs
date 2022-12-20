@@ -5,7 +5,7 @@ using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
 
-public class VersionServiceImpl : IVersionService
+internal class VersionServiceImpl : IVersionService
 {
     private readonly Container _container;
 

@@ -4,7 +4,7 @@ using Slithin.Modules.I18N.Models;
 namespace Slithin.Modules.I18N;
 
 [Priority(ModulePriority.High)]
-public class Module : AuroraModularis.Module
+internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {

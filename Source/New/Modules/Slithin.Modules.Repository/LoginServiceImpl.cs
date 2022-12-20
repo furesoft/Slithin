@@ -5,7 +5,7 @@ using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
 
-public class LoginServiceImpl : ILoginService
+internal class LoginServiceImpl : ILoginService
 {
     private IPathManager _pathManager;
     private IDatabaseService _dbService;

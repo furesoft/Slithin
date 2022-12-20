@@ -7,7 +7,6 @@ public interface IPathManager
     public string CustomScreensDir { get; }
     public string DevicesDir { get; }
     public string NotebooksDir { get; }
-    public string ScriptsDir { get; }
     public string SlithinDir { get; }
     public string TemplatesDir { get; }
 

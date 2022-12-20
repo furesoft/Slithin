@@ -17,7 +17,7 @@ using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Notebooks.UI;
 
-public class NotebookDataTemplate : IDataTemplate
+internal class NotebookDataTemplate : IDataTemplate
 {
     public IControl Build(object param)
     {

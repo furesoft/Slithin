@@ -4,7 +4,7 @@ using Slithin.Modules.Notifications.Models;
 
 namespace Slithin.Modules.Menu;
 
-public class Module : AuroraModularis.Module
+internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {

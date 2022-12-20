@@ -3,7 +3,7 @@ using Slithin.Modules.Device.Models;
 
 namespace Slithin.Modules.Device.Mock;
 
-public class Module : AuroraModularis.Module
+internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {

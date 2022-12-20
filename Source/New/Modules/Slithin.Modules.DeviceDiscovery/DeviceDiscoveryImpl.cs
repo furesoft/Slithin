@@ -5,7 +5,7 @@ using Slithin.Modules.DeviceDiscovery.Models;
 
 namespace Slithin.Modules.DeviceDiscovery;
 
-public class DeviceDiscoveryImpl : IDeviceDiscovery
+internal class DeviceDiscoveryImpl : IDeviceDiscovery
 {
     public IPAddress Discover()
     {

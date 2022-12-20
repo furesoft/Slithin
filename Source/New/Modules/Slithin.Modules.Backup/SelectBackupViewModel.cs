@@ -3,7 +3,7 @@ using Slithin.Core.MVVM;
 
 namespace Slithin.Modules.Backup;
 
-public class SelectBackupViewModel : ModalBaseViewModel
+internal class SelectBackupViewModel : ModalBaseViewModel
 {
     private Backup _selectedBackup;
     public ObservableCollection<Backup> Backups { get; set; } = new();

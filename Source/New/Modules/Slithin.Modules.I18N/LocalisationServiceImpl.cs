@@ -4,7 +4,7 @@ using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.I18N;
 
-public class LocalisationServiceImpl : ILocalisationService
+internal class LocalisationServiceImpl : ILocalisationService
 {
     private Dictionary<string, string> _localization = new Dictionary<string, string>();
 

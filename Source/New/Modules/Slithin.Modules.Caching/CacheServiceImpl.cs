@@ -3,7 +3,7 @@ using Slithin.Modules.Cache.Models;
 
 namespace Slithin.Modules.Caching;
 
-public class CacheServiceImpl : ICacheService
+internal class CacheServiceImpl : ICacheService
 {
     private readonly ConcurrentDictionary<string, object> _cache = new();
 

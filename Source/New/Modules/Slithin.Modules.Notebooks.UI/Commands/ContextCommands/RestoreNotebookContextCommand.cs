@@ -6,7 +6,7 @@ using Slithin.Modules.Repository.Models;
 namespace Slithin.Modules.Notebooks.UI.Commands.ContextCommands;
 
 [Context(UIContext.Notebook)]
-public class RestoreNotebookContextCommand : IContextCommand
+internal class RestoreNotebookContextCommand : IContextCommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;

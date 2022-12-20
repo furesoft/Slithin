@@ -10,7 +10,7 @@ using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Device.UI;
 
-public class CustomScreen : NotifyObject
+internal class CustomScreen : NotifyObject
 {
     private IImage _image;
 

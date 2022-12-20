@@ -4,7 +4,7 @@ using Slithin.Modules.Settings.Models;
 
 namespace Slithin.Modules.Settings;
 
-public class SettingsServiceImpl : ISettingsService
+internal class SettingsServiceImpl : ISettingsService
 {
     private readonly Container _container;
 

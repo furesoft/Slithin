@@ -12,7 +12,7 @@ using Slithin.Modules.Tools.Models;
 
 namespace Slithin.Modules.Backup;
 
-public class RestoreTool : ITool
+internal class RestoreTool : ITool
 {
     private readonly IPathManager _pathManager;
     private readonly IRemarkableDevice _remarkableDevice;
@@ -75,9 +75,6 @@ public class RestoreTool : ITool
 
                 _notificationService.Show("Deleting Local Files - Notebooks");
                 Directory.Delete(_pathManager.NotebooksDir, true);
-
-                _notificationService.Show("Deleting Local Files - Scripts");
-                Directory.Delete(_pathManager.ScriptsDir, true);
 
                 _notificationService.Show("Deleting Local Files - Templates");
                 Directory.Delete(_pathManager.TemplatesDir, true);

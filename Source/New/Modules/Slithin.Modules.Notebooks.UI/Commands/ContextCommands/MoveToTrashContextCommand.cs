@@ -5,7 +5,7 @@ using Slithin.Modules.Menu.Models.ItemContext;
 namespace Slithin.Modules.Notebooks.UI.Commands.ContextCommands;
 
 [Context(UIContext.Notebook)]
-public class MoveToTrashContextCommand : IContextCommand
+internal class MoveToTrashContextCommand : IContextCommand
 {
     private readonly ILocalisationService _localisationService;
 
