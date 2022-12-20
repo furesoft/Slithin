@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using Slithin.Models;
+using Slithin.Core.MVVM;
 
-namespace Slithin.ViewModels.Modals.Tools;
+namespace Slithin.Modules.Backup;
 
 public class SelectBackupViewModel : ModalBaseViewModel
 {

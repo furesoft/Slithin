@@ -1,6 +1,6 @@
 ﻿using AuroraModularis.Core;
 
-namespace Slithin.Modules.Caching;
+namespace Slithin.Modules.Backup;
 
 public class Module : AuroraModularis.Module
 {
