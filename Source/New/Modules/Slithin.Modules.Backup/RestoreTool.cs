@@ -17,16 +17,19 @@ internal class RestoreTool : ITool
     private readonly IPathManager _pathManager;
     private readonly IRemarkableDevice _remarkableDevice;
     private readonly INotificationService _notificationService;
+    private readonly IDialogService _dialogService;
     private readonly PathList _pathList;
 
     public RestoreTool(IPathManager pathManager,
                        IRemarkableDevice remarkableDevice,
                        INotificationService notificationService,
+                       IDialogService dialogService,
                        PathList pathList)
     {
         _pathManager = pathManager;
         _remarkableDevice = remarkableDevice;
         _notificationService = notificationService;
+        _dialogService = dialogService;
         _pathList = pathList;
     }
 
@@ -58,12 +61,11 @@ internal class RestoreTool : ITool
                 .Select(_ => new Backup(Path.GetFileNameWithoutExtension(_).Replace("Backup_from_", ""), _)))
         };
 
-        var result = true; // await DialogService.ShowDialog("Select Backup", new SelectBackupModal { DataContext = vm });
+        var result = await _dialogService.Show("Select Backup", new SelectBackupModal { DataContext = vm });
 
         if (result)
         {
-            var really = true; // await DialogService.ShowDialog(
-                               //$"Do you really want to restore backup {vm.SelectedBackup.Name}? All files will be replaced!");
+            var really = await _dialogService.Show($"Do you really want to restore backup {vm.SelectedBackup.Name}? All files will be replaced!");
 
             if (really)
             {

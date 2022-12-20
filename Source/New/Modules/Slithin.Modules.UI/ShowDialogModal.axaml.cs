@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.UI.Modals;
+namespace Slithin.Modules.UI;
 
-public partial class MessageBoxModal : UserControl
+public partial class ShowDialogModal : UserControl
 {
-    public MessageBoxModal()
+    public ShowDialogModal()
     {
         InitializeComponent();
     }

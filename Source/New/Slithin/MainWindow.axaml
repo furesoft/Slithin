@@ -8,10 +8,11 @@
         xmlns:s="using:Slithin.Modules.Settings.Models"
         xmlns:controls="http://github.com/furesoft/Slithin"
         xmlns:flyouts="using:Slithin.UI.Flyouts"
+        xmlns:dh="using:Slithin.Modules.UI.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinWidth="1105" MinHeight="450" WindowStartupLocation="CenterScreen"
         x:Class="Slithin.MainWindow" Icon="avares:/Resources/Icon.png"
         Title="{Binding Title}">
-    <controls:ContentDialog>
+    <controls:ContentDialog dh:DialogHost.IsHost="True">
         <styles:ColorZone Mode="Light" Height="{Binding $parent[Window].Height}">
             <SplitView DisplayMode="CompactInline" OpenPaneLength="190" IsPaneOpen="{s:Setting 'IsBigMenuMode'}">
                 <SplitView.Pane>

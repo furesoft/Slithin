@@ -1,4 +1,6 @@
-﻿namespace Slithin.ViewModels.Modals;
+﻿using Slithin.Core.MVVM;
+
+namespace Slithin.ViewModels.Modals;
 
 public class ShowDialogModalViewModel : ModalBaseViewModel
 {
