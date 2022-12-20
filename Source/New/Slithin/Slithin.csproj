@@ -128,7 +128,6 @@
     <AvaloniaResource Include="Resources\notebook.png" />
     <AvaloniaResource Include="Resources\pdf.png" />
     <AvaloniaResource Include="Resources\pdf_append.png" />
-    <AvaloniaResource Include="Resources\restore.png" />
   </ItemGroup>
   
   <ItemGroup>

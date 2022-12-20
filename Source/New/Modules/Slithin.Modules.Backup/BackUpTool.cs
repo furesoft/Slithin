@@ -9,7 +9,7 @@ using Slithin.Modules.Notifications.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Tools.Models;
 
-namespace Slithin.Tools;
+namespace Slithin.Modules.Backup;
 
 public class BackupTool : ITool
 {
@@ -49,13 +49,11 @@ public class BackupTool : ITool
 
         using (var zip = new ZipFile())
         {
-            zip.AddDirectory(Path.Combine(_pathManager.ConfigBaseDir, "Notebooks"), "Notebooks");
+            zip.AddDirectory(_pathManager.NotebooksDir, "Notebooks");
 
-            zip.AddDirectory(Path.Combine(_pathManager.ConfigBaseDir, "Templates"), "Templates");
+            zip.AddDirectory(_pathManager.TemplatesDir, "Templates");
 
-            zip.AddDirectory(Path.Combine(_pathManager.ConfigBaseDir, "Scripts"), "Scripts");
-
-            zip.AddDirectory(Path.Combine(_pathManager.ConfigBaseDir, "Screens"), "Screens");
+            zip.AddDirectory(_pathManager.CustomScreensDir, "Screens");
 
             zip.AddFile(Path.Combine(_pathManager.ConfigBaseDir, "templates.json"), "/");
             zip.AddFile(Path.Combine(_pathManager.ConfigBaseDir, "xochitl.conf"), "/");

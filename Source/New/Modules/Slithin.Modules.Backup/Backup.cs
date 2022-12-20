@@ -1,4 +1,4 @@
-﻿namespace Slithin.Models;
+﻿namespace Slithin.Modules.Backup;
 
 public class Backup
 {

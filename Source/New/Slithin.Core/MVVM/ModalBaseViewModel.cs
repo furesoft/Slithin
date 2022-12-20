@@ -1,8 +1,6 @@
 ﻿using System.Windows.Input;
-using Slithin.Core;
-using Slithin.Core.MVVM;
 
-namespace Slithin.ViewModels.Modals;
+namespace Slithin.Core.MVVM;
 
 public class ModalBaseViewModel : BaseViewModel
 {
@@ -13,6 +11,6 @@ public class ModalBaseViewModel : BaseViewModel
     {
         base.OnLoad();
 
-        CancelCommand = new DelegateCommand(_ => DialogService.Close());
+        //CancelCommand = new DelegateCommand(_ => DialogService.Close());
     }
 }
