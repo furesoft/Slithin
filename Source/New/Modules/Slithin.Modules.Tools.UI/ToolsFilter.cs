@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using Slithin.Core.MVVM;
-using Slithin.Core.Tools;
+using Slithin.Modules.Tools.Models;
 
 namespace Slithin.Core.Sync;
 

@@ -53,8 +53,6 @@
      <AvaloniaResource Include="Resources\**" />
      <EmbeddedResource Include="Resources\IconTiles\**" />
      <EmbeddedResource Include="Resources\Covers\**" />
-     <EmbeddedResource Include="Resources\DefaultScreens\**" />
-     <EmbeddedResource Include="Resources\Locales\**" />
    </ItemGroup>
   
 
@@ -76,18 +74,9 @@
   </ItemGroup>
 
    <ItemGroup>
-     <None Remove="Resources\backup.png" />
      <None Remove="Resources\copy.png" />
      <None Remove="Resources\cubes.png" />
      <None Remove="Resources\data-transfer.png" />
-     <None Remove="Resources\DefaultScreens\batteryempty.png" />
-     <None Remove="Resources\DefaultScreens\lowbattery.png" />
-     <None Remove="Resources\DefaultScreens\poweroff.png" />
-     <None Remove="Resources\DefaultScreens\rebooting.png" />
-     <None Remove="Resources\DefaultScreens\splash.png" />
-     <None Remove="Resources\DefaultScreens\starting.png" />
-     <None Remove="Resources\DefaultScreens\suspended.png" />
-     <None Remove="Resources\Locales\en.json" />
      <None Remove="Resources\nav.png" />
      <None Remove="Resources\notebook.png" />
      <None Remove="Version.props" />
@@ -133,6 +122,8 @@
    <ItemGroup>
      <ProjectReference Include="..\Libraries\Slithin.API.Lib\Slithin.API.Lib.csproj" />
      <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
+     <ProjectReference Include="..\New\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj" />
+     <ProjectReference Include="..\New\Models\Slithin.Modules.Tools.Models\Slithin.Modules.Tools.Models.csproj" />
      <ProjectReference Include="..\Slithin.Controls\Slithin.Controls.csproj" />
    </ItemGroup>
    

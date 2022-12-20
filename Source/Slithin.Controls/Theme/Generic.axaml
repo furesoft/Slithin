@@ -21,8 +21,6 @@
 
     <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/LinkStyle.axaml" />
     <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/SplitViewStyle.axaml" />
-    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/NotificationCardStyle.axaml" />
-    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/NotificationStyle.axaml" />
     <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/ButtonStyle.axaml" />
     <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/IndicatorStyle.axaml" />
 

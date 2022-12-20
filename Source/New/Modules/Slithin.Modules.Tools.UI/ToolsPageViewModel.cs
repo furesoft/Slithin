@@ -1,5 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Slithin.Core.MVVM;
+using Slithin.Core.Sync;
 using Slithin.Modules.Tools.Models;
 
 namespace Slithin.Modules.Tools.UI;
@@ -26,25 +28,27 @@ public class ToolsPageViewModel : BaseViewModel
 
     public ICommand ExecuteScriptCommand { get; set; }
 
+    public ToolsFilter Filter { get; set; } = new();
+
     public ITool SelectedScript
     {
         get => _selectedScript;
         set => SetValue(ref _selectedScript, value);
     }
 
-    /*
-
     public override void OnLoad()
     {
         base.OnLoad();
 
-        ToolsFilter.AllTools = _invoker.Tools.Values.Where(_ => _.Info.IsListed).ToList();
-        ToolsFilter.Tools = new ObservableCollection<ITool>(ToolsFilter.AllTools);
+        Filter.AllTools = _invoker.Tools.Values.Where(_ => _.Info.IsListed).ToList();
+        Filter.Tools = new ObservableCollection<ITool>(Filter.AllTools);
 
         var categories = _invoker.Tools.Where(_ => _.Value.Info.IsListed).Select(_ => _.Value.Info.Category);
 
-        ToolsFilter.Categories = new ObservableCollection<string>(categories.Distinct());
+        Filter.Categories = new ObservableCollection<string>(categories.Distinct());
     }
+
+    /*
 
     private static void ShowConfigModal(object _)
     {

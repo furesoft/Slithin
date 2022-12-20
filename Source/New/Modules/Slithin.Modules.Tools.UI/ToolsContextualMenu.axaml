@@ -16,7 +16,7 @@
             <controls:ImagePopupButton.PopupContent>
                 <styles:Card>
                     <Grid RowDefinitions="*,AUTO" Margin="4">
-                        <ComboBox Items="{Binding SyncService.ToolsFilter.Categories, Mode=TwoWay}" SelectedItem="{Binding SyncService.ToolsFilter.SelectedCategory}" MinWidth="175" />
+                        <ComboBox Items="{Binding Filter.Categories, Mode=TwoWay}" SelectedItem="{Binding Filter.SelectedCategory}" MinWidth="175" />
                     </Grid>
                 </styles:Card>
             </controls:ImagePopupButton.PopupContent>
