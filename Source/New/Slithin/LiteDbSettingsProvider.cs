@@ -16,6 +16,8 @@ internal class LiteDbSettingsProvider : IModuleSettingsProvider
 
         if (settingsObj != null)
         {
+            db.Dispose();
+
             return JsonConvert.DeserializeObject(settingsObj["obj"], type);
         }
 
