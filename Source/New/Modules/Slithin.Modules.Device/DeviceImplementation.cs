@@ -44,4 +44,9 @@ internal class DeviceImplementation : IRemarkableDevice
     {
         _scp.Upload(fileInfo, path);
     }
+
+    public void Upload(DirectoryInfo dirInfo, string path)
+    {
+        _scp.Upload(dirInfo, path);
+    }
 }

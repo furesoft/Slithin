@@ -14,5 +14,7 @@ public interface IRemarkableDevice
 
     void Upload(FileInfo fileInfo, string path);
 
+    void Upload(DirectoryInfo dirInfo, string path);
+
     CommandResult RunCommand(string cmd);
 }

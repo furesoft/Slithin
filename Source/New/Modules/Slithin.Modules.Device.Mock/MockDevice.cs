@@ -66,4 +66,22 @@ public class MockDevice : IRemarkableDevice
         _filesystem.Dispose();
         Connect(default, null);
     }
+
+    public void Upload(DirectoryInfo dirInfo, string path)
+    {
+        if (!_filesystem.DirectoryExists(path))
+        {
+            _filesystem.CreateDirectory(path);
+        }
+
+        foreach (var file in dirInfo.GetFiles())
+        {
+            Upload(file, (string)((UPath)path / file.Name));
+        }
+
+        foreach (var dir in dirInfo.GetDirectories())
+        {
+            Upload(dir, (string)((UPath)path / dir.Name));
+        }
+    }
 }
