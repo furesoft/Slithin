@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
+using Slithin.Modules.DeviceDiscovery.Models;
 
-namespace Slithin.Core.Services.Implementations;
+namespace Slithin.Modules.DeviceDiscovery;
 
 public class DeviceDiscoveryImpl : IDeviceDiscovery
 {

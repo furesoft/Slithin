@@ -174,6 +174,7 @@
     <ProjectReference Include="..\Modules\Slithin.Modules.Caching\Slithin.Modules.Caching.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Device.Mock\Slithin.Modules.Device.Mock.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Device.UI\Slithin.Modules.Device.UI.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.DeviceDiscovery\Slithin.Modules.DeviceDiscovery.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Diagnostics.Sentry\Slithin.Modules.Diagnostics.Sentry.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.MarketplaceIntegration\Slithin.Modules.MarketplaceIntegration.csproj" />

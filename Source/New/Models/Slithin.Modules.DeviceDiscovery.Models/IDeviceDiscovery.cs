@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Slithin.Core.Services;
+namespace Slithin.Modules.DeviceDiscovery.Models;
 
 public interface IDeviceDiscovery
 {
