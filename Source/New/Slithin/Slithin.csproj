@@ -182,6 +182,7 @@
     <ProjectReference Include="..\Modules\Slithin.Modules.Notebooks.UI\Slithin.Modules.Notebooks.UI.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Settings\Slithin.Modules.Settings.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Sync\Slithin.Modules.Sync.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Templates.UI\Slithin.Modules.Templates.UI.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Tools.UI\Slithin.Modules.Tools.UI.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Tools\Slithin.Modules.Tools.csproj" />

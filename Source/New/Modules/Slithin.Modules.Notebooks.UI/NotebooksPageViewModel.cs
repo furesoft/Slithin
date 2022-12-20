@@ -5,18 +5,24 @@ using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Notebooks.UI.Commands;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Notebooks.UI;
 
 internal class NotebooksPageViewModel : BaseViewModel
 {
+    private readonly ILoadingService _loadingService;
     private bool _isInTrash;
     private bool _isMoving;
     private Metadata _movingNotebook;
     private Metadata _selectedNotebook;
 
     public NotebooksPageViewModel(ILocalisationService localisationService,
-                                  ILogger logger)
+                                  ILogger logger,
+                                  IMetadataRepository metadataRepository,
+                                  NotebooksFilter notebooksFilter,
+                                  ILoadingService loadingService)
     {
         ExportCommand = Container.Current.Resolve<ExportCommand>();
         MakeFolderCommand = Container.Current.Resolve<MakeFolderCommand>();
@@ -28,8 +34,8 @@ internal class NotebooksPageViewModel : BaseViewModel
             var md = (Metadata)obj;
             md.Parent = "";
 
-            // md.Save();
-            //  md.Upload(onlyMetadata: true);
+            metadataRepository.SaveToDisk(md);
+            metadataRepository.Upload(md, true);
         }, _ => _ is not null && ((Metadata)_).VisibleName != localisationService.GetString("Up .."));
 
         EmptyTrashCommand = Container.Current.Resolve<EmptyTrashCommand>();
@@ -51,6 +57,8 @@ internal class NotebooksPageViewModel : BaseViewModel
         {
             IsMoving = false;
         });
+        NotebooksFilter = notebooksFilter;
+        _loadingService = loadingService;
 
         /*
         MoveHereCommand = new DelegateCommand(_ =>
@@ -110,4 +118,12 @@ internal class NotebooksPageViewModel : BaseViewModel
     }
 
     public ICommand UnPinCommand { get; set; }
+    public NotebooksFilter NotebooksFilter { get; }
+
+    public override void OnLoad()
+    {
+        base.OnLoad();
+
+        _loadingService.LoadNotebooks();
+    }
 }

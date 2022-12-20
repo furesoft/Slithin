@@ -18,10 +18,12 @@ internal class Module : AuroraModularis.Module
 
     public override void RegisterServices(Container container)
     {
-        container.Register<IPathManager>(new PathManagerImpl());
-        container.Register<IVersionService>(new VersionServiceImpl(container));
-        container.Register<IRepository>(new LocalRepository(container));
-        container.Register<ILoginService>(new LoginServiceImpl(container));
-        container.Register<IDatabaseService>(new DatabaseServiceImpl(container));
+        container.Register<IPathManager>(new PathManagerImpl()).AsSingleton();
+        container.Register<IVersionService>(new VersionServiceImpl(container)).AsSingleton();
+        container.Register<IRepository>(new LocalRepository(container)).AsSingleton();
+        container.Register<ILoginService>(new LoginServiceImpl(container)).AsSingleton();
+        container.Register<IDatabaseService>(new DatabaseServiceImpl(container)).AsSingleton();
+        container.Register<IMetadataRepository>(new MetadataRepositoryImpl()).AsSingleton();
+        container.Register<ILoadingService>(new LoadingServiceImpl(container)).AsSingleton();
     }
 }

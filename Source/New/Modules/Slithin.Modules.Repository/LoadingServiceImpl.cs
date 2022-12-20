@@ -1,32 +1,24 @@
-﻿using Slithin.Modules.Diagnostics.Sentry.Models;
-
+﻿using AuroraModularis.Core;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.Diagnostics.Sentry.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
-using Slithin.Modules.Settings.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Repository;
 
 internal class LoadingServiceImpl : ILoadingService
 {
-    private readonly IDiagnosticService _errorTrackingService;
-    private readonly ILocalisationService _localisationService;
-    private readonly IPathManager _pathManager;
-    private readonly ISettingsService _settingsService;
+    private Container _container;
 
-    public LoadingServiceImpl(IPathManager pathManager,
-                              ILocalisationService localisationService,
-                              ISettingsService settingsService,
-                              IDiagnosticService errorTrackingService)
+    public LoadingServiceImpl(Container container)
     {
-        _pathManager = pathManager;
-        _localisationService = localisationService;
-        _settingsService = settingsService;
-        _errorTrackingService = errorTrackingService;
+        _container = container;
     }
 
     public void LoadApiToken()
     {
-        var settings = _settingsService.GetSettings();
+        //var settings = _settingsService.GetSettings();
 
         /*
         if (settings.MarketplaceCredential != null)
@@ -45,35 +37,41 @@ internal class LoadingServiceImpl : ILoadingService
 
     public void LoadNotebooks()
     {
-        /*
-        var monitor = _errorTrackingService.StartPerformanceMonitoring("Loading", "Notebooks");
+        var errorTrackingService = _container.Resolve<IDiagnosticService>();
+        var mdStorage = _container.Resolve<IMetadataRepository>();
+        var pathManager = _container.Resolve<IPathManager>();
+        var localisationService = _container.Resolve<ILocalisationService>();
 
-        MetadataStorage.Local.Clear();
-        ServiceLocator.SyncService.NotebooksFilter.Documents = new();
+        var monitor = errorTrackingService.StartPerformanceMonitoring("Loading", "Notebooks");
 
-        foreach (var md in Directory.GetFiles(_pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
+        mdStorage.Clear();
+
+        var filter = Container.Current.Resolve<NotebooksFilter>();
+
+        filter.Documents = new();
+
+        foreach (var md in Directory.GetFiles(pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
         {
-            var mdObj = Metadata.Load(Path.GetFileNameWithoutExtension(md));
+            var mdObj = mdStorage.Load(Path.GetFileNameWithoutExtension(md));
 
-            MetadataStorage.Local.AddMetadata(mdObj, out _);
+            mdStorage.AddMetadata(mdObj, out _);
         }
 
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(new Metadata
+        filter.Documents.Add(new Metadata
         {
             Type = "CollectionType",
-            VisibleName = _localisationService.GetString("Trash"),
+            VisibleName = localisationService.GetString("Trash"),
             ID = "trash"
         });
 
-        foreach (var md in MetadataStorage.Local.GetByParent(""))
+        foreach (var md in mdStorage.GetByParent(""))
         {
-            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
+            filter.Documents.Add(md);
         }
 
-        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+        filter.SortByFolder();
 
         monitor.Dispose();
-        */
     }
 
     public void LoadTemplates()

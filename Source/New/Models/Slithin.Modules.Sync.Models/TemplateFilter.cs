@@ -1,10 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable;
 using Slithin.Entities.Remarkable;
 
-namespace Slithin.Core.Sync;
+namespace Slithin.Modules.Sync.Models;
 
 public class TemplateFilter : NotifyObject
 {
@@ -42,6 +40,6 @@ public class TemplateFilter : NotifyObject
 
     private void RefreshTemplates()
     {
-        Templates = new(TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape));
+        //Templates = new(TemplateStorage.Instance?.Templates.Where(_ => _.Categories.Contains(SelectedCategory) && Landscape == _.Landscape));
     }
 }

@@ -17,7 +17,7 @@ internal class UnPinCommand : ICommand
 
     public bool CanExecute(object data)
     {
-        return data is Metadata md;// && md.IsPinned;
+        return data is Metadata md && md.IsPinned;
     }
 
     public void Execute(object data)

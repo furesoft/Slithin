@@ -20,7 +20,7 @@ internal class PinCommand : ICommand
 
     public bool CanExecute(object data)
     {
-        return data is Metadata md //&& !md.IsPinned
+        return data is Metadata md && !md.IsPinned
             && md.VisibleName != _localisationService.GetString("Quick sheets")
             && md.VisibleName != _localisationService.GetString("Trash");
     }

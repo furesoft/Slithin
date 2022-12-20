@@ -7,13 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.14" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="AuroraModularis" Version="1.0.18" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Slithin.Core\Slithin.Core.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Sync.Models\Slithin.Modules.Sync.Models.csproj" />
   </ItemGroup>
 
-  <Import Project="$(SolutionDir)\Version.props" />
 </Project>

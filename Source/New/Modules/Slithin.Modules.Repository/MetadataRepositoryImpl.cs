@@ -1,17 +1,18 @@
-﻿using Slithin.Entities.Remarkable;
+﻿using AuroraModularis.Core;
+using Newtonsoft.Json;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.Device.Models;
+using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
 
-internal class MetadataStorage
+public class MetadataRepositoryImpl : IMetadataRepository
 {
-    public static MetadataStorage Local = new();
-
     private readonly Dictionary<string, Metadata> _storage = new();
 
-    /*
-    public static Metadata Load(string id)
+    public Metadata Load(string id)
     {
-        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+        var pathManager = Container.Current.Resolve<IPathManager>();
 
         var mdObj = JsonConvert.DeserializeObject<Metadata>(
             File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".metadata")));
@@ -50,9 +51,9 @@ internal class MetadataStorage
         alreadyAdded = false;
     }
 
-    public void Save(Metadata metadata)
+    public void SaveToDisk(Metadata metadata)
     {
-        var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
+        var pathManager = Container.Current.Resolve<IPathManager>();
 
         File.WriteAllText(Path.Combine(pathManager.NotebooksDir, metadata.ID + ".metadata"),
             JsonConvert.SerializeObject(this, Formatting.Indented));
@@ -60,7 +61,6 @@ internal class MetadataStorage
         File.WriteAllText(Path.Combine(pathManager.NotebooksDir, metadata.ID + ".content"),
             JsonConvert.SerializeObject(metadata.Content, Formatting.Indented));
     }
-    */
 
     public void Clear()
     {
@@ -97,7 +97,6 @@ internal class MetadataStorage
         return _storage.Keys;
     }
 
-    /*
     public void Move(Metadata md, string folder)
     {
         md.Parent = folder;
@@ -105,32 +104,32 @@ internal class MetadataStorage
 
         _storage[md.ID] = md; //replace metadata with changed md
 
-        md.Save();
+        SaveToDisk(md);
 
-        md.Upload();
+        Upload(md);
 
-        var xochitl = ServiceLocator.Container.Resolve<IRemarkableDevice>();
-        xochitl.ReloadDevice();
+        var remarkableDevice = Container.Current.Resolve<IRemarkableDevice>();
+        remarkableDevice.Reload();
     }
 
-    public void Upload(bool onlyMetadata = false)
+    public void Upload(Metadata md, bool onlyMetadata = false)
     {
-        var scp = ServiceLocator.Container.Resolve<IRemarkableDevice>();
-        var notebooksDir = ServiceLocator.Container.Resolve<IPathManager>().NotebooksDir;
+        var scp = Container.Current.Resolve<IRemarkableDevice>();
+        var notebooksDir = Container.Current.Resolve<IPathManager>().NotebooksDir;
+        var pathList = Container.Current.Resolve<PathList>();
 
-        scp.Upload(new FileInfo(Path.Combine(notebooksDir, ID + ".metadata")),
-                                PathList.Documents + "/" + ID + ".metadata");
+        scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
+                                pathList.Documents + md.ID + ".metadata");
 
-        if (Type == "DocumentType" &&
-                                (Content.FileType == "pdf" || Content.FileType == "epub") && !onlyMetadata)
+        if (md.Type == "DocumentType" &&
+                                (md.Content.FileType == "pdf" || md.Content.FileType == "epub") && !onlyMetadata)
         {
-            scp.Upload(new FileInfo(Path.Combine(notebooksDir, ID + "." + Content.FileType)),
-                PathList.Documents + "/" + ID + "." + Content.FileType);
-            scp.Upload(new FileInfo(Path.Combine(notebooksDir, ID + ".content")),
-                PathList.Documents + "/" + ID + ".content");
+            scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)),
+                pathList.Documents + md.ID + "." + md.Content.FileType);
+            scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
+                pathList.Documents + md.ID + ".content");
         }
     }
-    */
 
     public void Remove(Metadata tmpl)
     {

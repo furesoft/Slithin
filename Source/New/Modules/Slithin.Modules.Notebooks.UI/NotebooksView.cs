@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Notebooks.UI;
 
@@ -32,19 +34,21 @@ internal static class NotebooksView
         }
 
         var localisation = Container.Current.Resolve<ILocalisationService>();
-        /*
-        NotebooksFilter.Documents.Clear();
+        var notebooksFilter = Container.Current.Resolve<NotebooksFilter>();
+        var mdStorage = Container.Current.Resolve<IMetadataRepository>();
+
+        notebooksFilter.Documents.Clear();
 
         var id = md.ID;
 
         if (!string.IsNullOrEmpty(md.VisibleName) && md.VisibleName.Equals(localisation.GetString("Up ..")))
         {
             id = _lastFolderIDs.Pop();
-            NotebooksFilter.Folder = id;
+            notebooksFilter.Folder = id;
 
             if (id == "")
             {
-                NotebooksFilter.Documents.Add(new Metadata
+                notebooksFilter.Documents.Add(new Metadata
                 {
                     Type = "CollectionType",
                     VisibleName = localisation.GetString("Trash"),
@@ -64,22 +68,21 @@ internal static class NotebooksView
 
         vm.IsInTrash = id == "trash";
 
-        foreach (var mds in MetadataStorage.Local.GetByParent(id))
+        foreach (var mds in mdStorage.GetByParent(id))
         {
-            NotebooksFilter.Documents.Add(mds);
+            notebooksFilter.Documents.Add(mds);
         }
 
         if (_lastFolderIDs.Count > 0)
         {
-            NotebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = localisation.GetString("Up ..") });
-            NotebooksFilter.Folder = id;
+            notebooksFilter.Documents.Add(new Metadata { Type = "CollectionType", VisibleName = localisation.GetString("Up ..") });
+            notebooksFilter.Folder = id;
         }
         else
         {
-            NotebooksFilter.Folder = "";
+            notebooksFilter.Folder = "";
         }
 
-        NotebooksFilter.SortByFolder();
-        */
+        notebooksFilter.SortByFolder();
     }
 }

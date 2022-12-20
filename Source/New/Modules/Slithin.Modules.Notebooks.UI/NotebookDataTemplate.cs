@@ -74,7 +74,7 @@ internal class NotebookDataTemplate : IDataTemplate
 
         var favImage = new Image();
 
-        //if (md.IsPinned)
+        if (md.IsPinned)
         {
             favImage.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Entypo+.Star"));
             titlePanel.ColumnDefinitions.Add(new(new GridLength(20)));
@@ -83,7 +83,7 @@ internal class NotebookDataTemplate : IDataTemplate
             Grid.SetColumn(title, 1);
             Grid.SetColumn(favImage, 0);
         }
-        //else
+        else
         {
             title.HorizontalAlignment = HorizontalAlignment.Center;
         }
