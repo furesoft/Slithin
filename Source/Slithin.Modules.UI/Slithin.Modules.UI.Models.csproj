@@ -10,4 +10,8 @@
     <PackageReference Include="Avalonia" Version="0.10.18" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Slithin.Controls\Slithin.Controls.csproj" />
+  </ItemGroup>
+
 </Project>

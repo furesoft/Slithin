@@ -5,9 +5,9 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Ionic.Zip;
 using Slithin.Modules.I18N.Models;
-using Slithin.Modules.Notifications.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Tools.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Backup;
 

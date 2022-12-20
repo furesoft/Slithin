@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Slithin.Modules.UI\Slithin.Modules.UI.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Device.Models\Slithin.Modules.Device.Models.csproj" />
-    <ProjectReference Include="..\..\Models\Slithin.Modules.Notifications.Models\Slithin.Modules.Notifications.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Tools.Models\Slithin.Modules.Tools.Models.csproj" />
     <ProjectReference Include="..\..\Slithin.Core\Slithin.Core.csproj" />

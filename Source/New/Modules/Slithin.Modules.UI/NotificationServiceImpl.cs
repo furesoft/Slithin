@@ -1,5 +1,5 @@
 ﻿using Avalonia.Controls.Notifications;
-using Slithin.Modules.Notifications.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Notifications;
 

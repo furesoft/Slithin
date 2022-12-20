@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Markup.Xaml;
-using Slithin.Modules.Notifications.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin;
 
