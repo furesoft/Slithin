@@ -9,6 +9,7 @@ public static partial class Utils
     public static IEnumerable<T> Find<T>()
     {
         var types = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(_ => !_.IsDynamic)
             .SelectMany(s => s.GetTypes())
             .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass)
             .Select(type => (T)Container.Current.Resolve<T>(type));
@@ -19,6 +20,7 @@ public static partial class Utils
     public static IEnumerable<Type> FindType<T>()
     {
         var types = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(_ => !_.IsDynamic)
             .SelectMany(s => s.GetTypes())
             .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass);
 

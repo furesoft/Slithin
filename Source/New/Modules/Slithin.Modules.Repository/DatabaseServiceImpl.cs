@@ -1,4 +1,5 @@
 ﻿using AuroraModularis.Core;
+using LiteDB;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
@@ -7,6 +8,8 @@ public class DatabaseServiceImpl : IDatabaseService
 {
     private Container _container;
 
+    private LiteDatabase db;
+
     public DatabaseServiceImpl(Container container)
     {
         _container = container;
@@ -14,7 +17,12 @@ public class DatabaseServiceImpl : IDatabaseService
 
     public DatabaseAccessor GetDatabase()
     {
-        var pathManager = _container.Resolve<IPathManager>();
-        return new(new(Path.Combine(pathManager.SlithinDir, "slithin2.db")));
+        if (db == null)
+        {
+            var pathManager = _container.Resolve<IPathManager>();
+            db = new(Path.Combine(pathManager.SlithinDir, "slithin2.db"));
+        }
+
+        return new(db);
     }
 }

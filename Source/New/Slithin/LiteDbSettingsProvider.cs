@@ -6,24 +6,26 @@ namespace Slithin;
 
 internal class LiteDbSettingsProvider : IModuleSettingsProvider
 {
+    private LiteDatabase db;
+
+    public LiteDbSettingsProvider()
+    {
+        var dbpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin", "slithin_modules.db");
+
+        db = new LiteDatabase(dbpath);
+    }
+
     public object Load(string path, Type type)
     {
-        var dbpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin", "slithin2.db");
-
-        var db = new LiteDatabase(dbpath);
         var settingsCollection = db.GetCollection<BsonDocument>("settings");
         var settingsObj = settingsCollection.FindOne(Query.EQ("$type", type.FullName));
 
         if (settingsObj != null)
         {
-            db.Dispose();
-
             return JsonConvert.DeserializeObject(settingsObj["obj"], type);
         }
 
         var newInstance = Activator.CreateInstance(type);
-
-        db.Dispose();
 
         Save(newInstance, path);
 
@@ -32,9 +34,8 @@ internal class LiteDbSettingsProvider : IModuleSettingsProvider
 
     public void Save(object data, string path)
     {
-        var dbpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin", "slithin2.db");
+        db.BeginTrans();
 
-        var db = new LiteDatabase(dbpath);
         var settingsCollection = db.GetCollection<BsonDocument>("settings");
 
         var settingsObj = settingsCollection.FindOne(Query.EQ("type", data.GetType().FullName));
@@ -45,7 +46,7 @@ internal class LiteDbSettingsProvider : IModuleSettingsProvider
             settingsObj["obj"] = serializedData;
             settingsCollection.Update(settingsObj);
 
-            db.Dispose();
+            db.Commit();
             return;
         }
 
@@ -54,6 +55,6 @@ internal class LiteDbSettingsProvider : IModuleSettingsProvider
         settingsObj.Add("obj", serializedData);
         settingsCollection.Insert(settingsObj);
 
-        db.Dispose();
+        db.Commit();
     }
 }

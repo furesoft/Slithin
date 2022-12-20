@@ -8,9 +8,6 @@ public class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {
-        var toolInvoker = container.Resolve<IToolInvokerService>();
-        toolInvoker.Init();
-
         return Task.CompletedTask;
     }
 

@@ -121,4 +121,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Theme\Styles\System\NotificationCard.axaml" />
+  </ItemGroup>
+
 </Project>

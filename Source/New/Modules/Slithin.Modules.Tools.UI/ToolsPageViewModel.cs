@@ -40,6 +40,8 @@ public class ToolsPageViewModel : BaseViewModel
     {
         base.OnLoad();
 
+        _invoker.Init();
+
         Filter.AllTools = _invoker.Tools.Values.Where(_ => _.Info.IsListed).ToList();
         Filter.Tools = new ObservableCollection<ITool>(Filter.AllTools);
 
