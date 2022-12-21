@@ -3,7 +3,7 @@
 public static class Debouncer
 {
     //Used for delayed binding
-    public static Action<T> Debounce<T>(this Action<T> func, int milliseconds = 300)
+    public static Action<T> Debounce<T>(this Action<T> func, int milliseconds = 1000)
     {
         var last = 0;
         return arg =>

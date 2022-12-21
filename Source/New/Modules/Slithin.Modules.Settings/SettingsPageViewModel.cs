@@ -106,12 +106,19 @@ internal class SettingsPageViewModel : BaseViewModel
 
     private void UpdateDeviceName(string newName)
     {
+        string oldName = DeviceName;
+
         if (string.IsNullOrEmpty(newName)) return;
+
+        _pathManager.ReLink(newName);
 
         var path = new DirectoryInfo(_pathManager.ConfigBaseDir);
 
         if (!path.Exists)
         {
+            _pathManager.ReLink(oldName);
+            path = new(_pathManager.ConfigBaseDir);
+
             _credential.Name = newName;
 
             _pathManager.ReLink(_credential.Name);
