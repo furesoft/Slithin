@@ -124,6 +124,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         vm.ParentViewModel = this;
 
         wndw.DataContext = vm;
+        vm.OnLoad();
 
         vm.OnRequestClose += () => wndw.Close();
 
