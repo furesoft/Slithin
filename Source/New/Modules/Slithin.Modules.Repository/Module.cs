@@ -25,5 +25,6 @@ internal class Module : AuroraModularis.Module
         container.Register<IDatabaseService>(new DatabaseServiceImpl(container)).AsSingleton();
         container.Register<IMetadataRepository>(new MetadataRepositoryImpl()).AsSingleton();
         container.Register<ILoadingService>(new LoadingServiceImpl(container)).AsSingleton();
+        container.Register<ITemplateStorage>(new TemplateStorageImpl()).AsSingleton();
     }
 }

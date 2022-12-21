@@ -76,52 +76,53 @@ internal class LoadingServiceImpl : ILoadingService
 
     public void LoadTemplates()
     {
-        /*
-        var monitor = _errorTrackingService.StartPerformanceMonitoring("Loading", "Templates");
+        var errorTrackingService = Container.Current.Resolve<IDiagnosticService>();
+        var storage = Container.Current.Resolve<ITemplateStorage>();
+        var filter = Container.Current.Resolve<TemplatesFilter>();
+
+        var monitor = errorTrackingService.StartPerformanceMonitoring("Loading", "Templates");
         // Load local Templates
-        TemplateStorage.Instance?.Load();
+        storage.Load();
 
         // Load Category Names
-        var tempCats = TemplateStorage.Instance?.Templates.Select(x => x.Categories);
+        var tempCats = storage.Templates.Select(x => x.Categories);
 
         foreach (var item in tempCats)
         {
             foreach (var cat in item)
             {
-                if (!ServiceLocator.SyncService.TemplateFilter.Categories.Contains(cat))
+                if (!filter.Categories.Contains(cat))
                 {
-                    ServiceLocator.SyncService.TemplateFilter.Categories.Add(cat);
+                    filter.Categories.Add(cat);
                 }
             }
         }
 
         //Load first templates which are shown to make loading "smoother and faster"
-        LoadTemplatesByCategory(ServiceLocator.SyncService.TemplateFilter.Categories.First(), true);
+        LoadTemplatesByCategory(filter.Categories.FirstOrDefault(), filter, storage, true);
 
         monitor.Dispose();
 
-        Parallel.ForEach(ServiceLocator.SyncService.TemplateFilter.Categories, (category) =>
+        Parallel.ForEach(filter.Categories, (category) =>
         {
-            LoadTemplatesByCategory(category);
+            LoadTemplatesByCategory(category, filter, storage);
         });
-        */
     }
 
-    public void LoadTemplatesByCategory(string category, bool addToView = false)
+    public void LoadTemplatesByCategory(string category, TemplatesFilter filter, ITemplateStorage storage, bool addToView = false)
     {
-        /*
-        foreach (var t in TemplateStorage.Instance.Templates)
+        foreach (var t in storage.Templates)
         {
             if (t.Categories.Contains(category))
             {
-                if (!ServiceLocator.SyncService.TemplateFilter.Templates.Contains(t) && addToView)
+                if (!filter.Templates.Contains(t) && addToView)
                 {
-                    ServiceLocator.SyncService.TemplateFilter.Templates.Add(t);
+                    filter.Templates.Add(t);
                 }
 
-                t.Load();
+                storage.LoadTemplate(t);
             }
-        }*/
+        }
     }
 
     public void LoadTools()

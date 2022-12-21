@@ -13,5 +13,6 @@ public class Module : AuroraModularis.Module
     public override void RegisterServices(Container container)
     {
         container.Register<NotebooksFilter>().AsSingleton();
+        container.Register<TemplatesFilter>().AsSingleton();
     }
 }

@@ -1,18 +1,20 @@
-﻿namespace Slithin.Entities.Remarkable;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Windows.Input;
+using Avalonia.Media;
+using LiteDB;
+using Newtonsoft.Json;
+using Slithin.Core.MVVM;
 
-public class Template //: INotifyPropertyChanged, IEqualityComparer<Template>
+namespace Slithin.Entities.Remarkable;
+
+public class Template : NotifyObject, IEqualityComparer<Template>
 {
-    //ToDo: Move Properties for ui in different class
-
-    /*
     private IImage _image;
 
     public Template()
     {
-        TransferCommand = new DelegateCommand(Transfer);
+        // TransferCommand = new DelegateCommand(Transfer);
     }
-
-    public event PropertyChangedEventHandler PropertyChanged;
 
     [JsonProperty("categories")] public string[] Categories { get; set; }
 
@@ -32,8 +34,7 @@ public class Template //: INotifyPropertyChanged, IEqualityComparer<Template>
                 return;
             }
 
-            _image = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Image)));
+            SetValue(ref _image, value);
         }
     }
 
@@ -55,25 +56,7 @@ public class Template //: INotifyPropertyChanged, IEqualityComparer<Template>
         return HashCode.Combine(obj.Filename, obj.Landscape, obj.Name);
     }
 
-    public void Load()
-    {
-        var templatesDir = ServiceLocator.Container.Resolve<IPathManager>().TemplatesDir;
-
-        if (!Directory.Exists(templatesDir) || Image is not null)
-        {
-            return;
-        }
-
-        var path = Path.Combine(templatesDir, Filename);
-
-        if (!File.Exists(path + ".png"))
-        {
-            return;
-        }
-
-        Image = Bitmap.DecodeToWidth(File.OpenRead(path + ".png"), 150);
-    }
-
+    /*
     private void Transfer(object obj)
     {
         var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
@@ -104,6 +87,5 @@ public class Template //: INotifyPropertyChanged, IEqualityComparer<Template>
 
             xochitl.ReloadDevice();
         });
-    }
-    */
+    }*/
 }

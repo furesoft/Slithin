@@ -4,14 +4,14 @@ using Slithin.Entities.Remarkable;
 
 namespace Slithin.Modules.Sync.Models;
 
-public class TemplateFilter : NotifyObject
+public class TemplatesFilter : NotifyObject
 {
     private bool _landscape;
     private string _selectedCategory;
 
     private ObservableCollection<Template> _templates;
 
-    public TemplateFilter()
+    public TemplatesFilter()
     {
         Categories = new();
 
@@ -23,13 +23,13 @@ public class TemplateFilter : NotifyObject
     public bool Landscape
     {
         get => _landscape;
-        set { SetValue(ref _landscape, value); RefreshTemplates(); }
+        set { SetValue(ref _landscape, value); }
     }
 
     public string SelectedCategory
     {
         get => _selectedCategory;
-        set { SetValue(ref _selectedCategory, value); RefreshTemplates(); }
+        set { SetValue(ref _selectedCategory, value); }
     }
 
     public ObservableCollection<Template> Templates
