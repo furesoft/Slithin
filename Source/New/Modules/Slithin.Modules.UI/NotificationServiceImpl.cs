@@ -16,4 +16,12 @@ internal class NotificationServiceImpl : INotificationService
     {
         _notificationManager.Show(new Notification("", message));
     }
+
+    public IStatusController ShowStatus(string message)
+    {
+        var controller = new StatusController();
+        controller.Step(message);
+
+        return controller;
+    }
 }

@@ -16,4 +16,12 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="StatusModal.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.8" />
+  </ItemGroup>
+
 </Project>
