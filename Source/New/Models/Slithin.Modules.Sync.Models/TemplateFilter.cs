@@ -7,18 +7,11 @@ namespace Slithin.Modules.Sync.Models;
 public class TemplatesFilter : NotifyObject
 {
     private bool _landscape;
-    private string _selectedCategory;
+    private string _selectedCategory = string.Empty;
 
-    private ObservableCollection<Template> _templates;
+    private ObservableCollection<Template> _templates = new();
 
-    public TemplatesFilter()
-    {
-        Categories = new();
-
-        Templates = new();
-    }
-
-    public ObservableCollection<string> Categories { get; set; }
+    public ObservableCollection<string> Categories { get; set; } = new();
 
     public bool Landscape
     {

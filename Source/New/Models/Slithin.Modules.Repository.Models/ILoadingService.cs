@@ -7,6 +7,4 @@ public interface ILoadingService
     void LoadNotebooks();
 
     void LoadTemplates();
-
-    void LoadTools();
 }

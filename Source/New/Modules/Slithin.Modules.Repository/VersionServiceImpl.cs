@@ -22,13 +22,26 @@ internal class VersionServiceImpl : IVersionService
         return new(str);
     }
 
+    public void UpdateVersion(Version version)
+    {
+        var pathManager = _container.Resolve<IPathManager>();
+
+        if (!Directory.Exists(pathManager.ConfigBaseDir))
+        {
+            pathManager.Init();
+            pathManager.InitDeviceDirectory();
+        }
+
+        File.WriteAllText(Path.Combine(pathManager.ConfigBaseDir, ".version"), version.ToString());
+    }
+
     public Version GetLocalVersion()
     {
-        var path = Path.Combine(_container.Resolve<IPathManager>().ConfigBaseDir, ".version");
+        var versionPath = Path.Combine(_container.Resolve<IPathManager>().ConfigBaseDir, ".version");
 
-        if (File.Exists(path))
+        if (File.Exists(versionPath))
         {
-            return new Version(File.ReadAllText(path));
+            return new Version(File.ReadAllText(versionPath));
         }
 
         return new Version(0, 0, 0, 0);
@@ -37,5 +50,12 @@ internal class VersionServiceImpl : IVersionService
     public Version GetSlithinVersion()
     {
         return Assembly.GetExecutingAssembly().GetName().Version;
+    }
+
+    public bool HasLocalVersion()
+    {
+        var versionFile = Path.Combine(_container.Resolve<IPathManager>().ConfigBaseDir, ".version");
+
+        return File.Exists(versionFile);
     }
 }

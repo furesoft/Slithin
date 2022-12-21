@@ -6,6 +6,8 @@ using Slithin.Modules.Device.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
+using Slithin.Modules.Sync.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Device.UI;
 
@@ -13,9 +15,14 @@ internal class DevicePageViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;
+    private readonly TemplatesFilter _templatesFilter;
+    private readonly PathList _pathList;
     private readonly ILoginService _loginService;
+    private readonly IDialogService _dialogService;
     private readonly IPathManager _pathManager;
     private readonly ISettingsService _settingsService;
+    private readonly ILoadingService _loadingService;
+    private readonly INotificationService _notificationService;
     private readonly IVersionService _versionService;
     private readonly IXochitlService _xochitlService;
     private readonly IRemarkableDevice _remarkableDevice;
@@ -30,8 +37,10 @@ internal class DevicePageViewModel : BaseViewModel
         ILocalisationService localisationService,
         IPathManager pathManager,
         ISettingsService settingsService,
-        ILoginService loginService,
-        ILogger logger)
+        ILoadingService loadingService,
+        INotificationService notificationService,
+        ILoginService loginService, IDialogService dialogService,
+        ILogger logger, TemplatesFilter templatesFilter, PathList pathList)
     {
         _versionService = versionService;
         _xochitlService = xochitlService;
@@ -39,9 +48,13 @@ internal class DevicePageViewModel : BaseViewModel
         _localisationService = localisationService;
         _pathManager = pathManager;
         _settingsService = settingsService;
+        _loadingService = loadingService;
+        _notificationService = notificationService;
         _loginService = loginService;
+        _dialogService = dialogService;
         _logger = logger;
-
+        _templatesFilter = templatesFilter;
+        _pathList = pathList;
         RemoveEmailCommand = new DelegateCommand(RemoveEmail);
         ReloadDeviceCommand = new DelegateCommand(ReloadDevice);
     }
@@ -99,20 +112,13 @@ internal class DevicePageViewModel : BaseViewModel
             cs.Load();
         });
 
-        /*
-        _mailboxService.PostAction(() =>
+        await Task.Run(() =>
         {
-            //_loadingService.LoadApiToken();
-
-            _loadingService.LoadScreens();
-            _loadingService.LoadTools();
             _loadingService.LoadTemplates();
-
-            SyncService.TemplateFilter.SelectedCategory = SyncService.TemplateFilter.Categories.FirstOrDefault();
-
             _loadingService.LoadNotebooks();
+
+            _templatesFilter.SelectedCategory = _templatesFilter.Categories.First();
         });
-        */
 
         ShareEmailAddresses = new(_xochitlService.GetShareEmailAddresses());
 
@@ -130,7 +136,7 @@ internal class DevicePageViewModel : BaseViewModel
             Version += " Beta";
         }
 
-        // await DoAfterDeviceUpdate();
+        await DoAfterDeviceUpdate();
     }
 
     /*
@@ -161,6 +167,7 @@ internal class DevicePageViewModel : BaseViewModel
             _ssh.Download(PathList.Documents + node, new DirectoryInfo(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1))));
         }
     }
+    */
 
     private async Task DoAfterDeviceUpdate()
     {
@@ -169,7 +176,13 @@ internal class DevicePageViewModel : BaseViewModel
             return;
         }
 
-        _localRepostory.UpdateVersion(_versionService.GetDeviceVersion());
+        var hasLocalVersion = _versionService.HasLocalVersion();
+        _versionService.UpdateVersion(_versionService.GetDeviceVersion());
+
+        if (!hasLocalVersion)
+        {
+            return;
+        }
 
         _loginService.UpdateIPAfterUpdate();
 
@@ -196,7 +209,7 @@ internal class DevicePageViewModel : BaseViewModel
         if (!needScreenMessage && !needTemplateMessage) return;
 
         var result =
-            await DialogService.ShowDialog(
+            await _dialogService.Show(
                _localisationService.GetString(
                    "A new version has been installed to your device. Would you upload your custom templates/screens?"));
 
@@ -206,7 +219,6 @@ internal class DevicePageViewModel : BaseViewModel
             UploadScreens();
         }
     }
-    */
 
     private void InitScreens()
     {
@@ -232,33 +244,21 @@ internal class DevicePageViewModel : BaseViewModel
         _xochitlService.Save();
     }
 
-    /*
     private void UploadScreens()
     {
-        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+        _notificationService.Show(_localisationService.GetString("Uploading Screens"));
 
-        _mailboxService.PostAction(() =>
-        {
-            NotificationService.Show(_localisationService.GetString("Uploading Screens"));
+        _remarkableDevice.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), _pathList.Screens);
 
-            _ssh.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), PathList.Screens);
-
-            _xochitl.ReloadDevice();
-        });
+        _remarkableDevice.Reload();
     }
 
     private void UploadTemplates()
     {
-        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
+        _notificationService.Show(_localisationService.GetString("Uploading Templates"));
 
-        _mailboxService.PostAction(() =>
-        {
-            NotificationService.Show(_localisationService.GetString("Uploading Templates"));
+        _remarkableDevice.Upload(new DirectoryInfo(_pathManager.TemplatesDir), _pathList.Templates);
 
-            _ssh.Upload(new DirectoryInfo(_pathManager.TemplatesDir), PathList.Templates);
-
-            _xochitl.ReloadDevice();
-        });
+        _remarkableDevice.Reload();
     }
-    */
 }

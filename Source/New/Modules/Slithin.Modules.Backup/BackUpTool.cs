@@ -72,6 +72,6 @@ internal class BackupTool : ITool
                 $"Backup_from_{DateTime.Now:yyyy-dd-M--HH-mm-ss}.zip"));
         }
 
-        // _notificationService.Show(_localisationService.GetString("Complete"));
+        _notificationService.Show(_localisationService.GetString("Complete"));
     }
 }

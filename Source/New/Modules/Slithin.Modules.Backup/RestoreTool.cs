@@ -111,7 +111,6 @@ internal class RestoreTool : ITool
                 _remarkableDevice.Upload(new DirectoryInfo(_pathManager.TemplatesDir), _pathList.Templates);
 
                 _notificationService.Show("Finished");
-                await Task.Delay(1000);
 
                 _remarkableDevice.Reload();
             }

@@ -37,16 +37,20 @@ internal class LoadingServiceImpl : ILoadingService
 
     public void LoadNotebooks()
     {
+        var filter = Container.Current.Resolve<NotebooksFilter>();
         var errorTrackingService = _container.Resolve<IDiagnosticService>();
         var mdStorage = _container.Resolve<IMetadataRepository>();
         var pathManager = _container.Resolve<IPathManager>();
         var localisationService = _container.Resolve<ILocalisationService>();
 
+        if (filter.Documents.Any())
+        {
+            return;
+        }
+
         var monitor = errorTrackingService.StartPerformanceMonitoring("Loading", "Notebooks");
 
         mdStorage.Clear();
-
-        var filter = Container.Current.Resolve<NotebooksFilter>();
 
         filter.Documents = new();
 
@@ -79,6 +83,11 @@ internal class LoadingServiceImpl : ILoadingService
         var errorTrackingService = Container.Current.Resolve<IDiagnosticService>();
         var storage = Container.Current.Resolve<ITemplateStorage>();
         var filter = Container.Current.Resolve<TemplatesFilter>();
+
+        if (filter.Templates.Any())
+        {
+            return;
+        }
 
         var monitor = errorTrackingService.StartPerformanceMonitoring("Loading", "Templates");
         // Load local Templates
@@ -123,11 +132,5 @@ internal class LoadingServiceImpl : ILoadingService
                 storage.LoadTemplate(t);
             }
         }
-    }
-
-    public void LoadTools()
-    {
-        //var toolInvoker = ServiceLocator.Container.Resolve<ToolInvoker>();
-        //toolInvoker.Init();
     }
 }

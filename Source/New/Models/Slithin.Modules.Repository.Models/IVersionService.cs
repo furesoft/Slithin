@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Slithin.Modules.Repository.Models;
+﻿namespace Slithin.Modules.Repository.Models;
 
 public interface IVersionService
 {
@@ -9,4 +7,8 @@ public interface IVersionService
     Version GetLocalVersion();
 
     Version GetSlithinVersion();
+
+    bool HasLocalVersion();
+
+    void UpdateVersion(Version version);
 }
