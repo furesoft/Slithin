@@ -3,6 +3,7 @@ using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
 
+[Priority(ModulePriority.High)]
 internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)

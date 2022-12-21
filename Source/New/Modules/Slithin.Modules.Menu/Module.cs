@@ -7,6 +7,9 @@ internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {
+        var provider = container.Resolve<IContextMenuProvider>();
+        provider.Init();
+
         return Task.CompletedTask;
     }
 

@@ -3,7 +3,7 @@ using Avalonia.Controls;
 
 namespace Slithin.Modules.Menu.Models.ItemContext;
 
-public class UIContextMenuBuilder
+public static class UIContextMenuBuilder
 {
     public static UIContext GetEnable(Control target)
     {
