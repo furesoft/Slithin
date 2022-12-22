@@ -11,10 +11,13 @@ internal class StatusController : IStatusController
 
     public StatusController()
     {
-        var modal = new StatusModal();
-        modal.DataContext = _viewModel;
+        Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            var modal = new StatusModal();
+            modal.DataContext = _viewModel;
 
-        UI.Models.DialogHost.Open(modal);
+            UI.Models.DialogHost.Open(modal);
+        });
     }
 
     ~StatusController()

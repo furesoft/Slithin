@@ -112,14 +112,6 @@ internal class DevicePageViewModel : BaseViewModel
             cs.Load();
         });
 
-        await Task.Run(() =>
-        {
-            _loadingService.LoadTemplates();
-            _loadingService.LoadNotebooks();
-
-            _templatesFilter.SelectedCategory = _templatesFilter.Categories.First();
-        });
-
         ShareEmailAddresses = new(_xochitlService.GetShareEmailAddresses());
 
         HasEmailAddresses = ShareEmailAddresses.Any();
@@ -135,6 +127,14 @@ internal class DevicePageViewModel : BaseViewModel
         {
             Version += " Beta";
         }
+
+        await Task.Run(() =>
+        {
+            _loadingService.LoadTemplates();
+            _loadingService.LoadNotebooks();
+
+            _templatesFilter.SelectedCategory = _templatesFilter.Categories.First();
+        });
 
         await DoAfterDeviceUpdate();
     }

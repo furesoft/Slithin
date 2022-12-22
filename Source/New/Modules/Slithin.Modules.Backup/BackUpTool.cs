@@ -45,10 +45,9 @@ internal class BackupTool : ITool
 
     public async void Invoke(object data)
     {
-        var status = _notificationService.ShowStatus(_localisationService.GetString("Start Compressing"));
-
         await Task.Run(() =>
         {
+            var status = _notificationService.ShowStatus(_localisationService.GetString("Start Compressing"));
             using (var zip = new ZipFile())
             {
                 zip.AddDirectory(_pathManager.NotebooksDir, "Notebooks");
@@ -72,10 +71,8 @@ internal class BackupTool : ITool
 
                 zip.Save(Path.Combine(_pathManager.BackupsDir,
                     $"Backup_from_{DateTime.Now:yyyy-dd-M--HH-mm-ss}.zip"));
+                status.Step(_localisationService.GetString("Complete"));
             }
         });
-
-        status.Step(_localisationService.GetString("Complete"));
-        status.Finish();
     }
 }
