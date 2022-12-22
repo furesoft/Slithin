@@ -1,9 +1,12 @@
 ﻿using System.Windows.Input;
+using AuroraModularis.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
+using Slithin.Modules.Templates.UI.Commands;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Templates.UI;
 
@@ -17,21 +20,23 @@ internal class TemplatesPageViewModel : BaseViewModel
                                   ILocalisationService localisationService,
                                   TemplatesFilter templatesFilter,
                                   ITemplateStorage templateStorage,
+                                  IDialogService dialogService,
                                   ILoadingService loadingService)
     {
         TemplateFilter = templatesFilter;
         _templateStorage = templateStorage;
         _loadingService = loadingService;
-        /*
-OpenAddModalCommand = new DelegateCommand(_ =>
-{
-DialogService.Open(new AddTemplateModal(),
-new AddTemplateModalViewModel(pathManager, localRepository, localisationService, validator));
-});
 
-RemoveTemplateCommand = new RemoveTemplateCommand(this, localisationService,
-deviceRepository, localRepository);
-*/
+        OpenAddModalCommand = new DelegateCommand(async _ =>
+        {
+            var vm = Container.Current.Resolve<AddTemplateModalViewModel>();
+            if (await dialogService.Show("", new AddTemplateModal() { DataContext = vm }))
+            {
+                vm.AcceptCommand.Execute(vm);
+            }
+        });
+
+        RemoveTemplateCommand = Container.Current.Resolve<RemoveTemplateCommand>();
     }
 
     public ICommand OpenAddModalCommand { get; set; }

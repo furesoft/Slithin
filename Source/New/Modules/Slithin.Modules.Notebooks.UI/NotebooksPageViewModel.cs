@@ -60,16 +60,13 @@ internal class NotebooksPageViewModel : BaseViewModel
         NotebooksFilter = notebooksFilter;
         _loadingService = loadingService;
 
-        /*
         MoveHereCommand = new DelegateCommand(_ =>
         {
-            MetadataStorage.Local.Move(_movingNotebook, NotebooksFilter.Folder);
+            metadataRepository.Move(_movingNotebook, NotebooksFilter.Folder);
             IsMoving = false;
 
-            MetadataStorage.Local.GetMetadata(_movingNotebook.ID).Upload();
-
             NotebooksFilter.Documents.Clear();
-            foreach (var md in MetadataStorage.Local.GetByParent(NotebooksFilter.Folder))
+            foreach (var md in metadataRepository.GetByParent(NotebooksFilter.Folder))
             {
                 NotebooksFilter.Documents.Add(md);
             }
@@ -84,7 +81,6 @@ internal class NotebooksPageViewModel : BaseViewModel
 
             logger.Info($"Moved {_movingNotebook.VisibleName} to {NotebooksFilter.Folder}");
         });
-            */
     }
 
     public ICommand EmptyTrashCommand { get; set; }

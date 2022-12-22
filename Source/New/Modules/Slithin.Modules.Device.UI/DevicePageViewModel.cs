@@ -89,22 +89,6 @@ internal class DevicePageViewModel : BaseViewModel
 
         _pathManager.InitDeviceDirectory();
 
-        /*
-        if (!Directory.GetFiles(_pathManager.TemplatesDir).Any() || !Directory.GetFiles(_pathManager.NotebooksDir).Any())
-        {
-            _mailboxService.PostAction(() =>
-            {
-                NotificationService.Show("Downloading Custom Screens");
-                _device.DownloadCustomScreens();
-
-                _device.GetTemplates();
-
-                InitNotebooks();
-
-                ServiceLocator.Container.Resolve<BackupTool>().Invoke(null);
-            });
-        }*/
-
         InitScreens();
 
         Parallel.ForEach(CustomScreens, (cs) =>

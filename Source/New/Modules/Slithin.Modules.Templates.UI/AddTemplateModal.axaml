@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
+             xmlns:c="using:Slithin.Controls"
+             xmlns:tec="using:Slithin.TemplateEditor"
+             xmlns:ft="using:Slithin.Core.FeatureToggle"
+             xmlns:l="using:Slithin.Core"
+             x:Class="Slithin.Modules.Templates.UI.AddTemplateModal">
+    <Grid ColumnDefinitions="*,50,*" RowDefinitions="40,40,45,35,35,36,35">
+        <TextBox Grid.Column="0" Grid.Row="0" Watermark="{l:Localisation 'Name'}" Text="{Binding Name}" Margin="0,0,0,7" />
+        <c:FileChooser Grid.Column="0" Grid.Row="1" Filename="{Binding Filename, Mode=TwoWay}"
+                       Watermark="{l:Localisation 'Template File'}" IsVisible="{Binding !UseTemplateEditor}" />
+
+        <ListBox MinWidth="150" Margin="0,0,0,4" Grid.Column="2" Grid.RowSpan="4" Grid.Row="0"
+                 Items="{Binding Categories, Mode=TwoWay}"
+                 SelectedItems="{Binding SelectedCategory, Mode=TwoWay}" SelectionMode="Multiple" />
+
+        <c:CommandTextBox Grid.Column="2" Grid.Row="4" CommandText="+" Watermark="{l:Localisation 'New Category'}"
+                          Command="{Binding AddCategoryCommand}" />
+
+        <ComboBox Classes="Filled" Grid.Column="0" Grid.Row="2" MinWidth="150" ToolTip.Tip="{l:Localisation 'IconCode'}"
+                  Margin="0,7,0,0" Items="{Binding IconCodes, Mode=TwoWay}" SelectedItem="{Binding IconCode}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Spacing="3">
+                        <Image Source="{Binding Image}" Width="32" Height="32" />
+                        <TextBlock Text="{Binding Name}" TextAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+
+            <ComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="4" />
+                </ItemsPanelTemplate>
+            </ComboBox.ItemsPanel>
+        </ComboBox>
+
+        <CheckBox Grid.Column="0" Grid.Row="4" Content="{l:Localisation 'Is Landscape'}" IsChecked="{Binding IsLandscape}" />
+    </Grid>
+</UserControl>

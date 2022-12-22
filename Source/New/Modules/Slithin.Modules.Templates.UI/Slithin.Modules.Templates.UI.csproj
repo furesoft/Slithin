@@ -12,10 +12,168 @@
 
   <ItemGroup>
     <None Remove="Resources\Icons.xml" />
+    <None Remove="Resources\IconTiles\e970.png" />
+    <None Remove="Resources\IconTiles\e975.png" />
+    <None Remove="Resources\IconTiles\e976.png" />
+    <None Remove="Resources\IconTiles\e977.png" />
+    <None Remove="Resources\IconTiles\e978.png" />
+    <None Remove="Resources\IconTiles\e979.png" />
+    <None Remove="Resources\IconTiles\e97b.png" />
+    <None Remove="Resources\IconTiles\e982.png" />
+    <None Remove="Resources\IconTiles\e98c.png" />
+    <None Remove="Resources\IconTiles\e98d.png" />
+    <None Remove="Resources\IconTiles\e98e.png" />
+    <None Remove="Resources\IconTiles\e98f.png" />
+    <None Remove="Resources\IconTiles\e990.png" />
+    <None Remove="Resources\IconTiles\e991.png" />
+    <None Remove="Resources\IconTiles\e993.png" />
+    <None Remove="Resources\IconTiles\e994.png" />
+    <None Remove="Resources\IconTiles\e995.png" />
+    <None Remove="Resources\IconTiles\e996.png" />
+    <None Remove="Resources\IconTiles\e997.png" />
+    <None Remove="Resources\IconTiles\e999.png" />
+    <None Remove="Resources\IconTiles\e99a.png" />
+    <None Remove="Resources\IconTiles\e99b.png" />
+    <None Remove="Resources\IconTiles\e99c.png" />
+    <None Remove="Resources\IconTiles\e99d.png" />
+    <None Remove="Resources\IconTiles\e99e.png" />
+    <None Remove="Resources\IconTiles\e99f.png" />
+    <None Remove="Resources\IconTiles\e9a0.png" />
+    <None Remove="Resources\IconTiles\e9a1.png" />
+    <None Remove="Resources\IconTiles\e9a5.png" />
+    <None Remove="Resources\IconTiles\e9a6.png" />
+    <None Remove="Resources\IconTiles\e9a7.png" />
+    <None Remove="Resources\IconTiles\e9a8.png" />
+    <None Remove="Resources\IconTiles\e9a9.png" />
+    <None Remove="Resources\IconTiles\e9aa.png" />
+    <None Remove="Resources\IconTiles\e9ab.png" />
+    <None Remove="Resources\IconTiles\e9ac.png" />
+    <None Remove="Resources\IconTiles\e9ad.png" />
+    <None Remove="Resources\IconTiles\e9b2.png" />
+    <None Remove="Resources\IconTiles\e9b4.png" />
+    <None Remove="Resources\IconTiles\e9b5.png" />
+    <None Remove="Resources\IconTiles\e9b6.png" />
+    <None Remove="Resources\IconTiles\e9b7.png" />
+    <None Remove="Resources\IconTiles\e9b8.png" />
+    <None Remove="Resources\IconTiles\e9b9.png" />
+    <None Remove="Resources\IconTiles\e9ba.png" />
+    <None Remove="Resources\IconTiles\e9bb.png" />
+    <None Remove="Resources\IconTiles\e9bc.png" />
+    <None Remove="Resources\IconTiles\e9c0.png" />
+    <None Remove="Resources\IconTiles\e9c5.png" />
+    <None Remove="Resources\IconTiles\e9c8.png" />
+    <None Remove="Resources\IconTiles\e9c9.png" />
+    <None Remove="Resources\IconTiles\e9ca.png" />
+    <None Remove="Resources\IconTiles\e9cb.png" />
+    <None Remove="Resources\IconTiles\e9cc.png" />
+    <None Remove="Resources\IconTiles\e9cd.png" />
+    <None Remove="Resources\IconTiles\e9ce.png" />
+    <None Remove="Resources\IconTiles\e9cf.png" />
+    <None Remove="Resources\IconTiles\e9d0.png" />
+    <None Remove="Resources\IconTiles\e9d1.png" />
+    <None Remove="Resources\IconTiles\e9d2.png" />
+    <None Remove="Resources\IconTiles\e9d3.png" />
+    <None Remove="Resources\IconTiles\e9d4.png" />
+    <None Remove="Resources\IconTiles\e9d5.png" />
+    <None Remove="Resources\IconTiles\e9d6.png" />
+    <None Remove="Resources\IconTiles\e9d7.png" />
+    <None Remove="Resources\IconTiles\e9d8.png" />
+    <None Remove="Resources\IconTiles\e9d9.png" />
+    <None Remove="Resources\IconTiles\e9da.png" />
+    <None Remove="Resources\IconTiles\e9db.png" />
+    <None Remove="Resources\IconTiles\e9dc.png" />
+    <None Remove="Resources\IconTiles\e9f8.png" />
+    <None Remove="Resources\IconTiles\e9f9.png" />
+    <None Remove="Resources\IconTiles\e9fa.png" />
+    <None Remove="Resources\IconTiles\e9fb.png" />
+    <None Remove="Resources\IconTiles\e9fc.png" />
+    <None Remove="Resources\IconTiles\e9fd.png" />
+    <None Remove="Resources\IconTiles\e9fe.png" />
+    <None Remove="Resources\IconTiles\e9ff.png" />
+    <None Remove="Resources\IconTiles\ea00.png" />
   </ItemGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Resources\Icons.xml" />
+    <AvaloniaResource Include="Resources\IconTiles\e970.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e975.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e976.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e977.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e978.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e979.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e97b.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e982.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e98c.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e98d.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e98e.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e98f.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e990.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e991.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e993.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e994.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e995.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e996.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e997.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e999.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99a.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99b.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99c.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99d.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99e.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e99f.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a0.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a1.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a5.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a6.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a7.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a8.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9a9.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9aa.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ab.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ac.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ad.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b2.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b4.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b5.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b6.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b7.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b8.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9b9.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ba.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9bb.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9bc.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9c0.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9c5.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9c8.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9c9.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ca.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9cb.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9cc.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9cd.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ce.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9cf.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d0.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d1.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d2.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d3.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d4.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d5.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d6.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d7.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d8.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9d9.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9da.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9db.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9dc.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9f8.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9f9.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9fa.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9fb.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9fc.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9fd.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9fe.png" />
+    <AvaloniaResource Include="Resources\IconTiles\e9ff.png" />
+    <AvaloniaResource Include="Resources\IconTiles\ea00.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,13 +187,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
+    <ProjectReference Include="..\..\..\Slithin.Modules.UI\Slithin.Modules.UI.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Sync.Models\Slithin.Modules.Sync.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slitnin.Modules.Cache.Models\Slithin.Modules.Cache.Models.csproj" />
     <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="AddTemplateModal.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
     <Compile Update="TemplatesContextualMenu.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>

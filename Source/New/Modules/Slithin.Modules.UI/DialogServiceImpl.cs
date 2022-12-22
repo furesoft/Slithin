@@ -30,6 +30,11 @@ internal class DialogServiceImpl : IDialogService
 
         Dispatcher.UIThread.InvokeAsync(() =>
         {
+            if (content.DataContext is BaseViewModel dvm)
+            {
+                dvm.Load();
+            }
+
             Models.DialogHost.Open(new ShowDialogModal(), vm);
         });
 

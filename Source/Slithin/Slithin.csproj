@@ -51,7 +51,6 @@
 
    <ItemGroup>
      <AvaloniaResource Include="Resources\**" />
-     <EmbeddedResource Include="Resources\IconTiles\**" />
      <EmbeddedResource Include="Resources\Covers\**" />
    </ItemGroup>
   
@@ -94,8 +93,6 @@
      <None Remove="Resources\Covers\Folder-White.png" />
      <None Remove="Resources\Covers\Folder-Yellow.png" />
      <None Remove="Resources\epub.png" />
-     <None Remove="Resources\pdf.png" />
-     <None Remove="Resources\restore.png" />
    </ItemGroup>
 
    <ItemGroup>

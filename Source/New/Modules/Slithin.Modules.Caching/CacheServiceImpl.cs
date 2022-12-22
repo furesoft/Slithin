@@ -12,6 +12,11 @@ internal class CacheServiceImpl : ICacheService
         _cache.AddOrUpdate(name, obj, (_, _) => obj);
     }
 
+    public bool Contains(string name)
+    {
+        return _cache.ContainsKey(name);
+    }
+
     public T GetObject<T>(string name, Func<T> obj = default)
     {
         if (_cache.ContainsKey(name))

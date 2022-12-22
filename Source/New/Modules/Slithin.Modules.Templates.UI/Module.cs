@@ -1,6 +1,6 @@
 ﻿using AuroraModularis.Core;
 
-namespace Slithin.Modules.Templates;
+namespace Slithin.Modules.Templates.UI;
 
 internal class Module : AuroraModularis.Module
 {

@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.UI.Modals;
+namespace Slithin.Modules.Templates.UI;
 
 public partial class AddTemplateModal : UserControl
 {
