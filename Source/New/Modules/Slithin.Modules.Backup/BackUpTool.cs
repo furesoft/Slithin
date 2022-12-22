@@ -1,8 +1,5 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using Ionic.Zip;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
@@ -24,15 +21,7 @@ internal class BackupTool : ITool
         _notificationService = notificationService;
     }
 
-    public IImage Image
-    {
-        get
-        {
-            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-            return new Bitmap(assets.Open(new Uri("avares://Slithin.Modules.Backup/Resources/backup.png")));
-        }
-    }
+    public IImage Image => this.LoadImage("backup.png");
 
     public ToolInfo Info => new("backup", "Backup", "Internal", _localisationService.GetString("Backup all your files"), true, true);
 
