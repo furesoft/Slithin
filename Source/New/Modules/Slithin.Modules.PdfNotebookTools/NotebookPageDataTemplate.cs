@@ -1,9 +1,9 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
-using Slithin.Models;
+using Slithin.Modules.PdfNotebookTools.Models;
 
-namespace Slithin.UI;
+namespace Slithin.Modules.PdfNotebookTools;
 
 public class NotebookPageDataTemplate : IDataTemplate
 {

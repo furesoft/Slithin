@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using Slithin.ViewModels.Modals.Tools;
+using Slithin.Modules.PdfNotebookTools.ViewModels;
 
-namespace Slithin.UI.Tools;
+namespace Slithin.Modules.PdfNotebookTools.Views;
 
 public partial class CreateNotebookModal : UserControl
 {
@@ -25,7 +24,7 @@ public partial class CreateNotebookModal : UserControl
     private void DragOver(object sender, DragEventArgs e)
     {
         // Only allow Copy or Link as Drop Operations.
-        e.DragEffects &= (DragDropEffects.Copy | DragDropEffects.Link);
+        e.DragEffects &= DragDropEffects.Copy | DragDropEffects.Link;
 
         // Only allow if the dragged data contains text or filenames.
         if (!e.Data.Contains(DataFormats.Text)

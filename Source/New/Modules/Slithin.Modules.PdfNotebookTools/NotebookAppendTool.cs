@@ -1,37 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Avalonia;
+﻿using System.Collections.ObjectModel;
+using AuroraModularis.Core;
 using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
-using Slithin.Core;
-using Slithin.Core.ItemContext;
-using Slithin.Core.Remarkable;
-using Slithin.Models;
-using Slithin.UI.Tools;
-using Slithin.ViewModels.Modals.Tools;
 using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Tools;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.PdfNotebookTools.ViewModels;
+using Slithin.Modules.PdfNotebookTools.Views;
+using Slithin.Modules.Tools.Models;
+using Slithin.Modules.UI.Models;
 
-namespace Slithin.Tools;
+namespace Slithin.Modules.PdfNotebookTools;
 
 [Context(UIContext.Notebook)]
 public class NotebookAppendTool : ITool, IContextProvider
 {
-    public IImage Image
-    {
-        get
-        {
-            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+    private readonly IDialogService _dialogService;
 
-            return new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/pdf_append.png")));
-        }
+    public NotebookAppendTool(IDialogService dialogService)
+    {
+        _dialogService = dialogService;
     }
 
-    public ScriptInfo Info => new("pdf_append", "PDF Appendor", "PDF", "Append Pages To PDF", true, true, false);
+    public IImage Image => this.LoadImage("pdf_append.png");
+
+    public ToolInfo Info => new("pdf_append", "PDF Appendor", "PDF", "Append Pages To PDF", true, true);
     public bool IsConfigurable => false;
     public object ParentViewModel { get; set; }
 
@@ -55,10 +48,10 @@ public class NotebookAppendTool : ITool, IContextProvider
         return null;
     }
 
-    public void Invoke(object data)
+    public async void Invoke(object data)
     {
         var modal = new AppendNotebookModal();
-        var vm = ServiceLocator.Container.Resolve<AppendNotebookModalViewModel>();
+        var vm = Container.Current.Resolve<AppendNotebookModalViewModel>();
 
         if (data is ToolProperties props)
         {
@@ -74,7 +67,10 @@ public class NotebookAppendTool : ITool, IContextProvider
                 vm.ID = md.ID; //Pre select the notebook, if it is executed from contextmenu
             }
 
-            DialogService.Open(modal, vm);
+            if (await _dialogService.Show("", modal))
+            {
+                vm.OKCommand.Execute(null);
+            }
         }
     }
 }

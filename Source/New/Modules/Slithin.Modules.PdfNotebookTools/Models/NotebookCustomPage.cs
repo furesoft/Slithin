@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Slithin.Models;
+namespace Slithin.Modules.PdfNotebookTools.Models;
 
 public class NotebookCustomPage
 {

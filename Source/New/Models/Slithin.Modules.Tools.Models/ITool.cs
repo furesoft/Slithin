@@ -24,6 +24,6 @@ public static class IToolExtensions
     {
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-        return new Bitmap(assets.Open(new Uri($"avares://{tool.GetType().Namespace}/Resources/backup.png")));
+        return new Bitmap(assets.Open(new Uri($"avares://{tool.GetType().Namespace}/Resources/{name}")));
     }
 }

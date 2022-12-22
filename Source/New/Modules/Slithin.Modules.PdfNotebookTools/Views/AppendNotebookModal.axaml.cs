@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.UI.Tools;
+namespace Slithin.Modules.PdfNotebookTools.Views;
 
 public partial class AppendNotebookModal : UserControl
 {

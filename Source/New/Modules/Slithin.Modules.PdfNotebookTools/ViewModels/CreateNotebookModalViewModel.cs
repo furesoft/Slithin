@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Media;
@@ -10,24 +7,27 @@ using Avalonia.Platform;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using Slithin.Core;
 using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Exporting.Rendering;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
-using Slithin.Models;
-using Slithin.Validators;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.Export.Models.Rendering;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.PdfNotebookTools.Models;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
+using Slithin.Modules.UI.Models;
 
-namespace Slithin.ViewModels.Modals.Tools;
+namespace Slithin.Modules.PdfNotebookTools.ViewModels;
 
 public class CreateNotebookModalViewModel : ModalBaseViewModel
 {
     private readonly ILoadingService _loadingService;
+    private readonly ITemplateStorage _templateStorage;
+    private readonly NotebooksFilter _notebooksFilter;
     private readonly ILocalisationService _localisationService;
-    private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
-    private readonly CreateNotebookValidator _validator;
+    private readonly IDialogService _dialogService;
+    private readonly INotificationService _notificationService;
+    private readonly IMetadataRepository _metadataRepository;
     private IImage _cover;
 
     private string _customTemplateFilename;
@@ -40,19 +40,21 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
     private ObservableCollection<Template> _templates = new();
     private string _title;
 
-    public CreateNotebookModalViewModel(IPathManager pathManager,
-        CreateNotebookValidator validator,
-        ILoadingService loadingService,
-        IMailboxService mailboxService,
+    public CreateNotebookModalViewModel(IPathManager pathManager, IDialogService dialogService,
+        INotificationService notificationService, IMetadataRepository metadataRepository,
+        ILoadingService loadingService, ITemplateStorage templateStorage, NotebooksFilter notebooksFilter,
         ILocalisationService localisationService)
     {
         AddPagesCommand = new DelegateCommand(AddPages);
         OKCommand = new DelegateCommand(OK);
 
         _pathManager = pathManager;
-        _validator = validator;
+        _dialogService = dialogService;
+        _notificationService = notificationService;
+        _metadataRepository = metadataRepository;
         _loadingService = loadingService;
-        _mailboxService = mailboxService;
+        _templateStorage = templateStorage;
+        _notebooksFilter = notebooksFilter;
         _localisationService = localisationService;
     }
 
@@ -126,7 +128,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         else
         {
             var strm = GetType().Assembly
-                .GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) +
+                .GetManifestResourceStream("Slithin.Modules.PdfNotebookTools.Resources.Covers." + CoverFilename.Substring("internal:".Length) +
                                            ".png");
             Cover = Bitmap.DecodeToWidth(strm, 150);
         }
@@ -138,37 +140,24 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-        Cover = new Bitmap(assets.Open(new Uri("avares://Slithin/Resources/Covers/Folder-DBlue.png")));
+        Cover = new Bitmap(assets.Open(new Uri("avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/Folder-DBlue.png")));
         CoverFilename = "internal:Folder-DBlue.png";
 
         var coverNames = GetType().Assembly.GetManifestResourceNames()
-            .Where(_ => _.StartsWith("Slithin.Resources.Covers."))
-            .Select(_ => _.Replace(".png", "")["Slithin.Resources.Covers.".Length..]);
+            .Where(_ => _.StartsWith("Slithin.Modules.PdfNotebookTools.Resources.Covers."))
+            .Select(_ => _.Replace(".png", "")["Slithin.Modules.PdfNotebookTools.Resources.Covers.".Length..]);
 
         DefaultCovers = new ObservableCollection<string>(coverNames);
 
-        if (TemplateStorage.Instance.Templates != null)
-        {
-            Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
-            return;
-        }
-
-        _mailboxService.PostAction(() =>
-        {
-            NotificationService.Show(_localisationService.GetString("Loading Templates"));
-
-            _loadingService.LoadTemplates();
-
-            Templates = new ObservableCollection<Template>(TemplateStorage.Instance.Templates);
-        });
+        Templates = new ObservableCollection<Template>(_templateStorage.Templates);
     }
 
-    private void AddPages(object obj)
+    private async void AddPages(object obj)
     {
         if (!int.TryParse(PageCount, out var pcount) ||
             SelectedTemplate == null && string.IsNullOrEmpty(CustomTemplateFilename))
         {
-            DialogService.OpenError(_localisationService.GetString("Page Count must be a number and a template need to be selected"));
+            await _dialogService.Show(_localisationService.GetString("Page Count must be a number and a template need to be selected"));
             return;
         }
 
@@ -188,9 +177,9 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
     private string[] GeneratePageIDS(int count)
     {
-        string[] ids = new string[count];
+        var ids = new string[count];
 
-        for (int i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
             ids[i] = Guid.NewGuid().ToString().ToLower();
         }
@@ -198,17 +187,18 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         return ids;
     }
 
-    private void OK(object obj)
+    private async void OK(object obj)
     {
+        /*
         var validationResult = _validator.Validate(this);
 
         if (!validationResult.IsValid)
         {
             DialogService.OpenError(validationResult.Errors.First().ToString());
             return;
-        }
+        }*/
 
-        _mailboxService.PostAction(() =>
+        await Task.Run(() =>
         {
             var document = new PdfDocument { PageLayout = PdfPageLayout.SinglePage, PageMode = PdfPageMode.FullScreen };
             document.Info.Author = "Slithin";
@@ -230,8 +220,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
                 Parent = "",
                 Content = new ContentFile { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count, Pages = GeneratePageIDS(document.Pages.Count) }
             };
-
-            NotificationService.Show(_localisationService.GetStringFormat("Generating {0}", md.VisibleName));
+            var status = _notificationService.ShowStatus(_localisationService.GetStringFormat("Generating {0}", md.VisibleName));
 
             Stream coverStream = null;
 
@@ -292,18 +281,18 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
                 }
             }
 
-            md.Save();
+            _metadataRepository.SaveToDisk(md);
 
             document.Save(Path.Combine(_pathManager.NotebooksDir, $"\\{md.ID}.pdf"));
 
-            MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
+            _metadataRepository.AddMetadata(md, out var alreadyAdded);
 
-            SyncService.NotebooksFilter.Documents.Add(md);
-            SyncService.NotebooksFilter.SortByFolder();
+            _notebooksFilter.Documents.Add(md);
+            _notebooksFilter.SortByFolder();
+
+            status.Step("Uploading");
 
             Notebook.UploadDocument(md);
         });
-
-        DialogService.Close();
     }
 }

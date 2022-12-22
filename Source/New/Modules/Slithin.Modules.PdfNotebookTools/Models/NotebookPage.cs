@@ -1,7 +1,6 @@
-﻿using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
+﻿using Slithin.Entities.Remarkable;
 
-namespace Slithin.Models;
+namespace Slithin.Modules.PdfNotebookTools.Models;
 
 public class NotebookPage
 {
