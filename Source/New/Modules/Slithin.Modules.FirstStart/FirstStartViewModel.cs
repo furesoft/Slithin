@@ -4,13 +4,14 @@ using Avalonia.Controls;
 using Slithin.Controls.Ports.StepBar;
 using Slithin.Core.MVVM;
 using Slithin.Modules.FirstStart.Steps;
+using Slithin.Modules.FirstStart.ViewModels;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
 
 namespace Slithin.Modules.FirstStart;
 
-public class FirstStartViewModel : BaseViewModel
+internal class FirstStartViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
     private readonly ILoginService _loginService;
@@ -29,12 +30,15 @@ public class FirstStartViewModel : BaseViewModel
         _settingsService = settingsService;
         _loginService = loginService;
         AddStep("Welcome", new WelcomeStep());
-        AddStep("Device", new DeviceStep());
-        AddStep("Settings", new SettingsStep());
+        AddStep("Device", new DeviceStep(), LoginInfoViewModel);
+        AddStep("Settings", new SettingsStep(), SettingsViewModel);
         AddStep("Finish", new FinishStep());
 
         NextCommand = new DelegateCommand(Next);
     }
+
+    public SettingsViewModel SettingsViewModel { get; set; } = new();
+    public LoginInfoViewModel LoginInfoViewModel { get; set; } = new();
 
     public string ButtonText
     {
@@ -63,8 +67,7 @@ public class FirstStartViewModel : BaseViewModel
 
     public void AddStep(string title,
                         UserControl control,
-                        BaseViewModel viewModel = null
-                        )
+                        BaseViewModel viewModel = null)
     {
         control.DataContext = viewModel;
 
@@ -90,12 +93,11 @@ public class FirstStartViewModel : BaseViewModel
         }
         else
         {
-            var settings = _settingsService.GetSettings();
-            settings.IsFirstStart = false;
+            SettingsViewModel.Settings.IsFirstStart = false;
 
-            _settingsService.Save(settings);
+            _settingsService.Save(SettingsViewModel.Settings);
 
-            // _loginService.RememberLoginCredencials(DeviceVM.SelectedLogin);
+            _loginService.RememberLoginCredencials(LoginInfoViewModel.SelectedLogin);
             //_loginService.SetLoginCredential(DeviceVM.SelectedLogin);
 
             RequestClose();

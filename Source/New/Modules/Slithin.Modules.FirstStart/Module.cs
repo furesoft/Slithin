@@ -10,7 +10,7 @@ public class Module : AuroraModularis.Module
         var settingsService = container.Resolve<ISettingsService>();
         var settings = settingsService.GetSettings();
 
-        if (settings.IsFirstStart)
+        if (!settings.IsFirstStart)
         {
             var window = new FirstStartWindow();
             window.Show();

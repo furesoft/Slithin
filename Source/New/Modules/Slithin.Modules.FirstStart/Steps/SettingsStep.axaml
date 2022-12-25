@@ -16,8 +16,8 @@
 
                     <StackPanel Spacing="5" Orientation="Vertical" Margin="10">
                         <StackPanel Spacing="5">
-                            <ToggleSwitch Content="{l:Localisation 'Big Menu Mode'}" IsChecked="{Binding IsBigMenuMode, Mode=TwoWay}" />
-                            <ToggleSwitch IsVisible="{f:FeatureEnabled 'DarkModeFeature'}" Content="{l:Localisation 'Dark Mode'}" IsChecked="{Binding IsDarkMode, Mode=TwoWay}" />
+                            <ToggleSwitch Content="{l:Localisation 'Big Menu Mode'}" IsChecked="{Binding Settings.IsBigMenuMode, Mode=TwoWay}" />
+                            <ToggleSwitch IsVisible="{f:FeatureEnabled 'DarkModeFeature'}" Content="{l:Localisation 'Dark Mode'}" IsChecked="{Binding Settings.IsDarkMode, Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
