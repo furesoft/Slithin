@@ -28,4 +28,10 @@ internal class Module : AuroraModularis.Module
         container.Register<ILoadingService>(new LoadingServiceImpl(container)).AsSingleton();
         container.Register<ITemplateStorage>(new TemplateStorageImpl()).AsSingleton();
     }
+
+    public override void OnExit()
+    {
+        var service = (DatabaseServiceImpl)Container.Current.Resolve<IDatabaseService>();
+        service.db.Dispose();
+    }
 }

@@ -51,12 +51,6 @@ internal class SettingsPageViewModel : BaseViewModel
         set { _settings.AutomaticTemplateRecovery = value; SaveSetting(); }
     }
 
-    public bool AutomaticUpdates
-    {
-        get { return _settings.AutomaticUpdates; }
-        set { _settings.AutomaticUpdates = value; SaveSetting(); }
-    }
-
     public string DeviceName
     {
         get { return _credential.Name; }

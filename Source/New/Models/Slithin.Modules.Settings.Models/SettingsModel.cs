@@ -11,7 +11,6 @@ public class SettingsModel : NotifyObject
 
     public bool AutomaticScreenRecovery { get; set; }
     public bool AutomaticTemplateRecovery { get; set; }
-    public bool AutomaticUpdates { get; set; } = true;
     public Dictionary<string, object> CustomSettings { get; set; } = new();
 
     public bool IsBigMenuMode

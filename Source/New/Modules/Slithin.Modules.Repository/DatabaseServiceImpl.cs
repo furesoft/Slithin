@@ -6,9 +6,8 @@ namespace Slithin.Modules.Repository;
 
 internal class DatabaseServiceImpl : IDatabaseService
 {
+    internal LiteDatabase db;
     private Container _container;
-
-    private LiteDatabase db;
 
     public DatabaseServiceImpl(Container container)
     {
