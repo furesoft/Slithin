@@ -6,6 +6,6 @@ public interface ILocalisationService
 
     public string GetStringFormat(string key, params object[] args)
     {
-        return string.Format(key, args);
+        return string.Format(GetString(key), args);
     }
 }
