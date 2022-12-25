@@ -7,12 +7,11 @@ public class DatabaseAccessor
     public DatabaseAccessor(LiteDatabase dB)
     {
         DB = dB;
-        DB.BeginTrans();
     }
 
     ~DatabaseAccessor()
     {
-        DB.Commit();
+        DB.Checkpoint();
     }
 
     public LiteDatabase DB { get; set; }
