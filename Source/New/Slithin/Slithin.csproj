@@ -86,11 +86,11 @@
     <ProjectReference Include="..\Modules\Slithin.Modules.FirstStart\Slithin.Modules.FirstStart.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Logging\Slithin.Modules.Logging.csproj" />
-    <ProjectReference Include="..\Modules\Slithin.Modules.MarketplaceIntegration\Slithin.Modules.MarketplaceIntegration.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Menu\Slithin.Modules.Menu.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Notebooks.UI\Slithin.Modules.Notebooks.UI.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.PdfNotebookTools\Slithin.Modules.PdfNotebookTools.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Resources.UI\Slithin.Modules.Resources.UI.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Settings\Slithin.Modules.Settings.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Sync\Slithin.Modules.Sync.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Templates.UI\Slithin.Modules.Templates.UI.csproj" />

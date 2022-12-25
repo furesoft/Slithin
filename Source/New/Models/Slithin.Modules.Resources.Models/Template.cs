@@ -1,0 +1,12 @@
+﻿namespace Slithin.Modules.Resources.Models;
+
+public sealed class Template : AssetModel
+{
+    public string[] Categories { get; set; }
+    public string Creator { get; set; }
+    public string Filename { get; set; }
+    public string IconCode { get; set; }
+    public bool IsLandscape { get; set; }
+    public string Name { get; set; }
+    public string SvgFileID { get; set; }
+}

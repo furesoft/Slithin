@@ -12,9 +12,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Libraries\Slithin.API.Lib\Slithin.API.Lib.csproj" />
-    <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
-  </ItemGroup>
-
 </Project>

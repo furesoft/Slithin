@@ -71,15 +71,6 @@
      <Compile Update="UI\Modals\ExportModal.axaml.cs">
        <DependentUpon>ExportModal.axaml</DependentUpon>
      </Compile>
-     <Compile Update="UI\ResourcesPage\RegisterFramePage.axaml.cs">
-       <DependentUpon>RegisterFramePage.axaml</DependentUpon>
-     </Compile>
-     <Compile Update="UI\Modals\LoginModal.axaml.cs">
-       <DependentUpon>LoginModal.axaml</DependentUpon>
-     </Compile>
-     <Compile Update="UI\Pages\ResourcesPage.axaml.cs">
-       <DependentUpon>ResourcesPage.axaml</DependentUpon>
-     </Compile>
    </ItemGroup>
    
    <ItemGroup>
@@ -89,8 +80,6 @@
   </ItemGroup>
    
    <ItemGroup>
-     <ProjectReference Include="..\Libraries\Slithin.API.Lib\Slithin.API.Lib.csproj" />
-     <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
      <ProjectReference Include="..\New\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj" />
      <ProjectReference Include="..\New\Models\Slithin.Modules.Tools.Models\Slithin.Modules.Tools.Models.csproj" />
      <ProjectReference Include="..\Slithin.Controls\Slithin.Controls.csproj" />
