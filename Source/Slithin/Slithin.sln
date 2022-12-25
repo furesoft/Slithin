@@ -115,7 +115,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Export.Mode
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Export", "..\New\Modules\Slithin.Modules.Export\Slithin.Modules.Export.csproj", "{0721AC14-03EC-40DF-9C21-72B9ABD96337}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.FirstStart", "..\New\Modules\Slithin.Modules.FirstStart\Slithin.Modules.FirstStart.csproj", "{30297E59-AC9A-48EB-9910-B90CE9C10896}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.FirstStart", "..\New\Modules\Slithin.Modules.FirstStart\Slithin.Modules.FirstStart.csproj", "{30297E59-AC9A-48EB-9910-B90CE9C10896}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Logging", "..\New\Modules\Slithin.Modules.Logging\Slithin.Modules.Logging.csproj", "{B4EC2748-205A-4D69-A276-73CEC9762473}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1273,6 +1275,30 @@ Global
 		{30297E59-AC9A-48EB-9910-B90CE9C10896}.Release|x64.Build.0 = Release|Any CPU
 		{30297E59-AC9A-48EB-9910-B90CE9C10896}.Release|x86.ActiveCfg = Release|Any CPU
 		{30297E59-AC9A-48EB-9910-B90CE9C10896}.Release|x86.Build.0 = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|x64.Build.0 = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Debug|x86.Build.0 = Debug|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|ARM.Build.0 = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|ARM32.Build.0 = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|ARM64.Build.0 = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|x64.ActiveCfg = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|x64.Build.0 = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|x86.ActiveCfg = Release|Any CPU
+		{B4EC2748-205A-4D69-A276-73CEC9762473}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1330,6 +1356,7 @@ Global
 		{8D478E56-3F0D-49B7-8520-92040CF0D792} = {B45E51FF-56E7-4204-8A26-2AF63A270E60}
 		{0721AC14-03EC-40DF-9C21-72B9ABD96337} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
 		{30297E59-AC9A-48EB-9910-B90CE9C10896} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
+		{B4EC2748-205A-4D69-A276-73CEC9762473} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AEF28834-827B-4DA8-AC92-207A90616579}

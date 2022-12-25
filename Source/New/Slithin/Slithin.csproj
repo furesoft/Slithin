@@ -40,7 +40,6 @@
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.18" />
     <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.18" />
-    <PackageReference Include="AuroraModularis.Modules.Logging.SeriLog" Version="1.0.18" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
@@ -85,6 +84,7 @@
     <ProjectReference Include="..\Modules\Slithin.Modules.Events\Slithin.Modules.Events.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.FirstStart\Slithin.Modules.FirstStart.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Logging\Slithin.Modules.Logging.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.MarketplaceIntegration\Slithin.Modules.MarketplaceIntegration.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Menu\Slithin.Modules.Menu.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Notebooks.UI\Slithin.Modules.Notebooks.UI.csproj" />
