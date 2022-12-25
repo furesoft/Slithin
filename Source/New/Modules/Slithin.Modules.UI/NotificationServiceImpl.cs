@@ -17,9 +17,9 @@ internal class NotificationServiceImpl : INotificationService
         _notificationManager.Show(new Notification("", message));
     }
 
-    public IStatusController ShowStatus(string message)
+    public IStatusController ShowStatus(string message, bool showInNewWindow = false)
     {
-        var controller = new StatusController();
+        var controller = new StatusController(showInNewWindow);
         controller.Step(message);
 
         return controller;

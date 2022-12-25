@@ -8,5 +8,5 @@ public interface INotificationService
 
     void Show(string message);
 
-    IStatusController ShowStatus(string message);
+    IStatusController ShowStatus(string message, bool showInNewWindow = false);
 }
