@@ -94,13 +94,15 @@ internal class FirstStartViewModel : BaseViewModel
         else
         {
             SettingsViewModel.Settings.IsFirstStart = false;
+            SettingsViewModel.Settings._id = _settingsService.GetSettings()._id;
 
             _settingsService.Save(SettingsViewModel.Settings);
 
             _loginService.RememberLoginCredencials(LoginInfoViewModel.SelectedLogin);
             //_loginService.SetLoginCredential(DeviceVM.SelectedLogin);
 
-            RequestClose();
+            System.Diagnostics.Process.Start(Environment.ProcessPath);
+            Environment.Exit(0);
         }
     }
 }

@@ -19,7 +19,7 @@
 
                     <TextBox Grid.Column="0" UseFloatingWatermark="True" wpf:TextFieldAssist.Label="{l:Localisation 'IP Address'}" Grid.Row="1" Margin="0,3,0,3" Text="{Binding SelectedLogin.IP, Mode=TwoWay}" />
 
-                    <TextBox Grid.Column="2" UseFloatingWatermark="True" Grid.Row="0" Text="{Binding SelectedLogin.Password, Mode=TwoWay}"
+                    <TextBox Grid.Column="2" Grid.Row="1" UseFloatingWatermark="True" Text="{Binding SelectedLogin.Password, Mode=TwoWay}"
                                                      wpf:TextFieldAssist.Label="{l:Localisation 'Password'}" PasswordChar="*" />
                 </Grid>
             </StackPanel>
