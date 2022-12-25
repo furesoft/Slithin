@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using Slithin.Models.Events;
+using Slithin.Modules.Events.Models;
 
-namespace Slithin.Modules.I18N;
+namespace Slithin.Modules.Events;
 
 internal class EventServiceImpl : IEventService
 {

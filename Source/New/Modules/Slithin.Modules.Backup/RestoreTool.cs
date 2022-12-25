@@ -5,6 +5,8 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Ionic.Zip;
+using Slithin.Modules.Backup.Models;
+using Slithin.Modules.Backup.ViewModels;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Tools.Models;
@@ -56,9 +58,9 @@ internal class RestoreTool : ITool
     {
         var vm = new SelectBackupViewModel
         {
-            Backups = new ObservableCollection<Backup>(Directory.GetFiles(_pathManager.BackupsDir, "*.zip")
+            Backups = new ObservableCollection<BackupModel>(Directory.GetFiles(_pathManager.BackupsDir, "*.zip")
                 .Except(Directory.GetFiles(_pathManager.BackupsDir, "*.notebook.zip"))
-                .Select(_ => new Backup(Path.GetFileNameWithoutExtension(_).Replace("Backup_from_", ""), _)))
+                .Select(_ => new BackupModel(Path.GetFileNameWithoutExtension(_).Replace("Backup_from_", ""), _)))
         };
 
         var result = await _dialogService.Show("Select Backup", new SelectBackupModal { DataContext = vm });

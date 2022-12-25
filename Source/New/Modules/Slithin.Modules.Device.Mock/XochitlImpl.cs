@@ -5,7 +5,7 @@ using IniParser.Model;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 
-namespace Slithin.Modules.Device;
+namespace Slithin.Modules.Device.Mock;
 
 internal class XochitlImpl : IXochitlService
 {

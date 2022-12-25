@@ -2,7 +2,7 @@
 using Slithin.Core.MVVM;
 using Slithin.Modules.Tools.Models;
 
-namespace Slithin.Core.Sync;
+namespace Slithin.Modules.Tools.UI.Models;
 
 internal class ToolsFilter : NotifyObject
 {

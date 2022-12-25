@@ -1,10 +1,9 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Threading;
 using Slithin.Core.MVVM;
-using Slithin.Modules.UI;
 using Slithin.Modules.UI.Models;
 
-namespace Slithin.Modules.Notifications;
+namespace Slithin.Modules.UI;
 
 internal class StatusController : IStatusController
 {
@@ -32,7 +31,7 @@ internal class StatusController : IStatusController
             }
             else
             {
-                UI.Models.DialogHost.Open(modal);
+                Models.DialogHost.Open(modal);
             }
         });
         _showInNewWindow = showInNewWindow;
@@ -55,7 +54,7 @@ internal class StatusController : IStatusController
                 return;
             }
 
-            UI.Models.DialogHost.Close();
+            Models.DialogHost.Close();
         }
         );
     }

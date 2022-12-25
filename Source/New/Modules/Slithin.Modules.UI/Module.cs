@@ -1,9 +1,7 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Modules.Notifications;
-using Slithin.Modules.UI;
 using Slithin.Modules.UI.Models;
 
-namespace Slithin.Modules.Menu;
+namespace Slithin.Modules.UI;
 
 internal class Module : AuroraModularis.Module
 {

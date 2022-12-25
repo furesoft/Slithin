@@ -8,7 +8,7 @@ using Slithin.Modules.Notebooks.UI.Commands;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 
-namespace Slithin.Modules.Notebooks.UI;
+namespace Slithin.Modules.Notebooks.UI.ViewModels;
 
 internal class NotebooksPageViewModel : BaseViewModel
 {

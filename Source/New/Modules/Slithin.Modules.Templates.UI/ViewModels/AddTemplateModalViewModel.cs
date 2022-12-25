@@ -13,7 +13,7 @@ using Slithin.Modules.Sync.Models;
 using Slithin.Modules.Templates.UI.Models;
 using Slithin.Modules.UI.Models;
 
-namespace Slithin.Modules.Templates.UI;
+namespace Slithin.Modules.Templates.UI.ViewModels;
 
 public class AddTemplateModalViewModel : ModalBaseViewModel
 {

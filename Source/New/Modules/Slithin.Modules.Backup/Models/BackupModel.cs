@@ -1,8 +1,8 @@
-﻿namespace Slithin.Modules.Backup;
+﻿namespace Slithin.Modules.Backup.Models;
 
-internal class Backup
+internal class BackupModel
 {
-    public Backup(string name, string filename)
+    public BackupModel(string name, string filename)
     {
         Name = name;
         Filename = filename;

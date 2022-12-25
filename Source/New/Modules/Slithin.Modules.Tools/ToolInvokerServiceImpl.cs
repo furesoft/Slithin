@@ -1,6 +1,7 @@
-﻿using Slithin.Modules.Tools.Models;
+﻿using Slithin.Core;
+using Slithin.Modules.Tools.Models;
 
-namespace Slithin.Core.Tools;
+namespace Slithin.Modules.Tools;
 
 internal class ToolInvokerServiceImpl : IToolInvokerService
 {

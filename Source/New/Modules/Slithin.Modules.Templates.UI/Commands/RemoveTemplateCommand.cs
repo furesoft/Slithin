@@ -5,6 +5,7 @@ using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
+using Slithin.Modules.Templates.UI.ViewModels;
 using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Templates.UI.Commands;

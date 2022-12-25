@@ -1,4 +1,4 @@
-﻿namespace Slithin.Modules.Device;
+﻿namespace Slithin.Modules.Device.Models;
 
 public class CustomIniSerializer
 {

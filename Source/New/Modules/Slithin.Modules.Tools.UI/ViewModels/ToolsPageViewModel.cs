@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Slithin.Core.MVVM;
-using Slithin.Core.Sync;
 using Slithin.Modules.Tools.Models;
+using Slithin.Modules.Tools.UI.Models;
 
-namespace Slithin.Modules.Tools.UI;
+namespace Slithin.Modules.Tools.UI.ViewModels;
 
 internal class ToolsPageViewModel : BaseViewModel
 {

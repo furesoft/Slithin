@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls.Notifications;
 using Slithin.Modules.UI.Models;
 
-namespace Slithin.Modules.Notifications;
+namespace Slithin.Modules.UI;
 
 internal class NotificationServiceImpl : INotificationService
 {

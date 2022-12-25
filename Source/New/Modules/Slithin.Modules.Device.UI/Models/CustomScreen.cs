@@ -8,7 +8,7 @@ using Slithin.Core.MVVM;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 
-namespace Slithin.Modules.Device.UI;
+namespace Slithin.Modules.Device.UI.Models;
 
 internal class CustomScreen : NotifyObject
 {

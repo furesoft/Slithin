@@ -1,7 +1,7 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Models.Events;
+using Slithin.Modules.Events.Models;
 
-namespace Slithin.Modules.I18N;
+namespace Slithin.Modules.Events;
 
 [Priority(ModulePriority.High)]
 internal class Module : AuroraModularis.Module

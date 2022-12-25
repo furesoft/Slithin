@@ -7,7 +7,7 @@ using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
-using Slithin.Models.Events;
+using Slithin.Modules.Events.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Repository.Models;

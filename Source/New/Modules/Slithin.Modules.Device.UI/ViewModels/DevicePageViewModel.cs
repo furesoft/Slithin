@@ -3,13 +3,14 @@ using System.Windows.Input;
 using AuroraModularis.Logging.Models;
 using Slithin.Core.MVVM;
 using Slithin.Modules.Device.Models;
+using Slithin.Modules.Device.UI.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.UI.Models;
 
-namespace Slithin.Modules.Device.UI;
+namespace Slithin.Modules.Device.UI.ViewModels;
 
 internal class DevicePageViewModel : BaseViewModel
 {

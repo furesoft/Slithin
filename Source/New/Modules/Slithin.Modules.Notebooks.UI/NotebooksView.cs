@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Notebooks.UI.ViewModels;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 

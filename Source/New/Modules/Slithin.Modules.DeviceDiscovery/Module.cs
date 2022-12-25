@@ -1,8 +1,7 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Modules.DeviceDiscovery;
 using Slithin.Modules.DeviceDiscovery.Models;
 
-namespace Slithin.Modules.Diagnostics.Sentry;
+namespace Slithin.Modules.DeviceDiscovery;
 
 internal class Module : AuroraModularis.Module
 {

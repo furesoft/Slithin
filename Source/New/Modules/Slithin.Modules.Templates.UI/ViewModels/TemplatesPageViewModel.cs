@@ -8,7 +8,7 @@ using Slithin.Modules.Sync.Models;
 using Slithin.Modules.Templates.UI.Commands;
 using Slithin.Modules.UI.Models;
 
-namespace Slithin.Modules.Templates.UI;
+namespace Slithin.Modules.Templates.UI.ViewModels;
 
 internal class TemplatesPageViewModel : BaseViewModel
 {

@@ -1,8 +1,7 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Core.Tools;
 using Slithin.Modules.Tools.Models;
 
-namespace Slithin.Modules.Settings;
+namespace Slithin.Modules.Tools;
 
 internal class Module : AuroraModularis.Module
 {

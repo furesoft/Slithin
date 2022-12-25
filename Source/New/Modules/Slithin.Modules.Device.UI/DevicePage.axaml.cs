@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Slithin.Modules.Device.UI.ViewModels;
 using Slithin.Modules.Menu.Models.Menu;
 
 namespace Slithin.Modules.Device.UI;
