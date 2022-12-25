@@ -2,13 +2,13 @@
 using System.Windows.Input;
 using Avalonia.Controls;
 using Slithin.Controls.Ports.StepBar;
-using Slithin.Core;
 using Slithin.Core.MVVM;
-using Slithin.Core.Services;
-using Slithin.UI.FirstStartSteps;
-using Slithin.ViewModels.Pages;
+using Slithin.Modules.FirstStart.Steps;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Settings.Models;
 
-namespace Slithin.ViewModels;
+namespace Slithin.Modules.FirstStart;
 
 public class FirstStartViewModel : BaseViewModel
 {
@@ -20,21 +20,17 @@ public class FirstStartViewModel : BaseViewModel
 
     public FirstStartViewModel(
         ILocalisationService localisationService,
-        AddDeviceWindowViewModel deviceVm,
-        SettingsPageViewModel settingsVm,
         ISettingsService settingsService,
         ILoginService loginService)
     {
         ButtonText = localisationService.GetString("Next");
         _localisationService = localisationService;
 
-        DeviceVM = deviceVm;
-        SettingsVM = settingsVm;
         _settingsService = settingsService;
         _loginService = loginService;
         AddStep("Welcome", new WelcomeStep());
-        AddStep("Device", new DeviceStep(), DeviceVM);
-        AddStep("Settings", new SettingsStep(), SettingsVM);
+        AddStep("Device", new DeviceStep());
+        AddStep("Settings", new SettingsStep());
         AddStep("Finish", new FinishStep());
 
         NextCommand = new DelegateCommand(Next);
@@ -45,8 +41,6 @@ public class FirstStartViewModel : BaseViewModel
         get { return _buttonText; }
         set { SetValue(ref _buttonText, value); }
     }
-
-    public AddDeviceWindowViewModel DeviceVM { get; set; }
 
     public int Index
     {
@@ -63,7 +57,6 @@ public class FirstStartViewModel : BaseViewModel
     }
 
     public ICommand NextCommand { get; set; }
-    public SettingsPageViewModel SettingsVM { get; set; }
     public ObservableCollection<UserControl> StepControls { get; set; } = new();
 
     public ObservableCollection<StepBarItem> StepTitles { get; set; } = new();
@@ -75,7 +68,11 @@ public class FirstStartViewModel : BaseViewModel
     {
         control.DataContext = viewModel;
 
-        StepTitles.Add(new StepBarItem() { Content = _localisationService.GetString(title), VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top });
+        StepTitles.Add(new StepBarItem()
+        {
+            Content = _localisationService.GetString(title),
+            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top
+        });
         StepControls.Add(control);
     }
 
@@ -93,20 +90,15 @@ public class FirstStartViewModel : BaseViewModel
         }
         else
         {
-            RequestClose();
-
-            var connectViewModel = ServiceLocator.Container.Resolve<ConnectionWindowViewModel>();
-
             var settings = _settingsService.GetSettings();
             settings.IsFirstStart = false;
 
             _settingsService.Save(settings);
 
-            _loginService.RememberLoginCredencials(DeviceVM.SelectedLogin);
-            _loginService.SetLoginCredential(DeviceVM.SelectedLogin);
+            // _loginService.RememberLoginCredencials(DeviceVM.SelectedLogin);
+            //_loginService.SetLoginCredential(DeviceVM.SelectedLogin);
 
-            connectViewModel.SelectedLogin = DeviceVM.SelectedLogin;
-            connectViewModel.ConnectCommand.Execute(null);
+            RequestClose();
         }
     }
 }

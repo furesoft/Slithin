@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Generators;
@@ -64,6 +62,8 @@ public class StepBar : ItemsControl
 
         ItemContainerGenerator.Materialized += ItemContainerGenerator_StatusChanged;
         StepIndexProperty.Changed.AddClassHandler<StepBar>((o, e) => OnStepIndexChanged(o, e));
+
+        Items = new List<object>();
     }
 
     /// <summary>
@@ -184,7 +184,13 @@ public class StepBar : ItemsControl
     private static int CoerceStepIndex(IAvaloniaObject ctrl, int stepIndex)
     {
         StepBar stepBar = ctrl as StepBar;
-        int itemsCount = stepBar.Items.OfType<object>().Count();
+
+        if (stepBar.Items == null)
+        {
+            return 0;
+        }
+
+        int itemsCount = stepBar.Items.OfType<StepBarItem>().Count();
 
         if (itemsCount == 0 && stepIndex > 0)
         {

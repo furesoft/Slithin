@@ -1,10 +1,9 @@
-﻿using Avalonia;
+﻿using AuroraModularis.Core;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Slithin.Core;
-using Slithin.ViewModels;
 
-namespace Slithin.UI.Views;
+namespace Slithin.Modules.FirstStart;
 
 public partial class FirstStartWindow : Window
 {
@@ -18,13 +17,9 @@ public partial class FirstStartWindow : Window
 
     private void InitializeComponent()
     {
-        ServiceLocator.Init();
-
-        ServiceLocator.Container.Resolve<LogInitalizer>().Init();
-
         AvaloniaXamlLoader.Load(this);
 
-        var vm = ServiceLocator.Container.Resolve<FirstStartViewModel>();
+        var vm = Container.Current.Resolve<FirstStartViewModel>();
         vm.Load();
 
         vm.OnRequestClose += () => Close();

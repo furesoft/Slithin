@@ -1,11 +1,11 @@
-﻿using Avalonia.Controls;
+using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.UI.FirstStartSteps;
-
-public partial class SettingsStep : UserControl
+namespace Slithin.Modules.FirstStart.Steps;
+public partial class FinishStep : UserControl
 {
-    public SettingsStep()
+    public FinishStep()
     {
         InitializeComponent();
     }

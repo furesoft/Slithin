@@ -8,7 +8,7 @@
              xmlns:l="using:Slithin.Core"
              xmlns:c="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
-             x:Class="Slithin.UI.FirstStartSteps.DeviceStep">
+             x:Class="Slithin.Modules.FirstStart.Steps.DeviceStep">
     <Grid Height="400" Width="450">
         <Border HorizontalAlignment="Center" VerticalAlignment="Center" Classes="card" Height="200" Width="350">
             <StackPanel Spacing="1" Margin="7">
@@ -19,11 +19,8 @@
 
                     <TextBox Grid.Column="0" UseFloatingWatermark="True" wpf:TextFieldAssist.Label="{l:Localisation 'IP Address'}" Grid.Row="1" Margin="0,3,0,3" Text="{Binding SelectedLogin.IP, Mode=TwoWay}" />
 
-                    <CheckBox Content="Use SSH Key" Grid.Row="1" Grid.Column="2" x:Name="useSshKey" VerticalAlignment="Center" />
-                    <TextBox Grid.Column="2" IsVisible="{Binding !#useSshKey.IsChecked}" UseFloatingWatermark="True" Grid.Row="0" Text="{Binding SelectedLogin.Password, Mode=TwoWay}"
+                    <TextBox Grid.Column="2" UseFloatingWatermark="True" Grid.Row="0" Text="{Binding SelectedLogin.Password, Mode=TwoWay}"
                                                      wpf:TextFieldAssist.Label="{l:Localisation 'Password'}" PasswordChar="*" />
-
-                    <c:FileChooser IsVisible="{Binding #useSshKey.IsChecked}" Filename="{Binding SshKeyFilename, Mode=TwoWay}" Grid.Row="0" Grid.Column="2" Watermark="SSH Key File" />
                 </Grid>
             </StackPanel>
         </Border>

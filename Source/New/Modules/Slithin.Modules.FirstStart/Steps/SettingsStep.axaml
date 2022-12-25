@@ -7,7 +7,7 @@
              xmlns:l="using:Slithin.Core"
              xmlns:c="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.UI.FirstStartSteps.SettingsStep">
+             x:Class="Slithin.Modules.FirstStart.Steps.SettingsStep">
     <Grid Height="400" Width="450">
         <Border HorizontalAlignment="Center" VerticalAlignment="Center" Classes="card" Height="200" Width="350">
             <Grid Margin="5">
@@ -15,8 +15,6 @@
                     <TextBlock Classes="cardHeader" Text="{l:Localisation 'Settings'}" />
 
                     <StackPanel Spacing="5" Orientation="Vertical" Margin="10">
-                        <ToggleSwitch Content="{l:Localisation 'Automatic Updates'}" IsChecked="{Binding AutomaticUpdates, Mode=TwoWay}" />
-
                         <StackPanel Spacing="5">
                             <ToggleSwitch Content="{l:Localisation 'Big Menu Mode'}" IsChecked="{Binding IsBigMenuMode, Mode=TwoWay}" />
                             <ToggleSwitch IsVisible="{f:FeatureEnabled 'DarkModeFeature'}" Content="{l:Localisation 'Dark Mode'}" IsChecked="{Binding IsDarkMode, Mode=TwoWay}" />

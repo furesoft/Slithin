@@ -1,7 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using AuroraModularis.Core;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Modules.FirstStart.ViewModels;
 
-namespace Slithin.UI.FirstStartSteps;
+namespace Slithin.Modules.FirstStart.Steps;
 
 public partial class DeviceStep : UserControl
 {
@@ -13,5 +15,7 @@ public partial class DeviceStep : UserControl
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+
+        DataContext = Container.Current.Resolve<DeviceStepViewModel>();
     }
 }

@@ -95,6 +95,7 @@
     <ProjectReference Include="..\Modules\Slithin.Modules.DeviceDiscovery\Slithin.Modules.DeviceDiscovery.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Diagnostics.Sentry\Slithin.Modules.Diagnostics.Sentry.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Events\Slithin.Modules.Events.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.FirstStart\Slithin.Modules.FirstStart.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.MarketplaceIntegration\Slithin.Modules.MarketplaceIntegration.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Menu\Slithin.Modules.Menu.csproj" />

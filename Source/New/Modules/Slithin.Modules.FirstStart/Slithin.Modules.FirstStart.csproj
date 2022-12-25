@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\Icon.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <LinuxPath>/usr/share/icons/hicolor/48x48/apps/Slithin.png</LinuxPath>
+    </AvaloniaResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AuroraModularis" Version="1.0.18" />
+    <PackageReference Include="Avalonia" Version="0.10.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.DeviceDiscovery.Models\Slithin.Modules.DeviceDiscovery.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Settings.Models\Slithin.Modules.Settings.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Steps\DeviceStep.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Steps\FinishStep.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Steps\SettingsStep.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Steps\WelcomeStep.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="FirstStartWindow.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Steps\DeviceStep.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Steps\FinishStep.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Steps\SettingsStep.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Steps\WelcomeStep.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="FirstStartWindow.axaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -2,10 +2,10 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.UI.FirstStartSteps;
-public partial class FinishStep : UserControl
+namespace Slithin.Modules.FirstStart.Steps;
+public partial class WelcomeStep : UserControl
 {
-    public FinishStep()
+    public WelcomeStep()
     {
         InitializeComponent();
     }
