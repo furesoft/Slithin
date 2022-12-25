@@ -127,9 +127,9 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         }
         else
         {
-            var strm = GetType().Assembly
-                .GetManifestResourceStream("Slithin.Modules.PdfNotebookTools.Resources.Covers." + CoverFilename.Substring("internal:".Length) +
-                                           ".png");
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+
+            var strm = assets.Open(new Uri($"avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/Folder-{CoverFilename.Substring("internal:".Length)}.png"));
             Cover = Bitmap.DecodeToWidth(strm, 150);
         }
     }
@@ -143,9 +143,8 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         Cover = new Bitmap(assets.Open(new Uri("avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/Folder-DBlue.png")));
         CoverFilename = "internal:Folder-DBlue.png";
 
-        var coverNames = GetType().Assembly.GetManifestResourceNames()
-            .Where(_ => _.StartsWith("Slithin.Modules.PdfNotebookTools.Resources.Covers."))
-            .Select(_ => _.Replace(".png", "")["Slithin.Modules.PdfNotebookTools.Resources.Covers.".Length..]);
+        var coverNames = assets.GetAssets(new Uri("avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/"), null)
+                                        .Select(_ => Path.GetFileNameWithoutExtension(_.ToString()).Substring(7));
 
         DefaultCovers = new ObservableCollection<string>(coverNames);
 
@@ -230,14 +229,12 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             }
             else
             {
-                coverStream = GetType().Assembly
-                    .GetManifestResourceStream("Slithin.Resources.Covers." + CoverFilename.Substring("internal:".Length) +
-                                               ".png");
+                coverStream = assets.Open(new Uri($"avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/Folder-{CoverFilename.Substring("internal:".Length)}.png"));
             }
 
             if (coverStream == null)
             {
-                coverStream = GetType().Assembly.GetManifestResourceStream("Slithin.Resources.Cover.png");
+                coverStream = assets.Open(new Uri("avares://Slithin.Modules.PdfNotebookTools/Resources/Cover.png"));
             }
 
             var coverStreamCached = delegate () { return coverStream; };
