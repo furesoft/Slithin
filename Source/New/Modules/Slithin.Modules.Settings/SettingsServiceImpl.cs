@@ -33,16 +33,6 @@ internal class SettingsServiceImpl : ISettingsService
         var db = databaseService.GetDatabase();
         var collection = db.DB.GetCollection<SettingsModel>();
 
-        if (collection.Count() == 1)
-        {
-            var old = collection.Query().First();
-            settings._id = old._id;
-
-            collection.Update(settings);
-        }
-        else
-        {
-            collection.Insert(settings);
-        }
+        collection.Upsert(settings);
     }
 }
