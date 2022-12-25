@@ -62,7 +62,10 @@ internal class StatusController : IStatusController
 
     public void Step(string message)
     {
-        _viewModel.Message = message;
+        Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            _viewModel.Message = message;
+        });
     }
 
     public class StatusViewModel : NotifyObject
