@@ -17,11 +17,11 @@ internal class SettingsServiceImpl : ISettingsService
     {
         var databaseService = _container.Resolve<IDatabaseService>();
         var db = databaseService.GetDatabase();
-        var collection = db.DB.GetCollection<SettingsModel>();
+        var query = db.Query<SettingsModel>();
 
-        if (collection.Count() == 1)
+        if (query.Count() == 1)
         {
-            return collection.Query().First();
+            return query.First();
         }
 
         return new SettingsModel();
@@ -31,8 +31,7 @@ internal class SettingsServiceImpl : ISettingsService
     {
         var databaseService = _container.Resolve<IDatabaseService>();
         var db = databaseService.GetDatabase();
-        var collection = db.DB.GetCollection<SettingsModel>();
 
-        collection.Upsert(settings);
+        db.Upsert(settings);
     }
 }
