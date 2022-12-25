@@ -24,4 +24,10 @@
     <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="loading_animation.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
