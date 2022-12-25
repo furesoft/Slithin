@@ -14,6 +14,7 @@ namespace Slithin.Modules.FirstStart;
 internal class FirstStartViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
+    private readonly IPathManager _pathManager;
     private readonly ILoginService _loginService;
     private readonly ISettingsService _settingsService;
     private string _buttonText;
@@ -21,14 +22,16 @@ internal class FirstStartViewModel : BaseViewModel
 
     public FirstStartViewModel(
         ILocalisationService localisationService,
+        IPathManager pathManager,
         ISettingsService settingsService,
         ILoginService loginService)
     {
         ButtonText = localisationService.GetString("Next");
         _localisationService = localisationService;
-
+        _pathManager = pathManager;
         _settingsService = settingsService;
         _loginService = loginService;
+
         AddStep("Welcome", new WelcomeStep());
         AddStep("Device", new DeviceStep(), LoginInfoViewModel);
         AddStep("Settings", new SettingsStep(), SettingsViewModel);
@@ -100,6 +103,9 @@ internal class FirstStartViewModel : BaseViewModel
 
             _loginService.RememberLoginCredencials(LoginInfoViewModel.SelectedLogin);
             //_loginService.SetLoginCredential(DeviceVM.SelectedLogin);
+
+            _pathManager.ReLink(LoginInfoViewModel.SelectedLogin.Name);
+            _pathManager.Init();
 
             System.Diagnostics.Process.Start(Environment.ProcessPath);
             Environment.Exit(0);

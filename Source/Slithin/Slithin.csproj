@@ -48,10 +48,6 @@
   <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
     <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
   </ItemGroup>
-
-   <ItemGroup>
-     <AvaloniaResource Include="Resources\**" />
-   </ItemGroup>
   
 
   <PropertyGroup>
@@ -70,16 +66,6 @@
     <EmbeddedResource Remove="TemplateEditor\Components\**" />
     <None Remove="TemplateEditor\Components\**" />
   </ItemGroup>
-
-   <ItemGroup>
-     <None Remove="Resources\copy.png" />
-     <None Remove="Resources\cubes.png" />
-     <None Remove="Resources\data-transfer.png" />
-     <None Remove="Resources\nav.png" />
-     <None Remove="Resources\notebook.png" />
-     <None Remove="Version.props" />
-     <None Remove="Resources\epub.png" />
-   </ItemGroup>
 
    <ItemGroup>
      <Compile Update="UI\Modals\ExportModal.axaml.cs">
