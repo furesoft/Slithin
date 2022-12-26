@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Threading;
 using Slithin.Core.MVVM;
+using Slithin.Modules.UI.Modals;
 using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.UI;

@@ -4,13 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              xmlns:c="using:Slithin.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.UI.Modals.PromptModal">
-  <styles:SnackbarHost HostName="prompt">
-    <c:DialogControl Header="{Binding Header}" CommandText="OK" IsCancelEnabled="True" Command="{Binding AcceptCommand}" MaxHeight="160" MinHeight="160" MaxWidth="150">
-      <Grid>
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="100"
+             x:Class="Slithin.Modules.UI.Modals.PromptModal">
+    <Grid Width="200" MaxWidth="200" Height="100">
         <TextBox Text="{Binding Input, Mode=TwoWay}" Watermark="{Binding Watermark}" TextWrapping="Wrap" Height="35" />
-      </Grid>
-    </c:DialogControl>
-  </styles:SnackbarHost>
+    </Grid>
 </UserControl>

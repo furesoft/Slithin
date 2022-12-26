@@ -1,6 +1,10 @@
 ﻿using System.Windows.Input;
 using AuroraModularis.Logging.Models;
+using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
@@ -8,11 +12,19 @@ internal class MakeFolderCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;
+    private readonly NotebooksFilter _notebooksFilter;
+    private readonly IMetadataRepository _metadataRepository;
+    private readonly IDialogService _dialogService;
 
-    public MakeFolderCommand(ILocalisationService localisationService, ILogger logger)
+    public MakeFolderCommand(ILocalisationService localisationService,
+                             ILogger logger, NotebooksFilter notebooksFilter, IMetadataRepository metadataRepository,
+                             IDialogService dialogService)
     {
         _localisationService = localisationService;
         _logger = logger;
+        _notebooksFilter = notebooksFilter;
+        _metadataRepository = metadataRepository;
+        _dialogService = dialogService;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -24,47 +36,42 @@ internal class MakeFolderCommand : ICommand
 
     public async void Execute(object parameter)
     {
-        /*
-        var name = await DialogService.ShowPrompt(_localisationService.GetString("Make Folder"),
+        var name = await _dialogService.ShowPrompt(_localisationService.GetString("Make Folder"),
                 _localisationService.GetString("Name"));
 
         if (!string.IsNullOrEmpty(name))
         {
             MakeFolder(name);
-        }*/
+        }
     }
 
     private void MakeFolder(string name)
     {
         var id = Guid.NewGuid().ToString().ToLower();
 
-        /*
         var md = new Metadata
         {
             ID = id,
-            Parent = ServiceLocator.SyncService.NotebooksFilter.Folder,
+            Parent = _notebooksFilter.Folder,
             Type = "CollectionType",
             VisibleName = name
         };
 
-        MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
+        _metadataRepository.AddMetadata(md, out var alreadyAdded);
 
         if (alreadyAdded)
         {
-            DialogService.OpenError(_localisationService.GetStringFormat("'{0}' already exists", md.VisibleName));
+            _dialogService.Show(_localisationService.GetStringFormat("'{0}' already exists", md.VisibleName));
             return;
         }
 
-        md.Save();
+        _metadataRepository.SaveToDisk(md);
 
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
-        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+        _notebooksFilter.Documents.Add(md);
+        _notebooksFilter.SortByFolder();
 
-        md.Upload();
+        _metadataRepository.Upload(md);
 
-        _logger.Information($"Folder '{md.VisibleName}' created");
-
-        DialogService.Close();
-        */
+        _logger.Info($"Folder '{md.VisibleName}' created");
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.UI.Modals;
+namespace Slithin.Modules.UI.Modals;
 
-public partial class RenameModal : UserControl
+public partial class PromptModal : UserControl
 {
-    public RenameModal()
+    public PromptModal()
     {
         InitializeComponent();
     }

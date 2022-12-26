@@ -5,7 +5,7 @@
              xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
              xmlns:c="using:Slithin.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.Modules.UI.StatusModal">
+             x:Class="Slithin.Modules.UI.Modals.StatusModal">
     <Border BorderBrush="Black" BorderThickness="1" Margin="3" MaxHeight="150" MinHeight="180" MinWidth="400" MaxWidth="400" Background="White">
         <StackPanel Orientation="Horizontal" Margin="10">
             <c:LottieViewer HorizontalAlignment="Center" VerticalAlignment="Top" IsPlaying="True"

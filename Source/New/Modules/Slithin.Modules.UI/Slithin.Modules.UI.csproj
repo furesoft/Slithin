@@ -11,7 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ShowDialogModal.axaml.cs">
+    <Compile Update="Modals\PromptModal.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Modals\ShowDialogModal.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
   </ItemGroup>
