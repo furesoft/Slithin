@@ -1,16 +1,24 @@
 ﻿using System.Windows.Input;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Device.Models;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
 internal class UnPinCommand : ICommand
 {
     private readonly IRemarkableDevice _remarkableDevice;
+    private readonly IMetadataRepository _metadataRepository;
+    private readonly NotebooksFilter _notebooksFilter;
 
-    public UnPinCommand(IRemarkableDevice remarkableDevice)
+    public UnPinCommand(IRemarkableDevice remarkableDevice,
+                        IMetadataRepository metadataRepository,
+                        NotebooksFilter notebooksFilter)
     {
         _remarkableDevice = remarkableDevice;
+        _metadataRepository = metadataRepository;
+        _notebooksFilter = notebooksFilter;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -26,18 +34,18 @@ internal class UnPinCommand : ICommand
         {
             return;
         }
-        /*
+
         md.IsPinned = false;
         md.Version++;
-        md.Save();
+        _metadataRepository.SaveToDisk(md);
 
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
+        _notebooksFilter.Documents.Remove(md);
+        _notebooksFilter.Documents.Add(md);
 
-        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+        _notebooksFilter.SortByFolder();
 
-        md.Upload();
-        */
+        _metadataRepository.Upload(md);
+
         _remarkableDevice.Reload();
     }
 }

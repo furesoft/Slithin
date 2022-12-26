@@ -16,7 +16,6 @@ internal class NotebooksPageViewModel : BaseViewModel
     private bool _isInTrash;
     private bool _isMoving;
     private Metadata _movingNotebook;
-    private Metadata _selectedNotebook;
 
     public NotebooksPageViewModel(ILocalisationService localisationService,
                                   ILogger logger,
@@ -45,7 +44,7 @@ internal class NotebooksPageViewModel : BaseViewModel
         MoveCommand = new DelegateCommand(_ =>
             {
                 IsMoving = true;
-                _movingNotebook = SelectedNotebook;
+                _movingNotebook = NotebooksFilter.SelectedNotebook;
             },
             _ => _ != null
                 && _ is Metadata md
@@ -106,12 +105,6 @@ internal class NotebooksPageViewModel : BaseViewModel
     public ICommand RemoveNotebookCommand { get; set; }
     public ICommand RenameCommand { get; set; }
     public ICommand RestoreCommand { get; set; }
-
-    public Metadata SelectedNotebook
-    {
-        get => _selectedNotebook;
-        set => SetValue(ref _selectedNotebook, value);
-    }
 
     public ICommand UnPinCommand { get; set; }
     public NotebooksFilter NotebooksFilter { get; }

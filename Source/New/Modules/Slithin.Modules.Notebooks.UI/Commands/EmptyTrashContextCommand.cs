@@ -2,18 +2,26 @@
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
 internal class EmptyTrashCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
+    private readonly IMetadataRepository _metadataRepository;
+    private readonly NotebooksFilter _notebooksFilter;
     private readonly IRemarkableDevice _remarkableDevice;
 
     public EmptyTrashCommand(ILocalisationService localisationService,
-                                    IRemarkableDevice remarkableDevice)
+                             IMetadataRepository metadataRepository,
+                             NotebooksFilter notebooksFilter,
+                             IRemarkableDevice remarkableDevice)
     {
         _localisationService = localisationService;
+        _metadataRepository = metadataRepository;
+        _notebooksFilter = notebooksFilter;
         _remarkableDevice = remarkableDevice;
     }
 
@@ -26,23 +34,21 @@ internal class EmptyTrashCommand : ICommand
 
     public void Execute(object data)
     {
-        /*
-        foreach (var trashedMd in MetadataStorage.Local.GetByParent("trash"))
+        foreach (var trashedMd in _metadataRepository.GetByParent("trash"))
         {
             DeleteNotebook(trashedMd);
-        }*/
+        }
 
         _remarkableDevice.Reload();
     }
 
-    /*
     private void DeleteNotebook(Metadata md)
     {
-        MetadataStorage.Local.Remove(md);
-        _localRepository.Remove(md);
-        _deviceRepository.Remove(md);
+        _metadataRepository.Remove(md);
+        // _localRepository.Remove(md);
+        //_deviceRepository.Remove(md);
 
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
-        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
-    }*/
+        _notebooksFilter.Documents.Remove(md);
+        _notebooksFilter.SortByFolder();
+    }
 }

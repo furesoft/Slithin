@@ -2,6 +2,9 @@
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
@@ -9,10 +12,18 @@ namespace Slithin.Modules.Notebooks.UI.Commands;
 internal class RemoveNotebookCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
+    private readonly IDialogService _dialogService;
+    private readonly IMetadataRepository _metadataRepository;
+    private readonly NotebooksFilter _notebooksFilter;
 
-    public RemoveNotebookCommand(ILocalisationService localisationService)
+    public RemoveNotebookCommand(ILocalisationService localisationService,
+                                 IDialogService dialogService, IMetadataRepository metadataRepository,
+                                 NotebooksFilter notebooksFilter)
     {
         _localisationService = localisationService;
+        _dialogService = dialogService;
+        _metadataRepository = metadataRepository;
+        _notebooksFilter = notebooksFilter;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -31,27 +42,26 @@ internal class RemoveNotebookCommand : ICommand
 
     public async void Execute(object parameter)
     {
-        /*
         if (parameter is not Metadata md
-            || !await DialogService.ShowDialog(
+            || !await _dialogService.Show(
                 _localisationService.GetStringFormat("Would you really want to delete '{0}'?", md.VisibleName)))
             return;
 
-        ServiceLocator.Container.Resolve<NotebooksPageViewModel>().SelectedNotebook = null;
+        _notebooksFilter.SelectedNotebook = null;
 
-        MetadataStorage.Local.Remove(md);
-        _localRepository.Remove(md);
-        _deviceRepository.Remove(md);
+        _metadataRepository.Remove(md);
+        //_localRepository.Remove(md);
+        //_deviceRepository.Remove(md);
 
-        _synchronisationService.NotebooksFilter.Documents.Clear();
+        _notebooksFilter.Documents.Clear();
 
-        foreach (var mds in MetadataStorage.Local.GetByParent(md.Parent))
+        foreach (var mds in _metadataRepository.GetByParent(md.Parent))
         {
-            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(mds);
+            _notebooksFilter.Documents.Add(mds);
         }
         if (md.Parent != "")
         {
-            ServiceLocator.SyncService.NotebooksFilter.Documents.Add(
+            _notebooksFilter.Documents.Add(
                 new Metadata
                 {
                     Type = "CollectionType",
@@ -59,7 +69,6 @@ internal class RemoveNotebookCommand : ICommand
                 });
         }
 
-        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
-        */
+        _notebooksFilter.SortByFolder();
     }
 }

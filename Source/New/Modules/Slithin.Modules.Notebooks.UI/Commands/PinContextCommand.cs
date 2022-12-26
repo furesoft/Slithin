@@ -2,6 +2,8 @@
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
@@ -9,11 +11,18 @@ internal class PinCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly IRemarkableDevice _remarkableDevice;
+    private readonly IMetadataRepository _metadataRepository;
+    private readonly NotebooksFilter _notebooksFilter;
 
-    public PinCommand(ILocalisationService localisationService, IRemarkableDevice remarkableDevice)
+    public PinCommand(ILocalisationService localisationService,
+                      IRemarkableDevice remarkableDevice,
+                      IMetadataRepository metadataRepository,
+                      NotebooksFilter notebooksFilter)
     {
         _localisationService = localisationService;
         _remarkableDevice = remarkableDevice;
+        _metadataRepository = metadataRepository;
+        _notebooksFilter = notebooksFilter;
     }
 
     public event EventHandler CanExecuteChanged;
@@ -32,19 +41,18 @@ internal class PinCommand : ICommand
             return;
         }
 
-        /*
         md.IsPinned = true;
         md.Version++;
-        md.Save();
 
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Add(md);
+        _metadataRepository.SaveToDisk(md);
 
-        ServiceLocator.SyncService.NotebooksFilter.SortByFolder();
+        _notebooksFilter.Documents.Remove(md);
+        _notebooksFilter.Documents.Add(md);
 
-        md.Upload();
+        _notebooksFilter.SortByFolder();
 
-        */
+        _metadataRepository.Upload(md);
+
         _remarkableDevice.Reload();
     }
 }

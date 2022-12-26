@@ -1,7 +1,9 @@
 ﻿using Slithin.Entities.Remarkable;
+using Slithin.Modules.Export.Models.Rendering;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands.ContextCommands;
 
@@ -9,13 +11,18 @@ namespace Slithin.Modules.Notebooks.UI.Commands.ContextCommands;
 internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
 {
     private readonly ILocalisationService _localisationService;
+    private readonly NotebooksFilter _notebooksFilter;
+    private readonly IMetadataRepository _metadataRepository;
     private readonly IPathManager _pathManager;
 
-    public ConvertQuicksheetToNotebookContextCommand(
-        ILocalisationService localisationService,
-        IPathManager pathManager)
+    public ConvertQuicksheetToNotebookContextCommand(ILocalisationService localisationService,
+                                                     NotebooksFilter notebooksFilter,
+                                                     IMetadataRepository metadataRepository,
+                                                     IPathManager pathManager)
     {
         _localisationService = localisationService;
+        _notebooksFilter = notebooksFilter;
+        _metadataRepository = metadataRepository;
         _pathManager = pathManager;
     }
 
@@ -87,11 +94,11 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
 
         md.ID = newID;
         md.VisibleName += " " + _localisationService.GetString("Notebook");
-        /*md.Save();
+        _metadataRepository.SaveToDisk(md);
 
-        MetadataStorage.Local.AddMetadata(md, out var alreadyAdded);
-        NotebooksFilter.Documents.Add(md);
+        _metadataRepository.AddMetadata(md, out var alreadyAdded);
+        _notebooksFilter.Documents.Add(md);
 
-        Notebook.UploadNotebook(md);*/
+        Notebook.UploadNotebook(md);
     }
 }

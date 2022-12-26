@@ -9,7 +9,7 @@ using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Notebooks.UI;
 
-internal static class NotebooksView
+public static class NotebooksView
 {
     private static readonly Stack<string> _lastFolderIDs = new();
     private static ListBox _lb;

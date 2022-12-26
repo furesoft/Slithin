@@ -1,6 +1,8 @@
 ﻿using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands.ContextCommands;
 
@@ -8,10 +10,16 @@ namespace Slithin.Modules.Notebooks.UI.Commands.ContextCommands;
 internal class MoveToTrashContextCommand : IContextCommand
 {
     private readonly ILocalisationService _localisationService;
+    private readonly NotebooksFilter _notebooksFilter;
+    private readonly IMetadataRepository _metadataRepository;
 
-    public MoveToTrashContextCommand(ILocalisationService localisationService)
+    public MoveToTrashContextCommand(ILocalisationService localisationService,
+                                     NotebooksFilter notebooksFilter,
+                                     IMetadataRepository metadataRepository)
     {
         _localisationService = localisationService;
+        _notebooksFilter = notebooksFilter;
+        _metadataRepository = metadataRepository;
     }
 
     public object ParentViewModel { get; set; }
@@ -33,17 +41,16 @@ internal class MoveToTrashContextCommand : IContextCommand
             return;
         }
 
-        /*MetadataStorage.Local.Move(md, "trash");
+        _metadataRepository.Move(md, "trash");
 
         if (md.Type == "CollectionType")
         {
-            foreach (var childMd in MetadataStorage.Local.GetByParent(md.ID))
+            foreach (var childMd in _metadataRepository.GetByParent(md.ID))
             {
-                MetadataStorage.Local.Move(childMd, "trash");
+                _metadataRepository.Move(childMd, "trash");
             }
         }
 
-        ServiceLocator.SyncService.NotebooksFilter.Documents.Remove(md);
-        */
+        _notebooksFilter.Documents.Remove(md);
     }
 }

@@ -9,6 +9,8 @@ public class NotebooksFilter : NotifyObject
     private ObservableCollection<Metadata> _documents = new();
     private string _folder = "";
 
+    private Metadata _selectedNotebook;
+
     public ObservableCollection<Metadata> Documents
     {
         get => _documents;
@@ -19,6 +21,12 @@ public class NotebooksFilter : NotifyObject
     {
         get => _folder;
         set => SetValue(ref _folder, value);
+    }
+
+    public Metadata SelectedNotebook
+    {
+        get => _selectedNotebook;
+        set => SetValue(ref _selectedNotebook, value);
     }
 
     public void SortByFolder()
