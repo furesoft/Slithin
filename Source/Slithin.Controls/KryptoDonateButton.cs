@@ -1,11 +1,10 @@
-﻿using System.IO;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using QRCoder;
-using Slithin.Core;
+using SkiaSharp;
+using SkiaSharp.QrCode.Image;
 using Slithin.Core.MVVM;
 
 namespace Slithin.Controls;
@@ -64,11 +63,12 @@ public class KryptoDonateButton : TemplatedControl
 
     private void RegenerateQrCode(string addr)
     {
-        var qrGenerator = new QRCodeGenerator();
-        var qrCodeData = qrGenerator.CreateQrCode(addr, QRCodeGenerator.ECCLevel.L);
-        var qrCode = new BitmapByteQRCode(qrCodeData);
-        var qrCodeImage = qrCode.GetGraphic(20);
+        var qrCode = new QrCode(addr, new Vector2Slim(256, 256), SKEncodedImageFormat.Png);
+        var output = new MemoryStream();
+        qrCode.GenerateImage(output);
 
-        Qr = new Bitmap(new MemoryStream(qrCodeImage));
+        output.Seek(0, SeekOrigin.Begin);
+
+        Qr = new Bitmap(output);
     }
 }

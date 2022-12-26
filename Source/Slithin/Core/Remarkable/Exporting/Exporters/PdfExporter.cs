@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Drawing.Imaging;
 using System.IO;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Exporting.Rendering;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
 using Svg;
 using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
 

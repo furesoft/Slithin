@@ -47,9 +47,9 @@ public partial class DevicePage : UserControl, IPage
             {
                 if (e.Source is Image img)
                 {
-                    var bitmap = System.Drawing.Image.FromFile(filename);
+                    var bitmap = new Bitmap(filename);
 
-                    if (bitmap.Width != 1404 && bitmap.Height != 1872)
+                    if (bitmap.Size.Width != 1404 && bitmap.Size.Height != 1872)
                     {
                         DialogService.OpenError(localisation.GetString("The Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));
 

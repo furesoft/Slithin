@@ -13,10 +13,6 @@
     <Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
   </PropertyGroup>
 
-  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
-    <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
-  </ItemGroup>
-
   <ItemGroup>
     <AvaloniaXaml Remove="Assets\Icons.axaml" />
   </ItemGroup>

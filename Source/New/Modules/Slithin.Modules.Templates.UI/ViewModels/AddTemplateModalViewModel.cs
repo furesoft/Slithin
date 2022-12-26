@@ -144,9 +144,9 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
             }
         }
 
-        var bitmap = System.Drawing.Image.FromFile(Filename);
+        var bitmap = new Bitmap(Filename);
 
-        if (bitmap.Width != 1404 && bitmap.Height != 1872)
+        if (bitmap.Size.Width != 1404 && bitmap.Size.Height != 1872)
         {
             await _dialogService.Show(
                 _localisationService.GetString("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));

@@ -45,11 +45,6 @@
     <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
    </ItemGroup>
 
-  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
-    <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
-  </ItemGroup>
-  
-
   <PropertyGroup>
     <RestoreSources>
       https://www.myget.org/F/avalonia-ci/api/v2;

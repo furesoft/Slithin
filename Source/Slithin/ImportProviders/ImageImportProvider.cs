@@ -1,6 +1,5 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+﻿using System.IO;
+using SkiaSharp;
 using Slithin.Core.ImportExport;
 
 namespace Slithin.ImportProviders;
@@ -17,10 +16,12 @@ public class ImageImportProvider : IImportProvider
 
     public Stream Import(Stream source)
     {
-        var img = Image.FromStream(source);
         var outputStrm = new MemoryStream();
+        using var skBitmap = SKBitmap.Decode(source);
+        using var image = SKImage.FromBitmap(skBitmap);
 
-        img.Save(outputStrm, ImageFormat.Png);
+        image.Encode(SKEncodedImageFormat.Png, 100)
+            .SaveTo(outputStrm);
 
         outputStrm.Seek(0, SeekOrigin.Begin);
 
