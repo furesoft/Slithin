@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using EpubSharp;
+﻿using EpubSharp;
 using PdfSharpCore.Drawing;
-using Slithin.Core.FeatureToggle;
-using Slithin.Core.ImportExport;
-using Slithin.Core.Remarkable.Exporting.Rendering;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
-using Slithin.Features;
+using Slithin.Entities.Remarkable;
+using Slithin.Entities.Remarkable.Rendering;
+using Slithin.Modules.Export.Models;
+using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Export.Exporters;
 
 public class EpubExporter : IExportProvider
 {
     private readonly IPathManager _pathManager;
+    private readonly IRenderingService _renderingService;
 
-    public EpubExporter(IPathManager pathManager)
+    public EpubExporter(IPathManager pathManager, IRenderingService renderingService)
     {
         _pathManager = pathManager;
+        _renderingService = renderingService;
     }
 
     public bool ExportSingleDocument => true;
@@ -27,8 +24,7 @@ public class EpubExporter : IExportProvider
 
     public bool CanHandle(Metadata md)
     {
-        return Feature<ExportEpubFeature>.IsEnabled
-            && md.Content.FileType == "epub";
+        return md.Content.FileType == "epub";
     }
 
     public bool Export(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
@@ -54,7 +50,7 @@ public class EpubExporter : IExportProvider
             var page = Notebook.LoadPage(notebookStream);
 
             var psize = new XSize(1404, 1872);
-            var svgStrm = (MemoryStream)SvgRenderer.RenderPage(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
+            var svgStrm = (MemoryStream)_renderingService.RenderSvg(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
 
             svgStrm.Seek(0, SeekOrigin.Begin);
 

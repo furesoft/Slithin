@@ -1,19 +1,23 @@
-﻿using System;
-using System.IO;
-using Slithin.Core.ImportExport;
-using Slithin.Core.Remarkable.Exporting.Rendering;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
+﻿using Slithin.Entities.Remarkable;
+using Slithin.Modules.Export.Models;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Export.Exporters;
 
 public class SvgExporter : IExportProvider
 {
     private readonly ILocalisationService _localisationService;
+    private readonly IDialogService _dialogService;
+    private readonly IRenderingService _renderingService;
 
-    public SvgExporter(ILocalisationService localisationService)
+    public SvgExporter(ILocalisationService localisationService,
+                       IDialogService dialogService,
+                       IRenderingService renderingService)
     {
         _localisationService = localisationService;
+        _dialogService = dialogService;
+        _renderingService = renderingService;
     }
 
     public bool ExportSingleDocument => false;
@@ -36,7 +40,7 @@ public class SvgExporter : IExportProvider
 
         if (options.PagesIndices.Count == 0)
         {
-            NotificationService.ShowError(_localisationService.GetString("No Pages To Export Selected"));
+            _dialogService.Show(_localisationService.GetString("No Pages To Export Selected"));
             return false;
         }
 
@@ -46,7 +50,7 @@ public class SvgExporter : IExportProvider
 
             var page = notebook.Pages[options.PagesIndices[i]];
 
-            var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
+            var svgStrm = _renderingService.RenderSvg(page, i, metadata);
             var outputStrm = File.Create(Path.Combine(outputPath, i + ".svg"));
 
             svgStrm.CopyTo(outputStrm);

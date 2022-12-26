@@ -1,11 +1,10 @@
 ﻿using System.Text;
 using AuroraModularis.Core;
-using Slithin.Entities.Remarkable;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 
-namespace Slithin.Modules.Export.Models.Rendering;
+namespace Slithin.Entities.Remarkable.Rendering;
 
 public class Notebook
 {

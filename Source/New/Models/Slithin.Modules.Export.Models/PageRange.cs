@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using OneOf;
+﻿using OneOf;
 
-namespace Slithin.Core.Remarkable.Exporting;
+namespace Slithin.Modules.Export.Models;
 
 public record PageRange(int From, int To)
 {
@@ -15,12 +13,12 @@ public record PageRange(int From, int To)
             return true;
 
         src = src.Replace(" ", "").Replace("\t", "");
-        var spl = src.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
+        var spl = src.Split(';', StringSplitOptions.RemoveEmptyEntries);
         var result = new List<PageRange>();
 
         foreach (var part in spl)
         {
-            var match = PageRange.ParseSingle(part);
+            var match = ParseSingle(part);
 
             if (!match.IsT1)
             {
@@ -47,7 +45,7 @@ public record PageRange(int From, int To)
             return int.TryParse(src, out var page) ? new PageRange(page, page) : true;
         }
 
-        var split = src.Split('-', System.StringSplitOptions.RemoveEmptyEntries);
+        var split = src.Split('-', StringSplitOptions.RemoveEmptyEntries);
 
         if (split.Length == 1)
         {

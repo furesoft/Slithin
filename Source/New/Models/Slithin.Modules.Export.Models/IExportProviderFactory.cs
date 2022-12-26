@@ -1,6 +1,5 @@
-﻿using Slithin.Core.Remarkable;
-using Slithin.Core.ImportExport;
-using Slithin.Core.Remarkable.Models;
+﻿using Slithin.Entities.Remarkable;
+using Slithin.Modules.Export.Models;
 
 namespace Slithin.Core.Services;
 

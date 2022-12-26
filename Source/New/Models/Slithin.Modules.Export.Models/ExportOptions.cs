@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EpubSharp;
+﻿using EpubSharp;
 using OneOf;
 using PdfSharpCore.Pdf;
+using Slithin.Entities.Remarkable.Rendering;
 
-namespace Slithin.Core.Remarkable.Exporting.Rendering;
+namespace Slithin.Modules.Export.Models;
 
 public class ExportOptions
 {

@@ -1,5 +1,5 @@
 ﻿using Slithin.Entities.Remarkable;
-using Slithin.Modules.Export.Models.Rendering;
+using Slithin.Entities.Remarkable.Rendering;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Repository.Models;

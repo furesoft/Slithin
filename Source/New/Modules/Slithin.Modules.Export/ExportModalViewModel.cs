@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using Slithin.Core.ImportExport;
 using Slithin.Core.MVVM;
 using Slithin.Core.Services;
 using Slithin.Entities.Remarkable;
+using Slithin.Modules.Export.Models;
 
 namespace Slithin.Modules.Export;
 

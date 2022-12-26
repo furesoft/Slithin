@@ -1,4 +1,4 @@
-﻿namespace Slithin.Core.Services;
+﻿namespace Slithin.Modules.Settings.Models;
 
 public interface IScreenRememberService
 {

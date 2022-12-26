@@ -1,24 +1,31 @@
-﻿using System;
-using System.IO;
-using PdfSharpCore;
+﻿using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using Slithin.Core.ImportExport;
-using Slithin.Core.Remarkable.Exporting.Rendering;
-using Svg;
-using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
+using Slithin.Entities.Remarkable;
+using Slithin.Entities.Remarkable.Rendering;
+using Slithin.Modules.Export.Models;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Repository.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Export.Exporters;
 
 public class PdfExporter : IExportProvider
 {
     private readonly ILocalisationService _localisationService;
+    private readonly IRenderingService _renderingService;
+    private readonly IDialogService _dialogService;
     private readonly IPathManager _pathManager;
 
-    public PdfExporter(IPathManager pathManager, ILocalisationService localisationService)
+    public PdfExporter(IPathManager pathManager,
+                       ILocalisationService localisationService,
+                       IRenderingService renderingService,
+                       IDialogService dialogService)
     {
         _pathManager = pathManager;
         _localisationService = localisationService;
+        _renderingService = renderingService;
+        _dialogService = dialogService;
     }
 
     public bool ExportSingleDocument => true;
@@ -44,24 +51,6 @@ public class PdfExporter : IExportProvider
 
     public override string ToString() => Title;
 
-    private static MemoryStream RenderSVGAsPng(Metadata metadata, int pageIndex, Page page, ref XSize psize)
-    {
-        var svgStrm = SvgRenderer.RenderPage(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
-        var pngStrm = new MemoryStream();
-
-        svgStrm.Seek(0, SeekOrigin.Begin);
-
-        var d = SvgDocument.Open<SvgDocument>(svgStrm);
-        d.Ppi = 226;
-
-        var bitmap = d.Draw();
-        bitmap.Save(pngStrm, ImageFormat.Png);
-        pngStrm.Seek(0, SeekOrigin.Begin);
-
-        svgStrm.Close();
-        return pngStrm;
-    }
-
     private bool ExportNotebook(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
     {
         var notebook = options.Document.AsT1;
@@ -72,7 +61,7 @@ public class PdfExporter : IExportProvider
 
         if (options.PagesIndices.Count == 0)
         {
-            NotificationService.ShowError(_localisationService.GetString("No Pages To Export Selected"));
+            _dialogService.Show(_localisationService.GetString("No Pages To Export Selected"));
             return false;
         }
 
@@ -88,8 +77,7 @@ public class PdfExporter : IExportProvider
 
             var page = notebook.Pages[pageIndex];
 
-            var size = new XSize(1404, 1872);
-            var pngStrm = RenderSVGAsPng(metadata, i, page, ref size);
+            var pngStrm = _renderingService.RenderPng(page, i, metadata);
 
             DrawTemplate(metadata, graphics, i);
 
@@ -125,7 +113,7 @@ public class PdfExporter : IExportProvider
 
         if (options.PagesIndices.Count == 0)
         {
-            NotificationService.ShowError(_localisationService.GetString("No Pages To Export Selected"));
+            _dialogService.Show(_localisationService.GetString("No Pages To Export Selected"));
             return false;
         }
 
@@ -146,8 +134,7 @@ public class PdfExporter : IExportProvider
             var notebookStream = File.OpenRead(rmPath);
             var page = Notebook.LoadPage(notebookStream);
 
-            var psize = new XSize(1404, 1872);
-            var pngStrm = RenderSVGAsPng(metadata, pageIndex, page, ref psize);
+            var pngStrm = _renderingService.RenderPng(page, i, metadata);
 
             var graphics = XGraphics.FromPdfPage(p);
 

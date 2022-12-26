@@ -17,6 +17,9 @@ internal class Module : AuroraModularis.Module
 
     public override void RegisterServices(Container container)
     {
-        container.Register<ISettingsService>(new SettingsServiceImpl(container));
+        var settingsService = new SettingsServiceImpl(container);
+
+        container.Register((ISettingsService)settingsService);
+        container.Register<IScreenRememberService>(new ScreenRememberServiceImpl(settingsService));
     }
 }

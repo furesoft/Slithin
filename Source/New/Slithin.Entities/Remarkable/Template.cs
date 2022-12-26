@@ -13,7 +13,7 @@ public class Template : NotifyObject, IEqualityComparer<Template>
 
     public Template()
     {
-        // TransferCommand = new DelegateCommand(Transfer);
+        TransferCommand = new DelegateCommand(Transfer);
     }
 
     [JsonProperty("categories")] public string[] Categories { get; set; }
@@ -56,9 +56,8 @@ public class Template : NotifyObject, IEqualityComparer<Template>
         return HashCode.Combine(obj.Filename, obj.Landscape, obj.Name);
     }
 
-    /*
     private void Transfer(object obj)
-    {
+    {/*
         var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var scp = ServiceLocator.Container.Resolve<ISSHService>();
@@ -87,5 +86,6 @@ public class Template : NotifyObject, IEqualityComparer<Template>
 
             xochitl.ReloadDevice();
         });
-    }*/
+        */
+    }
 }

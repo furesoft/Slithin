@@ -1,4 +1,4 @@
-﻿namespace Slithin.Modules.Export.Models.Rendering;
+﻿namespace Slithin.Entities.Remarkable.Rendering;
 
 public enum Brushes
 {

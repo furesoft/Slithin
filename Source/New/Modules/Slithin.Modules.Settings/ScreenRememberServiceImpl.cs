@@ -1,7 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Slithin.Modules.Settings.Models;
 
-namespace Slithin.Core.Services.Implementations;
+namespace Slithin.Modules.Settings;
 
 public class ScreenRememberServiceImpl : IScreenRememberService
 {
@@ -14,7 +16,7 @@ public class ScreenRememberServiceImpl : IScreenRememberService
 
     public bool HasMultipleScreens()
     {
-        if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             return desktop.MainWindow?.Screens.All.Count > 1;
         }
@@ -25,7 +27,7 @@ public class ScreenRememberServiceImpl : IScreenRememberService
     public void Remember()
     {
         var settings = _settingsService.GetSettings();
-        if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             settings.WindowPosition = desktop.MainWindow.Bounds;
         }
@@ -36,10 +38,10 @@ public class ScreenRememberServiceImpl : IScreenRememberService
     public void Restore()
     {
         var settings = _settingsService.GetSettings();
-        if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow.WindowStartupLocation = WindowStartupLocation.Manual;
-            desktop.MainWindow.SetValue(Window.BoundsProperty, settings.WindowPosition);
+            desktop.MainWindow.SetValue(Avalonia.Visual.BoundsProperty, settings.WindowPosition);
         }
     }
 }

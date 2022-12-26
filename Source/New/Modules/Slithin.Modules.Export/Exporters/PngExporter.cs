@@ -1,19 +1,23 @@
-﻿using System;
-using System.IO;
-using Slithin.Core.ImportExport;
-using Slithin.Core.Remarkable.Exporting.Rendering;
-using Svg;
-using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
+﻿using Slithin.Entities.Remarkable;
+using Slithin.Modules.Export.Models;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Export.Exporters;
 
 public class PngExporter : IExportProvider
 {
     private readonly ILocalisationService _localisationService;
+    private readonly IDialogService _dialogService;
+    private readonly IRenderingService _renderingService;
 
-    public PngExporter(ILocalisationService localisationService)
+    public PngExporter(ILocalisationService localisationService,
+                       IDialogService dialogService,
+                       IRenderingService renderingService)
     {
         _localisationService = localisationService;
+        _dialogService = dialogService;
+        _renderingService = renderingService;
     }
 
     public bool ExportSingleDocument => false;
@@ -33,7 +37,7 @@ public class PngExporter : IExportProvider
 
         if (options.PagesIndices.Count == 0)
         {
-            NotificationService.ShowError(_localisationService.GetString("No Pages To Export Selected"));
+            _dialogService.Show(_localisationService.GetString("No Pages To Export Selected"));
             return false;
         }
 
@@ -43,13 +47,11 @@ public class PngExporter : IExportProvider
 
             var page = notebook.Pages[options.PagesIndices[i]];
 
-            var svgStrm = SvgRenderer.RenderPage(page, i, metadata);
+            var pngStrm = _renderingService.RenderPng(page, i, metadata);
 
-            var doc = SvgDocument.Open<SvgDocument>(svgStrm);
-            var bitmap = doc.Draw();
-            bitmap.Save(Path.Combine(outputPath, i + ".png"), ImageFormat.Png);
-
-            svgStrm.Close();
+            using var fileStrm = File.Open(Path.Combine(outputPath, i + ".png"), FileMode.OpenOrCreate);
+            pngStrm.CopyTo(fileStrm);
+            pngStrm.Close();
 
             progress.Report(percent);
         }

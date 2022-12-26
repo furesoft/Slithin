@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Slithin.Core.Remarkable;
-using Slithin.Core.ImportExport;
-using Slithin.Core.Remarkable.Models;
+﻿using AuroraModularis.Core;
 using Slithin.Core.Services;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.Export.Models;
 
 namespace Slithin.Modules.Export;
 
@@ -27,7 +24,7 @@ public class ExportProviderFactoryImpl : IExportProviderFactory
         var providers = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(x => typeof(IExportProvider).IsAssignableFrom(x) && x.IsClass)
-            .Select(type => (IExportProvider)ServiceLocator.Container.Resolve(type));
+            .Select(type => Container.Current.Resolve<IExportProvider>(type));
 
         foreach (var provider in providers)
         {
