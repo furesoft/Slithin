@@ -4,10 +4,11 @@ using System.Linq;
 using Slithin.Core.Remarkable;
 using Slithin.Core.ImportExport;
 using Slithin.Core.Remarkable.Models;
+using Slithin.Core.Services;
 
-namespace Slithin.Core.Services.Implementations;
+namespace Slithin.Modules.Export;
 
-public class ExportProviderFactory : IExportProviderFactory
+public class ExportProviderFactoryImpl : IExportProviderFactory
 {
     private readonly Dictionary<string, IExportProvider> _providers = new();
 

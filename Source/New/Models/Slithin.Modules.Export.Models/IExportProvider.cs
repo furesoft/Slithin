@@ -1,6 +1,4 @@
-﻿using System;
-using Slithin.Core.Remarkable.Exporting.Rendering;
-using Slithin.Core.Remarkable.Models;
+﻿using Slithin.Entities.Remarkable;
 
 namespace Slithin.Core.ImportExport;
 

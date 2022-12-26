@@ -10,4 +10,14 @@
     <PackageReference Include="AuroraModularis" Version="1.0.18" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Export.Models\Slithin.Modules.Export.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ExportModal.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using Slithin.Core.ImportExport;
 using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
+using Slithin.Entities.Remarkable;
 
-namespace Slithin.ViewModels.Modals;
+namespace Slithin.Modules.Export;
 
 public class ExportModalViewModel : BaseViewModel
 {
     private IExportProvider _selectedFormat;
-    
+
     public ExportModalViewModel(Metadata md, IExportProviderFactory exportProviderFactory)
     {
         Notebook = md;

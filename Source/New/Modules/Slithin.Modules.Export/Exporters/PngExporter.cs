@@ -5,7 +5,7 @@ using Slithin.Core.Remarkable.Exporting.Rendering;
 using Svg;
 using SvgRenderer = Slithin.Core.Remarkable.Exporting.Rendering.SvgRenderer;
 
-namespace Slithin.Core.Remarkable.Exporting.Exporters;
+namespace Slithin.Modules.Export.Exporters;
 
 public class PngExporter : IExportProvider
 {

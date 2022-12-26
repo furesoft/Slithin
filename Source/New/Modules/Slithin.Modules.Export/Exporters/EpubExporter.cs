@@ -10,7 +10,7 @@ using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 using Slithin.Features;
 
-namespace Slithin.Core.Remarkable.Exporting.Exporters;
+namespace Slithin.Modules.Export.Exporters;
 
 public class EpubExporter : IExportProvider
 {

@@ -61,12 +61,6 @@
     <EmbeddedResource Remove="TemplateEditor\Components\**" />
     <None Remove="TemplateEditor\Components\**" />
   </ItemGroup>
-
-   <ItemGroup>
-     <Compile Update="UI\Modals\ExportModal.axaml.cs">
-       <DependentUpon>ExportModal.axaml</DependentUpon>
-     </Compile>
-   </ItemGroup>
    
    <ItemGroup>
    <Content Include="Icon.png" CopyToPublishDirectory="PreserveNewest">

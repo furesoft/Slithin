@@ -1,7 +1,7 @@
 ﻿using Avalonia;
-using Slithin.Core.ItemContext;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
+using Slithin.Entities.Remarkable;
+using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Menu.Models.ItemContext;
 
 namespace Slithin.Commands.ContextCommands.Notebooks;
 

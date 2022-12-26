@@ -6,7 +6,7 @@
              xmlns:c="using:Slithin.Controls"
              xmlns:l="using:Slithin.Core" Width="300" Margin="3,5,3,3" MinHeight="250"
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="250"
-             x:Class="Slithin.UI.Modals.ExportModal">
+             x:Class="Slithin.Modules.Export.ExportModal">
     <StackPanel Spacing="5" VerticalAlignment="Center">
         <TextBlock Text="{Binding Notebook.VisibleName, FallbackValue=hello}" FontSize="18" TextAlignment="Center" TextWrapping="Wrap" />
         <ComboBox Items="{Binding Formats}" SelectedItem="{Binding SelectedFormat}" />

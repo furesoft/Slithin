@@ -5,7 +5,7 @@ using Slithin.Core.Remarkable.Exporting.Rendering;
 using Slithin.Core.Remarkable.Models;
 using Slithin.Core.Services;
 
-namespace Slithin.Core.Remarkable.Exporting.Exporters;
+namespace Slithin.Modules.Export.Exporters;
 
 public class SvgExporter : IExportProvider
 {
