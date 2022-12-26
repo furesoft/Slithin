@@ -1,4 +1,5 @@
 ﻿using AuroraModularis.Core;
+using Renci.SshNet.Common;
 using Slithin.Entities;
 using Slithin.Modules.Device.Models;
 using Zio;
@@ -20,6 +21,10 @@ internal class MockDevice : IRemarkableDevice
     {
         Disconned();
     }
+
+    public event EventHandler<ScpDownloadEventArgs> Downloading;
+
+    public event EventHandler<ScpUploadEventArgs> Uploading;
 
     public void Connect(IPAddress ip, string password)
     {

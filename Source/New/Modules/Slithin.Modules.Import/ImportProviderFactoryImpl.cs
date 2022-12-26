@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Slithin.Core.ImportExport;
+﻿using System.Reflection;
+using AuroraModularis.Core;
+using Slithin.Modules.Import.Models;
 
 namespace Slithin.Core.Services.Implementations;
 
-public class ImportProviderFactory : IImportProviderFactory
+public class ImportProviderFactoryImpl : IImportProviderFactory
 {
     private readonly List<IImportProvider> _providers = new();
 
@@ -39,7 +37,7 @@ public class ImportProviderFactory : IImportProviderFactory
         var providers = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(x => typeof(IImportProvider).IsAssignableFrom(x) && x.IsClass)
-            .Select(type => (IImportProvider)ServiceLocator.Container.Resolve(type));
+            .Select(type => Container.Current.Resolve<IImportProvider>(type));
 
         _providers.AddRange(providers);
     }

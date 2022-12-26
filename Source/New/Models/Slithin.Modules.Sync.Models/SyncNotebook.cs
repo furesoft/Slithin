@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
+﻿using Slithin.Entities.Remarkable;
 
-namespace Slithin.Models;
+namespace Slithin.Modules.Sync.Models;
 
 public class SyncNotebook
 {

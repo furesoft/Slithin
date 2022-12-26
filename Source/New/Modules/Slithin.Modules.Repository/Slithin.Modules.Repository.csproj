@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\Models\Slithin.Modules.Settings.Models\Slithin.Modules.Settings.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Sync.Models\Slithin.Modules.Sync.Models.csproj" />
     <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />
+    <ProjectReference Include="..\Slithin.Modules.Resources.UI\Slithin.Modules.Resources.UI.csproj" />
   </ItemGroup>
 
   <Import Project="$(SolutionDir)\Version.props" />

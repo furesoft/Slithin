@@ -3,6 +3,8 @@ using Slithin.Entities.Remarkable;
 using Slithin.Modules.Diagnostics.Sentry.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Resources.UI;
+using Slithin.Modules.Settings.Models;
 using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Repository;
@@ -18,9 +20,9 @@ internal class LoadingServiceImpl : ILoadingService
 
     public void LoadApiToken()
     {
-        //var settings = _settingsService.GetSettings();
+        var settingsService = _container.Resolve<ISettingsService>();
+        var settings = settingsService.GetSettings();
 
-        /*
         if (settings.MarketplaceCredential != null)
         {
             var authThread = new Thread(() =>
@@ -28,11 +30,10 @@ internal class LoadingServiceImpl : ILoadingService
                 var api = new MarketplaceAPI();
                 api.Authenticate(settings.MarketplaceCredential.Username, settings.MarketplaceCredential.HashedPassword);
 
-                ServiceLocator.Container.Register(api);
+                Container.Current.Register(api);
             });
             authThread.Start();
         }
-        */
     }
 
     public void LoadNotebooks()

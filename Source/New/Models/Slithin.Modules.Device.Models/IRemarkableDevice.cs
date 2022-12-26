@@ -1,9 +1,14 @@
-﻿using Slithin.Entities;
+﻿using Renci.SshNet.Common;
+using Slithin.Entities;
 
 namespace Slithin.Modules.Device.Models;
 
 public interface IRemarkableDevice
 {
+    event EventHandler<ScpDownloadEventArgs> Downloading;
+
+    event EventHandler<ScpUploadEventArgs> Uploading;
+
     void Connect(IPAddress ip, string password);
 
     void Reload();

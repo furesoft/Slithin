@@ -1,4 +1,5 @@
 ﻿using Renci.SshNet;
+using Renci.SshNet.Common;
 using Slithin.Entities;
 using Slithin.Modules.Device.Models;
 
@@ -8,6 +9,30 @@ internal class DeviceImplementation : IRemarkableDevice
 {
     private SshClient _client;
     private ScpClient _scp;
+
+    public event EventHandler<ScpDownloadEventArgs> Downloading
+    {
+        add
+        {
+            _scp.Downloading += value;
+        }
+        remove
+        {
+            _scp.Downloading -= value;
+        }
+    }
+
+    public event EventHandler<ScpUploadEventArgs> Uploading
+    {
+        add
+        {
+            _scp.Uploading += value;
+        }
+        remove
+        {
+            _scp.Uploading -= value;
+        }
+    }
 
     public void Connect(IPAddress ip, string password)
     {

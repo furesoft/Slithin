@@ -81,6 +81,7 @@
     <ProjectReference Include="..\Modules\Slithin.Modules.Export\Slithin.Modules.Export.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.FirstStart\Slithin.Modules.FirstStart.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
+    <ProjectReference Include="..\Modules\Slithin.Modules.Import\Slithin.Modules.Import.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Logging\Slithin.Modules.Logging.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Menu\Slithin.Modules.Menu.csproj" />
     <ProjectReference Include="..\Modules\Slithin.Modules.Notebooks.UI\Slithin.Modules.Notebooks.UI.csproj" />
