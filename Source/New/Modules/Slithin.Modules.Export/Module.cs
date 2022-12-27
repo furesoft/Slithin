@@ -9,6 +9,9 @@ internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {
+        var exportProviderFactory = container.Resolve<IExportProviderFactory>();
+        exportProviderFactory.Init();
+
         return Task.CompletedTask;
     }
 
@@ -16,5 +19,6 @@ internal class Module : AuroraModularis.Module
     {
         container.Register<IExportProviderFactory>(new ExportProviderFactoryImpl());
         container.Register<IRenderingService>(new RenderingServiceImpl());
+        container.Register<IExportService>(new ExportServiceImpl(container));
     }
 }

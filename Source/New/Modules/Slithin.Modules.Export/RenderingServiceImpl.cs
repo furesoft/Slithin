@@ -27,7 +27,7 @@ internal class RenderingServiceImpl : IRenderingService
             svg.DrawImage(templateImage, SKRect.Create(0, 0, width, height));
         }
 
-        foreach (var layer in page.Layers)
+        /*foreach (var layer in page.Layers)
         {
             foreach (var line in layer.Lines)
             {
@@ -36,7 +36,7 @@ internal class RenderingServiceImpl : IRenderingService
                     // RenderLine(line, group);
                 }
             }
-        }
+        }*/
 
         stream.Seek(0, SeekOrigin.Begin);
         return stream;
@@ -44,12 +44,12 @@ internal class RenderingServiceImpl : IRenderingService
 
     private static string GetTemplateFilename(int i, Metadata md)
     {
-        if (md.PageData.Data == null)
+        string filename = "Blank";
+        if (md.PageData.Data != null)
         {
-            return null;
+            filename = i < md.PageData.Data.Length ? md.PageData.Data[i] : "Blank";
         }
 
-        var filename = i < md.PageData.Data.Length ? md.PageData.Data[i] : "Blank";
         var pathManager = Container.Current.Resolve<IPathManager>();
 
         return Path.Combine(pathManager.TemplatesDir, filename + ".png");

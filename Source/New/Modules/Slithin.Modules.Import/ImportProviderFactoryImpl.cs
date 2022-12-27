@@ -34,8 +34,20 @@ public class ImportProviderFactoryImpl : IImportProviderFactory
 
     public void Init()
     {
+        static Type[] GetTypes(System.Reflection.Assembly s)
+        {
+            try
+            {
+                return s.GetTypes();
+            }
+            catch
+            {
+                return Array.Empty<Type>();
+            }
+        }
+
         var providers = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(s => s.GetTypes())
+            .SelectMany(GetTypes)
             .Where(x => typeof(IImportProvider).IsAssignableFrom(x) && x.IsClass)
             .Select(type => Container.Current.Resolve<IImportProvider>(type));
 

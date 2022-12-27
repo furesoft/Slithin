@@ -10,9 +10,9 @@ public static partial class Utils
     {
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .Where(_ => !_.IsDynamic)
-            .SelectMany(s => s.GetTypes())
+            .SelectMany(GetTypes)
             .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass)
-            .Select(type => (T)Container.Current.Resolve<T>(type));
+            .Select(type => Container.Current.Resolve<T>(type));
 
         return types;
     }
@@ -21,7 +21,7 @@ public static partial class Utils
     {
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .Where(_ => !_.IsDynamic)
-            .SelectMany(s => s.GetTypes())
+            .SelectMany(GetTypes)
             .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass);
 
         return types;
@@ -52,6 +52,18 @@ public static partial class Utils
             {
                 throw;
             }
+        }
+    }
+
+    private static Type[] GetTypes(System.Reflection.Assembly s)
+    {
+        try
+        {
+            return s.GetTypes();
+        }
+        catch
+        {
+            return Array.Empty<Type>();
         }
     }
 }

@@ -14,7 +14,7 @@ public class ExportModalViewModel : BaseViewModel
     {
         Notebook = md;
         Formats = new ObservableCollection<IExportProvider>(exportProviderFactory.GetAvailableProviders(md));
-        SelectedFormat = Formats.First();
+        SelectedFormat = Formats.FirstOrDefault();
         ExportPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     }
 
@@ -31,6 +31,12 @@ public class ExportModalViewModel : BaseViewModel
         set
         {
             SetValue(ref _selectedFormat, value);
+
+            if (_selectedFormat == null)
+            {
+                return;
+            }
+
             IsEpubSelected = _selectedFormat.Title.Contains("EPUB");
         }
     }
