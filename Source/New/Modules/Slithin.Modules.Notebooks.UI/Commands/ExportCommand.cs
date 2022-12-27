@@ -1,5 +1,7 @@
 ﻿using System.Windows.Input;
+using AuroraModularis.Core;
 using Slithin.Entities.Remarkable;
+using Slithin.Modules.Export.Models;
 using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
@@ -38,6 +40,7 @@ internal class ExportCommand : ICommand
     {
         var md = (Metadata)parameter;
 
+        Container.Current.Resolve<IRenderingService>().RenderSvg(new(), 0, md);
         /*
         var modal = new ExportModal();
         var vm = new ExportModalViewModel(md, ServiceLocator.Container.Resolve<IExportProviderFactory>());

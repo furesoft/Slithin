@@ -1,5 +1,6 @@
 ﻿using AuroraModularis.Core;
 using Slithin.Core.Services;
+using Slithin.Modules.Export.Models;
 
 namespace Slithin.Modules.Export;
 
@@ -14,5 +15,6 @@ internal class Module : AuroraModularis.Module
     public override void RegisterServices(Container container)
     {
         container.Register<IExportProviderFactory>(new ExportProviderFactoryImpl());
+        container.Register<IRenderingService>(new RenderingServiceImpl());
     }
 }
