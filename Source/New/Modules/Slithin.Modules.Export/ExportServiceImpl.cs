@@ -42,6 +42,14 @@ internal class ExportServiceImpl : IExportService
             }
             */
 
+            if (Directory.Exists(vm.ExportPath))
+            {
+                if (await dialogService.Show(localisationService.GetStringFormat("Directory already exists. Do you want to override its content?")))
+                {
+                    //Todo: implement directory remove
+                }
+            }
+
             var provider = vm.SelectedFormat;
 
             ExportOptions options = null;
@@ -68,15 +76,15 @@ internal class ExportServiceImpl : IExportService
                 options = ExportOptions.Create(notebook, vm.PagesSelector);
             }
 
-            var status = notificationService.ShowStatus("");
             await Task.Run(() =>
             {
+                var status = notificationService.ShowStatus("");
                 var progress = new Progress<int>();
 
                 progress.ProgressChanged += (s, e) =>
                 {
                     status.Step(
-                        localisationService.GetStringFormat("Exporting {0}", metadata.VisibleName));
+                        localisationService.GetStringFormat("Exporting {0}", $"{metadata.VisibleName} {e} %"));
                 };
 
                 if (!Directory.Exists(vm.ExportPath))
@@ -85,9 +93,9 @@ internal class ExportServiceImpl : IExportService
                 }
 
                 provider.Export(options, metadata, vm.ExportPath, progress);
-            });
 
-            status.Step(localisationService.GetStringFormat("{0} Exported", metadata.VisibleName));
+                status.Step(localisationService.GetStringFormat("{0} Exported", metadata.VisibleName));
+            });
         }
     }
 }

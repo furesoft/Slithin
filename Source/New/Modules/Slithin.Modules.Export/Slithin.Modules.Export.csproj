@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="Svg" Version="3.4.4" />
   </ItemGroup>
 
   <ItemGroup>

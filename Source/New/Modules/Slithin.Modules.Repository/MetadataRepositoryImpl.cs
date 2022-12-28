@@ -26,7 +26,7 @@ public class MetadataRepositoryImpl : IMetadataRepository
 
         if (File.Exists(Path.Combine(pathManager.NotebooksDir, id + ".pagedata")))
         {
-            mdObj.PageData.Parse(File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".pagedata")));
+            mdObj.PageData = PageData.Parse(File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".pagedata")));
         }
         else
         {

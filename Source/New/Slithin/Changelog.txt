@@ -3,4 +3,3 @@ Version 1.0.21
 - General Bugfixes
 - Stability Improvements
 - Design Improvements
-- Removed Dependency To System.Drawing

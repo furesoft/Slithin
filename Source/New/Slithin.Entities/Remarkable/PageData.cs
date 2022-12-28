@@ -4,8 +4,11 @@ public struct PageData
 {
     public string[] Data { get; set; }
 
-    public void Parse(string content)
+    public static PageData Parse(string content)
     {
-        Data = content.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        return new()
+        {
+            Data = content.Split('\n', StringSplitOptions.RemoveEmptyEntries)
+        };
     }
 }
