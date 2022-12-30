@@ -1,3 +1,3 @@
 files:
-  - source: /Source/New/Modules/Slithin.Modules.I18N/Resources/Locales/*.json
+  - source: /Source/New/Modules/Slithin.Modules.I18N/Resources/*.json
     translation: /Source/New/Modules/Slithin.Modules.I18N/Resources/Locales/%two_letters_code%.json
