@@ -22,7 +22,7 @@ internal class LocalisationServiceImpl : ILocalisationService
             resourceName = "en";
         }
 
-        var strm = GetType().Assembly.GetManifestResourceStream($"Slithin.Modules.I18N.Resources.Locales.{resourceName}.json");
+        var strm = GetType().Assembly.GetManifestResourceStream($"Slithin.Modules.I18N.Resources.Locales.{resourceName}.{resourceName}.json");
         var json = new StreamReader(strm).ReadToEnd();
 
         _localization = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
