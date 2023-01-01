@@ -121,7 +121,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Import", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Import.Models", "..\New\Models\Slithin.Modules.Import.Models\Slithin.Modules.Import.Models.csproj", "{ABC1DE0C-F2CC-4C3B-A30D-A2456C789F45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Entities.Remarkable", "..\New\Models\Slithin.entities.Remarkable\Slithin.Entities.Remarkable.csproj", "{2B2565F1-C941-45B6-AF70-1E1C526696EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Entities.Remarkable", "..\New\Models\Slithin.entities.Remarkable\Slithin.Entities.Remarkable.csproj", "{2B2565F1-C941-45B6-AF70-1E1C526696EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{B1C557C0-3F23-44FE-BB18-EED482F919BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalisationSearcher", "..\..\Tools\LocalisationSearcher\LocalisationSearcher.csproj", "{BC170FE4-B9EA-435D-A51F-14562B530122}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1351,6 +1355,30 @@ Global
 		{2B2565F1-C941-45B6-AF70-1E1C526696EE}.Release|x64.Build.0 = Release|Any CPU
 		{2B2565F1-C941-45B6-AF70-1E1C526696EE}.Release|x86.ActiveCfg = Release|Any CPU
 		{2B2565F1-C941-45B6-AF70-1E1C526696EE}.Release|x86.Build.0 = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|ARM.Build.0 = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|x64.Build.0 = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Debug|x86.Build.0 = Debug|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|ARM.ActiveCfg = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|ARM.Build.0 = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|ARM32.Build.0 = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|ARM64.Build.0 = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|x64.ActiveCfg = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|x64.Build.0 = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|x86.ActiveCfg = Release|Any CPU
+		{BC170FE4-B9EA-435D-A51F-14562B530122}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1411,6 +1439,7 @@ Global
 		{597962B0-E99E-4658-ADA4-5BE246DE798C} = {12F69518-D4DA-48C7-81FB-FFDA05C8A5C8}
 		{ABC1DE0C-F2CC-4C3B-A30D-A2456C789F45} = {B45E51FF-56E7-4204-8A26-2AF63A270E60}
 		{2B2565F1-C941-45B6-AF70-1E1C526696EE} = {B45E51FF-56E7-4204-8A26-2AF63A270E60}
+		{BC170FE4-B9EA-435D-A51F-14562B530122} = {B1C557C0-3F23-44FE-BB18-EED482F919BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AEF28834-827B-4DA8-AC92-207A90616579}
