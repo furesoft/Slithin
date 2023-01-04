@@ -1,6 +1,6 @@
-﻿using MarketplaceService.Services;
+﻿using System.Net;
+using MarketplaceService.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Logging;
 
 namespace MarketplaceService;
 
@@ -14,6 +14,8 @@ public class Program
         builder.Services.AddGrpc();
         builder.Services.AddGrpcReflection();
 
+        builder.Services.AddSingleton<ProtoController>();
+
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(o =>
         {
@@ -25,7 +27,7 @@ public class Program
         builder.Services.AddAuthorization();
 
         var app = builder.Build();
-        IdentityModelEventSource.ShowPII = true;
+
         app.UseAuthentication();
         app.UseAuthorization();
 
@@ -34,7 +36,33 @@ public class Program
 
         app.MapGrpcReflectionService();
 
-        app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+        var protoService = app.Services.GetRequiredService<ProtoController>();
+
+        app.MapGet("/protos/{protoName}", async context =>
+        {
+            var protoName = (string)context.Request.RouteValues["protoName"];
+
+            var filePath = protoService.Get(protoName);
+
+            if (filePath != null)
+            {
+                await context.Response.SendFileAsync(filePath);
+            }
+            else
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+        });
+
+        app.MapGet("/", async context =>
+        {
+            var filenames = protoService.GetAvailable();
+
+            var links = string.Join('\n',
+                            filenames.Select(_ => $"<a href=http://{context.Request.Host + "/protos/" + _}>{Path.GetFileNameWithoutExtension(_)}<a/>"));
+
+            await context.Response.WriteAsync($"<html><head><title>Services</title></head><body>{links}</body></html>");
+        });
 
         app.Run();
     }

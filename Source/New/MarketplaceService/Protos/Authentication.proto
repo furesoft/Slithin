@@ -6,6 +6,8 @@ package Marketplace;
 
 service AuthenticationService {
     rpc Authenticate(Grant) returns(AuthResult);
+    rpc RefreshToken(RefreshTokenRequest) returns(AuthResult);
+    rpc Register(User) returns(RegistrationResponse);
 }
 
 message Grant {
@@ -15,4 +17,17 @@ message Grant {
 
 message AuthResult {
     string token = 1;
+}
+
+message RegistrationResponse {
+    bool success = 1;
+}
+
+message RefreshTokenRequest {
+    string token = 1;
+}
+
+message User {
+    string username = 1;
+    string password = 2;
 }

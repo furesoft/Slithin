@@ -28,6 +28,13 @@ public class JwtTokenValidator : ISecurityTokenValidator
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my super secret key"))
         };
 
+        if (!handler.CanReadToken(token))
+        {
+            validatedToken = new JwtSecurityToken();
+
+            return null;
+        }
+
         var claimsPrincipal = handler.ValidateToken(token, tokenValidationParameters, out validatedToken);
 
         return claimsPrincipal;
