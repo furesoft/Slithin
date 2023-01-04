@@ -41,12 +41,6 @@
 		<PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
 		<PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="0.10.18" />
 		<PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.8" />
-		<PackageReference Include="Google.Protobuf" Version="3.21.5" />
-		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.49.0" />
-		<PackageReference Include="Grpc.Tools" Version="2.49.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 		<PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.90-nightly" />
 		<PackageReference Include="Packaging.Targets" Version="0.1.220">
 			<PrivateAssets>all</PrivateAssets>
@@ -91,12 +85,6 @@
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Tools\Slithin.Modules.Tools.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.UI\Slithin.Modules.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Updater\Slithin.Modules.Updater.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Protobuf Include="Protos\Authentication.proto" GrpcServices="Client">
-	    <SourceUri>http://localhost:5039/protos/Authentication.proto</SourceUri>
-	  </Protobuf>
 	</ItemGroup>
 
 	<ItemGroup>
