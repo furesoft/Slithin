@@ -47,7 +47,7 @@ public class MetadataRepositoryImpl : IMetadataRepository
             return;
         }
 
-        _storage.Add(metadata.ID, metadata);
+        _storage.TryAdd(metadata.ID, metadata);
         alreadyAdded = false;
     }
 
