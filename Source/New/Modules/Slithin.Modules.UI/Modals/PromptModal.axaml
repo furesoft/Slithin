@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:c="using:Slithin.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="100"
+             x:Class="Slithin.Modules.UI.Modals.PromptModal">
+    <Grid Width="200" MaxWidth="200" Height="100">
+        <TextBox Text="{Binding Input, Mode=TwoWay}" Watermark="{Binding Watermark}" TextWrapping="Wrap" Height="35" />
+    </Grid>
+</UserControl>

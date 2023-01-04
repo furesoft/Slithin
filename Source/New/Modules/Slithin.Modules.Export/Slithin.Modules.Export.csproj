@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="Svg" Version="3.4.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Slithin.Modules.UI\Slithin.Modules.UI.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.entities.Remarkable\Slithin.Entities.Remarkable.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Export.Models\Slithin.Modules.Export.Models.csproj" />
+    <ProjectReference Include="..\..\Slithin.Core\Slithin.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ExportModal.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

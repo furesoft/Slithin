@@ -9,15 +9,11 @@
     <StartupObject>SlithinMarketplace.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="3.7.9.21" />
-    <PackageReference Include="EmbedIO" Version="3.4.3" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.101.44" />
     <PackageReference Include="EmbedIO.BearerToken" Version="3.4.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
-    <PackageReference Include="MongoDB.Driver" Version="2.16.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Libraries\Slithin.Api.Swagger\Slithin.Api.Swagger.csproj" />
-    <ProjectReference Include="..\Libraries\Slithin.Marketplace.Models\Slithin.Marketplace.Models.csproj" />
+    <PackageReference Include="EmbedIO" Version="3.4.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Content\favicon-16x16.png">

@@ -4,6 +4,7 @@ using Slithin.Core.Messaging;
 using Slithin.Core.Remarkable;
 using Slithin.Core.Services;
 using Slithin.Messages;
+using Slithin.Models;
 
 namespace Slithin.MessageHandlers;
 
@@ -29,9 +30,12 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
                 "Downloading Notebook"), (int)e.Downloaded, (int)e.Size);
         };
 
+        var snn = new SyncNotebook[message.Notebooks.Count];
+        message.Notebooks.CopyTo(snn, 0);
+
         for (int i = 0; i < message.Notebooks.Count; i++)
         {
-            var sn = message.Notebooks[i];
+            var sn = snn[i];
 
             foreach (var folder in sn.Directories)
             {

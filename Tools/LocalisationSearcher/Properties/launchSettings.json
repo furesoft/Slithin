@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "LocalisationSearcher": {
+      "commandName": "Project",
+      "commandLineArgs": "Source",
+      "workingDirectory": "C:\\Users\\chris\\Documents\\Projekte\\Slithin"
+    }
+  }
+}

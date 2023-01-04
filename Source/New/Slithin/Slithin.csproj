@@ -1,0 +1,119 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<TrimMode>copyused</TrimMode>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<Nullable>enable</Nullable>
+		<ApplicationIcon>Icon.ico</ApplicationIcon>
+		<RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64;osx.12-arm64</RuntimeIdentifiers>
+		<PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
+		<Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AvaloniaXaml Remove="Assets\Icons.axaml" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\Icons.axaml" />
+		<AvaloniaResource Include="Resources\copy.png" />
+		<AvaloniaResource Include="Resources\Cover.png" />
+		<AvaloniaResource Include="Resources\cubes.png" />
+		<AvaloniaResource Include="Resources\data-transfer.png" />
+		<AvaloniaResource Include="Resources\epub.png" />
+		<AvaloniaResource Include="Resources\error.png" />
+		<AvaloniaResource Include="Resources\Icon.ico" />
+		<AvaloniaResource Include="Resources\Icon.png" />
+		<AvaloniaResource Include="Resources\nav.png" />
+		<AvaloniaResource Include="Resources\new_logo.png" />
+		<AvaloniaResource Include="Resources\notebook.png" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="AuroraModularis" Version="1.0.19" />
+		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.19" />
+		<PackageReference Include="Avalonia" Version="0.10.18" />
+		<PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+		<PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
+		<PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="0.10.18" />
+		<PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.8" />
+		<PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.90-nightly" />
+		<PackageReference Include="Packaging.Targets" Version="0.1.220">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="QRCoder" Version="1.4.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Icon.png">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<LinuxPath>/usr/share/icons/hicolor/48x48/apps/Slithin.png</LinuxPath>
+		</Content>
+		<Content Include="linux.desktop" CopyToPublishDirectory="PreserveNewest">
+			<LinuxPath>/usr/share/applications/Slithin.desktop</LinuxPath>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Slithin.Controls\Slithin.Controls.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Backup\Slithin.Modules.Backup.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Caching\Slithin.Modules.Caching.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Device.Mock\Slithin.Modules.Device.Mock.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Device.UI\Slithin.Modules.Device.UI.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.DeviceDiscovery\Slithin.Modules.DeviceDiscovery.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Diagnostics.Sentry\Slithin.Modules.Diagnostics.Sentry.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Events\Slithin.Modules.Events.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Export\Slithin.Modules.Export.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.FirstStart\Slithin.Modules.FirstStart.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Import\Slithin.Modules.Import.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Logging\Slithin.Modules.Logging.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Menu\Slithin.Modules.Menu.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Notebooks.UI\Slithin.Modules.Notebooks.UI.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.PdfNotebookTools\Slithin.Modules.PdfNotebookTools.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Resources.UI\Slithin.Modules.Resources.UI.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Settings\Slithin.Modules.Settings.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Sync\Slithin.Modules.Sync.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Templates.UI\Slithin.Modules.Templates.UI.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Tools.UI\Slithin.Modules.Tools.UI.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Tools\Slithin.Modules.Tools.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.UI\Slithin.Modules.UI.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Updater\Slithin.Modules.Updater.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!--This helps with theme dll-s trimming.
+	If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
+	https://github.com/AvaloniaUI/Avalonia/issues/5593 -->
+		<TrimmableAssembly Include="Avalonia.Themes.Fluent" />
+		<TrimmableAssembly Include="Avalonia.Themes.Default" />
+	</ItemGroup>
+
+	
+
+	<ItemGroup>
+		<Compile Update="App.axaml.cs">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+		<Compile Update="MainWindow.axaml.cs">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+		<Compile Update="Views\AddDeviceWindow.axaml.cs">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+		<Compile Update="Views\ConnectWindow.axaml.cs">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+		<Compile Update="Views\ContextualMenus\EmptyContextualMenu.axaml.cs">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<Import Project="$(SolutionDir)\Version.props" />
+</Project>

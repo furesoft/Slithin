@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
 using Svg;
 using Svg.Pathing;
 

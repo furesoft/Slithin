@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Icons.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\Icons.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="Avalonia" Version="0.10.18" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="RestSharp" Version="108.0.3" />
+    <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="108.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Settings.Models\Slithin.Modules.Settings.Models.csproj" />
+    <ProjectReference Include="..\..\Slithin.Core\Slithin.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="LoginModal.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="ResourcesPage.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\ListPage.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\LoginFramePage.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\RegisterFramePage.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\ResourcesMainPage.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ResourcesPage.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Pages\ListPage.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Pages\LoginFramePage.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Pages\RegisterFramePage.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Pages\ResourcesMainPage.axaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+
+</Project>

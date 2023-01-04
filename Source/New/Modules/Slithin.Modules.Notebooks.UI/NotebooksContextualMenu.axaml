@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:controls="using:Slithin.Controls"
+             xmlns:f="using:Slithin.Core.FeatureToggle"
+             xmlns:l="using:Slithin.Core"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="100"
+             x:Class="Slithin.Modules.Notebooks.UI.NotebooksContextualMenu">
+    <DockPanel>
+        <StackPanel IsVisible="{Binding !IsInTrash, Mode=TwoWay}" Spacing="12" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
+            <controls:ImagePopupButton IsVisible="{f:FeatureEnabled 'ListViewFeature'}" MinHeight="60" MinWidth="50" Classes="Flat" Text="{l:Localisation 'View'}" Image="{DynamicResource Material.FormatWrapTopBottom}">
+                <controls:ImagePopupButton.PopupContent>
+                    <Border Background="White">
+                        <controls:RadioButtonGroup Orientation="Horizontal">
+                            <controls:RadioImage Width="60">
+                                <controls:RadioImage.Image>
+                                    <DrawingImage Drawing="{DynamicResource Vaadin.List}" />
+                                </controls:RadioImage.Image>
+                            </controls:RadioImage>
+                            <controls:RadioImage Width="60">
+                                <controls:RadioImage.Image>
+                                    <DrawingImage Drawing="{DynamicResource Material.FormatWrapTopBottom}" />
+                                </controls:RadioImage.Image>
+                            </controls:RadioImage>
+                        </controls:RadioButtonGroup>
+                    </Border>
+                </controls:ImagePopupButton.PopupContent>
+            </controls:ImagePopupButton>
+
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Folder'}" Command="{Binding MakeFolderCommand}" Image="{DynamicResource Ionicons.AddiOS}" />
+
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Remove'}" Command="{Binding RemoveNotebookCommand}" Image="{DynamicResource Cool.TrashFull}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
+
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Move'}" Command="{Binding MoveCommand}" Image="{DynamicResource Material.FolderMove}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Rename'}" Command="{Binding RenameCommand}" Image="{DynamicResource BoxIcons.RegularRename}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
+
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Export'}" Command="{Binding ExportCommand}" Image="{DynamicResource Material.ExportVariant}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
+
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Pin'}" Command="{Binding PinCommand}" Image="{DynamicResource Entypo+.Star}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Unpin'}" Command="{Binding UnPinCommand}" Image="{DynamicResource Entypo+.StarOutline}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
+        </StackPanel>
+
+        <StackPanel IsVisible="{Binding IsInTrash, Mode=TwoWay}" Spacing="12" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Restore'}" Command="{Binding RestoreCommand}" Image="{DynamicResource Material.DeleteRestore}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
+
+            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Empty Trash'}" Command="{Binding EmptyTrashCommand}" Image="{DynamicResource PicolIcons.Trash}" />
+        </StackPanel>
+    </DockPanel>
+</UserControl>

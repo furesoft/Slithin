@@ -1,0 +1,130 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.18" />
+    <PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.90-nightly" />
+    <PackageReference Include="SkiaSharp.QrCodeFork" Version="0.4.5" />
+    <PackageReference Include="Xiejiang.SKLottie" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\New\Slithin.Core\Slithin.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Notifications\ActionNotificationControl.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Notifications\StatusNotificationControl.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Settings\SettingsGroup.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Theme\Styles\RadioButtonGroup.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Notifications\ActionNotificationControl.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Notifications\StatusNotificationControl.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\CommandTextBox.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\ContentDialogStyle.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\DialogControlStyle.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\FileChooser.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\FirstWindowCardStyle.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\FrameStyles.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\ImageButton.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\ImagePopupButtonStyle.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\Marketplace\GalleryControl.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\Marketplace\StoreCardCollection.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\Ports\RateItem.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\Ports\RatingControl.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\Ports\StepBar.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\Ports\StepBarItem.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\PreviewImageControl.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\RadioButtonGroup.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\RadioImage.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\Settings\KryptoDonateButton.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\Settings\SettingsGroup.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\System\ButtonStyle.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\System\IndicatorStyle.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\System\LinkStyle.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\System\NotificationCardStyle.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\System\NotificationStyle.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\System\SplitViewStyle.axaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Theme\Styles\TagControl.axaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Theme\Styles\System\NotificationCard.axaml" />
+  </ItemGroup>
+
+</Project>

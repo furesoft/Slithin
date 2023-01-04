@@ -1,0 +1,72 @@
+﻿using AuroraModularis.Core;
+using LiteDB;
+using Slithin.Entities;
+using Slithin.Modules.Repository.Models;
+
+namespace Slithin.Modules.Repository;
+
+internal class LoginServiceImpl : ILoginService
+{
+    private IPathManager _pathManager;
+    private IDatabaseService _dbService;
+    private LoginInfo? _selectedLoginCredential;
+    private Container _container;
+
+    public LoginServiceImpl(Container container)
+    {
+        _container = container;
+    }
+
+    public void Init()
+    {
+        _pathManager = _container.Resolve<IPathManager>();
+        _dbService = _container.Resolve<IDatabaseService>();
+    }
+
+    public LoginInfo GetCurrentCredential()
+    {
+        return _selectedLoginCredential;
+    }
+
+    public LoginInfo[] GetLoginCredentials()
+    {
+        var db = _dbService.GetDatabase();
+
+        return db.FindAll<LoginInfo>().ToArray();
+    }
+
+    public void RememberLoginCredencials(LoginInfo info)
+    {
+        var db = _dbService.GetDatabase();
+
+        db.Insert(info);
+    }
+
+    public void SetLoginCredential(LoginInfo loginInfo)
+    {
+        _selectedLoginCredential = loginInfo;
+
+        _pathManager.ReLink(loginInfo.Name);
+    }
+
+    public void UpdateIPAfterUpdate()
+    {
+        var db = _dbService.GetDatabase();
+
+        db.Update<LoginInfo>(_selectedLoginCredential);
+    }
+
+    public void UpdateLoginCredential(LoginInfo info)
+    {
+        var db = _dbService.GetDatabase();
+
+        db.Update<LoginInfo>(info);
+    }
+
+    public void Remove(LoginInfo loginInfo)
+    {
+        var db = _dbService.GetDatabase();
+
+        db.Delete<LoginInfo>(loginInfo._id);
+    }
+}

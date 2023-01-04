@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Locales\en.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Locales\en.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
+  </ItemGroup>
+
+  <Import Project="$(SolutionDir)\Version.props" />
+</Project>

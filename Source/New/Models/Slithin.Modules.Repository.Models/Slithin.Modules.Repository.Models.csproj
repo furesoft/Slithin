@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />
+    <ProjectReference Include="..\Slithin.Modules.Resources.Models\Slithin.Modules.Resources.Models.csproj" />
+  </ItemGroup>
+
+  <Import Project="$(SolutionDir)\Version.props" />
+</Project>

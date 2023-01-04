@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:f="using:Slithin.Core.FeatureToggle"
+             xmlns:s="using:Slithin.Controls.Settings"
+             xmlns:l="using:Slithin.Core"
+             xmlns:c="using:Slithin.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.Modules.FirstStart.Steps.SettingsStep">
+    <Grid Height="400" Width="450">
+        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Classes="card" Height="200" Width="350">
+            <Grid Margin="5">
+                <StackPanel Spacing="5" Orientation="Vertical">
+                    <TextBlock Classes="cardHeader" Text="{l:Localisation 'Settings'}" />
+
+                    <StackPanel Spacing="5" Orientation="Vertical" Margin="10">
+                        <StackPanel Spacing="5">
+                            <ToggleSwitch Content="{l:Localisation 'Big Menu Mode'}" IsChecked="{Binding Settings.IsBigMenuMode, Mode=TwoWay}" />
+                            <ToggleSwitch IsVisible="{f:FeatureEnabled 'DarkModeFeature'}" Content="{l:Localisation 'Dark Mode'}" IsChecked="{Binding Settings.IsDarkMode, Mode=TwoWay}" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

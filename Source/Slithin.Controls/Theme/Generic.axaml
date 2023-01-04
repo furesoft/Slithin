@@ -1,0 +1,35 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/ImageButton.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/ImagePopupButtonStyle.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/ContentDialogStyle.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/DialogControlStyle.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/FileChooser.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/CommandTextBox.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/PreviewImageControl.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/RadioImage.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/RadioButtonGroup.axaml" />
+
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Marketplace/GalleryControl.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Marketplace/StoreCardCollection.axaml" />
+
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Settings/KryptoDonateButton.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Settings/SettingsGroup.axaml" />
+
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/TagControl.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/FirstWindowCardStyle.axaml" />
+
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/LinkStyle.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/SplitViewStyle.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/ButtonStyle.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/IndicatorStyle.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/System/NotificationCard.axaml" />
+
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/FrameStyles.axaml" />
+
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Ports/StepBar.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Ports/StepBarItem.axaml" />
+
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Ports/RateItem.axaml" />
+    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Ports/RatingControl.axaml" />
+</Styles>

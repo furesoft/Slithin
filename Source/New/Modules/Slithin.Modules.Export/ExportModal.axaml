@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:wpf="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:c="using:Slithin.Controls"
+             xmlns:l="using:Slithin.Core" Width="300" Margin="3,5,3,3" MinHeight="250"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="250"
+             x:Class="Slithin.Modules.Export.ExportModal">
+    <StackPanel Spacing="5" VerticalAlignment="Center">
+        <TextBlock Text="{Binding Notebook.VisibleName, FallbackValue=hello}" FontSize="18" TextAlignment="Center" TextWrapping="Wrap" />
+        <ComboBox Items="{Binding Formats}" SelectedItem="{Binding SelectedFormat}" />
+
+        <Grid IsVisible="{Binding !IsEpubSelected, Mode=TwoWay}">
+            <Label Content="{l:Localisation 'Pages'}" VerticalAlignment="Center" />
+            <TextBox Text="{Binding PagesSelector, Mode=TwoWay}" HorizontalAlignment="Right" MinWidth="75" />
+        </Grid>
+
+        <StackPanel>
+            <Label Content="{l:Localisation 'Destination'}" />
+            <TextBox Text="{Binding ExportPath, Mode=TwoWay}" MinWidth="75" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>
