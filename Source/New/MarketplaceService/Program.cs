@@ -42,11 +42,11 @@ public class Program
         {
             var protoName = (string)context.Request.RouteValues["protoName"];
 
-            var filePath = protoService.Get(protoName);
+            var content = protoService.Get(protoName);
 
-            if (filePath != null)
+            if (content != null)
             {
-                await context.Response.SendFileAsync(filePath);
+                await content.CopyToAsync(context.Response.Body);
             }
             else
             {

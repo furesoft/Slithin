@@ -1,24 +1,18 @@
-﻿namespace MarketplaceService;
+﻿using System.Reflection;
+
+namespace MarketplaceService;
 
 public class ProtoController
 {
-    private readonly string _baseDirectory;
-
-    public ProtoController(IWebHostEnvironment webHost)
+    public Stream Get(string protoName)
     {
-        _baseDirectory = webHost.ContentRootPath;
-    }
+        var assembly = Assembly.GetEntryAssembly();
 
-    public string Get(string protoName)
-    {
-        var filePath = $"{_baseDirectory}\\Protos\\{protoName}";
-        var exist = File.Exists(filePath);
-
-        return exist ? filePath : null;
+        return assembly.GetManifestResourceStream(assembly.GetName().Name + $".Protos.{protoName}.proto");
     }
 
     public IEnumerable<string> GetAvailable()
     {
-        return Directory.GetFiles($"{_baseDirectory}\\Protos", "*.proto").Select(Path.GetFileName);
+        return Assembly.GetEntryAssembly().GetManifestResourceNames().Select(_ => _.Split('.')[^2]);
     }
 }

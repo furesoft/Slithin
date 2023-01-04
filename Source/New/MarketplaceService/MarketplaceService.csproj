@@ -10,8 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\Authentication.proto" />
-    <None Remove="Protos\Storage.proto" />
+    <EmbeddedResource Include="Protos\**" />
   </ItemGroup>
 
   <ItemGroup>
