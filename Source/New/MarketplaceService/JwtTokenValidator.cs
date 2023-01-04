@@ -1,6 +1,8 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Grpc.Core;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MarketplaceService;
@@ -13,6 +15,7 @@ public class JwtTokenValidator : ISecurityTokenValidator
 
     public bool CanReadToken(string securityToken) => true;
 
+    [DebuggerStepThrough]
     public ClaimsPrincipal ValidateToken(string token, TokenValidationParameters validationParameters, out SecurityToken validatedToken)
     {
         var handler = new JwtSecurityTokenHandler();
@@ -30,9 +33,7 @@ public class JwtTokenValidator : ISecurityTokenValidator
 
         if (!handler.CanReadToken(token))
         {
-            validatedToken = new JwtSecurityToken();
-
-            return null;
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid Token"));
         }
 
         var claimsPrincipal = handler.ValidateToken(token, tokenValidationParameters, out validatedToken);
