@@ -6,7 +6,7 @@ namespace LocalisationSearcher
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var directoryToSearch = args[0];
             var stringsPath = GetStringsPath(directoryToSearch);
@@ -23,12 +23,15 @@ namespace LocalisationSearcher
 
             foreach (var file in files)
             {
-                var match = regxp.Match(File.ReadAllText(file));
+                var matches = regxp.Matches(File.ReadAllText(file));
 
-                if(match.Success)
+                foreach (Match match in matches)
                 {
-                    var key = match.Groups["key"].Value;
-                    resultObj.TryAdd(key, key);
+                    if (match.Success)
+                    {
+                        var key = match.Groups["key"].Value;
+                        resultObj.TryAdd(key, key);
+                    }
                 }
             }
 
