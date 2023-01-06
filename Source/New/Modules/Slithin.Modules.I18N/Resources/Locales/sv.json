@@ -102,6 +102,7 @@
   "Downloading Screens": "Laddar ner skärmar",
   "Backup": "Säkerhetskopiera",
   "Start Compressing {0}": "Starta komprimering {0}",
+  "Start Compressing": "Starta komprimering",
   "Compressing '{0}'": "Komprimerar '{0}'",
   "Backup all your files": "Säkerhetskopiera alla dina filer",
   "Complete": "Fullständig",
@@ -162,5 +163,9 @@
   "Select at least one page": "Välj minst en sida",
   "No export path specified": "Ingen exportsökväg angiven",
   "Export Path": "Exportera sökväg",
-  "Directory does not exist": "Katalogen finns inte"
+  "Directory does not exist": "Katalogen finns inte",
+  "A notebook has to have at least 1 page": "En anteckningsbok måste ha minst 1 sida",
+  "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "Mallen passar inte är inte i rätt position. Använd en 1404x1872-dimension.",
+  "Buy me a coffee": "Köp mig ett kaffe",
+  "Only for short names and default covers": "Endast för korta namn och standardomslag"
 }
