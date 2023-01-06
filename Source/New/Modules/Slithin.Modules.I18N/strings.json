@@ -165,8 +165,7 @@
   "Export Path": "Export Path",
   "Directory does not exist": "Directory does not exist",
   "A notebook has to have at least 1 page": "A notebook has to have at least 1 page",
-  "Exporting {0}\", $\"{metadata.VisibleName} {e} %": "Exporting {0}\", $\"{metadata.VisibleName} {e} %",
   "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.",
   "Buy me a coffee": "Buy me a coffee",
-  "Only for short names and defaut covers": "Only for short names and defaut covers"
+  "Only for short names and default covers": "Only for short names and default covers"
 }

@@ -47,7 +47,7 @@
                 <Image Source="{Binding Cover, Mode=TwoWay}" ToolTip.Tip="{l:Localisation 'Drag a Image over or select from the list above'}" DragDrop.AllowDrop="True" Width="150" Height="150" Margin="5" />
             </Border>
 
-            <CheckBox Content="{l:Localisation 'Render Title'}" IsChecked="{Binding RenderName}" ToolTip.Tip="{l:Localisation 'Only for short names and defaut covers'}" />
+            <CheckBox Content="{l:Localisation 'Render Title'}" IsChecked="{Binding RenderName}" ToolTip.Tip="{l:Localisation 'Only for short names and default covers'}" />
         </StackPanel>
 
         <ScrollViewer Grid.Row="4">
