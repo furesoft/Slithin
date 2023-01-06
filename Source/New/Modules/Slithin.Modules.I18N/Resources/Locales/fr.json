@@ -102,6 +102,7 @@
   "Downloading Screens": "Téléchargement des écrans",
   "Backup": "Sauvegarde",
   "Start Compressing {0}": "Commencer à compresser {0}",
+  "Start Compressing": "Commencer à compresser",
   "Compressing '{0}'": "Compression de '{0}'",
   "Backup all your files": "Sauvegarder tous vos fichiers",
   "Complete": "Complète",
@@ -162,5 +163,9 @@
   "Select at least one page": "Sélectionnez au moins une page",
   "No export path specified": "Aucun chemin d'export spécifié",
   "Export Path": "Chemin d'exportation",
-  "Directory does not exist": "Le répertoire n'existe pas"
+  "Directory does not exist": "Le répertoire n'existe pas",
+  "A notebook has to have at least 1 page": "Un bloc-notes doit avoir au moins 1 page",
+  "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "Le modèle ne correspond pas à la bonne dimension. Veuillez utiliser une dimension 1404x1872.",
+  "Buy me a coffee": "Achetez-moi un café",
+  "Only for short names and default covers": "Uniquement pour les noms abrégés et les couvertures par défaut"
 }
