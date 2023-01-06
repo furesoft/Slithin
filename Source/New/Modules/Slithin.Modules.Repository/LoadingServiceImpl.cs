@@ -1,7 +1,7 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Entities.Remarkable;
 using Slithin.Modules.Diagnostics.Sentry.Models;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Resources.UI;
 using Slithin.Modules.Settings.Models;
@@ -62,16 +62,18 @@ internal class LoadingServiceImpl : ILoadingService
             mdStorage.AddMetadata(mdObj, out _);
         }
 
-        filter.Documents.Add(new Metadata
-        {
-            Type = "CollectionType",
-            VisibleName = localisationService.GetString("Trash"),
-            ID = "trash"
-        });
+        filter.Documents.Add(new TrashModel());
 
-        foreach (var md in mdStorage.GetByParent(""))
+        foreach (var mds in mdStorage.GetByParent(""))
         {
-            filter.Documents.Add(md);
+            if (mds.Type == "CollectionType")
+            {
+                filter.Documents.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+            }
+            else
+            {
+                filter.Documents.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+            }
         }
 
         filter.SortByFolder();

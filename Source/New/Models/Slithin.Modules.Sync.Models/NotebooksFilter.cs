@@ -1,17 +1,18 @@
 ﻿using System.Collections.ObjectModel;
 using Slithin.Core.MVVM;
-using Slithin.Entities.Remarkable;
+
+using Slithin.Modules.Notebooks.UI.Models;
 
 namespace Slithin.Modules.Sync.Models;
 
 public class NotebooksFilter : NotifyObject
 {
-    private ObservableCollection<Metadata> _documents = new();
+    private ObservableCollection<FilesystemModel> _documents = new();
     private string _folder = "";
 
-    private Metadata _selectedNotebook;
+    private FilesystemModel _selectedNotebook;
 
-    public ObservableCollection<Metadata> Documents
+    public ObservableCollection<FilesystemModel> Documents
     {
         get => _documents;
         set => SetValue(ref _documents, value);
@@ -23,7 +24,7 @@ public class NotebooksFilter : NotifyObject
         set => SetValue(ref _folder, value);
     }
 
-    public Metadata SelectedNotebook
+    public FilesystemModel SelectedNotebook
     {
         get => _selectedNotebook;
         set => SetValue(ref _selectedNotebook, value);
@@ -32,9 +33,9 @@ public class NotebooksFilter : NotifyObject
     public void SortByFolder()
     {
         var ordered = Documents.OrderByDescending(_ => _.IsPinned);
-        ordered = ordered.OrderByDescending(_ => _.Type == "CollectionType");
+        ordered = ordered.OrderByDescending(_ => _ is DirectoryModel);
         ordered = ordered.OrderByDescending(_ => _.VisibleName?.Equals("Up .."));
 
-        Documents = new ObservableCollection<Metadata>(ordered);
+        Documents = new ObservableCollection<FilesystemModel>(ordered);
     }
 }

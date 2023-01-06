@@ -2,6 +2,7 @@
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.UI.Models;
@@ -42,7 +43,7 @@ internal class RemoveNotebookCommand : ICommand
 
     public async void Execute(object parameter)
     {
-        if (parameter is not Metadata md
+        if (parameter is not FilesystemModel fsm || fsm.Tag is not Metadata md
             || !await _dialogService.Show(
                 _localisationService.GetStringFormat("Would you really want to delete '{0}'?", md.VisibleName)))
             return;
@@ -53,21 +54,7 @@ internal class RemoveNotebookCommand : ICommand
         //_localRepository.Remove(md);
         //_deviceRepository.Remove(md);
 
-        _notebooksFilter.Documents.Clear();
-
-        foreach (var mds in _metadataRepository.GetByParent(md.Parent))
-        {
-            _notebooksFilter.Documents.Add(mds);
-        }
-        if (md.Parent != "")
-        {
-            _notebooksFilter.Documents.Add(
-                new Metadata
-                {
-                    Type = "CollectionType",
-                    VisibleName = _localisationService.GetString("Up ..")
-                });
-        }
+        _notebooksFilter.Documents.Remove(_notebooksFilter.Documents.First(_ => _.ID == md.ID));
 
         _notebooksFilter.SortByFolder();
     }

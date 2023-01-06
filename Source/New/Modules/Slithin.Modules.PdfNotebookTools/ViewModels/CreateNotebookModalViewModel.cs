@@ -284,7 +284,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
             _metadataRepository.AddMetadata(md, out var alreadyAdded);
 
-            _notebooksFilter.Documents.Add(md);
+            _notebooksFilter.Documents.Add(new Notebooks.UI.Models.FileModel(md.VisibleName, md, md.IsPinned));
             _notebooksFilter.SortByFolder();
 
             status.Step("Uploading");

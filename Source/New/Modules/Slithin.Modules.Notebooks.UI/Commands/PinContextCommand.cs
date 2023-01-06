@@ -2,6 +2,7 @@
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 
@@ -36,7 +37,7 @@ internal class PinCommand : ICommand
 
     public void Execute(object data)
     {
-        if (data is not Metadata md)
+        if (data is not FilesystemModel fsm || fsm.Tag is not Metadata md)
         {
             return;
         }
@@ -46,8 +47,8 @@ internal class PinCommand : ICommand
 
         _metadataRepository.SaveToDisk(md);
 
-        _notebooksFilter.Documents.Remove(md);
-        _notebooksFilter.Documents.Add(md);
+        _notebooksFilter.Documents.Remove(fsm);
+        _notebooksFilter.Documents.Add(fsm);
 
         _notebooksFilter.SortByFolder();
 

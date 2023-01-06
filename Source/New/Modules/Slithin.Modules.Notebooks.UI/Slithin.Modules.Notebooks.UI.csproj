@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\Models\Slithin.Modules.Device.Models\Slithin.Modules.Device.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Export.Models\Slithin.Modules.Export.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Notebooks.UI.Models\Slithin.Modules.Notebooks.UI.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Sync.Models\Slithin.Modules.Sync.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slitnin.Modules.Cache.Models\Slithin.Modules.Cache.Models.csproj" />

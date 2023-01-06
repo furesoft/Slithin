@@ -1,6 +1,7 @@
 ﻿using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 
@@ -36,14 +37,14 @@ internal class MoveToTrashContextCommand : IContextCommand
 
     public void Execute(object data)
     {
-        if (data is not Metadata md)
+        if (data is not FilesystemModel fsm || fsm.Tag is not Metadata md)
         {
             return;
         }
 
         _metadataRepository.Move(md, "trash");
 
-        if (md.Type == "CollectionType")
+        if (fsm is DirectoryModel)
         {
             foreach (var childMd in _metadataRepository.GetByParent(md.ID))
             {
@@ -51,6 +52,6 @@ internal class MoveToTrashContextCommand : IContextCommand
             }
         }
 
-        _notebooksFilter.Documents.Remove(md);
+        _notebooksFilter.Documents.Remove(fsm);
     }
 }

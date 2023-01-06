@@ -48,7 +48,7 @@ internal class EmptyTrashCommand : ICommand
         // _localRepository.Remove(md);
         //_deviceRepository.Remove(md);
 
-        _notebooksFilter.Documents.Remove(md);
+        _notebooksFilter.Documents.Remove(_notebooksFilter.Documents.First(_ => _.ID == md.ID));
         _notebooksFilter.SortByFolder();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AuroraModularis.Core;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
@@ -27,5 +28,6 @@ internal class Module : AuroraModularis.Module
         container.Register<IMetadataRepository>(new MetadataRepositoryImpl()).AsSingleton();
         container.Register<ILoadingService>(new LoadingServiceImpl(container)).AsSingleton();
         container.Register<ITemplateStorage>(new TemplateStorageImpl()).AsSingleton();
+        container.Register<IThumbnailLoader>(new ThumbnailLoaderImpl()).AsSingleton();
     }
 }

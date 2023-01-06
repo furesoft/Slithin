@@ -2,6 +2,7 @@
 using Slithin.Entities.Remarkable.Rendering;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 
@@ -97,7 +98,7 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
         _metadataRepository.SaveToDisk(md);
 
         _metadataRepository.AddMetadata(md, out var alreadyAdded);
-        _notebooksFilter.Documents.Add(md);
+        _notebooksFilter.Documents.Add(new FileModel(md.VisibleName, md, md.IsPinned));
 
         Notebook.UploadNotebook(md);
     }

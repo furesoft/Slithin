@@ -5,14 +5,13 @@ using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Material.Styles;
 using Slithin.Controls;
-using Slithin.Entities.Remarkable;
 using Slithin.Modules.Cache.Models;
 using Slithin.Modules.Menu.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Notebooks.UI;
@@ -25,8 +24,9 @@ internal class NotebookDataTemplate : IDataTemplate
         var notebooksDir = Container.Current.Resolve<IPathManager>().NotebooksDir;
         var cache = Container.Current.Resolve<ICacheService>();
         var contextProvider = Container.Current.Resolve<IContextMenuProvider>();
+        var thumbnailLoader = Container.Current.Resolve<IThumbnailLoader>();
 
-        if (param is not Metadata md)
+        if (param is not FilesystemModel fsm)
         {
             return null;
         }
@@ -47,7 +47,7 @@ internal class NotebookDataTemplate : IDataTemplate
             VerticalAlignment = VerticalAlignment.Bottom,
         };
 
-        if (md.Type == "DocumentType")
+        if (fsm is FileModel)
         {
             img = new PreviewImageControl
             {
@@ -74,7 +74,7 @@ internal class NotebookDataTemplate : IDataTemplate
 
         var favImage = new Image();
 
-        if (md.IsPinned)
+        if (fsm.IsPinned)
         {
             favImage.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Entypo+.Star"));
             titlePanel.ColumnDefinitions.Add(new(new GridLength(20)));
@@ -95,50 +95,11 @@ internal class NotebookDataTemplate : IDataTemplate
 
         titlePanel.Children.Add(favImage);
 
-        if (md.Type == "DocumentType")
+        if (fsm is FileModel)
         {
-            if (Directory.Exists(Path.Combine(notebooksDir, md.ID + ".thumbnails")))
-            {
-                var filename = "";
-                if (md?.Content.CoverPageNumber == 0)
-                {
-                    // load first page
-                    if (md.Content.Pages != null)
-                    {
-                        filename = md.Content.Pages[0];
-                    }
-                }
-                else if (md?.Content.CoverPageNumber == -1)
-                {
-                    // load last page opened, set in md.LastOpenedPage
-                    if (md.Content.Pages != null)
-                    {
-                        filename = md.Content.Pages[md.LastOpenedPage];
-                    }
-                }
-
-                if (!string.IsNullOrEmpty(filename))
-                {
-                    var thumbnail = Path.Combine(notebooksDir, md.ID + ".thumbnails", filename + ".jpg");
-
-                    if (File.Exists(thumbnail))
-                    {
-                        img.Source = cache.GetObject(thumbnail, () => new Bitmap(File.OpenRead(thumbnail)));
-                    }
-                    else
-                    {
-                        img.Source = cache.GetObject("notebook-" + md.Content.FileType,
-                            () => new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
-                    }
-                }
-            }
-            else
-            {
-                img.Source = cache.GetObject("notebook-" + md.Content.FileType,
-                   () => new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
-            }
+            img.Source = thumbnailLoader.LoadImage(fsm);
         }
-        else if (md.ID == "trash")
+        else if (fsm is TrashModel)
         {
             img.Margin = new Thickness(10);
             img.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Cool.TrashFull"));
@@ -162,7 +123,7 @@ internal class NotebookDataTemplate : IDataTemplate
 
         card.Initialized += (s, e) =>
         {
-            card.ContextMenu = contextProvider.BuildMenu(UIContext.Notebook, md, card.Parent.Parent.DataContext);
+            card.ContextMenu = contextProvider.BuildMenu(UIContext.Notebook, fsm, card.Parent.Parent.DataContext);
         };
 
         return card;
@@ -170,6 +131,6 @@ internal class NotebookDataTemplate : IDataTemplate
 
     public bool Match(object data)
     {
-        return data is Metadata;
+        return data is FilesystemModel;
     }
 }
