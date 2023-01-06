@@ -102,6 +102,7 @@
   "Downloading Screens": "Download Screen",
   "Backup": "Backup",
   "Start Compressing {0}": "Start Compressing {0}",
+  "Start Compressing": "Start Compressing",
   "Compressing '{0}'": "Compressing {0}",
   "Backup all your files": "Backup your files",
   "Complete": "Complete",
@@ -162,5 +163,9 @@
   "Select at least one page": "Select at least one page",
   "No export path specified": "No export path specified",
   "Export Path": "Export Path",
-  "Directory does not exist": "Directory does not exist"
+  "Directory does not exist": "Directory does not exist",
+  "A notebook has to have at least 1 page": "A notebook has to have at least 1 page",
+  "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "The Template does not fit is not in correct dimension. Please use a 1404x1872 dimension.",
+  "Buy me a coffee": "Buy me a coffee",
+  "Only for short names and default covers": "Only for short names and default covers"
 }
