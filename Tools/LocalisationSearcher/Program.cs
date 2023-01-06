@@ -12,7 +12,7 @@ namespace LocalisationSearcher
             var stringsPath = GetStringsPath(directoryToSearch);
             JObject resultObj = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(stringsPath));
 
-            var csPattern = "(GetString|GetStringFormat)\\(\"((?<key>.+)\")\\)";
+            var csPattern = "(GetString|GetStringFormat)\\(\"(?<key>[^\"]+)\"\\)";
             var axamlPattern = @"\{l:Localisation '(?<key>[^}]+)'\}";
 
             var regxp = new Regex($"{csPattern}|{axamlPattern}");
