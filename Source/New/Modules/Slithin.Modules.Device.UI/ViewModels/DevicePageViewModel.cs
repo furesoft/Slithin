@@ -92,27 +92,43 @@ internal class DevicePageViewModel : BaseViewModel
 
         InitScreens();
 
-        Parallel.ForEach(CustomScreens, (cs) =>
-        {
-            cs.Load();
-        });
+        LoadScreenImages();
 
+        InitShareEmailAddress();
+
+        InitVersion();
+
+        await LoadAsync();
+
+        await DoAfterDeviceUpdate();
+    }
+
+    private void LoadScreenImages()
+    {
+        Parallel.ForEach(CustomScreens, (cs) => { cs.Load(); });
+    }
+
+    private void InitShareEmailAddress()
+    {
         ShareEmailAddresses = new(_xochitlService.GetShareEmailAddresses());
 
         HasEmailAddresses = ShareEmailAddresses.Any();
 
-        ShareEmailAddresses.CollectionChanged += (s, e) =>
-        {
-            HasEmailAddresses = ShareEmailAddresses.Any();
-        };
+        ShareEmailAddresses.CollectionChanged += (s, e) => { HasEmailAddresses = ShareEmailAddresses.Any(); };
+    }
 
+    private void InitVersion()
+    {
         Version = _versionService.GetDeviceVersion().ToString();
 
         if (_xochitlService.GetIsBeta())
         {
             Version += " Beta";
         }
+    }
 
+    private async Task LoadAsync()
+    {
         await Task.Run(() =>
         {
             _loadingService.LoadTemplates();
@@ -120,8 +136,6 @@ internal class DevicePageViewModel : BaseViewModel
 
             _templatesFilter.SelectedCategory = _templatesFilter.Categories.First();
         });
-
-        await DoAfterDeviceUpdate();
     }
 
     /*
