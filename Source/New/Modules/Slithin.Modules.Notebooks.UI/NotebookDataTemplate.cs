@@ -26,7 +26,7 @@ internal class NotebookDataTemplate : IDataTemplate
         var contextProvider = Container.Current.Resolve<IContextMenuProvider>();
         var thumbnailLoader = Container.Current.Resolve<IThumbnailLoader>();
 
-        if (param is not FilesystemModel fsm)
+        if (param is not FileSystemModel fsm)
         {
             return null;
         }
@@ -131,6 +131,6 @@ internal class NotebookDataTemplate : IDataTemplate
 
     public bool Match(object data)
     {
-        return data is FilesystemModel;
+        return data is FileSystemModel;
     }
 }

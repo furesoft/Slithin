@@ -16,7 +16,7 @@ internal class NotebooksPageViewModel : BaseViewModel
     private readonly ILoadingService _loadingService;
     private bool _isInTrash;
     private bool _isMoving;
-    private FilesystemModel _movingNotebook;
+    private FileSystemModel _movingNotebook;
 
     public NotebooksPageViewModel(ILocalisationService localisationService,
                                   ILogger logger,
@@ -31,7 +31,7 @@ internal class NotebooksPageViewModel : BaseViewModel
         RemoveNotebookCommand = Container.Current.Resolve<RemoveNotebookCommand>();
         RestoreCommand = new DelegateCommand(obj =>
         {
-            var md = (Metadata)((FilesystemModel)obj).Tag;
+            var md = (Metadata)((FileSystemModel)obj).Tag;
             md.Parent = "";
 
             metadataRepository.SaveToDisk(md);

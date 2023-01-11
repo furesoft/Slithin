@@ -27,7 +27,7 @@ internal class ExportCommand : ICommand
     public bool CanExecute(object parameter)
     {
         return parameter != null
-               && parameter is FileSystemModel fsm || fsm.Tag is Metadata md
+               && parameter is FileSystemModel fsm && fsm.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
                && fsm is not UpDirectoryModel
                && fsm is not TrashModel

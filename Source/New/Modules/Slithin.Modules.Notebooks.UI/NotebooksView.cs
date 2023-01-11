@@ -27,7 +27,7 @@ public static class NotebooksView
 
     private static void _lb_DoubleTapped(object sender, RoutedEventArgs e)
     {
-        if (_lb.SelectedItem is not FilesystemModel fsm || fsm is not DirectoryModel ||
+        if (_lb.SelectedItem is not FileSystemModel fsm || fsm is not DirectoryModel ||
             _lb.DataContext is not NotebooksPageViewModel vm)
         {
             return;
