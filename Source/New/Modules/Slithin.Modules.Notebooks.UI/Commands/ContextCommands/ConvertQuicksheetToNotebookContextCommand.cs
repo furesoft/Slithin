@@ -32,12 +32,12 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
 
     public bool CanExecute(object data)
     {
-        if (data is FileSystemModel fsm || fsm.Tag is not Metadata md)
+        if (data is FileSystemModel fsm && fsm.Tag is not Metadata)
         {
             return false;
         }
 
-        if (md.VisibleName != _localisationService.GetString("Quick sheets"))
+        if (((Metadata)fsm.Tag).VisibleName != _localisationService.GetString("Quick sheets"))
         {
             return false;
         }
