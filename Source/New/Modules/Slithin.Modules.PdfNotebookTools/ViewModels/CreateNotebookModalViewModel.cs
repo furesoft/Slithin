@@ -176,14 +176,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
     private string[] GeneratePageIDS(int count)
     {
-        var ids = new string[count];
-
-        for (var i = 0; i < count; i++)
-        {
-            ids[i] = Guid.NewGuid().ToString().ToLower();
-        }
-
-        return ids;
+        return Enumerable.Range(0, count).Select( _ => Guid.NewGuid().ToString().ToLower()).ToArray();
     }
 
     private async void OK(object obj)
