@@ -29,7 +29,7 @@ internal class EmptyTrashCommand : ICommand
 
     public bool CanExecute(object data)
     {
-        return data is Metadata md && md.VisibleName == _localisationService.GetString("Trash");
+        return data is TrashModel;
     }
 
     public void Execute(object data)

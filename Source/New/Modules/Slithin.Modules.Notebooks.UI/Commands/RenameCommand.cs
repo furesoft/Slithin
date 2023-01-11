@@ -34,10 +34,10 @@ internal class RenameCommand : ICommand
     public bool CanExecute(object parameter)
     {
         return parameter != null
-               && parameter is Metadata md
+               && parameter is FileSystemModel fsm || fsm.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
-               && md.VisibleName != _localisationService.GetString("Up ..")
-               && md.VisibleName != _localisationService.GetString("Trash");
+               && fsm is not UpModel
+               && fsm is not TrashModel;
     }
 
     public async void Execute(object parameter)

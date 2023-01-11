@@ -26,10 +26,10 @@ internal class ExportCommand : ICommand
     public bool CanExecute(object parameter)
     {
         return parameter != null
-               && parameter is Metadata md
+               && parameter is FileSystemModel fsm || fsm.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
-               && md.VisibleName != _localisationService.GetString("Up ..")
-               && md.VisibleName != _localisationService.GetString("Trash")
+               && fsm is not UpModel
+               && fsm is not TrashModel
                && md.Type.Equals("DocumentType");
         //&& _exportProviderFactory.GetAvailableProviders(md).Any();
     }
