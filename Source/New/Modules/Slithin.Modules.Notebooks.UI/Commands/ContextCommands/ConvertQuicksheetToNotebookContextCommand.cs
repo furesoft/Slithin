@@ -47,7 +47,7 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
 
     public void Execute(object data)
     {
-        ConvertToNotebook(data as Metadata);
+        ConvertToNotebook((FileSystemModel)data).Tag as Metadata);
     }
 
     private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
