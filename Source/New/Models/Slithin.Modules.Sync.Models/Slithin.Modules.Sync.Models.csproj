@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />
+    <ProjectReference Include="..\Slithin.Modules.Notebooks.UI.Models\Slithin.Modules.Notebooks.UI.Models.csproj" />
   </ItemGroup>
 
 </Project>

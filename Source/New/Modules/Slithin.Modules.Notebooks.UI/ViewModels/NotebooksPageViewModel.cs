@@ -5,6 +5,7 @@ using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Notebooks.UI.Commands;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 
@@ -15,7 +16,7 @@ internal class NotebooksPageViewModel : BaseViewModel
     private readonly ILoadingService _loadingService;
     private bool _isInTrash;
     private bool _isMoving;
-    private Metadata _movingNotebook;
+    private FilesystemModel _movingNotebook;
 
     public NotebooksPageViewModel(ILocalisationService localisationService,
                                   ILogger logger,
@@ -30,12 +31,12 @@ internal class NotebooksPageViewModel : BaseViewModel
         RemoveNotebookCommand = Container.Current.Resolve<RemoveNotebookCommand>();
         RestoreCommand = new DelegateCommand(obj =>
         {
-            var md = (Metadata)obj;
+            var md = (Metadata)((FilesystemModel)obj).Tag;
             md.Parent = "";
 
             metadataRepository.SaveToDisk(md);
             metadataRepository.Upload(md, true);
-        }, _ => _ is not null && ((Metadata)_).VisibleName != localisationService.GetString("Up .."));
+        }, _ => _ is not null && _ is not UpDirectoryModel);
 
         EmptyTrashCommand = Container.Current.Resolve<EmptyTrashCommand>();
         PinCommand = Container.Current.Resolve<PinCommand>();
@@ -61,20 +62,23 @@ internal class NotebooksPageViewModel : BaseViewModel
 
         MoveHereCommand = new DelegateCommand(_ =>
         {
-            metadataRepository.Move(_movingNotebook, NotebooksFilter.Folder);
+            metadataRepository.Move((Metadata)_movingNotebook.Tag, NotebooksFilter.Folder);
             IsMoving = false;
 
             NotebooksFilter.Documents.Clear();
-            foreach (var md in metadataRepository.GetByParent(NotebooksFilter.Folder))
+            foreach (var mds in metadataRepository.GetByParent(NotebooksFilter.Folder))
             {
-                NotebooksFilter.Documents.Add(md);
+                if (mds.Type == "CollectionType")
+                {
+                    notebooksFilter.Documents.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+                }
+                else
+                {
+                    notebooksFilter.Documents.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+                }
             }
 
-            NotebooksFilter.Documents.Add(new Metadata
-            {
-                Type = "CollectionType",
-                VisibleName = localisationService.GetString("Up ..")
-            });
+            NotebooksFilter.Documents.Add(new UpDirectoryModel());
 
             NotebooksFilter.SortByFolder();
 

@@ -68,7 +68,9 @@
                         <controls:KryptoDonateButton CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="{DynamicResource Unicons.BitcoinCircle}" />
                         <controls:KryptoDonateButton CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource Unicons.UsdCircle}" />
                         <controls:KryptoDonateButton CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="{DynamicResource SimpleIcons.Dogecoin}" />
-                        <controls:KryptoDonateButton CoinName="Dash" Address="XjNArWqH6McWcNoshfhbx6gvGVfJb1g8s4" Image="{DynamicResource SimpleIcons.Dash}" />
+                        <Button Classes="Flat" Command="{l:OpenLink 'https://www.buymeacoffee.com/furesoft'}" ToolTip.Tip="{l:Localisation 'Buy me a coffee'}">
+                            <DrawingPresenter Drawing="{DynamicResource BuyMeaCoffee}" />
+                        </Button>
                     </UniformGrid>
 
                     <Button Classes="Flat" Command="{Binding FeedbackCommand}">
