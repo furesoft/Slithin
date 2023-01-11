@@ -97,7 +97,7 @@ internal class LoadingServiceImpl : ILoadingService
         storage.Load();
 
         // Load Category Names
-        var tempCats = storage.Templates.Select(x => x.Categories);
+        var tempCats = storage.Templates.Select(x => x.Categories).ToArray();
 
         foreach (var item in tempCats)
         {
@@ -111,7 +111,7 @@ internal class LoadingServiceImpl : ILoadingService
         }
 
         //Load first templates which are shown to make loading "smoother and faster"
-        LoadTemplatesByCategory(filter.Categories.FirstOrDefault(), filter, storage, true);
+        LoadTemplatesByCategory(filter.Categories.First(), filter, storage, true);
 
         monitor.Dispose();
 
@@ -125,15 +125,17 @@ internal class LoadingServiceImpl : ILoadingService
     {
         foreach (var t in storage.Templates)
         {
-            if (t.Categories.Contains(category))
+            if (!t.Categories.Contains(category))
             {
-                if (!filter.Templates.Contains(t) && addToView)
-                {
-                    filter.Templates.Add(t);
-                }
-
-                storage.LoadTemplate(t);
+                continue;
             }
+
+            if (!filter.Templates.Contains(t) && addToView)
+            {
+                filter.Templates.Add(t);
+            }
+
+            storage.LoadTemplate(t);
         }
     }
 }

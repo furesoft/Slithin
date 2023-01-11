@@ -3,6 +3,7 @@ using AuroraModularis.Logging.Models;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.UI.Models;
 
@@ -36,7 +37,7 @@ internal class RenameCommand : ICommand
         return parameter != null
                && parameter is FileSystemModel fsm || fsm.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
-               && fsm is not UpModel
+               && fsm is not UpDirectoryModel
                && fsm is not TrashModel;
     }
 

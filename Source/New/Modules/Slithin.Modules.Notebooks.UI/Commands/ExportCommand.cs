@@ -2,6 +2,7 @@
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Export.Models;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Notebooks.UI.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
 
@@ -28,7 +29,7 @@ internal class ExportCommand : ICommand
         return parameter != null
                && parameter is FileSystemModel fsm || fsm.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
-               && fsm is not UpModel
+               && fsm is not UpDirectoryModel
                && fsm is not TrashModel
                && md.Type.Equals("DocumentType");
         //&& _exportProviderFactory.GetAvailableProviders(md).Any();

@@ -12,7 +12,7 @@ namespace Slithin.Modules.Repository;
 
 internal class ThumbnailLoaderImpl : IThumbnailLoader
 {
-    public IImage LoadImage(FilesystemModel model)
+    public IImage LoadImage(FileSystemModel model)
     {
         if (model.Tag is not Metadata md)
         {
@@ -43,14 +43,17 @@ internal class ThumbnailLoaderImpl : IThumbnailLoader
                 }
             }
 
-            if (!string.IsNullOrEmpty(filename))
+            if (string.IsNullOrEmpty(filename))
             {
-                var thumbnail = Path.Combine(notebooksDir, md.ID + ".thumbnails", filename + ".jpg");
+                return cache.GetObject("notebook-" + md.Content.FileType,
+                    () => new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
+            }
 
-                if (File.Exists(thumbnail))
-                {
-                    return cache.GetObject(thumbnail, () => new Bitmap(File.OpenRead(thumbnail)));
-                }
+            var thumbnail = Path.Combine(notebooksDir, md.ID + ".thumbnails", filename + ".jpg");
+
+            if (File.Exists(thumbnail))
+            {
+                return cache.GetObject(thumbnail, () => new Bitmap(File.OpenRead(thumbnail)));
             }
         }
 

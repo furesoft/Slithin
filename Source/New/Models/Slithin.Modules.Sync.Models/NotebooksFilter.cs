@@ -7,12 +7,12 @@ namespace Slithin.Modules.Sync.Models;
 
 public class NotebooksFilter : NotifyObject
 {
-    private ObservableCollection<FilesystemModel> _documents = new();
+    private ObservableCollection<FileSystemModel> _documents = new();
     private string _folder = "";
 
-    private FilesystemModel _selectedNotebook;
+    private FileSystemModel _selectedNotebook;
 
-    public ObservableCollection<FilesystemModel> Documents
+    public ObservableCollection<FileSystemModel> Documents
     {
         get => _documents;
         set => SetValue(ref _documents, value);
@@ -24,7 +24,7 @@ public class NotebooksFilter : NotifyObject
         set => SetValue(ref _folder, value);
     }
 
-    public FilesystemModel SelectedNotebook
+    public FileSystemModel SelectedNotebook
     {
         get => _selectedNotebook;
         set => SetValue(ref _selectedNotebook, value);
@@ -36,6 +36,6 @@ public class NotebooksFilter : NotifyObject
         ordered = ordered.OrderByDescending(_ => _ is DirectoryModel);
         ordered = ordered.OrderByDescending(_ => _.VisibleName?.Equals("Up .."));
 
-        Documents = new ObservableCollection<FilesystemModel>(ordered);
+        Documents = new ObservableCollection<FileSystemModel>(ordered);
     }
 }

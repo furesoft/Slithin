@@ -37,7 +37,7 @@ internal class RemoveNotebookCommand : ICommand
         return parameter != null
                && parameter is FileSystemModel fsm || fsm.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
-               && fsm is not UpModel
+               && fsm is not UpDirectoryModel
                && fsm is not TrashModel;
     }
 

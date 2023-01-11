@@ -32,14 +32,17 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
 
     public bool CanExecute(object data)
     {
-        if (data is FileSystemModel fsm && fsm.Tag is not Metadata)
+        if (data is not FileSystemModel fsm)
         {
             return false;
         }
 
-        if (((Metadata)fsm.Tag).VisibleName != _localisationService.GetString("Quick sheets"))
+        if (fsm.Tag is Metadata md)
         {
-            return false;
+            if (md.VisibleName != _localisationService.GetString("Quick sheets"))
+            {
+                return false;
+            }
         }
 
         return true;
@@ -47,7 +50,9 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
 
     public void Execute(object data)
     {
-        ConvertToNotebook((FileSystemModel)data).Tag as Metadata);
+        var fsm = (FileSystemModel)data;
+        
+        ConvertToNotebook(fsm.Tag as Metadata);
     }
 
     private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
