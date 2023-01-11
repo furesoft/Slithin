@@ -31,7 +31,7 @@ internal class UnPinCommand : ICommand
 
     public void Execute(object data)
     {
-        if (data is not FilesystemModel fsm || fsm.Tag is not Metadata md)
+        if (data is not FileSystemModel fsm || fsm.Tag is not Metadata md)
         {
             return;
         }

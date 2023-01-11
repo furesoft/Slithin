@@ -43,7 +43,7 @@ internal class RemoveNotebookCommand : ICommand
 
     public async void Execute(object parameter)
     {
-        if (parameter is not FilesystemModel fsm || fsm.Tag is not Metadata md
+        if (parameter is not FileSystemModel fsm || fsm.Tag is not Metadata md
             || !await _dialogService.Show(
                 _localisationService.GetStringFormat("Would you really want to delete '{0}'?", md.VisibleName)))
             return;

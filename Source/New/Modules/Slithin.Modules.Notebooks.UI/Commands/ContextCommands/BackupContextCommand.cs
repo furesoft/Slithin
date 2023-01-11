@@ -22,7 +22,7 @@ internal class BackupContextCommand : IContextCommand
 
     public bool CanExecute(object data)
     {
-        return data is Metadata md && md.VisibleName != _localisationService.GetString("Trash");
+        return data is not TrashModel;
     }
 
     public void Execute(object data)

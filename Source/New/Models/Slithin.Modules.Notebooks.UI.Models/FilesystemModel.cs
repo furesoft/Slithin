@@ -2,7 +2,7 @@
 
 namespace Slithin.Modules.Notebooks.UI.Models;
 
-public class FilesystemModel : NotifyObject
+public class FileSystemModel : NotifyObject
 {
     private string _visibleName;
 
@@ -10,7 +10,7 @@ public class FilesystemModel : NotifyObject
 
     private bool _isPinned;
 
-    public FilesystemModel(string visibleName, object tag, bool isPinned)
+    public FileSystemModel(string visibleName, object tag, bool isPinned)
     {
         VisibleName = visibleName;
         Tag = tag;

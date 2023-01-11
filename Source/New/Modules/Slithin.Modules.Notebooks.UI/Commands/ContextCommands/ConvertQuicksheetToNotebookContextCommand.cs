@@ -32,7 +32,7 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
 
     public bool CanExecute(object data)
     {
-        if (data is not Metadata md)
+        if (data is FileSystemModel fsm || fsm.Tag is not Metadata md)
         {
             return false;
         }
