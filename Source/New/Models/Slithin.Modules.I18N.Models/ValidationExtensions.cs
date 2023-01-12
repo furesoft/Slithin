@@ -1,4 +1,5 @@
 ﻿using AuroraModularis;
+using FluentValidations;
 
 namespace Slithin.Modules.I18N.Models;
 
