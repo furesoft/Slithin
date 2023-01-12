@@ -113,10 +113,10 @@ internal class NotebooksPageViewModel : BaseViewModel
     public ICommand UnPinCommand { get; set; }
     public NotebooksFilter NotebooksFilter { get; }
 
-    public override void OnLoad()
+    public override async void OnLoad()
     {
         base.OnLoad();
 
-        _loadingService.LoadNotebooks();
+        await _loadingService.LoadNotebooksAsync();
     }
 }

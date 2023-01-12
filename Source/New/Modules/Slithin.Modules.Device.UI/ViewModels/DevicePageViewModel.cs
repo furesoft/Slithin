@@ -129,11 +129,13 @@ internal class DevicePageViewModel : BaseViewModel
 
     private async Task LoadAsync()
     {
-        await Task.Run(() =>
+        await Task.Run(async () =>
         {
-            _loadingService.LoadTemplates();
-            _loadingService.LoadNotebooks();
+            var templatesTask = _loadingService.LoadTemplatesAsync();
+            var notebooksTask = _loadingService.LoadNotebooksAsync();
 
+            Task.WaitAll(templatesTask, notebooksTask);
+            
             _templatesFilter.SelectedCategory = _templatesFilter.Categories.First();
         });
     }

@@ -18,31 +18,12 @@ internal class LoadingServiceImpl : ILoadingService
         _container = container;
     }
 
-    public void LoadApiToken()
-    {
-        var settingsService = _container.Resolve<ISettingsService>();
-        var settings = settingsService.GetSettings();
-
-        if (settings.MarketplaceCredential != null)
-        {
-            var authThread = new Thread(() =>
-            {
-                var api = new MarketplaceAPI();
-                api.Authenticate(settings.MarketplaceCredential.Username, settings.MarketplaceCredential.HashedPassword);
-
-                Container.Current.Register(api);
-            });
-            authThread.Start();
-        }
-    }
-
-    public void LoadNotebooks()
+    public async Task LoadNotebooksAsync()
     {
         var filter = Container.Current.Resolve<NotebooksFilter>();
         var errorTrackingService = _container.Resolve<IDiagnosticService>();
         var mdStorage = _container.Resolve<IMetadataRepository>();
         var pathManager = _container.Resolve<IPathManager>();
-        var localisationService = _container.Resolve<ILocalisationService>();
 
         if (filter.Documents.Any())
         {
@@ -81,7 +62,7 @@ internal class LoadingServiceImpl : ILoadingService
         monitor.Dispose();
     }
 
-    public void LoadTemplates()
+    public async Task LoadTemplatesAsync()
     {
         var errorTrackingService = Container.Current.Resolve<IDiagnosticService>();
         var storage = Container.Current.Resolve<ITemplateStorage>();
@@ -121,7 +102,7 @@ internal class LoadingServiceImpl : ILoadingService
         });
     }
 
-    public void LoadTemplatesByCategory(string category, TemplatesFilter filter, ITemplateStorage storage, bool addToView = false)
+    public async Task LoadTemplatesByCategory(string category, TemplatesFilter filter, ITemplateStorage storage, bool addToView = false)
     {
         foreach (var t in storage.Templates)
         {
@@ -135,7 +116,7 @@ internal class LoadingServiceImpl : ILoadingService
                 filter.Templates.Add(t);
             }
 
-            storage.LoadTemplate(t);
+            await storage.LoadTemplateAsync(t);
         }
     }
 }

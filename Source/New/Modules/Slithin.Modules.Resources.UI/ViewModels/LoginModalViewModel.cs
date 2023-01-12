@@ -67,8 +67,6 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
             _api.Authenticate(Username, Password);
 
             var settings = _settingsService.GetSettings();
-            settings.MarketplaceCredential = new() { Username = Username, HashedPassword = Password };
-
             _settingsService.Save(settings);
 
             Frame.GetFrame("resourcesFrame").Navigate(typeof(ResourcesMainPage));

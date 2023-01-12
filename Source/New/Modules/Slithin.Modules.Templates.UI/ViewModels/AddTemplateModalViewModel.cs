@@ -12,6 +12,7 @@ using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.Templates.UI.Models;
 using Slithin.Modules.UI.Models;
+using Slithin.Validators;
 
 namespace Slithin.Modules.Templates.UI.ViewModels;
 
@@ -19,7 +20,9 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 {
     private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;
+    private readonly INotificationService _notificationService;
     private readonly ITemplateStorage _templateStorage;
+    private readonly AddTemplateValidator _validator;
     private readonly TemplatesFilter _templatesFilter;
     private readonly IDialogService _dialogService;
     private readonly ICacheService _cacheService;
@@ -29,7 +32,8 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
     private string _name;
     private object _selectedCategory;
 
-    public AddTemplateModalViewModel(IPathManager pathManager, ITemplateStorage templateStorage,
+    public AddTemplateModalViewModel(IPathManager pathManager, INotificationService notificationService,
+        ITemplateStorage templateStorage, AddTemplateValidator validator,
         TemplatesFilter templatesFilter, IDialogService dialogService, ICacheService cacheService,
         ILocalisationService localisationService)
     {
@@ -38,7 +42,9 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         AddTemplateCommand = new DelegateCommand(AddTemplate);
         AddCategoryCommand = new DelegateCommand(AddCategory);
         _pathManager = pathManager;
+        _notificationService = notificationService;
         _templateStorage = templateStorage;
+        _validator = validator;
         _templatesFilter = templatesFilter;
         _dialogService = dialogService;
         _cacheService = cacheService;
@@ -122,13 +128,13 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
     private async void AddTemplate(object obj)
     {
-        /*var validationResult = _validator.Validate(this);
+        var validationResult = _validator.Validate(this);
 
         if (!validationResult.IsValid)
         {
-            DialogService.OpenError(validationResult.Errors.First().ToString());
+            _notificationService.ShowErrorNewWindow(validationResult.Errors.ToString("\n"));
             return;
-        }*/
+        }
 
         var template = BuildTemplate();
 
@@ -158,7 +164,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
         //_localRepository.AddTemplate(template);
 
-        _templateStorage.LoadTemplate(template);
+        await _templateStorage.LoadTemplateAsync(template);
 
         _templateStorage.AppendTemplate(template);
         _templatesFilter.Templates.Add(template);

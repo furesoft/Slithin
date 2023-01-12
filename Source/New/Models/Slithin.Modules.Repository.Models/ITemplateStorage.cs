@@ -14,5 +14,5 @@ public interface ITemplateStorage
 
     void Load();
 
-    void LoadTemplate(Template template);
+    Task LoadTemplateAsync(Template template);
 }

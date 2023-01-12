@@ -51,7 +51,7 @@ internal class TemplatesPageViewModel : BaseViewModel
 
     public TemplatesFilter TemplateFilter { get; }
 
-    public override void OnLoad()
+    public override async void OnLoad()
     {
         base.OnLoad();
 
@@ -63,7 +63,7 @@ internal class TemplatesPageViewModel : BaseViewModel
             }
         };
 
-        _loadingService.LoadTemplates();
+        await _loadingService.LoadTemplatesAsync();
 
         TemplateFilter.SelectedCategory = TemplateFilter.Categories.First();
     }

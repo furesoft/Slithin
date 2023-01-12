@@ -35,7 +35,7 @@ public class ResourcesPageViewModel : BaseViewModel
 
         var settings = _settingsService.GetSettings();
 
-        if (settings.MarketplaceCredential == null)
+        if (settings.MarketplaceToken == null)
         {
             frame.Navigate(typeof(LoginModal));
         }

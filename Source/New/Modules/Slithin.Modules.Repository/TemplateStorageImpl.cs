@@ -41,7 +41,7 @@ public class TemplateStorageImpl : ITemplateStorage
         File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, serializerSettings));
     }
 
-    public void LoadTemplate(Template template)
+    public async Task LoadTemplateAsync(Template template)
     {
         var templatesDir = Container.Current.Resolve<IPathManager>().TemplatesDir;
 
@@ -52,12 +52,13 @@ public class TemplateStorageImpl : ITemplateStorage
 
         var path = Path.Combine(templatesDir, template.Filename);
 
-        if (!File.Exists(path + ".png"))
+        var filename = $"{path}.png";
+        if (!File.Exists(filename))
         {
             return;
         }
 
-        template.Image = Bitmap.DecodeToWidth(File.OpenRead(path + ".png"), 150);
+        template.Image = Bitmap.DecodeToWidth(File.OpenRead(filename), 150);
     }
 
     public void Load()
