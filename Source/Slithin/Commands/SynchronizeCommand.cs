@@ -11,15 +11,12 @@ public class SynchronizeCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly LocalRepository _localRepository;
-    private readonly IMailboxService _mailboxService;
     private readonly IPathManager _pathManager;
 
-    public SynchronizeCommand(IMailboxService mailboxService,
-        LocalRepository localRepository,
+    public SynchronizeCommand(LocalRepository localRepository,
         IPathManager pathManager,
         ILocalisationService localisationService)
     {
-        _mailboxService = mailboxService;
         _localRepository = localRepository;
         _pathManager = pathManager;
         _localisationService = localisationService;
@@ -56,11 +53,6 @@ public class SynchronizeCommand : ICommand
         SyncDeviceDeletions();
 
         //ModuleEventStorage.Invoke("OnSynchonized", 0);
-    }
-
-    public void RaiseExecuteChanged()
-    {
-        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void SyncDeviceDeletions()
