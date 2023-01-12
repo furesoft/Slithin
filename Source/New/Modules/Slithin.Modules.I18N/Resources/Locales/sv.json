@@ -50,7 +50,6 @@
   "New Tool": "Nytt verktyg",
   "Next": "Nästa",
   "Category": "Kategori",
-  "The Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "Bilden passar inte är inte i rätt riktning. Använd en 1404x1872-dimension.",
   "The filetype '{0}' is not supported": "Filtypen '{0}' stöds inte",
   "ID": "ID",
   "Page Count": "Antal sidor",
@@ -167,5 +166,6 @@
   "A notebook has to have at least 1 page": "En anteckningsbok måste ha minst 1 sida",
   "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "Mallen passar inte är inte i rätt position. Använd en 1404x1872-dimension.",
   "Buy me a coffee": "Köp mig ett kaffe",
-  "Only for short names and default covers": "Endast för korta namn och standardomslag"
+  "Only for short names and default covers": "Endast för korta namn och standardomslag",
+  "The Image does not fit is not in correct dimension. Please use a 1404x1872 dimension.": "Bilden passar inte är inte i rätt riktning. Använd en 1404x1872-dimension."
 }
