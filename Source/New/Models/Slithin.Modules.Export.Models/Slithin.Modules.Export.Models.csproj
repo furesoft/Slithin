@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Slithin.entities.Remarkable\Slithin.Entities.Remarkable.csproj" />
+    <ProjectReference Include="..\Slithin.Entities.Remarkable\Slithin.Entities.Remarkable.csproj" />
     <ProjectReference Include="..\Slithin.Modules.Device.Models\Slithin.Modules.Device.Models.csproj" />
     <ProjectReference Include="..\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
   </ItemGroup>

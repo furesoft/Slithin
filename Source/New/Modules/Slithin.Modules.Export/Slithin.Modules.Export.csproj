@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Slithin.Modules.UI\Slithin.Modules.UI.Models.csproj" />
-    <ProjectReference Include="..\..\Models\Slithin.entities.Remarkable\Slithin.Entities.Remarkable.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Entities.Remarkable\Slithin.Entities.Remarkable.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Export.Models\Slithin.Modules.Export.Models.csproj" />
     <ProjectReference Include="..\..\Slithin.Core\Slithin.Core.csproj" />
   </ItemGroup>
