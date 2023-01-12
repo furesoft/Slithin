@@ -1,6 +1,6 @@
 ﻿<DataTemplates xmlns="https://github.com/avaloniaui" xmlns:controls="using:Slithin.Controls"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <DataTemplate DataType="{x:Type e:ContextualButton}">
-        <controls:ImageButton MinHeight="60" Classes="Flat" Text="{Binding Title}" Command="{Binding Command}" Image="{DynamicResource Material.Refresh}" />
+        <controls:ImageButton MinHeight="60" Classes="Flat" Text="{Binding Title}" Command="{Binding Command}" CommandParameter="{Binding CommandParameter}" Image="{Binding Icon}" />
     </DataTemplate>
 </DataTemplates>

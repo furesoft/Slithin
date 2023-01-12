@@ -10,6 +10,11 @@
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.19" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\**" />
+    <EmbeddedResource Include="Resources\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
@@ -29,6 +34,10 @@
       <SubType>Code</SubType>
       <DependentUpon>DeviceContextualMenu.axaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\DataTemplates.xml" />
   </ItemGroup>
 
 </Project>
