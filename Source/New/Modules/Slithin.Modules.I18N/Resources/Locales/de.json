@@ -50,7 +50,6 @@
   "New Tool": "Neues Werkzeug",
   "Next": "Weiter",
   "Category": "Kategorie",
-  "The Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "Das Bild passt nicht in die richtige Dimension. Bitte verwenden Sie eine Abmessung 1404x1872.",
   "The filetype '{0}' is not supported": "Der Dateityp '{0}' wird nicht unterstützt",
   "ID": "ID",
   "Page Count": "Seitenanzahl",
@@ -167,5 +166,6 @@
   "A notebook has to have at least 1 page": "Ein Notizbuch muss mindestens 1 Seite haben",
   "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "Das Template passt nicht in die richtige Dimension. Bitte verwenden Sie eine Größe von 1404x1872.",
   "Buy me a coffee": "Kaufe mir einen Kaffee",
-  "Only for short names and default covers": "Nur für kurze Namen und Standard-Cover"
+  "Only for short names and default covers": "Nur für kurze Namen und Standard-Cover",
+  "The Image does not fit is not in correct dimension. Please use a 1404x1872 dimension.": "Das Bild passt nicht in die richtige Dimension. Bitte verwenden Sie eine Abmessung 1404x1872."
 }
