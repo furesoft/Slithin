@@ -9,7 +9,9 @@ using Slithin.Entities;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
+using Slithin.Modules.UI.Models;
 using Slithin.Modules.Updater.Models;
+using Slithin.Validators;
 using Slithin.Views;
 
 namespace Slithin.ViewModels;
@@ -20,6 +22,8 @@ public class ConnectionWindowViewModel : BaseViewModel
     private readonly IRemarkableDevice _remarkableDevice;
     private readonly ISettingsService _settingsService;
     private readonly IUpdaterService _updaterService;
+    private readonly INotificationService _notificationService;
+    private readonly LoginInfoValidator _validator;
     private ObservableCollection<LoginInfo> _loginCredentials;
 
     private LoginInfo _selectedLogin;
@@ -27,7 +31,9 @@ public class ConnectionWindowViewModel : BaseViewModel
     public ConnectionWindowViewModel(ILoginService loginService,
                                      IRemarkableDevice remarkableDevice,
                                      ISettingsService settingsService,
-                                     IUpdaterService updaterService)
+                                     IUpdaterService updaterService,
+                                     INotificationService notificationService,
+                                     LoginInfoValidator validator)
     {
         ConnectCommand = new DelegateCommand(Connect);
         HelpCommand = new DelegateCommand(Help);
@@ -39,6 +45,8 @@ public class ConnectionWindowViewModel : BaseViewModel
         _remarkableDevice = remarkableDevice;
         _settingsService = settingsService;
         _updaterService = updaterService;
+        _notificationService = notificationService;
+        _validator = validator;
     }
 
     public ICommand ConnectCommand { get; set; }
@@ -112,6 +120,13 @@ public class ConnectionWindowViewModel : BaseViewModel
             SelectedLogin.Name = "DefaultDevice";
         }
 
+        var validationResult = _validator.Validate();
+
+        if (!validationResult.IsValid)
+        {
+            _notificationService.ShowErrorNewWindow(validationResult.Errors.ToString("\n")); //Show errors in new window and seperated by new line
+        }
+        
         _loginService.SetLoginCredential(SelectedLogin);
         _remarkableDevice.Connect(ip, SelectedLogin.Password);
 
