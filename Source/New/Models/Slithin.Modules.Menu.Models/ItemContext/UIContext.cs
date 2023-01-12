@@ -1,8 +1,8 @@
 ﻿namespace Slithin.Modules.Menu.Models.ItemContext;
 
-public enum UIContext
+public class UIContext
 {
-    Notebook,
-    Tool,
-    Template
+    public const string Notebook = nameof(Notebook);
+    public const string Tool = nameof(Tool);
+    public const string Template = nameof(Template);
 }

@@ -5,12 +5,12 @@ namespace Slithin.Modules.Menu.Models.ItemContext;
 
 public static class UIContextMenuBuilder
 {
-    public static UIContext GetEnable(Control target)
+    public static string GetEnable(Control target)
     {
-        return UIContext.Notebook;
+        return "Notebook";
     }
 
-    public static void SetEnable(Control target, UIContext context)
+    public static void SetEnable(Control target, string pageID)
     {
         void OnTargetOnInitialized(object s, EventArgs _)
         {
@@ -18,17 +18,17 @@ public static class UIContextMenuBuilder
 
             if (s is ItemsControl ic)
             {
-                ic.ContextMenu = contextProvider.BuildMenu(context, ic.DataContext, ic.Parent?.Parent?.DataContext);
+                ic.ContextMenu = contextProvider.BuildMenu(pageID, ic.DataContext, ic.Parent?.Parent?.DataContext);
             }
             else if (s is Control c)
             {
                 if (c.Parent is ListBoxItem lbi)
                 {
-                    c.ContextMenu = contextProvider.BuildMenu(context, lbi.DataContext, lbi.Parent?.DataContext);
+                    c.ContextMenu = contextProvider.BuildMenu(pageID, lbi.DataContext, lbi.Parent?.DataContext);
                 }
                 else
                 {
-                    c.ContextMenu = contextProvider.BuildMenu(context, c.DataContext, c.Parent?.DataContext);
+                    c.ContextMenu = contextProvider.BuildMenu(pageID, c.DataContext, c.Parent?.DataContext);
                 }
             }
         }
