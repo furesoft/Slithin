@@ -1,8 +1,5 @@
-﻿using FluentValidation;
-using Slithin.Core.Services;
-using Slithin.Modules.I18N.Models;
+﻿using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Templates.UI.ViewModels;
-using Slithin.ViewModels.Modals;
 
 namespace Slithin.Validators;
 

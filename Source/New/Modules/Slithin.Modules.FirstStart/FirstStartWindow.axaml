@@ -5,7 +5,7 @@
         xmlns:c="using:Slithin.Controls.Ports.StepBar"
         xmlns:l="using:Slithin.Core"
         xmlns:m="using:Slithin.Modules.FirstStart"
-        xmlns:steps="using:Slithin.Modules.FirstStart.Steps" Height="500" Width="700"
+        Height="500" Width="700"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Icon="avares:/Resources/Icon.png" WindowStartupLocation="CenterScreen"
         x:Class="Slithin.Modules.FirstStart.FirstStartWindow" SystemDecorations="BorderOnly"
         Title="{l:Localisation 'Welcome To Slithin'}">

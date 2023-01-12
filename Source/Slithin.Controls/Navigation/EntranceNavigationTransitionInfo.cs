@@ -4,7 +4,6 @@ using Avalonia.Animation.Easings;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.VisualTree;
-using System;
 
 namespace Slithin.Controls.Navigation;
 

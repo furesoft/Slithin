@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Slithin.Entities.Remarkable.Rendering;
+﻿namespace Slithin.Entities.Remarkable.Rendering;
 
 public struct Ranges
 {

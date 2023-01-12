@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Slithin.Entities.Remarkable.Rendering;
+﻿namespace Slithin.Entities.Remarkable.Rendering;
 
 public class Layer
 {

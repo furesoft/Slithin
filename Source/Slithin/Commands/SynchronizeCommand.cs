@@ -3,12 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows.Input;
-using Slithin.Core;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
-using Slithin.Messages;
 
 namespace Slithin.Commands;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Slithin.Controls.Navigation;
+﻿namespace Slithin.Controls.Navigation;
 
 /// <summary>
 /// Represents a method that will handle the Frame.NavigationFailed event.

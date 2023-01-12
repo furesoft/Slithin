@@ -17,7 +17,6 @@ namespace Slithin.Modules.PdfNotebookTools.ViewModels;
 
 public class AppendNotebookModalViewModel : ModalBaseViewModel
 {
-    private readonly ILoadingService _loadingService;
     private readonly IDialogService _dialogService;
     private readonly INotificationService _notificationService;
     private readonly AppendNotebookValidator _validator;
@@ -30,12 +29,11 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
     private ObservableCollection<Template> _templates = new();
 
     public AppendNotebookModalViewModel(IPathManager pathManager, ITemplateStorage templateStorage,
-        ILoadingService loadingService, IDialogService dialogService, INotificationService notificationService,
+        IDialogService dialogService, INotificationService notificationService,
         AppendNotebookValidator validator, ILocalisationService localisationService)
     {
         _pathManager = pathManager;
         _templateStorage = templateStorage;
-        _loadingService = loadingService;
         _dialogService = dialogService;
         _notificationService = notificationService;
         _validator = validator;
@@ -68,7 +66,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
     public ObservableCollection<object> Pages { get; set; } = new();
 
-    public Template SelectedTemplate
+    public Template? SelectedTemplate
     {
         get => _selectedTemplate;
         set => SetValue(ref _selectedTemplate, value);
@@ -89,8 +87,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
     private async void AddPages(object obj)
     {
-        if (int.TryParse(PageCount, out var pcount) &&
-            (SelectedTemplate != null || !string.IsNullOrEmpty(CustomTemplateFilename)))
+        if (int.TryParse(PageCount, out var pcount) && SelectedTemplate != null)
         {
             if (!string.IsNullOrEmpty(CustomTemplateFilename))
             {
@@ -171,7 +168,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
         mdStorage.SaveToDisk(md);
 
-        document.Save(_pathManager.NotebooksDir + $"\\{md.ID}.pdf");
+        document.Save($"{_pathManager.NotebooksDir}\\{md.ID}.pdf");
 
         Notebook.UploadDocument(md);
     }

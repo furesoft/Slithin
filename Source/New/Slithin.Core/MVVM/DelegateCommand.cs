@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Input;
-using Slithin.Core;
+﻿using System.Windows.Input;
 
 namespace Slithin.Core.MVVM;
 

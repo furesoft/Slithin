@@ -2,7 +2,6 @@
 using AuroraModularis.Core;
 using Avalonia.Controls;
 using Slithin.Core;
-using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models;
 using Slithin.Modules.Menu.Models.ItemContext;

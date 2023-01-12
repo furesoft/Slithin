@@ -1,5 +1,4 @@
-﻿using AuroraModularis.Core;
-using AuroraModularis.Hooks.Core;
+﻿using AuroraModularis.Hooks.Core;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
@@ -18,7 +17,6 @@ public class ModuleLoadingHook : IModuleLoadingHook
     public void BeforeLoadModule(Type moduleType)
     {
         RegisterIconsFrom(moduleType);
-        
         RegisterDataTemplates(moduleType);
     }
 
@@ -29,27 +27,31 @@ public class ModuleLoadingHook : IModuleLoadingHook
 
     private static void RegisterIconsFrom(Type type)
     {
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+        var resDictionary = GetFromResource<ResourceDictionary>(type);
 
-        var uri = new Uri("avares://" + type.Namespace + "/Resources/Icons.xml");
-        if (assets.Exists(uri))
-        {
-            var resDictionary = (ResourceDictionary)AvaloniaRuntimeXamlLoader.Load(assets.Open(uri), type.Assembly);
-
-            App.Current.Resources.MergedDictionaries.Add(resDictionary);
-        }
+        if (resDictionary is null) return;
+        
+        Application.Current!.Resources.MergedDictionaries.Add(resDictionary);
     }
     
     private static void RegisterDataTemplates(Type type)
     {
+        var dataTemplates = GetFromResource<DataTemplates>(type);
+        if (dataTemplates is null) return;
+        
+        Application.Current!.DataTemplates.AddRange(dataTemplates);
+    }
+
+    private static T? GetFromResource<T>(Type type)
+    {
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-        var uri = new Uri("avares://" + type.Namespace + "/Resources/DataTemplates.xml");
-        if (assets.Exists(uri))
+        var uri = new Uri($"avares://{type.Namespace}/Resources/DataTemplates.xml");
+        if (assets!.Exists(uri))
         {
-            var dataTemplates = (DataTemplates)AvaloniaRuntimeXamlLoader.Load(assets.Open(uri), type.Assembly);
-
-            Application.Current.DataTemplates.AddRange(dataTemplates);
+            return (T) AvaloniaRuntimeXamlLoader.Load(assets.Open(uri), type.Assembly);
         }
+
+        return default;
     }
 }

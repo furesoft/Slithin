@@ -5,13 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Slithin.Core;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
-using Slithin.Core.Sync;
-using Slithin.Messages;
-using Slithin.Models;
 
 namespace Slithin.MessageHandlers;
 

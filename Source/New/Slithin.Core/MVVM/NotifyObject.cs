@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Slithin.Core;
 
 namespace Slithin.Core.MVVM;
 

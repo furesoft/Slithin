@@ -1,8 +1,4 @@
-﻿using FluentValidation;
-using Slithin.Core.Services;
-using Slithin.Models;
-
-namespace Slithin.Validators;
+﻿namespace Slithin.Validators;
 
 public class LoginInfoValidator : AbstractValidator<LoginInfo>
 {

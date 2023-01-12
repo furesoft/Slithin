@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Slithin.Modules.Import.Models;
+﻿namespace Slithin.Modules.Import.Models;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 public class ImportProviderBaseTypeAttribute : Attribute

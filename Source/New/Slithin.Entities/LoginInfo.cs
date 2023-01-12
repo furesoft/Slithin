@@ -5,7 +5,7 @@ namespace Slithin.Entities;
 
 public record LoginInfo : INotifyPropertyChanged
 {
-    public ObjectId _id { get; set; }
+    public ObjectId? _id { get; set; }
 
     public string Name { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;

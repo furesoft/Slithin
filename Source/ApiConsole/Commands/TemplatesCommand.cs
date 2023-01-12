@@ -1,7 +1,6 @@
 ﻿using ApiConsole.Core;
 using CommandLine;
 using Newtonsoft.Json;
-using Slithin.Marketplace.Models;
 
 namespace ApiConsole.Commands;
 

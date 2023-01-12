@@ -1,8 +1,4 @@
-﻿using FluentValidation;
-using Slithin.Core.Services;
-using Slithin.Modules.I18N.Models;
-using Slithin.Modules.PdfNotebookTools.ViewModels;
-using Slithin.ViewModels.Modals.Tools;
+﻿using Slithin.Modules.PdfNotebookTools.ViewModels;
 
 namespace Slithin.Validators;
 

@@ -1,10 +1,4 @@
 ﻿using System.IO;
-using Slithin.Core;
-using Slithin.Core.Messaging;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Services;
-using Slithin.Messages;
-using Slithin.Models;
 
 namespace Slithin.MessageHandlers;
 

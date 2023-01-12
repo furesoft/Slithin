@@ -1,6 +1,4 @@
-﻿using Slithin.API.Lib;
-
-namespace ApiConsole;
+﻿namespace ApiConsole;
 
 public static class ServiceLocator
 {

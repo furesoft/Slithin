@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using LiteDB;
 using Slithin.Core.MVVM;
-using Slithin.Modules.Resources.Models;
 
 namespace Slithin.Modules.Settings.Models;
 

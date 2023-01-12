@@ -6,13 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Serilog;
-using Slithin.Core;
 using Slithin.Core.MVVM;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Services;
 using Slithin.Core.Sync.Repositorys;
-using Slithin.Models;
-using Slithin.Tools;
 
 namespace Slithin.ViewModels.Pages;
 

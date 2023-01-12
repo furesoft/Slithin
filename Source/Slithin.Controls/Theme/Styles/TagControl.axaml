@@ -1,9 +1,5 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:l="using:Slithin.Core"
-        xmlns:c="http://github.com/furesoft/Slithin"
         xmlns:controls="http://github.com/furesoft/Slithin">
     <Design.PreviewWith>
         <ItemsControl HorizontalAlignment="Right">

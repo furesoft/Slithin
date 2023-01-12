@@ -1,9 +1,5 @@
 ﻿using System.Reflection;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
-using Avalonia.Markup.Xaml;
-using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Modules.Device.UI;
 using Slithin.Modules.Menu.Models.ContextualMenu;

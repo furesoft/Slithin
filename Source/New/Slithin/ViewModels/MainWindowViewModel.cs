@@ -1,17 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Windows.Input;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
-using Avalonia.Markup.Xaml;
-using Avalonia.Platform;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.Events.Models;
 using Slithin.Modules.I18N.Models;
-using Slithin.Modules.Menu;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Menu.Views;
 using Slithin.Modules.Repository.Models;
