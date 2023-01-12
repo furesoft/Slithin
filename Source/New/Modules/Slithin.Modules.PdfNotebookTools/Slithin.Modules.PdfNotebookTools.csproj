@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.19" />
     <PackageReference Include="PdfSharpCore" Version="1.3.43" />
+    <PackageReference Include="FluentValidations" Version="11.4.0" />
   </ItemGroup>
 
   <ItemGroup>
