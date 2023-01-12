@@ -17,7 +17,7 @@ jobs:
           dotnet-version: 7.0.100
       - name: Install Windows Developer Kit
         run: |
-          choco install windowsdeveloperkit
+          choco install --pre windowsdeveloperkit
       - name: Build and publish app
         run: |
           dotnet build -c Release
