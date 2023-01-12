@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -33,6 +34,11 @@ public class MainWindowViewModel : BaseViewModel
         _eventService = eventService;
         Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
 
+        SynchronizeCommand = new DelegateCommand(_ =>
+        {
+            //ToDo: implement synchronize command
+        });
+        
         LoadMenu();
     }
 
@@ -56,6 +62,8 @@ public class MainWindowViewModel : BaseViewModel
 
     public ObservableCollection<object> Tabs { get; set; } = new();
 
+    public ICommand SynchronizeCommand { get; set; }
+    
     public string Title
     {
         get => _title;
