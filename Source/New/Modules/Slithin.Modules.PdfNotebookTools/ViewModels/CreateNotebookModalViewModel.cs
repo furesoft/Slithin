@@ -15,6 +15,7 @@ using Slithin.Modules.PdfNotebookTools.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.UI.Models;
+using Slithin.Validators;
 
 namespace Slithin.Modules.PdfNotebookTools.ViewModels;
 
@@ -24,6 +25,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
     private readonly ITemplateStorage _templateStorage;
     private readonly NotebooksFilter _notebooksFilter;
     private readonly ILocalisationService _localisationService;
+    private readonly CreateNotebookValidator _validator;
     private readonly IPathManager _pathManager;
     private readonly IDialogService _dialogService;
     private readonly INotificationService _notificationService;
@@ -43,7 +45,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
     public CreateNotebookModalViewModel(IPathManager pathManager, IDialogService dialogService,
         INotificationService notificationService, IMetadataRepository metadataRepository,
         ILoadingService loadingService, ITemplateStorage templateStorage, NotebooksFilter notebooksFilter,
-        ILocalisationService localisationService)
+        ILocalisationService localisationService, CreateNotebookValidator validator)
     {
         AddPagesCommand = new DelegateCommand(AddPages);
         OKCommand = new DelegateCommand(OK);
@@ -56,6 +58,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         _templateStorage = templateStorage;
         _notebooksFilter = notebooksFilter;
         _localisationService = localisationService;
+        _validator = validator;
     }
 
     public ICommand AddPagesCommand { get; set; }
@@ -181,14 +184,13 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
     private async void OK(object obj)
     {
-        /*
         var validationResult = _validator.Validate(this);
 
         if (!validationResult.IsValid)
         {
-            DialogService.OpenError(validationResult.Errors.First().ToString());
+            _notificationService.ShowErrorNewWindow(validationResult.Errors.ToString("\n"));
             return;
-        }*/
+        }
 
         await Task.Run(() =>
         {
