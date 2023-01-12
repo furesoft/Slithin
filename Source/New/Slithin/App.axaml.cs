@@ -22,6 +22,7 @@ public partial class App : Application
             .WithAppName("Slithin")
             .WithModulesBasePath(".")
             .WithSettingsBasePath(".")
+            .WithHook<ModuleLoadingHook>()
             .WithSettingsProvider<LiteDbSettingsProvider>();
 
         await bootstrapper.BuildAndStartAsync();
