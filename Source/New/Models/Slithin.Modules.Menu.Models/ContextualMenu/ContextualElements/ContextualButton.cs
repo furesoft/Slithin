@@ -15,4 +15,5 @@ public class ContextualButton : ContextualElement
     public string IconName { get; set; }
     public string? Hint { get; set; }
     public string Title { get; set; }
+    public object? CommandParameter { get; set; }
 }

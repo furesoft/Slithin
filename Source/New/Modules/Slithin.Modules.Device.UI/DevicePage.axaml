@@ -18,7 +18,7 @@
             <ItemsControl Items="{Binding ShareEmailAddresses}" HorizontalAlignment="Right">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <c:TagControl Tag="{Binding}" RemoveCommand="{Binding $parent[ItemsControl].DataContext.RemoveEmailCommand}}" />
+                        <c:TagControl Tag="{Binding}" RemoveCommand="{Binding $parent[ItemsControl].DataContext.RemoveEmailCommand}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 

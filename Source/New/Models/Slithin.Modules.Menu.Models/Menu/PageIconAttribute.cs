@@ -8,5 +8,5 @@ public class PageIconAttribute : Attribute
         Key = key;
     }
 
-    public string Key { get; set; }
+    public string Key { get; }
 }

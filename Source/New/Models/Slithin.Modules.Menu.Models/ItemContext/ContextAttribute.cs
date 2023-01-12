@@ -8,5 +8,5 @@ public class ContextAttribute : Attribute
         Context = context;
     }
 
-    public string Context { get; set; }
+    public string Context { get; }
 }
