@@ -26,16 +26,14 @@ Slithin is available for Windows, Linux and OSX. The executables are available u
 * List/Delete ShareEmail History
 
 # In Testing
-* Generate SSH Key
 
 # Planned
-* Custom ScriptLanguage to automate tools
 * Share your assets with other users
 * Cloud Connection
 * Dark Mode
 * New Tools: 
     - Merge Notebooks
     - Use Shapes on your device
-
+* Plugin support to enable new cloud providers/tools/etc
 
 # This is a beta, so use it on your own risk
