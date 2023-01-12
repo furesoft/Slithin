@@ -16,9 +16,7 @@ public partial class ToolsPage : UserControl, IPage
     }
 
     public string Title => "Tools";
-
-    public Control GetContextualMenu() => new ToolsContextualMenu();
-
+    
     bool IPage.IsEnabled()
     {
         return true;

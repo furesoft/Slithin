@@ -7,6 +7,8 @@ using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.Events.Models;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Menu.Models.ContextualMenu;
+using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Menu.Views;
 using Slithin.Modules.Repository.Models;
@@ -16,6 +18,7 @@ namespace Slithin.ViewModels;
 public class MainWindowViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
+    private readonly IContextualMenuBuilder _contextualMenuBuilder;
     private readonly IEventService _eventService;
     private object _contextualMenu;
     private Page _selectedTab;
@@ -25,9 +28,11 @@ public class MainWindowViewModel : BaseViewModel
     public MainWindowViewModel(IVersionService versionService,
                                ILoginService loginService,
                                ILocalisationService localisationService,
+                               IContextualMenuBuilder contextualMenuBuilder,
                                IEventService eventService)
     {
         _localisationService = localisationService;
+        _contextualMenuBuilder = contextualMenuBuilder;
         _eventService = eventService;
         Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
 
@@ -80,17 +85,20 @@ public class MainWindowViewModel : BaseViewModel
         foreach (var type in types)
         {
             if (!typeof(IPage).IsAssignableFrom(type) || type.IsInterface)
-
+                continue;
+            if (!typeof(Control).IsAssignableFrom(type))
                 continue;
 
             var instance = Activator.CreateInstance(type);
             var preserveIndexAttribute = type.GetCustomAttribute<PreserveIndexAttribute>();
             var pageIconAttribute = type.GetCustomAttribute<PageIconAttribute>();
+            var contextAttribute = type.GetCustomAttribute<ContextAttribute>();
+            var controlInstance = (Control)instance;
 
-            if (instance is not IPage pageInstance || !pageInstance.IsEnabled() || instance is not Control controlInstance)
+            if (instance is not IPage pageInstance || !pageInstance.IsEnabled())
                 continue;
 
-            var header = _localisationService.GetString(pageInstance?.Title);
+            var header = _localisationService.GetString(pageInstance.Title);
             var page = new Page
             {
                 Header = header,
@@ -99,14 +107,12 @@ public class MainWindowViewModel : BaseViewModel
 
             page.Icon = GetIcon(pageIconAttribute, type);
 
-            var contextMenu = pageInstance.GetContextualMenu();
-            if (contextMenu != null)
+            var contextMenu = _contextualMenuBuilder.BuildContextualMenu(contextAttribute.Context);
+            page.Tag = contextMenu;
+            
+            if (contextMenu is EmptyContextualMenu)
             {
-                page.Tag = contextMenu;
-            }
-            else
-            {
-                page.Tag = new EmptyContextualMenu() { DataContext = header };
+                contextMenu.DataContext = header;
             }
 
             toRearrange.Add((preserveIndexAttribute != null ? preserveIndexAttribute.Index : toRearrange.Count, page, controlInstance));

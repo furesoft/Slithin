@@ -27,18 +27,6 @@
                     </Border>
                 </controls:ImagePopupButton.PopupContent>
             </controls:ImagePopupButton>
-
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Folder'}" Command="{Binding MakeFolderCommand}" Image="{DynamicResource Ionicons.AddiOS}" />
-
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Remove'}" Command="{Binding RemoveNotebookCommand}" Image="{DynamicResource Cool.TrashFull}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
-
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Move'}" Command="{Binding MoveCommand}" Image="{DynamicResource Material.FolderMove}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Rename'}" Command="{Binding RenameCommand}" Image="{DynamicResource BoxIcons.RegularRename}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
-
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Export'}" Command="{Binding ExportCommand}" Image="{DynamicResource Material.ExportVariant}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
-
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Pin'}" Command="{Binding PinCommand}" Image="{DynamicResource Entypo+.Star}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Unpin'}" Command="{Binding UnPinCommand}" Image="{DynamicResource Entypo+.StarOutline}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
         </StackPanel>
 
         <StackPanel IsVisible="{Binding IsInTrash, Mode=TwoWay}" Spacing="12" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">

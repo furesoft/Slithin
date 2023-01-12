@@ -18,8 +18,6 @@ public partial class DevicePage : UserControl, IPage
 
     public string Title => "Device";
 
-    public Control GetContextualMenu() => new DeviceContextualMenu();
-
     bool IPage.IsEnabled() => true;
 
     private void DragOver(object sender, DragEventArgs e)

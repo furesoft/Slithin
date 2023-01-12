@@ -6,7 +6,5 @@ public interface IPage
 {
     string Title { get; }
 
-    Control GetContextualMenu();
-
     bool IsEnabled();
 }

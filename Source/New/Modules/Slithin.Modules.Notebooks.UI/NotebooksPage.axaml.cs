@@ -25,11 +25,6 @@ public class NotebooksPage : UserControl, IPage
 
     public string Title => "Notebooks";
 
-    public Control GetContextualMenu()
-    {
-        return new NotebooksContextualMenu();
-    }
-
     bool IPage.IsEnabled()
     {
         return true;
