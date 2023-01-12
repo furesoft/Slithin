@@ -7,5 +7,9 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+  </ItemGroup>
+
   <Import Project="$(SolutionDir)\Version.props" />
 </Project>
