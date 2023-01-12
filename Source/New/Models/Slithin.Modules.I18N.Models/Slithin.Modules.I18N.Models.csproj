@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="FluentValidation" Version="11.4.0" />
   </ItemGroup>
 
   <Import Project="$(SolutionDir)\Version.props" />

@@ -1,11 +1,11 @@
-﻿using Slithin.Modules.I18N.Models;
+﻿using FluentValidation;
+using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Templates.UI.ViewModels;
 
 namespace Slithin.Validators;
 
 public class AddTemplateValidator : AbstractValidator<AddTemplateModalViewModel>
 {
-    
     public AddTemplateValidator(ILocalisationService localisationService)
     {
         RuleFor(x => x.Name).NotEmpty()

@@ -1,4 +1,5 @@
-﻿using Slithin.Modules.Export;
+﻿using FluentValidation;
+using Slithin.Modules.Export;
 using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Validators;
@@ -15,6 +16,7 @@ public class ExportValidator : AbstractValidator<ExportModalViewModel>
             .WithLocalizedMessage("Select at least one page");
 
         RuleFor(x => x.ExportPath)
-            .NotNull().WithLocalizedMessage("No export path specified");
+            .NotNull()
+            .WithLocalizedMessage("No export path specified");
     }
 }

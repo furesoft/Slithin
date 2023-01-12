@@ -124,11 +124,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Updater", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketplaceService", "New\MarketplaceService\MarketplaceService.csproj", "{E4F7EBB8-1BFF-46D5-967F-C3878FB14A50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.Notebooks.UI.Models", "New\Models\Slithin.Modules.Notebooks.UI.Models\Slithin.Modules.Notebooks.UI.Models.csproj", "{67E95A05-36B7-49FC-A5B2-1E5C0C7BDC86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.Notebooks.UI.Models", "New\Models\Slithin.Modules.Notebooks.UI.Models\Slithin.Modules.Notebooks.UI.Models.csproj", "{67E95A05-36B7-49FC-A5B2-1E5C0C7BDC86}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalisationSearcher", "..\Tools\LocalisationSearcher\LocalisationSearcher.csproj", "{0E74AC6B-4B42-48D2-98A2-F580D82F0ABE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.TemplateEditor", "New\Modules\Slithin.Modules.TemplateEditor\Slithin.Modules.TemplateEditor.csproj", "{29FE8F82-E886-4F2C-8287-EFAE372D65C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.TemplateEditor", "New\Modules\Slithin.Modules.TemplateEditor\Slithin.Modules.TemplateEditor.csproj", "{29FE8F82-E886-4F2C-8287-EFAE372D65C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slithin.Modules.UI.Models", "Slithin.Modules.UI\Slithin.Modules.UI.Models.csproj", "{91DCEAB1-B210-46C3-9E48-297BFA319E1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1430,6 +1432,30 @@ Global
 		{29FE8F82-E886-4F2C-8287-EFAE372D65C2}.Release|x64.Build.0 = Release|Any CPU
 		{29FE8F82-E886-4F2C-8287-EFAE372D65C2}.Release|x86.ActiveCfg = Release|Any CPU
 		{29FE8F82-E886-4F2C-8287-EFAE372D65C2}.Release|x86.Build.0 = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|ARM.Build.0 = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|x64.Build.0 = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Debug|x86.Build.0 = Debug|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|ARM.ActiveCfg = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|ARM.Build.0 = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|ARM32.Build.0 = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|ARM64.Build.0 = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|x64.ActiveCfg = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|x64.Build.0 = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1493,6 +1519,7 @@ Global
 		{67E95A05-36B7-49FC-A5B2-1E5C0C7BDC86} = {B45E51FF-56E7-4204-8A26-2AF63A270E60}
 		{0E74AC6B-4B42-48D2-98A2-F580D82F0ABE} = {B1C557C0-3F23-44FE-BB18-EED482F919BB}
 		{29FE8F82-E886-4F2C-8287-EFAE372D65C2} = {012964D8-FB49-4BD1-BFB0-009736758D59}
+		{91DCEAB1-B210-46C3-9E48-297BFA319E1D} = {B45E51FF-56E7-4204-8A26-2AF63A270E60}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AEF28834-827B-4DA8-AC92-207A90616579}

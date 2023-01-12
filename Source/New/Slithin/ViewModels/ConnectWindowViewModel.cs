@@ -120,13 +120,13 @@ public class ConnectionWindowViewModel : BaseViewModel
             SelectedLogin.Name = "DefaultDevice";
         }
 
-        var validationResult = _validator.Validate();
+        var validationResult = _validator.Validate(SelectedLogin);
 
         if (!validationResult.IsValid)
         {
             _notificationService.ShowErrorNewWindow(validationResult.Errors.ToString("\n")); //Show errors in new window and seperated by new line
         }
-        
+
         _loginService.SetLoginCredential(SelectedLogin);
         _remarkableDevice.Connect(ip, SelectedLogin.Password);
 

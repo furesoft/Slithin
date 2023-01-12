@@ -1,4 +1,8 @@
-﻿namespace Slithin.Validators;
+﻿using FluentValidation;
+using Slithin.Entities;
+using Slithin.Modules.I18N.Models;
+
+namespace Slithin.Validators;
 
 public class LoginInfoValidator : AbstractValidator<LoginInfo>
 {
