@@ -6,12 +6,13 @@ using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Notebooks.UI.Models;
 
 namespace Slithin.Modules.Menu;
 
 internal class ContextMenuProviderImpl : IContextMenuProvider
 {
-    private readonly Dictionary<UIContext, List<IContextProvider>> _providers = new();
+    private readonly Dictionary<string, List<IContextProvider>> _providers = new();
 
     public void AddProvider(IContextProvider provider)
     {
@@ -51,7 +52,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
         }
     }
 
-    public ContextMenu BuildMenu<T>(UIContext context, T item, object parent = null)
+    public ContextMenu BuildMenu<T>(string context, T item, object parent = null)
     {
         if (!_providers.ContainsKey(context))
         {
@@ -75,15 +76,11 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
             {
                 c.ParentViewModel = parent;
 
-                if (item is Metadata md) // Do not show context menu for Up navigation folder and items in trash
+                if (item is UpDirectoryModel || item is TrashModel)
                 {
-                    if (md.VisibleName == localisationProvider.GetString("Up ..")
-                        || md.Parent == "trash")
-                    {
-                        return Array.Empty<MenuItem>();
-                    }
+                    return Array.Empty<MenuItem>();
                 }
-
+                
                 return c.GetMenu(item);
             })
         };

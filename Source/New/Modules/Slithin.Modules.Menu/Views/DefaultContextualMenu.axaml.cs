@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Slithin.Modules.Device.UI;
 
-public partial class DeviceContextualMenu : UserControl
+public partial class DefaultContextualMenu : UserControl
 {
-    public DeviceContextualMenu()
+    public DefaultContextualMenu()
     {
         InitializeComponent();
     }

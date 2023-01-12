@@ -12,10 +12,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Notebooks.UI.Models\Slithin.Modules.Notebooks.UI.Models.csproj" />
     <ProjectReference Include="..\..\Slithin.Core\Slithin.Core.csproj" />
     <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\EmptyContextualMenu.axaml.cs">
+      <DependentUpon>EmptyContextualMenu.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\DefaultContextualMenu.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DeviceContextualMenu.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

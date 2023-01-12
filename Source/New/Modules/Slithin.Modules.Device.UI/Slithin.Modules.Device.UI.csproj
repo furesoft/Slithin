@@ -29,10 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="DeviceContextualMenu.axaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
     <Compile Update="DevicePage.axaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>%(Filename)</DependentUpon>

@@ -112,9 +112,12 @@
 		<Compile Update="Views\ConnectWindow.axaml.cs">
 			<DependentUpon>%(Filename)</DependentUpon>
 		</Compile>
-		<Compile Update="Views\ContextualMenus\EmptyContextualMenu.axaml.cs">
-			<DependentUpon>%(Filename)</DependentUpon>
-		</Compile>
+	</ItemGroup>
+
+	
+
+	<ItemGroup>
+	  <Folder Include="Views\ContextualMenus" />
 	</ItemGroup>
 
 	<Import Project="$(SolutionDir)\Version.props" />
