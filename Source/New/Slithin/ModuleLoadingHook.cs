@@ -2,6 +2,7 @@
 using AuroraModularis.Hooks.Core;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform;
 
@@ -17,6 +18,8 @@ public class ModuleLoadingHook : IModuleLoadingHook
     public void BeforeLoadModule(Type moduleType)
     {
         RegisterIconsFrom(moduleType);
+        
+        RegisterDataTemplates(moduleType);
     }
 
     public void AfterLoadModule(AuroraModularis.Module module)
@@ -34,6 +37,19 @@ public class ModuleLoadingHook : IModuleLoadingHook
             var resDictionary = (ResourceDictionary)AvaloniaRuntimeXamlLoader.Load(assets.Open(uri), type.Assembly);
 
             App.Current.Resources.MergedDictionaries.Add(resDictionary);
+        }
+    }
+    
+    private static void RegisterDataTemplates(Type type)
+    {
+        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+
+        var uri = new Uri("avares://" + type.Namespace + "/Resources/DataTemplates.xml");
+        if (assets.Exists(uri))
+        {
+            var dataTemplates = (DataTemplates)AvaloniaRuntimeXamlLoader.Load(assets.Open(uri), type.Assembly);
+
+            Application.Current.DataTemplates.AddRange(dataTemplates);
         }
     }
 }
