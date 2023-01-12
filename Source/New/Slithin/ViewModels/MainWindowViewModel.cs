@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform;
 using Slithin.Core;
@@ -10,9 +11,10 @@ using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.Events.Models;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Menu;
 using Slithin.Modules.Menu.Models.Menu;
+using Slithin.Modules.Menu.Views;
 using Slithin.Modules.Repository.Models;
-using Slithin.Views.ContextualMenus;
 
 namespace Slithin.ViewModels;
 
@@ -72,19 +74,6 @@ public class MainWindowViewModel : BaseViewModel
 
     private static object? GetIcon(PageIconAttribute? pageIconAttribute, Type type)
     {
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-        var uri = new Uri("avares://" + type.Namespace + "/Resources/Icons.xml");
-        if (assets.Exists(uri))
-        {
-            var resDictionary = (ResourceDictionary)AvaloniaRuntimeXamlLoader.Load(assets.Open(uri), type.Assembly);
-
-            if (resDictionary.ContainsKey(pageIconAttribute.Key))
-            {
-                return resDictionary[pageIconAttribute.Key];
-            }
-        }
-
         return App.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
     }
 
