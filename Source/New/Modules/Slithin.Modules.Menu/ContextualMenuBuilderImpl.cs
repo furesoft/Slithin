@@ -32,6 +32,8 @@ public class ContextualMenuBuilderImpl : IContextualMenuBuilder
         {
             var contextAttribute = page.GetType().GetCustomAttribute<ContextAttribute>();
 
+            if (contextAttribute is null) continue;
+            
             if (!_registrars.ContainsKey(contextAttribute.Context))
             {
                 _registrars.Add(contextAttribute.Context, new());
