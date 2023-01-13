@@ -37,6 +37,8 @@ internal class SettingsPageViewModel : BaseViewModel
         _logger = logger;
 
         _settings = settingsService.GetSettings();
+
+        _credential = new();
     }
 
     public bool AutomaticScreenRecovery

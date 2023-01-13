@@ -17,7 +17,7 @@ internal class ContextualMenuProvider : IContextualMenuProvider
     
     public void RegisterContextualMenuElements(ContextualRegistrar registrar)
     {
-        registrar.RegisterFor(UIContext.Tool, new ContextualButton("Execute", "Material.HexagonMultiple", _viewModel.ExecuteScriptCommand){CommandParameter = _viewModel.SelectedScript});
-        registrar.RegisterFor(UIContext.Tool, new ContextualButton("Config", "Vaadin.CogOutline", _viewModel.ConfigurateScriptCommand){CommandParameter = _viewModel.SelectedScript});
+        registrar.RegisterFor(UIContext.Tools, new ContextualButton("Execute", "Material.HexagonMultiple", _viewModel.ExecuteScriptCommand){CommandParameter = _viewModel.SelectedScript});
+        registrar.RegisterFor(UIContext.Tools, new ContextualButton("Config", "Vaadin.CogOutline", _viewModel.ConfigurateScriptCommand){CommandParameter = _viewModel.SelectedScript});
     }
 }

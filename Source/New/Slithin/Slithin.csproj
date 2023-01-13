@@ -11,12 +11,8 @@
 		<RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64;osx.12-arm64</RuntimeIdentifiers>
 		<PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
 		<Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<AvaloniaXaml Remove="Assets\Icons.axaml" />
-	</ItemGroup>
 
 
 	<ItemGroup>
@@ -37,7 +33,6 @@
 	<ItemGroup>
 		<PackageReference Include="AuroraModularis" Version="1.0.19" />
 		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.19" />
-		<PackageReference Include="Portable.Xaml" Version="0.26.0" />
 		<PackageReference Include="FluentValidations" Version="1.1.0" />
 		<PackageReference Include="Avalonia" Version="0.10.18" />
 		<PackageReference Include="Avalonia.Desktop" Version="0.10.18" />

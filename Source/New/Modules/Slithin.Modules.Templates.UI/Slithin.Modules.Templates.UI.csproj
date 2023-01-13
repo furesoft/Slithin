@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AvaloniaXaml Remove="Icons.axaml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Resources\Icons.xml" />
     <None Remove="Resources\IconTiles\e970.png" />
     <None Remove="Resources\IconTiles\e975.png" />
@@ -95,7 +91,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Resources\Icons.xml" />
+    <AvaloniaResource Include="Resources\Icons.axaml" />
     <AvaloniaResource Include="Resources\IconTiles\e970.png" />
     <AvaloniaResource Include="Resources\IconTiles\e975.png" />
     <AvaloniaResource Include="Resources\IconTiles\e976.png" />
@@ -175,10 +171,6 @@
     <AvaloniaResource Include="Resources\IconTiles\e9fe.png" />
     <AvaloniaResource Include="Resources\IconTiles\e9ff.png" />
     <AvaloniaResource Include="Resources\IconTiles\ea00.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaXaml Include="Resources\Icons.xml" />
   </ItemGroup>
 
   <ItemGroup>

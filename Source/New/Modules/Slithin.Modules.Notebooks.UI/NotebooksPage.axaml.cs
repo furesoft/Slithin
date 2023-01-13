@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Notebooks.UI.ViewModels;
 using Slithin.Modules.Repository.Models;
@@ -11,6 +12,7 @@ namespace Slithin.Modules.Notebooks.UI;
 
 [PreserveIndex(1)]
 [PageIcon("Codeicons.Notebook")]
+[Context(UIContext.Notebook)]
 public class NotebooksPage : UserControl, IPage
 {
     public NotebooksPage()

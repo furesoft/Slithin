@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Resources\Icons.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.19" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />

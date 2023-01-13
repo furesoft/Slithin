@@ -4,7 +4,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform;
-using Portable.Xaml;
 
 namespace Slithin;
 
@@ -28,7 +27,7 @@ public class ModuleLoadingHook : IModuleLoadingHook
 
     private static void RegisterIconsFrom(Type type)
     {
-        var resDictionary = GetFromResource<ResourceDictionary>(type);
+        var resDictionary = GetFromResource<ResourceDictionary>(type, "Icons");
 
         if (resDictionary is null) return;
         
@@ -37,20 +36,20 @@ public class ModuleLoadingHook : IModuleLoadingHook
     
     private static void RegisterDataTemplates(Type type)
     {
-        var dataTemplates = GetFromResource<DataTemplates>(type);
+        var dataTemplates = GetFromResource<DataTemplates>(type, "DataTemplates");
         if (dataTemplates is null) return;
         
         Application.Current!.DataTemplates.AddRange(dataTemplates);
     }
 
-    private static T? GetFromResource<T>(Type type)
+    private static T? GetFromResource<T>(Type type, string name)
     {
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-        var uri = new Uri($"avares://{type.Namespace}/Resources/DataTemplates.xml");
+        var uri = new Uri($"avares://{type.Namespace}/Resources/{name}.axaml");
         if (assets!.Exists(uri))
         {
-            return (T) XamlServices.Load(assets.Open(uri));
+            return (T?)  AvaloniaXamlLoader.Load(uri, null);
         }
 
         return default;

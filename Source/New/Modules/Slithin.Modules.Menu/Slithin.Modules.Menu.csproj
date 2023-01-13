@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Resources\DataTemplates.xml" />
+    <AvaloniaResource Include="Resources\DataTemplates.axaml" />
   </ItemGroup>
 
 </Project>

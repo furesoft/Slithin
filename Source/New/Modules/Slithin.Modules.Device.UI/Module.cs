@@ -1,4 +1,5 @@
 ﻿using AuroraModularis.Core;
+using Slithin.Modules.Menu.Models.ContextualMenu;
 
 namespace Slithin.Modules.Device.UI;
 
