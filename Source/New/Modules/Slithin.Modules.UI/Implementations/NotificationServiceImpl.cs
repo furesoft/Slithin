@@ -41,6 +41,8 @@ internal class NotificationServiceImpl : INotificationService
 
     public IStatusController ShowStatus(string message, bool showInNewWindow = false)
     {
+        Container.Current.Resolve<ILogger>().Info(message);
+        
         var controller = new StatusController(showInNewWindow);
         controller.Step(message);
 
