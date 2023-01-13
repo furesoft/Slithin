@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using AuroraModularis.Core;
 using Avalonia.Controls;
 using Slithin.Core;
 using Slithin.Modules.Device.UI;
@@ -28,7 +29,7 @@ public class ContextualMenuBuilderImpl : IContextualMenuBuilder
 
     public void Init()
     {
-        foreach (var page in Utils.Find<IPage>())
+        foreach (var page in Utils.Find<IPage>().ToArray())
         {
             var contextAttribute = page.GetType().GetCustomAttribute<ContextAttribute>();
 
@@ -41,9 +42,11 @@ public class ContextualMenuBuilderImpl : IContextualMenuBuilder
         }
 
         //Todo: refactor to make it more performant, O(n³) is not ok!!
-        foreach (var provider in Utils.Find<IContextualMenuProvider>())
+        foreach (var providerType in Utils.FindTypes<IContextualMenuProvider>())
         {
             var tmpRegistrar = new ContextualRegistrar();
+
+            var provider = Container.Current.Resolve<IContextualMenuProvider>(providerType);
             provider.RegisterContextualMenuElements(tmpRegistrar);
 
             foreach (var bag in tmpRegistrar.GetAllElements())

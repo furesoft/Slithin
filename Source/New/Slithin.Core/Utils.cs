@@ -19,7 +19,7 @@ public static class Utils
             from assembly in AppDomain.CurrentDomain.GetAssemblies()
             where !assembly.IsDynamic
             from type in TryGetTypes(assembly)
-            where typeof(T).IsAssignableFrom(type)
+            where typeof(T).IsAssignableFrom(type) && !type.IsInterface
             select type;
     }
     
