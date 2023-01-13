@@ -1,4 +1,6 @@
-﻿using Avalonia.Controls;
+﻿using AuroraModularis.Core;
+using AuroraModularis.Logging.Models;
+using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Slithin.Modules.UI.Models;
 
@@ -20,12 +22,15 @@ internal class NotificationServiceImpl : INotificationService
 
     public void ShowError(string message)
     {
+        Container.Current.Resolve<ILogger>().Error(message);
         _notificationManager.Show((new Notification("Error", message, NotificationType.Error)));
     }
 
     //ToDo: error notification in new window need to be tested
     public void ShowErrorNewWindow(string message)
     {
+        Container.Current.Resolve<ILogger>().Error(message);
+        
         var window = new Window();
         var notificationCard = new NotificationCard();
         notificationCard.Content = new Notification("Error", message, NotificationType.Error);

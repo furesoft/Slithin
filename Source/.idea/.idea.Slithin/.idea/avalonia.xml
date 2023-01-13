@@ -4,11 +4,15 @@
     <option name="projectPerEditor">
       <map>
         <entry key="New/Modules/Slithin.Modules.Device.UI/DeviceContextualMenu.axaml" value="New/Slithin/Slithin.csproj" />
+        <entry key="New/Modules/Slithin.Modules.Device.UI/DevicePage.axaml" value="New/Slithin/Slithin.csproj" />
         <entry key="New/Modules/Slithin.Modules.Menu/Views/DefaultContextualMenu.axaml" value="New/Slithin/Slithin.csproj" />
         <entry key="New/Modules/Slithin.Modules.Menu/Views/DeviceContextualMenu.axaml" value="New/Slithin/Slithin.csproj" />
         <entry key="New/Modules/Slithin.Modules.Menu/Views/EmptyContextualMenu.axaml" value="New/Slithin/Slithin.csproj" />
+        <entry key="New/Modules/Slithin.Modules.Notebooks.UI/NotebooksContextualMenu.axaml" value="New/Slithin/Slithin.csproj" />
+        <entry key="New/Modules/Slithin.Modules.Tools.UI/ToolsContextualMenu.axaml" value="New/Slithin/Slithin.csproj" />
         <entry key="New/Slithin/MainWindow.axaml" value="New/Slithin/Slithin.csproj" />
         <entry key="Slithin.Controls/Theme/Styles/DialogControlStyle.axaml" value="New/Slithin/Slithin.csproj" />
+        <entry key="Slithin.Controls/Theme/Styles/ImagePopupButtonStyle.axaml" value="New/Slithin/Slithin.csproj" />
         <entry key="Slithin.Controls/Theme/Styles/Marketplace/GalleryControl.axaml" value="New/Slithin/Slithin.csproj" />
         <entry key="Slithin/TemplateEditor/TemplateEditorControl.axaml" value="Slithin/Slithin.csproj" />
       </map>
