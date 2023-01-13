@@ -89,7 +89,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
 
     public void Init()
     {
-        var providerTypes = Utils.FindType<IContextProvider>();
+        var providerTypes = Utils.FindTypes<IContextProvider>();
 
         foreach (var providerType in providerTypes)
         {
@@ -101,7 +101,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
             }
         }
 
-        var commandTypes = Utils.FindType<IContextCommand>();
+        var commandTypes = Utils.FindTypes<IContextCommand>();
         foreach (var commandType in commandTypes)
         {
             var resolvedCommand = Container.Current.Resolve<IContextCommand>(commandType);

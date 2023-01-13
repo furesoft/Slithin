@@ -81,7 +81,7 @@ public class MainWindowViewModel : BaseViewModel
     {
         var toRearrange = new List<(int index, Page page, Control view)>();
 
-        var types = Utils.FindType<IPage>();
+        var types = Utils.FindTypes<IPage>();
         foreach (var type in types)
         {
             if (!typeof(IPage).IsAssignableFrom(type) || type.IsInterface)

@@ -8,13 +8,12 @@ public static class Utils
 {
     public static IEnumerable<T> Find<T>()
     {
-        var types = FindType<T>()
-            .Select(type => Container.Current.Resolve<T>(type));
-
-        return types;
+        return 
+            from type in FindTypes<T>()
+            select Container.Current.Resolve<T>(type);
     }
 
-    public static IEnumerable<Type> FindType<T>()
+    public static IEnumerable<Type> FindTypes<T>()
     {
         return
             from assembly in AppDomain.CurrentDomain.GetAssemblies()
