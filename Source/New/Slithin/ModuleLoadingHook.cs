@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform;
+using Portable.Xaml;
 
 namespace Slithin;
 
@@ -49,7 +50,7 @@ public class ModuleLoadingHook : IModuleLoadingHook
         var uri = new Uri($"avares://{type.Namespace}/Resources/DataTemplates.xml");
         if (assets!.Exists(uri))
         {
-            return (T) AvaloniaRuntimeXamlLoader.Load(assets.Open(uri), type.Assembly);
+            return (T) XamlServices.Load(assets.Open(uri));
         }
 
         return default;

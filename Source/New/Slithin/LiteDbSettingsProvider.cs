@@ -12,6 +12,14 @@ internal class LiteDbSettingsProvider : IModuleSettingsProvider
     {
         var dbpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Slithin", "slithin_modules.db");
 
+
+        var fileInfo = new FileInfo(dbpath);
+
+        if (!fileInfo.Directory.Exists)
+        {
+            fileInfo.Directory.Create();    
+        }
+        
         db = new LiteDatabase(dbpath);
     }
 

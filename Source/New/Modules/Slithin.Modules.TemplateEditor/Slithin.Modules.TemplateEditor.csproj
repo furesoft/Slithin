@@ -9,6 +9,14 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
     </ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="NodeEditorAvalonia" Version="0.10.14" />
+		<PackageReference Include="NodeEditorAvalonia.Export" Version="0.10.14" />
+		<PackageReference Include="NodeEditorAvalonia.Model" Version="0.10.14" />
+		<PackageReference Include="NodeEditorAvalonia.ReactiveUI" Version="0.10.14" />
+		<PackageReference Include="NodeEditorAvalonia.Serializer" Version="0.10.14" />
+	</ItemGroup>
 
     <ItemGroup>
       <Compile Update="TemplateEditorControl.axaml.cs">
