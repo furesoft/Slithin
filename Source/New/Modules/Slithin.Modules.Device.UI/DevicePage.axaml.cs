@@ -3,12 +3,14 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Slithin.Modules.Device.UI.ViewModels;
+using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 
 namespace Slithin.Modules.Device.UI;
 
 [PreserveIndex(0)]
 [PageIcon("Typicons.DeviceTablet")]
+[Context(UIContext.Device)]
 public partial class DevicePage : UserControl, IPage
 {
     public DevicePage()
