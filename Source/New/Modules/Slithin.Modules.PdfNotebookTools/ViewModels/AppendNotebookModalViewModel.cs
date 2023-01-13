@@ -4,6 +4,7 @@ using AuroraModularis.Core;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf.IO;
+using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 using Slithin.Entities.Remarkable.Rendering;
@@ -115,7 +116,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
          if (!validationResult.IsValid)
          {
-            _notificationService.ShowErrorNewWindow(validationResult.Errors.ToString("\n"));
+            _notificationService.ShowErrorNewWindow(validationResult.Errors.AsString());
              return;
          }
         

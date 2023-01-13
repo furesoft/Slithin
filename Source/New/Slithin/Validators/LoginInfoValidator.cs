@@ -12,8 +12,7 @@ public class LoginInfoValidator : AbstractValidator<LoginInfo>
     {
         _localisationService = localisationService;
 
-        RuleFor(x => x.IP).NotEmpty()
-            .Matches(IPAddress.Pattern).WithMessage(localisationService.GetString("Use a correct IP Address. Example: 127.0.0.2:22"));
+        RuleFor(x => x.IP).NotEmpty().When(_=> IPAddress.IsValid(_.IP)).WithLocalisedMessage("Use a correct IP Address. Example: 127.0.0.2:22");
 
         RuleFor(x => x.Password).Custom(PasswordValidator).MinimumLength(4);
     }

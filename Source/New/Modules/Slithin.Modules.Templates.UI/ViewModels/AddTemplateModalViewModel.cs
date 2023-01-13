@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Cache.Models;
@@ -132,7 +133,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
         if (!validationResult.IsValid)
         {
-            _notificationService.ShowErrorNewWindow(validationResult.Errors.ToString("\n"));
+            _notificationService.ShowErrorNewWindow(validationResult.Errors.AsString());
             return;
         }
 

@@ -17,7 +17,7 @@
                         <Popup
                                WindowManagerAddShadowHint="False"
                                IsOpen="{TemplateBinding IsChecked, Mode=TwoWay}"
-                               PlacementTarget="Background"
+                               PlacementTarget="PopupBorder"
 
                                IsLightDismissEnabled="True">
                             <Border x:Name="PopupBorder"

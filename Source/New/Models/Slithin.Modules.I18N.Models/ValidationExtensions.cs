@@ -5,10 +5,10 @@ namespace Slithin.Modules.I18N.Models;
 
 public static class ValidationExtensions
 {
-    public static IRuleBuilderOptions<T, IList<TElement>> WithLocalisedMessage<T, TElement>(this IRuleBuilder<T, IList<TElement>> ruleBuilder, string key)
+    public static IRuleBuilderOptions<T, TProperty> WithLocalisedMessage<T, TProperty>(this IRuleBuilderOptions<T, TProperty> rule, string key)
     {
         var localisatinService = Container.Current.Resolve<ILocalisationService>();
-
-        return ruleBuilder.WithMessage(localisatinService.GetString(key));
+        
+        return rule.WithMessage(localisatinService.GetString(key));
     }
 }

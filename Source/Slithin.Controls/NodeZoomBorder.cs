@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Avalonia.Controls.PanAndZoom;
 
 namespace Slithin.UI;
 

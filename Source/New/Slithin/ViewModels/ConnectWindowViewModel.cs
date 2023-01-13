@@ -124,7 +124,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         if (!validationResult.IsValid)
         {
-            _notificationService.ShowErrorNewWindow(validationResult.Errors.ToString("\n")); //Show errors in new window and seperated by new line
+            _notificationService.ShowErrorNewWindow(validationResult.Errors.AsString()); //Show errors in new window and seperated by new line
         }
 
         _loginService.SetLoginCredential(SelectedLogin);
