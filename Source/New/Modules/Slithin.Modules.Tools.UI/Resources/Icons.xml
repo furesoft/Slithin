@@ -1,0 +1,4 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <GeometryDrawing x:Key="FeatherIcons.Tool" Brush="#FF000000" Geometry="M9.851,3.623 A0.8419,0.8419 0 0 0 9.851,4.802 L11.2,6.149 A0.8419,0.8419 0 0 0 12.38,6.149 L15.55,2.975 A5.051,5.051 0 0 1 8.866,9.66 L3.049,15.48 A1.786,1.786 0 0 1 0.5231,12.95 L6.34,7.134 A5.051,5.051 0 0 1 13.02,0.4494 L9.86,3.615 z" />
+</ResourceDictionary>

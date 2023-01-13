@@ -1,0 +1,4 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <GeometryDrawing x:Key="Modern.Resource" Brush="#FF000000" Geometry="M6.827,0 L0.32,3.84 L6.827,7.68 L13.33,3.84 L6.827,0 z M0,4.693 L0,12.37 L6.4,16 L6.4,8.533 L0,4.693 z M13.65,4.693 L7.253,8.533 L7.253,16 L13.65,12.37 L13.65,4.693 z" />
+</ResourceDictionary>

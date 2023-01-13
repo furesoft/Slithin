@@ -4,14 +4,11 @@ using AuroraModularis.Core;
 
 namespace Slithin.Core;
 
-public static partial class Utils
+public static class Utils
 {
     public static IEnumerable<T> Find<T>()
     {
-        var types = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(_ => !_.IsDynamic)
-            .SelectMany(GetTypes)
-            .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass)
+        var types = FindType<T>()
             .Select(type => Container.Current.Resolve<T>(type));
 
         return types;
@@ -19,14 +16,14 @@ public static partial class Utils
 
     public static IEnumerable<Type> FindType<T>()
     {
-        var types = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(_ => !_.IsDynamic)
-            .SelectMany(GetTypes)
-            .Where(x => typeof(T).IsAssignableFrom(x) && x.IsClass);
-
-        return types;
+        return
+            from assembly in AppDomain.CurrentDomain.GetAssemblies()
+            where !assembly.IsDynamic
+            from type in TryGetTypes(assembly)
+            where typeof(T).IsAssignableFrom(type)
+            select type;
     }
-
+    
     public static void OpenUrl(string url)
     {
         try
@@ -55,7 +52,7 @@ public static partial class Utils
         }
     }
 
-    private static Type[] GetTypes(System.Reflection.Assembly s)
+    private static Type[] TryGetTypes(System.Reflection.Assembly s)
     {
         try
         {
