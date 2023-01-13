@@ -1,12 +1,14 @@
 ﻿using AuroraModularis.Core;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 
 namespace Slithin.Modules.Settings;
 
 [PreserveIndex(5)]
 [PageIcon("Vaadin.CogOutline")]
+[Context(UIContext.Settings)]
 public partial class SettingsPage : UserControl, IPage
 {
     public SettingsPage()

@@ -40,7 +40,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             //ToDo: implement synchronize command
         });
-        
+
         LoadMenu();
     }
 
@@ -65,7 +65,7 @@ public class MainWindowViewModel : BaseViewModel
     public ObservableCollection<object> Tabs { get; set; } = new();
 
     public ICommand SynchronizeCommand { get; set; }
-    
+
     public string Title
     {
         get => _title;
@@ -98,6 +98,8 @@ public class MainWindowViewModel : BaseViewModel
             if (instance is not IPage pageInstance || !pageInstance.IsEnabled())
                 continue;
 
+            if (contextAttribute is null) continue;
+
             var header = _localisationService.GetString(pageInstance.Title);
             var page = new Page
             {
@@ -109,7 +111,7 @@ public class MainWindowViewModel : BaseViewModel
 
             var contextMenu = _contextualMenuBuilder.BuildContextualMenu(contextAttribute.Context);
             page.Tag = contextMenu;
-            
+
             if (contextMenu is EmptyContextualMenu)
             {
                 contextMenu.DataContext = header;
