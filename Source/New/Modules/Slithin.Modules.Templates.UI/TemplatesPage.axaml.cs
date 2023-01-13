@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Templates.UI.ViewModels;
 
@@ -9,6 +10,7 @@ namespace Slithin.Modules.Templates.UI;
 
 [PreserveIndex(2)]
 [PageIcon("Vaadin.List")]
+[Context(UIContext.Template)]
 public partial class TemplatesPage : UserControl, IPage
 {
     public TemplatesPage()
