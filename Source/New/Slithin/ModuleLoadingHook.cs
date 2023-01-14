@@ -3,7 +3,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
-using Avalonia.Platform;
 
 namespace Slithin;
 
@@ -22,7 +21,6 @@ public class ModuleLoadingHook : IModuleLoadingHook
 
     public void AfterLoadModule(AuroraModularis.Module module)
     {
-        
     }
 
     private static void RegisterIconsFrom(Type type)
@@ -30,28 +28,23 @@ public class ModuleLoadingHook : IModuleLoadingHook
         var resDictionary = GetFromResource<ResourceDictionary>(type, "Icons");
 
         if (resDictionary is null) return;
-        
+
         Application.Current!.Resources.MergedDictionaries.Add(resDictionary);
     }
-    
+
     private static void RegisterDataTemplates(Type type)
     {
         var dataTemplates = GetFromResource<DataTemplates>(type, "DataTemplates");
         if (dataTemplates is null) return;
-        
+
         Application.Current!.DataTemplates.AddRange(dataTemplates);
     }
 
     private static T? GetFromResource<T>(Type type, string name)
     {
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+        var stream = type.Assembly.GetManifestResourceStream($"{type.Assembly.GetName().Name}.Resources.{name}.xml");
+        if (stream is null) return default;
 
-        var uri = new Uri($"avares://{type.Namespace}/Resources/{name}.axaml");
-        if (assets!.Exists(uri))
-        {
-            return (T?)  AvaloniaXamlLoader.Load(uri, null);
-        }
-
-        return default;
+        return (T?)AvaloniaRuntimeXamlLoader.Load(stream, type.Assembly);
     }
 }

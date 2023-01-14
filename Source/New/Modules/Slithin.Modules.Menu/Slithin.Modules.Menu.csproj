@@ -8,11 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.20" />
   </ItemGroup>
   
   <ItemGroup>
-    <AvaloniaResource Include="Resources\**" />
     <EmbeddedResource Include="Resources\**" />
   </ItemGroup>
 
@@ -34,10 +33,6 @@
       <SubType>Code</SubType>
       <DependentUpon>DeviceContextualMenu.axaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaResource Include="Resources\DataTemplates.axaml" />
   </ItemGroup>
 
 </Project>

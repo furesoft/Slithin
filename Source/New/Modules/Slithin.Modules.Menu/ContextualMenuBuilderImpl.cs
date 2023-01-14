@@ -1,11 +1,9 @@
-﻿using System.Reflection;
-using AuroraModularis.Core;
+﻿using AuroraModularis.Core;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Slithin.Core;
 using Slithin.Modules.Device.UI;
 using Slithin.Modules.Menu.Models.ContextualMenu;
-using Slithin.Modules.Menu.Models.ItemContext;
-using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Menu.Views;
 
 namespace Slithin.Modules.Menu;
@@ -18,13 +16,14 @@ public class ContextualMenuBuilderImpl : IContextualMenuBuilder
     {
         var control = new DefaultContextualMenu();
         var elements = _registrar.GetAllElements(id);
-        control.DataContext = elements.ToArray();
+
+        control.FindControl<ItemsPresenter>("presenter").DataContext = elements.ToArray();
 
         if (!elements.Any())
         {
             return new EmptyContextualMenu();
         }
-        
+
         return control;
     }
 
