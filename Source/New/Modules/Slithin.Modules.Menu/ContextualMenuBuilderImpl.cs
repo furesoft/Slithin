@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Slithin.Core;
-using Slithin.Modules.Device.UI;
 using Slithin.Modules.Menu.Models.ContextualMenu;
 using Slithin.Modules.Menu.Views;
 

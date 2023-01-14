@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Windows.Input;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
@@ -117,6 +118,8 @@ public class MainWindowViewModel : BaseViewModel
                 contextMenu.DataContext = header;
             }
 
+            ApplyDataContextToContextualElements(contextMenu, page.DataContext);
+
             toRearrange.Add((preserveIndexAttribute != null ? preserveIndexAttribute.Index : toRearrange.Count, page, controlInstance));
         }
 
@@ -124,6 +127,23 @@ public class MainWindowViewModel : BaseViewModel
         {
             Menu.Add(page.page);
             Tabs.Add(page.view);
+        }
+    }
+
+    private void ApplyDataContextToContextualElements(UserControl contextMenu, object? dataContext)
+    {
+        if (contextMenu is not DefaultContextualMenu) return;
+
+        var elements = contextMenu.FindControl<ItemsPresenter>("presenter").DataContext as IEnumerable<ContextualElement>;
+
+        if (elements == null)
+        {
+            return;
+        }
+
+        foreach (var element in elements)
+        {
+            element.DataContext = dataContext;
         }
     }
 

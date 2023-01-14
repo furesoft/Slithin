@@ -1,7 +1,7 @@
 ﻿<DataTemplates xmlns="https://github.com/avaloniaui" xmlns:controls="using:Slithin.Controls"
-               xmlns:menu="http://furesoft.org/slithin/"
+               xmlns:menu="http://furesoft.org/slithin/" xmlns:views="using:Slithin.Modules.Menu.Views"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <DataTemplate DataType="{x:Type menu:ContextualButton}">
-        <controls:ImageButton MinHeight="60" Classes="Flat" Text="{Binding Title}" Command="{Binding Command}" CommandParameter="{Binding CommandParameter}" Image="{Binding Icon}" />
+        <controls:ImageButton MinHeight="60" Classes="Flat" Text="{Binding Title}" Command="{Binding Command}" CommandParameter="{Binding DataContext}" Image="{Binding Icon}" />
     </DataTemplate>
 </DataTemplates>

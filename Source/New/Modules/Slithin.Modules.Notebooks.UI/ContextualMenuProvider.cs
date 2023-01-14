@@ -16,16 +16,17 @@ internal class ContextualMenuProvider : IContextualMenuProvider
         _viewModel = viewModel;
         _filter = filter;
     }
+
     public void RegisterContextualMenuElements(ContextualRegistrar registrar)
     {
-        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Folder", "Ionicons.AddiOS",_viewModel.MakeFolderCommand){ CommandParameter = _filter});
-        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Remove", "Cool.TrashFull",_viewModel.RemoveNotebookCommand){ CommandParameter = _filter});
-        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Move", "Material.FolderMove", _viewModel.MoveCommand){ CommandParameter = _filter});
-        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Rename", "BoxIcons.RegularRename", _viewModel.RenameCommand){ CommandParameter = _filter});
-        
-        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Export", "Material.ExportVariant", _viewModel.ExportCommand){ CommandParameter = _filter});
-        
-        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Pin", "Entypo+.Star", _viewModel.PinCommand){ CommandParameter = _filter});
-        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Unpin", "Entypo+.StarOutline", _viewModel.UnPinCommand){ CommandParameter = _filter});
+        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Folder", "Ionicons.AddiOS", _viewModel.MakeFolderCommand));
+        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Remove", "Cool.TrashFull", _viewModel.RemoveNotebookCommand));
+        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Move", "Material.FolderMove", _viewModel.MoveCommand));
+        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Rename", "BoxIcons.RegularRename", _viewModel.RenameCommand));
+
+        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Export", "Material.ExportVariant", _viewModel.ExportCommand));
+
+        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Pin", "Entypo+.Star", _viewModel.PinCommand));
+        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Unpin", "Entypo+.StarOutline", _viewModel.UnPinCommand));
     }
 }

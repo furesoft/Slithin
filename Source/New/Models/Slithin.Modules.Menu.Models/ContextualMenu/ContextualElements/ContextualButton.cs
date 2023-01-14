@@ -7,6 +7,8 @@ namespace Slithin.Modules.Menu.Models.ContextualMenu.ContextualElements;
 
 public class ContextualButton : ContextualElement
 {
+    private object? _commandParameter;
+
     public ContextualButton(string title, string iconName, ICommand command)
     {
         Title = title;
@@ -18,6 +20,6 @@ public class ContextualButton : ContextualElement
     public ICommand Command { get; set; }
     public string? Hint { get; set; }
     public string Title { get; set; }
-    public object? CommandParameter { get; set; }
+
     public GeometryDrawing Icon { get; set; }
 }
