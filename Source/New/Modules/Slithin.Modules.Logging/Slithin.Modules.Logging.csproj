@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
-    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.20" />
+    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.20" />
     <PackageReference Include="Serilog" Version="2.12.0" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
