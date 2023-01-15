@@ -25,7 +25,7 @@ internal class LoadingServiceImpl : ILoadingService
         var mdStorage = _container.Resolve<IMetadataRepository>();
         var pathManager = _container.Resolve<IPathManager>();
 
-        if (filter.Documents.Any())
+        if (filter.Items.Any())
         {
             return;
         }
@@ -34,7 +34,7 @@ internal class LoadingServiceImpl : ILoadingService
 
         mdStorage.Clear();
 
-        filter.Documents = new();
+        filter.Items = new();
 
         foreach (var md in Directory.GetFiles(pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
         {
@@ -43,17 +43,17 @@ internal class LoadingServiceImpl : ILoadingService
             mdStorage.AddMetadata(mdObj, out _);
         }
 
-        filter.Documents.Add(new TrashModel());
+        filter.Items.Add(new TrashModel());
 
         foreach (var mds in mdStorage.GetByParent(""))
         {
             if (mds.Type == "CollectionType")
             {
-                filter.Documents.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+                filter.Items.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
             }
             else
             {
-                filter.Documents.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+                filter.Items.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
             }
         }
 
@@ -68,7 +68,7 @@ internal class LoadingServiceImpl : ILoadingService
         var storage = Container.Current.Resolve<ITemplateStorage>();
         var filter = Container.Current.Resolve<TemplatesFilter>();
 
-        if (filter.Templates.Any())
+        if (filter.Items.Any())
         {
             return;
         }
@@ -111,9 +111,9 @@ internal class LoadingServiceImpl : ILoadingService
                 continue;
             }
 
-            if (!filter.Templates.Contains(t) && addToView)
+            if (!filter.Items.Contains(t) && addToView)
             {
-                filter.Templates.Add(t);
+                filter.Items.Add(t);
             }
 
             await storage.LoadTemplateAsync(t);

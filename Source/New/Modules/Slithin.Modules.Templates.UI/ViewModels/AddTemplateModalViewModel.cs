@@ -168,7 +168,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         await _templateStorage.LoadTemplateAsync(template);
 
         _templateStorage.AppendTemplate(template);
-        _templatesFilter.Templates.Add(template);
+        _templatesFilter.Items.Add(template);
 
         template.TransferCommand.Execute(null);
     }

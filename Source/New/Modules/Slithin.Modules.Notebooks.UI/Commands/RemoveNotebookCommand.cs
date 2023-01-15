@@ -25,6 +25,11 @@ internal class RemoveNotebookCommand : ICommand
         _dialogService = dialogService;
         _metadataRepository = metadataRepository;
         _notebooksFilter = notebooksFilter;
+        
+        _notebooksFilter.SelectionChanged += (s) =>
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        };
     }
 
     public event EventHandler CanExecuteChanged;
@@ -34,27 +39,27 @@ internal class RemoveNotebookCommand : ICommand
 
     public bool CanExecute(object parameter)
     {
-        return parameter != null
-               && parameter is FileSystemModel fsm && fsm.Tag is Metadata md
+        return _notebooksFilter.Selection != null
+               && _notebooksFilter.Selection.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
-               && fsm is not UpDirectoryModel
-               && fsm is not TrashModel;
+               && _notebooksFilter.Selection is not UpDirectoryModel
+               && _notebooksFilter.Selection is not TrashModel;
     }
 
     public async void Execute(object parameter)
     {
-        if (parameter is not FileSystemModel fsm || fsm.Tag is not Metadata md
+        if (_notebooksFilter.Selection.Tag is not Metadata md
             || !await _dialogService.Show(
                 _localisationService.GetStringFormat("Would you really want to delete '{0}'?", md.VisibleName)))
             return;
 
-        _notebooksFilter.SelectedNotebook = null;
+        _notebooksFilter.Selection = null;
 
         _metadataRepository.Remove(md);
         //_localRepository.Remove(md);
         //_deviceRepository.Remove(md);
 
-        _notebooksFilter.Documents.Remove(_notebooksFilter.Documents.First(_ => _.ID == md.ID));
+        _notebooksFilter.Items.Remove(_notebooksFilter.Items.First(_ => _.ID == md.ID));
 
         _notebooksFilter.SortByFolder();
     }

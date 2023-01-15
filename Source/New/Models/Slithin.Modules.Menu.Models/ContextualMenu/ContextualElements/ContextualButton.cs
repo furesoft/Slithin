@@ -1,7 +1,9 @@
 ﻿using System.Windows.Input;
+using AuroraModularis.Core;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.Menu.Models.ContextualMenu.ContextualElements;
 
@@ -11,7 +13,9 @@ public class ContextualButton : ContextualElement
 
     public ContextualButton(string title, string iconName, ICommand command)
     {
-        Title = title;
+        var localisationService = Container.Current.Resolve<ILocalisationService>();
+
+        Title = localisationService.GetString(title);
         Command = command;
 
         Icon = (GeometryDrawing)Application.Current.FindResource(iconName);

@@ -3,6 +3,7 @@ using Slithin.Entities.Remarkable;
 using Slithin.Modules.Export.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Notebooks.UI.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Export.Commands;
 
@@ -10,40 +11,36 @@ internal class ExportCommand : ICommand
 {
     private readonly ILocalisationService _localisationService;
     private readonly IExportService _exportService;
+    private readonly NotebooksFilter _filter;
 
-    //private readonly ExportValidator _validator;
-
-    public ExportCommand(ILocalisationService localisationService, IExportService exportService
-                         //ExportValidator validator
-                         )
+    public ExportCommand(ILocalisationService localisationService, IExportService exportService,
+        NotebooksFilter filter)
     {
         _localisationService = localisationService;
         _exportService = exportService;
-        //_validator = validator;
+        _filter = filter;
+
+        _filter.SelectionChanged += (s) =>
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        };
     }
 
     public event EventHandler CanExecuteChanged;
 
     public bool CanExecute(object parameter)
     {
-        if (parameter is not null)
-        {
-            //parameter = parameter.GetType().GetProperty("Filter").GetValue(parameter);
-        }
-
-        return parameter != null
-               && parameter is FileSystemModel fsm && fsm.Tag is Metadata md
+        return _filter.Selection is not null
+               && _filter.Selection.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
-               && fsm is not UpDirectoryModel
-               && fsm is not TrashModel
-               && md.Type.Equals("DocumentType");
+               && _filter.Selection is not UpDirectoryModel
+               && _filter.Selection is not TrashModel
+               && _filter.Selection is FileModel;
         //&& _exportProviderFactory.GetAvailableProviders(md).Any();
     }
 
     public async void Execute(object parameter)
     {
-        var md = (Metadata)parameter;
-
-        await _exportService.Export(md);
+        await _exportService.Export((Metadata)_filter.Selection.Tag);
     }
 }

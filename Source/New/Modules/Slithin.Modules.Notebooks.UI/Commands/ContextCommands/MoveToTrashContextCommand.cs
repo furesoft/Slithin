@@ -52,6 +52,6 @@ internal class MoveToTrashContextCommand : IContextCommand
             }
         }
 
-        _notebooksFilter.Documents.Remove(fsm);
+        _notebooksFilter.Items.Remove(fsm);
     }
 }

@@ -24,13 +24,18 @@ internal class EmptyTrashCommand : ICommand
         _metadataRepository = metadataRepository;
         _notebooksFilter = notebooksFilter;
         _remarkableDevice = remarkableDevice;
+
+        _notebooksFilter.SelectionChanged += (s) =>
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        };
     }
 
-    public event EventHandler CanExecuteChanged;
+    public event EventHandler? CanExecuteChanged;
 
     public bool CanExecute(object data)
     {
-        return data is TrashModel;
+        return _notebooksFilter.Selection is TrashModel;
     }
 
     public void Execute(object data)
@@ -49,7 +54,7 @@ internal class EmptyTrashCommand : ICommand
         // _localRepository.Remove(md);
         //_deviceRepository.Remove(md);
 
-        _notebooksFilter.Documents.Remove(_notebooksFilter.Documents.First(_ => _.ID == md.ID));
+        _notebooksFilter.Items.Remove(_notebooksFilter.Items.First(_ => _.ID == md.ID));
         _notebooksFilter.SortByFolder();
     }
 }

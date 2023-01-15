@@ -49,8 +49,8 @@ internal class RemoveTemplateCommand : ICommand, IContextCommand
             return;
         }
 
-        Container.Current.Resolve<TemplatesPageViewModel>().SelectedTemplate = null;
-        _templatesFilter.Templates.Remove(tmpl);
+        Container.Current.Resolve<TemplatesFilter>().Selection = null;
+        _templatesFilter.Items.Remove(tmpl);
 
         _templateStorage.Remove(tmpl);
         //_localRepository.RemoveTemplate(tmpl);

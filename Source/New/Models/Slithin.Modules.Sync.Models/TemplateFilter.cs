@@ -1,16 +1,15 @@
 ﻿using System.Collections.ObjectModel;
+using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 
 namespace Slithin.Modules.Sync.Models;
 
-public class TemplatesFilter : NotifyObject
+public class TemplatesFilter : FilterBase<Template>
 {
     private bool _landscape;
     private string _selectedCategory = string.Empty;
-
-    private ObservableCollection<Template> _templates = new();
-
+    
     public ObservableCollection<string> Categories { get; set; } = new();
 
     public bool Landscape
@@ -23,12 +22,6 @@ public class TemplatesFilter : NotifyObject
     {
         get => _selectedCategory;
         set { SetValue(ref _selectedCategory, value); }
-    }
-
-    public ObservableCollection<Template> Templates
-    {
-        get => _templates;
-        set { SetValue(ref _templates, value); }
     }
 
     private void RefreshTemplates()

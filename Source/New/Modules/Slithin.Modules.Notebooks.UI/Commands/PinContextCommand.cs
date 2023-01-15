@@ -24,6 +24,11 @@ internal class PinCommand : ICommand
         _remarkableDevice = remarkableDevice;
         _metadataRepository = metadataRepository;
         _notebooksFilter = notebooksFilter;
+        
+        _notebooksFilter.SelectionChanged += (s) =>
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        };
     }
 
     public event EventHandler CanExecuteChanged;
@@ -47,8 +52,8 @@ internal class PinCommand : ICommand
 
         _metadataRepository.SaveToDisk(md);
 
-        _notebooksFilter.Documents.Remove(fsm);
-        _notebooksFilter.Documents.Add(fsm);
+        _notebooksFilter.Items.Remove(fsm);
+        _notebooksFilter.Items.Add(fsm);
 
         _notebooksFilter.SortByFolder();
 

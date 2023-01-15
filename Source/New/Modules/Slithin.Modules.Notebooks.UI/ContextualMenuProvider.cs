@@ -31,5 +31,7 @@ internal class ContextualMenuProvider : IContextualMenuProvider
         registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Pin", "Entypo+.Star", _viewModel.PinCommand));
         registrar.RegisterFor(UIContext.Notebook,
             new ContextualButton("Unpin", "Entypo+.StarOutline", _viewModel.UnPinCommand));
+
+        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Empty Trash", "PicolIcons.Trash", _viewModel.EmptyTrashCommand));
     }
 }

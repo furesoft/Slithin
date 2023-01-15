@@ -103,7 +103,7 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
         _metadataRepository.SaveToDisk(md);
 
         _metadataRepository.AddMetadata(md, out var alreadyAdded);
-        _notebooksFilter.Documents.Add(new FileModel(md.VisibleName, md, md.IsPinned));
+        _notebooksFilter.Items.Add(new FileModel(md.VisibleName, md, md.IsPinned));
 
         Notebook.UploadNotebook(md);
     }

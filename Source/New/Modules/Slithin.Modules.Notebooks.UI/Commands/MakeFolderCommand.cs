@@ -67,7 +67,7 @@ internal class MakeFolderCommand : ICommand
 
         _metadataRepository.SaveToDisk(md);
 
-        _notebooksFilter.Documents.Add(new Models.DirectoryModel(md.VisibleName, md, md.IsPinned));
+        _notebooksFilter.Items.Add(new Models.DirectoryModel(md.VisibleName, md, md.IsPinned));
         _notebooksFilter.SortByFolder();
 
         _metadataRepository.Upload(md);
