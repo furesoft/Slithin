@@ -24,4 +24,9 @@ internal class DatabaseServiceImpl : IDatabaseService
 
         return new(_db);
     }
+
+    public void Dispose()
+    {
+        _db.Dispose();
+    }
 }
