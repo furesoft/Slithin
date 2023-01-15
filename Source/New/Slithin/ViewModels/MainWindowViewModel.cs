@@ -8,6 +8,7 @@ using Avalonia.Media;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
+using Slithin.Modules.Diagnostics.Sentry.Models;
 using Slithin.Modules.Events.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ContextualMenu;
@@ -22,19 +23,21 @@ public class MainWindowViewModel : BaseViewModel
 {
     private readonly IContextualMenuBuilder _contextualMenuBuilder;
     private readonly IEventService _eventService;
+    private readonly IDiagnosticService _diagnosticService;
     private readonly ILocalisationService _localisationService;
     private object _contextualMenu;
-    
+
     private Page _selectedTab;
 
     private string _title;
 
     public MainWindowViewModel(IVersionService versionService,
-        ILoginService loginService,
+        ILoginService loginService, IDiagnosticService diagnosticService,
         ILocalisationService localisationService,
         IContextualMenuBuilder contextualMenuBuilder,
         IEventService eventService)
     {
+        _diagnosticService = diagnosticService;
         _localisationService = localisationService;
         _contextualMenuBuilder = contextualMenuBuilder;
         _eventService = eventService;
@@ -68,21 +71,6 @@ public class MainWindowViewModel : BaseViewModel
 
     public double MenuWidth => CalculateMenuWidth();
 
-    private double CalculateMenuWidth()
-    {
-        var maximumWidth = 0d;
-        foreach (var page in Menu)
-        {
-            var textFormat = new FormattedText();
-            textFormat.Text = page.Header;
-            textFormat.FontSize = 25;
-
-            maximumWidth = Math.Max(maximumWidth, textFormat.Bounds.Width);
-        }
-
-        return maximumWidth + 35;
-    }
-
     public ObservableCollection<object> Tabs { get; set; } = new();
 
     public ICommand SynchronizeCommand { get; set; }
@@ -98,8 +86,28 @@ public class MainWindowViewModel : BaseViewModel
         return Application.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
     }
 
+    private double CalculateMenuWidth()
+    {
+        var maximumWidth = 0d;
+
+        var textFormat = new FormattedText();
+        textFormat.FontSize = 25;
+        textFormat.Typeface = new Typeface("Consolas");
+
+        foreach (var page in Menu)
+        {
+            textFormat.Text = page.Header;
+
+            maximumWidth = Math.Max(maximumWidth, textFormat.Bounds.Width);
+        }
+
+        return maximumWidth + 60;
+    }
+
     private void LoadMenu()
     {
+        var monitor = _diagnosticService.StartPerformanceMonitoring("Loading", "Menu");
+
         var toRearrange = new List<(int index, Page page, Control view)>();
 
         var types = Utils.FindTypes<IPage>();
@@ -132,7 +140,7 @@ public class MainWindowViewModel : BaseViewModel
             }
 
             var header = _localisationService.GetString(pageInstance.Title);
-            var page = new Page {Header = header, DataContext = controlInstance.DataContext};
+            var page = new Page { Header = header, DataContext = controlInstance.DataContext };
 
             page.Icon = GetIcon(pageIconAttribute, type);
 
@@ -155,6 +163,8 @@ public class MainWindowViewModel : BaseViewModel
             Menu.Add(page.page);
             Tabs.Add(page.view);
         }
+
+        monitor.Dispose();
     }
 
     private void ApplyDataContextToContextualElements(UserControl contextMenu, object? dataContext)
