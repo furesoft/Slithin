@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Windows.Input;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
+using Avalonia.Media;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
@@ -18,19 +20,20 @@ namespace Slithin.ViewModels;
 
 public class MainWindowViewModel : BaseViewModel
 {
-    private readonly ILocalisationService _localisationService;
     private readonly IContextualMenuBuilder _contextualMenuBuilder;
     private readonly IEventService _eventService;
+    private readonly ILocalisationService _localisationService;
     private object _contextualMenu;
+    
     private Page _selectedTab;
 
     private string _title;
 
     public MainWindowViewModel(IVersionService versionService,
-                               ILoginService loginService,
-                               ILocalisationService localisationService,
-                               IContextualMenuBuilder contextualMenuBuilder,
-                               IEventService eventService)
+        ILoginService loginService,
+        ILocalisationService localisationService,
+        IContextualMenuBuilder contextualMenuBuilder,
+        IEventService eventService)
     {
         _localisationService = localisationService;
         _contextualMenuBuilder = contextualMenuBuilder;
@@ -63,6 +66,23 @@ public class MainWindowViewModel : BaseViewModel
         }
     }
 
+    public double MenuWidth => CalculateMenuWidth();
+
+    private double CalculateMenuWidth()
+    {
+        var maximumWidth = 0d;
+        foreach (var page in Menu)
+        {
+            var textFormat = new FormattedText();
+            textFormat.Text = page.Header;
+            textFormat.FontSize = 25;
+
+            maximumWidth = Math.Max(maximumWidth, textFormat.Bounds.Width);
+        }
+
+        return maximumWidth + 35;
+    }
+
     public ObservableCollection<object> Tabs { get; set; } = new();
 
     public ICommand SynchronizeCommand { get; set; }
@@ -75,7 +95,7 @@ public class MainWindowViewModel : BaseViewModel
 
     private static object? GetIcon(PageIconAttribute? pageIconAttribute, Type type)
     {
-        return App.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
+        return Application.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
     }
 
     private void LoadMenu()
@@ -86,9 +106,14 @@ public class MainWindowViewModel : BaseViewModel
         foreach (var type in types)
         {
             if (!typeof(IPage).IsAssignableFrom(type) || type.IsInterface)
+            {
                 continue;
+            }
+
             if (!typeof(Control).IsAssignableFrom(type))
+            {
                 continue;
+            }
 
             var instance = Activator.CreateInstance(type);
             var preserveIndexAttribute = type.GetCustomAttribute<PreserveIndexAttribute>();
@@ -97,16 +122,17 @@ public class MainWindowViewModel : BaseViewModel
             var controlInstance = (Control)instance;
 
             if (instance is not IPage pageInstance || !pageInstance.IsEnabled())
+            {
                 continue;
+            }
 
-            if (contextAttribute is null) continue;
+            if (contextAttribute is null)
+            {
+                continue;
+            }
 
             var header = _localisationService.GetString(pageInstance.Title);
-            var page = new Page
-            {
-                Header = header,
-                DataContext = controlInstance.DataContext,
-            };
+            var page = new Page {Header = header, DataContext = controlInstance.DataContext};
 
             page.Icon = GetIcon(pageIconAttribute, type);
 
@@ -120,7 +146,8 @@ public class MainWindowViewModel : BaseViewModel
 
             ApplyDataContextToContextualElements(contextMenu, page.DataContext);
 
-            toRearrange.Add((preserveIndexAttribute != null ? preserveIndexAttribute.Index : toRearrange.Count, page, controlInstance));
+            toRearrange.Add((preserveIndexAttribute != null ? preserveIndexAttribute.Index : toRearrange.Count, page,
+                controlInstance));
         }
 
         foreach (var page in toRearrange.OrderBy(_ => _.index))
@@ -132,9 +159,13 @@ public class MainWindowViewModel : BaseViewModel
 
     private void ApplyDataContextToContextualElements(UserControl contextMenu, object? dataContext)
     {
-        if (contextMenu is not DefaultContextualMenu) return;
+        if (contextMenu is not DefaultContextualMenu)
+        {
+            return;
+        }
 
-        var elements = contextMenu.FindControl<ItemsPresenter>("presenter").DataContext as IEnumerable<ContextualElement>;
+        var elements =
+            contextMenu.FindControl<ItemsPresenter>("presenter").DataContext as IEnumerable<ContextualElement>;
 
         if (elements == null)
         {
