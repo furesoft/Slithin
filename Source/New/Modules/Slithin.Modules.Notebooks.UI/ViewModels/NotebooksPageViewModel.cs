@@ -24,7 +24,6 @@ internal class NotebooksPageViewModel : BaseViewModel
                                   NotebooksFilter notebooksFilter,
                                   ILoadingService loadingService)
     {
-        ExportCommand = Container.Current.Resolve<ExportCommand>();
         MakeFolderCommand = Container.Current.Resolve<MakeFolderCommand>();
 
         RenameCommand = Container.Current.Resolve<RenameCommand>();
@@ -87,7 +86,6 @@ internal class NotebooksPageViewModel : BaseViewModel
     }
 
     public ICommand EmptyTrashCommand { get; set; }
-    public ICommand ExportCommand { get; set; }
 
     public bool IsInTrash
     {

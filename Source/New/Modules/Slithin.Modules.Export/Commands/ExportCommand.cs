@@ -4,7 +4,7 @@ using Slithin.Modules.Export.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Notebooks.UI.Models;
 
-namespace Slithin.Modules.Notebooks.UI.Commands;
+namespace Slithin.Modules.Export.Commands;
 
 internal class ExportCommand : ICommand
 {
@@ -26,6 +26,11 @@ internal class ExportCommand : ICommand
 
     public bool CanExecute(object parameter)
     {
+        if (parameter is not null)
+        {
+            //parameter = parameter.GetType().GetProperty("Filter").GetValue(parameter);
+        }
+
         return parameter != null
                && parameter is FileSystemModel fsm && fsm.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
