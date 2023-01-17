@@ -3,7 +3,7 @@
 public abstract class ContextualElement : Slithin.Core.MVVM.NotifyObject
 {
     private object? _dataContext;
-    private bool _isVisible = false;
+    private bool _isVisible = true;
 
     public object? DataContext
     {
