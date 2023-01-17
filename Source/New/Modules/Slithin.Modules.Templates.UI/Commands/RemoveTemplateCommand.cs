@@ -10,7 +10,7 @@ using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Templates.UI.Commands;
 
-[Context(UIContext.Template)]
+[Context(UIContext.Templates)]
 internal class RemoveTemplateCommand : ICommand, IContextCommand
 {
     private readonly ILocalisationService _localisationService;

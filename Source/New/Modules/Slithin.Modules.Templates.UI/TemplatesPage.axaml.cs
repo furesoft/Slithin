@@ -10,7 +10,7 @@ namespace Slithin.Modules.Templates.UI;
 
 [PreserveIndex(2)]
 [PageIcon("Vaadin.List")]
-[Context(UIContext.Template)]
+[Context(UIContext.Templates)]
 public partial class TemplatesPage : UserControl, IPage
 {
     public TemplatesPage()
@@ -21,11 +21,6 @@ public partial class TemplatesPage : UserControl, IPage
     }
 
     public string Title => "Templates";
-
-    public Control GetContextualMenu()
-    {
-        return new TemplatesContextualMenu();
-    }
 
     bool IPage.IsEnabled() => true;
 

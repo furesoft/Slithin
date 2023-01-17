@@ -30,12 +30,10 @@ internal class NotificationServiceImpl : INotificationService
     public void ShowErrorNewWindow(string message)
     {
         Container.Current.Resolve<ILogger>().Error(message);
-        
-        var window = new Window();
-        var notificationCard = new NotificationCard();
-        notificationCard.Content = new Notification("Error", message, NotificationType.Error);
 
-        window.Content = notificationCard;
+        var window = new Window();
+
+        window.Content = message;
         window.Show();
     }
 

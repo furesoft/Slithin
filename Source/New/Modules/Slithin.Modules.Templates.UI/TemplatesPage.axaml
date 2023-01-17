@@ -12,7 +12,7 @@
         <ListBox DragDrop.AllowDrop="True" Items="{Binding Filter.Items}" Margin="16,0,0,0" x:Name="templatesListBox" SelectedItem="{Binding Filter.Selection}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <styles:Card CornerRadius="0" Background="#e2e2e2" Margin="3" HorizontalAlignment="Center" context:UIContextMenuBuilder.Enable="Template">
+                    <styles:Card CornerRadius="0" Background="#e2e2e2" Margin="3" HorizontalAlignment="Center" context:UIContextMenuBuilder.Enable="Templates">
                         <StackPanel Orientation="Vertical" Margin="2">
                             <Grid>
                                 <Button Classes="Flat" Command="{Binding TransferCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Transfer to Device'}">

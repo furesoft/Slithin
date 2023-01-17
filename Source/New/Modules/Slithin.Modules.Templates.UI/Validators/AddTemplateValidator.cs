@@ -2,7 +2,7 @@
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Templates.UI.ViewModels;
 
-namespace Slithin.Validators;
+namespace Slithin.Modules.Templates.UI.Validators;
 
 public class AddTemplateValidator : AbstractValidator<AddTemplateModalViewModel>
 {

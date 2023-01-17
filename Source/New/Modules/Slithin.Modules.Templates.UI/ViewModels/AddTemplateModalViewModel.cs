@@ -12,8 +12,8 @@ using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.Templates.UI.Models;
+using Slithin.Modules.Templates.UI.Validators;
 using Slithin.Modules.UI.Models;
-using Slithin.Validators;
 
 namespace Slithin.Modules.Templates.UI.ViewModels;
 
