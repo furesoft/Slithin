@@ -5,6 +5,7 @@ using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
 using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands;
@@ -15,16 +16,24 @@ internal class RenameCommand : ICommand
     private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;
     private readonly IDialogService _dialogService;
+    private readonly NotebooksFilter _notebooksFilter;
     private readonly IMetadataRepository _metadataRepository;
 
     public RenameCommand(ILocalisationService localisationService,
                          ILogger logger, IDialogService dialogService,
+                         NotebooksFilter notebooksFilter,
                          IMetadataRepository metadataRepository)
     {
         _localisationService = localisationService;
         _logger = logger;
         _dialogService = dialogService;
+        _notebooksFilter = notebooksFilter;
         _metadataRepository = metadataRepository;
+        
+        _notebooksFilter.SelectionChanged += (s) =>
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        };
     }
 
     public event EventHandler CanExecuteChanged;
@@ -34,8 +43,8 @@ internal class RenameCommand : ICommand
 
     public bool CanExecute(object parameter)
     {
-        return parameter != null
-               && parameter is FileSystemModel fsm && fsm.Tag is Metadata md
+        return _notebooksFilter.Selection != null
+               && _notebooksFilter.Selection is FileSystemModel fsm && fsm.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
                && fsm is not UpDirectoryModel
                && fsm is not TrashModel;
@@ -48,7 +57,7 @@ internal class RenameCommand : ICommand
 
         if (!string.IsNullOrEmpty(name))
         {
-            Rename((Metadata)parameter, name);
+            Rename((Metadata)_notebooksFilter.Selection.Tag, name);
         }
     }
 

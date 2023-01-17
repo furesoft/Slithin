@@ -6,7 +6,7 @@ namespace Slithin.Modules.Repository;
 
 internal class DatabaseServiceImpl : IDatabaseService
 {
-    internal LiteDatabase db;
+    internal LiteDatabase _db;
     private Container _container;
 
     public DatabaseServiceImpl(Container container)
@@ -16,12 +16,17 @@ internal class DatabaseServiceImpl : IDatabaseService
 
     public DatabaseAccessor GetDatabase()
     {
-        if (db == null)
+        if (_db == null)
         {
             var pathManager = _container.Resolve<IPathManager>();
-            db = new(Path.Combine(pathManager.SlithinDir, "slithin2.db"));
+            _db = new($"Filename={Path.Combine(pathManager.SlithinDir, "slithin2.db")}; Connection=Shared");
         }
 
-        return new(db);
+        return new(_db);
+    }
+
+    public void Dispose()
+    {
+        _db.Dispose();
     }
 }

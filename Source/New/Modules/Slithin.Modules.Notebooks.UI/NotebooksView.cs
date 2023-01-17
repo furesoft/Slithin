@@ -36,7 +36,7 @@ public static class NotebooksView
         var notebooksFilter = Container.Current.Resolve<NotebooksFilter>();
         var mdStorage = Container.Current.Resolve<IMetadataRepository>();
 
-        notebooksFilter.Documents.Clear();
+        notebooksFilter.Items.Clear();
 
         var id = fsm.ID;
 
@@ -47,7 +47,7 @@ public static class NotebooksView
 
             if (id == "")
             {
-                notebooksFilter.Documents.Add(new TrashModel());
+                notebooksFilter.Items.Add(new TrashModel());
             }
         }
         else if (fsm is TrashModel)
@@ -66,17 +66,17 @@ public static class NotebooksView
         {
             if (mds.Type == "CollectionType")
             {
-                notebooksFilter.Documents.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+                notebooksFilter.Items.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
             }
             else
             {
-                notebooksFilter.Documents.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+                notebooksFilter.Items.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
             }
         }
 
         if (_lastFolderIDs.Count > 0)
         {
-            notebooksFilter.Documents.Add(new UpDirectoryModel());
+            notebooksFilter.Items.Add(new UpDirectoryModel());
             notebooksFilter.Folder = id;
         }
         else

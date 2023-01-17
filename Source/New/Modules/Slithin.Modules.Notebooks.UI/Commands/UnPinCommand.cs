@@ -20,18 +20,23 @@ internal class UnPinCommand : ICommand
         _remarkableDevice = remarkableDevice;
         _metadataRepository = metadataRepository;
         _notebooksFilter = notebooksFilter;
+        
+        _notebooksFilter.SelectionChanged += (s) =>
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        };
     }
 
     public event EventHandler CanExecuteChanged;
 
     public bool CanExecute(object data)
     {
-        return data is FileSystemModel fsm && fsm.Tag is Metadata md && md.IsPinned;
+        return _notebooksFilter.Selection is not null && _notebooksFilter.Selection.Tag is Metadata md && md.IsPinned;
     }
 
     public void Execute(object data)
     {
-        if (data is not FileSystemModel fsm || fsm.Tag is not Metadata md)
+        if (_notebooksFilter.Selection.Tag is not Metadata md)
         {
             return;
         }
@@ -40,8 +45,8 @@ internal class UnPinCommand : ICommand
         md.Version++;
         _metadataRepository.SaveToDisk(md);
 
-        _notebooksFilter.Documents.Remove(fsm);
-        _notebooksFilter.Documents.Add(fsm);
+        _notebooksFilter.Items.Remove(_notebooksFilter.Selection);
+        _notebooksFilter.Items.Add(_notebooksFilter.Selection);
 
         _notebooksFilter.SortByFolder();
 

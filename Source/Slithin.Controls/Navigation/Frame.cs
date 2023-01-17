@@ -47,7 +47,7 @@ public partial class Frame : ContentControl
 
     public static void SetFrameName(Frame target, string name)
     {
-        _frames.Add(name, target);
+        _frames.TryAdd(name, target);
     }
 
     /// <summary>

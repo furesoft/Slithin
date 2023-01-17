@@ -1,5 +1,4 @@
-﻿using Slithin.Core.MVVM;
-using Slithin.Modules.Menu.Models.ContextualMenu;
+﻿using Slithin.Modules.Menu.Models.ContextualMenu;
 using Slithin.Modules.Menu.Models.ContextualMenu.ContextualElements;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Tools.UI.ViewModels;
@@ -14,10 +13,10 @@ internal class ContextualMenuProvider : IContextualMenuProvider
     {
         _viewModel = viewModel;
     }
-    
+
     public void RegisterContextualMenuElements(ContextualRegistrar registrar)
     {
-        registrar.RegisterFor(UIContext.Tools, new ContextualButton("Execute", "Material.HexagonMultiple", _viewModel.ExecuteScriptCommand){CommandParameter = _viewModel.SelectedScript});
-        registrar.RegisterFor(UIContext.Tools, new ContextualButton("Config", "Vaadin.CogOutline", _viewModel.ConfigurateScriptCommand){CommandParameter = _viewModel.SelectedScript});
+        registrar.RegisterFor(UIContext.Tools, new ContextualButton("Execute", "Material.HexagonMultiple", _viewModel.ExecuteScriptCommand));
+        registrar.RegisterFor(UIContext.Tools, new ContextualButton("Config", "Vaadin.CogOutline", _viewModel.ConfigurateScriptCommand));
     }
 }

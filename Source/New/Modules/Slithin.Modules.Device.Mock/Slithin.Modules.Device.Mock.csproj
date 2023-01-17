@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.20" />
     <PackageReference Include="Zio" Version="0.16.1" />
   </ItemGroup>
 

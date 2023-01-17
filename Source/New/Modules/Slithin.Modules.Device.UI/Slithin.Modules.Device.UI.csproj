@@ -8,13 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Resources\**" />
     <EmbeddedResource Include="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
-    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.20" />
+    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.20" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
   </ItemGroup>
 

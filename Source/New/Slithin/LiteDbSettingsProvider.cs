@@ -20,7 +20,7 @@ internal class LiteDbSettingsProvider : IModuleSettingsProvider
             fileInfo.Directory.Create();    
         }
         
-        db = new LiteDatabase(dbpath);
+        db = new LiteDatabase($"Filename={dbpath}; Connection=Shared");
     }
 
     public object Load(string path, Type type)

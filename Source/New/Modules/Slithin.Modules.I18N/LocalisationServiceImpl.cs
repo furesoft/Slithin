@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.I18N;
@@ -10,9 +9,9 @@ internal class LocalisationServiceImpl : ILocalisationService
 
     public LocalisationServiceImpl()
     {
-        var localeNames = Assembly.GetExecutingAssembly()
+        var localeNames = typeof(LocalisationServiceImpl).Assembly
                                     .GetManifestResourceNames()
-                                    .Where(_ => _.StartsWith("Slithin.Modules.I18N.Resources.Locales."))
+                                    .Select(_ => _.Replace("Slithin.Modules.I18N.Resources.Locales.", ""))
                                     .Select(_ => Path.GetFileNameWithoutExtension(_))
                                     .ToArray();
 

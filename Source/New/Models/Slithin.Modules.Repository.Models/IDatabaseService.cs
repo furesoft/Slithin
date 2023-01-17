@@ -1,6 +1,6 @@
 ﻿namespace Slithin.Modules.Repository.Models;
 
-public interface IDatabaseService
+public interface IDatabaseService : IDisposable
 {
     DatabaseAccessor GetDatabase();
 }

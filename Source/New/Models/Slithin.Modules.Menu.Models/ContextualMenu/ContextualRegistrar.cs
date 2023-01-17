@@ -16,8 +16,13 @@ public class ContextualRegistrar
         _elements[id].Add(element);
     }
 
-    public IReadOnlyDictionary<string, ConcurrentBag<ContextualElement>> GetAllElements()
+    public IEnumerable<ContextualElement> GetAllElements(string id)
     {
-        return _elements;
+        if (!_elements.ContainsKey(id))
+        {
+            return Array.Empty<ContextualElement>();
+        }
+        
+        return _elements[id];
     }
 }

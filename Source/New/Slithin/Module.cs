@@ -1,5 +1,7 @@
 ﻿using AuroraModularis.Core;
 using AuroraModularis.Logging.Models;
+using Slithin.Modules.Repository.Models;
+using Slithin.Validators;
 
 namespace Slithin;
 
@@ -11,5 +13,15 @@ public class Module : AuroraModularis.Module
         container.Resolve<ILogger>().Info("Slithin started");
 
         return Task.CompletedTask;
+    }
+
+    public override void RegisterServices(Container container)
+    {
+        container.Register<LoginInfoValidator>();
+    }
+
+    public override void OnExit()
+    {
+        Container.Current.Resolve<IDatabaseService>().Dispose();
     }
 }

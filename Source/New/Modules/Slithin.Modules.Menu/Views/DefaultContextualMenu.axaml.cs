@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.Modules.Device.UI;
+namespace Slithin.Modules.Menu.Views;
 
 public partial class DefaultContextualMenu : UserControl
 {

@@ -2,7 +2,7 @@
 using Slithin.Entities.Remarkable.Rendering;
 using Slithin.Modules.Export.Models;
 
-namespace Slithin.Modules.Export;
+namespace Slithin.Modules.Export.Rendering;
 
 internal partial class RenderingServiceImpl : IRenderingService
 {

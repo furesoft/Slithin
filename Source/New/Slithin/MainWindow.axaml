@@ -12,7 +12,7 @@
         Title="{Binding Title}">
     <controls:ContentDialog dh:DialogHost.IsHost="True">
         <styles:ColorZone Mode="Light" Height="{Binding $parent[Window].Height}">
-            <SplitView DisplayMode="CompactInline" OpenPaneLength="190" IsPaneOpen="{s:Setting 'IsBigMenuMode'}">
+            <SplitView DisplayMode="CompactInline" OpenPaneLength="{Binding MenuWidth, Mode=TwoWay}" IsPaneOpen="{s:Setting 'IsBigMenuMode'}">
                 <SplitView.Pane>
                     <Grid RowDefinitions="170,*" Margin="0,20,0,0">
                         <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Source="avares:/Resources/new_logo.png" Classes="header" />

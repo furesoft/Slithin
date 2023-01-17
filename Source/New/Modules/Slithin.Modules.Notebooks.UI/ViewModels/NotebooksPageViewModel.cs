@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using AuroraModularis.Core;
 using AuroraModularis.Logging.Models;
+using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
@@ -11,7 +12,7 @@ using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Notebooks.UI.ViewModels;
 
-internal class NotebooksPageViewModel : BaseViewModel
+internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilter>
 {
     private readonly ILoadingService _loadingService;
     private bool _isInTrash;
@@ -24,7 +25,6 @@ internal class NotebooksPageViewModel : BaseViewModel
                                   NotebooksFilter notebooksFilter,
                                   ILoadingService loadingService)
     {
-        ExportCommand = Container.Current.Resolve<ExportCommand>();
         MakeFolderCommand = Container.Current.Resolve<MakeFolderCommand>();
 
         RenameCommand = Container.Current.Resolve<RenameCommand>();
@@ -45,7 +45,7 @@ internal class NotebooksPageViewModel : BaseViewModel
         MoveCommand = new DelegateCommand(_ =>
             {
                 IsMoving = true;
-                _movingNotebook = NotebooksFilter.SelectedNotebook;
+                _movingNotebook = Filter.Selection;
             },
             _ => _ != null
                 && _ is Metadata md
@@ -57,37 +57,36 @@ internal class NotebooksPageViewModel : BaseViewModel
         {
             IsMoving = false;
         });
-        NotebooksFilter = notebooksFilter;
+        Filter = notebooksFilter;
         _loadingService = loadingService;
 
         MoveHereCommand = new DelegateCommand(_ =>
         {
-            metadataRepository.Move((Metadata)_movingNotebook.Tag, NotebooksFilter.Folder);
+            metadataRepository.Move((Metadata)_movingNotebook.Tag, Filter.Folder);
             IsMoving = false;
 
-            NotebooksFilter.Documents.Clear();
-            foreach (var mds in metadataRepository.GetByParent(NotebooksFilter.Folder))
+            Filter.Items.Clear();
+            foreach (var mds in metadataRepository.GetByParent(Filter.Folder))
             {
                 if (mds.Type == "CollectionType")
                 {
-                    notebooksFilter.Documents.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+                    notebooksFilter.Items.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
                 }
                 else
                 {
-                    notebooksFilter.Documents.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+                    notebooksFilter.Items.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
                 }
             }
 
-            NotebooksFilter.Documents.Add(new UpDirectoryModel());
+            Filter.Items.Add(new UpDirectoryModel());
 
-            NotebooksFilter.SortByFolder();
+            Filter.SortByFolder();
 
-            logger.Info($"Moved {_movingNotebook.VisibleName} to {NotebooksFilter.Folder}");
+            logger.Info($"Moved {_movingNotebook.VisibleName} to {Filter.Folder}");
         });
     }
 
     public ICommand EmptyTrashCommand { get; set; }
-    public ICommand ExportCommand { get; set; }
 
     public bool IsInTrash
     {
@@ -111,7 +110,8 @@ internal class NotebooksPageViewModel : BaseViewModel
     public ICommand RestoreCommand { get; set; }
 
     public ICommand UnPinCommand { get; set; }
-    public NotebooksFilter NotebooksFilter { get; }
+
+    public NotebooksFilter Filter { get; }
 
     public override async void OnLoad()
     {

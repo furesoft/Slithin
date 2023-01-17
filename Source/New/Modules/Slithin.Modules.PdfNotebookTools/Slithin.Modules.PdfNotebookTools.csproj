@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.20" />
     <PackageReference Include="PdfSharpCore" Version="1.3.43" />
     <PackageReference Include="FluentValidations" Version="1.1.0" />
   </ItemGroup>
