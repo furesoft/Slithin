@@ -1,6 +1,8 @@
-﻿using Slithin.Modules.Menu.Models.ContextualMenu;
+﻿using Slithin.Core.FeatureToggle;
+using Slithin.Modules.Menu.Models.ContextualMenu;
 using Slithin.Modules.Menu.Models.ContextualMenu.ContextualElements;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Notebooks.UI.Features;
 using Slithin.Modules.Notebooks.UI.ViewModels;
 using Slithin.Modules.Sync.Models;
 
@@ -33,5 +35,8 @@ internal class ContextualMenuProvider : IContextualMenuProvider
             new ContextualButton("Unpin", "Entypo+.StarOutline", _viewModel.UnPinCommand));
 
         registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Empty Trash", "PicolIcons.Trash", _viewModel.EmptyTrashCommand));
+        registrar.RegisterFor(UIContext.Notebook, new ContextualButton("Restore", "Material.DeleteRestore", _viewModel.RestoreCommand));
+
+        registrar.RegisterFor(UIContext.Notebook, new ContextualDropDownButton("View", "Material.FormatWrapTopBottom", null, Feature<ListViewFeature>.IsEnabled)); //ToDo: add dropdown control
     }
 }

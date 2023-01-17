@@ -28,10 +28,6 @@
                 </controls:ImagePopupButton.PopupContent>
             </controls:ImagePopupButton>
         </StackPanel>
-
-        <StackPanel IsVisible="{Binding IsInTrash, Mode=TwoWay}" Spacing="12" Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
-            <controls:ImageButton MinHeight="60" Classes="Flat" Text="{l:Localisation 'Restore'}" Command="{Binding RestoreCommand}" Image="{DynamicResource Material.DeleteRestore}" CommandParameter="{Binding NotebooksFilter.SelectedNotebook}" />
-
-        </StackPanel>
+        
     </DockPanel>
 </UserControl>
