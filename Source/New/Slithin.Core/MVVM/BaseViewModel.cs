@@ -31,13 +31,14 @@ public abstract class BaseViewModel : NotifyObject
     {
         if (!IsLoaded)
         {
+            IsLoaded = true;
+
             OnLoad();
         }
     }
 
     public virtual void OnLoad()
     {
-        IsLoaded = true;
     }
 
     protected void RequestClose()
