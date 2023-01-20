@@ -5,16 +5,20 @@ namespace Slithin.Modules.FirstStart;
 
 public class Module : AuroraModularis.Module
 {
-    public override async Task OnStart(Container container)
+    public override Task OnStart(Container container)
     {
         var settingsService = container.Resolve<ISettingsService>();
         var settings = settingsService.GetSettings();
 
-        if (settings.IsFirstStart)
+        if (!settings.IsFirstStart)
         {
-            var window = new FirstStartWindow();
-
-            window.Show();
+            return Task.CompletedTask;
         }
+
+        var window = new FirstStartWindow();
+
+        window.Show();
+
+        return Task.CompletedTask;
     }
 }

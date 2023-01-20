@@ -12,6 +12,6 @@ internal class Module : AuroraModularis.Module
 
     public override void RegisterServices(Container container)
     {
-        container.Register<IToolInvokerService>(new ToolInvokerServiceImpl());
+        container.Register<IToolInvokerService>(new ToolInvokerServiceImpl()).AsSingleton();
     }
 }

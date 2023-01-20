@@ -12,6 +12,6 @@ public class Module : AuroraModularis.Module
 
     public override void RegisterServices(Container container)
     {
-        container.Register<AuroraModularis.Logging.Models.ILogger>(new LoggerImpl(container));
+        container.Register<AuroraModularis.Logging.Models.ILogger>(new LoggerImpl(container)).AsSingleton();
     }
 }

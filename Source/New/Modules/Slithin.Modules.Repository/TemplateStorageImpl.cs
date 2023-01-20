@@ -65,12 +65,11 @@ public class TemplateStorageImpl : ITemplateStorage
     {
         var pathManager = Container.Current.Resolve<IPathManager>();
 
-        var serializerSettings = new JsonSerializerSettings();
-        serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
+        var serializerSettings = new JsonSerializerSettings {StringEscapeHandling = StringEscapeHandling.EscapeNonAscii};
 
         var path = Path.Combine(pathManager.ConfigBaseDir, "templates.json");
         var json = File.ReadAllText(path);
 
-        Templates = JsonConvert.DeserializeObject<TemplateStorageImpl>(json, serializerSettings).Templates;
+        Templates = JsonConvert.DeserializeObject<TemplateStorageImpl>(json, serializerSettings)!.Templates;
     }
 }

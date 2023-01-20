@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.ComponentModel;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using AuroraModularis.Core;
@@ -8,6 +9,7 @@ using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.UI.Models;
 using Slithin.Modules.Updater.Models;
+using Container = AuroraModularis.Core.Container;
 
 namespace Slithin.Modules.Updater;
 
@@ -76,21 +78,21 @@ internal class UpdaterImplementation : IUpdaterService
         };
 
         wc.DownloadFileAsync(new Uri(asset.BrowserDownloadUrl), fileName);
-        wc.DownloadFileCompleted += (s, e) =>
+
+        void OnWcOnDownloadFileCompleted(object s, AsyncCompletedEventArgs e)
         {
             status.Step(localisationService.GetString("Extracting Update"));
             using (var zip = new ZipFile(fileName))
             {
-                zip.ExtractProgress += (zs, ze) =>
+                void OnZipOnExtractProgress(object zs, ExtractProgressEventArgs ze)
                 {
                     if (ze.EventType == ZipProgressEventType.Extracting_BeforeExtractEntry)
                     {
-                        status.Step(localisationService.GetStringFormat(
-                            "Extracting {0} ({1} %)",
-                            Path.GetFileName(ze.ArchiveName),
-                            Math.Round(ze.EntriesExtracted / (float)ze.EntriesTotal * 100)));
+                        status.Step(localisationService.GetStringFormat("Extracting {0} ({1} %)", Path.GetFileName(ze.ArchiveName), Math.Round(ze.EntriesExtracted / (float)ze.EntriesTotal * 100)));
                     }
-                };
+                }
+
+                zip.ExtractProgress += OnZipOnExtractProgress;
 
                 zip.ExtractAll(Path.Combine(tmp, "SlithinUpdate"), ExtractExistingFileAction.OverwriteSilently);
             }
@@ -100,7 +102,9 @@ internal class UpdaterImplementation : IUpdaterService
             UpdateScriptGenerator.ApplyUpdate(Path.Combine(tmp, "SlithinUpdate"), Environment.CurrentDirectory);
 
             Environment.Exit(0);
-        };
+        }
+
+        wc.DownloadFileCompleted += OnWcOnDownloadFileCompleted;
     }
 
     private static string GetReleaseFilename()

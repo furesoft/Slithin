@@ -3,6 +3,7 @@ using Slithin.Modules.Menu.Models.ContextualMenu;
 using Slithin.Modules.Menu.Models.ContextualMenu.ContextualElements;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Entities.Features;
+using Slithin.Modules.Notebooks.UI.UI;
 using Slithin.Modules.Notebooks.UI.ViewModels;
 using Slithin.Modules.Sync.Models;
 

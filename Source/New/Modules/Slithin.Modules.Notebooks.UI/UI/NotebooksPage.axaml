@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ui="using:Slithin.Modules.Notebooks.UI"
              xmlns:l="using:Slithin.Core"
+             xmlns:ui1="clr-namespace:Slithin.Modules.Notebooks.UI.UI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.Modules.Notebooks.UI.NotebooksPage">
+             x:Class="Slithin.Modules.Notebooks.UI.UI.NotebooksPage">
     <Grid RowDefinitions="60,*">
         <Grid IsVisible="{Binding IsMoving, Mode=TwoWay}" Grid.Row="0">
             <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Left">
@@ -16,9 +17,9 @@
             <Button Classes="Flat" Content="{l:Localisation 'Move Here'}" HorizontalAlignment="Right" Margin="8" Command="{Binding MoveHereCommand}" CommandParameter="{Binding SelectedNotebook}" />
         </Grid>
 
-        <ListBox Padding="1" ui:NotebooksView.IsView="True" Grid.Row="1" DragDrop.AllowDrop="True" Items="{Binding Filter.Items}" SelectedItem="{Binding Filter.Selection, Mode=TwoWay}">
+        <ListBox Padding="1" ui1:NotebooksView.IsView="True" Grid.Row="1" DragDrop.AllowDrop="True" Items="{Binding Filter.Items}" SelectedItem="{Binding Filter.Selection, Mode=TwoWay}">
             <ListBox.ItemTemplate>
-                <ui:NotebookDataTemplate />
+                <ui1:NotebookDataTemplate />
             </ListBox.ItemTemplate>
 
             <ListBox.ItemsPanel>

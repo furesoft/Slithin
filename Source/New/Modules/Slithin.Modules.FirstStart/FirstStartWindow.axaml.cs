@@ -2,6 +2,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Modules.FirstStart.ViewModels;
 
 namespace Slithin.Modules.FirstStart;
 

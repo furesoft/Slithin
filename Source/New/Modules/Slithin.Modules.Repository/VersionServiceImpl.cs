@@ -39,12 +39,7 @@ internal class VersionServiceImpl : IVersionService
     {
         var versionPath = Path.Combine(_container.Resolve<IPathManager>().ConfigBaseDir, ".version");
 
-        if (File.Exists(versionPath))
-        {
-            return new Version(File.ReadAllText(versionPath));
-        }
-
-        return new Version(0, 0, 0, 0);
+        return File.Exists(versionPath) ? new Version(File.ReadAllText(versionPath)) : new(0, 0, 0, 0);
     }
 
     public Version GetSlithinVersion()

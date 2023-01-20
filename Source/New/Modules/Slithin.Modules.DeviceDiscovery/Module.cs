@@ -12,6 +12,6 @@ internal class Module : AuroraModularis.Module
 
     public override void RegisterServices(Container container)
     {
-        container.Register<IDeviceDiscovery>(new DeviceDiscoveryImpl());
+        container.Register<IDeviceDiscovery>(new DeviceDiscoveryImpl()).AsSingleton();
     }
 }

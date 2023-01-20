@@ -8,7 +8,7 @@ using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Notebooks.UI.ViewModels;
 using Slithin.Modules.Repository.Models;
 
-namespace Slithin.Modules.Notebooks.UI;
+namespace Slithin.Modules.Notebooks.UI.UI;
 
 [PreserveIndex(1)]
 [PageIcon("Codeicons.Notebook")]

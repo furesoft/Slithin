@@ -25,8 +25,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
                 continue;
             }
 
-            var list = new List<IContextProvider>();
-            list.Add(provider);
+            var list = new List<IContextProvider> {provider};
 
             _providers.Add(attr.Context, list);
         }
@@ -69,19 +68,21 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
             return null;
         }
 
+        IEnumerable<MenuItem> ContextProviderSelector(IContextProvider c)
+        {
+            c.ParentViewModel = parent;
+
+            if (item is UpDirectoryModel || item is TrashModel)
+            {
+                return Array.Empty<MenuItem>();
+            }
+
+            return c.GetMenu(item);
+        }
+
         var menu = new ContextMenu
         {
-            Items = iContextProviders.SelectMany(c =>
-            {
-                c.ParentViewModel = parent;
-
-                if (item is UpDirectoryModel || item is TrashModel)
-                {
-                    return Array.Empty<MenuItem>();
-                }
-                
-                return c.GetMenu(item);
-            })
+            Items = iContextProviders.SelectMany(ContextProviderSelector)
         };
 
         return menu;
@@ -93,12 +94,14 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
 
         foreach (var providerType in providerTypes)
         {
-            if (!providerType.IsAssignableFrom(typeof(CommandBasedContextMenu)))
+            if (providerType.IsAssignableFrom(typeof(CommandBasedContextMenu)))
             {
-                var provider = Container.Current.Resolve<IContextProvider>(providerType);
-
-                AddProvider(provider);
+                continue;
             }
+
+            var provider = Container.Current.Resolve<IContextProvider>(providerType);
+
+            AddProvider(provider);
         }
 
         var commandTypes = Utils.FindTypes<IContextCommand>();

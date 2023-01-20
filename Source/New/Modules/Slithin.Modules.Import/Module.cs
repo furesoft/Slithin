@@ -1,8 +1,7 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Core.Services.Implementations;
 using Slithin.Modules.Import.Models;
 
-namespace Slithin.Modules.Logging;
+namespace Slithin.Modules.Import;
 
 [Priority]
 public class Module : AuroraModularis.Module
@@ -17,6 +16,6 @@ public class Module : AuroraModularis.Module
 
     public override void RegisterServices(Container container)
     {
-        container.Register<IImportProviderFactory>(new ImportProviderFactoryImpl());
+        container.Register<IImportProviderFactory>(new ImportProviderFactoryImpl()).AsSingleton();
     }
 }

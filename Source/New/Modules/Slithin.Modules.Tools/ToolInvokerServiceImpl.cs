@@ -19,9 +19,9 @@ internal class ToolInvokerServiceImpl : IToolInvokerService
 
     public void Invoke(string id, ToolProperties props)
     {
-        if (Tools.ContainsKey(id))
+        if (Tools.TryGetValue(id, out var value))
         {
-            Tools[id].Invoke(props);
+            value.Invoke(props);
         }
     }
 }

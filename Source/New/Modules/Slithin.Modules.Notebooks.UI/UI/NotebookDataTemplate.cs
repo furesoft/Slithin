@@ -14,7 +14,7 @@ using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 
-namespace Slithin.Modules.Notebooks.UI;
+namespace Slithin.Modules.Notebooks.UI.UI;
 
 internal class NotebookDataTemplate : IDataTemplate
 {

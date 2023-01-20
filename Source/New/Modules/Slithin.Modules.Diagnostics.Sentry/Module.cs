@@ -17,16 +17,17 @@ internal class Module : AuroraModularis.Module
     {
         var settings = (SettingsModel)Settings;
 
-        _service = SentrySdk.Init(o =>
+        void ConfigureOptions(SentryOptions o)
         {
             o.Dsn = settings.DSN;
-
 #if DEBUG
             o.Debug = settings.Debug;
             o.Environment = settings.Environment;
 #endif
             o.TracesSampleRate = settings.TracesSampleRate;
-        });
+        }
+
+        _service = SentrySdk.Init(ConfigureOptions);
 
         container.Register<IDiagnosticService>(new DiagnosticServiceImpl()).AsSingleton();
         container.Register<IFeedbackService>(new FeedbackServiceImpl()).AsSingleton();

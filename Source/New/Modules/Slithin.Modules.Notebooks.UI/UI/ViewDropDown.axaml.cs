@@ -1,8 +1,7 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.Modules.Notebooks.UI;
+namespace Slithin.Modules.Notebooks.UI.UI;
 
 public partial class ViewDropDown : UserControl
 {

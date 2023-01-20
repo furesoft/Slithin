@@ -2,11 +2,11 @@
 using EpubSharp;
 using PdfSharpCore.Pdf.IO;
 using Slithin.Core;
-using Slithin.Core.Services;
 using Slithin.Entities.Remarkable;
 using Slithin.Entities.Remarkable.Rendering;
 using Slithin.Modules.Export.Models;
 using Slithin.Modules.Export.Validators;
+using Slithin.Modules.Export.ViewModels;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.UI.Models;

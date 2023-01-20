@@ -1,7 +1,6 @@
 ﻿using Slithin.Entities.Remarkable;
-using Slithin.Modules.Export.Models;
 
-namespace Slithin.Core.Services;
+namespace Slithin.Modules.Export.Models;
 
 public interface IExportProviderFactory
 {

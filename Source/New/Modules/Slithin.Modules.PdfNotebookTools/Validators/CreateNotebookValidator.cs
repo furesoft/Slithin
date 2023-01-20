@@ -2,7 +2,7 @@
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.PdfNotebookTools.ViewModels;
 
-namespace Slithin.Validators;
+namespace Slithin.Modules.PdfNotebookTools.Validators;
 
 public class CreateNotebookValidator : AbstractValidator<CreateNotebookModalViewModel>
 {

@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
+using Slithin.Modules.Settings.ViewModels;
 
 namespace Slithin.Modules.Settings;
 

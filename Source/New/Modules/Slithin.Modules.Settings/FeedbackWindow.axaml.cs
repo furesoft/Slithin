@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Slithin.Core.MVVM;
+using Slithin.Modules.Settings.ViewModels;
 
 namespace Slithin.Modules.Settings;
 

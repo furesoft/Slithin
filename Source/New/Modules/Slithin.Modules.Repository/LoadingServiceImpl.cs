@@ -18,7 +18,7 @@ internal class LoadingServiceImpl : ILoadingService
         _container = container;
     }
 
-    public async Task LoadNotebooksAsync()
+    public Task LoadNotebooksAsync()
     {
         var filter = Container.Current.Resolve<NotebooksFilter>();
         var errorTrackingService = _container.Resolve<IDiagnosticService>();
@@ -27,42 +27,52 @@ internal class LoadingServiceImpl : ILoadingService
 
         if (filter.Items.Any())
         {
-            return;
+            return Task.CompletedTask;
         }
 
         var monitor = errorTrackingService.StartPerformanceMonitoring("Loading", "Notebooks");
 
         mdStorage.Clear();
 
-        filter.Items = new();
+        filter.Items = new() {new TrashModel()};
 
+        LoadMetadataFiles(pathManager, mdStorage);
+
+        AddMetadatasToFilterWithCorrectParent(mdStorage, filter);
+
+        filter.SortByFolder();
+
+        monitor.Dispose();
+        
+        return Task.CompletedTask;
+    }
+
+    private static void AddMetadatasToFilterWithCorrectParent(IMetadataRepository mdStorage, NotebooksFilter filter)
+    {
+        foreach (var mds in mdStorage.GetByParent(""))
+        {
+            if (mds.Type == "CollectionType")
+            {
+                filter.Items.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) {ID = mds.ID, Parent = mds.Parent});
+            }
+            else
+            {
+                filter.Items.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) {ID = mds.ID, Parent = mds.Parent});
+            }
+        }
+    }
+
+    private static void LoadMetadataFiles(IPathManager pathManager, IMetadataRepository mdStorage)
+    {
         foreach (var md in Directory.GetFiles(pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
         {
             var mdObj = mdStorage.Load(Path.GetFileNameWithoutExtension(md));
 
             mdStorage.AddMetadata(mdObj, out _);
         }
-
-        filter.Items.Add(new TrashModel());
-
-        foreach (var mds in mdStorage.GetByParent(""))
-        {
-            if (mds.Type == "CollectionType")
-            {
-                filter.Items.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
-            }
-            else
-            {
-                filter.Items.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
-            }
-        }
-
-        filter.SortByFolder();
-
-        monitor.Dispose();
     }
 
-    public async Task LoadTemplatesAsync()
+    public Task LoadTemplatesAsync()
     {
         var errorTrackingService = Container.Current.Resolve<IDiagnosticService>();
         var storage = Container.Current.Resolve<ITemplateStorage>();
@@ -70,10 +80,10 @@ internal class LoadingServiceImpl : ILoadingService
 
         if (filter.Items.Any())
         {
-            return;
+            return Task.CompletedTask;
         }
 
-        var monitor = errorTrackingService.StartPerformanceMonitoring("Loading", "Templates");
+        using var monitor = errorTrackingService.StartPerformanceMonitoring("Loading", "Templates");
         // Load local Templates
         storage.Load();
 
@@ -94,15 +104,14 @@ internal class LoadingServiceImpl : ILoadingService
         //Load first templates which are shown to make loading "smoother and faster"
         LoadTemplatesByCategory(filter.Categories.First(), filter, storage, true);
 
-        monitor.Dispose();
-
         Parallel.ForEach(filter.Categories, (category) =>
         {
             LoadTemplatesByCategory(category, filter, storage);
         });
+        return Task.CompletedTask;
     }
 
-    public async Task LoadTemplatesByCategory(string category, TemplatesFilter filter, ITemplateStorage storage, bool addToView = false)
+    private async Task LoadTemplatesByCategory(string category, TemplatesFilter filter, ITemplateStorage storage, bool addToView = false)
     {
         foreach (var t in storage.Templates)
         {

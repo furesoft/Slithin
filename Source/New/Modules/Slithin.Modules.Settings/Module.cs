@@ -19,7 +19,7 @@ internal class Module : AuroraModularis.Module
     {
         var settingsService = new SettingsServiceImpl(container);
 
-        container.Register((ISettingsService)settingsService);
-        container.Register<IScreenRememberService>(new ScreenRememberServiceImpl(settingsService));
+        container.Register((ISettingsService)settingsService).AsSingleton();
+        container.Register<IScreenRememberService>(new ScreenRememberServiceImpl(settingsService)).AsSingleton();
     }
 }

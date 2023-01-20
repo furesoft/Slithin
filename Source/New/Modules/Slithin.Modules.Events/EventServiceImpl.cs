@@ -9,9 +9,14 @@ internal class EventServiceImpl : IEventService
 
     public void Invoke<T>(string name, T argument)
     {
-        if (_subscriptions.ContainsKey(name))
+        if (argument == null)
         {
-            _subscriptions[name].Invoke(argument);
+            throw new ArgumentNullException(nameof(argument));
+        }
+
+        if (_subscriptions.TryGetValue(name, out var value))
+        {
+            value.Invoke(argument);
         }
     }
 

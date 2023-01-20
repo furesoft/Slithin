@@ -10,9 +10,9 @@ using Slithin.Entities.Remarkable;
 using Slithin.Entities.Remarkable.Rendering;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.PdfNotebookTools.Models;
+using Slithin.Modules.PdfNotebookTools.Validators;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.UI.Models;
-using Slithin.Validators;
 
 namespace Slithin.Modules.PdfNotebookTools.ViewModels;
 

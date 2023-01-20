@@ -7,7 +7,7 @@ namespace Slithin.Modules.DeviceDiscovery;
 
 internal class DeviceDiscoveryImpl : IDeviceDiscovery
 {
-    public IPAddress Discover()
+    public IPAddress? Discover()
     {
         try
         {
@@ -27,11 +27,11 @@ internal class DeviceDiscoveryImpl : IDeviceDiscovery
         var data = new string('a', 32);
         var buffer = Encoding.ASCII.GetBytes(data);
 
-        var timeout = 10000;
+        const int Timeout = 10000;
 
         var options = new PingOptions(64, true);
 
-        var reply = pingSender.Send(address, timeout, buffer,
+        var reply = pingSender.Send(address, Timeout, buffer,
             options);
 
         return reply.Status == IPStatus.Success;

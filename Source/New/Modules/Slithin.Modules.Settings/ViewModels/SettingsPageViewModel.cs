@@ -8,7 +8,7 @@ using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
 
-namespace Slithin.Modules.Settings;
+namespace Slithin.Modules.Settings.ViewModels;
 
 internal class SettingsPageViewModel : BaseViewModel
 {
@@ -110,20 +110,22 @@ internal class SettingsPageViewModel : BaseViewModel
 
         var path = new DirectoryInfo(_pathManager.ConfigBaseDir);
 
-        if (!path.Exists)
+        if (path.Exists)
         {
-            _pathManager.ReLink(oldName);
-            path = new(_pathManager.ConfigBaseDir);
-
-            _credential.Name = newName;
-
-            _pathManager.ReLink(_credential.Name);
-
-            path.MoveTo(_pathManager.ConfigBaseDir);
-
-            _loginService.UpdateLoginCredential(_credential);
-
-            _logger.Info("Setting changed 'Device Name'");
+            return;
         }
+
+        _pathManager.ReLink(oldName);
+        path = new(_pathManager.ConfigBaseDir);
+
+        _credential.Name = newName;
+
+        _pathManager.ReLink(_credential.Name);
+
+        path.MoveTo(_pathManager.ConfigBaseDir);
+
+        _loginService.UpdateLoginCredential(_credential);
+
+        _logger.Info("Setting changed 'Device Name'");
     }
 }

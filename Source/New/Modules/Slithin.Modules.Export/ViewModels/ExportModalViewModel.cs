@@ -1,14 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using Slithin.Core.MVVM;
-using Slithin.Core.Services;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Export.Models;
 
-namespace Slithin.Modules.Export;
+namespace Slithin.Modules.Export.ViewModels;
 
 public class ExportModalViewModel : BaseViewModel
 {
-    private IExportProvider _selectedFormat;
+    private IExportProvider? _selectedFormat;
 
     public ExportModalViewModel(Metadata md, IExportProviderFactory exportProviderFactory)
     {
@@ -25,7 +24,7 @@ public class ExportModalViewModel : BaseViewModel
 
     public string PagesSelector { get; set; } = "1-";
 
-    public IExportProvider SelectedFormat
+    public IExportProvider? SelectedFormat
     {
         get { return _selectedFormat; }
         set

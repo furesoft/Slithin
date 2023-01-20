@@ -12,6 +12,6 @@ internal class Module : AuroraModularis.Module
 
     public override void RegisterServices(Container container)
     {
-        container.Register<IUpdaterService>(new UpdaterImplementation());
+        container.Register<IUpdaterService>(new UpdaterImplementation()).AsSingleton();
     }
 }

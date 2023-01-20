@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Slithin.Core.MVVM;
 using Slithin.Modules.Diagnostics.Sentry.Models;
 
-namespace Slithin.Modules.Settings;
+namespace Slithin.Modules.Settings.ViewModels;
 
 internal class FeedbackViewModel : BaseViewModel
 {

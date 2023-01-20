@@ -6,7 +6,7 @@ using Slithin.Modules.Notebooks.UI.ViewModels;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 
-namespace Slithin.Modules.Notebooks.UI;
+namespace Slithin.Modules.Notebooks.UI.UI;
 
 public static class NotebooksView
 {

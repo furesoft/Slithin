@@ -12,8 +12,12 @@
 
                 <TextBlock TextWrapping="Wrap" Text="{l:Localisation 'Slithin is now configured and you can start enjoy managing your Remarkable device.'}" />
 
-                <Button Classes="Flat" Command="{l:OpenLink 'https://www.buymeacoffee.com/furesoft'}" ToolTip.Tip="{l:Localisation 'Buy me a coffee'}">
-                    <DrawingPresenter Drawing="{DynamicResource BuyMeaCoffee}" />
+                <Button Classes="Flat" Height="50" Command="{l:OpenLink 'https://www.buymeacoffee.com/furesoft'}" ToolTip.Tip="{l:Localisation 'Buy me a coffee'}">
+                    <Image>
+                        <Image.Source>
+                            <DrawingImage Drawing="{DynamicResource BuyMeaCoffee}" />
+                        </Image.Source>
+                    </Image>
                 </Button>
             </StackPanel>
         </Border>

@@ -16,9 +16,10 @@ public class ContextualMenuBuilderImpl : IContextualMenuBuilder
         var control = new DefaultContextualMenu();
         var elements = _registrar.GetAllElements(id);
 
-        control.FindControl<ItemsPresenter>("presenter").DataContext = elements.ToArray();
+        var contextualElements = elements.ToArray();
+        control.FindControl<ItemsPresenter>("presenter").DataContext = contextualElements;
 
-        if (!elements.Any())
+        if (!contextualElements.Any())
         {
             return new EmptyContextualMenu();
         }

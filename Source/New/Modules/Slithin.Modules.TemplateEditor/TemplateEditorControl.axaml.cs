@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.TemplateEditor;
+namespace Slithin.Modules.TemplateEditor;
 
 public class TemplateEditorControl : UserControl
 {

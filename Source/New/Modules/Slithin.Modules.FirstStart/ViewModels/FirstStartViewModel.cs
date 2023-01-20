@@ -4,12 +4,11 @@ using Avalonia.Controls;
 using Slithin.Controls.Ports.StepBar;
 using Slithin.Core.MVVM;
 using Slithin.Modules.FirstStart.Steps;
-using Slithin.Modules.FirstStart.ViewModels;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
 
-namespace Slithin.Modules.FirstStart;
+namespace Slithin.Modules.FirstStart.ViewModels;
 
 internal class FirstStartViewModel : BaseViewModel
 {

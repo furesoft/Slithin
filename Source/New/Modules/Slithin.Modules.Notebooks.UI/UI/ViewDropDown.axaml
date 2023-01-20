@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="http://github.com/furesoft/Slithin"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.Modules.Notebooks.UI.ViewDropDown">
+             x:Class="Slithin.Modules.Notebooks.UI.UI.ViewDropDown">
     <Border Background="White">
         <controls:RadioButtonGroup Orientation="Horizontal">
             <controls:RadioImage Width="60">

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Slithin.Modules.Export.ViewModels;
 using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.Export.Validators;

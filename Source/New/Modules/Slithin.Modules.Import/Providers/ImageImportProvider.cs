@@ -1,7 +1,7 @@
 ﻿using SkiaSharp;
 using Slithin.Modules.Import.Models;
 
-namespace Slithin.ImportProviders;
+namespace Slithin.Modules.Import.Providers;
 
 [ImportProviderBaseType(".png")]
 public class ImageImportProvider : IImportProvider

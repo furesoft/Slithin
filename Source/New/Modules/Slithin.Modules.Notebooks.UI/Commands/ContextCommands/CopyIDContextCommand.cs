@@ -3,7 +3,7 @@ using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 
-namespace Slithin.Commands.ContextCommands.Notebooks;
+namespace Slithin.Modules.Notebooks.UI.Commands.ContextCommands;
 
 [Context(UIContext.Notebook)]
 public class CopyIDContextCommand : IContextCommand
