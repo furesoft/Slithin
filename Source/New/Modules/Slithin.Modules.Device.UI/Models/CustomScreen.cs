@@ -5,8 +5,8 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LiteDB;
 using Slithin.Core.MVVM;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
-using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Device.UI.Models;
 

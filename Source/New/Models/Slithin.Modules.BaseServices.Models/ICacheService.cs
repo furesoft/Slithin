@@ -1,4 +1,4 @@
-﻿namespace Slithin.Modules.Cache.Models;
+﻿namespace Slithin.Modules.BaseServices.Models;
 
 public interface ICacheService
 {

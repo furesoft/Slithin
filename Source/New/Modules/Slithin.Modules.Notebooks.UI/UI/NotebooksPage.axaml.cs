@@ -2,11 +2,11 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Notebooks.UI.ViewModels;
-using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Notebooks.UI.UI;
 

@@ -1,4 +1,5 @@
 ﻿using AuroraModularis.Core;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 
@@ -20,7 +21,6 @@ internal class Module : AuroraModularis.Module
 
     public override void RegisterServices(Container container)
     {
-        container.Register<IPathManager>(new PathManagerImpl()).AsSingleton();
         container.Register<IVersionService>(new VersionServiceImpl(container)).AsSingleton();
         container.Register<IRepository>(new LocalRepository(container)).AsSingleton();
         container.Register<ILoginService>(new LoginServiceImpl(container)).AsSingleton();

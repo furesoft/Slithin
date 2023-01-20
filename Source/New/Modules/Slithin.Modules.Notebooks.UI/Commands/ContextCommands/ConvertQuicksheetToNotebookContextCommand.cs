@@ -1,5 +1,6 @@
 ﻿using Slithin.Entities.Remarkable;
 using Slithin.Entities.Remarkable.Rendering;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Notebooks.UI.Models;

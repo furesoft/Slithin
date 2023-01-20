@@ -1,5 +1,6 @@
 ﻿using AuroraModularis.Core;
 using Slithin.Entities;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;

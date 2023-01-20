@@ -1,10 +1,8 @@
 ﻿using AuroraModularis.Core;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Diagnostics.Sentry.Models;
-using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
-using Slithin.Modules.Resources.UI;
-using Slithin.Modules.Settings.Models;
 using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Repository;

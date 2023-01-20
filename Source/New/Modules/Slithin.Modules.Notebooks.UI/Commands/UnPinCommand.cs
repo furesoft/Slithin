@@ -1,7 +1,6 @@
 ﻿using System.Windows.Input;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Device.Models;
-using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 

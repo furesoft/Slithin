@@ -1,6 +1,6 @@
-﻿using Slithin.Modules.Repository.Models;
+﻿using Slithin.Modules.BaseServices.Models;
 
-namespace Slithin.Modules.Repository;
+namespace Slithin.Modules.BaseServices;
 
 internal class PathManagerImpl : IPathManager
 {

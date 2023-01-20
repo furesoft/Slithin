@@ -1,7 +1,7 @@
 ﻿using Slithin.Entities.Remarkable;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
-using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands.ContextCommands;
 

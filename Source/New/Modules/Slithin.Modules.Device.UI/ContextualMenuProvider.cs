@@ -1,5 +1,4 @@
-﻿using Slithin.Core.MVVM;
-using Slithin.Modules.Device.UI.ViewModels;
+﻿using Slithin.Modules.Device.UI.ViewModels;
 using Slithin.Modules.Menu.Models.ContextualMenu;
 using Slithin.Modules.Menu.Models.ContextualMenu.ContextualElements;
 using Slithin.Modules.Menu.Models.ItemContext;

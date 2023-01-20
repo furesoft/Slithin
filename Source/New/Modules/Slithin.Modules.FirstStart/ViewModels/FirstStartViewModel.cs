@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Avalonia.Controls;
 using Slithin.Controls.Ports.StepBar;
 using Slithin.Core.MVVM;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.FirstStart.Steps;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;

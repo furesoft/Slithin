@@ -2,8 +2,8 @@
 using AuroraModularis.Core;
 using Slithin.Entities.Remarkable;
 using Slithin.Entities.Remarkable.Rendering;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Export.Models;
-using Slithin.Modules.Repository.Models;
 using Svg;
 using Svg.Pathing;
 using Brushes = Slithin.Entities.Remarkable.Rendering.Brushes;

@@ -2,6 +2,7 @@
 using Avalonia.Media.Imaging;
 using Newtonsoft.Json;
 using Slithin.Entities.Remarkable;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;

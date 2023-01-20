@@ -1,6 +1,7 @@
 ﻿using AuroraModularis.Core;
 using Newtonsoft.Json;
 using Slithin.Entities.Remarkable;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 

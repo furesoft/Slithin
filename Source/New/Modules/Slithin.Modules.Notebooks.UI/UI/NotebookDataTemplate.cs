@@ -8,11 +8,10 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using Material.Styles;
 using Slithin.Controls;
-using Slithin.Modules.Cache.Models;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Menu.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Notebooks.UI.Models;
-using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Notebooks.UI.UI;
 
