@@ -7,23 +7,31 @@
         xmlns:s="using:Slithin.Modules.Settings.Models"
         xmlns:controls="http://github.com/furesoft/Slithin"
         xmlns:dh="using:Slithin.Modules.UI.Models"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinWidth="1105" MinHeight="450" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinWidth="1105" MinHeight="450"
+        WindowStartupLocation="CenterScreen"
         x:Class="Slithin.MainWindow" Icon="avares:/Resources/Icon.png"
         Title="{Binding Title}">
     <controls:ContentDialog dh:DialogHost.IsHost="True">
         <styles:ColorZone Mode="Light" Height="{Binding $parent[Window].Height}">
-            <SplitView DisplayMode="CompactInline" OpenPaneLength="{Binding MenuWidth, Mode=TwoWay}" IsPaneOpen="{s:Setting 'IsBigMenuMode'}">
+            <SplitView DisplayMode="CompactInline" OpenPaneLength="{Binding MenuWidth, Mode=TwoWay}"
+                       IsPaneOpen="{s:Setting 'IsBigMenuMode'}">
                 <SplitView.Pane>
                     <Grid RowDefinitions="170,*" Margin="0,20,0,0">
-                        <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Source="avares:/Resources/new_logo.png" Classes="header" />
+                        <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top"
+                               Source="avares:/Resources/new_logo.png" Classes="header" />
 
-                        <ListBox Items="{Binding Menu}" Grid.Row="1" SelectedItem="{Binding SelectedTab}" Classes="Drawer" Name="Drawer" VerticalAlignment="Bottom">
+                        <ListBox Items="{Binding Menu}" Grid.Row="1" SelectedItem="{Binding SelectedTab}"
+                                 Classes="Drawer" Name="Drawer" VerticalAlignment="Bottom">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Height="35" ColumnDefinitions="33,*" ToolTip.Tip="{Binding Header}" Background="{Binding Background}" ToolTip.IsOpen="True">
-                                        <DrawingPresenter Drawing="{Binding Icon}" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" />
+                                    <Grid Height="35" ColumnDefinitions="33,*" ToolTip.Tip="{Binding Header}"
+                                          Background="{Binding Background}" ToolTip.IsOpen="True">
+                                        <DrawingPresenter Drawing="{Binding Icon}" Width="25" Height="25"
+                                                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                          Grid.Column="0" />
 
-                                        <TextBlock Text="{Binding Header}" Grid.Column="1" Margin="5,0,0,0" Classes="Body1 bigFont" VerticalAlignment="Center" FontSize="25" />
+                                        <TextBlock Text="{Binding Header}" Grid.Column="1" Margin="5,0,0,0"
+                                                   Classes="Body1 bigFont" VerticalAlignment="Center" FontSize="25" />
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -31,12 +39,15 @@
                     </Grid>
                 </SplitView.Pane>
 
-                <Grid RowDefinitions="AUTO,*,AUTO" ColumnDefinitions="*,Auto" Margin="5">
-                    <styles:Card Grid.Row="0" Grid.Column="1" MinWidth="800" MaxHeight="100" HorizontalAlignment="Stretch" Content="{Binding ContextualMenu, Mode=TwoWay}" />
-                    
-                    <controls:ImageButton Command="{Binding SynchronizeCommand}" Grid.Column="1" Text="{core:Localisation 'Synchronize'}" Image="{DynamicResource Material.Refresh}" />
-                    
-                    <Carousel Margin="0,10,0,0" Grid.Row="1" SelectedIndex="{Binding #Drawer.SelectedIndex}" Items="{Binding Tabs}" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+                <Grid RowDefinitions="AUTO,*" ColumnDefinitions="*,Auto" Margin="5">
+                    <styles:Card Grid.Column="0" MaxHeight="100" HorizontalAlignment="Stretch"
+                                 Content="{Binding ContextualMenu, Mode=TwoWay}" />
+                    <controls:ImageButton Grid.Row="0" HorizontalAlignment="Right" Command="{Binding SynchronizeCommand}"
+                                          Grid.Column="1" Text="{core:Localisation 'Synchronize'}" Margin="5"
+                                          Image="{DynamicResource Material.Refresh}" />
+
+                    <Carousel Grid.Column="0" Margin="0,10,0,0" Grid.Row="1" SelectedIndex="{Binding #Drawer.SelectedIndex}"
+                              Items="{Binding Tabs}" Grid.ColumnSpan="2" Grid.RowSpan="1" />
                 </Grid>
             </SplitView>
         </styles:ColorZone>
