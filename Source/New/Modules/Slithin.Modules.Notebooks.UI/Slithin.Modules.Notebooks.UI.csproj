@@ -27,8 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="NotebooksPage.axaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
+    <Compile Update="UI\NotebooksPage.axaml.cs">
+      <DependentUpon>NotebooksPage.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\ViewDropDown.axaml.cs">
+      <DependentUpon>ViewDropDown.axaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
