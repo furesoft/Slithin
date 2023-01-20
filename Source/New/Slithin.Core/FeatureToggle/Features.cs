@@ -8,10 +8,7 @@ public static class Features
 
     public static void Collect()
     {
-        var types = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(s => s.GetTypes()).Where(_ => _.IsAssignableTo(typeof(IFeature)));
-
-        foreach (var type in types)
+        foreach (var type in Utils.FindTypes<IFeature>())
         {
             if (!type.IsInterface && !type.IsAbstract && !_allFeatures.ContainsKey(type.Name))
             {
@@ -42,37 +39,33 @@ public static class Features
 
     public static void EnableAll()
     {
+#if DEBUG
         foreach (var feature in _allFeatures)
         {
-            var featureType = typeof(Feature<>).MakeGenericType(new Type[] { feature.Value });
-            featureType.GetMethod("Enable").Invoke(null, null);
+            var dynamicFeature = FromString(feature.Key);
+            dynamicFeature.IsEnabled = true;
         }
+#endif
     }
 
     public static DynamicFeature FromString(string featureName)
     {
-        return new(typeof(Feature<>).MakeGenericType(new Type[] { _allFeatures[featureName] }));
+        return new DynamicFeature(typeof(Feature<>).MakeGenericType(_allFeatures[featureName]));
     }
 
     public class DynamicFeature
     {
-        public DynamicFeature(Type featureType)
+        internal DynamicFeature(Type featureType)
         {
             Property = featureType.GetProperty("IsEnabled");
         }
 
         public bool IsEnabled
         {
-            get
-            {
-                return (bool)Property.GetValue(null);
-            }
-            set
-            {
-                Property.SetValue(null, value);
-            }
+            get => (bool)Property.GetValue(null);
+            set => Property.SetValue(null, value);
         }
 
-        public PropertyInfo Property { get; init; }
+        private PropertyInfo Property { get; }
     }
 }

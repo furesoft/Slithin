@@ -13,12 +13,14 @@
         </Grid>
 
         <Grid Margin="4">
-            <TextBlock Text="{l:Localisation 'Share Email Addresses'}" FontSize="18" VerticalAlignment="Center" IsVisible="{Binding HasEmailAddresses}" />
+            <TextBlock Text="{l:Localisation 'Share Email Addresses'}" FontSize="18" VerticalAlignment="Center"
+                       IsVisible="{Binding HasEmailAddresses}" />
 
             <ItemsControl Items="{Binding ShareEmailAddresses}" HorizontalAlignment="Right">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <c:TagControl Tag="{Binding}" RemoveCommand="{Binding $parent[ItemsControl].DataContext.RemoveEmailCommand}" />
+                        <c:TagControl Tag="{Binding}"
+                                      RemoveCommand="{Binding $parent[ItemsControl].DataContext.RemoveEmailCommand}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 
@@ -33,24 +35,32 @@
         <StackPanel>
             <TextBlock Text="{l:Localisation 'Screens'}" Margin="4" FontSize="18" />
 
-            <ItemsControl Items="{Binding CustomScreens, Mode=TwoWay}" Margin="16,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ItemsControl Items="{Binding CustomScreens, Mode=TwoWay}" Margin="16,0,0,0"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Margin="2">
                             <StackPanel Orientation="Vertical" Margin="2">
                                 <Grid>
-                                    <Button Classes="Flat" Command="{Binding TransferCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Transfer to Device'}">
-                                        <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularTransfer}" />
+                                    <Button Classes="Flat" Command="{Binding TransferCommand}"
+                                            HorizontalAlignment="Left" VerticalAlignment="Top"
+                                            ToolTip.Tip="{l:Localisation 'Transfer to Device'}">
+                                        <DrawingPresenter Width="16" Height="16"
+                                                          Drawing="{DynamicResource BoxIcons.RegularTransfer}" />
                                     </Button>
 
-                                    <Button Classes="Flat" Command="{Binding ResetCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Reset To Default'}">
-                                        <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularReset}" />
+                                    <Button Classes="Flat" Command="{Binding ResetCommand}" HorizontalAlignment="Right"
+                                            VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Reset To Default'}">
+                                        <DrawingPresenter Width="16" Height="16"
+                                                          Drawing="{DynamicResource BoxIcons.RegularReset}" />
                                     </Button>
                                 </Grid>
 
-                                <Image Source="{Binding Image, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150" Height="150" />
+                                <Image Source="{Binding Image, Mode=TwoWay}" DragDrop.AllowDrop="True" Width="150"
+                                       Height="150" />
 
-                                <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,3,0,5" FontSize="17" FontWeight="Medium" />
+                                <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0,3,0,5" FontSize="17"
+                                           FontWeight="Medium" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -58,7 +68,7 @@
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="6" Margin="2" />
+                        <StackPanel Orientation="Horizontal" Spacing="5" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

@@ -15,9 +15,6 @@ public partial class App : Application
 
     public override async void OnFrameworkInitializationCompleted()
     {
-        Slithin.Core.FeatureToggle.Features.Collect();
-        FeatureToggle.Init();
-
         var bootstrapper = BootstrapperBuilder.StartConfigure()
             .WithAppName("Slithin")
             .WithModulesBasePath(".")
@@ -26,6 +23,9 @@ public partial class App : Application
             .WithSettingsProvider<LiteDbSettingsProvider>();
 
         await bootstrapper.BuildAndStartAsync();
+
+        Core.FeatureToggle.Features.Collect();
+        Core.FeatureToggle.Features.EnableAll();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

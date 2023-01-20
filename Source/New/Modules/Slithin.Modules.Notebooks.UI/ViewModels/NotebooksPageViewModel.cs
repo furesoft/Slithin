@@ -20,10 +20,10 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
     private FileSystemModel _movingNotebook;
 
     public NotebooksPageViewModel(ILocalisationService localisationService,
-                                  ILogger logger,
-                                  IMetadataRepository metadataRepository,
-                                  NotebooksFilter notebooksFilter,
-                                  ILoadingService loadingService)
+        ILogger logger,
+        IMetadataRepository metadataRepository,
+        NotebooksFilter notebooksFilter,
+        ILoadingService loadingService)
     {
         MakeFolderCommand = Container.Current.Resolve<MakeFolderCommand>();
 
@@ -48,10 +48,10 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
                 _movingNotebook = Filter.Selection;
             },
             _ => _ != null
-                && _ is Metadata md
-                && md.VisibleName != localisationService.GetString("Quick sheets")
-                && md.VisibleName != localisationService.GetString("Up ..")
-                && md.VisibleName != localisationService.GetString("Trash"));
+                 && _ is Metadata md
+                 && md.VisibleName != localisationService.GetString("Quick sheets")
+                 && md.VisibleName != localisationService.GetString("Up ..")
+                 && md.VisibleName != localisationService.GetString("Trash"));
 
         MoveCancelCommand = new DelegateCommand(_ =>
         {
@@ -70,11 +70,13 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
             {
                 if (mds.Type == "CollectionType")
                 {
-                    notebooksFilter.Items.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+                    notebooksFilter.Items.Add(
+                        new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) {ID = mds.ID, Parent = mds.Parent});
                 }
                 else
                 {
-                    notebooksFilter.Items.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+                    notebooksFilter.Items.Add(
+                        new FileModel(mds.VisibleName, mds, mds.IsPinned) {ID = mds.ID, Parent = mds.Parent});
                 }
             }
 
@@ -90,8 +92,8 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
 
     public bool IsInTrash
     {
-        get { return _isInTrash; }
-        set { SetValue(ref _isInTrash, value); }
+        get => _isInTrash;
+        set => SetValue(ref _isInTrash, value);
     }
 
     public bool IsMoving
@@ -115,8 +117,6 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
 
     public override async void OnLoad()
     {
-        base.OnLoad();
-
         await _loadingService.LoadNotebooksAsync();
     }
 }

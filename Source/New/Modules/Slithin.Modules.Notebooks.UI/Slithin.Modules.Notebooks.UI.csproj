@@ -27,9 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="NotebooksContextualMenu.axaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
     <Compile Update="NotebooksPage.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>

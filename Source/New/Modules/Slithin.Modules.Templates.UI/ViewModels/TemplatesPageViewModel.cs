@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using AuroraModularis.Core;
 using Slithin.Core;
 using Slithin.Core.MVVM;
@@ -17,9 +18,9 @@ internal class TemplatesPageViewModel : BaseViewModel, IFilterable<TemplatesFilt
     private readonly ILoadingService _loadingService;
 
     public TemplatesPageViewModel(TemplatesFilter templatesFilter,
-                                  ITemplateStorage templateStorage,
-                                  IDialogService dialogService,
-                                  ILoadingService loadingService)
+        ITemplateStorage templateStorage,
+        IDialogService dialogService,
+        ILoadingService loadingService)
     {
         Filter = templatesFilter;
         _templateStorage = templateStorage;
@@ -28,7 +29,7 @@ internal class TemplatesPageViewModel : BaseViewModel, IFilterable<TemplatesFilt
         OpenAddModalCommand = new DelegateCommand(async _ =>
         {
             var vm = Container.Current.Resolve<AddTemplateModalViewModel>();
-            if (await dialogService.Show("", new AddTemplateModal() { DataContext = vm }))
+            if (await dialogService.Show("", new AddTemplateModal() {DataContext = vm}))
             {
                 vm.AcceptCommand.Execute(vm);
             }
@@ -43,15 +44,13 @@ internal class TemplatesPageViewModel : BaseViewModel, IFilterable<TemplatesFilt
 
     public override async void OnLoad()
     {
-        base.OnLoad();
-
         Filter.PropertyChanged += (s, e) =>
         {
             if (e.PropertyName != nameof(Filter.Items))
             {
-                Filter.Items = new
-                    (_templateStorage.Templates.Where(_ => _.Categories.Contains(Filter.SelectedCategory) 
-                                                           && Filter.Landscape == _.Landscape));
+                Filter.Items = new ObservableCollection<Template>(_templateStorage.Templates.Where(_ =>
+                    _.Categories.Contains(Filter.SelectedCategory)
+                    && Filter.Landscape == _.Landscape));
             }
         };
 

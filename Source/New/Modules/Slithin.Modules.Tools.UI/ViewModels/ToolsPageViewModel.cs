@@ -38,8 +38,6 @@ internal class ToolsPageViewModel : BaseViewModel
 
     public override void OnLoad()
     {
-        base.OnLoad();
-
         _invoker.Init();
 
         Filter.AllTools = _invoker.Tools.Values.Where(_ => _.Info.IsListed).ToList();

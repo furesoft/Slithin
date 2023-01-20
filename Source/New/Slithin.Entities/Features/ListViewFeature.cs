@@ -1,8 +1,7 @@
 ﻿using Slithin.Core.FeatureToggle;
 
-namespace Slithin.Modules.Notebooks.UI.Features;
+namespace Slithin.Entities.Features;
 
 public class ListViewFeature : IFeature
 {
-    
 }

@@ -1,11 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.Modules.Device.UI;
+namespace Slithin.Modules.Notebooks.UI;
 
-public partial class DeviceContextualMenu : UserControl
+public partial class ViewDropDown : UserControl
 {
-    public DeviceContextualMenu()
+    public ViewDropDown()
     {
         InitializeComponent();
     }
@@ -15,3 +16,4 @@ public partial class DeviceContextualMenu : UserControl
         AvaloniaXamlLoader.Load(this);
     }
 }
+
