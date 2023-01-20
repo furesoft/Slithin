@@ -1,4 +1,4 @@
-﻿namespace Slithin.Modules.Repository.Models;
+﻿namespace Slithin.Modules.BaseServices.Models;
 
 public interface IPathManager
 {

@@ -4,7 +4,6 @@ using AuroraModularis.Core;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
-using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.Templates.UI.Commands;

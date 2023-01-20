@@ -4,11 +4,11 @@ using PdfSharpCore.Pdf.IO;
 using Slithin.Core;
 using Slithin.Entities.Remarkable;
 using Slithin.Entities.Remarkable.Rendering;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Export.Models;
 using Slithin.Modules.Export.Validators;
 using Slithin.Modules.Export.ViewModels;
 using Slithin.Modules.I18N.Models;
-using Slithin.Modules.Repository.Models;
 using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Export;

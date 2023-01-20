@@ -1,9 +1,9 @@
 ﻿using AuroraModularis.Core;
 using Serilog;
 using Serilog.Core;
-using Slithin.Modules.Repository.Models;
+using Slithin.Modules.BaseServices.Models;
 
-namespace Slithin.Modules.Logging;
+namespace Slithin.Modules.BaseServices;
 
 internal class LoggerImpl : AuroraModularis.Logging.Models.ILogger
 {

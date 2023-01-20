@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-
-namespace Slithin.Modules.Menu.Models.Menu;
+﻿namespace Slithin.Modules.Menu.Models.Menu;
 
 public interface IPage
 {

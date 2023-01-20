@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using Slithin.Modules.Cache.Models;
+using Slithin.Modules.BaseServices.Models;
 
-namespace Slithin.Modules.Caching;
+namespace Slithin.Modules.BaseServices;
 
 internal class CacheServiceImpl : ICacheService
 {

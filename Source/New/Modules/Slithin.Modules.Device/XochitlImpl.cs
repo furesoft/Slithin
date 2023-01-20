@@ -2,8 +2,8 @@
 using AuroraModularis.Logging.Models;
 using IniParser;
 using IniParser.Model;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
-using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Device;
 

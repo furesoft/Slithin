@@ -11,6 +11,7 @@ using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 using Slithin.Entities.Remarkable.Rendering;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.PdfNotebookTools.Models;
 using Slithin.Modules.PdfNotebookTools.Validators;

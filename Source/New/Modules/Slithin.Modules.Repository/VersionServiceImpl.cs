@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using AuroraModularis.Core;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 

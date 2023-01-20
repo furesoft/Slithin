@@ -1,4 +1,4 @@
-﻿namespace Slithin.Modules.Events.Models;
+﻿namespace Slithin.Modules.BaseServices.Models;
 
 public interface IEventService
 {

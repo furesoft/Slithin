@@ -4,9 +4,8 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Slithin.Entities.Remarkable;
-using Slithin.Modules.Cache.Models;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Notebooks.UI.Models;
-using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
 

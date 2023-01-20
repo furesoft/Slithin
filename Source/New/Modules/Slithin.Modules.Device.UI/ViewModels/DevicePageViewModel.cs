@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using AuroraModularis.Logging.Models;
 using Slithin.Core.MVVM;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Device.UI.Models;
 using Slithin.Modules.I18N.Models;

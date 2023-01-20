@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
-using Slithin.Modules.DeviceDiscovery.Models;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.ViewModels;
