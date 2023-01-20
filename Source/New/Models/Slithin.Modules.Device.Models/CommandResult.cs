@@ -8,6 +8,12 @@ public class CommandResult
         Result = result;
     }
 
-    public string Error { get; set; }
-    public string Result { get; set; }
+    public CommandResult(string result)
+    {
+        Result = result;
+        Error = string.Empty;
+    }
+
+    public string Error { get; }
+    public string Result { get; }
 }

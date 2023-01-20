@@ -49,7 +49,7 @@ internal class RestoreTool : ITool
 
     public bool IsConfigurable => false;
 
-    public Control GetModal()
+    public Control? GetModal()
     {
         return null;
     }

@@ -9,7 +9,7 @@ internal class CacheServiceImpl : ICacheService
 
     public void AddObject<T>(string name, T obj)
     {
-        _cache.AddOrUpdate(name, obj, (_, _) => obj);
+        _cache.AddOrUpdate(name, obj!, (_, _) => obj!);
     }
 
     public bool Contains(string name)
@@ -17,21 +17,22 @@ internal class CacheServiceImpl : ICacheService
         return _cache.ContainsKey(name);
     }
 
-    public T GetObject<T>(string name, Func<T> obj = default)
+    public T GetObject<T>(string name, Func<T>? objFactory = default!)
     {
-        if (_cache.ContainsKey(name))
+        if (_cache.TryGetValue(name, out var value))
         {
-            return (T)_cache[name];
+            return (T)value;
         }
 
-        if (obj != null)
+        if (objFactory == null)
         {
-            var instance = obj();
-            AddObject(name, instance);
-
-            return instance;
+            return default!;
         }
 
-        return default;
+        var instance = objFactory();
+        AddObject(name, instance);
+
+        return instance;
+
     }
 }

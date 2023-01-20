@@ -86,8 +86,6 @@ internal class DevicePageViewModel : BaseViewModel
 
     public override async void OnLoad()
     {
-        base.OnLoad();
-
         _pathManager.InitDeviceDirectory();
 
         InitScreens();

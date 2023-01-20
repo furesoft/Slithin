@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
-using Slithin.Modules.Export;
 using Slithin.Modules.I18N.Models;
 
-namespace Slithin.Validators;
+namespace Slithin.Modules.Export.Validators;
 
 public class ExportValidator : AbstractValidator<ExportModalViewModel>
 {

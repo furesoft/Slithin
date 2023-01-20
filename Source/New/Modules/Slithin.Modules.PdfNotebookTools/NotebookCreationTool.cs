@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using AuroraModularis.Core;
+﻿using AuroraModularis.Core;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Slithin.Modules.PdfNotebookTools.ViewModels;
@@ -24,7 +23,7 @@ public class NotebookCreationTool : ITool
 
     public bool IsConfigurable => false;
 
-    public Control GetModal()
+    public Control? GetModal()
     {
         return null;
     }
@@ -35,17 +34,16 @@ public class NotebookCreationTool : ITool
 
         if (data is ToolProperties props)
         {
-            vm.Title = props["title"].ToString();
-            vm.CoverFilename = props["coverFilename"].ToString();
-            vm.Pages = new ObservableCollection<object>((IEnumerable<object>)props["pages"]);
+            vm.Title = props["title"].ToString() ?? string.Empty;
+            vm.CoverFilename = props["coverFilename"].ToString() ?? string.Empty;
+            vm.Pages = new((IEnumerable<object>)props["pages"]);
             vm.RenderName = (bool)props["renderName"];
 
             vm.OKCommand.Execute(null);
         }
         else
         {
-            var modal = new CreateNotebookModal();
-            modal.DataContext = vm;
+            var modal = new CreateNotebookModal {DataContext = vm};
 
             if (await _dialogService.Show("", modal))
             {

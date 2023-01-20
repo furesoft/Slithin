@@ -8,7 +8,6 @@ internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(Container container)
     {
-        //Todo: copy device.zip to bin directory if not exits
         if (File.Exists("device.zip"))
         {
             return Task.CompletedTask;

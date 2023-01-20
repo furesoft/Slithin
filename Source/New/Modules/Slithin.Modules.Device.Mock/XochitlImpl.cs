@@ -11,7 +11,7 @@ internal class XochitlImpl : IXochitlService
 {
     private readonly Container _container;
     private IniData _data;
-    private FileIniDataParser _ini;
+    private FileIniDataParser? _ini;
 
     public XochitlImpl(Container container)
     {
@@ -22,17 +22,12 @@ internal class XochitlImpl : IXochitlService
     {
         var str = GetProperty("BetaProgram", "General");
 
-        if (!string.IsNullOrEmpty(str))
-        {
-            return bool.Parse(str);
-        }
-
-        return false;
+        return !string.IsNullOrEmpty(str) && bool.Parse(str);
     }
 
     public string GetProperty(string key, string section)
     {
-        if (!_data.Sections.ContainsSection(section) || !_data[section].ContainsKey(key))
+        if (!(_data!.Sections.ContainsSection(section) || _data[section].ContainsKey(key)))
         {
             return string.Empty;
         }
@@ -43,28 +38,24 @@ internal class XochitlImpl : IXochitlService
     public string[] GetShareEmailAddresses()
     {
         var str = GetProperty("ShareEmailAddresses", "General");
-        var splt = str?.Split(',');
-        if (splt.Any())
-        {
-            return splt.Select(_ => _.Trim()).ToArray();
-        }
-
-        return Array.Empty<string>();
+        var splt = str.Split(',');
+        
+        return splt.Any() ? splt.Select(_ => _.Trim()).ToArray() : Array.Empty<string>();
     }
 
     public string GetToken(string key, string section)
     {
         var value = GetProperty(key, section);
 
-        if (value.StartsWith("@ByteArray"))
+        if (!value.StartsWith("@ByteArray"))
         {
-            var start = value.IndexOf("(") + 1;
-            var end = value.IndexOf(")");
-
-            return value[start..end];
+            return string.Empty;
         }
 
-        return null;
+        var start = value.IndexOf("(", StringComparison.Ordinal) + 1;
+        var end = value.IndexOf(")", StringComparison.Ordinal);
+
+        return value[start..end];
     }
 
     public void Init()

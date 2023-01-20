@@ -1,9 +1,14 @@
 ﻿namespace Slithin.Modules.Device.Models;
 
-public class CustomIniSerializer
+public static class CustomIniSerializer
 {
-    public static void WriteFile(string filename, IniParser.Model.IniData data)
+    public static void WriteFile(string filename, IniParser.Model.IniData? data)
     {
+        if (data is null)
+        {
+            return;
+        }
+        
         var fileStream = File.OpenWrite(filename);
         var writer = new StreamWriter(fileStream);
 

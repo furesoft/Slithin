@@ -1,10 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using AuroraModularis.Core;
+﻿using AuroraModularis.Core;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.PdfNotebookTools.ViewModels;
 using Slithin.Modules.PdfNotebookTools.Views;
 using Slithin.Modules.Tools.Models;
@@ -30,7 +30,7 @@ public class NotebookAppendTool : ITool, IContextProvider
 
     public bool CanHandle(object obj)
     {
-        return obj is Metadata md && md.Content.FileType == "pdf";
+        return obj is FileSystemModel {Tag: Metadata {Content.FileType: "pdf"}};
     }
 
     public ICollection<MenuItem> GetMenu(object obj)
@@ -43,7 +43,7 @@ public class NotebookAppendTool : ITool, IContextProvider
         return menu;
     }
 
-    public Control GetModal()
+    public Control? GetModal()
     {
         return null;
     }
@@ -55,9 +55,9 @@ public class NotebookAppendTool : ITool, IContextProvider
 
         if (data is ToolProperties props)
         {
-            vm.ID = props["id"].ToString();
-            vm.Pages = new ObservableCollection<object>((IEnumerable<object>)props["pages"]);
-
+            vm.ID = props["id"].ToString() ?? string.Empty;
+            vm.Pages = new((IEnumerable<object>)props["pages"]);
+            
             vm.OKCommand.Execute(null);
         }
         else
