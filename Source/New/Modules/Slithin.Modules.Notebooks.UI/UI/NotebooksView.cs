@@ -40,11 +40,14 @@ public static class NotebooksView
 
         var id = fsm.ID;
 
-        if (!string.IsNullOrEmpty(fsm.VisibleName) && fsm is UpDirectoryModel)
+        notebooksFilter.ParentFolder = (DirectoryModel)fsm;
+
+        if (!string.IsNullOrEmpty(fsm.VisibleName) && fsm is UpDirectoryModel upFsm)
         {
             id = _lastFolderIDs.Pop();
             notebooksFilter.Folder = id;
-
+            notebooksFilter.ParentFolder = (DirectoryModel)upFsm.ParentFolder;
+            
             if (id == "")
             {
                 notebooksFilter.Items.Add(new TrashModel());
@@ -76,7 +79,7 @@ public static class NotebooksView
 
         if (_lastFolderIDs.Count > 0)
         {
-            notebooksFilter.Items.Add(new UpDirectoryModel());
+            notebooksFilter.Items.Add(new UpDirectoryModel(fsm));
             notebooksFilter.Folder = id;
         }
         else

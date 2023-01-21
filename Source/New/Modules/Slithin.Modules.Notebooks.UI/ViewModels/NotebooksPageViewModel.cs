@@ -80,7 +80,7 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
                 }
             }
 
-            Filter.Items.Add(new UpDirectoryModel());
+            Filter.Items.Add(new UpDirectoryModel(Filter.ParentFolder));
 
             Filter.SortByFolder();
 

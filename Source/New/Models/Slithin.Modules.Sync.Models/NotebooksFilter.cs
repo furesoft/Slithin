@@ -15,12 +15,14 @@ public class NotebooksFilter : FilterBase<FileSystemModel>
         set => SetValue(ref _folder, value);
     }
 
+    public DirectoryModel ParentFolder { get; set; }
+
     public void SortByFolder()
     {
         var ordered = Items.OrderByDescending(_ => _.IsPinned);
         ordered = ordered.OrderByDescending(_ => _ is UpDirectoryModel);
         ordered = ordered.OrderByDescending(_ => _ is DirectoryModel);
 
-        Items = new ObservableCollection<FileSystemModel>(ordered);
+        Items = new(ordered);
     }
 }
