@@ -50,7 +50,7 @@ public class SvgExporter : IExportProvider
 
             var page = notebook.Pages[options.PagesIndices[i]];
 
-            var svgStrm = _renderingService.RenderSvg(page, i, metadata);
+            var svgStrm = _renderingService.RenderSvg(page, i, metadata,options.ShouldHideTemplates);
             var outputStrm = File.Create(Path.Combine(outputPath, i + ".svg"));
 
             svgStrm.CopyTo(outputStrm);

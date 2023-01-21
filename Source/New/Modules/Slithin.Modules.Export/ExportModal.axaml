@@ -6,7 +6,8 @@
              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="250"
              x:Class="Slithin.Modules.Export.ExportModal">
     <StackPanel Spacing="5" VerticalAlignment="Center">
-        <TextBlock Text="{Binding Notebook.VisibleName, FallbackValue=hello}" FontSize="18" TextAlignment="Center" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding Notebook.VisibleName, FallbackValue=hello}" FontSize="18" TextAlignment="Center"
+                   TextWrapping="Wrap" />
         <ComboBox Items="{Binding Formats}" SelectedItem="{Binding SelectedFormat}" />
 
         <Grid IsVisible="{Binding !IsEpubSelected, Mode=TwoWay}">
@@ -17,6 +18,12 @@
         <StackPanel>
             <Label Content="{l:Localisation 'Destination'}" />
             <TextBox Text="{Binding ExportPath, Mode=TwoWay}" MinWidth="75" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <Label Content="{l:Localisation 'Hide Templates'}" />
+            <ToggleSwitch OnContent="{l:Localisation 'Display'}" OffContent="{l:Localisation 'Hide'}"
+                          IsChecked="{Binding ShouldHideDisplay}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

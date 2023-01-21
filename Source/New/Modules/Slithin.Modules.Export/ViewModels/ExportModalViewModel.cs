@@ -12,7 +12,7 @@ public class ExportModalViewModel : BaseViewModel
     public ExportModalViewModel(Metadata md, IExportProviderFactory exportProviderFactory)
     {
         Notebook = md;
-        Formats = new ObservableCollection<IExportProvider>(exportProviderFactory.GetAvailableProviders(md));
+        Formats = new(exportProviderFactory.GetAvailableProviders(md));
         SelectedFormat = Formats.FirstOrDefault();
         ExportPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     }
@@ -21,6 +21,8 @@ public class ExportModalViewModel : BaseViewModel
     public ObservableCollection<IExportProvider> Formats { get; set; }
     public bool IsEpubSelected { get; set; }
     public Metadata Notebook { get; set; }
+
+    public bool ShouldHideTemplates { get; set; }
 
     public string PagesSelector { get; set; } = "1-";
 
