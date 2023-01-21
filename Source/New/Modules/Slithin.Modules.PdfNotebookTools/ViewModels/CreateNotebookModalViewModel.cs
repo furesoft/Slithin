@@ -155,7 +155,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
     private async void AddPages(object obj)
     {
         if (!int.TryParse(PageCount, out var pcount) ||
-            SelectedTemplate == null || string.IsNullOrEmpty(CustomTemplateFilename))
+            SelectedTemplate == null && string.IsNullOrEmpty(CustomTemplateFilename))
         {
             await _dialogService.Show(_localisationService.GetString("Page Count must be a number and a template need to be selected"));
             return;
@@ -222,7 +222,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
             }
             else
             {
-                coverStream = assets.Open(new($"avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/Folder-{CoverFilename["internal:".Length..]}.png"));
+                coverStream = assets.Open(new($"avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/{CoverFilename["internal:".Length..]}"));
             }
 
             if (coverStream == null)
@@ -273,7 +273,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
             _metadataRepository.SaveToDisk(md);
 
-            document.Save(Path.Combine(_pathManager.NotebooksDir, $"\\{md.ID}.pdf"));
+            document.Save(Path.Combine(_pathManager.NotebooksDir, $"{md.ID}.pdf"));
 
             _metadataRepository.AddMetadata(md, out _);
 

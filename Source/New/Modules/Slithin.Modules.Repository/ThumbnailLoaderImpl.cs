@@ -25,7 +25,7 @@ internal class ThumbnailLoaderImpl : IThumbnailLoader
         if (!Directory.Exists(Path.Combine(notebooksDir, md.ID + ".thumbnails")))
         {
             return cache.GetObject("notebook-" + md.Content.FileType,
-                () => new Bitmap(assets.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
+                () => new Bitmap(assets.Open(new Uri($"avares://Slithin.Modules.PdfNotebookTools/Resources/{md.Content.FileType}.png"))));
         }
 
         var filename = "";
