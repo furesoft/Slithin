@@ -18,9 +18,9 @@ public class PdfExporter : IExportProvider
     private readonly IPathManager _pathManager;
 
     public PdfExporter(IPathManager pathManager,
-                       ILocalisationService localisationService,
-                       IRenderingService renderingService,
-                       IDialogService dialogService)
+        ILocalisationService localisationService,
+        IRenderingService renderingService,
+        IDialogService dialogService)
     {
         _pathManager = pathManager;
         _localisationService = localisationService;
@@ -40,18 +40,19 @@ public class PdfExporter : IExportProvider
     {
         if (options.Document.IsT1)
         {
-            return ExportNotebook(options, metadata, outputPath, progress);
+            return ExportNotebook(options, metadata, outputPath, options.ShouldHideTemplates, progress);
         }
 
         if (!options.Document.IsT0)
             return false;
 
-        return ExportPDF(options, metadata, outputPath, progress);
+        return ExportPDF(options, metadata, outputPath, options.ShouldHideTemplates, progress);
     }
 
     public override string ToString() => Title;
 
-    private bool ExportNotebook(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
+    private bool ExportNotebook(ExportOptions options, Metadata metadata, string outputPath, bool shouldHideTemplate,
+        IProgress<int> progress)
     {
         var notebook = options.Document.AsT1;
 
@@ -79,7 +80,10 @@ public class PdfExporter : IExportProvider
 
             var pngStrm = _renderingService.RenderPng(page, i, metadata);
 
-            DrawTemplate(metadata, graphics, i);
+            if (!shouldHideTemplate)
+            {
+                DrawTemplate(metadata, graphics, i);
+            }
 
             graphics.DrawImage(XImage.FromStream(() => pngStrm), 0, 0, pdfPage.Width, pdfPage.Height);
 
@@ -104,7 +108,8 @@ public class PdfExporter : IExportProvider
         }
     }
 
-    private bool ExportPDF(ExportOptions options, Metadata metadata, string outputPath, IProgress<int> progress)
+    private bool ExportPDF(ExportOptions options, Metadata metadata, string outputPath, bool shouldHideTemplates,
+        IProgress<int> progress)
     {
         var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
         var doc = options.Document.AsT0;
@@ -134,7 +139,7 @@ public class PdfExporter : IExportProvider
             var notebookStream = File.OpenRead(rmPath);
             var page = Notebook.LoadPage(notebookStream);
 
-            var pngStrm = _renderingService.RenderPng(page, i, metadata);
+            var pngStrm = _renderingService.RenderPng(page, i, metadata, shouldHideTemplates);
 
             var graphics = XGraphics.FromPdfPage(p);
 

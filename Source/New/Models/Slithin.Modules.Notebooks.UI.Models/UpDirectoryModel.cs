@@ -5,8 +5,11 @@ namespace Slithin.Modules.Notebooks.UI.Models;
 
 public class UpDirectoryModel : DirectoryModel
 {
-    public UpDirectoryModel() : base(null, null, false)
+    public FileSystemModel ParentFolder { get; }
+
+    public UpDirectoryModel(FileSystemModel parentFolder) : base(null, null, false)
     {
+        ParentFolder = parentFolder;
         var localisation = Container.Current.Resolve<ILocalisationService>();
 
         VisibleName = localisation.GetString("Up ..");

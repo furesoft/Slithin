@@ -164,8 +164,11 @@
   "Export Path": "Chemin d'exportation",
   "Directory does not exist": "Le répertoire n'existe pas",
   "A notebook has to have at least 1 page": "Un bloc-notes doit avoir au moins 1 page",
-  "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "Le modèle ne correspond pas à la bonne dimension. Veuillez utiliser une dimension 1404x1872.",
   "Buy me a coffee": "Achetez-moi un café",
   "Only for short names and default covers": "Uniquement pour les noms abrégés et les couvertures par défaut",
+  "Hide Templates": "Cacher les modèles",
+  "Display": "Afficher",
+  "Hide": "Cacher",
+  "The Template does not fit is not in correct dimension. Please use a 1404x1872 dimension.": "Le modèle ne correspond pas à la bonne dimension. Veuillez utiliser une dimension 1404x1872.",
   "The Image does not fit is not in correct dimension. Please use a 1404x1872 dimension.": "L'image ne correspond pas à la bonne dimension. Veuillez utiliser une dimension de 1404x1872."
 }

@@ -39,7 +39,7 @@ internal class SettingsPageViewModel : BaseViewModel
 
         _settings = settingsService.GetSettings();
 
-        _credential = new();
+        _credential = _loginService.GetCurrentCredential();
     }
 
     public bool AutomaticScreenRecovery

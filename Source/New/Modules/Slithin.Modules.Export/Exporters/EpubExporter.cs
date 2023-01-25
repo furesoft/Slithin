@@ -50,7 +50,8 @@ public class EpubExporter : IExportProvider
             var page = Notebook.LoadPage(notebookStream);
 
             var psize = new XSize(1404, 1872);
-            var svgStrm = (MemoryStream)_renderingService.RenderSvg(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
+            var svgStrm = (MemoryStream)_renderingService.RenderSvg(page, pageIndex, metadata,
+                options.ShouldHideTemplates, (int)psize.Width, (int)psize.Height);
 
             svgStrm.Seek(0, SeekOrigin.Begin);
 

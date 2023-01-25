@@ -35,7 +35,7 @@ internal class EmptyTrashCommand : ICommand
 
     public bool CanExecute(object data)
     {
-        return _notebooksFilter.Selection is TrashModel;
+        return _notebooksFilter.ParentFolder is TrashModel;
     }
 
     public void Execute(object data)

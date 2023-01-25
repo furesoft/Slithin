@@ -113,6 +113,8 @@ internal class ExportServiceImpl : IExportService
             _ => null
         };
 
+        options.ShouldHideTemplates = vm.ShouldHideTemplates;
+        
         return options;
     }
 

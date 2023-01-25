@@ -6,7 +6,8 @@ namespace Slithin.Modules.Export.Rendering;
 
 internal partial class RenderingServiceImpl : IRenderingService
 {
-    public Stream RenderPng(Page page, int pageIndex, Metadata md, int width = 1404, int height = 1872)
+    public Stream RenderPng(Page page, int pageIndex, Metadata md, bool shouldHideTemplates = false, int width = 1404,
+        int height = 1872)
     {
         throw new NotImplementedException();
     }

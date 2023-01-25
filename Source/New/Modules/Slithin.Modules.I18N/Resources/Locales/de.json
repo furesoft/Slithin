@@ -164,8 +164,11 @@
   "Export Path": "Exportpfad",
   "Directory does not exist": "Verzeichnis existiert nicht",
   "A notebook has to have at least 1 page": "Ein Notizbuch muss mindestens 1 Seite haben",
-  "The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension.": "Das Template passt nicht in die richtige Dimension. Bitte verwenden Sie eine Größe von 1404x1872.",
   "Buy me a coffee": "Kaufe mir einen Kaffee",
   "Only for short names and default covers": "Nur für kurze Namen und Standard-Cover",
+  "Hide Templates": "Vorlagen verstecken",
+  "Display": "Anzeigen",
+  "Hide": "Verstecken",
+  "The Template does not fit is not in correct dimension. Please use a 1404x1872 dimension.": "Das Template passt nicht in die richtige Dimension. Bitte verwenden Sie eine Größe von 1404x1872.",
   "The Image does not fit is not in correct dimension. Please use a 1404x1872 dimension.": "Das Bild passt nicht in die richtige Dimension. Bitte verwenden Sie eine Abmessung 1404x1872."
 }

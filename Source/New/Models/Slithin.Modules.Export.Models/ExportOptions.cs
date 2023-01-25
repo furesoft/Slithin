@@ -5,6 +5,8 @@ public class ExportOptions
     public ExportDocument Document { get; set; }
     public List<int> PagesIndices { get; set; } = new();
 
+    public bool ShouldHideTemplates { get; set; }
+
     public static ExportOptions Create(ExportDocument document, string pageRange)
     {
         var result = new ExportOptions();
