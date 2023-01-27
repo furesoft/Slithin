@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Sentry" Version="3.26.0" />
+    <PackageReference Include="Sentry" Version="3.26.2" />
   </ItemGroup>
   
   <Import Project="$(SolutionDir)\Version.props" />

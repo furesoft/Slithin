@@ -10,9 +10,8 @@
   <ItemGroup>
     <PackageReference Include="EpubSharp.dll" Version="1.1.5" />
     <PackageReference Include="OneOf" Version="3.0.223" />
-    <PackageReference Include="OneOf.SourceGenerator" Version="3.0.223" OutputItemType="Analyzer"
-                      ReferenceOutputAssembly="false" />
-    <PackageReference Include="PdfSharpCore" Version="1.3.43" />
+    <PackageReference Include="OneOf.SourceGenerator" Version="3.0.223" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <PackageReference Include="PdfSharpCore" Version="1.3.45" />
   </ItemGroup>
 
   <ItemGroup>

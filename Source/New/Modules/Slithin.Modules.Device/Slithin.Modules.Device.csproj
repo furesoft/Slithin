@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.20" />
-    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.20" />
+    <PackageReference Include="AuroraModularis" Version="1.0.21" />
+    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.21" />
     <PackageReference Include="SSH.NET" Version="2020.0.2" />
   </ItemGroup>
 

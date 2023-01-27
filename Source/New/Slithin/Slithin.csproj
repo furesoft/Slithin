@@ -31,8 +31,8 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="AuroraModularis" Version="1.0.20" />
-		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.20" />
+		<PackageReference Include="AuroraModularis" Version="1.0.21" />
+		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.21" />
 		<PackageReference Include="FluentValidations" Version="1.1.0" />
 		<PackageReference Include="Avalonia" Version="0.10.18" />
 		<PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
