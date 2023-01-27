@@ -1,0 +1,29 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:core="using:Slithin.Core"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.Modules.Settings.Modals.AboutModal">
+    <Grid MinHeight="135" RowDefinitions="*,*">
+        <TextBlock Grid.Row="0" Text="{core:Localisation 'Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome.'}" TextWrapping="Wrap" MaxWidth="300" />
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="1" HorizontalAlignment="Left" Grid.Row="1">
+            <Button Classes="Flat" Command="{core:OpenLink 'https://github.com/furesoft/Slithin'}">
+                <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Github}" HorizontalAlignment="Left" ToolTip.Tip="Github" />
+            </Button>
+
+            <Button Classes="Flat" Command="{core:OpenLink 'https://www.reddit.com/r/Slithin/'}">
+                <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Reddit}" HorizontalAlignment="Left" ToolTip.Tip="Reddit" />
+            </Button>
+
+            <Button Classes="Flat" Command="{core:OpenLink 'https://www.facebook.com/groups/slithin/'}">
+                <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Facebook}" HorizontalAlignment="Left" ToolTip.Tip="Facebook" />
+            </Button>
+
+            <Button Classes="Flat" Command="{core:OpenLink 'https://www.patreon.com/Slithin'}">
+                <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource BoxIcons.LogosPatreon}" HorizontalAlignment="Left" ToolTip.Tip="Patreon" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

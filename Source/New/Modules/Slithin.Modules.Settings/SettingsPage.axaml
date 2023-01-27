@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="using:Slithin.Controls"
              xmlns:s="using:Slithin.Controls.Settings"
              xmlns:l="using:Slithin.Core"
              mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="500"
@@ -34,53 +33,7 @@
                     <ToggleSwitch Content="{l:Localisation 'Automatic Screen Recovery'}" IsChecked="{Binding AutomaticScreenRecovery, Mode=TwoWay}" />
                 </StackPanel>
             </s:SettingsGroup>
-
-            <s:SettingsGroup HorizontalAlignment="Left" Header="{l:Localisation 'About'}" Grid.Column="0" Grid.Row="2">
-                <Grid MinHeight="135" RowDefinitions="*,*">
-                    <TextBlock Grid.Row="0" Text="{l:Localisation 'Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome.'}" TextWrapping="Wrap" MaxWidth="300" />
-
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="1" HorizontalAlignment="Left" Grid.Row="1">
-                        <Button Classes="Flat" Command="{l:OpenLink 'https://github.com/furesoft/Slithin'}">
-                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Github}" HorizontalAlignment="Left" ToolTip.Tip="Github" />
-                        </Button>
-
-                        <Button Classes="Flat" Command="{l:OpenLink 'https://www.reddit.com/r/Slithin/'}">
-                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Reddit}" HorizontalAlignment="Left" ToolTip.Tip="Reddit" />
-                        </Button>
-
-                        <Button Classes="Flat" Command="{l:OpenLink 'https://www.facebook.com/groups/slithin/'}">
-                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Facebook}" HorizontalAlignment="Left" ToolTip.Tip="Facebook" />
-                        </Button>
-
-                        <Button Classes="Flat" Command="{l:OpenLink 'https://www.patreon.com/Slithin'}">
-                            <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource BoxIcons.LogosPatreon}" HorizontalAlignment="Left" ToolTip.Tip="Patreon" />
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </s:SettingsGroup>
-
-            <s:SettingsGroup Header="{l:Localisation 'Support Slithin'}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2">
-                <StackPanel Spacing="5" Margin="3">
-                    <UniformGrid Columns="7">
-                        <controls:KryptoDonateButton CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="{DynamicResource BoxIcons.LogosBitcoin}" />
-                        <controls:KryptoDonateButton CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource SimpleIcons.Ethereum}" />
-                        <controls:KryptoDonateButton CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Image="{DynamicResource SimpleIcons.Litecoin}" />
-                        <controls:KryptoDonateButton CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="{DynamicResource Unicons.BitcoinCircle}" />
-                        <controls:KryptoDonateButton CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource Unicons.UsdCircle}" />
-                        <controls:KryptoDonateButton CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="{DynamicResource SimpleIcons.Dogecoin}" />
-                        <Button Classes="Flat" Command="{l:OpenLink 'https://www.buymeacoffee.com/furesoft'}" ToolTip.Tip="{l:Localisation 'Buy me a coffee'}">
-                            <DrawingPresenter Drawing="{DynamicResource BuyMeaCoffee}" />
-                        </Button>
-                    </UniformGrid>
-
-                    <Button Classes="Flat" Command="{Binding FeedbackCommand}">
-                        <StackPanel Spacing="5" Orientation="Horizontal">
-                            <DrawingPresenter Width="25" Height="25" Drawing="{DynamicResource VSImageLib2019.FeedbackSmile_grey_16x}" HorizontalAlignment="Left" />
-                            <TextBlock VerticalAlignment="Center" Text="{l:Localisation 'Leave a feedback'}" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-            </s:SettingsGroup>
+            
         </Grid>
     </ScrollViewer>
 </UserControl>

@@ -8,16 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AvaloniaXaml Remove="Resources\Icons.axaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Icon.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AvaloniaResource Include="Icon.png" />
-    <AvaloniaResource Include="Resources\Icons.axaml" />
+  </ItemGroup>
+  
+   <ItemGroup>
+    <EmbeddedResource Include="Resources\**" />
+    <AvaloniaResource Include="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
+    <ProjectReference Include="..\..\..\Slithin.Modules.UI\Slithin.Modules.UI.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.BaseServices.Models\Slithin.Modules.BaseServices.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Device.Models\Slithin.Modules.Device.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Diagnostics.Sentry.Models\Slithin.Modules.Diagnostics.Sentry.Models.csproj" />
