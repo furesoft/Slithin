@@ -6,23 +6,6 @@ namespace Slithin.Core;
 
 public static class Utils
 {
-    public static IEnumerable<T> Find<T>()
-    {
-        return 
-            from type in FindTypes<T>()
-            select Container.Current.Resolve<T>(type);
-    }
-
-    public static IEnumerable<Type> FindTypes<T>()
-    {
-        return
-            from assembly in AppDomain.CurrentDomain.GetAssemblies()
-            where !assembly.IsDynamic
-            from type in TryGetTypes(assembly)
-            where typeof(T).IsAssignableFrom(type) && !type.IsInterface
-            select type;
-    }
-    
     public static void OpenUrl(string url)
     {
         try
@@ -34,7 +17,7 @@ public static class Utils
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 url = url.Replace("&", "^&");
-                Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") {CreateNoWindow = true});
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
@@ -48,18 +31,6 @@ public static class Utils
             {
                 throw;
             }
-        }
-    }
-
-    private static Type[] TryGetTypes(System.Reflection.Assembly s)
-    {
-        try
-        {
-            return s.GetTypes();
-        }
-        catch
-        {
-            return Array.Empty<Type>();
         }
     }
 }

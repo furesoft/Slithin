@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Windows.Input;
+using AuroraModularis.Core;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -92,7 +93,7 @@ public class MainWindowViewModel : BaseViewModel
 
         var textFormat = new FormattedText();
         textFormat.FontSize = 25;
-        textFormat.Typeface = new Typeface("Consolas");
+        textFormat.Typeface = new("Consolas");
 
         foreach (var page in Menu)
         {
@@ -109,8 +110,9 @@ public class MainWindowViewModel : BaseViewModel
         var monitor = _diagnosticService.StartPerformanceMonitoring("Loading", "Menu");
 
         var toRearrange = new List<(int index, Page page, Control view)>();
+        var typeFinder = Container.Current.Resolve<ITypeFinder>();
 
-        var types = Utils.FindTypes<IPage>();
+        var types = typeFinder.FindTypes<IPage>();
         foreach (var type in types)
         {
             if (!typeof(IPage).IsAssignableFrom(type) || type.IsInterface)
@@ -139,18 +141,8 @@ public class MainWindowViewModel : BaseViewModel
                 continue;
             }
 
-            var header = _localisationService.GetString(pageInstance.Title);
-            var page = new Page { Header = header, DataContext = controlInstance.DataContext };
-
-            page.Icon = GetIcon(pageIconAttribute, type);
-
-            var contextMenu = _contextualMenuBuilder.BuildContextualMenu(contextAttribute.Context);
-            page.Tag = contextMenu;
-
-            if (contextMenu is EmptyContextualMenu)
-            {
-                contextMenu.DataContext = header;
-            }
+            var header = BuildPage(pageInstance, controlInstance, pageIconAttribute, type, out var page);
+            var contextMenu = BuildContextMenu(contextAttribute, page, header);
 
             ApplyDataContextToContextualElements(contextMenu, page.DataContext);
 
@@ -167,6 +159,29 @@ public class MainWindowViewModel : BaseViewModel
         monitor.Dispose();
     }
 
+    private string BuildPage(IPage pageInstance, Control? controlInstance, PageIconAttribute? pageIconAttribute, Type type,
+        out Page page)
+    {
+        var header = _localisationService.GetString(pageInstance.Title);
+        page = new Page {Header = header, DataContext = controlInstance.DataContext};
+
+        page.Icon = GetIcon(pageIconAttribute, type);
+        return header;
+    }
+
+    private UserControl BuildContextMenu(ContextAttribute contextAttribute, Page page, string header)
+    {
+        var contextMenu = _contextualMenuBuilder.BuildContextualMenu(contextAttribute.Context);
+        page.Tag = contextMenu;
+
+        if (contextMenu is EmptyContextualMenu)
+        {
+            contextMenu.DataContext = header;
+        }
+
+        return contextMenu;
+    }
+
     private void ApplyDataContextToContextualElements(UserControl contextMenu, object? dataContext)
     {
         if (contextMenu is not DefaultContextualMenu)
@@ -174,10 +189,7 @@ public class MainWindowViewModel : BaseViewModel
             return;
         }
 
-        var elements =
-            contextMenu.FindControl<ItemsPresenter>("presenter").DataContext as IEnumerable<ContextualElement>;
-
-        if (elements == null)
+        if (contextMenu.FindControl<ItemsPresenter>("presenter").DataContext is not IEnumerable<ContextualElement> elements)
         {
             return;
         }
