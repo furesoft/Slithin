@@ -18,9 +18,9 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
     private readonly IPathManager _pathManager;
 
     public ConvertQuicksheetToNotebookContextCommand(ILocalisationService localisationService,
-                                                     NotebooksFilter notebooksFilter,
-                                                     IMetadataRepository metadataRepository,
-                                                     IPathManager pathManager)
+        NotebooksFilter notebooksFilter,
+        IMetadataRepository metadataRepository,
+        IPathManager pathManager)
     {
         _localisationService = localisationService;
         _notebooksFilter = notebooksFilter;
@@ -52,7 +52,7 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
     public void Execute(object data)
     {
         var fsm = (FileSystemModel)data;
-        
+
         ConvertToNotebook(fsm.Tag as Metadata);
     }
 
@@ -64,7 +64,7 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
         if (!dir.Exists)
         {
             throw new DirectoryNotFoundException(
-                "Source directory does not exist or could not be found: "
+                "SettingsBuilderTestApp directory does not exist or could not be found: "
                 + sourceDirName);
         }
 
@@ -96,8 +96,10 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
     {
         var newID = Guid.NewGuid().ToString().ToLower();
 
-        DirectoryCopy(Path.Combine(_pathManager.NotebooksDir, md.ID), Path.Combine(_pathManager.NotebooksDir, newID), false);
-        DirectoryCopy(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails"), Path.Combine(_pathManager.NotebooksDir, newID + ".thumbnails"), false);
+        DirectoryCopy(Path.Combine(_pathManager.NotebooksDir, md.ID), Path.Combine(_pathManager.NotebooksDir, newID),
+            false);
+        DirectoryCopy(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails"),
+            Path.Combine(_pathManager.NotebooksDir, newID + ".thumbnails"), false);
 
         md.ID = newID;
         md.VisibleName += " " + _localisationService.GetString("Notebook");

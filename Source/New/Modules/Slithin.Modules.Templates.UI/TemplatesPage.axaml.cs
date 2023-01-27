@@ -22,7 +22,10 @@ public partial class TemplatesPage : UserControl, IPage
 
     public string Title => "Templates";
 
-    bool IPage.IsEnabled() => true;
+    bool IPage.IsEnabled()
+    {
+        return true;
+    }
 
     private void DragOver(object sender, DragEventArgs e)
     {
@@ -32,7 +35,9 @@ public partial class TemplatesPage : UserControl, IPage
         // Only allow if the dragged data contains text or filenames.
         if (!e.Data.Contains(DataFormats.Text)
             && !e.Data.Contains(DataFormats.FileNames))
+        {
             e.DragEffects = DragDropEffects.None;
+        }
     }
 
     private void Drop(object sender, DragEventArgs e)
@@ -47,7 +52,7 @@ public partial class TemplatesPage : UserControl, IPage
 
             if (provider != null)
             {
-                if (e.Source is Image img)
+                if (e.SettingsBuilderTestApp is Image img)
                 {
                     var bitmap = new Bitmap(filename);
 
