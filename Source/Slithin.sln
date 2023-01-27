@@ -123,6 +123,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.BaseService
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slithin.Modules.BaseServices.Models", "New\Models\Slithin.Modules.BaseServices.Models\Slithin.Modules.BaseServices.Models.csproj", "{9532C2F2-2BE7-4B39-841D-DCF37C5F008D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsBuilderTestApp", "SettingsBuilderTestApp\SettingsBuilderTestApp.csproj", "{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1327,6 +1329,30 @@ Global
 		{9532C2F2-2BE7-4B39-841D-DCF37C5F008D}.Release|x64.Build.0 = Release|Any CPU
 		{9532C2F2-2BE7-4B39-841D-DCF37C5F008D}.Release|x86.ActiveCfg = Release|Any CPU
 		{9532C2F2-2BE7-4B39-841D-DCF37C5F008D}.Release|x86.Build.0 = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|ARM.Build.0 = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|x64.Build.0 = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Debug|x86.Build.0 = Debug|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|ARM.Build.0 = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|ARM32.Build.0 = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|ARM64.Build.0 = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|x64.ActiveCfg = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|x64.Build.0 = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|x86.ActiveCfg = Release|Any CPU
+		{EDECDD51-E0FE-454E-8BB6-C5EBB09CBCCC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
