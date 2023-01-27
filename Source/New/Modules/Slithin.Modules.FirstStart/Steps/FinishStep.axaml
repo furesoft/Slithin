@@ -10,9 +10,11 @@
             <StackPanel Spacing="25" Margin="15">
                 <TextBlock Classes="cardHeader" Text="{l:Localisation 'Finish'}" />
 
-                <TextBlock TextWrapping="Wrap" Text="{l:Localisation 'Slithin is now configured and you can start enjoy managing your Remarkable device.'}" />
+                <TextBlock TextWrapping="Wrap"
+                           Text="{l:Localisation 'Slithin is now configured and you can start enjoy managing your Remarkable device.'}" />
 
-                <Button Classes="Flat" Height="50" Command="{l:OpenLink 'https://www.buymeacoffee.com/furesoft'}" ToolTip.Tip="{l:Localisation 'Buy me a coffee'}">
+                <Button Classes="Flat" Height="50" Command="{l:OpenLink 'https://www.buymeacoffee.com/furesoft'}"
+                        ToolTip.Tip="{l:Localisation 'Buy me a coffee'}" Width="25">
                     <Image>
                         <Image.Source>
                             <DrawingImage Drawing="{DynamicResource BuyMeaCoffee}" />
