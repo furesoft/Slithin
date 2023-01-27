@@ -5,6 +5,7 @@ namespace Slithin.Modules.Settings.Models.Builder;
 
 public interface ISettingsControlProvider
 {
-    public Control Build(string bindingName, object settingsObj, SettingsBaseAttribute settingsBaseAttribute);
+    public Type AttributeType { get; }
+    public Control Build(string bindingName, object settingsObj, SettingsAttribute settingsAttribute);
     public bool CanHandle(Type propType);
 }

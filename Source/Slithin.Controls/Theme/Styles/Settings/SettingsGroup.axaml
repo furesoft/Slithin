@@ -9,11 +9,11 @@
         <Setter Property="Margin" Value="0,0,0,10" />
         <Setter Property="Template">
             <ControlTemplate>
-                <StackPanel Spacing="2" Margin="{TemplateBinding Margin}">
-                    <Label Content="{TemplateBinding Header}" FontSize="17" />
-
-                    <ContentPresenter Content="{TemplateBinding Content}" Margin="2,1,1,1" />
-                </StackPanel>
+                <Grid>
+                    <Expander Margin="5" Header="{TemplateBinding Header}">
+                        <ContentPresenter Content="{TemplateBinding Content}" Margin="2,1,1,1" />
+                    </Expander>
+                </Grid>
             </ControlTemplate>
         </Setter>
     </Style>

@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
+using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Embedding.Offscreen;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
 using Slithin.Controls.Settings;
@@ -15,17 +13,14 @@ namespace Slithin.Modules.Settings.Builder;
 
 public class SettingsUIBuilderImpl : ISettingsUiBuilder
 {
-    private readonly Dictionary<Type, Type> _providers = new()
+    private readonly List<Type> _providers = new()
     {
-        [typeof(ToggleAttribute)] = typeof(ToggleProvider), [typeof(SelectionAttribute)] = typeof(SelectionProvider)
+        typeof(ToggleProvider), typeof(SelectionProvider), typeof(EnumProvider), typeof(TextProvider)
     };
 
     public void RegisterControlProvider<TAttr, TProvider>()
     {
-        if (!_providers.TryAdd(typeof(TAttr), typeof(TProvider)))
-        {
-            _providers[typeof(TAttr)] = typeof(TProvider);
-        }
+        _providers.Add(typeof(TProvider));
     }
 
     public Control Build(IEnumerable<INotifyPropertyChanged> settingModels)
@@ -74,10 +69,10 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
         grid.ColumnDefinitions.Add(new(GridLength.Star));
 
         var properties = settingsObjType.GetProperties();
-        for (var index = 0; index < properties.Length; index++)
+        var index = 0;
+        foreach (var prop in properties)
         {
-            var prop = properties[index];
-            var attr = prop.GetCustomAttribute<SettingsBaseAttribute>(true);
+            var attr = prop.GetCustomAttribute<SettingsAttribute>(true);
 
             if (attr is null)
             {
@@ -88,20 +83,25 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
             BuildLabelAndAddToGrid(attr, index, grid);
 
-            if (!_providers.TryGetValue(attr.GetType(), out var providerType))
+            foreach (var providerType in _providers)
             {
-                Debug.Write($"No Control Provider for {attr.GetType()} found");
-                continue;
-            }
+                var provider = (ISettingsControlProvider)Activator.CreateInstance(providerType);
 
-            AddGeneratedProviderToGrid(settingsObj, providerType, attr, prop, index, grid);
+                if (provider.AttributeType != attr.GetType() || !provider.CanHandle(prop.PropertyType))
+                {
+                    continue;
+                }
+
+                AddGeneratedProviderToGrid(settingsObj, providerType, attr, prop, index, grid);
+                index++;
+            }
         }
 
         return grid;
     }
 
     //ToDo: Add ability to localize labels
-    private static void BuildLabelAndAddToGrid(SettingsBaseAttribute attr, int index, Grid grid)
+    private static void BuildLabelAndAddToGrid(SettingsAttribute attr, int index, Grid grid)
     {
         var label = new Label {Content = attr.Label, VerticalAlignment = VerticalAlignment.Center};
         Grid.SetColumn(label, 0);
@@ -109,7 +109,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
         grid.Children.Add(label);
     }
 
-    private static void AddGeneratedProviderToGrid(object settingsObj, Type providerType, SettingsBaseAttribute attr,
+    private static void AddGeneratedProviderToGrid(object settingsObj, Type providerType, SettingsAttribute attr,
         PropertyInfo prop, int index, Grid grid)
     {
         var provider = (ISettingsControlProvider)Activator.CreateInstance(providerType);
@@ -120,6 +120,8 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
             control.VerticalAlignment = VerticalAlignment.Center;
             control.HorizontalAlignment = HorizontalAlignment.Right;
+            control.Margin = new(3);
+            control.DataContext = settingsObj;
 
             Grid.SetColumn(control, 1);
             Grid.SetRow(control, index);

@@ -10,15 +10,15 @@ namespace Slithin.Modules.Settings.Builder.ControlProviders;
 public class EnumProvider : ISettingsControlProvider
 {
     public Type AttributeType => typeof(SelectionAttribute);
-    public Control Build(string bindingName, object settingsObj, SettingsBaseAttribute settingsBaseAttribute)
+
+    public Control Build(string bindingName, object settingsObj, SettingsAttribute settingsAttribute)
     {
         return new ComboBox()
         {
             [!SelectingItemsControl.SelectedItemProperty] =
-                new Binding(((SelectionAttribute)settingsBaseAttribute).SelectionPropertyName)
+                new Binding(((SelectionAttribute)settingsAttribute).SelectionPropertyName)
                 {
-                    Mode = BindingMode.TwoWay,
-                    Source = settingsObj
+                    Mode = BindingMode.TwoWay, Source = settingsObj
                 },
             Items = Enum.GetValues(settingsObj.GetType().GetProperty(bindingName).GetValue(settingsObj).GetType())
         };

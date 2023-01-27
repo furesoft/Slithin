@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls.Primitives;
+﻿using Avalonia;
+using Avalonia.Controls.Primitives;
 
 namespace Slithin.Controls.Settings;
 

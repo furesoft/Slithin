@@ -10,17 +10,13 @@ public class SelectionProvider : ISettingsControlProvider
 {
     public Type AttributeType => typeof(SelectionAttribute);
 
-    public Control Build(string bindingName, object settingsObj, SettingsBaseAttribute settingsBaseAttribute)
+    public Control Build(string bindingName, object settingsObj, SettingsAttribute settingsAttribute)
     {
         return new ComboBox()
         {
             [!SelectingItemsControl.SelectedItemProperty] =
-                new Binding(((SelectionAttribute)settingsBaseAttribute).SelectionPropertyName)
-                {
-                    Mode = BindingMode.TwoWay,
-                    Source = settingsObj
-                },
-            [!ItemsControl.ItemsProperty] = new Binding(bindingName) { Source = settingsObj }
+                new Binding(((SelectionAttribute)settingsAttribute).SelectionPropertyName),
+            [!ItemsControl.ItemsProperty] = new Binding(bindingName) {Source = settingsObj}
         };
     }
 

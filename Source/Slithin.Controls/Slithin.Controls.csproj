@@ -28,7 +28,7 @@
       <SubType>Code</SubType>
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Settings\SettingsGroup.axaml.cs">
+    <Compile Update="Settings\SettingsGroup.cs">
       <SubType>Code</SubType>
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>

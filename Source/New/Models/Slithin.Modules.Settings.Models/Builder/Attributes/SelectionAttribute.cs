@@ -1,6 +1,6 @@
 ﻿namespace Slithin.Modules.Settings.Models.Builder.Attributes;
 
-public class SelectionAttribute : SettingsBaseAttribute
+public class SelectionAttribute : SettingsAttribute
 {
     public string? SelectionPropertyName { get; }
 
