@@ -24,4 +24,6 @@ public class SelectionProvider : ISettingsControlProvider
     {
         return propType == typeof(string[]);
     }
+
+    public bool HideLabel { get; }
 }

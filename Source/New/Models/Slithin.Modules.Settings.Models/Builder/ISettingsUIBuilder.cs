@@ -6,5 +6,7 @@ namespace Slithin.Modules.Settings.Models.Builder;
 public interface ISettingsUiBuilder
 {
     void RegisterControlProvider<TAttr, TProvider>();
-    Control Build(IEnumerable<INotifyPropertyChanged> settingModels);
+
+    void RegisterSettingsModel(INotifyPropertyChanged model);
+    Control Build();
 }

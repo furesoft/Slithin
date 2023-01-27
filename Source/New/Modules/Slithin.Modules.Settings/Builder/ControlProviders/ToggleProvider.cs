@@ -22,4 +22,6 @@ public class ToggleProvider : ISettingsControlProvider
     {
         return propType == typeof(bool);
     }
+
+    public bool HideLabel { get; }
 }

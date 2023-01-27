@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
@@ -18,12 +17,19 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
         typeof(ToggleProvider), typeof(SelectionProvider), typeof(EnumProvider), typeof(TextProvider)
     };
 
+    private readonly List<INotifyPropertyChanged> _settingsModels = new();
+
     public void RegisterControlProvider<TAttr, TProvider>()
     {
         _providers.Add(typeof(TProvider));
     }
 
-    public Control Build(IEnumerable<INotifyPropertyChanged> settingModels)
+    public void RegisterSettingsModel(INotifyPropertyChanged model)
+    {
+        _settingsModels.Add(model);
+    }
+
+    public Control Build()
     {
         var scrollViewer = new ScrollViewer
         {
@@ -31,9 +37,9 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
             HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
         };
 
-        var stackPanel = new StackPanel {Spacing = 10};
+        var stackPanel = new StackPanel();
 
-        foreach (var obj in settingModels)
+        foreach (var obj in _settingsModels)
         {
             var section = BuildSection(obj);
             stackPanel.Children.Add(section);
@@ -81,7 +87,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
             grid.RowDefinitions.Add(new(GridLength.Auto));
 
-            BuildLabelAndAddToGrid(attr, index, grid);
+            var label = BuildLabelAndAddToGrid(attr, index, grid);
 
             foreach (var providerType in _providers)
             {
@@ -92,6 +98,8 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
                     continue;
                 }
 
+                label.IsVisible = !provider.HideLabel;
+                
                 AddGeneratedProviderToGrid(settingsObj, providerType, attr, prop, index, grid);
                 index++;
             }
@@ -101,12 +109,14 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
     }
 
     //ToDo: Add ability to localize labels
-    private static void BuildLabelAndAddToGrid(SettingsAttribute attr, int index, Grid grid)
+    private static Label BuildLabelAndAddToGrid(SettingsAttribute attr, int index, Grid grid)
     {
         var label = new Label {Content = attr.Label, VerticalAlignment = VerticalAlignment.Center};
         Grid.SetColumn(label, 0);
         Grid.SetRow(label, index);
         grid.Children.Add(label);
+
+        return label;
     }
 
     private static void AddGeneratedProviderToGrid(object settingsObj, Type providerType, SettingsAttribute attr,

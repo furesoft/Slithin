@@ -17,11 +17,16 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var window = new Window();
-            
+
             var builder = new Slithin.Modules.Settings.Builder.SettingsUIBuilderImpl();
-            var section = builder.Build(new[] {new CustomSettings(), new CustomSettings(), new CustomSettings(), new CustomSettings()});
             
-            window.Content = section;
+            builder.RegisterSettingsModel(new CustomSettings());
+            builder.RegisterSettingsModel(new CustomSettings());
+            builder.RegisterSettingsModel(new CustomSettings());
+            
+            var sections = builder.Build();
+
+            window.Content = sections;
 
             desktop.MainWindow = window;
         }

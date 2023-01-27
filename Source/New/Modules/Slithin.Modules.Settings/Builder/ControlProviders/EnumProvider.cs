@@ -28,4 +28,6 @@ public class EnumProvider : ISettingsControlProvider
     {
         return propType.IsAssignableTo(typeof(Enum));
     }
+
+    public bool HideLabel { get; }
 }

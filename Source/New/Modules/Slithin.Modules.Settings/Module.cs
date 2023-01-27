@@ -1,5 +1,7 @@
 ﻿using AuroraModularis.Core;
+using Slithin.Modules.Settings.Builder;
 using Slithin.Modules.Settings.Models;
+using Slithin.Modules.Settings.Models.Builder;
 
 namespace Slithin.Modules.Settings;
 
@@ -21,5 +23,6 @@ internal class Module : AuroraModularis.Module
 
         container.Register((ISettingsService)settingsService).AsSingleton();
         container.Register<IScreenRememberService>(new ScreenRememberServiceImpl(settingsService)).AsSingleton();
+        container.Register<ISettingsUiBuilder>(new SettingsUIBuilderImpl()).AsSingleton();
     }
 }
