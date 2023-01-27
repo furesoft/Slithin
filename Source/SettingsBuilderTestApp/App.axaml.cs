@@ -21,7 +21,7 @@ public partial class App : Application
             var settings = new CustomSettings();
 
             var builder = new Slithin.Modules.Settings.Builder.SettingsUIBuilderImpl();
-            var section = builder.BuildSection(settings);
+            var section = builder.Build(new[] {settings, settings, settings, settings});
 
             window.Content = section;
 

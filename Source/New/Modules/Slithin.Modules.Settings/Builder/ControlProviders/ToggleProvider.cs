@@ -1,8 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
-using Avalonia.Layout;
-using Slithin.Modules.Settings.Models.Builder;
 using Slithin.Modules.Settings.Models.Builder.Attributes;
 
 namespace Slithin.Modules.Settings.Builder.ControlProviders;

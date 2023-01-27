@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Avalonia.Controls;
+using Avalonia.Controls.Embedding.Offscreen;
+using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
 using Slithin.Controls.Settings;
 using Slithin.Modules.Settings.Builder.ControlProviders;
@@ -15,7 +17,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 {
     private readonly Dictionary<Type, Type> _providers = new()
     {
-        [typeof(ToggleAttribute)] = typeof(ToggleProvider),[typeof(sele)], [typeof(SelectionAttribute)] = typeof(SelectionProvider)
+        [typeof(ToggleAttribute)] = typeof(ToggleProvider), [typeof(SelectionAttribute)] = typeof(SelectionProvider)
     };
 
     public void RegisterControlProvider<TAttr, TProvider>()
@@ -26,9 +28,28 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
         }
     }
 
-    public Control BuildSection(INotifyPropertyChanged settingsObject,
-        [CallerArgumentExpression(nameof(settingsObject))]
-        string settingsExpr = null)
+    public Control Build(IEnumerable<INotifyPropertyChanged> settingModels)
+    {
+        var scrollViewer = new ScrollViewer
+        {
+            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
+        };
+
+        var stackPanel = new StackPanel {Spacing = 10};
+
+        foreach (var obj in settingModels)
+        {
+            var section = BuildSection(obj);
+            stackPanel.Children.Add(section);
+        }
+
+        scrollViewer.Content = stackPanel;
+
+        return scrollViewer;
+    }
+
+    public Control BuildSection(INotifyPropertyChanged settingsObject)
     {
         var settingsObjType = settingsObject.GetType();
         var displayAttribute = settingsObjType.GetCustomAttribute<DisplaySettingsAttribute>();
@@ -36,7 +57,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
         if (displayAttribute == null)
         {
             throw new InvalidOperationException(
-                $"'{settingsExpr}' of type {settingsObjType} has to be decorated with the DisplaySettingsAttribute");
+                $"Type {settingsObjType} has to be decorated with the DisplaySettingsAttribute");
         }
 
         return new SettingsGroup
@@ -91,7 +112,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
     private static void AddGeneratedProviderToGrid(object settingsObj, Type providerType, SettingsBaseAttribute attr,
         PropertyInfo prop, int index, Grid grid)
     {
-        var provider = (ISettingsControlProvider) Activator.CreateInstance(providerType);
+        var provider = (ISettingsControlProvider)Activator.CreateInstance(providerType);
 
         if (attr.GetType() == provider.AttributeType && provider.CanHandle(prop.PropertyType))
         {
