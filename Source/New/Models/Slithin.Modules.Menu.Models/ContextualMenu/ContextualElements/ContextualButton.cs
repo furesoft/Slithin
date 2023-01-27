@@ -21,7 +21,7 @@ public class ContextualButton : ContextualElement
         Icon = (GeometryDrawing)Application.Current.FindResource(iconName);
     }
 
-    public ICommand Command { get; set; }
+    public ICommand Command { get; }
     public string? Hint { get; set; }
     public string Title { get; set; }
 

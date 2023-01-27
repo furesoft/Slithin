@@ -12,6 +12,10 @@
     <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.21" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
