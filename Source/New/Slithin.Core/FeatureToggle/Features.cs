@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using AuroraModularis.Core;
 
 namespace Slithin.Core.FeatureToggle;
 
@@ -8,7 +9,8 @@ public static class Features
 
     public static void Collect()
     {
-        foreach (var type in Utils.FindTypes<IFeature>())
+        var typeFinder = Container.Current.Resolve<ITypeFinder>();
+        foreach (var type in typeFinder.FindTypes<IFeature>())
         {
             if (!type.IsInterface && !type.IsAbstract && !_allFeatures.ContainsKey(type.Name))
             {
@@ -50,7 +52,7 @@ public static class Features
 
     public static DynamicFeature FromString(string featureName)
     {
-        return new DynamicFeature(typeof(Feature<>).MakeGenericType(_allFeatures[featureName]));
+        return new(typeof(Feature<>).MakeGenericType(_allFeatures[featureName]));
     }
 
     public class DynamicFeature

@@ -80,17 +80,15 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
             return c.GetMenu(item);
         }
 
-        var menu = new ContextMenu
-        {
-            Items = iContextProviders.SelectMany(ContextProviderSelector)
-        };
+        var menu = new ContextMenu {Items = iContextProviders.SelectMany(ContextProviderSelector)};
 
         return menu;
     }
 
     public void Init()
     {
-        var providerTypes = Utils.FindTypes<IContextProvider>();
+        var typeFinder = Container.Current.Resolve<ITypeFinder>();
+        var providerTypes = typeFinder.FindTypes<IContextProvider>();
 
         foreach (var providerType in providerTypes)
         {
@@ -104,7 +102,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
             AddProvider(provider);
         }
 
-        var commandTypes = Utils.FindTypes<IContextCommand>();
+        var commandTypes = typeFinder.FindTypes<IContextCommand>();
         foreach (var commandType in commandTypes)
         {
             var resolvedCommand = Container.Current.Resolve<IContextCommand>(commandType);

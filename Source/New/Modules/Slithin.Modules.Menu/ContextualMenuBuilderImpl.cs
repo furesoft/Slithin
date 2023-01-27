@@ -29,9 +29,10 @@ public class ContextualMenuBuilderImpl : IContextualMenuBuilder
 
     public void Init()
     {
-        foreach (var providerType in Utils.FindTypes<IContextualMenuProvider>())
+        var typeFinder = Container.Current.Resolve<ITypeFinder>();
+
+        foreach (var provider in typeFinder.FindAndResolveTypes<IContextualMenuProvider>())
         {
-            var provider = Container.Current.Resolve<IContextualMenuProvider>(providerType);
             provider.RegisterContextualMenuElements(_registrar);
         }
     }

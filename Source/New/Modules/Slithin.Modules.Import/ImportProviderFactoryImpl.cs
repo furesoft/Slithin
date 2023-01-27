@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using AuroraModularis.Core;
 using Slithin.Modules.Import.Models;
 using Utils = Slithin.Core.Utils;
 
@@ -34,19 +35,8 @@ public class ImportProviderFactoryImpl : IImportProviderFactory
 
     public void Init()
     {
-        static Type[] GetTypes(System.Reflection.Assembly s)
-        {
-            try
-            {
-                return s.GetTypes();
-            }
-            catch
-            {
-                return Array.Empty<Type>();
-            }
-        }
-
-        IEnumerable<IImportProvider?> providers = Utils.Find<IImportProvider>();
+        var typeFinder = Container.Current.Resolve<ITypeFinder>();
+        var providers = typeFinder.FindAndResolveTypes<IImportProvider>();
 
         _providers.AddRange(providers);
     }
