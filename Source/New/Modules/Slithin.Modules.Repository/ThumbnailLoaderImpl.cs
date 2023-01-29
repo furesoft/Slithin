@@ -18,8 +18,8 @@ internal class ThumbnailLoaderImpl : IThumbnailLoader
             return null;
         }
 
-        var notebooksDir = Container.Current.Resolve<IPathManager>()!.NotebooksDir;
-        var cache = Container.Current.Resolve<ICacheService>();
+        var notebooksDir = ServiceContainer.Current.Resolve<IPathManager>()!.NotebooksDir;
+        var cache = ServiceContainer.Current.Resolve<ICacheService>();
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
         if (!Directory.Exists(Path.Combine(notebooksDir, md.ID + ".thumbnails")))
@@ -34,13 +34,13 @@ internal class ThumbnailLoaderImpl : IThumbnailLoader
         {
             return null;
         }
-            
+
         if (md.Content.CoverPageNumber == 0)
         {
             // load first page
             filename = md.Content.Pages[0];
         }
-        else if (md.Content.CoverPageNumber == -1 )
+        else if (md.Content.CoverPageNumber == -1)
         {
             // load last page opened, set in md.LastOpenedPage
             filename = md.Content.Pages[md.LastOpenedPage];

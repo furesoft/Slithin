@@ -10,13 +10,13 @@ internal class ContextualMenuProvider : IContextualMenuProvider
 {
     public void RegisterContextualMenuElements(ContextualRegistrar registrar)
     {
-        var supportCommand = Container.Current.Resolve<ShowDonationButtonsCommand>();
-        var aboutCommand = Container.Current.Resolve<AboutCommand>();
-        
+        var supportCommand = ServiceContainer.Current.Resolve<ShowDonationButtonsCommand>();
+        var aboutCommand = ServiceContainer.Current.Resolve<AboutCommand>();
+
         registrar.RegisterFor(UIContext.Settings,
-            new ContextualButton("Support Slithin", "support",  supportCommand));
-        
+            new ContextualButton("Support Slithin", "support", supportCommand));
+
         registrar.RegisterFor(UIContext.Settings,
-            new ContextualButton("About", "about",  aboutCommand));
+            new ContextualButton("About", "about", aboutCommand));
     }
 }

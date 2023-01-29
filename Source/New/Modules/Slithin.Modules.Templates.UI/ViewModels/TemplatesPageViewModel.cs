@@ -27,19 +27,21 @@ internal class TemplatesPageViewModel : BaseViewModel, IFilterable<TemplatesFilt
 
         OpenAddModalCommand = new DelegateCommand(async _ =>
         {
-            var vm = Container.Current.Resolve<AddTemplateModalViewModel>();
-            if (await dialogService.Show("", new AddTemplateModal() {DataContext = vm}))
+            var vm = ServiceContainer.Current.Resolve<AddTemplateModalViewModel>();
+            if (await dialogService.Show("", new AddTemplateModal() { DataContext = vm }))
             {
                 vm.AcceptCommand.Execute(vm);
             }
         });
 
-        RemoveTemplateCommand = Container.Current.Resolve<RemoveTemplateCommand>();
+        RemoveTemplateCommand = ServiceContainer.Current.Resolve<RemoveTemplateCommand>();
     }
 
     public ICommand OpenAddModalCommand { get; set; }
 
     public ICommand RemoveTemplateCommand { get; set; }
+
+    public TemplatesFilter Filter { get; }
 
     public override async void OnLoad()
     {
@@ -57,6 +59,4 @@ internal class TemplatesPageViewModel : BaseViewModel, IFilterable<TemplatesFilt
 
         Filter.SelectedCategory = Filter.Categories.First();
     }
-
-    public TemplatesFilter Filter { get; }
 }

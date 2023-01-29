@@ -9,7 +9,6 @@ using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.UI.Models;
 using Slithin.Modules.Updater.Models;
-using Container = AuroraModularis.Core.Container;
 
 namespace Slithin.Modules.Updater;
 
@@ -31,8 +30,8 @@ internal class UpdaterImplementation : IUpdaterService
 
     public async Task StartUpdate()
     {
-        var localisationService = Container.Current.Resolve<ILocalisationService>();
-        var notificationService = Container.Current.Resolve<INotificationService>();
+        var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
+        var notificationService = ServiceContainer.Current.Resolve<INotificationService>();
 
         var client = new GitHubClient(new ProductHeaderValue("SomeName"));
         var releases = await client.Repository.Release.GetAll("furesoft", "Slithin");
@@ -144,7 +143,7 @@ internal class UpdaterImplementation : IUpdaterService
     {
         var content = releases.Body;
 
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
         File.WriteAllText(Path.Combine(pathManager.ConfigBaseDir, "changelog.txt"), content);
     }

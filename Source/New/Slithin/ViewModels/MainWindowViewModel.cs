@@ -6,7 +6,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Media;
-using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.BaseServices.Models;
@@ -110,7 +109,7 @@ public class MainWindowViewModel : BaseViewModel
         var monitor = _diagnosticService.StartPerformanceMonitoring("Loading", "Menu");
 
         var toRearrange = new List<(int index, Page page, Control view)>();
-        var typeFinder = Container.Current.Resolve<ITypeFinder>();
+        var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
 
         var types = typeFinder.FindTypes<IPage>();
         foreach (var type in types)
@@ -163,7 +162,7 @@ public class MainWindowViewModel : BaseViewModel
         out Page page)
     {
         var header = _localisationService.GetString(pageInstance.Title);
-        page = new Page {Header = header, DataContext = controlInstance.DataContext};
+        page = new Page { Header = header, DataContext = controlInstance.DataContext };
 
         page.Icon = GetIcon(pageIconAttribute, type);
         return header;

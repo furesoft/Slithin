@@ -21,7 +21,7 @@ public class NotebooksPage : UserControl, IPage
 
         if (!Design.IsDesignMode)
         {
-            DataContext = Container.Current.Resolve<NotebooksPageViewModel>();
+            DataContext = ServiceContainer.Current.Resolve<NotebooksPageViewModel>();
         }
     }
 
@@ -47,8 +47,8 @@ public class NotebooksPage : UserControl, IPage
 
     private void Drop(object sender, DragEventArgs e)
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
-        var localisation = Container.Current.Resolve<ILocalisationService>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
+        var localisation = ServiceContainer.Current.Resolve<ILocalisationService>();
 
         var notebooksDir = pathManager.NotebooksDir;
 
@@ -58,7 +58,7 @@ public class NotebooksPage : UserControl, IPage
             {
                 var id = Guid.NewGuid().ToString().ToLower();
                 /*
-                var importProviderFactory = Container.Current.Resolve<IImportProviderFactory>();
+                var importProviderFactory = ServiceContainer.Current.Resolve<IImportProviderFactory>();
                 var provider = importProviderFactory.GetImportProvider(".pdf", filename);
 
                 var cnt = new ContentFile { FileType = provider == null ? "epub" : "pdf" };

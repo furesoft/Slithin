@@ -1,7 +1,6 @@
 ﻿using AuroraModularis.Core;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
-using Slithin.Core;
 using Slithin.Modules.Menu.Models.ContextualMenu;
 using Slithin.Modules.Menu.Views;
 
@@ -29,7 +28,7 @@ public class ContextualMenuBuilderImpl : IContextualMenuBuilder
 
     public void Init()
     {
-        var typeFinder = Container.Current.Resolve<ITypeFinder>();
+        var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
 
         foreach (var provider in typeFinder.FindAndResolveTypes<IContextualMenuProvider>())
         {

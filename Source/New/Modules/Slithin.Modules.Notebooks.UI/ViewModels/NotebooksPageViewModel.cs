@@ -25,10 +25,10 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
         NotebooksFilter notebooksFilter,
         ILoadingService loadingService)
     {
-        MakeFolderCommand = Container.Current.Resolve<MakeFolderCommand>();
+        MakeFolderCommand = ServiceContainer.Current.Resolve<MakeFolderCommand>();
 
-        RenameCommand = Container.Current.Resolve<RenameCommand>();
-        RemoveNotebookCommand = Container.Current.Resolve<RemoveNotebookCommand>();
+        RenameCommand = ServiceContainer.Current.Resolve<RenameCommand>();
+        RemoveNotebookCommand = ServiceContainer.Current.Resolve<RemoveNotebookCommand>();
         RestoreCommand = new DelegateCommand(obj =>
         {
             var md = (Metadata)((FileSystemModel)obj).Tag;
@@ -38,9 +38,9 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
             metadataRepository.Upload(md, true);
         }, _ => _ is not null && _ is not UpDirectoryModel);
 
-        EmptyTrashCommand = Container.Current.Resolve<EmptyTrashCommand>();
-        PinCommand = Container.Current.Resolve<PinCommand>();
-        UnPinCommand = Container.Current.Resolve<UnPinCommand>();
+        EmptyTrashCommand = ServiceContainer.Current.Resolve<EmptyTrashCommand>();
+        PinCommand = ServiceContainer.Current.Resolve<PinCommand>();
+        UnPinCommand = ServiceContainer.Current.Resolve<UnPinCommand>();
 
         MoveCommand = new DelegateCommand(_ =>
             {
@@ -71,12 +71,12 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
                 if (mds.Type == "CollectionType")
                 {
                     notebooksFilter.Items.Add(
-                        new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) {ID = mds.ID, Parent = mds.Parent});
+                        new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
                 }
                 else
                 {
                     notebooksFilter.Items.Add(
-                        new FileModel(mds.VisibleName, mds, mds.IsPinned) {ID = mds.ID, Parent = mds.Parent});
+                        new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
                 }
             }
 

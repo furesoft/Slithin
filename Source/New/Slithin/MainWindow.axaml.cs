@@ -17,7 +17,7 @@ public partial class MainWindow : Window
         notificationManager.Position = NotificationPosition.BottomLeft;
         notificationManager.MaxItems = 1;
 
-        Container.Current.Resolve<INotificationService>().Init(notificationManager);
+        ServiceContainer.Current.Resolve<INotificationService>().Init(notificationManager);
     }
 
     private void InitializeComponent()

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.21" />
+    <PackageReference Include="AuroraModularis" Version="1.0.24" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="RestSharp" Version="108.0.3" />

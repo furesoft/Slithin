@@ -33,8 +33,8 @@ public static class NotebooksView
             return;
         }
 
-        var notebooksFilter = Container.Current.Resolve<NotebooksFilter>();
-        var mdStorage = Container.Current.Resolve<IMetadataRepository>();
+        var notebooksFilter = ServiceContainer.Current.Resolve<NotebooksFilter>();
+        var mdStorage = ServiceContainer.Current.Resolve<IMetadataRepository>();
 
         notebooksFilter.Items.Clear();
 
@@ -47,7 +47,7 @@ public static class NotebooksView
             id = _lastFolderIDs.Pop();
             notebooksFilter.Folder = id;
             notebooksFilter.ParentFolder = (DirectoryModel)upFsm.ParentFolder;
-            
+
             if (id == "")
             {
                 notebooksFilter.Items.Add(new TrashModel());

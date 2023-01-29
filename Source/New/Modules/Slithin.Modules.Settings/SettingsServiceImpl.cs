@@ -6,9 +6,9 @@ namespace Slithin.Modules.Settings;
 
 internal class SettingsServiceImpl : ISettingsService
 {
-    private readonly Container _container;
+    private readonly ServiceContainer _container;
 
-    public SettingsServiceImpl(Container container)
+    public SettingsServiceImpl(ServiceContainer container)
     {
         _container = container;
     }

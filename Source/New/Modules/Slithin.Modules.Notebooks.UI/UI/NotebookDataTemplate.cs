@@ -20,10 +20,10 @@ internal class NotebookDataTemplate : IDataTemplate
     public IControl Build(object param)
     {
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-        var notebooksDir = Container.Current.Resolve<IPathManager>().NotebooksDir;
-        var cache = Container.Current.Resolve<ICacheService>();
-        var contextProvider = Container.Current.Resolve<IContextMenuProvider>();
-        var thumbnailLoader = Container.Current.Resolve<IThumbnailLoader>();
+        var notebooksDir = ServiceContainer.Current.Resolve<IPathManager>().NotebooksDir;
+        var cache = ServiceContainer.Current.Resolve<ICacheService>();
+        var contextProvider = ServiceContainer.Current.Resolve<IContextMenuProvider>();
+        var thumbnailLoader = ServiceContainer.Current.Resolve<IThumbnailLoader>();
 
         if (param is not FileSystemModel fsm)
         {
@@ -79,6 +79,11 @@ internal class NotebookDataTemplate : IDataTemplate
         return card;
     }
 
+    public bool Match(object data)
+    {
+        return data is FileSystemModel;
+    }
+
     private static void LoadThumbnail(FileSystemModel fsm, dynamic img, IThumbnailLoader thumbnailLoader)
     {
         if (fsm is FileModel)
@@ -88,12 +93,12 @@ internal class NotebookDataTemplate : IDataTemplate
         else if (fsm is TrashModel)
         {
             img.Margin = new Thickness(10);
-            img.Source = new DrawingImage((GeometryDrawing) Application.Current.FindResource("Cool.TrashFull"));
+            img.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Cool.TrashFull"));
         }
         else
         {
             img.Margin = new Thickness(10);
-            img.Source = new DrawingImage((GeometryDrawing) Application.Current.FindResource("Bootstrap.FolderFill"));
+            img.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Bootstrap.FolderFill"));
         }
     }
 
@@ -101,7 +106,7 @@ internal class NotebookDataTemplate : IDataTemplate
     {
         if (fsm.IsPinned)
         {
-            favImage.Source = new DrawingImage((GeometryDrawing) Application.Current.FindResource("Entypo+.Star"));
+            favImage.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Entypo+.Star"));
             titlePanel.ColumnDefinitions.Add(new(new GridLength(20)));
             titlePanel.ColumnDefinitions.Add(new(new GridLength(125, GridUnitType.Star)));
 
@@ -143,10 +148,5 @@ internal class NotebookDataTemplate : IDataTemplate
         }
 
         return img;
-    }
-
-    public bool Match(object data)
-    {
-        return data is FileSystemModel;
     }
 }

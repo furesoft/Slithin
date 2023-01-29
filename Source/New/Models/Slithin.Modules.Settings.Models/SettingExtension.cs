@@ -15,7 +15,7 @@ public class SettingExtension : MarkupExtension
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        var settings = Container.Current.Resolve<SettingsModel>();
+        var settings = ServiceContainer.Current.Resolve<SettingsModel>();
 
         var binding = new Binding(Key)
         {

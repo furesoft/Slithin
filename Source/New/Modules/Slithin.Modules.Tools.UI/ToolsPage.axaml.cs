@@ -18,7 +18,7 @@ public partial class ToolsPage : UserControl, IPage
     }
 
     public string Title => "Tools";
-    
+
     bool IPage.IsEnabled()
     {
         return true;
@@ -28,6 +28,6 @@ public partial class ToolsPage : UserControl, IPage
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = Container.Current.Resolve<ToolsPageViewModel>();
+        DataContext = ServiceContainer.Current.Resolve<ToolsPageViewModel>();
     }
 }

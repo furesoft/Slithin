@@ -9,11 +9,11 @@ namespace Slithin.Modules.Device.Mock;
 
 internal class XochitlImpl : IXochitlService
 {
-    private readonly Container _container;
+    private readonly ServiceContainer _container;
     private IniData _data;
     private FileIniDataParser? _ini;
 
-    public XochitlImpl(Container container)
+    public XochitlImpl(ServiceContainer container)
     {
         _container = container;
     }
@@ -39,7 +39,7 @@ internal class XochitlImpl : IXochitlService
     {
         var str = GetProperty("ShareEmailAddresses", "General");
         var splt = str.Split(',');
-        
+
         return splt.Any() ? splt.Select(_ => _.Trim()).ToArray() : Array.Empty<string>();
     }
 

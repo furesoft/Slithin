@@ -94,7 +94,7 @@ public partial class DevicePage : UserControl, IPage
 
         if (!Design.IsDesignMode)
         {
-            DataContext = Container.Current.Resolve<DevicePageViewModel>();
+            DataContext = ServiceContainer.Current.Resolve<DevicePageViewModel>();
         }
 
         AddHandler(DragDrop.DropEvent, Drop);

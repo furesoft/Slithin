@@ -9,10 +9,10 @@ namespace Slithin.Modules.Device.Mock;
 
 internal class MockDevice : IRemarkableDevice
 {
-    private readonly Container _container;
+    private readonly ServiceContainer _container;
     private IFileSystem _filesystem;
 
-    public MockDevice(Container container)
+    public MockDevice(ServiceContainer container)
     {
         _container = container;
     }

@@ -15,7 +15,7 @@ internal partial class RenderingServiceImpl : IRenderingService
 {
     public Stream RenderSvg(Page page, int pageIndex, Metadata md, bool shouldHideTemplate, int width = 1404, int height = 1872)
     {
-        var svgDoc = new SvgDocument {Width = width, Height = height, ViewBox = new SvgViewBox(0, 0, width, height)};
+        var svgDoc = new SvgDocument { Width = width, Height = height, ViewBox = new SvgViewBox(0, 0, width, height) };
 
         var group = new SvgGroup();
         svgDoc.Children.Add(group);
@@ -25,7 +25,7 @@ internal partial class RenderingServiceImpl : IRenderingService
 
         if (template != null)
         {
-            group.Children.Add(new SvgImage {Href = "data:image/png;base64," + template, X = 0, Y = 0});
+            group.Children.Add(new SvgImage { Href = "data:image/png;base64," + template, X = 0, Y = 0 });
         }
 
         RenderLayer(page, group);
@@ -46,7 +46,7 @@ internal partial class RenderingServiceImpl : IRenderingService
             filename = i < md.PageData.Data.Length ? md.PageData.Data[i] : "Blank";
         }
 
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
         var buffer = File.ReadAllBytes(Path.Combine(pathManager.TemplatesDir, filename + ".png"));
 
         return Convert.ToBase64String(buffer);
@@ -58,7 +58,7 @@ internal partial class RenderingServiceImpl : IRenderingService
         {
             foreach (var line in layer.Lines)
             {
-                if (line is not {BrushType: Brushes.Eraseall} && line.BrushType != Brushes.Rubber)
+                if (line is not { BrushType: Brushes.Eraseall } && line.BrushType != Brushes.Rubber)
                 {
                     RenderLine(line, group);
                 }
@@ -83,7 +83,7 @@ internal partial class RenderingServiceImpl : IRenderingService
 
     private static SvgPathSegmentList GeneratePathData(IReadOnlyList<Point> points)
     {
-        var psl = new SvgPathSegmentList {new SvgMoveToSegment(new PointF(points[0].X, points[0].Y))};
+        var psl = new SvgPathSegmentList { new SvgMoveToSegment(new PointF(points[0].X, points[0].Y)) };
 
         for (var i = 0; i + 1 < points.Count; i++)
         {
@@ -137,7 +137,7 @@ internal partial class RenderingServiceImpl : IRenderingService
             filename = i < md.PageData.Data.Length ? md.PageData.Data[i] : "Blank";
         }
 
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
         return Path.Combine(pathManager.TemplatesDir, filename + ".png");
     }

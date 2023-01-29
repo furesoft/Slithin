@@ -30,7 +30,7 @@ public class NotebookCreationTool : ITool
 
     public async void Invoke(object data)
     {
-        var vm = Container.Current.Resolve<CreateNotebookModalViewModel>();
+        var vm = ServiceContainer.Current.Resolve<CreateNotebookModalViewModel>();
 
         if (data is ToolProperties props)
         {
@@ -43,7 +43,7 @@ public class NotebookCreationTool : ITool
         }
         else
         {
-            var modal = new CreateNotebookModal {DataContext = vm};
+            var modal = new CreateNotebookModal { DataContext = vm };
 
             if (await _dialogService.Show("", modal))
             {

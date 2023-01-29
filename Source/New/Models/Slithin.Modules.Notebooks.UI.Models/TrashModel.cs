@@ -7,7 +7,7 @@ public class TrashModel : DirectoryModel
 {
     public TrashModel() : base(null, null, false)
     {
-        var localisation = Container.Current.Resolve<ILocalisationService>();
+        var localisation = ServiceContainer.Current.Resolve<ILocalisationService>();
 
         VisibleName = localisation.GetString("Trash");
         ID = "trash";

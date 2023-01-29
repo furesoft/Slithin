@@ -10,7 +10,7 @@ internal class ContextualMenuProvider : IContextualMenuProvider
 {
     public void RegisterContextualMenuElements(ContextualRegistrar registrar)
     {
-        var exportCommand = Container.Current.Resolve<ExportCommand>();
+        var exportCommand = ServiceContainer.Current.Resolve<ExportCommand>();
 
         registrar.RegisterFor(UIContext.Notebook,
             new ContextualButton("Export", "Material.ExportVariant", exportCommand));

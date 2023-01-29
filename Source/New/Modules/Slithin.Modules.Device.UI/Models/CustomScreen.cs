@@ -39,7 +39,7 @@ internal class CustomScreen : NotifyObject
 
     public void Load()
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
         if (!Directory.Exists(pathManager.CustomScreensDir))
         {
@@ -59,7 +59,7 @@ internal class CustomScreen : NotifyObject
 
     private void Reset(object obj)
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
         var resourceName = $"Slithin.Modules.Device.UI.Resources.DefaultScreens.{Filename}";
         var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
@@ -76,13 +76,12 @@ internal class CustomScreen : NotifyObject
 
     private void Upload(object obj)
     {
-        var device = Container.Current.Resolve<IRemarkableDevice>();
-        var pathManager = Container.Current.Resolve<IPathManager>();
-        var pathList = Container.Current.Resolve<PathList>();
+        var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
+        var pathList = ServiceContainer.Current.Resolve<PathList>();
 
         device.Upload(new FileInfo(Path.Combine(pathManager.CustomScreensDir, Filename)), pathList.Screens + Filename);
         /*
-        var mailboxService = ServiceLocator.Container.Resolve<IMailboxService>();
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
         var scp = ServiceLocator.Container.Resolve<ISSHService>();
         var localisation = ServiceLocator.Container.Resolve<ILocalisationService>();

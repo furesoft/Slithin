@@ -14,7 +14,7 @@ public static class UIContextMenuBuilder
     {
         void OnTargetOnInitialized(object s, EventArgs _)
         {
-            var contextProvider = Container.Current.Resolve<IContextMenuProvider>();
+            var contextProvider = ServiceContainer.Current.Resolve<IContextMenuProvider>();
 
             if (s is ItemsControl ic)
             {

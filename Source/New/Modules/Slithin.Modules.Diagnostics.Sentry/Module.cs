@@ -8,12 +8,12 @@ internal class Module : AuroraModularis.Module
 {
     private IDisposable _service;
 
-    public override Task OnStart(Container container)
+    public override Task OnStart(ServiceContainer container)
     {
         return Task.CompletedTask;
     }
 
-    public override void RegisterServices(Container container)
+    public override void RegisterServices(ServiceContainer container)
     {
         var settings = (SettingsModel)Settings;
 

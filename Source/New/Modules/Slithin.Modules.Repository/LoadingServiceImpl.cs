@@ -9,16 +9,16 @@ namespace Slithin.Modules.Repository;
 
 internal class LoadingServiceImpl : ILoadingService
 {
-    private Container _container;
+    private ServiceContainer _container;
 
-    public LoadingServiceImpl(Container container)
+    public LoadingServiceImpl(ServiceContainer container)
     {
         _container = container;
     }
 
     public Task LoadNotebooksAsync()
     {
-        var filter = Container.Current.Resolve<NotebooksFilter>();
+        var filter = _container.Resolve<NotebooksFilter>();
         var errorTrackingService = _container.Resolve<IDiagnosticService>();
         var mdStorage = _container.Resolve<IMetadataRepository>();
         var pathManager = _container.Resolve<IPathManager>();
@@ -32,7 +32,7 @@ internal class LoadingServiceImpl : ILoadingService
 
         mdStorage.Clear();
 
-        filter.Items = new() {new TrashModel()};
+        filter.Items = new() { new TrashModel() };
 
         LoadMetadataFiles(pathManager, mdStorage);
 
@@ -41,40 +41,15 @@ internal class LoadingServiceImpl : ILoadingService
         filter.SortByFolder();
 
         monitor.Dispose();
-        
+
         return Task.CompletedTask;
-    }
-
-    private static void AddMetadatasToFilterWithCorrectParent(IMetadataRepository mdStorage, NotebooksFilter filter)
-    {
-        foreach (var mds in mdStorage.GetByParent(""))
-        {
-            if (mds.Type == "CollectionType")
-            {
-                filter.Items.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) {ID = mds.ID, Parent = mds.Parent});
-            }
-            else
-            {
-                filter.Items.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) {ID = mds.ID, Parent = mds.Parent});
-            }
-        }
-    }
-
-    private static void LoadMetadataFiles(IPathManager pathManager, IMetadataRepository mdStorage)
-    {
-        foreach (var md in Directory.GetFiles(pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
-        {
-            var mdObj = mdStorage.Load(Path.GetFileNameWithoutExtension(md));
-
-            mdStorage.AddMetadata(mdObj, out _);
-        }
     }
 
     public Task LoadTemplatesAsync()
     {
-        var errorTrackingService = Container.Current.Resolve<IDiagnosticService>();
-        var storage = Container.Current.Resolve<ITemplateStorage>();
-        var filter = Container.Current.Resolve<TemplatesFilter>();
+        var errorTrackingService = _container.Resolve<IDiagnosticService>();
+        var storage = _container.Resolve<ITemplateStorage>();
+        var filter = _container.Resolve<TemplatesFilter>();
 
         if (filter.Items.Any())
         {
@@ -107,6 +82,31 @@ internal class LoadingServiceImpl : ILoadingService
             LoadTemplatesByCategory(category, filter, storage);
         });
         return Task.CompletedTask;
+    }
+
+    private static void AddMetadatasToFilterWithCorrectParent(IMetadataRepository mdStorage, NotebooksFilter filter)
+    {
+        foreach (var mds in mdStorage.GetByParent(""))
+        {
+            if (mds.Type == "CollectionType")
+            {
+                filter.Items.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+            }
+            else
+            {
+                filter.Items.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+            }
+        }
+    }
+
+    private static void LoadMetadataFiles(IPathManager pathManager, IMetadataRepository mdStorage)
+    {
+        foreach (var md in Directory.GetFiles(pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
+        {
+            var mdObj = mdStorage.Load(Path.GetFileNameWithoutExtension(md));
+
+            mdStorage.AddMetadata(mdObj, out _);
+        }
     }
 
     private async Task LoadTemplatesByCategory(string category, TemplatesFilter filter, ITemplateStorage storage, bool addToView = false)

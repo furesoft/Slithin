@@ -30,6 +30,6 @@ public partial class ResourcesPage : UserControl, IPage
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = Container.Current.Resolve<ResourcesPageViewModel>();
+        DataContext = ServiceContainer.Current.Resolve<ResourcesPageViewModel>();
     }
 }

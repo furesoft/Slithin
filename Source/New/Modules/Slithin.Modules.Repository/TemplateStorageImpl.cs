@@ -33,7 +33,7 @@ public class TemplateStorageImpl : ITemplateStorage
 
     public void Save()
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
         var serializerSettings = new JsonSerializerSettings();
         serializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
@@ -44,7 +44,7 @@ public class TemplateStorageImpl : ITemplateStorage
 
     public async Task LoadTemplateAsync(Template template)
     {
-        var templatesDir = Container.Current.Resolve<IPathManager>().TemplatesDir;
+        var templatesDir = ServiceContainer.Current.Resolve<IPathManager>().TemplatesDir;
 
         if (!Directory.Exists(templatesDir) || template.Image is not null)
         {
@@ -64,9 +64,9 @@ public class TemplateStorageImpl : ITemplateStorage
 
     public void Load()
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
-        var serializerSettings = new JsonSerializerSettings {StringEscapeHandling = StringEscapeHandling.EscapeNonAscii};
+        var serializerSettings = new JsonSerializerSettings { StringEscapeHandling = StringEscapeHandling.EscapeNonAscii };
 
         var path = Path.Combine(pathManager.ConfigBaseDir, "templates.json");
         var json = File.ReadAllText(path);

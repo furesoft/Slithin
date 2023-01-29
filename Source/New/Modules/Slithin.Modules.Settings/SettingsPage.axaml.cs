@@ -31,7 +31,7 @@ public partial class SettingsPage : UserControl, IPage
 
         if (!Design.IsDesignMode)
         {
-            DataContext = Container.Current.Resolve<SettingsPageViewModel>();
+            DataContext = ServiceContainer.Current.Resolve<SettingsPageViewModel>();
         }
     }
 }

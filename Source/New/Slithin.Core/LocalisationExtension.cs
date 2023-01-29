@@ -14,7 +14,7 @@ public class LocalisationExtension : Avalonia.Markup.Xaml.MarkupExtension
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        var service = Container.Current.Resolve<ILocalisationService>();
+        var service = ServiceContainer.Current.Resolve<ILocalisationService>();
 
         return service.GetString(Key);
     }

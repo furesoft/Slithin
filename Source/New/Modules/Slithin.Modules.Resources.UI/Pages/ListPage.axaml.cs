@@ -16,6 +16,6 @@ public partial class ListPage : UserControl
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = Container.Current.Resolve<ResourceListViewModel>();
+        DataContext = ServiceContainer.Current.Resolve<ResourceListViewModel>();
     }
 }

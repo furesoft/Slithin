@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.21" />
+    <PackageReference Include="AuroraModularis" Version="1.0.24" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" />
   </ItemGroup>
 

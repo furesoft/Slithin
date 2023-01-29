@@ -8,9 +8,9 @@ namespace Slithin.Modules.Repository;
 
 internal class VersionServiceImpl : IVersionService
 {
-    private readonly Container _container;
+    private readonly ServiceContainer _container;
 
-    public VersionServiceImpl(Container container)
+    public VersionServiceImpl(ServiceContainer container)
     {
         _container = container;
     }

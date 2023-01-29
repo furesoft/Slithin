@@ -30,7 +30,7 @@ public class NotebookAppendTool : ITool, IContextProvider
 
     public bool CanHandle(object obj)
     {
-        return obj is FileSystemModel {Tag: Metadata {Content.FileType: "pdf"}};
+        return obj is FileSystemModel { Tag: Metadata { Content.FileType: "pdf" } };
     }
 
     public ICollection<MenuItem> GetMenu(object obj)
@@ -51,13 +51,13 @@ public class NotebookAppendTool : ITool, IContextProvider
     public async void Invoke(object data)
     {
         var modal = new AppendNotebookModal();
-        var vm = Container.Current.Resolve<AppendNotebookModalViewModel>();
+        var vm = ServiceContainer.Current.Resolve<AppendNotebookModalViewModel>();
 
         if (data is ToolProperties props)
         {
             vm.ID = props["id"].ToString() ?? string.Empty;
             vm.Pages = new((IEnumerable<object>)props["pages"]);
-            
+
             vm.OKCommand.Execute(null);
         }
         else

@@ -9,7 +9,7 @@ public static class Features
 
     public static void Collect()
     {
-        var typeFinder = Container.Current.Resolve<ITypeFinder>();
+        var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
         foreach (var type in typeFinder.FindTypes<IFeature>())
         {
             if (!type.IsInterface && !type.IsAbstract && !_allFeatures.ContainsKey(type.Name))

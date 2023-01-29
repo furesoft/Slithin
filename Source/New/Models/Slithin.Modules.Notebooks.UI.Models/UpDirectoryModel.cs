@@ -5,13 +5,13 @@ namespace Slithin.Modules.Notebooks.UI.Models;
 
 public class UpDirectoryModel : DirectoryModel
 {
-    public FileSystemModel ParentFolder { get; }
-
     public UpDirectoryModel(FileSystemModel parentFolder) : base(null, null, false)
     {
         ParentFolder = parentFolder;
-        var localisation = Container.Current.Resolve<ILocalisationService>();
+        var localisation = ServiceContainer.Current.Resolve<ILocalisationService>();
 
         VisibleName = localisation.GetString("Up ..");
     }
+
+    public FileSystemModel ParentFolder { get; }
 }

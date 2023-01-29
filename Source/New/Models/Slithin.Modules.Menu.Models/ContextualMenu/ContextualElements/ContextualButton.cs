@@ -13,7 +13,7 @@ public class ContextualButton : ContextualElement
 
     public ContextualButton(string title, string iconName, ICommand command)
     {
-        var localisationService = Container.Current.Resolve<ILocalisationService>();
+        var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
 
         Title = localisationService.GetString(title);
         Command = command;

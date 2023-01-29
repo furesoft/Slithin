@@ -18,7 +18,7 @@ public partial class LoginModal : UserControl
 
         if (!Design.IsDesignMode)
         {
-            DataContext = Container.Current.Resolve<LoginModalViewModel>();
+            DataContext = ServiceContainer.Current.Resolve<LoginModalViewModel>();
         }
     }
 }

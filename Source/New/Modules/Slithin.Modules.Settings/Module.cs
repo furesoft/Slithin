@@ -7,7 +7,7 @@ namespace Slithin.Modules.Settings;
 
 internal class Module : AuroraModularis.Module
 {
-    public override Task OnStart(Container container)
+    public override Task OnStart(ServiceContainer container)
     {
         var settingsService = container.Resolve<ISettingsService>();
         var settingsObject = settingsService.GetSettings();
@@ -17,7 +17,7 @@ internal class Module : AuroraModularis.Module
         return Task.CompletedTask;
     }
 
-    public override void RegisterServices(Container container)
+    public override void RegisterServices(ServiceContainer container)
     {
         var settingsService = new SettingsServiceImpl(container);
 

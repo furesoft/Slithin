@@ -15,12 +15,12 @@ namespace Slithin.Modules.Export;
 
 internal class ExportServiceImpl : IExportService
 {
-    public ExportServiceImpl(Container container)
+    private readonly ServiceContainer _container;
+
+    public ExportServiceImpl(ServiceContainer container)
     {
         this._container = container;
     }
-
-    private readonly Container _container;
 
     public async Task Export(Metadata metadata)
     {
@@ -33,7 +33,7 @@ internal class ExportServiceImpl : IExportService
         var modal = new ExportModal();
         var vm = new ExportModalViewModel(metadata, exportProviderFactory);
         modal.DataContext = vm;
-        
+
         var shouldExport = await dialogService.Show(localisationService.GetString("Export"), modal);
         if (!shouldExport)
         {
@@ -51,7 +51,7 @@ internal class ExportServiceImpl : IExportService
         {
             return;
         }
-        
+
         var options = InitExportOptions(metadata, vm);
 
         await DoExport(metadata, notificationService, localisationService, vm, vm.SelectedFormat, options);
@@ -100,7 +100,6 @@ internal class ExportServiceImpl : IExportService
         Directory.CreateDirectory(vm.ExportPath);
 
         return true;
-
     }
 
     private static ExportOptions? InitExportOptions(Metadata metadata, ExportModalViewModel vm)
@@ -114,7 +113,7 @@ internal class ExportServiceImpl : IExportService
         };
 
         options.ShouldHideTemplates = vm.ShouldHideTemplates;
-        
+
         return options;
     }
 
@@ -122,30 +121,30 @@ internal class ExportServiceImpl : IExportService
     {
         var notebook = Notebook.Load(metadata);
         var options = ExportOptions.Create(notebook, vm.PagesSelector);
-        
+
         return options;
     }
 
     private static ExportOptions CreatePdfOptions(Metadata metadata, ExportModalViewModel vm)
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
         var path = Path.Combine(pathManager.NotebooksDir, metadata.ID + ".pdf");
 
         var pdfStream = File.OpenRead(path);
         var notebook = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Modify);
         var options = ExportOptions.Create(notebook, vm.PagesSelector);
-        
+
         return options;
     }
 
     private static ExportOptions CreateEpubOptions(Metadata metadata, ExportModalViewModel vm)
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
         var path = Path.Combine(pathManager.NotebooksDir, metadata.ID + ".epub");
 
         var notebook = EpubReader.Read(path);
         var options = ExportOptions.Create(notebook, vm.PagesSelector);
-        
+
         return options;
     }
 }

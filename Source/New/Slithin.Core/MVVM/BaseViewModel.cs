@@ -12,7 +12,7 @@ public abstract class BaseViewModel : NotifyObject
     public static void ApplyViewModel<T>(Control control)
         where T : BaseViewModel
     {
-        var vm = Container.Current.Resolve<T>();
+        var vm = ServiceContainer.Current.Resolve<T>();
 
         vm.OnLoad();
 

@@ -145,7 +145,7 @@ public class ConnectionWindowViewModel : BaseViewModel
     private void OpenAddDevice(object obj)
     {
         var wndw = new AddDeviceWindow();
-        var vm = Container.Current.Resolve<AddDeviceWindowViewModel>();
+        var vm = ServiceContainer.Current.Resolve<AddDeviceWindowViewModel>();
         vm.ParentViewModel = this;
 
         wndw.DataContext = vm;

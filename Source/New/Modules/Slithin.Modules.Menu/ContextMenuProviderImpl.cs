@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using AuroraModularis.Core;
 using Avalonia.Controls;
-using Slithin.Core;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
@@ -25,7 +24,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
                 continue;
             }
 
-            var list = new List<IContextProvider> {provider};
+            var list = new List<IContextProvider> { provider };
 
             _providers.Add(attr.Context, list);
         }
@@ -57,7 +56,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
             return null;
         }
 
-        var localisationProvider = Container.Current.Resolve<ILocalisationService>();
+        var localisationProvider = ServiceContainer.Current.Resolve<ILocalisationService>();
 
         var providersForContext = _providers[context];
         var availableContexts = providersForContext.Where(p => p.CanHandle(item));
@@ -80,14 +79,14 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
             return c.GetMenu(item);
         }
 
-        var menu = new ContextMenu {Items = iContextProviders.SelectMany(ContextProviderSelector)};
+        var menu = new ContextMenu { Items = iContextProviders.SelectMany(ContextProviderSelector) };
 
         return menu;
     }
 
     public void Init()
     {
-        var typeFinder = Container.Current.Resolve<ITypeFinder>();
+        var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
         var providerTypes = typeFinder.FindTypes<IContextProvider>();
 
         foreach (var providerType in providerTypes)
@@ -97,7 +96,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
                 continue;
             }
 
-            var provider = Container.Current.Resolve<IContextProvider>(providerType);
+            var provider = ServiceContainer.Current.Resolve<IContextProvider>(providerType);
 
             AddProvider(provider);
         }
@@ -105,7 +104,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
         var commandTypes = typeFinder.FindTypes<IContextCommand>();
         foreach (var commandType in commandTypes)
         {
-            var resolvedCommand = Container.Current.Resolve<IContextCommand>(commandType);
+            var resolvedCommand = ServiceContainer.Current.Resolve<IContextCommand>(commandType);
 
             AddProvider(new CommandBasedContextMenu(resolvedCommand), resolvedCommand);
         }

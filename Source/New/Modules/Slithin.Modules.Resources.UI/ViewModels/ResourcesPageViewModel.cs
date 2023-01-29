@@ -43,7 +43,7 @@ public class ResourcesPageViewModel : BaseViewModel
         {
             Task.Run(async () =>
             {
-                var marketplaceAPI = Container.Current.Resolve<MarketplaceAPI>();
+                var marketplaceAPI = ServiceContainer.Current.Resolve<MarketplaceAPI>();
                 var templates = marketplaceAPI.Get<Template[]>("templates", 5)
                         .Select(_ => new Sharable() { Asset = _ });
 
@@ -75,7 +75,7 @@ public class ResourcesPageViewModel : BaseViewModel
         {
             Task.Run(async () =>
             {
-                var marketplaceAPI = Container.Current.Resolve<MarketplaceAPI>();
+                var marketplaceAPI = ServiceContainer.Current.Resolve<MarketplaceAPI>();
                 var items = marketplaceAPI.Get<T[]>(asset.ToString().ToLower())
                         .Select(_ => new Sharable() { Asset = _ });
 

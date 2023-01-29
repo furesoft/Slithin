@@ -7,7 +7,7 @@ namespace Slithin.Modules.Notebooks.UI;
 [Priority(ModulePriority.Max)]
 internal class Module : AuroraModularis.Module
 {
-    public override Task OnStart(Container container)
+    public override Task OnStart(ServiceContainer container)
     {
         return Task.CompletedTask;
     }
@@ -18,7 +18,7 @@ internal class Module : AuroraModularis.Module
         Features.EnableAll();
     }
 
-    public override void RegisterServices(Container container)
+    public override void RegisterServices(ServiceContainer container)
     {
         container.Register<NotebooksPageViewModel>();
     }

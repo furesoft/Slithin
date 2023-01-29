@@ -6,12 +6,12 @@ namespace Slithin.Modules.BaseServices;
 [Priority(ModulePriority.High)]
 internal class Module : AuroraModularis.Module
 {
-    public override Task OnStart(Container container)
+    public override Task OnStart(ServiceContainer container)
     {
         return Task.CompletedTask;
     }
 
-    public override void RegisterServices(Container container)
+    public override void RegisterServices(ServiceContainer container)
     {
         container.Register<IPathManager>(new PathManagerImpl()).AsSingleton();
         container.Register<IDeviceDiscovery>(new DeviceDiscoveryImpl()).AsSingleton();

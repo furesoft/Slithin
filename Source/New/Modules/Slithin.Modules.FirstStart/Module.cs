@@ -6,11 +6,11 @@ namespace Slithin.Modules.FirstStart;
 
 public class Module : AuroraModularis.Module
 {
-    public override Task OnStart(Container container)
+    public override Task OnStart(ServiceContainer container)
     {
         var settingsService = container.Resolve<ISettingsService>();
         var loginService = container.Resolve<ILoginService>();
-        
+
         var settings = settingsService.GetSettings();
 
         if (!(settings.IsFirstStart && loginService.GetLoginCredentials().Any()))

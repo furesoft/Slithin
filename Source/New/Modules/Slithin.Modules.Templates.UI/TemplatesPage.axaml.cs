@@ -17,7 +17,7 @@ public partial class TemplatesPage : UserControl, IPage
     {
         InitializeComponent();
 
-        DataContext = Container.Current.Resolve<TemplatesPageViewModel>();
+        DataContext = ServiceContainer.Current.Resolve<TemplatesPageViewModel>();
     }
 
     public string Title => "Templates";

@@ -22,14 +22,14 @@ internal class NotificationServiceImpl : INotificationService
 
     public void ShowError(string message)
     {
-        Container.Current.Resolve<ILogger>().Error(message);
+        ServiceContainer.Current.Resolve<ILogger>().Error(message);
         _notificationManager.Show((new Notification("Error", message, NotificationType.Error)));
     }
 
     //ToDo: error notification in new window need to be tested
     public void ShowErrorNewWindow(string message)
     {
-        Container.Current.Resolve<ILogger>().Error(message);
+        ServiceContainer.Current.Resolve<ILogger>().Error(message);
 
         var window = new Window();
 
@@ -39,8 +39,8 @@ internal class NotificationServiceImpl : INotificationService
 
     public IStatusController ShowStatus(string message, bool showInNewWindow = false)
     {
-        Container.Current.Resolve<ILogger>().Info(message);
-        
+        ServiceContainer.Current.Resolve<ILogger>().Info(message);
+
         var controller = new StatusController(showInNewWindow);
         controller.Step(message);
 

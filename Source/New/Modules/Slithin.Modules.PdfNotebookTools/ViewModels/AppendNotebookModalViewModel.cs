@@ -107,65 +107,65 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
     private void Ok(object obj)
     {
-         var validationResult = _validator.Validate(this);
+        var validationResult = _validator.Validate(this);
 
-         if (!validationResult.IsValid)
-         {
+        if (!validationResult.IsValid)
+        {
             _notificationService.ShowErrorNewWindow(validationResult.Errors.AsString());
-             return;
-         }
-        
-         var mdStorage = Container.Current.Resolve<IMetadataRepository>();
+            return;
+        }
 
-         var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, $"{ID}.pdf"));
-         var md = mdStorage.GetMetadata(ID);
-         var pages = new List<string>(md.Content.Pages);
-         var pageCount = md.Content.PageCount;
+        var mdStorage = ServiceContainer.Current.Resolve<IMetadataRepository>();
 
-         foreach (var p in Pages)
-         {
-             XImage image = null;
-             var count = 0;
+        var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, $"{ID}.pdf"));
+        var md = mdStorage.GetMetadata(ID);
+        var pages = new List<string>(md.Content.Pages);
+        var pageCount = md.Content.PageCount;
 
-             pageCount++;
+        foreach (var p in Pages)
+        {
+            XImage image = null;
+            var count = 0;
 
-             switch (p)
-             {
-                 case NotebookPage nbp:
-                     count = nbp.Count;
-                     image = XImage.FromFile($"{_pathManager.TemplatesDir}\\{nbp.Template.Filename}.png");
-                     break;
+            pageCount++;
 
-                 case NotebookCustomPage nbcp:
-                     image = XImage.FromFile(nbcp.Filename);
-                     count = nbcp.Count;
-                     break;
-             }
+            switch (p)
+            {
+                case NotebookPage nbp:
+                    count = nbp.Count;
+                    image = XImage.FromFile($"{_pathManager.TemplatesDir}\\{nbp.Template.Filename}.png");
+                    break;
 
-             for (var i = 0; i < count; i++)
-             {
-                 var page = document.AddPage();
-                 page.Size = PageSize.A4;
+                case NotebookCustomPage nbcp:
+                    image = XImage.FromFile(nbcp.Filename);
+                    count = nbcp.Count;
+                    break;
+            }
 
-                 var gfx = XGraphics.FromPdfPage(page);
+            for (var i = 0; i < count; i++)
+            {
+                var page = document.AddPage();
+                page.Size = PageSize.A4;
 
-                 gfx.DrawImage(image, 0, 0, page.Width, page.Height);
+                var gfx = XGraphics.FromPdfPage(page);
 
-                 var pageId = Guid.NewGuid();
-                 pages.Add(pageId.ToString());
-             }
-         }
+                gfx.DrawImage(image, 0, 0, page.Width, page.Height);
 
-         var content = md.Content;
-         content.PageCount = pageCount;
-         content.Pages = pages.ToArray();
+                var pageId = Guid.NewGuid();
+                pages.Add(pageId.ToString());
+            }
+        }
 
-         md.Content = content;
+        var content = md.Content;
+        content.PageCount = pageCount;
+        content.Pages = pages.ToArray();
 
-         mdStorage.SaveToDisk(md);
+        md.Content = content;
 
-         document.Save($"{_pathManager.NotebooksDir}\\{md.ID}.pdf");
+        mdStorage.SaveToDisk(md);
 
-         Notebook.UploadDocument(md);
+        document.Save($"{_pathManager.NotebooksDir}\\{md.ID}.pdf");
+
+        Notebook.UploadDocument(md);
     }
 }

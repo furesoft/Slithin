@@ -11,7 +11,7 @@ public class Notebook
 {
     public Notebook(Metadata md)
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
         var path = Path.Combine(pathManager.NotebooksDir, md.ID);
 
@@ -35,7 +35,7 @@ public class Notebook
 
     public static Notebook Load(string id)
     {
-        var mdStorage = Container.Current.Resolve<IMetadataRepository>();
+        var mdStorage = ServiceContainer.Current.Resolve<IMetadataRepository>();
 
         return Load(mdStorage.GetMetadata(id));
     }
@@ -43,7 +43,7 @@ public class Notebook
     public static Notebook Load(Metadata md)
     {
         var notebook = new Notebook(md);
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
         notebook.PageCount = md.Content.Pages.Length;
 
@@ -91,9 +91,9 @@ public class Notebook
 
     public static void UploadDocument(Metadata md)
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
-        var device = Container.Current.Resolve<IRemarkableDevice>();
-        var pathList = Container.Current.Resolve<PathList>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
+        var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
+        var pathList = ServiceContainer.Current.Resolve<PathList>();
 
         var notebooksDir = pathManager.NotebooksDir;
 
@@ -110,10 +110,10 @@ public class Notebook
 
     public static void UploadNotebook(Metadata md)
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
-        var localisationService = Container.Current.Resolve<ILocalisationService>();
-        var device = Container.Current.Resolve<IRemarkableDevice>();
-        var pathList = Container.Current.Resolve<PathList>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
+        var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
+        var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
+        var pathList = ServiceContainer.Current.Resolve<PathList>();
 
         var notebooksDir = pathManager.NotebooksDir;
 
@@ -141,8 +141,8 @@ public class Notebook
 
     public void Save()
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
-        var mdStorage = Container.Current.Resolve<IMetadataRepository>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
+        var mdStorage = ServiceContainer.Current.Resolve<IMetadataRepository>();
         var md = mdStorage.Load(ID);
 
         var newContent = md.Content;

@@ -8,7 +8,7 @@ namespace Slithin.Modules.BaseServices;
 internal class LoggerImpl : AuroraModularis.Logging.Models.ILogger
 {
     private Logger _logger;
-    private readonly Container _container;
+    private readonly ServiceContainer _container;
 
     private void InitLogger()
     {
@@ -28,7 +28,7 @@ internal class LoggerImpl : AuroraModularis.Logging.Models.ILogger
         _logger = logConfig.CreateLogger();
     }
 
-    public LoggerImpl(Container container)
+    public LoggerImpl(ServiceContainer container)
     {
         _container = container;
     }
