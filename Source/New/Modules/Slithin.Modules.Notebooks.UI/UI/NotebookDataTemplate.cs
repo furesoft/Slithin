@@ -37,6 +37,90 @@ internal class NotebookDataTemplate : IDataTemplate
             MaxHeight = 275
         };
 
+        var img = CreateImageControl(fsm);
+
+        var titlePanel = new Grid();
+
+        var title = new TextBlock
+        {
+            [!TextBlock.TextProperty] = new Binding("VisibleName"),
+            TextAlignment = TextAlignment.Center,
+            TextWrapping = TextWrapping.Wrap,
+            Width = 125,
+            VerticalAlignment = VerticalAlignment.Center,
+            FontWeight = FontWeight.Bold,
+            Height = 50
+        };
+
+        var favImage = new Image();
+
+        CreatePinnedStar(fsm, favImage, titlePanel, title);
+
+        titlePanel.Children.Add(favImage);
+
+        LoadThumbnail(fsm, img, thumbnailLoader);
+
+        titlePanel.Children.Add(title);
+
+        stackPanel.Children.Add(titlePanel);
+        stackPanel.Children.Add(img);
+
+        var card = new Card
+        {
+            Content = stackPanel,
+            Background = (IBrush)new BrushConverter().ConvertFromString("#e2e2e2")
+        };
+
+        card.Initialized += (s, e) =>
+        {
+            card.ContextMenu = contextProvider.BuildMenu(UIContext.Notebook, fsm, card.Parent.Parent.DataContext);
+        };
+
+        return card;
+    }
+
+    private static void LoadThumbnail(FileSystemModel fsm, dynamic img, IThumbnailLoader thumbnailLoader)
+    {
+        if (fsm is FileModel)
+        {
+            img.Source = thumbnailLoader.LoadImage(fsm);
+        }
+        else if (fsm is TrashModel)
+        {
+            img.Margin = new Thickness(10);
+            img.Source = new DrawingImage((GeometryDrawing) Application.Current.FindResource("Cool.TrashFull"));
+        }
+        else
+        {
+            img.Margin = new Thickness(10);
+            img.Source = new DrawingImage((GeometryDrawing) Application.Current.FindResource("Bootstrap.FolderFill"));
+        }
+    }
+
+    private static void CreatePinnedStar(FileSystemModel fsm, Image favImage, Grid titlePanel, TextBlock title)
+    {
+        if (fsm.IsPinned)
+        {
+            favImage.Source = new DrawingImage((GeometryDrawing) Application.Current.FindResource("Entypo+.Star"));
+            titlePanel.ColumnDefinitions.Add(new(new GridLength(20)));
+            titlePanel.ColumnDefinitions.Add(new(new GridLength(125, GridUnitType.Star)));
+
+            Grid.SetColumn(title, 1);
+            Grid.SetColumn(favImage, 0);
+        }
+        else
+        {
+            title.HorizontalAlignment = HorizontalAlignment.Center;
+        }
+
+        favImage.Width = 20;
+        favImage.Height = 20;
+        favImage.HorizontalAlignment = HorizontalAlignment.Left;
+        favImage.VerticalAlignment = VerticalAlignment.Top;
+    }
+
+    private static dynamic CreateImageControl(FileSystemModel fsm)
+    {
         dynamic img = new Image()
         {
             MinWidth = 25,
@@ -58,74 +142,7 @@ internal class NotebookDataTemplate : IDataTemplate
             };
         }
 
-        var titlePanel = new Grid();
-
-        var title = new TextBlock
-        {
-            [!TextBlock.TextProperty] = new Binding("VisibleName"),
-            TextAlignment = TextAlignment.Center,
-            TextWrapping = TextWrapping.Wrap,
-            Width = 125,
-            VerticalAlignment = VerticalAlignment.Center,
-            FontWeight = FontWeight.Bold,
-            Height = 50
-        };
-
-        var favImage = new Image();
-
-        if (fsm.IsPinned)
-        {
-            favImage.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Entypo+.Star"));
-            titlePanel.ColumnDefinitions.Add(new(new GridLength(20)));
-            titlePanel.ColumnDefinitions.Add(new(new GridLength(125, GridUnitType.Star)));
-
-            Grid.SetColumn(title, 1);
-            Grid.SetColumn(favImage, 0);
-        }
-        else
-        {
-            title.HorizontalAlignment = HorizontalAlignment.Center;
-        }
-
-        favImage.Width = 20;
-        favImage.Height = 20;
-        favImage.HorizontalAlignment = HorizontalAlignment.Left;
-        favImage.VerticalAlignment = VerticalAlignment.Top;
-
-        titlePanel.Children.Add(favImage);
-
-        if (fsm is FileModel)
-        {
-            img.Source = thumbnailLoader.LoadImage(fsm);
-        }
-        else if (fsm is TrashModel)
-        {
-            img.Margin = new Thickness(10);
-            img.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Cool.TrashFull"));
-        }
-        else
-        {
-            img.Margin = new Thickness(10);
-            img.Source = new DrawingImage((GeometryDrawing)Application.Current.FindResource("Bootstrap.FolderFill"));
-        }
-
-        titlePanel.Children.Add(title);
-
-        stackPanel.Children.Add(titlePanel);
-        stackPanel.Children.Add(img);
-
-        var card = new Card
-        {
-            Content = stackPanel,
-            Background = (IBrush)new BrushConverter().ConvertFromString("#e2e2e2")
-        };
-
-        card.Initialized += (s, e) =>
-        {
-            card.ContextMenu = contextProvider.BuildMenu(UIContext.Notebook, fsm, card.Parent.Parent.DataContext);
-        };
-
-        return card;
+        return img;
     }
 
     public bool Match(object data)
