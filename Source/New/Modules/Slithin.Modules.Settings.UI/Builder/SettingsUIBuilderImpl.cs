@@ -89,6 +89,14 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
         var properties = settingsObjType.GetProperties();
         var index = 0;
+        
+        BuildProperties(settingsObj, properties, grid, index);
+
+        return grid;
+    }
+
+    private void BuildProperties(object settingsObj, PropertyInfo[] properties, Grid grid, int index)
+    {
         foreach (var prop in properties)
         {
             var attr = prop.GetCustomAttribute<SettingsAttribute>(true);
@@ -104,7 +112,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
             foreach (var providerType in _providers)
             {
-                var provider = (ISettingsControlProvider)Activator.CreateInstance(providerType);
+                var provider = (ISettingsControlProvider) Activator.CreateInstance(providerType);
 
                 if (provider.AttributeType != attr.GetType() || !provider.CanHandle(prop.PropertyType))
                 {
@@ -112,14 +120,13 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
                 }
 
                 label.IsVisible = !provider.HideLabel;
-                
+
                 AddGeneratedProviderToGrid(settingsObj, providerType, attr, prop, index, grid);
                 index++;
             }
         }
-
-        return grid;
     }
+
 
     //ToDo: Add ability to localize labels
     private static Label BuildLabelAndAddToGrid(SettingsAttribute attr, int index, Grid grid)
