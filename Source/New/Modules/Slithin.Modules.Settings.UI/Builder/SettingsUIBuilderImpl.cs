@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
-using System.Reflection;
+﻿using System.Reflection;
+using AuroraModularis.Core;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
 using Slithin.Controls.Settings;
+using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Settings.Models.Builder;
 using Slithin.Modules.Settings.Models.Builder.Attributes;
 using Slithin.Modules.Settings.UI.Builder.ControlProviders;
@@ -17,16 +18,16 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
         typeof(ToggleProvider), typeof(SelectionProvider), typeof(EnumProvider), typeof(TextProvider)
     };
 
-    private readonly List<INotifyPropertyChanged> _settingsModels = new();
+    private readonly List<object> _settingsModels = new();
 
     public void RegisterControlProvider<TAttr, TProvider>()
     {
         _providers.Add(typeof(TProvider));
     }
 
-    public void RegisterSettingsModel(INotifyPropertyChanged model)
+    public void RegisterSettingsModel<T>()
     {
-        _settingsModels.Add(model);
+        _settingsModels.Add(ServiceContainer.Current.Resolve<T>());
     }
 
     public Control Build()
@@ -50,8 +51,10 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
         return scrollViewer;
     }
 
-    public Control BuildSection(INotifyPropertyChanged settingsObject)
+    public Control BuildSection(object settingsObject)
     {
+        var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
+        
         var settingsObjType = settingsObject.GetType();
         var displayAttribute = settingsObjType.GetCustomAttribute<DisplaySettingsAttribute>();
 
@@ -63,7 +66,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
         return new SettingsGroup
         {
-            Header = displayAttribute.Label, Content = BuildGrid(settingsObjType, settingsObject)
+            Header = localisationService.GetString(displayAttribute.Label), Content = BuildGrid(settingsObjType, settingsObject)
         };
     }
 
@@ -111,7 +114,9 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
     //ToDo: Add ability to localize labels
     private static Label BuildLabelAndAddToGrid(SettingsAttribute attr, int index, Grid grid)
     {
-        var label = new Label {Content = attr.Label, VerticalAlignment = VerticalAlignment.Center};
+        var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
+        
+        var label = new Label { Content = localisationService.GetString(attr.Label), VerticalAlignment = VerticalAlignment.Center };
         Grid.SetColumn(label, 0);
         Grid.SetRow(label, index);
         grid.Children.Add(label);
