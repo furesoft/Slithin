@@ -4,11 +4,11 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
 using Slithin.Controls.Settings;
-using Slithin.Modules.Settings.Builder.ControlProviders;
 using Slithin.Modules.Settings.Models.Builder;
 using Slithin.Modules.Settings.Models.Builder.Attributes;
+using Slithin.Modules.Settings.UI.Builder.ControlProviders;
 
-namespace Slithin.Modules.Settings.Builder;
+namespace Slithin.Modules.Settings.UI.Builder;
 
 public class SettingsUIBuilderImpl : ISettingsUiBuilder
 {

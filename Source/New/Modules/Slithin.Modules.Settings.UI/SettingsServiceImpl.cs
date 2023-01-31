@@ -2,7 +2,7 @@
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
 
-namespace Slithin.Modules.Settings;
+namespace Slithin.Modules.Settings.UI;
 
 internal class SettingsServiceImpl : ISettingsService
 {

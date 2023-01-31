@@ -9,7 +9,7 @@ using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
 
-namespace Slithin.Modules.Settings.ViewModels;
+namespace Slithin.Modules.Settings.UI.ViewModels;
 
 internal class SettingsPageViewModel : BaseViewModel
 {

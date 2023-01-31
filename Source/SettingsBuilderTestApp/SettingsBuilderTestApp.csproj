@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\New\Modules\Slithin.Modules.Settings\Slithin.Modules.Settings.csproj" />
+    <ProjectReference Include="..\New\Modules\Slithin.Modules.Settings.UI\Slithin.Modules.Settings.UI.csproj" />
     <ProjectReference Include="..\Slithin.Controls\Slithin.Controls.csproj" />
   </ItemGroup>
 </Project>

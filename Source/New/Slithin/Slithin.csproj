@@ -74,7 +74,7 @@
 	  <ProjectReference Include="..\Modules\Slithin.Modules.PdfNotebookTools\Slithin.Modules.PdfNotebookTools.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Resources.UI\Slithin.Modules.Resources.UI.csproj" />
-	  <ProjectReference Include="..\Modules\Slithin.Modules.Settings\Slithin.Modules.Settings.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Settings.UI\Slithin.Modules.Settings.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Sync\Slithin.Modules.Sync.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.TemplateEditor\Slithin.Modules.TemplateEditor.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Templates.UI\Slithin.Modules.Templates.UI.csproj" />

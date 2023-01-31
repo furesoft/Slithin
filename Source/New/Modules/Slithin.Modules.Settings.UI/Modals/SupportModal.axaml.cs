@@ -1,12 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.Modules.Settings.Modals;
+namespace Slithin.Modules.Settings.UI.Modals;
 
-public partial class AboutModal : UserControl
+public partial class SupportModal : UserControl
 {
-    public AboutModal()
+    public SupportModal()
     {
         InitializeComponent();
     }

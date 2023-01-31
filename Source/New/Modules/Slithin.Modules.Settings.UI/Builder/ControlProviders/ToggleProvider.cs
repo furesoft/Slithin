@@ -4,7 +4,7 @@ using Avalonia.Data;
 using Slithin.Modules.Settings.Models.Builder;
 using Slithin.Modules.Settings.Models.Builder.Attributes;
 
-namespace Slithin.Modules.Settings.Builder.ControlProviders;
+namespace Slithin.Modules.Settings.UI.Builder.ControlProviders;
 
 public class ToggleProvider : ISettingsControlProvider
 {

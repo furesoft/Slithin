@@ -1,14 +1,14 @@
 ﻿using System.Windows.Input;
-using Slithin.Modules.Settings.Modals;
+using Slithin.Modules.Settings.UI.Modals;
 using Slithin.Modules.UI.Models;
 
-namespace Slithin.Modules.Settings.Commands;
+namespace Slithin.Modules.Settings.UI.Commands;
 
-public class AboutCommand : ICommand
+internal class ShowDonationButtonsCommand : ICommand
 {
     private readonly IDialogService _dialogService;
 
-    public AboutCommand(IDialogService dialogService)
+    public ShowDonationButtonsCommand(IDialogService dialogService)
     {
         _dialogService = dialogService;
     }
@@ -19,9 +19,7 @@ public class AboutCommand : ICommand
 
     public async void Execute(object? parameter)
     {
-        var modal = new AboutModal();
-        
-        await _dialogService.Show("About Slithin", modal);
+        await _dialogService.Show("Support", new SupportModal { DataContext = parameter });
     }
 
     public event EventHandler? CanExecuteChanged;

@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Slithin.Modules.Settings.Models;
 
-namespace Slithin.Modules.Settings;
+namespace Slithin.Modules.Settings.UI;
 
 public class ScreenRememberServiceImpl : IScreenRememberService
 {

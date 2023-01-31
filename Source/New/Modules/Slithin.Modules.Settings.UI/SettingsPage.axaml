@@ -5,7 +5,7 @@
              xmlns:s="using:Slithin.Controls.Settings"
              xmlns:l="using:Slithin.Core"
              mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="500"
-             x:Class="Slithin.Modules.Settings.SettingsPage">
+             x:Class="Slithin.Modules.Settings.UI.SettingsPage">
     <ScrollViewer>
         <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
             <s:SettingsGroup Header="{l:Localisation 'Device'}" Grid.Column="0">
