@@ -20,9 +20,9 @@ public partial class App : Application
 
             var builder = new Slithin.Modules.Settings.UI.Builder.SettingsUIBuilderImpl();
             
-            builder.RegisterSettingsModel(new CustomSettings());
-            builder.RegisterSettingsModel(new CustomSettings());
-            builder.RegisterSettingsModel(new CustomSettings());
+            builder.RegisterSettingsModel<CustomSettings>();
+            builder.RegisterSettingsModel<CustomSettings>();
+            builder.RegisterSettingsModel<CustomSettings>();
             
             var sections = builder.Build();
 
