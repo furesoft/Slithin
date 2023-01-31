@@ -9,11 +9,11 @@ namespace Slithin.Modules.Device;
 
 internal class XochitlImpl : IXochitlService
 {
-    private readonly Container _container;
+    private readonly ServiceContainer _container;
     private IniData _data;
     private FileIniDataParser _ini;
 
-    public XochitlImpl(Container container)
+    public XochitlImpl(ServiceContainer container)
     {
         _container = container;
     }
