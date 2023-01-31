@@ -75,7 +75,8 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
         return new SettingsGroup
         {
-            Header = localisationService.GetString(displayAttribute.Label), Content = BuildGrid(settingsObjType, settingsObject)
+            Header = localisationService.GetString(displayAttribute.Label), Content = BuildGrid(settingsObjType, settingsObject),
+            Tag = displayAttribute.IsExpanded
         };
     }
 
@@ -84,7 +85,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
         var grid = new Grid {Width = 250, HorizontalAlignment = HorizontalAlignment.Left};
 
         grid.ColumnDefinitions.Add(new(GridLength.Auto));
-        grid.ColumnDefinitions.Add(new(GridLength.Star));
+        grid.ColumnDefinitions.Add(new(GridLength.Auto));
 
         var properties = settingsObjType.GetProperties();
         var index = 0;

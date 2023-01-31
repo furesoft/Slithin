@@ -3,7 +3,7 @@ using Slithin.Modules.Settings.Models.Builder.Attributes;
 
 namespace Slithin.Modules.Settings.UI.SettingModels;
 
-[DisplaySettings("Appeareance")]
+[DisplaySettings("Appeareance", IsExpanded = true)]
 public class AppeareanceSettingsModel : SavableSettingsModel
 {
     private readonly ISettingsService _settingsService;

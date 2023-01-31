@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid>
-                    <Expander Margin="5" Header="{TemplateBinding Header}">
+                    <Expander Margin="5" Header="{TemplateBinding Header}" IsExpanded="{TemplateBinding Tag}">
                         <ContentPresenter Content="{TemplateBinding Content}" Margin="2,1,1,1" />
                     </Expander>
                 </Grid>

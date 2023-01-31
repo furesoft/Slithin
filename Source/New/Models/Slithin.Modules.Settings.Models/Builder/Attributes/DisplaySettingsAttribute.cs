@@ -7,4 +7,6 @@ public class DisplaySettingsAttribute : SettingsAttribute
         : base(label)
     {
     }
+
+    public bool IsExpanded { get; set; }
 }
