@@ -19,12 +19,5 @@
                 <DrawingPresenter Drawing="{DynamicResource BuyMeaCoffee}" />
             </Button>
         </UniformGrid>
-
-        <Button Classes="Flat" Command="{Binding FeedbackCommand}">
-            <StackPanel Spacing="5" Orientation="Horizontal">
-                <DrawingPresenter Width="25" Height="25" Drawing="{DynamicResource VSImageLib2019.FeedbackSmile_grey_16x}" HorizontalAlignment="Left" />
-                <TextBlock VerticalAlignment="Center" Text="{core:Localisation 'Leave a feedback'}" />
-            </StackPanel>
-        </Button>
     </StackPanel>
 </UserControl>
