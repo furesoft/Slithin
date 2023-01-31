@@ -5,7 +5,7 @@
              xmlns:controls="using:Slithin.Controls"
              xmlns:core="using:Slithin.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.Modules.Settings.Modals.SupportModal">
+             x:Class="Slithin.Modules.Settings.UI.Modals.SupportModal">
     <StackPanel Spacing="5" Margin="3">
         <UniformGrid Columns="7">
             <controls:KryptoDonateButton CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="{DynamicResource BoxIcons.LogosBitcoin}" />

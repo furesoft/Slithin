@@ -18,7 +18,7 @@ public partial class App : Application
         {
             var window = new Window();
 
-            var builder = new Slithin.Modules.Settings.Builder.SettingsUIBuilderImpl();
+            var builder = new Slithin.Modules.Settings.UI.Builder.SettingsUIBuilderImpl();
             
             builder.RegisterSettingsModel(new CustomSettings());
             builder.RegisterSettingsModel(new CustomSettings());

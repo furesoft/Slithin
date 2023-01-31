@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="425"
-        x:Class="Slithin.Modules.Settings.FeedbackWindow"
+        x:Class="Slithin.Modules.Settings.UI.FeedbackWindow"
         xmlns:loc="using:Slithin.Core"
         xmlns:controls="http://github.com/furesoft/Slithin"
         Width="400" Height="425" WindowStartupLocation="CenterScreen" Icon="avares:/Icon.png"

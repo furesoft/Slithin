@@ -8,7 +8,7 @@ using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
-using Slithin.Modules.Settings.Models;
+using Slithin.Modules.Settings.UI.Models;
 using Slithin.Modules.UI.Models;
 using Slithin.Modules.Updater.Models;
 using Slithin.Validators;

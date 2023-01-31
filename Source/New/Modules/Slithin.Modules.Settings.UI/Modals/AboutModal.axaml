@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:core="using:Slithin.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.Modules.Settings.Modals.AboutModal">
+             x:Class="Slithin.Modules.Settings.UI.Modals.AboutModal">
     <Grid MinHeight="135" RowDefinitions="*,*">
         <TextBlock Grid.Row="0" Text="{core:Localisation 'Slithin is written and maintained by Chris Anders. The usage is free and contributions are welcome.'}" TextWrapping="Wrap" MaxWidth="300" />
 

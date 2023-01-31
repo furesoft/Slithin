@@ -1,6 +1,6 @@
 ﻿using Avalonia.Layout;
 using Slithin.Core.MVVM;
-using Slithin.Modules.Settings.Models.Builder.Attributes;
+using Slithin.Modules.Settings.UI.Models.Builder.Attributes;
 
 namespace SettingsBuilderTestApp;
 

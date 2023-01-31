@@ -3,9 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
-using Slithin.Modules.Settings.ViewModels;
+using Slithin.Modules.Settings.UI.ViewModels;
 
-namespace Slithin.Modules.Settings;
+namespace Slithin.Modules.Settings.UI;
 
 [PreserveIndex(5)]
 [PageIcon("Vaadin.CogOutline")]

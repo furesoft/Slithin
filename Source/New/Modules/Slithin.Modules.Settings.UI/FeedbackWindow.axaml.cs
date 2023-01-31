@@ -2,9 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Slithin.Core.MVVM;
-using Slithin.Modules.Settings.ViewModels;
+using Slithin.Modules.Settings.UI.ViewModels;
 
-namespace Slithin.Modules.Settings;
+namespace Slithin.Modules.Settings.UI;
 
 public partial class FeedbackWindow : Window
 {

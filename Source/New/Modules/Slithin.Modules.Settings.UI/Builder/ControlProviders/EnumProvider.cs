@@ -4,9 +4,10 @@ using Avalonia.Data;
 using Slithin.Modules.Settings.Models.Builder;
 using Slithin.Modules.Settings.Models.Builder.Attributes;
 
-namespace Slithin.Modules.Settings.Builder.ControlProviders;
+namespace Slithin.Modules.Settings.UI.Builder.ControlProviders;
 
-public class SelectionProvider : ISettingsControlProvider
+//ToDo: add ability to use same attribute type for different property types
+public class EnumProvider : ISettingsControlProvider
 {
     public Type AttributeType => typeof(SelectionAttribute);
 
@@ -15,14 +16,17 @@ public class SelectionProvider : ISettingsControlProvider
         return new ComboBox()
         {
             [!SelectingItemsControl.SelectedItemProperty] =
-                new Binding(((SelectionAttribute)settingsAttribute).SelectionPropertyName),
-            [!ItemsControl.ItemsProperty] = new Binding(bindingName) {Source = settingsObj}
+                new Binding(((SelectionAttribute)settingsAttribute).SelectionPropertyName)
+                {
+                    Mode = BindingMode.TwoWay, Source = settingsObj
+                },
+            Items = Enum.GetValues(settingsObj.GetType().GetProperty(bindingName).GetValue(settingsObj).GetType())
         };
     }
 
     public bool CanHandle(Type propType)
     {
-        return propType == typeof(string[]);
+        return propType.IsAssignableTo(typeof(Enum));
     }
 
     public bool HideLabel { get; }
