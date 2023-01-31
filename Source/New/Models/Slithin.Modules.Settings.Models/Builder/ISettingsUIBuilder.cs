@@ -4,7 +4,7 @@ namespace Slithin.Modules.Settings.Models.Builder;
 
 public interface ISettingsUiBuilder
 {
-    void RegisterControlProvider<TAttr, TProvider>();
+    void RegisterControlProvider<TProvider>();
 
     void RegisterSettingsModel<T>();
     Control Build();

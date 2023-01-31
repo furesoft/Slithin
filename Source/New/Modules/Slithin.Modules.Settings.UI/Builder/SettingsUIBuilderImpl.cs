@@ -21,7 +21,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
     private readonly List<object> _settingsModels = new();
 
-    public void RegisterControlProvider<TAttr, TProvider>()
+    public void RegisterControlProvider<TProvider>()
     {
         _providers.Add(typeof(TProvider));
     }
