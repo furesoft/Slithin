@@ -2,7 +2,6 @@
 using AuroraModularis.Core;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media;
 using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.Menu.Models.ContextualMenu.ContextualElements;
@@ -18,12 +17,12 @@ public class ContextualButton : ContextualElement
         Title = localisationService.GetString(title);
         Command = command;
 
-        Icon = (GeometryDrawing)Application.Current.FindResource(iconName);
+        Icon = Application.Current.FindResource(iconName);
     }
 
     public ICommand Command { get; }
     public string? Hint { get; set; }
     public string Title { get; set; }
 
-    public GeometryDrawing Icon { get; set; }
+    public object Icon { get; set; }
 }
