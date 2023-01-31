@@ -5,6 +5,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
 using Slithin.Controls.Settings;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Settings.Models;
 using Slithin.Modules.Settings.Models.Builder;
 using Slithin.Modules.Settings.Models.Builder.Attributes;
 using Slithin.Modules.Settings.UI.Builder.ControlProviders;
@@ -53,6 +54,14 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
     public Control BuildSection(object settingsObject)
     {
+        if (settingsObject is SavableSettingsModel model)
+        {
+            model.PropertyChanged += (s, e) =>
+            {
+                model.Save();
+            };
+        }
+        
         var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
         
         var settingsObjType = settingsObject.GetType();

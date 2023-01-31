@@ -13,6 +13,8 @@ internal class Module : AuroraModularis.Module
         var settingsObject = settingsService.GetSettings();
 
         container.Register(settingsObject).AsSingleton();
+        
+        container.Resolve<ISettingsUiBuilder>().RegisterSettingsModel<SettingModels.AppeareanceSettingsModel>();
 
         return Task.CompletedTask;
     }

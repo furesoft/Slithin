@@ -64,7 +64,7 @@ internal class SettingsPageViewModel : BaseViewModel
     public object SettingsContent
     {
         get => _settingsContent;
-        set => this.SetValue(ref _settingsContent, value);
+        set => SetValue(ref _settingsContent, value);
     }
 
     public string DeviceName
@@ -79,26 +79,6 @@ internal class SettingsPageViewModel : BaseViewModel
     }
 
     public ICommand FeedbackCommand { get; }
-
-    public bool IsBigMenuMode
-    {
-        get => _settings.IsBigMenuMode;
-        set
-        {
-            _settings.IsBigMenuMode = value;
-            SaveSetting();
-        }
-    }
-
-    public bool IsDarkMode
-    {
-        get => _settings.IsDarkMode;
-        set
-        {
-            _settings.IsDarkMode = value;
-            SaveSetting();
-        }
-    }
 
     public bool IsSSHLogin => _loginService.GetCurrentCredential().Key != null;
 
