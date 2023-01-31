@@ -11,12 +11,12 @@ public class TextProvider : ISettingsControlProvider
 
     public Control Build(string bindingName, object settingsObj, SettingsAttribute settingsAttribute)
     {
-        var textBox = new TextBox();
-        
+        var textBox = new TextBox() {MinWidth = 175};
+
         var binding = new Binding {Path = bindingName, Mode = BindingMode.TwoWay};
 
         textBox[!TextBox.TextProperty] = binding;
-        
+
         return textBox;
     }
 
