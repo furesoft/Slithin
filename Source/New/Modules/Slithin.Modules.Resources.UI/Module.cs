@@ -8,4 +8,9 @@ internal class Module : AuroraModularis.Module
     {
         return Task.CompletedTask;
     }
+
+    public override void RegisterServices(ServiceContainer serviceContainer)
+    {
+        serviceContainer.Register<MarketplaceAPI>().AsSingleton();
+    }
 }

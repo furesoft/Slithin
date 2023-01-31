@@ -1,6 +1,6 @@
-﻿using AuroraModularis.Core;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Core.MVVM;
 using Slithin.Modules.Resources.UI.ViewModels;
 
 namespace Slithin.Modules.Resources.UI;
@@ -16,9 +16,6 @@ public partial class LoginModal : UserControl
     {
         AvaloniaXamlLoader.Load(this);
 
-        if (!Design.IsDesignMode)
-        {
-            DataContext = ServiceContainer.Current.Resolve<LoginModalViewModel>();
-        }
+        BaseViewModel.ApplyViewModel<LoginModalViewModel>(this);
     }
 }
