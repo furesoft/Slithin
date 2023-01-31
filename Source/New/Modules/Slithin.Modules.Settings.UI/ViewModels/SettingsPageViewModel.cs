@@ -1,7 +1,6 @@
 ﻿using System.Windows.Input;
 using AuroraModularis.Core;
 using AuroraModularis.Logging.Models;
-using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.BaseServices.Models;
@@ -39,24 +38,11 @@ internal class SettingsPageViewModel : BaseViewModel
 
         _credential = _loginService.GetCurrentCredential();
     }
-
     
-
     public object SettingsContent
     {
         get => _settingsContent;
         set => SetValue(ref _settingsContent, value);
-    }
-
-    public string DeviceName
-    {
-        get => _credential.Name;
-        set =>
-            new Action<string>((v) =>
-            {
-                UpdateDeviceName(v);
-                OnChange();
-            }).Debounce()(value);
     }
 
     public ICommand FeedbackCommand { get; }
@@ -67,38 +53,6 @@ internal class SettingsPageViewModel : BaseViewModel
     {
         var feedbackWindow = new FeedbackWindow();
         feedbackWindow.Show();
-    }
-
-    private void UpdateDeviceName(string newName)
-    {
-        var oldName = DeviceName;
-
-        if (string.IsNullOrEmpty(newName))
-        {
-            return;
-        }
-
-        _pathManager.ReLink(newName);
-
-        var path = new DirectoryInfo(_pathManager.ConfigBaseDir);
-
-        if (path.Exists)
-        {
-            return;
-        }
-
-        _pathManager.ReLink(oldName);
-        path = new(_pathManager.ConfigBaseDir);
-
-        _credential.Name = newName;
-
-        _pathManager.ReLink(_credential.Name);
-
-        path.MoveTo(_pathManager.ConfigBaseDir);
-
-        _loginService.UpdateLoginCredential(_credential);
-
-        _logger.Info("Setting changed 'Device Name'");
     }
 
     public override void OnLoad()
