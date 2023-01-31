@@ -14,21 +14,19 @@ public class DeviceSettingsModel : SavableSettingsModel
     private readonly ILoginService _loginService;
     private readonly IPathManager _pathManager;
     private readonly ILogger _logger;
-    private readonly LoginInfo _credential;
+    private LoginInfo _credential;
 
     public DeviceSettingsModel(ILoginService loginService, IPathManager pathManager, ILogger logger)
     {
         _loginService = loginService;
         _pathManager = pathManager;
         _logger = logger;
-
-        _credential = loginService.GetCurrentCredential();
     }
     
     [Settings("Device Name")]
     public string DeviceName
     {
-        get => _credential.Name;
+        get => _loginService.GetCurrentCredential().Name;
         set =>
             new Action<string>((v) =>
             {
@@ -40,6 +38,7 @@ public class DeviceSettingsModel : SavableSettingsModel
     private void UpdateDeviceName(string newName)
     {
         var oldName = DeviceName;
+        _credential = _loginService.GetCurrentCredential();
 
         if (string.IsNullOrEmpty(newName))
         {

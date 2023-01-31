@@ -82,7 +82,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
     private object BuildGrid(Type settingsObjType, object settingsObj)
     {
-        var grid = new Grid {Width = 250, HorizontalAlignment = HorizontalAlignment.Left};
+        var grid = new Grid {HorizontalAlignment = HorizontalAlignment.Left};
 
         grid.ColumnDefinitions.Add(new(GridLength.Auto));
         grid.ColumnDefinitions.Add(new(GridLength.Auto));
