@@ -1,4 +1,4 @@
-﻿using AuroraModularis.Hooks.Core;
+﻿using AuroraModularis.Core.Hooks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;

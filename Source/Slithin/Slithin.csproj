@@ -21,7 +21,6 @@
     <PackageReference Include="DotNetZip" Version="1.16.0" />
     <PackageReference Include="EpubSharp.dll" Version="1.1.5" />
     <PackageReference Include="FluentValidation" Version="11.4.0" />
-    <PackageReference Include="ini-parser" Version="2.5.2" />
     <PackageReference Include="LiteDB" Version="5.0.15" />
     <PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.90-nightly" />
     <PackageReference Include="Newtonsoft.JSON" Version="13.0.2" />
@@ -40,7 +39,7 @@
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
     <PackageReference Include="SSH.NET" Version="2020.0.2" />
-    <PackageReference Include="SshKeyGenerator" Version="1.1.50" />
+    <PackageReference Include="SshKeyGenerator" Version="1.1.51" />
     <PackageReference Include="Svg" Version="3.4.4" />
     <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
    </ItemGroup>
