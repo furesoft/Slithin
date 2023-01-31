@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using AuroraModularis.Core;
 using AuroraModularis.Logging.Models;
 using Slithin.Core;
@@ -41,25 +40,7 @@ internal class SettingsPageViewModel : BaseViewModel
         _credential = _loginService.GetCurrentCredential();
     }
 
-    public bool AutomaticScreenRecovery
-    {
-        get => _settings.AutomaticScreenRecovery;
-        set
-        {
-            _settings.AutomaticScreenRecovery = value;
-            SaveSetting();
-        }
-    }
-
-    public bool AutomaticTemplateRecovery
-    {
-        get => _settings.AutomaticTemplateRecovery;
-        set
-        {
-            _settings.AutomaticTemplateRecovery = value;
-            SaveSetting();
-        }
-    }
+    
 
     public object SettingsContent
     {
@@ -86,15 +67,6 @@ internal class SettingsPageViewModel : BaseViewModel
     {
         var feedbackWindow = new FeedbackWindow();
         feedbackWindow.Show();
-    }
-
-    private void SaveSetting([CallerMemberName] string property = null)
-    {
-        _settingsService.Save(_settings);
-
-        _logger.Info($"Setting changed '{property}'");
-
-        OnChange(property);
     }
 
     private void UpdateDeviceName(string newName)

@@ -8,6 +8,8 @@ public class AppeareanceSettingsModel : SavableSettingsModel
 {
     private readonly ISettingsService _settingsService;
     private readonly SettingsModel _settings;
+    private bool _isBigMenuMode = true;
+    private bool _isDarkMode;
 
     public AppeareanceSettingsModel(ISettingsService settingsService)
     {
@@ -17,8 +19,6 @@ public class AppeareanceSettingsModel : SavableSettingsModel
         IsBigMenuMode = _settings.IsBigMenuMode;
         IsDarkMode = _settings.IsDarkMode;
     }
-    private bool _isBigMenuMode = true;
-    private bool _isDarkMode;
 
     [Toggle("Big Menu Mode")]
     public bool IsBigMenuMode

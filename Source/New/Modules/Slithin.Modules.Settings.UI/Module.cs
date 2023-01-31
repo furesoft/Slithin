@@ -14,9 +14,15 @@ internal class Module : AuroraModularis.Module
 
         container.Register(settingsObject).AsSingleton();
         
-        container.Resolve<ISettingsUiBuilder>().RegisterSettingsModel<SettingModels.AppeareanceSettingsModel>();
+        RegisterSettingsModels(container);
 
         return Task.CompletedTask;
+    }
+
+    private static void RegisterSettingsModels(ServiceContainer container)
+    {
+        container.Resolve<ISettingsUiBuilder>().RegisterSettingsModel<SettingModels.AppeareanceSettingsModel>();
+        container.Resolve<ISettingsUiBuilder>().RegisterSettingsModel<SettingModels.BehaviorSettingsModel>();
     }
 
     public override void RegisterServices(ServiceContainer container)
