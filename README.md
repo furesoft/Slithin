@@ -10,6 +10,17 @@ Installation guide can be found on the [Wiki](https://github.com/furesoft/Slithi
 
 Slithin is available for Windows, Linux and OSX. The executables are available under [Releases](https://github.com/furesoft/Slithin/releases) or get it from the [Microsoft Store](https://www.microsoft.com/de-de/p/slithin/9pkxtcbn8mq8?cid=storebadge&ocid=badge&rtc=1&activetab=pivot:overviewtab).
 
+The new version will be fully extendable, that means:
+- Any developer can use the internal slithin services to extend the functionality of slithin
+- An extension could be:
+    - custom tool
+    - custom cloud provider
+    - custom settings sections
+    - custom behavior
+    - custom context menus
+    - custom pages
+    - custom submenu-items with custom bound controls
+
 # Features
 * Connect your Remarkable Device with WIFI or USB
 * Manage multiple Devices
