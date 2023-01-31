@@ -39,15 +39,15 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
             HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
         };
 
-        var stackPanel = new StackPanel();
+        var sectionsView = new UniformGrid() { Columns = 2};
 
         foreach (var obj in _settingsModels)
         {
             var section = BuildSection(obj);
-            stackPanel.Children.Add(section);
+            sectionsView.Children.Add(section);
         }
 
-        scrollViewer.Content = stackPanel;
+        scrollViewer.Content = sectionsView;
 
         return scrollViewer;
     }
