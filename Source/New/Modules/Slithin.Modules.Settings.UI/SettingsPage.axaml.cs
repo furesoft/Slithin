@@ -1,6 +1,6 @@
-﻿using AuroraModularis.Core;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Core.MVVM;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Settings.UI.ViewModels;
@@ -28,10 +28,7 @@ public partial class SettingsPage : UserControl, IPage
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
-
-        if (!Design.IsDesignMode)
-        {
-            DataContext = ServiceContainer.Current.Resolve<SettingsPageViewModel>();
-        }
+        
+        BaseViewModel.ApplyViewModel<SettingsPageViewModel>(this);
     }
 }

@@ -24,7 +24,10 @@ public abstract class BaseViewModel : NotifyObject
             };
         }
 
-        control.DataContext = vm;
+        if (!Design.IsDesignMode)
+        {
+            control.DataContext = vm;
+        }
     }
 
     public void Load()

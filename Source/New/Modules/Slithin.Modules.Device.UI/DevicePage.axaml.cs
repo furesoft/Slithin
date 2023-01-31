@@ -1,7 +1,7 @@
-﻿using AuroraModularis.Core;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Slithin.Core.MVVM;
 using Slithin.Modules.Device.UI.ViewModels;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
@@ -92,10 +92,7 @@ public partial class DevicePage : UserControl, IPage
     {
         AvaloniaXamlLoader.Load(this);
 
-        if (!Design.IsDesignMode)
-        {
-            DataContext = ServiceContainer.Current.Resolve<DevicePageViewModel>();
-        }
+        BaseViewModel.ApplyViewModel<DevicePageViewModel>(this);
 
         AddHandler(DragDrop.DropEvent, Drop);
         AddHandler(DragDrop.DragOverEvent, DragOver);

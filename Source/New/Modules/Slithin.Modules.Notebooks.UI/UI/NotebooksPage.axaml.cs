@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Slithin.Core.MVVM;
 using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
@@ -19,10 +20,7 @@ public class NotebooksPage : UserControl, IPage
     {
         InitializeComponent();
 
-        if (!Design.IsDesignMode)
-        {
-            DataContext = ServiceContainer.Current.Resolve<NotebooksPageViewModel>();
-        }
+        BaseViewModel.ApplyViewModel<NotebooksPageViewModel>(this);
     }
 
     public string Title => "Notebooks";

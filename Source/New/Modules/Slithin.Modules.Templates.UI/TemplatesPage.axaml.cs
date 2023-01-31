@@ -1,7 +1,7 @@
-﻿using AuroraModularis.Core;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Slithin.Core.MVVM;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Templates.UI.ViewModels;
@@ -17,7 +17,7 @@ public partial class TemplatesPage : UserControl, IPage
     {
         InitializeComponent();
 
-        DataContext = ServiceContainer.Current.Resolve<TemplatesPageViewModel>();
+        BaseViewModel.ApplyViewModel<TemplatesPageViewModel>(this);
     }
 
     public string Title => "Templates";
