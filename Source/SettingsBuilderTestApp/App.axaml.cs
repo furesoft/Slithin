@@ -1,7 +1,9 @@
+using AuroraModularis.Core;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Slithin.Modules.I18N.Models;
 
 namespace SettingsBuilderTestApp;
 
@@ -14,6 +16,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        ServiceContainer.Current.Register<ILocalisationService, LocalisationMock>().AsSingleton();
+        
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var window = new Window();
