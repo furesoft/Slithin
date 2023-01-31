@@ -16,7 +16,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 {
     private readonly List<Type> _providers = new()
     {
-        typeof(ToggleProvider), typeof(SelectionProvider), typeof(EnumProvider), typeof(TextProvider)
+        typeof(ToggleProvider), typeof(SelectionProvider), typeof(EnumProvider), typeof(TextProvider), typeof(DateTimeProvider)
     };
 
     private readonly List<object> _settingsModels = new();

@@ -6,7 +6,6 @@ using Slithin.Modules.Settings.Models.Builder.Attributes;
 
 namespace Slithin.Modules.Settings.UI.Builder.ControlProviders;
 
-//ToDo: add ability to use same attribute type for different property types
 public class EnumProvider : ISettingsControlProvider
 {
     public Type AttributeType => typeof(SelectionAttribute);

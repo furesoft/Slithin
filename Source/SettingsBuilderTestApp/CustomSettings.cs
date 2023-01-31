@@ -1,4 +1,5 @@
-﻿using Avalonia.Layout;
+﻿using System;
+using Avalonia.Layout;
 using Slithin.Core.MVVM;
 using Slithin.Modules.Settings.Models.Builder.Attributes;
 
@@ -17,6 +18,9 @@ internal class CustomSettings : BaseViewModel
         get => _autoUpdate;
         set => SetValue(ref _autoUpdate, value);
     }
+
+    [Settings("Custom Date")]
+    public DateTime Date { get; set; }
 
     [Selection("ViewMode", nameof(SelectedViewMode))]
     public string[] CustomSelectionData { get; set; } = {"BigMenu", "SmallMenu", "Icons"};
