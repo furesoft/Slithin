@@ -14,7 +14,8 @@
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <Label VerticalAlignment="Center" Content="{l:Localisation 'Name'}" />
 
-                            <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225" Text="{Binding DeviceName, Mode=TwoWay}" />
+                            <TextBox VerticalAlignment="Center" MaxWidth="300" MinWidth="225"
+                                     Text="{Binding DeviceName, Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>
@@ -22,18 +23,23 @@
 
             <s:SettingsGroup Header="{l:Localisation 'Appeareance'}" Grid.Column="1" Grid.Row="1">
                 <StackPanel Spacing="5">
-                    <ToggleSwitch Content="{l:Localisation 'Big Menu Mode'}" IsChecked="{Binding IsBigMenuMode, Mode=TwoWay}" />
-                    <ToggleSwitch IsVisible="False" Content="{l:Localisation 'Dark Mode'}" IsChecked="{Binding IsDarkMode, Mode=TwoWay}" />
+                    <ToggleSwitch Content="{l:Localisation 'Big Menu Mode'}"
+                                  IsChecked="{Binding IsBigMenuMode, Mode=TwoWay}" />
+                    <ToggleSwitch IsVisible="False" Content="{l:Localisation 'Dark Mode'}"
+                                  IsChecked="{Binding IsDarkMode, Mode=TwoWay}" />
                 </StackPanel>
             </s:SettingsGroup>
 
             <s:SettingsGroup Header="{l:Localisation 'After Device Update'}" Grid.Column="0" Grid.Row="1">
                 <StackPanel Spacing="3" Orientation="Vertical">
-                    <ToggleSwitch Content="{l:Localisation 'Automatic Template Recovery'}" IsChecked="{Binding AutomaticTemplateRecovery, Mode=TwoWay}" />
-                    <ToggleSwitch Content="{l:Localisation 'Automatic Screen Recovery'}" IsChecked="{Binding AutomaticScreenRecovery, Mode=TwoWay}" />
+                    <ToggleSwitch Content="{l:Localisation 'Automatic Template Recovery'}"
+                                  IsChecked="{Binding AutomaticTemplateRecovery, Mode=TwoWay}" />
+                    <ToggleSwitch Content="{l:Localisation 'Automatic Screen Recovery'}"
+                                  IsChecked="{Binding AutomaticScreenRecovery, Mode=TwoWay}" />
                 </StackPanel>
             </s:SettingsGroup>
-            
+
+            <ContentPresenter Content="{Binding SettingsContent}" />
         </Grid>
     </ScrollViewer>
 </UserControl>

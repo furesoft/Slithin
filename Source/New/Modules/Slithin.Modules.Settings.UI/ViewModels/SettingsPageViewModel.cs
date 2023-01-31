@@ -1,13 +1,14 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using AuroraModularis.Core;
 using AuroraModularis.Logging.Models;
 using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.BaseServices.Models;
-using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
+using Slithin.Modules.Settings.Models.Builder;
 
 namespace Slithin.Modules.Settings.UI.ViewModels;
 
@@ -19,13 +20,12 @@ internal class SettingsPageViewModel : BaseViewModel
     private readonly IPathManager _pathManager;
     private readonly SettingsModel _settings;
     private readonly ISettingsService _settingsService;
-    private readonly IXochitlService _xochitl;
+    private object _settingsContent;
 
     public SettingsPageViewModel(ILoginService loginService,
-                                 ISettingsService settingsService,
-                                 IPathManager pathManager,
-                                 IXochitlService xochitl,
-                                 ILogger logger)
+        ISettingsService settingsService,
+        IPathManager pathManager,
+        ILogger logger)
     {
         _credential = loginService.GetCurrentCredential();
         _loginService = loginService;
@@ -34,7 +34,6 @@ internal class SettingsPageViewModel : BaseViewModel
 
         _settingsService = settingsService;
         _pathManager = pathManager;
-        _xochitl = xochitl;
         _logger = logger;
 
         _settings = settingsService.GetSettings();
@@ -44,47 +43,64 @@ internal class SettingsPageViewModel : BaseViewModel
 
     public bool AutomaticScreenRecovery
     {
-        get { return _settings.AutomaticScreenRecovery; }
-        set { _settings.AutomaticScreenRecovery = value; SaveSetting(); }
+        get => _settings.AutomaticScreenRecovery;
+        set
+        {
+            _settings.AutomaticScreenRecovery = value;
+            SaveSetting();
+        }
     }
 
     public bool AutomaticTemplateRecovery
     {
-        get { return _settings.AutomaticTemplateRecovery; }
-        set { _settings.AutomaticTemplateRecovery = value; SaveSetting(); }
+        get => _settings.AutomaticTemplateRecovery;
+        set
+        {
+            _settings.AutomaticTemplateRecovery = value;
+            SaveSetting();
+        }
+    }
+
+    public object SettingsContent
+    {
+        get => _settingsContent;
+        set => this.SetValue(ref _settingsContent, value);
     }
 
     public string DeviceName
     {
-        get { return _credential.Name; }
-        set
-        {
+        get => _credential.Name;
+        set =>
             new Action<string>((v) =>
             {
                 UpdateDeviceName(v);
                 OnChange();
             }).Debounce()(value);
-        }
     }
 
-    public ICommand FeedbackCommand { get; set; }
+    public ICommand FeedbackCommand { get; }
 
     public bool IsBigMenuMode
     {
-        get { return _settings.IsBigMenuMode; }
-        set { _settings.IsBigMenuMode = value; SaveSetting(); }
+        get => _settings.IsBigMenuMode;
+        set
+        {
+            _settings.IsBigMenuMode = value;
+            SaveSetting();
+        }
     }
 
     public bool IsDarkMode
     {
-        get { return _settings.IsDarkMode; }
-        set { _settings.IsDarkMode = value; SaveSetting(); }
+        get => _settings.IsDarkMode;
+        set
+        {
+            _settings.IsDarkMode = value;
+            SaveSetting();
+        }
     }
 
-    public bool IsSSHLogin
-    {
-        get { return _loginService.GetCurrentCredential().Key != null; }
-    }
+    public bool IsSSHLogin => _loginService.GetCurrentCredential().Key != null;
 
     private void Feedback(object obj)
     {
@@ -103,9 +119,12 @@ internal class SettingsPageViewModel : BaseViewModel
 
     private void UpdateDeviceName(string newName)
     {
-        string oldName = DeviceName;
+        var oldName = DeviceName;
 
-        if (string.IsNullOrEmpty(newName)) return;
+        if (string.IsNullOrEmpty(newName))
+        {
+            return;
+        }
 
         _pathManager.ReLink(newName);
 
@@ -128,5 +147,11 @@ internal class SettingsPageViewModel : BaseViewModel
         _loginService.UpdateLoginCredential(_credential);
 
         _logger.Info("Setting changed 'Device Name'");
+    }
+
+    public override void OnLoad()
+    {
+        var settingsUiBuilder = ServiceContainer.Current.Resolve<ISettingsUiBuilder>();
+        SettingsContent = settingsUiBuilder.Build();
     }
 }
