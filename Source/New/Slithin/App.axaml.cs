@@ -19,8 +19,6 @@ public partial class App : Application
     {
         var bootstrapper = BootstrapperBuilder.StartConfigure()
             .WithAppName("Slithin")
-            .WithModulesBasePath(".")
-            .WithSettingsBasePath(".")
             .UseLiteDb()
             .AddResourceHook(this);
 
