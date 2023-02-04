@@ -50,6 +50,7 @@
   "New Tool": "Nova ilo",
   "Next": "Sekva",
   "Category": "Kategorio",
+  "The Image does not fit is not in correct dimension. Please use a 1404x1872 dimension.": "La bildo ne taŭgas en la ĝusta dimensio. Bonvolu uzi 1404x1872 dimensio.",
   "The filetype '{0}' is not supported": "La dosierotipo '{0}' ne estas subtenata",
   "ID": "ID",
   "Page Count": "Paĝonombro",
@@ -164,11 +165,10 @@
   "Export Path": "Eksporta Vojo",
   "Directory does not exist": "Dosierujo ne ekzistas",
   "A notebook has to have at least 1 page": "Kajero devas havi almenaŭ 1 paĝon",
+  "The Template does not fit is not in correct dimension. Please use a 1404x1872 dimension.": "La bildo ne taŭgas en la ĝusta dimensio. Bonvolu uzi 1404x1872 dimensio.",
   "Buy me a coffee": "Donacu al mi",
   "Only for short names and default covers": "Nur por mallongaj nomoj kaj defaŭltaj kovriloj",
   "Hide Templates": "Aldoni ŝablonon",
   "Display": "Montri",
-  "Hide": "Kaŝi",
-  "The Template does not fit is not in correct dimension. Please use a 1404x1872 dimension.": "La bildo ne taŭgas en la ĝusta dimensio. Bonvolu uzi 1404x1872 dimensio.",
-  "The Image does not fit is not in correct dimension. Please use a 1404x1872 dimension.": "La bildo ne taŭgas en la ĝusta dimensio. Bonvolu uzi 1404x1872 dimensio."
+  "Hide": "Kaŝi"
 }
