@@ -12,6 +12,10 @@ internal class Module : AuroraModularis.Module
         return Task.CompletedTask;
     }
 
+    public override void OnInit()
+    {
+    }
+
     public override void RegisterServices(ServiceContainer container)
     {
         container.Register<IUpdaterService>(new UpdaterImplementation()).AsSingleton();
