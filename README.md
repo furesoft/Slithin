@@ -37,3 +37,7 @@ Slithin is available for Windows, Linux and OSX. The executables are available u
 * Plugin support to enable new cloud providers/tools/etc
 
 # This is a beta, so use it on your own risk
+
+# Contribution
+
+Everyone is welcome to contribute. I am looking especially for people who can implement the new rM6 format. But other contributions are alwys welcome.
