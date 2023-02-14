@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Avalonia.Threading;
 using Slithin.Core.MVVM;
 
 namespace Slithin.Modules.Updater.ViewModels;
@@ -21,11 +22,24 @@ internal class UpdaterViewModel : BaseViewModel
             Items.Add(new() {Name = package.Key });
         }
 
-        await Task.Run(() =>
+        await Task.Run(async () =>
         {
-            foreach (var item in Items)
+            for (int i =  0; i < 100; i++)
             {
-                item.Progress++;
+                for (var index = 0; index < Items.Count; index++)
+                {
+                    var item = Items[index];
+                    
+                    await Dispatcher.UIThread.InvokeAsync(async () =>
+                    {
+                        item.Progress++;
+
+                        if (item.Progress >= 100)
+                        {
+                            Items.Remove(item);
+                        }
+                    });
+                }
             }
         });
     }

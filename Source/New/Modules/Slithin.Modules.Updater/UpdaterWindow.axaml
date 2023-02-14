@@ -17,10 +17,11 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="vm:ItemViewModel">
                             <Grid Margin="5">
-                                <ProgressBar IsVisible="{Binding !IsDone, Mode=TwoWay}" Width="100" Height="10"
+                                <ProgressBar IsVisible="{Binding !IsDone, Mode=TwoWay}" Width="100" Height="10" IsIndeterminate="True"
                                              Value="{Binding Progress, Mode=TwoWay}" VerticalAlignment="Center"
                                              HorizontalAlignment="Center" />
-                                <Image IsVisible="{Binding IsDone, Mode=TwoWay}"
+                                
+                                <Image IsVisible="{Binding IsDone, Mode=TwoWay}" Width="25" Height="25"
                                        VerticalAlignment="Center">
                                     <Image.Source>
                                         <DrawingImage Drawing="{DynamicResource success}" />
