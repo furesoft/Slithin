@@ -1,28 +1,28 @@
 ﻿using System.Collections.ObjectModel;
-using Avalonia.Threading;
+using NuGet.Versioning;
 using Slithin.Core.MVVM;
 
 namespace Slithin.Modules.Updater.ViewModels;
 
 internal class UpdaterViewModel : BaseViewModel
 {
-    public UpdaterViewModel()
+    private readonly Dictionary<string, NuGetVersion> _packages;
+
+    public UpdaterViewModel(Dictionary<string, NuGetVersion> nuGetVersions)
     {
-        
+        _packages = nuGetVersions;
     }
 
     public ObservableCollection<ItemViewModel> Items { get; set; } = new();
 
     public override async void OnLoad()
     {
-        var packages = await UpdateRepository.GetUpdatablePackages();
-
-        foreach (var package in packages)
+        foreach (var package in _packages)
         {
             Items.Add(new() {Name = package.Key });
         }
 
-        await Task.Run(async () =>
+        await Task.Run(() =>
         {
             while(Items.Count > 0)
             {
@@ -30,17 +30,15 @@ internal class UpdaterViewModel : BaseViewModel
                 {
                     var item = Items[index];
                     
-                    await Dispatcher.UIThread.InvokeAsync(async () =>
-                    {
-                        item.Progress++;
+                    item.Progress++;
 
-                        if (item.Progress >= 100)
-                        {
-                            Items.Remove(item);
-                        }
-                    });
+                    if (item.Progress >= 100)
+                    {
+                        Items.Remove(item);
+                    }
                 }
             }
+            RequestClose();
         });
     }
 }

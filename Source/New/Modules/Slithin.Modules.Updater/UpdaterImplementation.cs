@@ -1,22 +1,25 @@
-﻿using AuroraModularis.Core;
-using Slithin.Modules.I18N.Models;
-using Slithin.Modules.UI.Models;
+﻿using NuGet.Versioning;
 using Slithin.Modules.Updater.Models;
 
 namespace Slithin.Modules.Updater;
 
 internal class UpdaterImplementation : IUpdaterService
 {
-    public async Task<bool> CheckForUpdate()
+    private readonly Dictionary<string, NuGetVersion> newModuleVersions;
+
+    public UpdaterImplementation()
     {
-        return (await UpdateRepository.GetUpdatablePackages()).Count > 0;
+        newModuleVersions = UpdateRepository.GetUpdatablePackages().Result;
+    }
+    public Task<bool> CheckForUpdate()
+    {
+        return Task.FromResult(newModuleVersions.Count > 0);
     }
 
-    public async Task StartUpdate()
+    public Task StartUpdate()
     {
-        var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
-        var notificationService = ServiceContainer.Current.Resolve<INotificationService>();
+        new UpdaterWindow().Show();
 
-        
+        return Task.CompletedTask;
     }
 }

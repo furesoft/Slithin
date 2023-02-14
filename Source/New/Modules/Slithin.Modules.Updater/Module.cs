@@ -7,8 +7,6 @@ internal class Module : AuroraModularis.Module
 {
     public override Task OnStart(ServiceContainer container)
     {
-        new UpdaterWindow().Show();
-
         return Task.CompletedTask;
     }
 
