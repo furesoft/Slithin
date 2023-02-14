@@ -7,21 +7,26 @@ internal class UpdaterViewModel : BaseViewModel
 {
     public UpdaterViewModel()
     {
-        foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, "*.dll"))
-        {
-            Items.Add(new() { Name = Path.GetFileNameWithoutExtension(file), });
-        }
+        
     }
 
     public ObservableCollection<ItemViewModel> Items { get; set; } = new();
 
     public override async void OnLoad()
     {
-        var packages = await UpdateRepository.GetNugetPackages();
-        
+        var packages = await UpdateRepository.GetUpdatablePackages();
+
         foreach (var package in packages)
         {
-            Items.Add(new() { Name = package.Id, });
+            Items.Add(new() {Name = package.Key });
         }
+
+        await Task.Run(() =>
+        {
+            foreach (var item in Items)
+            {
+                item.Progress++;
+            }
+        });
     }
 }
