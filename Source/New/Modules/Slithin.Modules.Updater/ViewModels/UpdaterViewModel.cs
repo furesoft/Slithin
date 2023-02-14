@@ -24,7 +24,7 @@ internal class UpdaterViewModel : BaseViewModel
 
         await Task.Run(async () =>
         {
-            for (int i =  0; i < 100; i++)
+            while(Items.Count > 0)
             {
                 for (var index = 0; index < Items.Count; index++)
                 {
