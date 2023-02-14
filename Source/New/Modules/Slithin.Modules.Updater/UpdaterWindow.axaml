@@ -18,8 +18,12 @@
                                 <ProgressBar IsVisible="{Binding !IsDone, Mode=TwoWay}" Width="100" Height="10"
                                              Value="{Binding Progress, Mode=TwoWay}" VerticalAlignment="Center"
                                              HorizontalAlignment="Center" />
-                                <TextBlock Text="Erfolgreich" IsVisible="{Binding IsDone, Mode=TwoWay}"
-                                           VerticalAlignment="Center" />
+                                <Image IsVisible="{Binding IsDone, Mode=TwoWay}"
+                                           VerticalAlignment="Center">
+                                    <Image.Source>
+                                        <DrawingImage Drawing="{DynamicResource success}" />
+                                    </Image.Source>
+                                </Image>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

@@ -23,5 +23,9 @@
     <ProjectReference Include="..\..\Models\Slithin.Modules.Updater.Models\Slithin.Modules.Updater.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Icons.xml" />
+  </ItemGroup>
+
   <Import Project="$(SolutionDir)\Version.props" />
 </Project>
