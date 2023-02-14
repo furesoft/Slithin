@@ -1,0 +1,44 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="using:Slithin.Modules.Updater.ViewModels"
+        xmlns:core="clr-namespace:Slithin.Core;assembly=Slithin.Core"
+        d:DesignWidth="800" d:DesignHeight="450"
+        Width="450" WindowStartupLocation="CenterScreen"
+        x:Class="Slithin.Modules.Updater.UpdaterWindow"
+        Title="Slithin">
+    <StackPanel>
+        <Label Content="{core:Localisation 'Slithin is updating. Please be patient.'}" />
+        
+        <DataGrid Items="{Binding Items}" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Module" Binding="{Binding Name}" />
+                <DataGridTemplateColumn Header="Progress">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="vm:ItemViewModel">
+                            <Grid Margin="5">
+                                <ProgressBar IsVisible="{Binding !IsDone, Mode=TwoWay}" Width="100" Height="10" IsIndeterminate="True"
+                                             Value="{Binding Progress, Mode=TwoWay}" VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+                                
+                                <Image IsVisible="{Binding IsDone, Mode=TwoWay}" Width="25" Height="25"
+                                       VerticalAlignment="Center">
+                                    <Image.Source>
+                                        <DrawingImage Drawing="{DynamicResource success}" />
+                                    </Image.Source>
+                                </Image>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate DataType="vm:ItemViewModel">
+                            <ProgressBar Value="{Binding Progress, Mode=TwoWay}" VerticalAlignment="Center"
+                                         IsIndeterminate="True"
+                                         HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</Window>

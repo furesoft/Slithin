@@ -58,7 +58,7 @@ public partial class TemplatesPage : UserControl, IPage
 
                     if (bitmap.Size.Width != 1404 && bitmap.Size.Height != 1872)
                     {
-                        DialogService.OpenError(localisation.GetString("The Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));
+                        DialogService.OpenError(localisation.GetString("The Image does not fit is not in correct dimension. Please use a 1404x1872 dimension."));
 
                         return;
                     }

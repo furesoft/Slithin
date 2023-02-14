@@ -25,7 +25,7 @@ internal class UpdaterImplementation : IUpdaterService
         //Compare the Versions
         var versionComparison = localVersion.CompareTo(latestGitHubVersion);
 
-        return versionComparison <= 0;
+        return false;  //versionComparison <= 0;
     }
 
     public async Task StartUpdate()

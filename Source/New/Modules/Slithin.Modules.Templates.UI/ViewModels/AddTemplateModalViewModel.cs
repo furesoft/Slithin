@@ -156,7 +156,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         if (bitmap.Size.Width != 1404 && bitmap.Size.Height != 1872)
         {
             await _dialogService.Show(
-                _localisationService.GetString("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));
+                _localisationService.GetString("The Template does not fit is not in correct dimension. Please use a 1404x1872 dimension."));
 
             return;
         }

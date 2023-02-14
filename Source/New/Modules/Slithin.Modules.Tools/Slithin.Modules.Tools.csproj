@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.25" />
-    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.24" />
+    <PackageReference Include="AuroraModularis" Version="1.0.34" />
+    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.31" />
   </ItemGroup>
 
   <ItemGroup>

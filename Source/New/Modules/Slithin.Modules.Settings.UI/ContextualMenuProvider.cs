@@ -12,11 +12,18 @@ internal class ContextualMenuProvider : IContextualMenuProvider
     {
         var supportCommand = ServiceContainer.Current.Resolve<ShowDonationButtonsCommand>();
         var aboutCommand = ServiceContainer.Current.Resolve<AboutCommand>();
+        var feedbackCommand = ServiceContainer.Current.Resolve<FeedbackCommand>();
+        var buyCoffeeCommand = ServiceContainer.Current.Resolve<BuyCoffeeCommand>();
 
         registrar.RegisterFor(UIContext.Settings,
             new ContextualButton("Support Slithin", "support", supportCommand));
 
         registrar.RegisterFor(UIContext.Settings,
             new ContextualButton("About", "about", aboutCommand));
+        
+        registrar.RegisterFor(UIContext.Settings, 
+            new ContextualButton("Leave a feedback", "VSImageLib2019.FeedbackSmile_grey_16x", feedbackCommand));
+        
+        registrar.RegisterFor(UIContext.Settings, new ContextualButton("Buy me a coffee", "BuyMeaCoffee", buyCoffeeCommand));
     }
 }

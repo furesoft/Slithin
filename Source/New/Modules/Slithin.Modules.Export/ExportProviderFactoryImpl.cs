@@ -26,7 +26,7 @@ public class ExportProviderFactoryImpl : IExportProviderFactory
 
         foreach (var provider in providers)
         {
-            _providers.Add(provider.Title, provider);
+            _providers.TryAdd(provider.Title, provider);
         }
     }
 }
