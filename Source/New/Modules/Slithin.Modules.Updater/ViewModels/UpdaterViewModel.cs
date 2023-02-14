@@ -9,7 +9,7 @@ internal class UpdaterViewModel : BaseViewModel
     {
         foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, "*.dll"))
         {
-            Items.Add(new ItemViewModel() { Name = Path.GetFileNameWithoutExtension(file), });
+            Items.Add(new() { Name = Path.GetFileNameWithoutExtension(file), });
         }
     }
 
@@ -17,6 +17,11 @@ internal class UpdaterViewModel : BaseViewModel
 
     public override async void OnLoad()
     {
-        await UpdateRepository.GetNugetPackages();
+        var packages = await UpdateRepository.GetNugetPackages();
+        
+        foreach (var package in packages)
+        {
+            Items.Add(new() { Name = package.Id, });
+        }
     }
 }
