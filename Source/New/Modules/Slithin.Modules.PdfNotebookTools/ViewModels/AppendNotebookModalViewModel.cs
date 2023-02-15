@@ -76,7 +76,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
         set => SetValue(ref _templates, value);
     }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
         Templates = new(_templateStorage.Templates);
     }

@@ -27,10 +27,8 @@ public class ResourcesPageViewModel : BaseViewModel
 
     public ICommand ViewMoreTemplatesCommand { get; set; }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
-        base.OnLoad();
-
         var frame = Frame.GetFrame("resourcesFrame");
 
         var settings = _settingsService.GetSettings();

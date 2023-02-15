@@ -115,7 +115,7 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
 
     public NotebooksFilter Filter { get; }
 
-    public override async void OnLoad()
+    protected override async void OnLoad()
     {
         await _loadingService.LoadNotebooksAsync();
     }

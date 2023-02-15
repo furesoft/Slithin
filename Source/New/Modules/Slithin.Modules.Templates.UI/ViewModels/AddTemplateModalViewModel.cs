@@ -88,10 +88,8 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         set => SetValue(ref _selectedCategory, value);
     }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
-        base.OnLoad();
-
         if (_cacheService.Contains("IconTiles"))
         {
             IconCodes = _cacheService.GetObject<ObservableCollection<IconCodeItem>>("IconTiles");

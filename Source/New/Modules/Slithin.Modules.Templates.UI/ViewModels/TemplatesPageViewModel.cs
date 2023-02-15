@@ -43,7 +43,7 @@ internal class TemplatesPageViewModel : BaseViewModel, IFilterable<TemplatesFilt
 
     public TemplatesFilter Filter { get; }
 
-    public override async void OnLoad()
+    protected override async void OnLoad()
     {
         Filter.PropertyChanged += (s, e) =>
         {

@@ -9,13 +9,9 @@ public abstract class BaseViewModel : NotifyObject
 
     public bool IsLoaded { get; set; }
 
-    public static void ApplyViewModel<T>(Control control)
+    public static void ApplyViewModel<T>(Control control, T vm)
         where T : BaseViewModel
     {
-        var vm = ServiceContainer.Current.Resolve<T>();
-
-        vm.OnLoad();
-
         if (control is Window win)
         {
             vm.OnRequestClose += () =>
@@ -24,10 +20,19 @@ public abstract class BaseViewModel : NotifyObject
             };
         }
 
+        vm.Load();
+        
         if (!Design.IsDesignMode)
         {
             control.DataContext = vm;
         }
+    }
+    public static void ApplyViewModel<T>(Control control)
+        where T : BaseViewModel
+    {
+        var vm = ServiceContainer.Current.Resolve<T>();
+
+        ApplyViewModel<T>(control, vm);
     }
 
     public void Load()
@@ -40,7 +45,7 @@ public abstract class BaseViewModel : NotifyObject
         }
     }
 
-    public virtual void OnLoad()
+    protected virtual void OnLoad()
     {
     }
 

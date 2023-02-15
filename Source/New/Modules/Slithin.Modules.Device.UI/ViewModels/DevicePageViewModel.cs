@@ -85,7 +85,7 @@ internal class DevicePageViewModel : BaseViewModel
         set => SetValue(ref _version, value);
     }
 
-    public override async void OnLoad()
+    protected override async void OnLoad()
     {
         _pathManager.InitDeviceDirectory();
 

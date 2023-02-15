@@ -49,10 +49,8 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
         set => SetValue(ref _username, value);
     }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
-        base.OnLoad();
-
         Frame.GetFrame("loginFrame").Navigate(typeof(RegisterFramePage));
         Frame.GetFrame("loginFrame").Navigate(typeof(LoginFramePage));
     }

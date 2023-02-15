@@ -69,10 +69,8 @@ public class ConnectionWindowViewModel : BaseViewModel
         set => SetValue(ref _selectedLogin, value);
     }
 
-    public override async void OnLoad()
+    protected override async void OnLoad()
     {
-        base.OnLoad();
-
         if (_settingsService.GetSettings().IsFirstStart)
         {
             RequestClose();
@@ -82,6 +80,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         if (await _updaterService.CheckForUpdate())
         {
+            //RequestClose();
             await _updaterService.StartUpdate();
         }
     }
@@ -148,10 +147,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         var vm = ServiceContainer.Current.Resolve<AddDeviceWindowViewModel>();
         vm.ParentViewModel = this;
 
-        wndw.DataContext = vm;
-        vm.OnLoad();
-
-        vm.OnRequestClose += () => wndw.Close();
+        ApplyViewModel(wndw, vm);
 
         wndw.ShowDialog(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
     }

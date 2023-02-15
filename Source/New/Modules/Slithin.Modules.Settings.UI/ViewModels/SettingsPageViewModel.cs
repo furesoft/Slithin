@@ -30,7 +30,7 @@ internal class SettingsPageViewModel : BaseViewModel
 
     public bool IsSSHLogin => _loginService.GetCurrentCredential().Key != null;
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
         var settingsUiBuilder = ServiceContainer.Current.Resolve<ISettingsUiBuilder>();
         SettingsContent = settingsUiBuilder.Build();

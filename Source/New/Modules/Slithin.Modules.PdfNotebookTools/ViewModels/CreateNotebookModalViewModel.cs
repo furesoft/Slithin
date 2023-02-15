@@ -137,7 +137,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         }
     }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
