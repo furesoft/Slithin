@@ -1,7 +1,7 @@
 # Slithin
 ![Icon](https://user-images.githubusercontent.com/4117602/128601982-3c113838-cd28-49e0-999b-ab9cbe024ed1.png)
 
-[![CodeFactor](https://www.codefactor.io/repository/github/furesoft/slithin/badge)](https://www.codefactor.io/repository/github/backlang-org/backlang)
+[![CodeFactor](https://www.codefactor.io/repository/github/furesoft/slithin/badge)](https://www.codefactor.io/repository/github/furesoft/slithin)
 [![Crowdin](https://badges.crowdin.net/slithin/localized.svg)](https://crowdin.com/project/slithin)
 
 Slithin is a forever free, cross-platform managenment tool for your Remarkable Device. 
