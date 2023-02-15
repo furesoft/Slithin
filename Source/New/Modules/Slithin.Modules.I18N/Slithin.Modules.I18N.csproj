@@ -5,11 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Version>1.0.21</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\Locales\en.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Locales\**" />
@@ -23,6 +20,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
   </ItemGroup>
-
-  <Import Project="$(SolutionDir)\Version.props" />
 </Project>

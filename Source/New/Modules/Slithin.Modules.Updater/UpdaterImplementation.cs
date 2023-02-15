@@ -1,24 +1,32 @@
 ﻿using NuGet.Versioning;
+using Slithin.Core.MVVM;
 using Slithin.Modules.Updater.Models;
+using Slithin.Modules.Updater.ViewModels;
 
 namespace Slithin.Modules.Updater;
 
 internal class UpdaterImplementation : IUpdaterService
 {
-    private readonly Dictionary<string, NuGetVersion> newModuleVersions;
+    private Dictionary<string, NuGetVersion> newModuleVersions;
 
     public UpdaterImplementation()
     {
-        newModuleVersions = UpdateRepository.GetUpdatablePackages().Result;
     }
-    public Task<bool> CheckForUpdate()
+
+    public async Task<bool> CheckForUpdate()
     {
-        return Task.FromResult(newModuleVersions.Count > 0);
+        newModuleVersions = await UpdateRepository.GetUpdatablePackages();
+        return newModuleVersions.Count > 0;
     }
 
     public Task StartUpdate()
     {
-        new UpdaterWindow().Show();
+        var window = new UpdaterWindow();
+        var vm = new UpdaterViewModel(newModuleVersions);
+
+        BaseViewModel.ApplyViewModel(window, vm);
+
+        window.Show();
 
         return Task.CompletedTask;
     }

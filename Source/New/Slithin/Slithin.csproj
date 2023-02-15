@@ -12,6 +12,7 @@
 		<PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
 		<Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Version>1.0.21</Version>
 	</PropertyGroup>
 
 
@@ -96,8 +97,6 @@
 		<TrimmableAssembly Include="Avalonia.Themes.Default" />
 	</ItemGroup>
 
-	
-
 	<ItemGroup>
 		<Compile Update="App.axaml.cs">
 			<DependentUpon>%(Filename)</DependentUpon>
@@ -113,11 +112,7 @@
 		</Compile>
 	</ItemGroup>
 
-	
-
 	<ItemGroup>
 	  <Folder Include="Views\ContextualMenus" />
 	</ItemGroup>
-
-	<Import Project="$(SolutionDir)\Version.props" />
 </Project>

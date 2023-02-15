@@ -5,11 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.21</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Sentry" Version="3.27.1" />
+    <PackageReference Include="Sentry" Version="3.27.1"/>
   </ItemGroup>
-  
-  <Import Project="$(SolutionDir)\Version.props" />
 </Project>

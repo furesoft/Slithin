@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using NuGet.Common;
 using NuGet.Configuration;
+using NuGet.Packaging;
 using NuGet.Packaging.Core;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
@@ -12,7 +13,7 @@ internal class UpdateRepository
     private static SourceCacheContext cache;
     private static PackageSource source;
     private static readonly SourceRepository repository;
-    private static readonly CancellationTokenSource cts;
+    private static CancellationTokenSource cts;
 
     static UpdateRepository()
     {
@@ -34,7 +35,7 @@ internal class UpdateRepository
             {
                 continue;
             }
-            
+
             var assembly = Assembly.LoadFile(file);
             var assemblyName = assembly.GetName();
 
@@ -78,8 +79,36 @@ internal class UpdateRepository
                 result.Add(remoteVersion.Id, remoteMinVersion);
             }
         }
-        
+
         return result;
+    }
+
+    public static async Task DownloadPackage(string id, NuGetVersion version, IProgress<bool> progress)
+    {
+        var pkgStream = await GetNupkgStream(id, version);
+
+        var reader = new PackageArchiveReader(pkgStream);
+        var libItemsGroups = await reader.GetLibItemsAsync(cts.Token);
+
+        var basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "SlithinUpdate");
+        foreach (var item in libItemsGroups.First().Items)
+        {
+            var normalizedItem = Path.GetFileName(item);
+            var filePath = Path.Combine(basePath, normalizedItem);
+            reader.ExtractFile(item, filePath, NullLogger.Instance);
+        }
+
+        progress.Report(true);
+    }
+
+    private static async Task<MemoryStream> GetNupkgStream(string id, NuGetVersion version)
+    {
+        var resource = repository.GetResource<FindPackageByIdResource>();
+        var pkgStream = new MemoryStream();
+
+        await resource.CopyNupkgToStreamAsync(id, version, pkgStream, cache, NullLogger.Instance, cts.Token);
+        return pkgStream;
     }
 
     private static async Task<NuGetVersion> GetLatestVersion()

@@ -5,12 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Version>1.0.21</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.34" />
     <PackageReference Include="FluentValidation" Version="11.4.0" />
   </ItemGroup>
-
-  <Import Project="$(SolutionDir)\Version.props" />
 </Project>

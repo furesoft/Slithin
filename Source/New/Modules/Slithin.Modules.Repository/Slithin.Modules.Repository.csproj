@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Version>1.0.21</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,4 @@
     <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />
     <ProjectReference Include="..\Slithin.Modules.Resources.UI\Slithin.Modules.Resources.UI.csproj" />
   </ItemGroup>
-
-  <Import Project="$(SolutionDir)\Version.props" />
 </Project>

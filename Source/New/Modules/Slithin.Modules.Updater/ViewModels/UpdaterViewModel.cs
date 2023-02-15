@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using Avalonia.Threading;
 using NuGet.Versioning;
 using Slithin.Core.MVVM;
+using Slithin.Modules.Updater.Models.ViewModels;
 
 namespace Slithin.Modules.Updater.ViewModels;
 
@@ -13,32 +15,58 @@ internal class UpdaterViewModel : BaseViewModel
         _packages = nuGetVersions;
     }
 
-    public ObservableCollection<ItemViewModel> Items { get; set; } = new();
+    public ObservableCollection<ItemViewModel> Items { get; } = new();
 
-    public override async void OnLoad()
+    protected override async void OnLoad()
+    {
+        var workingQueue = new ObservableQueue<ItemViewModel>();
+        InitCollections(workingQueue);
+
+        await ApplyDownloadQueue(workingQueue);
+
+        //ToDo: start updateinstaller and exit
+    }
+
+    private async Task ApplyDownloadQueue(ObservableQueue<ItemViewModel> workingQueue)
+    {
+        await Task.Run(async () =>
+        {
+            while (workingQueue.Any())
+            {
+                var item = workingQueue.Dequeue();
+                var progress = CreateProgress(item);
+
+                await UpdateRepository.DownloadPackage(item.Name, item.Version, progress);
+
+                await Task.Delay(1000);
+
+                Items.Remove(item);
+            }
+        });
+    }
+
+    private Progress<bool> CreateProgress(ItemViewModel item)
+    {
+        return new(async p =>
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                item.IsDone = p;
+
+                if (item.IsDone)
+                {
+                    Items.Remove(item);
+                }
+            });
+        });
+    }
+
+    private void InitCollections(ObservableQueue<ItemViewModel> workingQueue)
     {
         foreach (var package in _packages)
         {
-            Items.Add(new() {Name = package.Key });
+            Items.Add(new() {Name = package.Key, Version = package.Value});
+            workingQueue.Enqueue(Items.Last());
         }
-
-        await Task.Run(() =>
-        {
-            while(Items.Count > 0)
-            {
-                for (var index = 0; index < Items.Count; index++)
-                {
-                    var item = Items[index];
-                    
-                    item.Progress++;
-
-                    if (item.Progress >= 100)
-                    {
-                        Items.Remove(item);
-                    }
-                }
-            }
-            RequestClose();
-        });
     }
 }
