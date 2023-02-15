@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+        xmlns:core="using:Slithin.Core"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="350" Height="150" WindowStartupLocation="CenterScreen"
+        x:Class="Slithin.UpdateInstaller.MainWindow"
+        Title="{core:Localisation 'Slithin Update'}">
+    <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <progRing:ProgressRing Width="40"
+                               Height="40"
+                               IsActive="True"
+                               Foreground="Black" />
+
+        <TextBlock Text="{core:Localisation 'Slithin is updating. Please be patient.'}" VerticalAlignment="Center" TextWrapping="WrapWithOverflow" MaxWidth="150" />
+    </StackPanel>
+</Window>

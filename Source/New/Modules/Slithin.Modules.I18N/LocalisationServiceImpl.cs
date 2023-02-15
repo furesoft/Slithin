@@ -3,7 +3,7 @@ using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.I18N;
 
-internal class LocalisationServiceImpl : ILocalisationService
+public class LocalisationServiceImpl : ILocalisationService
 {
     private Dictionary<string, string> _localization;
 
