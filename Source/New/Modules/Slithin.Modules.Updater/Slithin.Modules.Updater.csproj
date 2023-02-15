@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\Models\Slithin.Modules.BaseServices.Models\Slithin.Modules.BaseServices.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Updater.Models\Slithin.Modules.Updater.Models.csproj" />
+    <ProjectReference Include="..\..\Slithin.UpdateInstaller\Slithin.UpdateInstaller.csproj" />
   </ItemGroup>
 
   <ItemGroup>

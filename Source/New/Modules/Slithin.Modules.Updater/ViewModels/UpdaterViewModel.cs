@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Avalonia.Threading;
 using NuGet.Versioning;
 using Slithin.Core.MVVM;
@@ -23,8 +24,9 @@ internal class UpdaterViewModel : BaseViewModel
         InitCollections(workingQueue);
 
         await ApplyDownloadQueue(workingQueue);
-
-        //ToDo: start updateinstaller and exit
+        
+        Process.Start(new ProcessStartInfo("dotnet", typeof(Slithin.UpdateInstaller.App).Assembly.Location));
+        Environment.Exit(0);
     }
 
     private async Task ApplyDownloadQueue(ObservableQueue<ItemViewModel> workingQueue)
