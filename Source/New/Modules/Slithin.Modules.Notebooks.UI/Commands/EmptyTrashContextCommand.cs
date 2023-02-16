@@ -2,6 +2,7 @@
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 
@@ -23,13 +24,18 @@ internal class EmptyTrashCommand : ICommand
         _metadataRepository = metadataRepository;
         _notebooksFilter = notebooksFilter;
         _remarkableDevice = remarkableDevice;
+
+        _notebooksFilter.SelectionChanged += (s) =>
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        };
     }
 
-    public event EventHandler CanExecuteChanged;
+    public event EventHandler? CanExecuteChanged;
 
     public bool CanExecute(object data)
     {
-        return data is Metadata md && md.VisibleName == _localisationService.GetString("Trash");
+        return _notebooksFilter.ParentFolder is TrashModel;
     }
 
     public void Execute(object data)
@@ -48,7 +54,7 @@ internal class EmptyTrashCommand : ICommand
         // _localRepository.Remove(md);
         //_deviceRepository.Remove(md);
 
-        _notebooksFilter.Documents.Remove(md);
+        _notebooksFilter.Items.Remove(_notebooksFilter.Items.First(_ => _.ID == md.ID));
         _notebooksFilter.SortByFolder();
     }
 }

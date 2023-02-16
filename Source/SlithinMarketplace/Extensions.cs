@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using EmbedIO;
 using Newtonsoft.Json;
-using Slithin.Marketplace.Models;
 
 namespace SlithinMarketplace;
 

@@ -27,15 +27,13 @@ public class ResourcesPageViewModel : BaseViewModel
 
     public ICommand ViewMoreTemplatesCommand { get; set; }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
-        base.OnLoad();
-
         var frame = Frame.GetFrame("resourcesFrame");
 
         var settings = _settingsService.GetSettings();
 
-        if (settings.MarketplaceCredential == null)
+        if (settings.MarketplaceToken == null)
         {
             frame.Navigate(typeof(LoginModal));
         }
@@ -43,7 +41,7 @@ public class ResourcesPageViewModel : BaseViewModel
         {
             Task.Run(async () =>
             {
-                var marketplaceAPI = Container.Current.Resolve<MarketplaceAPI>();
+                var marketplaceAPI = ServiceContainer.Current.Resolve<MarketplaceAPI>();
                 var templates = marketplaceAPI.Get<Template[]>("templates", 5)
                         .Select(_ => new Sharable() { Asset = _ });
 
@@ -75,7 +73,7 @@ public class ResourcesPageViewModel : BaseViewModel
         {
             Task.Run(async () =>
             {
-                var marketplaceAPI = Container.Current.Resolve<MarketplaceAPI>();
+                var marketplaceAPI = ServiceContainer.Current.Resolve<MarketplaceAPI>();
                 var items = marketplaceAPI.Get<T[]>(asset.ToString().ToLower())
                         .Select(_ => new Sharable() { Asset = _ });
 

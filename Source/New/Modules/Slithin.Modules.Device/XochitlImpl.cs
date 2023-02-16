@@ -2,18 +2,18 @@
 using AuroraModularis.Logging.Models;
 using IniParser;
 using IniParser.Model;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
-using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Device;
 
 internal class XochitlImpl : IXochitlService
 {
-    private readonly Container _container;
+    private readonly ServiceContainer _container;
     private IniData _data;
     private FileIniDataParser _ini;
 
-    public XochitlImpl(Container container)
+    public XochitlImpl(ServiceContainer container)
     {
         _container = container;
     }

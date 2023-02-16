@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,11 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
-    <PackageReference Include="Zio" Version="0.16.1" />
+    <PackageReference Include="AuroraModularis" Version="1.0.34" />
+    <PackageReference Include="Zio" Version="0.16.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Models\Slithin.Modules.BaseServices.Models\Slithin.Modules.BaseServices.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Device.Models\Slithin.Modules.Device.Models.csproj" />
   </ItemGroup>
 

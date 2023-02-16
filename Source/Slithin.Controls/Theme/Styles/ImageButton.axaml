@@ -1,6 +1,5 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:controls="http://github.com/furesoft/Slithin">
     <Design.PreviewWith>
         <controls:ImageButton Text="Hello" />
@@ -11,8 +10,8 @@
             <ControlTemplate>
                 <Border Background="{TemplateBinding Background}">
                     <Grid RowDefinitions="40,*" VerticalAlignment="Center" Margin="2">
-                        <Viewbox Grid.Row="0" Width="40" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <DrawingPresenter Drawing="{TemplateBinding Image}" />
+                        <Viewbox Grid.Row="0" Width="40" Height="40" HorizontalAlignment="Center">
+                            <DrawingPresenter Drawing="{TemplateBinding Image}" Height="40" Width="40" HorizontalAlignment="Center" />
                         </Viewbox>
 
                         <TextBlock Grid.Row="1" Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17" HorizontalAlignment="Center" />

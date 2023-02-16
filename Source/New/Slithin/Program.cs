@@ -1,5 +1,6 @@
 ﻿using Avalonia;
-using Slithin;
+
+namespace Slithin;
 
 public class Program
 {

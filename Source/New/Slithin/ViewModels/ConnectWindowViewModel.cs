@@ -9,7 +9,9 @@ using Slithin.Entities;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Settings.Models;
+using Slithin.Modules.UI.Models;
 using Slithin.Modules.Updater.Models;
+using Slithin.Validators;
 using Slithin.Views;
 
 namespace Slithin.ViewModels;
@@ -20,6 +22,8 @@ public class ConnectionWindowViewModel : BaseViewModel
     private readonly IRemarkableDevice _remarkableDevice;
     private readonly ISettingsService _settingsService;
     private readonly IUpdaterService _updaterService;
+    private readonly INotificationService _notificationService;
+    private readonly LoginInfoValidator _validator;
     private ObservableCollection<LoginInfo> _loginCredentials;
 
     private LoginInfo _selectedLogin;
@@ -27,7 +31,9 @@ public class ConnectionWindowViewModel : BaseViewModel
     public ConnectionWindowViewModel(ILoginService loginService,
                                      IRemarkableDevice remarkableDevice,
                                      ISettingsService settingsService,
-                                     IUpdaterService updaterService)
+                                     IUpdaterService updaterService,
+                                     INotificationService notificationService,
+                                     LoginInfoValidator validator)
     {
         ConnectCommand = new DelegateCommand(Connect);
         HelpCommand = new DelegateCommand(Help);
@@ -39,6 +45,8 @@ public class ConnectionWindowViewModel : BaseViewModel
         _remarkableDevice = remarkableDevice;
         _settingsService = settingsService;
         _updaterService = updaterService;
+        _notificationService = notificationService;
+        _validator = validator;
     }
 
     public ICommand ConnectCommand { get; set; }
@@ -61,10 +69,8 @@ public class ConnectionWindowViewModel : BaseViewModel
         set => SetValue(ref _selectedLogin, value);
     }
 
-    public override async void OnLoad()
+    protected override async void OnLoad()
     {
-        base.OnLoad();
-
         if (_settingsService.GetSettings().IsFirstStart)
         {
             RequestClose();
@@ -74,6 +80,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
         if (await _updaterService.CheckForUpdate())
         {
+            //RequestClose();
             await _updaterService.StartUpdate();
         }
     }
@@ -112,6 +119,13 @@ public class ConnectionWindowViewModel : BaseViewModel
             SelectedLogin.Name = "DefaultDevice";
         }
 
+        var validationResult = _validator.Validate(SelectedLogin);
+
+        if (!validationResult.IsValid)
+        {
+            _notificationService.ShowErrorNewWindow(validationResult.Errors.AsString()); //Show errors in new window and seperated by new line
+        }
+
         _loginService.SetLoginCredential(SelectedLogin);
         _remarkableDevice.Connect(ip, SelectedLogin.Password);
 
@@ -130,13 +144,10 @@ public class ConnectionWindowViewModel : BaseViewModel
     private void OpenAddDevice(object obj)
     {
         var wndw = new AddDeviceWindow();
-        var vm = Container.Current.Resolve<AddDeviceWindowViewModel>();
+        var vm = ServiceContainer.Current.Resolve<AddDeviceWindowViewModel>();
         vm.ParentViewModel = this;
 
-        wndw.DataContext = vm;
-        vm.OnLoad();
-
-        vm.OnRequestClose += () => wndw.Close();
+        ApplyViewModel(wndw, vm);
 
         wndw.ShowDialog(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
     }

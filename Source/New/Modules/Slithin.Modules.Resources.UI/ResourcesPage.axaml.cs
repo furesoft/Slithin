@@ -1,6 +1,7 @@
-﻿using AuroraModularis.Core;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Core.MVVM;
+using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Resources.UI.ViewModels;
 
@@ -8,6 +9,7 @@ namespace Slithin.Modules.Resources.UI;
 
 [PreserveIndex(3)]
 [PageIcon("Modern.Resource")]
+[Context(UIContext.Resources)]
 public partial class ResourcesPage : UserControl, IPage
 {
     public ResourcesPage()
@@ -27,7 +29,7 @@ public partial class ResourcesPage : UserControl, IPage
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
-
-        DataContext = Container.Current.Resolve<ResourcesPageViewModel>();
+        
+        BaseViewModel.ApplyViewModel<ResourcesPageViewModel>(this);
     }
 }

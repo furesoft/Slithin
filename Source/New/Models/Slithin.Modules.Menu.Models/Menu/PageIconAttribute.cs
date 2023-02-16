@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Slithin.Modules.Menu.Models.Menu;
+﻿namespace Slithin.Modules.Menu.Models.Menu;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class PageIconAttribute : Attribute
@@ -10,5 +8,5 @@ public class PageIconAttribute : Attribute
         Key = key;
     }
 
-    public string Key { get; set; }
+    public string Key { get; }
 }

@@ -4,13 +4,15 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
-using Slithin.Modules.Cache.Models;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.Templates.UI.Models;
+using Slithin.Modules.Templates.UI.Validators;
 using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Templates.UI.ViewModels;
@@ -19,7 +21,9 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 {
     private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;
+    private readonly INotificationService _notificationService;
     private readonly ITemplateStorage _templateStorage;
+    private readonly AddTemplateValidator _validator;
     private readonly TemplatesFilter _templatesFilter;
     private readonly IDialogService _dialogService;
     private readonly ICacheService _cacheService;
@@ -29,7 +33,8 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
     private string _name;
     private object _selectedCategory;
 
-    public AddTemplateModalViewModel(IPathManager pathManager, ITemplateStorage templateStorage,
+    public AddTemplateModalViewModel(IPathManager pathManager, INotificationService notificationService,
+        ITemplateStorage templateStorage, AddTemplateValidator validator,
         TemplatesFilter templatesFilter, IDialogService dialogService, ICacheService cacheService,
         ILocalisationService localisationService)
     {
@@ -38,7 +43,9 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         AddTemplateCommand = new DelegateCommand(AddTemplate);
         AddCategoryCommand = new DelegateCommand(AddCategory);
         _pathManager = pathManager;
+        _notificationService = notificationService;
         _templateStorage = templateStorage;
+        _validator = validator;
         _templatesFilter = templatesFilter;
         _dialogService = dialogService;
         _cacheService = cacheService;
@@ -81,10 +88,8 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         set => SetValue(ref _selectedCategory, value);
     }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
-        base.OnLoad();
-
         if (_cacheService.Contains("IconTiles"))
         {
             IconCodes = _cacheService.GetObject<ObservableCollection<IconCodeItem>>("IconTiles");
@@ -122,13 +127,13 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
     private async void AddTemplate(object obj)
     {
-        /*var validationResult = _validator.Validate(this);
+        var validationResult = _validator.Validate(this);
 
         if (!validationResult.IsValid)
         {
-            DialogService.OpenError(validationResult.Errors.First().ToString());
+            _notificationService.ShowErrorNewWindow(validationResult.Errors.AsString());
             return;
-        }*/
+        }
 
         var template = BuildTemplate();
 
@@ -149,7 +154,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
         if (bitmap.Size.Width != 1404 && bitmap.Size.Height != 1872)
         {
             await _dialogService.Show(
-                _localisationService.GetString("The Template does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));
+                _localisationService.GetString("The Template does not fit is not in correct dimension. Please use a 1404x1872 dimension."));
 
             return;
         }
@@ -158,10 +163,10 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
         //_localRepository.AddTemplate(template);
 
-        _templateStorage.LoadTemplate(template);
+        await _templateStorage.LoadTemplateAsync(template);
 
         _templateStorage.AppendTemplate(template);
-        _templatesFilter.Templates.Add(template);
+        _templatesFilter.Items.Add(template);
 
         template.TransferCommand.Execute(null);
     }

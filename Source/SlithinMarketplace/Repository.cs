@@ -1,8 +1,6 @@
 ﻿using Amazon.S3;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Newtonsoft.Json;
-using Slithin.Marketplace.Models;
 
 namespace SlithinMarketplace;
 

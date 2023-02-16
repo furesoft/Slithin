@@ -5,12 +5,11 @@ using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
-using Slithin.Modules.Templates.UI.ViewModels;
 using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Templates.UI.Commands;
 
-[Context(UIContext.Template)]
+[Context(UIContext.Templates)]
 internal class RemoveTemplateCommand : ICommand, IContextCommand
 {
     private readonly ILocalisationService _localisationService;
@@ -49,8 +48,8 @@ internal class RemoveTemplateCommand : ICommand, IContextCommand
             return;
         }
 
-        Container.Current.Resolve<TemplatesPageViewModel>().SelectedTemplate = null;
-        _templatesFilter.Templates.Remove(tmpl);
+        ServiceContainer.Current.Resolve<TemplatesFilter>().Selection = null;
+        _templatesFilter.Items.Remove(tmpl);
 
         _templateStorage.Remove(tmpl);
         //_localRepository.RemoveTemplate(tmpl);

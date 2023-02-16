@@ -3,7 +3,6 @@ using System.ComponentModel;
 using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
-using Slithin.Marketplace.Models;
 
 namespace SlithinMarketplace.Controller;
 

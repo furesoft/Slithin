@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400"
              xmlns:c="using:Slithin.Controls"
-             xmlns:tec="using:Slithin.TemplateEditor"
-             xmlns:ft="using:Slithin.Core.FeatureToggle"
              xmlns:l="using:Slithin.Core"
              x:Class="Slithin.Modules.Templates.UI.AddTemplateModal">
     <Grid ColumnDefinitions="*,50,*" RowDefinitions="40,40,45,35,35,36,35">

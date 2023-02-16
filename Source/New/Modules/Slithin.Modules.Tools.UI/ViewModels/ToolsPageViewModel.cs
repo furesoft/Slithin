@@ -36,10 +36,8 @@ internal class ToolsPageViewModel : BaseViewModel
         set => SetValue(ref _selectedScript, value);
     }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
-        base.OnLoad();
-
         _invoker.Init();
 
         Filter.AllTools = _invoker.Tools.Values.Where(_ => _.Info.IsListed).ToList();

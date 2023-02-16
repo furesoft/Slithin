@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,11 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Resources\Icons.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.34" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
   </ItemGroup>
 

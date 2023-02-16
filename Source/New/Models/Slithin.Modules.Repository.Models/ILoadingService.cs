@@ -2,9 +2,7 @@
 
 public interface ILoadingService
 {
-    void LoadApiToken();
+    Task LoadNotebooksAsync();
 
-    void LoadNotebooks();
-
-    void LoadTemplates();
+    Task LoadTemplatesAsync();
 }

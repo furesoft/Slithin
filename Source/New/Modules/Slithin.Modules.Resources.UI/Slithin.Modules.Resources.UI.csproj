@@ -4,18 +4,15 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Icons.xml" />
+    <EmbeddedResource Include="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Resources\Icons.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.34" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="RestSharp" Version="108.0.3" />

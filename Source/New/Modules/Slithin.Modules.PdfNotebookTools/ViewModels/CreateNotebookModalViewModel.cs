@@ -7,11 +7,14 @@ using Avalonia.Platform;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 using Slithin.Entities.Remarkable.Rendering;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.PdfNotebookTools.Models;
+using Slithin.Modules.PdfNotebookTools.Validators;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.UI.Models;
@@ -20,10 +23,10 @@ namespace Slithin.Modules.PdfNotebookTools.ViewModels;
 
 public class CreateNotebookModalViewModel : ModalBaseViewModel
 {
-    private readonly ILoadingService _loadingService;
     private readonly ITemplateStorage _templateStorage;
     private readonly NotebooksFilter _notebooksFilter;
     private readonly ILocalisationService _localisationService;
+    private readonly CreateNotebookValidator _validator;
     private readonly IPathManager _pathManager;
     private readonly IDialogService _dialogService;
     private readonly INotificationService _notificationService;
@@ -43,22 +46,22 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
     public CreateNotebookModalViewModel(IPathManager pathManager, IDialogService dialogService,
         INotificationService notificationService, IMetadataRepository metadataRepository,
         ILoadingService loadingService, ITemplateStorage templateStorage, NotebooksFilter notebooksFilter,
-        ILocalisationService localisationService)
+        ILocalisationService localisationService, CreateNotebookValidator validator)
     {
         AddPagesCommand = new DelegateCommand(AddPages);
-        OKCommand = new DelegateCommand(OK);
+        OKCommand = new DelegateCommand(Ok);
 
         _pathManager = pathManager;
         _dialogService = dialogService;
         _notificationService = notificationService;
         _metadataRepository = metadataRepository;
-        _loadingService = loadingService;
         _templateStorage = templateStorage;
         _notebooksFilter = notebooksFilter;
         _localisationService = localisationService;
+        _validator = validator;
     }
 
-    public ICommand AddPagesCommand { get; set; }
+    public ICommand AddPagesCommand { get; }
 
     public IImage Cover
     {
@@ -84,7 +87,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         set => SetValue(ref _defaultCovers, value);
     }
 
-    public ICommand OKCommand { get; set; }
+    public ICommand OKCommand { get; }
 
     public string PageCount
     {
@@ -129,26 +132,24 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         {
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            var strm = assets.Open(new Uri($"avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/Folder-{CoverFilename.Substring("internal:".Length)}.png"));
+            var strm = assets.Open(new($"avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/Folder-{CoverFilename.Substring("internal:".Length)}.png"));
             Cover = Bitmap.DecodeToWidth(strm, 150);
         }
     }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
-        base.OnLoad();
-
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-        Cover = new Bitmap(assets.Open(new Uri("avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/Folder-DBlue.png")));
+        Cover = new Bitmap(assets!.Open(new("avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/Folder-DBlue.png")));
         CoverFilename = "internal:Folder-DBlue.png";
 
-        var coverNames = assets.GetAssets(new Uri("avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/"), null)
-                                        .Select(_ => Path.GetFileNameWithoutExtension(_.ToString()).Substring(7));
+        var coverNames = assets.GetAssets(new("avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/"), null)
+                                        .Select(_ => Path.GetFileNameWithoutExtension(_.ToString())[7..]);
 
-        DefaultCovers = new ObservableCollection<string>(coverNames);
+        DefaultCovers = new(coverNames);
 
-        Templates = new ObservableCollection<Template>(_templateStorage.Templates);
+        Templates = new(_templateStorage.Templates);
     }
 
     private async void AddPages(object obj)
@@ -176,120 +177,161 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
 
     private string[] GeneratePageIDS(int count)
     {
-        var ids = new string[count];
-
-        for (var i = 0; i < count; i++)
-        {
-            ids[i] = Guid.NewGuid().ToString().ToLower();
-        }
-
-        return ids;
+        return Enumerable.Range(0, count).Select( _ => Guid.NewGuid().ToString().ToLower()).ToArray();
     }
 
-    private async void OK(object obj)
+    private async void Ok(object obj)
     {
-        /*
-        var validationResult = _validator.Validate(this);
+        var validationResult = await _validator.ValidateAsync(this);
 
         if (!validationResult.IsValid)
         {
-            DialogService.OpenError(validationResult.Errors.First().ToString());
+            _notificationService.ShowErrorNewWindow(validationResult.Errors.AsString());
             return;
-        }*/
+        }
 
+        await DoWork();
+    }
+
+    private async Task DoWork()
+    {
         await Task.Run(() =>
         {
-            var document = new PdfDocument { PageLayout = PdfPageLayout.SinglePage, PageMode = PdfPageMode.FullScreen };
-            document.Info.Author = "Slithin";
-            document.Info.Title = Title;
-
-            var size = PageSizeConverter.ToSize(PageSize.A4);
+            var document = InitPdfDocument();
 
             var coverPage = document.AddPage();
             var coverGfx = XGraphics.FromPdfPage(coverPage);
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            var md = new Metadata
-            {
-                ID = Guid.NewGuid().ToString().ToLower(),
-                VisibleName = Title,
-                Type = "DocumentType",
-                Version = 1,
-                Parent = "",
-                Content = new ContentFile { FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count, Pages = GeneratePageIDS(document.Pages.Count) }
-            };
-            var status = _notificationService.ShowStatus(_localisationService.GetStringFormat("Generating {0}", md.VisibleName));
+            var md = CreateMetadata(document);
+            var status =
+                _notificationService.ShowStatus(_localisationService.GetStringFormat("Generating {0}", md.VisibleName));
 
-            Stream coverStream = null;
+            RenderCover(assets, coverGfx, coverPage);
+            RenderPages(document);
 
-            if (CoverFilename.StartsWith("custom:"))
-            {
-                coverStream = File.OpenRead(CoverFilename.Substring("custom:".Length));
-            }
-            else
-            {
-                coverStream = assets.Open(new Uri($"avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/Folder-{CoverFilename.Substring("internal:".Length)}.png"));
-            }
+            SaveNotebookToFile(md, document);
 
-            if (coverStream == null)
-            {
-                coverStream = assets.Open(new Uri("avares://Slithin.Modules.PdfNotebookTools/Resources/Cover.png"));
-            }
-
-            var coverStreamCached = delegate () { return coverStream; };
-
-            var coverImage = XImage.FromStream(() => coverStream);
-
-            var jpedCover = coverImage.AsJpeg();
-            coverGfx.DrawImage(coverImage, 3, 3, coverPage.Width - 6, coverPage.Height - 6);
-
-            if (RenderName)
-            {
-                var font = new XFont("Arial", 125);
-                var fontSize = coverGfx.MeasureString(Title, font);
-                coverGfx.DrawString(Title, font, XBrushes.Black, new XPoint(coverPage.Width / 2 - fontSize.Width / 2, 260));
-            }
-
-            foreach (var p in Pages)
-            {
-                XImage image = null;
-                var count = 0;
-
-                if (p is NotebookPage nbp)
-                {
-                    count = nbp.Count;
-                    image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
-                }
-                else if (p is NotebookCustomPage nbcp)
-                {
-                    image = XImage.FromFile(nbcp.Filename);
-                    count = nbcp.Count;
-                }
-
-                for (var i = 0; i < count; i++)
-                {
-                    var page = document.AddPage();
-                    page.Size = PageSize.A4;
-
-                    var gfx = XGraphics.FromPdfPage(page);
-
-                    gfx.DrawImage(image, 0, 0, page.Width, page.Height);
-                }
-            }
-
-            _metadataRepository.SaveToDisk(md);
-
-            document.Save(Path.Combine(_pathManager.NotebooksDir, $"\\{md.ID}.pdf"));
-
-            _metadataRepository.AddMetadata(md, out var alreadyAdded);
-
-            _notebooksFilter.Documents.Add(md);
+            _notebooksFilter.Items.Add(new Notebooks.UI.Models.FileModel(md.VisibleName, md, md.IsPinned));
             _notebooksFilter.SortByFolder();
 
             status.Step("Uploading");
 
             Notebook.UploadDocument(md);
         });
+    }
+
+    private void SaveNotebookToFile(Metadata md, PdfDocument document)
+    {
+        _metadataRepository.SaveToDisk(md);
+        _metadataRepository.AddMetadata(md, out _);
+
+        document.Save(Path.Combine(_pathManager.NotebooksDir, $"{md.ID}.pdf"));
+    }
+
+    private PdfDocument InitPdfDocument()
+    {
+        var document = new PdfDocument {PageLayout = PdfPageLayout.SinglePage, PageMode = PdfPageMode.FullScreen};
+        document.Info.Author = "Slithin";
+        document.Info.Title = Title;
+        return document;
+    }
+
+    private void RenderCover(IAssetLoader? assets, XGraphics coverGfx, PdfPage coverPage)
+    {
+        var coverStream = GetCoverStream(assets);
+        var coverImage = XImage.FromStream(() => coverStream);
+        coverGfx.DrawImage(coverImage, 3, 3, coverPage.Width - 6, coverPage.Height - 6);
+
+        RenderTitle(coverGfx, coverPage);
+    }
+
+    private void RenderPages(PdfDocument document)
+    {
+        foreach (var p in Pages)
+        {
+            RenderPage(p, document);
+        }
+    }
+
+    private Metadata CreateMetadata(PdfDocument document)
+    {
+        var md = new Metadata
+        {
+            ID = Guid.NewGuid().ToString().ToLower(),
+            VisibleName = Title,
+            Type = "DocumentType",
+            Version = 1,
+            Parent = "",
+            Content = new()
+            {
+                FileType = "pdf", CoverPageNumber = 0, PageCount = document.Pages.Count,
+                Pages = GeneratePageIDS(document.Pages.Count)
+            }
+        };
+        return md;
+    }
+
+    private void RenderPage(object p, PdfDocument document)
+    {
+        XImage image = null;
+        var count = 0;
+
+        if (p is NotebookPage nbp)
+        {
+            count = nbp.Count;
+            image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
+        }
+        else if (p is NotebookCustomPage nbcp)
+        {
+            image = XImage.FromFile(nbcp.Filename);
+            count = nbcp.Count;
+        }
+
+        for (var i = 0; i < count; i++)
+        {
+            var page = document.AddPage();
+            page.Size = PageSize.A4;
+
+            var gfx = XGraphics.FromPdfPage(page);
+
+            gfx.DrawImage(image, 0, 0, page.Width, page.Height);
+        }
+    }
+
+    private void RenderTitle(XGraphics coverGfx, PdfPage coverPage)
+    {
+        if (!RenderName)
+        {
+            return;
+        }
+
+        var font = new XFont("Arial", 125);
+        var fontSize = coverGfx.MeasureString(Title, font);
+        coverGfx.DrawString(Title, font, XBrushes.Black, new XPoint(coverPage.Width / 2 - fontSize.Width / 2, 260));
+    }
+
+    private Stream GetCoverStream(IAssetLoader? assets)
+    {
+        Stream coverStream;
+
+        if (CoverFilename.StartsWith("custom:"))
+        {
+            coverStream = File.OpenRead(CoverFilename["custom:".Length..]);
+        }
+        else
+        {
+            coverStream =
+                assets.Open(new(
+                    $"avares://Slithin.Modules.PdfNotebookTools/Resources/Covers/{CoverFilename["internal:".Length..]}"));
+        }
+
+        if (coverStream == null)
+        {
+            coverStream = assets.Open(new("avares://Slithin.Modules.PdfNotebookTools/Resources/Cover.png"));
+        }
+
+        return coverStream;
     }
 }

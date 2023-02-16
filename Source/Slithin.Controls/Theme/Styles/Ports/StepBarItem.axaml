@@ -1,8 +1,7 @@
 ﻿<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="http://github.com/furesoft/Slithin"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    xmlns:controls="http://github.com/furesoft/Slithin">
     <!--ported from https://github.com/HandyOrg/HandyControl-->
 
     <Style Selector="controls|StepBarItem">

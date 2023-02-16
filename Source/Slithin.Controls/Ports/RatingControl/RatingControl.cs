@@ -251,7 +251,10 @@ public class RatingControl : RegularItemsControl
     protected override void OnPointerLeave(PointerEventArgs e)
     {
         base.OnPointerLeave(e);
-        UpdateItems();
+        if (Value != 0)
+        {
+            UpdateItems();
+        }
     }
 
     /// <summary>

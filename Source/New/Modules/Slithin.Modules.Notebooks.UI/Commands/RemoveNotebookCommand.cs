@@ -2,6 +2,7 @@
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.UI.Models;
@@ -24,6 +25,11 @@ internal class RemoveNotebookCommand : ICommand
         _dialogService = dialogService;
         _metadataRepository = metadataRepository;
         _notebooksFilter = notebooksFilter;
+        
+        _notebooksFilter.SelectionChanged += (s) =>
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        };
     }
 
     public event EventHandler CanExecuteChanged;
@@ -33,41 +39,27 @@ internal class RemoveNotebookCommand : ICommand
 
     public bool CanExecute(object parameter)
     {
-        return parameter != null
-               && parameter is Metadata md
+        return _notebooksFilter.Selection != null
+               && _notebooksFilter.Selection.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
-               && md.VisibleName != _localisationService.GetString("Up ..")
-               && md.VisibleName != _localisationService.GetString("Trash");
+               && _notebooksFilter.Selection is not UpDirectoryModel
+               && _notebooksFilter.Selection is not TrashModel;
     }
 
     public async void Execute(object parameter)
     {
-        if (parameter is not Metadata md
+        if (_notebooksFilter.Selection.Tag is not Metadata md
             || !await _dialogService.Show(
                 _localisationService.GetStringFormat("Would you really want to delete '{0}'?", md.VisibleName)))
             return;
 
-        _notebooksFilter.SelectedNotebook = null;
+        _notebooksFilter.Selection = null;
 
         _metadataRepository.Remove(md);
         //_localRepository.Remove(md);
         //_deviceRepository.Remove(md);
 
-        _notebooksFilter.Documents.Clear();
-
-        foreach (var mds in _metadataRepository.GetByParent(md.Parent))
-        {
-            _notebooksFilter.Documents.Add(mds);
-        }
-        if (md.Parent != "")
-        {
-            _notebooksFilter.Documents.Add(
-                new Metadata
-                {
-                    Type = "CollectionType",
-                    VisibleName = _localisationService.GetString("Up ..")
-                });
-        }
+        _notebooksFilter.Items.Remove(_notebooksFilter.Items.First(_ => _.ID == md.ID));
 
         _notebooksFilter.SortByFolder();
     }

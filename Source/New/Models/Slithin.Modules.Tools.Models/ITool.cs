@@ -13,7 +13,7 @@ public interface ITool
 
     bool IsConfigurable { get; }
 
-    Control GetModal();
+    Control? GetModal();
 
     void Invoke(object data);
 }

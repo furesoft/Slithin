@@ -4,11 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AvaloniaXaml Remove="Icons.axaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\Icons.xml" />
@@ -94,7 +91,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Resources\Icons.xml" />
+    <AvaloniaResource Include="Resources\Icons.axaml" />
     <AvaloniaResource Include="Resources\IconTiles\e970.png" />
     <AvaloniaResource Include="Resources\IconTiles\e975.png" />
     <AvaloniaResource Include="Resources\IconTiles\e976.png" />
@@ -177,29 +174,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaXaml Include="Resources\Icons.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.34" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
     <ProjectReference Include="..\..\..\Slithin.Modules.UI\Slithin.Modules.UI.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.BaseServices.Models\Slithin.Modules.BaseServices.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Sync.Models\Slithin.Modules.Sync.Models.csproj" />
-    <ProjectReference Include="..\..\Models\Slitnin.Modules.Cache.Models\Slithin.Modules.Cache.Models.csproj" />
     <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Update="AddTemplateModal.axaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="TemplatesContextualMenu.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="TemplatesPage.axaml.cs">

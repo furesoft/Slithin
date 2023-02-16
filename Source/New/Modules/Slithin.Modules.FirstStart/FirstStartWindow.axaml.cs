@@ -2,6 +2,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Slithin.Modules.FirstStart.ViewModels;
 
 namespace Slithin.Modules.FirstStart;
 
@@ -19,7 +20,7 @@ public partial class FirstStartWindow : Window
     {
         AvaloniaXamlLoader.Load(this);
 
-        var vm = Container.Current.Resolve<FirstStartViewModel>();
+        var vm = ServiceContainer.Current.Resolve<FirstStartViewModel>();
         vm.Load();
 
         vm.OnRequestClose += () => Close();

@@ -18,7 +18,7 @@ public partial class ResourcesMainPage : UserControl
 
         if (!Design.IsDesignMode)
         {
-            DataContext = Container.Current.Resolve<ResourcesPageViewModel>();
+            DataContext = ServiceContainer.Current.Resolve<ResourcesPageViewModel>();
         }
     }
 }

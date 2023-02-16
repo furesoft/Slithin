@@ -2,13 +2,13 @@
 using AuroraModularis.Core;
 using Slithin.Modules.Import.Models;
 
-namespace Slithin.Core.Services.Implementations;
+namespace Slithin.Modules.Import;
 
 public class ImportProviderFactoryImpl : IImportProviderFactory
 {
     private readonly List<IImportProvider> _providers = new();
 
-    public IImportProvider GetImportProvider(string baseExtension, string filename)
+    public IImportProvider? GetImportProvider(string baseExtension, string filename)
     {
         foreach (var provider in _providers)
         {
@@ -34,22 +34,8 @@ public class ImportProviderFactoryImpl : IImportProviderFactory
 
     public void Init()
     {
-        static Type[] GetTypes(System.Reflection.Assembly s)
-        {
-            try
-            {
-                return s.GetTypes();
-            }
-            catch
-            {
-                return Array.Empty<Type>();
-            }
-        }
-
-        var providers = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(GetTypes)
-            .Where(x => typeof(IImportProvider).IsAssignableFrom(x) && x.IsClass)
-            .Select(type => Container.Current.Resolve<IImportProvider>(type));
+        var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
+        var providers = typeFinder.FindAndResolveTypes<IImportProvider>();
 
         _providers.AddRange(providers);
     }

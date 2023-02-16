@@ -1,5 +1,4 @@
 ﻿using EmbedIO.BearerToken;
-using Slithin.Marketplace.Models;
 
 namespace SlithinMarketplace;
 

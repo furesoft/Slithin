@@ -1,16 +1,13 @@
-﻿using EpubSharp;
-using OneOf;
-using PdfSharpCore.Pdf;
-using Slithin.Entities.Remarkable.Rendering;
-
-namespace Slithin.Modules.Export.Models;
+﻿namespace Slithin.Modules.Export.Models;
 
 public class ExportOptions
 {
-    public OneOf<PdfDocument, Notebook, EpubBook> Document { get; set; }
+    public ExportDocument Document { get; set; }
     public List<int> PagesIndices { get; set; } = new();
 
-    public static ExportOptions Create(OneOf<PdfDocument, Notebook, EpubBook> document, string pageRange)
+    public bool ShouldHideTemplates { get; set; }
+
+    public static ExportOptions Create(ExportDocument document, string pageRange)
     {
         var result = new ExportOptions();
 

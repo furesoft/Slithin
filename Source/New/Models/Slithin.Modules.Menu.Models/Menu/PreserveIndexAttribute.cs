@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Slithin.Modules.Menu.Models.Menu;
+﻿namespace Slithin.Modules.Menu.Models.Menu;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class PreserveIndexAttribute : Attribute

@@ -1,5 +1,4 @@
-﻿using Slithin.Core;
-using Slithin.Core.Services;
+﻿using AuroraModularis.Core;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Export.Models;
 
@@ -21,11 +20,13 @@ public class ExportProviderFactoryImpl : IExportProviderFactory
 
     public void Init()
     {
-        var providers = Utils.Find<IExportProvider>();
+        var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
+
+        var providers = typeFinder.FindAndResolveTypes<IExportProvider>();
 
         foreach (var provider in providers)
         {
-            _providers.Add(provider.Title, provider);
+            _providers.TryAdd(provider.Title, provider);
         }
     }
 }

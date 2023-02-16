@@ -4,15 +4,17 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.34" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Models\Slithin.Modules.Import.Models\Slithin.Modules.Import.Models.csproj" />
+    <ProjectReference Include="..\..\Slithin.Core\Slithin.Core.csproj" />
   </ItemGroup>
 
 </Project>

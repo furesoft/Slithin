@@ -2,6 +2,7 @@
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 
@@ -23,20 +24,25 @@ internal class PinCommand : ICommand
         _remarkableDevice = remarkableDevice;
         _metadataRepository = metadataRepository;
         _notebooksFilter = notebooksFilter;
+        
+        _notebooksFilter.SelectionChanged += (s) =>
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        };
     }
 
     public event EventHandler CanExecuteChanged;
 
     public bool CanExecute(object data)
     {
-        return data is Metadata md && !md.IsPinned
+        return data is FileSystemModel fsm && fsm.Tag is Metadata md && !md.IsPinned
             && md.VisibleName != _localisationService.GetString("Quick sheets")
-            && md.VisibleName != _localisationService.GetString("Trash");
+            && fsm is not TrashModel;
     }
 
     public void Execute(object data)
     {
-        if (data is not Metadata md)
+        if (data is not FileSystemModel fsm || fsm.Tag is not Metadata md)
         {
             return;
         }
@@ -46,8 +52,8 @@ internal class PinCommand : ICommand
 
         _metadataRepository.SaveToDisk(md);
 
-        _notebooksFilter.Documents.Remove(md);
-        _notebooksFilter.Documents.Add(md);
+        _notebooksFilter.Items.Remove(fsm);
+        _notebooksFilter.Items.Add(fsm);
 
         _notebooksFilter.SortByFolder();
 

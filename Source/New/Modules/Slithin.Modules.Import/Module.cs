@@ -1,13 +1,12 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Core.Services.Implementations;
 using Slithin.Modules.Import.Models;
 
-namespace Slithin.Modules.Logging;
+namespace Slithin.Modules.Import;
 
 [Priority]
 public class Module : AuroraModularis.Module
 {
-    public override Task OnStart(Container container)
+    public override Task OnStart(ServiceContainer container)
     {
         var factoryProvider = container.Resolve<IImportProviderFactory>();
         factoryProvider.Init();
@@ -15,8 +14,8 @@ public class Module : AuroraModularis.Module
         return Task.CompletedTask;
     }
 
-    public override void RegisterServices(Container container)
+    public override void RegisterServices(ServiceContainer container)
     {
-        container.Register<IImportProviderFactory>(new ImportProviderFactoryImpl());
+        container.Register<IImportProviderFactory>(new ImportProviderFactoryImpl()).AsSingleton();
     }
 }

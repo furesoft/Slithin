@@ -1,8 +1,9 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using AuroraModularis.Core;
+using Slithin.Core;
 using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
-using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.Templates.UI.Commands;
@@ -10,61 +11,52 @@ using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Templates.UI.ViewModels;
 
-internal class TemplatesPageViewModel : BaseViewModel
+internal class TemplatesPageViewModel : BaseViewModel, IFilterable<TemplatesFilter>
 {
     private readonly ITemplateStorage _templateStorage;
     private readonly ILoadingService _loadingService;
-    private Template _selectedTemplate;
 
-    public TemplatesPageViewModel(IPathManager pathManager,
-                                  ILocalisationService localisationService,
-                                  TemplatesFilter templatesFilter,
-                                  ITemplateStorage templateStorage,
-                                  IDialogService dialogService,
-                                  ILoadingService loadingService)
+    public TemplatesPageViewModel(TemplatesFilter templatesFilter,
+        ITemplateStorage templateStorage,
+        IDialogService dialogService,
+        ILoadingService loadingService)
     {
-        TemplateFilter = templatesFilter;
+        Filter = templatesFilter;
         _templateStorage = templateStorage;
         _loadingService = loadingService;
 
         OpenAddModalCommand = new DelegateCommand(async _ =>
         {
-            var vm = Container.Current.Resolve<AddTemplateModalViewModel>();
+            var vm = ServiceContainer.Current.Resolve<AddTemplateModalViewModel>();
             if (await dialogService.Show("", new AddTemplateModal() { DataContext = vm }))
             {
                 vm.AcceptCommand.Execute(vm);
             }
         });
 
-        RemoveTemplateCommand = Container.Current.Resolve<RemoveTemplateCommand>();
+        RemoveTemplateCommand = ServiceContainer.Current.Resolve<RemoveTemplateCommand>();
     }
 
     public ICommand OpenAddModalCommand { get; set; }
 
     public ICommand RemoveTemplateCommand { get; set; }
 
-    public Template SelectedTemplate
+    public TemplatesFilter Filter { get; }
+
+    protected override async void OnLoad()
     {
-        get => _selectedTemplate;
-        set => SetValue(ref _selectedTemplate, value);
-    }
-
-    public TemplatesFilter TemplateFilter { get; }
-
-    public override void OnLoad()
-    {
-        base.OnLoad();
-
-        TemplateFilter.PropertyChanged += (s, e) =>
+        Filter.PropertyChanged += (s, e) =>
         {
-            if (e.PropertyName != nameof(TemplateFilter.Templates))
+            if (e.PropertyName != nameof(Filter.Items))
             {
-                TemplateFilter.Templates = new(_templateStorage.Templates.Where(_ => _.Categories.Contains(TemplateFilter.SelectedCategory) && TemplateFilter.Landscape == _.Landscape));
+                Filter.Items = new ObservableCollection<Template>(_templateStorage.Templates.Where(_ =>
+                    _.Categories.Contains(Filter.SelectedCategory)
+                    && Filter.Landscape == _.Landscape));
             }
         };
 
-        _loadingService.LoadTemplates();
+        await _loadingService.LoadTemplatesAsync();
 
-        TemplateFilter.SelectedCategory = TemplateFilter.Categories.First();
+        Filter.SelectedCategory = Filter.Categories.First();
     }
 }

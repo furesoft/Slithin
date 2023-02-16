@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
-using Slithin.Modules.DeviceDiscovery.Models;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.ViewModels;
@@ -35,7 +35,7 @@ public class AddDeviceWindowViewModel : BaseViewModel
         set => SetValue(ref _selectedLogin, value);
     }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
         base.OnLoad();
 

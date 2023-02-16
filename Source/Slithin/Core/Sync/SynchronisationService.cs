@@ -2,7 +2,6 @@
 using LiteDB;
 using Slithin.Commands;
 using Slithin.Core.MVVM;
-using Slithin.Models;
 
 namespace Slithin.Core.Sync;
 

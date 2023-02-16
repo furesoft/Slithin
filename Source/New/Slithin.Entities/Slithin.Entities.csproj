@@ -4,6 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Version>1.0.21</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +16,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Slithin.Core\Slithin.Core.csproj" />
   </ItemGroup>
-
-  <Import Project="$(SolutionDir)\Version.props" />
 </Project>

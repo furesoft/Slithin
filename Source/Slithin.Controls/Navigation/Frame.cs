@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
+﻿using System.Collections.Specialized;
 using System.Text;
 using Avalonia;
 using Avalonia.Collections;
@@ -50,7 +47,7 @@ public partial class Frame : ContentControl
 
     public static void SetFrameName(Frame target, string name)
     {
-        _frames.Add(name, target);
+        _frames.TryAdd(name, target);
     }
 
     /// <summary>

@@ -16,6 +16,6 @@ public partial class DeviceStep : UserControl
     {
         AvaloniaXamlLoader.Load(this);
 
-        DataContext = Container.Current.Resolve<DeviceStepViewModel>();
+        DataContext = ServiceContainer.Current.Resolve<DeviceStepViewModel>();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using LiteDB;
 using Slithin.Core.MVVM;
-using Slithin.Modules.Resources.Models;
 
 namespace Slithin.Modules.Settings.Models;
 
@@ -10,7 +9,7 @@ public class SettingsModel : NotifyObject
     private bool _isBigMenuMode = true;
     public ObjectId? _id { get; set; }
 
-    public MarketplaceUser MarketplaceCredential { get; set; }
+    public string MarketplaceToken { get; set; }
 
     public bool AutomaticScreenRecovery { get; set; }
     public bool AutomaticTemplateRecovery { get; set; }

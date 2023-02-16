@@ -1,6 +1,7 @@
 ﻿using AuroraModularis.Core;
 using Newtonsoft.Json;
 using Slithin.Entities.Remarkable;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Repository.Models;
 
@@ -12,7 +13,7 @@ public class MetadataRepositoryImpl : IMetadataRepository
 
     public Metadata Load(string id)
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
         var mdObj = JsonConvert.DeserializeObject<Metadata>(
             File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".metadata")));
@@ -53,7 +54,7 @@ public class MetadataRepositoryImpl : IMetadataRepository
 
     public void SaveToDisk(Metadata metadata)
     {
-        var pathManager = Container.Current.Resolve<IPathManager>();
+        var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
         File.WriteAllText(Path.Combine(pathManager.NotebooksDir, metadata.ID + ".metadata"),
             JsonConvert.SerializeObject(this, Formatting.Indented));
@@ -108,15 +109,15 @@ public class MetadataRepositoryImpl : IMetadataRepository
 
         Upload(md);
 
-        var remarkableDevice = Container.Current.Resolve<IRemarkableDevice>();
+        var remarkableDevice = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         remarkableDevice.Reload();
     }
 
     public void Upload(Metadata md, bool onlyMetadata = false)
     {
-        var scp = Container.Current.Resolve<IRemarkableDevice>();
-        var notebooksDir = Container.Current.Resolve<IPathManager>().NotebooksDir;
-        var pathList = Container.Current.Resolve<PathList>();
+        var scp = ServiceContainer.Current.Resolve<IRemarkableDevice>();
+        var notebooksDir = ServiceContainer.Current.Resolve<IPathManager>().NotebooksDir;
+        var pathList = ServiceContainer.Current.Resolve<PathList>();
 
         scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
                                 pathList.Documents + md.ID + ".metadata");

@@ -1,0 +1,18 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:Slithin.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.Modules.Settings.UI.Modals.SupportModal">
+    <StackPanel Spacing="5" Margin="3">
+        <UniformGrid Columns="7">
+            <controls:KryptoDonateButton CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" Image="{DynamicResource BoxIcons.LogosBitcoin}" />
+            <controls:KryptoDonateButton CoinName="Ethereum" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource SimpleIcons.Ethereum}" />
+            <controls:KryptoDonateButton CoinName="Litecoin" Address="MLeDLGzjLyrGPbkFNcz8LwArFXoJ7nUVPk" Image="{DynamicResource SimpleIcons.Litecoin}" />
+            <controls:KryptoDonateButton CoinName="Bitcoin Cash" Address="qrpynh8h373e0tzvu65ldzwlzhuhw85krytevqzcuf" Image="{DynamicResource Unicons.BitcoinCircle}" />
+            <controls:KryptoDonateButton CoinName="USDC" Address="0xe00425698DFEaAe247CBD5625a1e3637b3d39605" Image="{DynamicResource Unicons.UsdCircle}" />
+            <controls:KryptoDonateButton CoinName="Dogecoin" Address="DTV1sSip9hUXJHjz32Z354upAY9AxcCYzw" Image="{DynamicResource SimpleIcons.Dogecoin}" />
+        </UniformGrid>
+    </StackPanel>
+</UserControl>

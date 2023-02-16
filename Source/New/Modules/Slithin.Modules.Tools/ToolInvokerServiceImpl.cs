@@ -1,4 +1,4 @@
-﻿using Slithin.Core;
+﻿using AuroraModularis.Core;
 using Slithin.Modules.Tools.Models;
 
 namespace Slithin.Modules.Tools;
@@ -11,17 +11,18 @@ internal class ToolInvokerServiceImpl : IToolInvokerService
 
     public void Init()
     {
-        foreach (var tool in Utils.Find<ITool>())
+        var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
+        foreach (var tool in typeFinder.FindAndResolveTypes<ITool>())
         {
-            Tools.Add(tool.Info.ID, tool);
+            Tools.TryAdd(tool.Info.ID, tool);
         }
     }
 
     public void Invoke(string id, ToolProperties props)
     {
-        if (Tools.ContainsKey(id))
+        if (Tools.TryGetValue(id, out var value))
         {
-            Tools[id].Invoke(props);
+            value.Invoke(props);
         }
     }
 }

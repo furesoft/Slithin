@@ -1,14 +1,15 @@
 ﻿using AuroraModularis.Core;
 using Slithin.Entities.Remarkable;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
 
 internal class LocalRepository : IRepository
 {
-    private readonly Container _container;
+    private readonly ServiceContainer _container;
 
-    public LocalRepository(Container container)
+    public LocalRepository(ServiceContainer container)
     {
         _container = container;
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
 
 namespace Slithin.Controls.Ports.Extensions;
 

@@ -1,6 +1,5 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:controls="http://github.com/furesoft/Slithin">
 
     <Design.PreviewWith>
@@ -10,7 +9,7 @@
     <Style Selector="controls|ImagePopupButton">
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="{TemplateBinding Background}" CornerRadius="2" Margin="2">
+                <Border Name="PopupBorder" Background="{TemplateBinding Background}" CornerRadius="2" Margin="2">
                     <Grid RowDefinitions="40,*" VerticalAlignment="Center">
                         <DrawingPresenter Width="35" Height="35" Drawing="{TemplateBinding Image}" Grid.Row="0" />
                         <TextBlock Text="{TemplateBinding Text}" Grid.Row="1" TextAlignment="Center" FontSize="17" />
@@ -18,11 +17,10 @@
                         <Popup
                                WindowManagerAddShadowHint="False"
                                IsOpen="{TemplateBinding IsChecked, Mode=TwoWay}"
-                               PlacementTarget="Background"
+                               PlacementTarget="PopupBorder"
 
                                IsLightDismissEnabled="True">
-                            <Border x:Name="PopupBorder"
-                                    Background="{DynamicResource ComboBoxDropDownBackground}"
+                            <Border Background="{DynamicResource ComboBoxDropDownBackground}"
                                     BorderThickness="1" BorderBrush="Black"
 
                                     Padding="{DynamicResource ComboBoxDropdownBorderPadding}"

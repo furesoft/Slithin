@@ -4,9 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:l="using:Slithin.Core"
-             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              xmlns:c="using:Slithin.Controls"
-             xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="Slithin.Modules.Resources.UI.Pages.ResourcesMainPage">
     <ScrollViewer>
         <StackPanel Spacing="5" Margin="2">

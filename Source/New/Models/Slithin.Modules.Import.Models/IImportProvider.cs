@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Slithin.Modules.Import.Models;
+﻿namespace Slithin.Modules.Import.Models;
 
 public interface IImportProvider
 {

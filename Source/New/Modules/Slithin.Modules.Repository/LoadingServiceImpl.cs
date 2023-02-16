@@ -1,101 +1,67 @@
 ﻿using AuroraModularis.Core;
-using Slithin.Entities.Remarkable;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Diagnostics.Sentry.Models;
-using Slithin.Modules.I18N.Models;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
-using Slithin.Modules.Resources.UI;
-using Slithin.Modules.Settings.Models;
 using Slithin.Modules.Sync.Models;
 
 namespace Slithin.Modules.Repository;
 
 internal class LoadingServiceImpl : ILoadingService
 {
-    private Container _container;
+    private ServiceContainer _container;
 
-    public LoadingServiceImpl(Container container)
+    public LoadingServiceImpl(ServiceContainer container)
     {
         _container = container;
     }
 
-    public void LoadApiToken()
+    public Task LoadNotebooksAsync()
     {
-        var settingsService = _container.Resolve<ISettingsService>();
-        var settings = settingsService.GetSettings();
-
-        if (settings.MarketplaceCredential != null)
-        {
-            var authThread = new Thread(() =>
-            {
-                var api = new MarketplaceAPI();
-                api.Authenticate(settings.MarketplaceCredential.Username, settings.MarketplaceCredential.HashedPassword);
-
-                Container.Current.Register(api);
-            });
-            authThread.Start();
-        }
-    }
-
-    public void LoadNotebooks()
-    {
-        var filter = Container.Current.Resolve<NotebooksFilter>();
+        var filter = _container.Resolve<NotebooksFilter>();
         var errorTrackingService = _container.Resolve<IDiagnosticService>();
         var mdStorage = _container.Resolve<IMetadataRepository>();
         var pathManager = _container.Resolve<IPathManager>();
-        var localisationService = _container.Resolve<ILocalisationService>();
 
-        if (filter.Documents.Any())
+        if (filter.Items.Any())
         {
-            return;
+            return Task.CompletedTask;
         }
 
         var monitor = errorTrackingService.StartPerformanceMonitoring("Loading", "Notebooks");
 
         mdStorage.Clear();
 
-        filter.Documents = new();
+        filter.Items = new() { new TrashModel() };
 
-        foreach (var md in Directory.GetFiles(pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
-        {
-            var mdObj = mdStorage.Load(Path.GetFileNameWithoutExtension(md));
+        LoadMetadataFiles(pathManager, mdStorage);
 
-            mdStorage.AddMetadata(mdObj, out _);
-        }
-
-        filter.Documents.Add(new Metadata
-        {
-            Type = "CollectionType",
-            VisibleName = localisationService.GetString("Trash"),
-            ID = "trash"
-        });
-
-        foreach (var md in mdStorage.GetByParent(""))
-        {
-            filter.Documents.Add(md);
-        }
+        AddMetadatasToFilterWithCorrectParent(mdStorage, filter);
 
         filter.SortByFolder();
 
         monitor.Dispose();
+
+        return Task.CompletedTask;
     }
 
-    public void LoadTemplates()
+    public Task LoadTemplatesAsync()
     {
-        var errorTrackingService = Container.Current.Resolve<IDiagnosticService>();
-        var storage = Container.Current.Resolve<ITemplateStorage>();
-        var filter = Container.Current.Resolve<TemplatesFilter>();
+        var errorTrackingService = _container.Resolve<IDiagnosticService>();
+        var storage = _container.Resolve<ITemplateStorage>();
+        var filter = _container.Resolve<TemplatesFilter>();
 
-        if (filter.Templates.Any())
+        if (filter.Items.Any())
         {
-            return;
+            return Task.CompletedTask;
         }
 
-        var monitor = errorTrackingService.StartPerformanceMonitoring("Loading", "Templates");
+        using var monitor = errorTrackingService.StartPerformanceMonitoring("Loading", "Templates");
         // Load local Templates
         storage.Load();
 
         // Load Category Names
-        var tempCats = storage.Templates.Select(x => x.Categories);
+        var tempCats = storage.Templates.Select(x => x.Categories).ToArray();
 
         foreach (var item in tempCats)
         {
@@ -109,29 +75,55 @@ internal class LoadingServiceImpl : ILoadingService
         }
 
         //Load first templates which are shown to make loading "smoother and faster"
-        LoadTemplatesByCategory(filter.Categories.FirstOrDefault(), filter, storage, true);
-
-        monitor.Dispose();
+        LoadTemplatesByCategory(filter.Categories.First(), filter, storage, true);
 
         Parallel.ForEach(filter.Categories, (category) =>
         {
             LoadTemplatesByCategory(category, filter, storage);
         });
+        return Task.CompletedTask;
     }
 
-    public void LoadTemplatesByCategory(string category, TemplatesFilter filter, ITemplateStorage storage, bool addToView = false)
+    private static void AddMetadatasToFilterWithCorrectParent(IMetadataRepository mdStorage, NotebooksFilter filter)
+    {
+        foreach (var mds in mdStorage.GetByParent(""))
+        {
+            if (mds.Type == "CollectionType")
+            {
+                filter.Items.Add(new DirectoryModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+            }
+            else
+            {
+                filter.Items.Add(new FileModel(mds.VisibleName, mds, mds.IsPinned) { ID = mds.ID, Parent = mds.Parent });
+            }
+        }
+    }
+
+    private static void LoadMetadataFiles(IPathManager pathManager, IMetadataRepository mdStorage)
+    {
+        foreach (var md in Directory.GetFiles(pathManager.NotebooksDir, "*.metadata", SearchOption.AllDirectories))
+        {
+            var mdObj = mdStorage.Load(Path.GetFileNameWithoutExtension(md));
+
+            mdStorage.AddMetadata(mdObj, out _);
+        }
+    }
+
+    private async Task LoadTemplatesByCategory(string category, TemplatesFilter filter, ITemplateStorage storage, bool addToView = false)
     {
         foreach (var t in storage.Templates)
         {
-            if (t.Categories.Contains(category))
+            if (!t.Categories.Contains(category))
             {
-                if (!filter.Templates.Contains(t) && addToView)
-                {
-                    filter.Templates.Add(t);
-                }
-
-                storage.LoadTemplate(t);
+                continue;
             }
+
+            if (!filter.Items.Contains(t) && addToView)
+            {
+                filter.Items.Add(t);
+            }
+
+            await storage.LoadTemplateAsync(t);
         }
     }
 }

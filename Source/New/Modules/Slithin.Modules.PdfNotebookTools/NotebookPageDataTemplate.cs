@@ -7,17 +7,28 @@ namespace Slithin.Modules.PdfNotebookTools;
 
 public class NotebookPageDataTemplate : IDataTemplate
 {
-    public IControl Build(object param)
+    public IControl Build(object? param)
     {
+        if (param is null)
+        {
+            return new TextBlock() { Text = "Template Data is not set"};
+        }
+        
         var grid = new Grid();
 
-        grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Auto));
-        grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Auto));
+        grid.ColumnDefinitions.Add(new(GridLength.Auto));
+        grid.ColumnDefinitions.Add(new(GridLength.Auto));
 
-        var title
-            = param is NotebookPage
-                ? new TextBlock { [!TextBlock.TextProperty] = new Binding("Template.Name") }
-                : new TextBlock { [!TextBlock.TextProperty] = new Binding("ShortName") };
+        TextBlock title;
+        if (param is NotebookPage)
+        {
+            title = new() {[!TextBlock.TextProperty] = new Binding("Template.Name")};
+        }
+        else
+        {
+            title = new() {[!TextBlock.TextProperty] = new Binding("ShortName")};
+        }
+
         title.TextWrapping = Avalonia.Media.TextWrapping.Wrap;
         Grid.SetColumn(title, 0);
 

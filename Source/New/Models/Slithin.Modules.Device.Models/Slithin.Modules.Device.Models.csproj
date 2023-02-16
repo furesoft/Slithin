@@ -4,16 +4,16 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Version>1.0.21</Version>
   </PropertyGroup>
 
-<Import Project="$(SolutionDir)\Version.props" />
+	<ItemGroup>
+	  <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.31" />
+	  <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
+	</ItemGroup>
 
-<ItemGroup>
-  <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.19" />
-  <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
-</ItemGroup>
-
-<ItemGroup>
-  <ProjectReference Include="..\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
-</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
+	</ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,13 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.34" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
-    <ProjectReference Include="..\..\Models\Slithin.Modules.DeviceDiscovery.Models\Slithin.Modules.DeviceDiscovery.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.BaseServices.Models\Slithin.Modules.BaseServices.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Settings.Models\Slithin.Modules.Settings.Models.csproj" />
   </ItemGroup>

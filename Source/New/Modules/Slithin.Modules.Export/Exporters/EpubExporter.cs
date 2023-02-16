@@ -2,8 +2,8 @@
 using PdfSharpCore.Drawing;
 using Slithin.Entities.Remarkable;
 using Slithin.Entities.Remarkable.Rendering;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Export.Models;
-using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Export.Exporters;
 
@@ -50,7 +50,8 @@ public class EpubExporter : IExportProvider
             var page = Notebook.LoadPage(notebookStream);
 
             var psize = new XSize(1404, 1872);
-            var svgStrm = (MemoryStream)_renderingService.RenderSvg(page, pageIndex, metadata, (int)psize.Width, (int)psize.Height);
+            var svgStrm = (MemoryStream)_renderingService.RenderSvg(page, pageIndex, metadata,
+                options.ShouldHideTemplates, (int)psize.Width, (int)psize.Height);
 
             svgStrm.Seek(0, SeekOrigin.Begin);
 

@@ -4,7 +4,7 @@ namespace Slithin.Modules.Backup;
 
 internal class Module : AuroraModularis.Module
 {
-    public override Task OnStart(Container container)
+    public override Task OnStart(ServiceContainer container)
     {
         return Task.CompletedTask;
     }

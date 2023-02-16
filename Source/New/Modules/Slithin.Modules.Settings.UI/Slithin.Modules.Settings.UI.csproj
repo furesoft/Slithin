@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Icon.png" />
+  </ItemGroup>
+  
+   <ItemGroup>
+    <EmbeddedResource Include="Resources\**" />
+    <AvaloniaResource Include="Resources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AuroraModularis" Version="1.0.34" />
+    <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.31" />
+    <PackageReference Include="Avalonia" Version="0.10.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
+    <ProjectReference Include="..\..\..\Slithin.Modules.UI\Slithin.Modules.UI.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.BaseServices.Models\Slithin.Modules.BaseServices.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Device.Models\Slithin.Modules.Device.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Diagnostics.Sentry.Models\Slithin.Modules.Diagnostics.Sentry.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.Settings.Models\Slithin.Modules.Settings.Models.csproj" />
+    <ProjectReference Include="..\..\Slithin.Core\Slithin.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="FeedbackWindow.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="SettingsPage.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SettingsPage.axaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+
+</Project>

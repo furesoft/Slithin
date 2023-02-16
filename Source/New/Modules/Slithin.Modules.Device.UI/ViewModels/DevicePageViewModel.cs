@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using AuroraModularis.Logging.Models;
 using Slithin.Core.MVVM;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Device.UI.Models;
 using Slithin.Modules.I18N.Models;
@@ -84,44 +85,58 @@ internal class DevicePageViewModel : BaseViewModel
         set => SetValue(ref _version, value);
     }
 
-    public override async void OnLoad()
+    protected override async void OnLoad()
     {
-        base.OnLoad();
-
         _pathManager.InitDeviceDirectory();
 
         InitScreens();
 
-        Parallel.ForEach(CustomScreens, (cs) =>
-        {
-            cs.Load();
-        });
+        LoadScreenImages();
 
+        InitShareEmailAddress();
+
+        InitVersion();
+
+        await LoadAsync();
+
+        await DoAfterDeviceUpdate();
+    }
+
+    private void LoadScreenImages()
+    {
+        Parallel.ForEach(CustomScreens, (cs) => { cs.Load(); });
+    }
+
+    private void InitShareEmailAddress()
+    {
         ShareEmailAddresses = new(_xochitlService.GetShareEmailAddresses());
 
         HasEmailAddresses = ShareEmailAddresses.Any();
 
-        ShareEmailAddresses.CollectionChanged += (s, e) =>
-        {
-            HasEmailAddresses = ShareEmailAddresses.Any();
-        };
+        ShareEmailAddresses.CollectionChanged += (s, e) => { HasEmailAddresses = ShareEmailAddresses.Any(); };
+    }
 
+    private void InitVersion()
+    {
         Version = _versionService.GetDeviceVersion().ToString();
 
         if (_xochitlService.GetIsBeta())
         {
             Version += " Beta";
         }
+    }
 
-        await Task.Run(() =>
+    private async Task LoadAsync()
+    {
+        await Task.Run(async () =>
         {
-            _loadingService.LoadTemplates();
-            _loadingService.LoadNotebooks();
+            var templatesTask = _loadingService.LoadTemplatesAsync();
+            var notebooksTask = _loadingService.LoadNotebooksAsync();
 
+            Task.WaitAll(templatesTask, notebooksTask);
+            
             _templatesFilter.SelectedCategory = _templatesFilter.Categories.First();
         });
-
-        await DoAfterDeviceUpdate();
     }
 
     /*

@@ -1,7 +1,8 @@
-﻿using AuroraModularis.Core;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Slithin.Core.MVVM;
+using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Templates.UI.ViewModels;
 
@@ -9,23 +10,22 @@ namespace Slithin.Modules.Templates.UI;
 
 [PreserveIndex(2)]
 [PageIcon("Vaadin.List")]
+[Context(UIContext.Templates)]
 public partial class TemplatesPage : UserControl, IPage
 {
     public TemplatesPage()
     {
         InitializeComponent();
 
-        DataContext = Container.Current.Resolve<TemplatesPageViewModel>();
+        BaseViewModel.ApplyViewModel<TemplatesPageViewModel>(this);
     }
 
     public string Title => "Templates";
 
-    public Control GetContextualMenu()
+    bool IPage.IsEnabled()
     {
-        return new TemplatesContextualMenu();
+        return true;
     }
-
-    bool IPage.IsEnabled() => true;
 
     private void DragOver(object sender, DragEventArgs e)
     {
@@ -35,7 +35,9 @@ public partial class TemplatesPage : UserControl, IPage
         // Only allow if the dragged data contains text or filenames.
         if (!e.Data.Contains(DataFormats.Text)
             && !e.Data.Contains(DataFormats.FileNames))
+        {
             e.DragEffects = DragDropEffects.None;
+        }
     }
 
     private void Drop(object sender, DragEventArgs e)
@@ -50,13 +52,13 @@ public partial class TemplatesPage : UserControl, IPage
 
             if (provider != null)
             {
-                if (e.Source is Image img)
+                if (e.SettingsBuilderTestApp is Image img)
                 {
                     var bitmap = new Bitmap(filename);
 
                     if (bitmap.Size.Width != 1404 && bitmap.Size.Height != 1872)
                     {
-                        DialogService.OpenError(localisation.GetString("The Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));
+                        DialogService.OpenError(localisation.GetString("The Image does not fit is not in correct dimension. Please use a 1404x1872 dimension."));
 
                         return;
                     }

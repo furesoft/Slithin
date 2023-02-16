@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:l="using:Slithin.Core"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.Modules.Templates.UI.FilterPopup">
+    <Grid RowDefinitions="*,AUTO" Margin="4">
+        <TextBox Watermark="{l:Localisation 'Search ...'}" MinWidth="175" Margin="0,0,0,10" IsVisible="False" />
+        <CheckBox Grid.Row="1" Content="{l:Localisation 'Is Landscape'}" IsChecked="{Binding Filter.Landscape, Mode=TwoWay}" />
+        <ComboBox Items="{Binding Filter.Categories, Mode=TwoWay}" SelectedItem="{Binding Filter.SelectedCategory}" MinWidth="175" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,26 @@
+﻿<DataTemplates xmlns="https://github.com/avaloniaui" xmlns:controls="using:Slithin.Controls"
+               xmlns:menu="http://furesoft.org/slithin/"
+               xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DataTemplate DataType="{x:Type menu:ContextualDropDownButton}">
+        <controls:ImagePopupButton IsEnabled="{Binding IsVisible, Mode=TwoWay}" Name="btn" Tag="{Binding}"
+                                   MinHeight="60" Classes="Flat" Image="{Binding Icon}" Text="{Binding Title}"
+                                   CommandParameter="{Binding DataContext}" ToolTip.Tip="{Binding Hint}">
+            <controls:ImagePopupButton.PopupContent>
+                <styles:Card>
+                    <ContentPresenter Background="White" Content="{Binding #btn.Tag.DropDown, Mode=TwoWay}" Width="120"
+                                      Height="120" DataContext="{Binding #btn.CommandParameter}"/>
+                </styles:Card>
+            </controls:ImagePopupButton.PopupContent>
+        </controls:ImagePopupButton>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type menu:ContextualButton}">
+        <controls:ImageButton IsEnabled="{Binding IsVisible, Mode=TwoWay}" MinHeight="60" Classes="Flat"
+                              Text="{Binding Title}" Command="{Binding Command}"
+                              CommandParameter="{Binding DataContext}" Image="{Binding Icon}"
+                              ToolTip.Tip="{Binding Hint}"/>
+    </DataTemplate>
+
+</DataTemplates>

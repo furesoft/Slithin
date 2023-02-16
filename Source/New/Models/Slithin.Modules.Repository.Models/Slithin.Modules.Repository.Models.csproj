@@ -4,12 +4,12 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Version>1.0.21</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Slithin.Entities\Slithin.Entities.csproj" />
     <ProjectReference Include="..\Slithin.Modules.Resources.Models\Slithin.Modules.Resources.Models.csproj" />
   </ItemGroup>
-
-  <Import Project="$(SolutionDir)\Version.props" />
 </Project>

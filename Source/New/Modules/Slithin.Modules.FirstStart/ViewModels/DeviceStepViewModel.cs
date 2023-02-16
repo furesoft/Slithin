@@ -1,6 +1,6 @@
 ﻿using Slithin.Core.MVVM;
 using Slithin.Entities;
-using Slithin.Modules.DeviceDiscovery.Models;
+using Slithin.Modules.BaseServices.Models;
 
 namespace Slithin.Modules.FirstStart.ViewModels;
 

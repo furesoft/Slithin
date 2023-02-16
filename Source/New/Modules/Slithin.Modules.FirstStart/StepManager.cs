@@ -5,9 +5,9 @@ namespace Slithin.Modules.FirstStart;
 
 public static class StepManager
 {
-    private static StepBar Bar = null;
+    private static StepBar Bar;
 
-    private static Carousel Container = null;
+    private static Carousel Container;
 
     public static bool GetManageStepBar(StepBar target)
     {
@@ -21,7 +21,7 @@ public static class StepManager
 
     public static void Next()
     {
-        Bar?.Next();
+        Bar!.Next();
     }
 
     public static void SetManageStepBar(StepBar target, bool value)

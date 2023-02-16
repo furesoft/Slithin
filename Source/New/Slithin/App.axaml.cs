@@ -1,4 +1,6 @@
 ﻿using AuroraModularis;
+using AuroraModularis.Hooks.ResourceRegistrationHook;
+using AuroraModularis.Settings.LiteDb;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -15,16 +17,15 @@ public partial class App : Application
 
     public override async void OnFrameworkInitializationCompleted()
     {
-        Slithin.Core.FeatureToggle.Features.Collect();
-        FeatureToggle.Init();
-
         var bootstrapper = BootstrapperBuilder.StartConfigure()
             .WithAppName("Slithin")
-            .WithModulesBasePath(".")
-            .WithSettingsBasePath(".")
-            .WithSettingsProvider<LiteDbSettingsProvider>();
+            .UseLiteDb()
+            .AddResourceHook(this);
 
         await bootstrapper.BuildAndStartAsync();
+
+        Core.FeatureToggle.Features.Collect();
+        Core.FeatureToggle.Features.EnableAll();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

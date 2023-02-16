@@ -13,10 +13,8 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
     private string _password;
     private string _username;
 
-    public LoginModalViewModel(MarketplaceAPI api, ISettingsService settingsService)
+    public LoginModalViewModel(ISettingsService settingsService)
     {
-        OnLoad();
-
         ShowRegisterCommand = new DelegateCommand(_ =>
         {
             var frame = Frame.GetFrame("loginFrame");
@@ -32,7 +30,6 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
         });
 
         ConfirmCommand = new DelegateCommand(Confirm);
-        _api = api;
         _settingsService = settingsService;
     }
 
@@ -40,22 +37,20 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
 
     public string Password
     {
-        get { return _password; }
-        set { SetValue(ref _password, value); }
+        get => _password;
+        set => SetValue(ref _password, value);
     }
 
     public ICommand ShowRegisterCommand { get; set; }
 
     public string Username
     {
-        get { return _username; }
-        set { SetValue(ref _username, value); }
+        get => _username;
+        set => SetValue(ref _username, value);
     }
 
-    public override void OnLoad()
+    protected override void OnLoad()
     {
-        base.OnLoad();
-
         Frame.GetFrame("loginFrame").Navigate(typeof(RegisterFramePage));
         Frame.GetFrame("loginFrame").Navigate(typeof(LoginFramePage));
     }
@@ -67,8 +62,6 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
             _api.Authenticate(Username, Password);
 
             var settings = _settingsService.GetSettings();
-            settings.MarketplaceCredential = new() { Username = Username, HashedPassword = Password };
-
             _settingsService.Save(settings);
 
             Frame.GetFrame("resourcesFrame").Navigate(typeof(ResourcesMainPage));

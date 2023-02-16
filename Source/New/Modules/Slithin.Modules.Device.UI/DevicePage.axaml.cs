@@ -1,14 +1,16 @@
-﻿using AuroraModularis.Core;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Slithin.Core.MVVM;
 using Slithin.Modules.Device.UI.ViewModels;
+using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 
 namespace Slithin.Modules.Device.UI;
 
 [PreserveIndex(0)]
 [PageIcon("Typicons.DeviceTablet")]
+[Context(UIContext.Device)]
 public partial class DevicePage : UserControl, IPage
 {
     public DevicePage()
@@ -18,9 +20,10 @@ public partial class DevicePage : UserControl, IPage
 
     public string Title => "Device";
 
-    public Control GetContextualMenu() => new DeviceContextualMenu();
-
-    bool IPage.IsEnabled() => true;
+    bool IPage.IsEnabled()
+    {
+        return true;
+    }
 
     private void DragOver(object sender, DragEventArgs e)
     {
@@ -30,7 +33,9 @@ public partial class DevicePage : UserControl, IPage
         // Only allow if the dragged data contains text or filenames.
         if (!e.Data.Contains(DataFormats.Text)
             && !e.Data.Contains(DataFormats.FileNames))
+        {
             e.DragEffects = DragDropEffects.None;
+        }
     }
 
     private void Drop(object sender, DragEventArgs e)
@@ -45,13 +50,13 @@ public partial class DevicePage : UserControl, IPage
 
             if (provider != null)
             {
-                if (e.Source is Image img)
+                if (e.SettingsBuilderTestApp is Image img)
                 {
                     var bitmap = new Bitmap(filename);
 
                     if (bitmap.Size.Width != 1404 && bitmap.Size.Height != 1872)
                     {
-                        DialogService.OpenError(localisation.GetString("The Image does not fit is not in correct dimenson. Please use a 1404x1872 dimension."));
+                        DialogService.OpenError(localisation.GetString("The Image does not fit is not in correct dimension. Please use a 1404x1872 dimension."));
 
                         return;
                     }
@@ -87,10 +92,7 @@ public partial class DevicePage : UserControl, IPage
     {
         AvaloniaXamlLoader.Load(this);
 
-        if (!Design.IsDesignMode)
-        {
-            DataContext = Container.Current.Resolve<DevicePageViewModel>();
-        }
+        BaseViewModel.ApplyViewModel<DevicePageViewModel>(this);
 
         AddHandler(DragDrop.DropEvent, Drop);
         AddHandler(DragDrop.DragOverEvent, DragOver);

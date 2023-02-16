@@ -8,5 +8,8 @@ public interface INotificationService
 
     void Show(string message);
 
+    void ShowError(string message);
+    void ShowErrorNewWindow(string message);
+
     IStatusController ShowStatus(string message, bool showInNewWindow = false);
 }

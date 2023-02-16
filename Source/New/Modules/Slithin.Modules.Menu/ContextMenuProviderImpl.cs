@@ -1,17 +1,16 @@
 ﻿using System.Reflection;
 using AuroraModularis.Core;
 using Avalonia.Controls;
-using Slithin.Core;
-using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
+using Slithin.Modules.Notebooks.UI.Models;
 
 namespace Slithin.Modules.Menu;
 
 internal class ContextMenuProviderImpl : IContextMenuProvider
 {
-    private readonly Dictionary<UIContext, List<IContextProvider>> _providers = new();
+    private readonly Dictionary<string, List<IContextProvider>> _providers = new();
 
     public void AddProvider(IContextProvider provider)
     {
@@ -25,8 +24,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
                 continue;
             }
 
-            var list = new List<IContextProvider>();
-            list.Add(provider);
+            var list = new List<IContextProvider> { provider };
 
             _providers.Add(attr.Context, list);
         }
@@ -51,14 +49,14 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
         }
     }
 
-    public ContextMenu BuildMenu<T>(UIContext context, T item, object parent = null)
+    public ContextMenu BuildMenu<T>(string context, T item, object parent = null)
     {
         if (!_providers.ContainsKey(context))
         {
             return null;
         }
 
-        var localisationProvider = Container.Current.Resolve<ILocalisationService>();
+        var localisationProvider = ServiceContainer.Current.Resolve<ILocalisationService>();
 
         var providersForContext = _providers[context];
         var availableContexts = providersForContext.Where(p => p.CanHandle(item));
@@ -69,46 +67,44 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
             return null;
         }
 
-        var menu = new ContextMenu
+        IEnumerable<MenuItem> ContextProviderSelector(IContextProvider c)
         {
-            Items = iContextProviders.SelectMany(c =>
+            c.ParentViewModel = parent;
+
+            if (item is UpDirectoryModel || item is TrashModel)
             {
-                c.ParentViewModel = parent;
+                return Array.Empty<MenuItem>();
+            }
 
-                if (item is Metadata md) // Do not show context menu for Up navigation folder and items in trash
-                {
-                    if (md.VisibleName == localisationProvider.GetString("Up ..")
-                        || md.Parent == "trash")
-                    {
-                        return Array.Empty<MenuItem>();
-                    }
-                }
+            return c.GetMenu(item);
+        }
 
-                return c.GetMenu(item);
-            })
-        };
+        var menu = new ContextMenu { Items = iContextProviders.SelectMany(ContextProviderSelector) };
 
         return menu;
     }
 
     public void Init()
     {
-        var providerTypes = Utils.FindType<IContextProvider>();
+        var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
+        var providerTypes = typeFinder.FindTypes<IContextProvider>();
 
         foreach (var providerType in providerTypes)
         {
-            if (!providerType.IsAssignableFrom(typeof(CommandBasedContextMenu)))
+            if (providerType.IsAssignableFrom(typeof(CommandBasedContextMenu)))
             {
-                var provider = Container.Current.Resolve<IContextProvider>(providerType);
-
-                AddProvider(provider);
+                continue;
             }
+
+            var provider = ServiceContainer.Current.Resolve<IContextProvider>(providerType);
+
+            AddProvider(provider);
         }
 
-        var commandTypes = Utils.FindType<IContextCommand>();
+        var commandTypes = typeFinder.FindTypes<IContextCommand>();
         foreach (var commandType in commandTypes)
         {
-            var resolvedCommand = Container.Current.Resolve<IContextCommand>(commandType);
+            var resolvedCommand = ServiceContainer.Current.Resolve<IContextCommand>(commandType);
 
             AddProvider(new CommandBasedContextMenu(resolvedCommand), resolvedCommand);
         }

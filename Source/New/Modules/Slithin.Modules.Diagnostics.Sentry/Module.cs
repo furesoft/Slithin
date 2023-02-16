@@ -8,25 +8,26 @@ internal class Module : AuroraModularis.Module
 {
     private IDisposable _service;
 
-    public override Task OnStart(Container container)
+    public override Task OnStart(ServiceContainer container)
     {
         return Task.CompletedTask;
     }
 
-    public override void RegisterServices(Container container)
+    public override void RegisterServices(ServiceContainer container)
     {
         var settings = (SettingsModel)Settings;
 
-        _service = SentrySdk.Init(o =>
+        void ConfigureOptions(SentryOptions o)
         {
             o.Dsn = settings.DSN;
-
 #if DEBUG
             o.Debug = settings.Debug;
             o.Environment = settings.Environment;
 #endif
             o.TracesSampleRate = settings.TracesSampleRate;
-        });
+        }
+
+        _service = SentrySdk.Init(ConfigureOptions);
 
         container.Register<IDiagnosticService>(new DiagnosticServiceImpl()).AsSingleton();
         container.Register<IFeedbackService>(new FeedbackServiceImpl()).AsSingleton();

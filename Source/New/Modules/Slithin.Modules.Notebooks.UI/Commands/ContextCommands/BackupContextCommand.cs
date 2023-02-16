@@ -1,7 +1,8 @@
 ﻿using Slithin.Entities.Remarkable;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
-using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Notebooks.UI.Models;
 
 namespace Slithin.Modules.Notebooks.UI.Commands.ContextCommands;
 
@@ -22,7 +23,7 @@ internal class BackupContextCommand : IContextCommand
 
     public bool CanExecute(object data)
     {
-        return data is Metadata md && md.VisibleName != _localisationService.GetString("Trash");
+        return data is not TrashModel;
     }
 
     public void Execute(object data)

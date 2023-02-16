@@ -2,10 +2,6 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using Slithin.Core.Remarkable;
-using Slithin.Core.Remarkable.Models;
-using Slithin.Core.Services;
-using Slithin.Models;
 
 namespace Slithin.Core.Sync.Repositorys;
 

@@ -1,0 +1,22 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="http://github.com/furesoft/Slithin"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.Modules.Notebooks.UI.UI.ViewDropDown">
+    <Border Background="White">
+        <controls:RadioButtonGroup Orientation="Horizontal">
+            <controls:RadioImage Width="60">
+                <controls:RadioImage.Image>
+                    <DrawingImage Drawing="{DynamicResource Vaadin.List}" />
+                </controls:RadioImage.Image>
+            </controls:RadioImage>
+            <controls:RadioImage Width="60">
+                <controls:RadioImage.Image>
+                    <DrawingImage Drawing="{DynamicResource Material.FormatWrapTopBottom}" />
+                </controls:RadioImage.Image>
+            </controls:RadioImage>
+        </controls:RadioButtonGroup>
+    </Border>
+</UserControl>

@@ -9,10 +9,10 @@ namespace Slithin.Modules.Device.Mock;
 
 internal class MockDevice : IRemarkableDevice
 {
-    private readonly Container _container;
+    private readonly ServiceContainer _container;
     private IFileSystem _filesystem;
 
-    public MockDevice(Container container)
+    public MockDevice(ServiceContainer container)
     {
         _container = container;
     }
@@ -55,10 +55,10 @@ internal class MockDevice : IRemarkableDevice
     {
         if (cmd == "grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf")
         {
-            return new(null, "2.13.5");
+            return new("2.13.5");
         }
 
-        return new(null, "");
+        return new("");
     }
 
     public void Upload(FileInfo fileInfo, string path)
@@ -69,7 +69,7 @@ internal class MockDevice : IRemarkableDevice
         fileStream.CopyTo(zipStream);
 
         _filesystem.Dispose();
-        Connect(default, null);
+        Connect(default, string.Empty);
     }
 
     public void Upload(DirectoryInfo dirInfo, string path)

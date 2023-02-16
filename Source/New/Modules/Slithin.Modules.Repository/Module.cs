@@ -1,4 +1,6 @@
 ﻿using AuroraModularis.Core;
+using Slithin.Modules.BaseServices.Models;
+using Slithin.Modules.Notebooks.UI.Models;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
@@ -6,7 +8,7 @@ namespace Slithin.Modules.Repository;
 [Priority(ModulePriority.High)]
 internal class Module : AuroraModularis.Module
 {
-    public override Task OnStart(Container container)
+    public override Task OnStart(ServiceContainer container)
     {
         var pathManager = container.Resolve<IPathManager>();
         pathManager.Init();
@@ -17,9 +19,8 @@ internal class Module : AuroraModularis.Module
         return Task.CompletedTask;
     }
 
-    public override void RegisterServices(Container container)
+    public override void RegisterServices(ServiceContainer container)
     {
-        container.Register<IPathManager>(new PathManagerImpl()).AsSingleton();
         container.Register<IVersionService>(new VersionServiceImpl(container)).AsSingleton();
         container.Register<IRepository>(new LocalRepository(container)).AsSingleton();
         container.Register<ILoginService>(new LoginServiceImpl(container)).AsSingleton();
@@ -27,5 +28,6 @@ internal class Module : AuroraModularis.Module
         container.Register<IMetadataRepository>(new MetadataRepositoryImpl()).AsSingleton();
         container.Register<ILoadingService>(new LoadingServiceImpl(container)).AsSingleton();
         container.Register<ITemplateStorage>(new TemplateStorageImpl()).AsSingleton();
+        container.Register<IThumbnailLoader>(new ThumbnailLoaderImpl()).AsSingleton();
     }
 }

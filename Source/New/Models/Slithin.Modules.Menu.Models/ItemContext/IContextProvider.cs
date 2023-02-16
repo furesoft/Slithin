@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 
 namespace Slithin.Modules.Menu.Models.ItemContext;
 

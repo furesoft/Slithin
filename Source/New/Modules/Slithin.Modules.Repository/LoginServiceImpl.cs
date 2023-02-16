@@ -1,6 +1,6 @@
 ﻿using AuroraModularis.Core;
-using LiteDB;
 using Slithin.Entities;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
@@ -10,9 +10,9 @@ internal class LoginServiceImpl : ILoginService
     private IPathManager _pathManager;
     private IDatabaseService _dbService;
     private LoginInfo? _selectedLoginCredential;
-    private Container _container;
+    private ServiceContainer _container;
 
-    public LoginServiceImpl(Container container)
+    public LoginServiceImpl(ServiceContainer container)
     {
         _container = container;
     }

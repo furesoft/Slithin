@@ -1,27 +1,35 @@
 ﻿using AuroraModularis.Core;
 using LiteDB;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Repository;
 
 internal class DatabaseServiceImpl : IDatabaseService
 {
-    internal LiteDatabase db;
-    private Container _container;
+    internal LiteDatabase _db;
+    private readonly ServiceContainer _container;
 
-    public DatabaseServiceImpl(Container container)
+    public DatabaseServiceImpl(ServiceContainer container)
     {
         _container = container;
     }
 
     public DatabaseAccessor GetDatabase()
     {
-        if (db == null)
+        if (_db != null)
         {
-            var pathManager = _container.Resolve<IPathManager>();
-            db = new(Path.Combine(pathManager.SlithinDir, "slithin2.db"));
+            return new(_db);
         }
 
-        return new(db);
+        var pathManager = _container.Resolve<IPathManager>();
+        _db = new($"Filename={Path.Combine(pathManager.SlithinDir, "slithin2.db")}; Connection=Shared");
+
+        return new(_db);
+    }
+
+    public void Dispose()
+    {
+        _db.Dispose();
     }
 }

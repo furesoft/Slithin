@@ -4,20 +4,27 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Version>1.0.21</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.19" />
+    <PackageReference Include="AuroraModularis" Version="1.0.34" />
+    <PackageReference Include="Avalonia" Version="0.10.18" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.18" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
-    <PackageReference Include="Octokit" Version="4.0.3" />
+    <PackageReference Include="NuGet.Protocol" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Slithin.Modules.UI\Slithin.Modules.UI.Models.csproj" />
+    <ProjectReference Include="..\..\Models\Slithin.Modules.BaseServices.Models\Slithin.Modules.BaseServices.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.I18N.Models\Slithin.Modules.I18N.Models.csproj" />
-    <ProjectReference Include="..\..\Models\Slithin.Modules.Repository.Models\Slithin.Modules.Repository.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Updater.Models\Slithin.Modules.Updater.Models.csproj" />
+    <ProjectReference Include="..\..\Slithin.UpdateInstaller\Slithin.UpdateInstaller.csproj" />
   </ItemGroup>
 
-  <Import Project="$(SolutionDir)\Version.props" />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Icons.xml" />
+  </ItemGroup>
 </Project>

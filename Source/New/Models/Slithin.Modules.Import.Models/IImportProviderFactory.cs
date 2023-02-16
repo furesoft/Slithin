@@ -2,7 +2,7 @@
 
 public interface IImportProviderFactory
 {
-    IImportProvider GetImportProvider(string baseExtension, string filename);
+    IImportProvider? GetImportProvider(string baseExtension, string filename);
 
     void Init();
 }

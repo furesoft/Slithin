@@ -4,7 +4,15 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Version>1.0.21</Version>
   </PropertyGroup>
 
-  <Import Project="$(SolutionDir)\Version.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Slithin.Core\Slithin.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NuGet.Protocol" Version="6.4.0" />
+  </ItemGroup>
 </Project>

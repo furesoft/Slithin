@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +12,7 @@
     <PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.90-nightly" />
     <PackageReference Include="SkiaSharp.QrCodeFork" Version="0.4.5" />
     <PackageReference Include="Xiejiang.SKLottie" Version="1.1.1" />
+	<PackageReference Include="Avalonia.Controls.PanAndZoom" Version="10.14.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +28,7 @@
       <SubType>Code</SubType>
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Settings\SettingsGroup.axaml.cs">
+    <Compile Update="Settings\SettingsGroup.cs">
       <SubType>Code</SubType>
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
