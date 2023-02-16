@@ -25,7 +25,7 @@ internal class UpdaterViewModel : BaseViewModel
 
         await ApplyDownloadQueue(workingQueue);
         
-        Process.Start(new ProcessStartInfo("dotnet", typeof(Slithin.UpdateInstaller.App).Assembly.Location));
+        Process.Start(new ProcessStartInfo("dotnet", typeof(UpdateInstaller.App).Assembly.Location));
         Environment.Exit(0);
     }
 
@@ -36,7 +36,7 @@ internal class UpdaterViewModel : BaseViewModel
             while (workingQueue.Any())
             {
                 var item = workingQueue.Dequeue();
-                var progress = CreateProgress(item);
+                var progress = CreateProgressForSelfRemovingItem(item);
 
                 await UpdateRepository.DownloadPackage(item.Name, item.Version, progress);
 
@@ -47,7 +47,7 @@ internal class UpdaterViewModel : BaseViewModel
         });
     }
 
-    private Progress<bool> CreateProgress(ItemViewModel item)
+    private Progress<bool> CreateProgressForSelfRemovingItem(ItemViewModel item)
     {
         return new(async p =>
         {
