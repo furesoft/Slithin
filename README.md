@@ -41,7 +41,6 @@ The new version will be fully extendable, that means:
 * List/Delete ShareEmail History
 
 # In Testing
-* Generate SSH Key
 
 # Planned
 * Screen Share without subscription
@@ -51,7 +50,11 @@ The new version will be fully extendable, that means:
 * New Tools: 
     - Merge Notebooks
     - Use Shapes on your device
-
+* Plugin support to enable new cloud providers/tools/etc
 
 
 # This is a beta, so use it on your own risk
+
+# Contribution
+
+Everyone is welcome to contribute. I am looking especially for people who can implement the new rM6 format. But other contributions are alwys welcome.

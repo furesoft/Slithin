@@ -1,0 +1,35 @@
+name: Build and publish Windows Store app
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up .NET 7
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.100
+      - name: Install Windows Developer Kit
+        run: |
+          choco install --pre windowsdeveloperkit
+      - name: Build and publish app
+        run: |
+          dotnet build -c Release
+          dotnet publish -c Release -r win10-x86 --self-contained true
+          appx package
+          dotnet publish -c Release -r win10-x64 --self-contained true
+          appx package
+          dotnet publish -c Release -r win10-arm --self-contained true
+          appx package
+      - name: Create AppxBundle
+        run: |
+          makeappx.exe bundle /d .\bin\Release\win10-x86\ /p .\x86.appxbundle
+          makeappx.exe bundle /d .\bin\Release\win10-x64\ /p .\x64.appxbundle
+          makeappx.exe bundle /d .\bin\Release\win10-arm\ /p .\arm.appxbundle
+          makeappx.exe merge /p .\AllArchitectures.appxbundle .\x86.appxbundle .\x64.appxbundle .\arm.appxbundle
