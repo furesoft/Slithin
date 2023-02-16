@@ -12,6 +12,8 @@ Installation guide can be found on the [Wiki](https://github.com/furesoft/Slithi
 
 Slithin is available for Windows, Linux and OSX. The executables are available under [Releases](https://github.com/furesoft/Slithin/releases) or get it from the [Microsoft Store](https://www.microsoft.com/de-de/p/slithin/9pkxtcbn8mq8?cid=storebadge&ocid=badge&rtc=1&activetab=pivot:overviewtab).
 
+*I am looking for developers who want to join the project. Because I started an apprenticeship in September I cannot afford enough time to work on slithin.*
+
 The new version will be fully extendable, that means:
 - Any developer can use the internal slithin services to extend the functionality of slithin
 - An extension could be:
@@ -49,6 +51,7 @@ The new version will be fully extendable, that means:
 * New Tools: 
     - Merge Notebooks
     - Use Shapes on your device
+
 
 
 # This is a beta, so use it on your own risk
