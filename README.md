@@ -42,7 +42,7 @@ The new version will be fully extendable, that means:
 * Generate SSH Key
 
 # Planned
-* Custom ScriptLanguage to automate tools
+* Screen Share without subscription
 * Share your assets with other users
 * Cloud Connection
 * Dark Mode
