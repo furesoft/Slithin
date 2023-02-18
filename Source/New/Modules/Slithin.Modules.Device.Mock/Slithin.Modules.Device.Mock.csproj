@@ -5,11 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.21</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="device.zip" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="device.zip">
