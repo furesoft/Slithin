@@ -9,6 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Sentry" Version="3.27.1"/>
+    <PackageReference Include="Sentry" Version="3.28.1" />
   </ItemGroup>
 </Project>

@@ -10,6 +10,6 @@
 
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.34" />
-    <PackageReference Include="FluentValidation" Version="11.4.0" />
+    <PackageReference Include="FluentValidation" Version="11.5.0" />
   </ItemGroup>
 </Project>
