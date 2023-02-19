@@ -98,12 +98,12 @@ public class Notebook
         var notebooksDir = pathManager.NotebooksDir;
 
         device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
-               pathList.Documents + md.ID + ".metadata");
+               pathList.Notebooks + md.ID + ".metadata");
 
         device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)),
-            pathList.Documents + md.ID + "." + md.Content.FileType);
+            pathList.Notebooks + md.ID + "." + md.Content.FileType);
         device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
-            pathList.Documents + md.ID + ".content");
+            pathList.Notebooks + md.ID + ".content");
 
         device.Reload();
     }
@@ -118,10 +118,10 @@ public class Notebook
         var notebooksDir = pathManager.NotebooksDir;
 
         device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
-               pathList.Documents + md.ID + ".metadata");
+               pathList.Notebooks + md.ID + ".metadata");
 
-        device.RunCommand("mkdir " + pathList.Documents + md.ID);
-        device.RunCommand("mkdir " + pathList.Documents + md.ID + ".thumbnails");
+        device.RunCommand("mkdir " + pathList.Notebooks + md.ID);
+        device.RunCommand("mkdir " + pathList.Notebooks + md.ID + ".thumbnails");
 
         /*
         device.Uploading += (s, e) =>
@@ -132,9 +132,9 @@ public class Notebook
                   , (int)e.Uploaded, (int)e.Size);
           };*/
 
-        device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")), pathList.Documents + md.ID + ".content");
-        device.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)), pathList.Documents + md.ID);
-        device.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)), pathList.Documents + md.ID + ".thumbnails");
+        device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")), pathList.Notebooks + md.ID + ".content");
+        device.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)), pathList.Notebooks + md.ID);
+        device.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)), pathList.Notebooks + md.ID + ".thumbnails");
 
         device.Reload();
     }

@@ -32,6 +32,8 @@ internal class XochitlImpl : IXochitlService
 
     public string GetProperty(string key, string section)
     {
+        Init();
+
         if (!_data.Sections.ContainsSection(section) || !_data[section].ContainsKey(key))
         {
             return string.Empty;
@@ -44,12 +46,7 @@ internal class XochitlImpl : IXochitlService
     {
         var str = GetProperty("ShareEmailAddresses", "General");
         var splt = str?.Split(',');
-        if (splt.Any())
-        {
-            return splt.Select(_ => _.Trim()).ToArray();
-        }
-
-        return Array.Empty<string>();
+        return splt.Any() ? splt.Select(_ => _.Trim()).ToArray() : Array.Empty<string>();
     }
 
     public string GetToken(string key, string section)
@@ -69,6 +66,11 @@ internal class XochitlImpl : IXochitlService
 
     public void Init()
     {
+        if (_data is not null)
+        {
+            return;
+        }
+
         var pathManager = _container.Resolve<IPathManager>();
         var logger = _container.Resolve<ILogger>();
         var remarkableDevice = _container.Resolve<IRemarkableDevice>();

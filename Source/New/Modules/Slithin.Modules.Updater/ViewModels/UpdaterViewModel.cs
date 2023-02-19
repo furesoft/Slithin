@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Avalonia.Threading;
 using NuGet.Versioning;
 using Slithin.Core.MVVM;
@@ -23,8 +24,9 @@ internal class UpdaterViewModel : BaseViewModel
         InitCollections(workingQueue);
 
         await ApplyDownloadQueue(workingQueue);
-
-        //ToDo: start updateinstaller and exit
+        
+        Process.Start(new ProcessStartInfo("dotnet", typeof(UpdateInstaller.App).Assembly.Location));
+        Environment.Exit(0);
     }
 
     private async Task ApplyDownloadQueue(ObservableQueue<ItemViewModel> workingQueue)
@@ -34,7 +36,7 @@ internal class UpdaterViewModel : BaseViewModel
             while (workingQueue.Any())
             {
                 var item = workingQueue.Dequeue();
-                var progress = CreateProgress(item);
+                var progress = CreateProgressForSelfRemovingItem(item);
 
                 await UpdateRepository.DownloadPackage(item.Name, item.Version, progress);
 
@@ -45,7 +47,7 @@ internal class UpdaterViewModel : BaseViewModel
         });
     }
 
-    private Progress<bool> CreateProgress(ItemViewModel item)
+    private Progress<bool> CreateProgressForSelfRemovingItem(ItemViewModel item)
     {
         return new(async p =>
         {

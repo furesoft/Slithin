@@ -14,7 +14,7 @@ internal class ToolInvokerServiceImpl : IToolInvokerService
         var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
         foreach (var tool in typeFinder.FindAndResolveTypes<ITool>())
         {
-            Tools.Add(tool.Info.ID, tool);
+            Tools.TryAdd(tool.Info.ID, tool);
         }
     }
 

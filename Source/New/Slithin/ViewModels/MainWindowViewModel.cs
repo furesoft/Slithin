@@ -32,7 +32,7 @@ public class MainWindowViewModel : BaseViewModel
     private string _title;
 
     public MainWindowViewModel(IVersionService versionService,
-        ILoginService loginService, IDiagnosticService diagnosticService,
+            ILoginService loginService, IDiagnosticService diagnosticService,
         ILocalisationService localisationService,
         IContextualMenuBuilder contextualMenuBuilder,
         IEventService eventService)
@@ -47,8 +47,6 @@ public class MainWindowViewModel : BaseViewModel
         {
             //ToDo: implement synchronize command
         });
-
-        LoadMenu();
     }
 
     public object ContextualMenu
@@ -81,6 +79,11 @@ public class MainWindowViewModel : BaseViewModel
         set => SetValue(ref _title, value);
     }
 
+    protected override void OnLoad()
+    {
+        LoadMenu();
+    }
+
     private static object? GetIcon(PageIconAttribute? pageIconAttribute, Type type)
     {
         return Application.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
@@ -111,7 +114,7 @@ public class MainWindowViewModel : BaseViewModel
         var toRearrange = new List<(int index, Page page, Control view)>();
         var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
 
-        var types = typeFinder.FindTypes<IPage>();
+        var types = typeFinder.FindTypes<IPage>().DistinctBy(_ => _.FullName);
         foreach (var type in types)
         {
             if (!typeof(IPage).IsAssignableFrom(type) || type.IsInterface)

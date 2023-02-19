@@ -53,7 +53,6 @@ internal class UpdateRepository
         var packages = await resource.GetDependencyInfoAsync("Slithin", version, cache, NullLogger.Instance, cts.Token);
 
         return packages.DependencyGroups[0].Packages
-            .Where(d => d.Id.Contains("Slithin"))
             .Concat(new[] {new PackageDependency("Slithin", new(version))});
     }
 

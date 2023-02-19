@@ -23,7 +23,7 @@ internal class DatabaseServiceImpl : IDatabaseService
         }
 
         var pathManager = _container.Resolve<IPathManager>();
-        _db = new($"Filename={Path.Combine(pathManager.SlithinDir, "slithin2.db")}; Connection=Shared");
+        _db = new($"Filename={Path.Combine(pathManager.SlithinDir, "slithin.db")}; Connection=Shared");
 
         return new(_db);
     }
