@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Slithin.Modules.UI\Slithin.Modules.UI.Models.csproj" />
     <ProjectReference Include="..\..\Models\Slithin.Modules.Sync.Models\Slithin.Modules.Sync.Models.csproj" />
   </ItemGroup>
 

@@ -16,6 +16,7 @@ using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Menu.Views;
 using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.ViewModels;
 
@@ -45,7 +46,7 @@ public class MainWindowViewModel : BaseViewModel
 
         SynchronizeCommand = new DelegateCommand(_ =>
         {
-            //ToDo: implement synchronize command
+            ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize();
         });
     }
 
