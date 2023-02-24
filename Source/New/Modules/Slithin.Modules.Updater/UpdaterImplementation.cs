@@ -12,8 +12,7 @@ internal class UpdaterImplementation : IUpdaterService
 
     public async Task<bool> CheckForUpdate()
     {
-        return false;
-        /*if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             var uwpHelper = new DesktopBridge.Helpers();
             if (uwpHelper.IsRunningAsUwp())
@@ -23,7 +22,7 @@ internal class UpdaterImplementation : IUpdaterService
         }
 
         newModuleVersions = await UpdateRepository.GetUpdatablePackages();
-        return newModuleVersions.Count > 0;*/
+        return newModuleVersions.Count > 0;
     }
 
     public Task StartUpdate()
