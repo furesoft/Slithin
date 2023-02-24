@@ -21,5 +21,7 @@ public interface IRemarkableDevice
 
     void Upload(DirectoryInfo dirInfo, string path);
 
+    IReadOnlyList<(string, long)> FetchFilesWithModified(string directory);
+
     CommandResult RunCommand(string cmd);
 }

@@ -53,6 +53,18 @@ internal class DeviceImplementation : IRemarkableDevice
         _scp.Download(path, fileInfo);
     }
 
+    public IReadOnlyList<(string, long)> FetchFilesWithModified(string directory)
+    {
+        var output = _client.RunCommand($"find {directory} -type f -not -path '*/\\.*'; find {directory} -type f -not -path '*/\\.*' | xargs stat -c \"%Y\"").Result.Split('\n');
+        int middle = output.Length / 2;
+        var result = new List<(string, long)>();
+        for (int i = 0; i < middle; i++)
+        {
+            result.Add((output[i].Substring(directory.Length + 1), long.Parse(output[i + middle])));
+        }
+        return result;
+    }
+
     public void Reload()
     {
         _client.RunCommand("systemctl restart xochitl");

@@ -47,6 +47,16 @@ internal class MockDevice : IRemarkableDevice
         zipStream.CopyTo(fileStream);
     }
 
+    public IReadOnlyList<(string, long)> FetchFilesWithModified(string directory)
+    {
+        var list = new List<(string, long)>();
+        foreach (FileEntry file in _filesystem.EnumerateFileEntries(directory, "*.*", SearchOption.AllDirectories))
+        {
+            list.Add((file.FullName.Substring(directory.Length + 1), file.LastWriteTime.Ticks));
+        }
+        return list;
+    }
+
     public void Reload()
     {
     }

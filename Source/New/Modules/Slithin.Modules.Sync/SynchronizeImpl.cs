@@ -1,4 +1,5 @@
 ﻿using AuroraModularis.Core;
+using Slithin.Modules.Device.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.UI.Models;
 
@@ -11,6 +12,8 @@ public class SynchronizeImpl : ISynchronizeService
         await Task.Run(() =>
         {
             ServiceContainer.Current.Resolve<INotificationService>().ShowStatus("Synchronizing Device");
+            var notebooks = ServiceContainer.Current.Resolve<IRemarkableDevice>().FetchFilesWithModified("/home/root/.local/share/remarkable/xochitl");
+            var a = 1;
         });
     }
 }
