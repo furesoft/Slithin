@@ -46,7 +46,9 @@ public class MainWindowViewModel : BaseViewModel
 
         SynchronizeCommand = new DelegateCommand(async _ =>
         {
-            await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize();
+            var credential = ServiceContainer.Current.Resolve<ILoginService>().GetCurrentCredential();
+            ServiceContainer.Current.Resolve<IDeviceDiscovery>().PingDevice(System.Net.IPAddress.Parse(credential.IP));
+            await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize(false);
         });
     }
 
