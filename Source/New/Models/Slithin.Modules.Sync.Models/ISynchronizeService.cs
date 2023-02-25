@@ -2,5 +2,5 @@
 
 public interface ISynchronizeService
 {
-    void Synchronize();
+    Task Synchronize();
 }

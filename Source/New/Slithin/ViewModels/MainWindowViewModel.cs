@@ -44,9 +44,9 @@ public class MainWindowViewModel : BaseViewModel
         _eventService = eventService;
         Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
 
-        SynchronizeCommand = new DelegateCommand(_ =>
+        SynchronizeCommand = new DelegateCommand(async _ =>
         {
-            ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize();
+            await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize();
         });
     }
 
