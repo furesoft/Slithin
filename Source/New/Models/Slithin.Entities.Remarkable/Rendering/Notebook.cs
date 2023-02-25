@@ -93,7 +93,7 @@ public class Notebook
     {
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
-        var pathList = ServiceContainer.Current.Resolve<PathList>();
+        var pathList = ServiceContainer.Current.Resolve<DevicePathList>();
 
         var notebooksDir = pathManager.NotebooksDir;
 
@@ -113,7 +113,7 @@ public class Notebook
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
         var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
-        var pathList = ServiceContainer.Current.Resolve<PathList>();
+        var pathList = ServiceContainer.Current.Resolve<DevicePathList>();
 
         var notebooksDir = pathManager.NotebooksDir;
 
