@@ -12,11 +12,12 @@ public class SynchronizeImpl : ISynchronizeService
     {
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
+        var pathList = ServiceContainer.Current.Resolve<PathList>();
         var notificationService = ServiceContainer.Current.Resolve<INotificationService>();
 
         {
             var status = notificationService.ShowStatus("Synchronizing Device: Fetching Notebooks");
-            var notebooks = device.FetchFilesWithModified("/home/root/.local/share/remarkable/xochitl");
+            var notebooks = device.FetchFilesWithModified(pathList.Notebooks);
 
             foreach (var (p, time) in notebooks)
             {
@@ -25,7 +26,7 @@ public class SynchronizeImpl : ISynchronizeService
                 if (!fileInfo.Exists || IsFileOlder(fileInfo, time))
                 {
                     status.Step($"Sync Notebook: Downloading {p} ...");
-                    device.Download($"/home/root/.local/share/remarkable/xochitl/{p}", fileInfo);
+                    device.Download(pathList.Notebooks + p, fileInfo);
                 }
                 else
                 {
@@ -36,7 +37,7 @@ public class SynchronizeImpl : ISynchronizeService
 
         {
             var status = notificationService.ShowStatus("Synchronizing Device: Fetching Templates");
-            var templates = device.FetchFilesWithModified("/usr/share/remarkable/templates");
+            var templates = device.FetchFilesWithModified(pathList.Templates);
 
             foreach (var (p, time) in templates)
             {
@@ -45,7 +46,7 @@ public class SynchronizeImpl : ISynchronizeService
                 if (!fileInfo.Exists || IsFileOlder(fileInfo, time))
                 {
                     status.Step($"Sync Template: Downloading {p} ...");
-                    device.Download($"/usr/share/remarkable/templates/{p}", fileInfo);
+                    device.Download(pathList.Templates + p, fileInfo);
                 }
                 else
                 {
