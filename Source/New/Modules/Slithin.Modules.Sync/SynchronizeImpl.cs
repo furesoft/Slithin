@@ -1,6 +1,7 @@
 ﻿using AuroraModularis.Core;
 using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
+using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Sync.Models;
 using Slithin.Modules.UI.Models;
 
@@ -13,9 +14,10 @@ public class SynchronizeImpl : ISynchronizeService
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
         var notificationService = ServiceContainer.Current.Resolve<INotificationService>();
+        var locService = ServiceContainer.Current.Resolve<ILocalisationService>();
 
         {
-            var status = notificationService.ShowStatus("Synchronizing Device: Fetching Notebooks");
+            var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Notebooks"));
             var notebooks = device.FetchedNotebooks;
 
             foreach (var fetchResult in notebooks)
@@ -24,12 +26,12 @@ public class SynchronizeImpl : ISynchronizeService
                 var fileInfo = new FileInfo(path);
                 if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
                 {
-                    status.Step($"Sync Notebook: Downloading {fetchResult.ShortPath} ...");
+                    status.Step(locService.GetStringFormat("Sync Notebook: Downloading {0} ...", fetchResult.ShortPath));
                     device.Download(fetchResult.FullPath, fileInfo);
                 }
                 else
                 {
-                    status.Step($"Sync Notebook: Skipping {fetchResult.ShortPath} (Up to date)");
+                    status.Step(locService.GetStringFormat("Sync Notebook: Skipping {0} (Up to date)", fetchResult.ShortPath));
                 }
             }
         }
@@ -44,12 +46,12 @@ public class SynchronizeImpl : ISynchronizeService
                 var fileInfo = new FileInfo(path);
                 if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
                 {
-                    status.Step($"Sync Template: Downloading {fetchResult.ShortPath} ...");
+                    status.Step(locService.GetStringFormat("Sync Template: Downloading {0} ...", fetchResult.ShortPath));
                     device.Download(fetchResult.FullPath, fileInfo);
                 }
                 else
                 {
-                    status.Step($"Sync Template: Skipping {fetchResult.ShortPath} (Up to date)");
+                    status.Step(locService.GetStringFormat("Sync Template: Skipping {0} (Up to date)", fetchResult.ShortPath));
                 }
             }
         }
@@ -64,12 +66,12 @@ public class SynchronizeImpl : ISynchronizeService
                 var fileInfo = new FileInfo(path);
                 if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
                 {
-                    status.Step($"Sync Screen: Downloading {fetchResult.ShortPath} ...");
+                    status.Step(locService.GetStringFormat("Sync Screen: Downloading {0} ...", fetchResult.ShortPath));
                     device.Download(fetchResult.FullPath, fileInfo);
                 }
                 else
                 {
-                    status.Step($"Sync Screen: Skipping {fetchResult.ShortPath} (Up to date)");
+                    status.Step(locService.GetStringFormat("Sync Screen: Skipping {0} (Up to date)", fetchResult.ShortPath));
                 }
             }
         }
