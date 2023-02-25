@@ -21,5 +21,18 @@ public interface IRemarkableDevice
 
     void Upload(DirectoryInfo dirInfo, string path);
 
+    IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories);
+
+    IReadOnlyList<FileFetchResult> FetchedNotebooks { get; }
+    IReadOnlyList<FileFetchResult> FetchedTemplates { get; }
+    IReadOnlyList<FileFetchResult> FetchedScreens { get; }
+
     CommandResult RunCommand(string cmd);
+}
+
+public struct FileFetchResult
+{
+    public string ShortPath { get; init; }
+    public string FullPath { get; init; }
+    public long LastModified { get; init; }
 }

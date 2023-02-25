@@ -16,6 +16,7 @@ using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Menu.Views;
 using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
 
 namespace Slithin.ViewModels;
 
@@ -43,9 +44,9 @@ public class MainWindowViewModel : BaseViewModel
         _eventService = eventService;
         Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
 
-        SynchronizeCommand = new DelegateCommand(_ =>
+        SynchronizeCommand = new DelegateCommand(async _ =>
         {
-            //ToDo: implement synchronize command
+            await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize();
         });
     }
 

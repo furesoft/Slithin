@@ -47,6 +47,27 @@ internal class MockDevice : IRemarkableDevice
         zipStream.CopyTo(fileStream);
     }
 
+    public IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories)
+    {
+        var list = new List<FileFetchResult>();
+        foreach (FileEntry file in _filesystem.EnumerateFileEntries(directory, searchPattern, searchOption))
+        {
+            list.Add(new()
+            {
+                ShortPath = file.FullName.Substring(directory.Length),
+                FullPath = file.FullName,
+                LastModified = file.LastWriteTime.Ticks,
+            });
+        }
+        return list;
+    }
+
+    public IReadOnlyList<FileFetchResult> FetchedNotebooks => FetchFilesWithModified(ServiceContainer.Current.Resolve<PathList>().Notebooks);
+
+    public IReadOnlyList<FileFetchResult> FetchedTemplates => FetchFilesWithModified(ServiceContainer.Current.Resolve<PathList>().Templates);
+
+    public IReadOnlyList<FileFetchResult> FetchedScreens => FetchFilesWithModified(ServiceContainer.Current.Resolve<PathList>().Screens, "*.png", SearchOption.TopDirectoryOnly);
+
     public void Reload()
     {
     }

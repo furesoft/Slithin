@@ -174,5 +174,14 @@
   "Slithin is updating. Please be patient.": "Slithin is updating. Please be patient.",
   "Slithin Update": "Slithin Update",
   "Module": "Module",
-  "Progress": "Progress"
+  "Progress": "Progress",
+  "Synchronizing Device: Fetching Notebooks": "Synchronizing Device: Fetching Notebooks",
+  "Sync Notebook: Downloading {0} ...": "Sync Notebook: Downloading {0} ...",
+  "Sync Notebook: Skipping {0} (Up to date)": "Sync Notebook: Skipping {0} (Up to date)",
+  "Synchronizing Device: Fetching Templates": "Synchronizing Device: Fetching Templates",
+  "Sync Template: Downloading {0} ...": "Sync Template: Downloading {0} ...",
+  "Sync Template: Skipping {0} (Up to date)": "Sync Template: Skipping {0} (Up to date)",
+  "Synchronizing Device: Fetching Screens": "Synchronizing Device: Fetching Screens",
+  "Sync Screen: Downloading {0} ...": "Sync Screen: Downloading {0} ...",
+  "Sync Screen: Skipping {0} (Up to date)": "Sync Screen: Skipping {0} (Up to date)",
 }
