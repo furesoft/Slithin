@@ -18,7 +18,7 @@ internal class DevicePageViewModel : BaseViewModel
     private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;
     private readonly TemplatesFilter _templatesFilter;
-    private readonly PathList _pathList;
+    private readonly DevicePathList _devicePathList;
     private readonly ILoginService _loginService;
     private readonly IDialogService _dialogService;
     private readonly IPathManager _pathManager;
@@ -42,7 +42,7 @@ internal class DevicePageViewModel : BaseViewModel
         ILoadingService loadingService,
         INotificationService notificationService,
         ILoginService loginService, IDialogService dialogService,
-        ILogger logger, TemplatesFilter templatesFilter, PathList pathList)
+        ILogger logger, TemplatesFilter templatesFilter, DevicePathList devicePathList)
     {
         _versionService = versionService;
         _xochitlService = xochitlService;
@@ -56,7 +56,7 @@ internal class DevicePageViewModel : BaseViewModel
         _dialogService = dialogService;
         _logger = logger;
         _templatesFilter = templatesFilter;
-        _pathList = pathList;
+        _devicePathList = devicePathList;
         RemoveEmailCommand = new DelegateCommand(RemoveEmail);
         ReloadDeviceCommand = new DelegateCommand(ReloadDevice);
     }
@@ -248,7 +248,7 @@ internal class DevicePageViewModel : BaseViewModel
     {
         _notificationService.Show(_localisationService.GetString("Uploading Screens"));
 
-        _remarkableDevice.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), _pathList.Screens);
+        _remarkableDevice.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), _devicePathList.Screens);
 
         _remarkableDevice.Reload();
     }
@@ -257,7 +257,7 @@ internal class DevicePageViewModel : BaseViewModel
     {
         _notificationService.Show(_localisationService.GetString("Uploading Templates"));
 
-        _remarkableDevice.Upload(new DirectoryInfo(_pathManager.TemplatesDir), _pathList.Templates);
+        _remarkableDevice.Upload(new DirectoryInfo(_pathManager.TemplatesDir), _devicePathList.Templates);
 
         _remarkableDevice.Reload();
     }

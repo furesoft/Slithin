@@ -78,7 +78,7 @@ internal class CustomScreen : NotifyObject
     {
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
-        var pathList = ServiceContainer.Current.Resolve<PathList>();
+        var pathList = ServiceContainer.Current.Resolve<DevicePathList>();
 
         device.Upload(new FileInfo(Path.Combine(pathManager.CustomScreensDir, Filename)), pathList.Screens + Filename);
         /*
