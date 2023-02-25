@@ -54,9 +54,10 @@ internal class DeviceImplementation : IRemarkableDevice
         _scp.Download(path, fileInfo);
     }
 
-    public IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory)
+    public IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories)
     {
-        var output = _client.RunCommand($"find {directory} -type f -not -path '*/\\.*'; find {directory} -type f -not -path '*/\\.*' | xargs stat -c \"%Y\"").Result.Split('\n');
+        var expandedSearchOption = searchOption == SearchOption.TopDirectoryOnly ? "-maxdepth 1" : "";
+        var output = _client.RunCommand($"find {directory} {expandedSearchOption} -type f -not -path '*/\\.*' -path '{searchPattern}'; find {directory} {expandedSearchOption} -type f -not -path '*/\\.*' -path '{searchPattern}' | xargs stat -c \"%Y\"").Result.Split('\n');
         int middle = output.Length / 2;
         var result = new List<FileFetchResult>();
         for (int i = 0; i < middle; i++)
@@ -76,7 +77,7 @@ internal class DeviceImplementation : IRemarkableDevice
 
     public IReadOnlyList<FileFetchResult> FetchedTemplates => FetchFilesWithModified(ServiceContainer.Current.Resolve<PathList>().Templates);
 
-    public IReadOnlyList<FileFetchResult> FetchedScreens => throw new NotImplementedException();
+    public IReadOnlyList<FileFetchResult> FetchedScreens => FetchFilesWithModified(ServiceContainer.Current.Resolve<PathList>().Screens, "*.png", SearchOption.TopDirectoryOnly);
 
     public void Reload()
     {

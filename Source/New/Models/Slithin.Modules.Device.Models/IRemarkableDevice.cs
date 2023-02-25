@@ -21,7 +21,7 @@ public interface IRemarkableDevice
 
     void Upload(DirectoryInfo dirInfo, string path);
 
-    IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory);
+    IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories);
 
     IReadOnlyList<FileFetchResult> FetchedNotebooks { get; }
     IReadOnlyList<FileFetchResult> FetchedTemplates { get; }

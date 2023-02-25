@@ -54,6 +54,26 @@ public class SynchronizeImpl : ISynchronizeService
             }
         }
 
+        {
+            var status = notificationService.ShowStatus("Synchronizing Device: Fetching Screens");
+            var screens = device.FetchedScreens;
+
+            foreach (var fetchResult in screens)
+            {
+                var path = Path.Combine(pathManager.CustomScreensDir, fetchResult.ShortPath);
+                var fileInfo = new FileInfo(path);
+                if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
+                {
+                    status.Step($"Sync Screen: Downloading {fetchResult.ShortPath} ...");
+                    device.Download(fetchResult.FullPath, fileInfo);
+                }
+                else
+                {
+                    status.Step($"Sync Screen: Skipping {fetchResult.ShortPath} (Up to date)");
+                }
+            }
+        }
+
         return Task.CompletedTask;
     }
 
