@@ -12,45 +12,44 @@ public class SynchronizeImpl : ISynchronizeService
     {
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
-        var pathList = ServiceContainer.Current.Resolve<PathList>();
         var notificationService = ServiceContainer.Current.Resolve<INotificationService>();
 
         {
             var status = notificationService.ShowStatus("Synchronizing Device: Fetching Notebooks");
-            var notebooks = device.FetchFilesWithModified(pathList.Notebooks);
+            var notebooks = device.FetchedNotebooks;
 
-            foreach (var (p, time) in notebooks)
+            foreach (var fetchResult in notebooks)
             {
-                var path = Path.Combine(pathManager.NotebooksDir, p);
+                var path = Path.Combine(pathManager.NotebooksDir, fetchResult.ShortPath);
                 var fileInfo = new FileInfo(path);
-                if (!fileInfo.Exists || IsFileOlder(fileInfo, time))
+                if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
                 {
-                    status.Step($"Sync Notebook: Downloading {p} ...");
-                    device.Download(pathList.Notebooks + p, fileInfo);
+                    status.Step($"Sync Notebook: Downloading {fetchResult.ShortPath} ...");
+                    device.Download(fetchResult.FullPath, fileInfo);
                 }
                 else
                 {
-                    status.Step($"Sync Notebook: Skipping {p} (Up to date)");
+                    status.Step($"Sync Notebook: Skipping {fetchResult.ShortPath} (Up to date)");
                 }
             }
         }
 
         {
             var status = notificationService.ShowStatus("Synchronizing Device: Fetching Templates");
-            var templates = device.FetchFilesWithModified(pathList.Templates);
+            var templates = device.FetchedTemplates;
 
-            foreach (var (p, time) in templates)
+            foreach (var fetchResult in templates)
             {
-                var path = p == "templates.json" ? Path.Combine(pathManager.ConfigBaseDir, "templates.json") : Path.Combine(pathManager.TemplatesDir, p);
+                var path = fetchResult.ShortPath == "templates.json" ? Path.Combine(pathManager.ConfigBaseDir, "templates.json") : Path.Combine(pathManager.TemplatesDir, fetchResult.ShortPath);
                 var fileInfo = new FileInfo(path);
-                if (!fileInfo.Exists || IsFileOlder(fileInfo, time))
+                if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
                 {
-                    status.Step($"Sync Template: Downloading {p} ...");
-                    device.Download(pathList.Templates + p, fileInfo);
+                    status.Step($"Sync Template: Downloading {fetchResult.ShortPath} ...");
+                    device.Download(fetchResult.FullPath, fileInfo);
                 }
                 else
                 {
-                    status.Step($"Sync Template: Skipping {p} (Up to date)");
+                    status.Step($"Sync Template: Skipping {fetchResult.ShortPath} (Up to date)");
                 }
             }
         }

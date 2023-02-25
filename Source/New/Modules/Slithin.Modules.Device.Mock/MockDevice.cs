@@ -47,15 +47,26 @@ internal class MockDevice : IRemarkableDevice
         zipStream.CopyTo(fileStream);
     }
 
-    public IReadOnlyList<(string, long)> FetchFilesWithModified(string directory)
+    public IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory)
     {
-        var list = new List<(string, long)>();
+        var list = new List<FileFetchResult>();
         foreach (FileEntry file in _filesystem.EnumerateFileEntries(directory, "*.*", SearchOption.AllDirectories))
         {
-            list.Add((file.FullName.Substring(directory.Length + 1), file.LastWriteTime.Ticks));
+            list.Add(new()
+            {
+                ShortPath = file.FullName.Substring(directory.Length),
+                FullPath = file.FullName,
+                LastModified = file.LastWriteTime.Ticks,
+            });
         }
         return list;
     }
+
+    public IReadOnlyList<FileFetchResult> FetchedNotebooks => FetchFilesWithModified(ServiceContainer.Current.Resolve<PathList>().Notebooks);
+
+    public IReadOnlyList<FileFetchResult> FetchedTemplates => FetchFilesWithModified(ServiceContainer.Current.Resolve<PathList>().Templates);
+
+    public IReadOnlyList<FileFetchResult> FetchedScreens => throw new NotImplementedException();
 
     public void Reload()
     {

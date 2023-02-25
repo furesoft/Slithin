@@ -1,4 +1,5 @@
-﻿using Renci.SshNet;
+﻿using AuroraModularis.Core;
+using Renci.SshNet;
 using Renci.SshNet.Common;
 using Slithin.Entities;
 using Slithin.Modules.Device.Models;
@@ -53,17 +54,29 @@ internal class DeviceImplementation : IRemarkableDevice
         _scp.Download(path, fileInfo);
     }
 
-    public IReadOnlyList<(string, long)> FetchFilesWithModified(string directory)
+    public IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory)
     {
         var output = _client.RunCommand($"find {directory} -type f -not -path '*/\\.*'; find {directory} -type f -not -path '*/\\.*' | xargs stat -c \"%Y\"").Result.Split('\n');
         int middle = output.Length / 2;
-        var result = new List<(string, long)>();
+        var result = new List<FileFetchResult>();
         for (int i = 0; i < middle; i++)
         {
-            result.Add((output[i].Substring(directory.Length + 1), long.Parse(output[i + middle])));
+            result.Add(new()
+            {
+                ShortPath = output[i].Substring(directory.Length),
+                FullPath = output[i],
+                LastModified = long.Parse(output[i + middle]),
+            });
         }
+
         return result;
     }
+
+    public IReadOnlyList<FileFetchResult> FetchedNotebooks => FetchFilesWithModified(ServiceContainer.Current.Resolve<PathList>().Notebooks);
+
+    public IReadOnlyList<FileFetchResult> FetchedTemplates => FetchFilesWithModified(ServiceContainer.Current.Resolve<PathList>().Templates);
+
+    public IReadOnlyList<FileFetchResult> FetchedScreens => throw new NotImplementedException();
 
     public void Reload()
     {
