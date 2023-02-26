@@ -1,20 +1,24 @@
 ﻿using System;
-using Avalonia;
+using System.Diagnostics;
+using System.IO;
 
 namespace Slithin.UpdateInstaller;
 
-class Program
+public static class Program
 {
-    // Initialization code. Don't use any Avalonia, third-party APIs or any
-    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-    // yet and stuff might break.
-    [STAThread]
-    public static void Main(string[] args) => BuildAvaloniaApp()
-        .StartWithClassicDesktopLifetime(args);
+    public static void Main(string[] args)
+    {
+        var executable = args[1];
+        var slithinPath = new FileInfo(executable).Directory.ToString();
+        var basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SlithinUpdate");
 
-    // Avalonia configuration, don't remove; also used by visual designer.
-    public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
-            .UsePlatformDetect()
-            .LogToTrace();
+        foreach (var file in Directory.GetFiles(basePath))
+        {
+            File.Copy(file, Path.Combine(slithinPath, Path.GetFileName(file)), true);
+        }
+        
+        Process.Start(new ProcessStartInfo("dotnet", executable));
+
+        Environment.Exit(0);
+    }
 }

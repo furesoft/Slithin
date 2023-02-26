@@ -25,7 +25,7 @@ internal class UpdaterViewModel : BaseViewModel
 
         await ApplyDownloadQueue(workingQueue);
 
-        Process.Start(new ProcessStartInfo("dotnet", typeof(UpdateInstaller.App).Assembly.Location + " " + Path.Combine(Environment.CurrentDirectory, "Slithin.dll")));
+        Process.Start(new ProcessStartInfo("dotnet", typeof(UpdateInstaller.Program).Assembly.Location + " " + Path.Combine(Environment.CurrentDirectory, "Slithin.dll")));
 
         Environment.Exit(0);
     }
