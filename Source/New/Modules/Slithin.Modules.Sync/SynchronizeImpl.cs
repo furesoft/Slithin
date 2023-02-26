@@ -9,21 +9,23 @@ namespace Slithin.Modules.Sync;
 
 public class SynchronizeImpl : ISynchronizeService
 {
-    public async Task Synchronize(bool notificationsInNewWindow)
+    public Task Synchronize(bool notificationsInNewWindow)
     {
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
         var notificationService = ServiceContainer.Current.Resolve<INotificationService>();
         var locService = ServiceContainer.Current.Resolve<ILocalisationService>();
 
-        var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Notebooks"), notificationsInNewWindow);
+        using var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Notebooks"),
+            isCancellable: true,
+            notificationsInNewWindow);
         var notebooks = device.FetchedNotebooks;
 
         foreach (var fetchResult in notebooks)
         {
             if (status.Token.IsCancellationRequested)
             {
-                return;
+                return Task.CompletedTask;
             }
 
             var path = Path.Combine(pathManager.NotebooksDir, fetchResult.ShortPath);
@@ -46,7 +48,7 @@ public class SynchronizeImpl : ISynchronizeService
         {
             if (status.Token.IsCancellationRequested)
             {
-                return;
+                return Task.CompletedTask;
             }
 
             var path = fetchResult.ShortPath == "templates.json" ? Path.Combine(pathManager.ConfigBaseDir, "templates.json") : Path.Combine(pathManager.TemplatesDir, fetchResult.ShortPath);
@@ -69,7 +71,7 @@ public class SynchronizeImpl : ISynchronizeService
         {
             if (status.Token.IsCancellationRequested)
             {
-                return;
+                return Task.CompletedTask;
             }
 
             var path = Path.Combine(pathManager.CustomScreensDir, fetchResult.ShortPath);
@@ -84,6 +86,8 @@ public class SynchronizeImpl : ISynchronizeService
                 status.Step(locService.GetStringFormat("Sync Screen: Skipping {0} (Up to date)", fetchResult.ShortPath));
             }
         }
+
+        return Task.CompletedTask;
     }
 
     private static bool IsFileOlder(FileInfo file, long other)

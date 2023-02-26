@@ -16,7 +16,7 @@
                            HorizontalAlignment="Stretch" VerticalAlignment="Center" />
             </StackPanel>
 
-            <Button Classes="Flat" Margin="5" Command="{Binding CancelCommand}" Content="{core:Localisation 'Cancel'}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+            <Button IsVisible="{Binding IsCancellable, Mode=TwoWay}" Classes="Flat" Margin="5" Command="{Binding CancelCommand}" Content="{core:Localisation 'Cancel'}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
         </Grid>
     </Border>
 </UserControl>

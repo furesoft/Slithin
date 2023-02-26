@@ -14,7 +14,7 @@ internal class StatusController : IStatusController
     private StatusViewModel _viewModel = new();
     private Window _window;
 
-    public StatusController(bool showInNewWindow)
+    public StatusController(bool showInNewWindow, bool isCancellable)
     {
         _cancellationTokenSource = new();
         _cancellationTokenSource.Token.Register(Finish);
@@ -22,6 +22,7 @@ internal class StatusController : IStatusController
         Dispatcher.UIThread.InvokeAsync(() =>
         {
             var modal = new StatusModal();
+            _viewModel.IsCancellable = isCancellable;
             _viewModel.CancellationTokenSource = _cancellationTokenSource;
 
             modal.DataContext = _viewModel;
@@ -47,11 +48,6 @@ internal class StatusController : IStatusController
             }
         });
         _showInNewWindow = showInNewWindow;
-    }
-
-    ~StatusController()
-    {
-        Finish();
     }
 
     public StatusViewModel ViewModel => _viewModel;
@@ -106,9 +102,18 @@ internal class StatusController : IStatusController
         public ICommand CancelCommand { get; set; }
         public CancellationTokenSource CancellationTokenSource { get; set; }
 
+        public bool IsCancellable { get; set; }
+
         private void Cancel(object obj)
         {
             CancellationTokenSource.Cancel();
         }
+    }
+
+    public void Dispose()
+    {
+        _cancellationTokenSource.Dispose();
+        
+        Finish();
     }
 }
