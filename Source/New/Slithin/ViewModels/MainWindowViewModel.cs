@@ -28,6 +28,7 @@ public class MainWindowViewModel : BaseViewModel
     private readonly IEventService _eventService;
     private readonly IDiagnosticService _diagnosticService;
     private readonly ILocalisationService _localisationService;
+    private readonly INotificationService _notificationService;
     private object _contextualMenu;
 
     private Page _selectedTab;
@@ -42,20 +43,15 @@ public class MainWindowViewModel : BaseViewModel
     {
         _diagnosticService = diagnosticService;
         _localisationService = localisationService;
+        _notificationService = notificationService;
         _contextualMenuBuilder = contextualMenuBuilder;
         _eventService = eventService;
         Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
 
         SynchronizeCommand = new DelegateCommand(async _ =>
         {
-            if (await ServiceContainer.Current.Resolve<IRemarkableDevice>().Ping())
-            {
-                await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize(false);
-            }
-            else
-            {
-                notificationService.ShowError(localisationService.GetString("Your remarkable is not reachable. Please check your connection and restart Slithin"));
-            }
+            //ToDo: add support for cancellation in Status
+            await Task.Run(Synchronize);
         });
     }
 
@@ -97,6 +93,20 @@ public class MainWindowViewModel : BaseViewModel
     private static object? GetIcon(PageIconAttribute? pageIconAttribute, Type type)
     {
         return Application.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
+    }
+
+    private async Task Synchronize()
+    {
+        var cts = new CancellationTokenSource();
+
+        if (await ServiceContainer.Current.Resolve<IRemarkableDevice>().Ping())
+        {
+            await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize(false, cts.Token);
+        }
+        else
+        {
+            _notificationService.ShowError(_localisationService.GetString("Your remarkable is not reachable. Please check your connection and restart Slithin"));
+        }
     }
 
     private double CalculateMenuWidth()

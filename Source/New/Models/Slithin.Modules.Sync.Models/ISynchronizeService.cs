@@ -2,5 +2,5 @@
 
 public interface ISynchronizeService
 {
-    Task Synchronize(bool notificationsInNewWindow);
+    Task Synchronize(bool notificationsInNewWindow, CancellationToken token);
 }

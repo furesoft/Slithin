@@ -9,70 +9,79 @@ namespace Slithin.Modules.Sync;
 
 public class SynchronizeImpl : ISynchronizeService
 {
-    public Task Synchronize(bool notificationsInNewWindow)
+    public Task Synchronize(bool notificationsInNewWindow, CancellationToken token)
     {
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
         var notificationService = ServiceContainer.Current.Resolve<INotificationService>();
         var locService = ServiceContainer.Current.Resolve<ILocalisationService>();
 
-        {
-            var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Notebooks"), notificationsInNewWindow);
-            var notebooks = device.FetchedNotebooks;
+        var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Notebooks"), notificationsInNewWindow);
+        var notebooks = device.FetchedNotebooks;
 
-            foreach (var fetchResult in notebooks)
+        foreach (var fetchResult in notebooks)
+        {
+            if (token.IsCancellationRequested)
             {
-                var path = Path.Combine(pathManager.NotebooksDir, fetchResult.ShortPath);
-                var fileInfo = new FileInfo(path);
-                if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
-                {
-                    status.Step(locService.GetStringFormat("Sync Notebook: Downloading {0} ...", fetchResult.ShortPath));
-                    device.Download(fetchResult.FullPath, fileInfo);
-                }
-                else
-                {
-                    status.Step(locService.GetStringFormat("Sync Notebook: Skipping {0} (Up to date)", fetchResult.ShortPath));
-                }
+                return Task.CompletedTask;
+            }
+
+            var path = Path.Combine(pathManager.NotebooksDir, fetchResult.ShortPath);
+            var fileInfo = new FileInfo(path);
+            if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
+            {
+                status.Step(locService.GetStringFormat("Sync Notebook: Downloading {0} ...", fetchResult.ShortPath));
+                device.Download(fetchResult.FullPath, fileInfo);
+            }
+            else
+            {
+                status.Step(locService.GetStringFormat("Sync Notebook: Skipping {0} (Up to date)", fetchResult.ShortPath));
             }
         }
 
-        {
-            var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Templates"), notificationsInNewWindow);
-            var templates = device.FetchedTemplates;
+        status.Step(locService.GetString("Synchronizing Device: Fetching Templates"));
+        var templates = device.FetchedTemplates;
 
-            foreach (var fetchResult in templates)
+        foreach (var fetchResult in templates)
+        {
+            if (token.IsCancellationRequested)
             {
-                var path = fetchResult.ShortPath == "templates.json" ? Path.Combine(pathManager.ConfigBaseDir, "templates.json") : Path.Combine(pathManager.TemplatesDir, fetchResult.ShortPath);
-                var fileInfo = new FileInfo(path);
-                if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
-                {
-                    status.Step(locService.GetStringFormat("Sync Template: Downloading {0} ...", fetchResult.ShortPath));
-                    device.Download(fetchResult.FullPath, fileInfo);
-                }
-                else
-                {
-                    status.Step(locService.GetStringFormat("Sync Template: Skipping {0} (Up to date)", fetchResult.ShortPath));
-                }
+                return Task.CompletedTask;
+            }
+
+            var path = fetchResult.ShortPath == "templates.json" ? Path.Combine(pathManager.ConfigBaseDir, "templates.json") : Path.Combine(pathManager.TemplatesDir, fetchResult.ShortPath);
+            var fileInfo = new FileInfo(path);
+            if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
+            {
+                status.Step(locService.GetStringFormat("Sync Template: Downloading {0} ...", fetchResult.ShortPath));
+                device.Download(fetchResult.FullPath, fileInfo);
+            }
+            else
+            {
+                status.Step(locService.GetStringFormat("Sync Template: Skipping {0} (Up to date)", fetchResult.ShortPath));
             }
         }
 
-        {
-            var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Screens"), notificationsInNewWindow);
-            var screens = device.FetchedScreens;
+        status.Step(locService.GetString("Synchronizing Device: Fetching Screens"));
+        var screens = device.FetchedScreens;
 
-            foreach (var fetchResult in screens)
+        foreach (var fetchResult in screens)
+        {
+            if (token.IsCancellationRequested)
             {
-                var path = Path.Combine(pathManager.CustomScreensDir, fetchResult.ShortPath);
-                var fileInfo = new FileInfo(path);
-                if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
-                {
-                    status.Step(locService.GetStringFormat("Sync Screen: Downloading {0} ...", fetchResult.ShortPath));
-                    device.Download(fetchResult.FullPath, fileInfo);
-                }
-                else
-                {
-                    status.Step(locService.GetStringFormat("Sync Screen: Skipping {0} (Up to date)", fetchResult.ShortPath));
-                }
+                return Task.CompletedTask;
+            }
+
+            var path = Path.Combine(pathManager.CustomScreensDir, fetchResult.ShortPath);
+            var fileInfo = new FileInfo(path);
+            if (!fileInfo.Exists || IsFileOlder(fileInfo, fetchResult.LastModified))
+            {
+                status.Step(locService.GetStringFormat("Sync Screen: Downloading {0} ...", fetchResult.ShortPath));
+                device.Download(fetchResult.FullPath, fileInfo);
+            }
+            else
+            {
+                status.Step(locService.GetStringFormat("Sync Screen: Skipping {0} (Up to date)", fetchResult.ShortPath));
             }
         }
 

@@ -60,14 +60,16 @@ internal class DeviceImplementation : IRemarkableDevice
 
     public void Download(string path, FileInfo fileInfo)
     {
+        fileInfo.Directory.Create();
+
         _scp.Download(path, fileInfo);
     }
 
     public IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories)
     {
         var expandedSearchOption = searchOption == SearchOption.TopDirectoryOnly ? "-maxdepth 1" : "";
-        var findCmdResult = RunCommand($"find {directory} \\( ! -regex '.*/\\..*' \\) {expandedSearchOption} -type f -name '{searchPattern}'");
-        var lastModResult = RunCommand($"find {directory} \\( ! -regex '.*/\\..*' \\) {expandedSearchOption} -type f -name '{searchPattern}' | xargs stat -c \" % Y\"");
+        var findCmdResult = RunCommand($"find {directory} {expandedSearchOption} -type f -name '{searchPattern}'");
+        var lastModResult = RunCommand($"find {directory} {expandedSearchOption} -type f -name '{searchPattern}' | xargs stat -c \"%Y\"");
 
         if (!string.IsNullOrEmpty(findCmdResult.Error) || !string.IsNullOrEmpty(lastModResult.Error))
         {
@@ -75,9 +77,10 @@ internal class DeviceImplementation : IRemarkableDevice
             Debug.WriteLine($"[lastMod]: {lastModResult.Error}");
         }
 
-        var findCmdOutput = findCmdResult.Result.Split('\n');
-        var lastModOutput = lastModResult.Result.Split('\n');
+        var findCmdOutput = findCmdResult.Result.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        var lastModOutput = lastModResult.Result.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
         var result = new List<FileFetchResult>();
+
         for (int i = 0; i < findCmdOutput.Length; i++)
         {
             result.Add(new()
