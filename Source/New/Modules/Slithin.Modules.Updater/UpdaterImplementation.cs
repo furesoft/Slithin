@@ -22,7 +22,8 @@ internal class UpdaterImplementation : IUpdaterService
         }
 
         newModuleVersions = await UpdateRepository.GetUpdatablePackages();
-        return newModuleVersions.Count > 0;
+        
+        return newModuleVersions.Where(_=> _.Key.StartsWith("Slithin")).Any();
     }
 
     public Task StartUpdate()
