@@ -35,8 +35,8 @@ public class MainWindowViewModel : BaseViewModel
     private string _title;
 
     public MainWindowViewModel(IVersionService versionService,
-            ILoginService loginService, IDiagnosticService diagnosticService,
-        ILocalisationService localisationService,
+        ILoginService loginService, IDiagnosticService diagnosticService,
+        ILocalisationService localisationService, INotificationService notificationService,
         IContextualMenuBuilder contextualMenuBuilder,
         IEventService eventService)
     {
@@ -48,14 +48,13 @@ public class MainWindowViewModel : BaseViewModel
 
         SynchronizeCommand = new DelegateCommand(async _ =>
         {
-            var credential = ServiceContainer.Current.Resolve<ILoginService>().GetCurrentCredential();
-            if (await ServiceContainer.Current.Resolve<IRemarkableDevice>().Ping(credential.IP))
+            if (await ServiceContainer.Current.Resolve<IRemarkableDevice>().Ping())
             {
                 await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize(false);
             }
             else
             {
-                ServiceContainer.Current.Resolve<INotificationService>().ShowError(ServiceContainer.Current.Resolve<ILocalisationService>().GetString("Your remarkable is not reachable. Please check your connection and restart Slithin"));
+                notificationService.ShowError(localisationService.GetString("Your remarkable is not reachable. Please check your connection and restart Slithin"));
             }
         });
     }

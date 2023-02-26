@@ -1,5 +1,7 @@
-﻿using Renci.SshNet.Common;
+﻿using AuroraModularis.Core;
+using Renci.SshNet.Common;
 using Slithin.Entities;
+using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Modules.Device.Models;
 
@@ -36,5 +38,12 @@ public interface IRemarkableDevice
     public async Task<bool> Ping(string ip)
     {
         return await Ping(IPAddress.Parse(ip));
+    }
+
+    public async Task<bool> Ping()
+    {
+        var loginService = ServiceContainer.Current.Resolve<ILoginService>();
+
+        return await Ping(loginService.GetCurrentCredential().IP);
     }
 }
