@@ -41,10 +41,10 @@ public class Metadata : NotifyObject, IEqualityComparer<Metadata>
 
     public bool Equals(Metadata x, Metadata y)
     {
-        return x.ID.Equals(y.ID);
+        return EqualityComparer<Metadata>.Default.Equals(x, y);
     }
 
-    public int GetHashCode([DisallowNull] Metadata obj)
+    public int GetHashCode(Metadata obj)
     {
         return HashCode.Combine(obj.VisibleName,
             obj.Version,
