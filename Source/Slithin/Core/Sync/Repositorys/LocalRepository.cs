@@ -69,14 +69,14 @@ public class LocalRepository : IRepository
 
     public void Remove(Metadata md)
     {
-        var files = Directory.GetFiles(_pathManager.NotebooksDir, md.ID + "*");
+        var files = Directory.GetFiles(_pathManager.NotebooksDir, $"{md.ID}*");
 
         foreach (var file in files)
         {
             File.Delete(file);
         }
 
-        var directories = Directory.GetDirectories(_pathManager.NotebooksDir, md.ID + "*");
+        var directories = Directory.GetDirectories(_pathManager.NotebooksDir, $"{md.ID}*");
 
         foreach (var directory in directories)
         {
@@ -86,7 +86,7 @@ public class LocalRepository : IRepository
 
     public void RemoveTemplate(Template template)
     {
-        File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+        File.Delete(Path.Combine(_pathManager.TemplatesDir, $"{template.Filename}.png"));
     }
 
     public void UpdateVersion(Version version)

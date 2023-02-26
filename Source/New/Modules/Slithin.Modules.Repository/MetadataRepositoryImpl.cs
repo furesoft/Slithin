@@ -16,18 +16,18 @@ public class MetadataRepositoryImpl : IMetadataRepository
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
         var mdObj = JsonConvert.DeserializeObject<Metadata>(
-            File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".metadata")));
+            File.ReadAllText(Path.Combine(pathManager.NotebooksDir, $"{id}.metadata")));
         mdObj!.ID = id;
 
-        if (File.Exists(Path.Combine(pathManager.NotebooksDir, id + ".content")))
+        if (File.Exists(Path.Combine(pathManager.NotebooksDir, $"{id}.content")))
         {
             mdObj.Content = JsonConvert.DeserializeObject<ContentFile>(
-                File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".content")));
+                File.ReadAllText(Path.Combine(pathManager.NotebooksDir, $"{id}.content")));
         }
 
-        if (File.Exists(Path.Combine(pathManager.NotebooksDir, id + ".pagedata")))
+        if (File.Exists(Path.Combine(pathManager.NotebooksDir, $"{id}.pagedata")))
         {
-            mdObj.PageData = PageData.Parse(File.ReadAllText(Path.Combine(pathManager.NotebooksDir, id + ".pagedata")));
+            mdObj.PageData = PageData.Parse(File.ReadAllText(Path.Combine(pathManager.NotebooksDir, $"{id}.pagedata")));
         }
         else
         {
@@ -56,10 +56,10 @@ public class MetadataRepositoryImpl : IMetadataRepository
     {
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
-        File.WriteAllText(Path.Combine(pathManager.NotebooksDir, metadata.ID + ".metadata"),
+        File.WriteAllText(Path.Combine(pathManager.NotebooksDir, $"{metadata.ID}.metadata"),
             JsonConvert.SerializeObject(this, Formatting.Indented));
 
-        File.WriteAllText(Path.Combine(pathManager.NotebooksDir, metadata.ID + ".content"),
+        File.WriteAllText(Path.Combine(pathManager.NotebooksDir, $"{metadata.ID}.content"),
             JsonConvert.SerializeObject(metadata.Content, Formatting.Indented));
     }
 
@@ -119,16 +119,16 @@ public class MetadataRepositoryImpl : IMetadataRepository
         var notebooksDir = ServiceContainer.Current.Resolve<IPathManager>().NotebooksDir;
         var pathList = ServiceContainer.Current.Resolve<DevicePathList>();
 
-        scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
-                                pathList.Notebooks + md.ID + ".metadata");
+        scp.Upload(new FileInfo(Path.Combine(notebooksDir, $"{md.ID}.metadata")),
+            $"{pathList.Notebooks}{md.ID}.metadata");
 
         if (md.Type == "DocumentType" &&
                                 (md.Content.FileType == "pdf" || md.Content.FileType == "epub") && !onlyMetadata)
         {
-            scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)),
-                pathList.Notebooks + md.ID + "." + md.Content.FileType);
-            scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
-                pathList.Notebooks + md.ID + ".content");
+            scp.Upload(new FileInfo(Path.Combine(notebooksDir, $"{md.ID}.{md.Content.FileType}")),
+                $"{pathList.Notebooks}{md.ID}.{md.Content.FileType}");
+            scp.Upload(new FileInfo(Path.Combine(notebooksDir, $"{md.ID}.content")),
+                $"{pathList.Notebooks}{md.ID}.content");
         }
     }
 

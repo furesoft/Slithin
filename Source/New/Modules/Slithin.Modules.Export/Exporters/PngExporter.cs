@@ -49,7 +49,7 @@ public class PngExporter : IExportProvider
 
             var pngStrm = _renderingService.RenderPng(page, i, metadata, options.ShouldHideTemplates);
 
-            using var fileStrm = File.Open(Path.Combine(outputPath, i + ".png"), FileMode.OpenOrCreate);
+            using var fileStrm = File.Open(Path.Combine(outputPath, $"{i}.png"), FileMode.OpenOrCreate);
             pngStrm.CopyTo(fileStrm);
             pngStrm.Close();
 

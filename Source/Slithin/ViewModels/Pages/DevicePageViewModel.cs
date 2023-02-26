@@ -155,7 +155,7 @@ public class DevicePageViewModel : BaseViewModel
         var notebooksDir = _pathManager.NotebooksDir;
         NotificationService.Show(_localisationService.GetString("Downloading Notebooks"));
 
-        var cmd = _ssh.RunCommand("ls -p " + PathList.Documents);
+        var cmd = _ssh.RunCommand($"ls -p {PathList.Documents}");
         var allNodes
             = cmd.Result
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries)

@@ -20,7 +20,7 @@ public static class SvgRenderer
 
         if (template != null)
         {
-            group.Children.Add(new SvgImage { Href = "data:image/png;base64," + template, X = 0, Y = 0 });
+            group.Children.Add(new SvgImage { Href = $"data:image/png;base64,{template}", X = 0, Y = 0 });
         }
 
         RenderLayer(page, group);
@@ -83,7 +83,7 @@ public static class SvgRenderer
 
         var filename = i < md.PageData.Data.Length ? md.PageData.Data[i] : "Blank";
         var pathManager = ServiceLocator.Container.Resolve<IPathManager>();
-        var buffer = File.ReadAllBytes(Path.Combine(pathManager.TemplatesDir, filename + ".png"));
+        var buffer = File.ReadAllBytes(Path.Combine(pathManager.TemplatesDir, $"{filename}.png"));
 
         return Convert.ToBase64String(buffer);
     }

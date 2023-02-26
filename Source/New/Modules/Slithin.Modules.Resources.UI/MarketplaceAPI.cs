@@ -42,7 +42,7 @@ public class MarketplaceAPI
         var result = _client.PutAsync<UploadRequest>(request).Result;
 
         var wc = new WebClient();
-        wc.Headers.Add("Authorization", "Bearer " + _token);
+        wc.Headers.Add("Authorization", $"Bearer {_token}");
 
         var ms = new MemoryStream();
         using (var fs = File.OpenRead(fileToUpload))
@@ -57,8 +57,8 @@ public class MarketplaceAPI
     {
         var templateBasePath = new FileInfo(templateInfoPath).Directory.FullName;
 
-        var svgPath = Path.Combine(templateBasePath, template.Filename + ".svg");
-        var pngPath = Path.Combine(templateBasePath, template.Filename + ".png");
+        var svgPath = Path.Combine(templateBasePath, $"{template.Filename}.svg");
+        var pngPath = Path.Combine(templateBasePath, $"{template.Filename}.png");
 
         CreateAndUploadAsset(template, pngPath);
 
@@ -90,7 +90,7 @@ public class MarketplaceAPI
     public byte[] GetBytes(string fileID)
     {
         var wc = new WebClient();
-        wc.Headers.Add("Authorization", "Bearer " + _token);
+        wc.Headers.Add("Authorization", $"Bearer {_token}");
 
         return wc.DownloadData(_client.BuildUri(new RestRequest($"/files/{fileID}")));
     }
@@ -102,7 +102,7 @@ public class MarketplaceAPI
         var result = _client.GetAsync<UploadRequest>(request).Result;
 
         var wc = new WebClient();
-        wc.Headers.Add("Authorization", "Bearer " + _token);
+        wc.Headers.Add("Authorization", $"Bearer {_token}");
 
         var ms = new MemoryStream();
         using (var fs = File.OpenRead(fileToUpload))

@@ -128,7 +128,7 @@ internal class ExportServiceImpl : IExportService
     private static ExportOptions CreatePdfOptions(Metadata metadata, ExportModalViewModel vm)
     {
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
-        var path = Path.Combine(pathManager.NotebooksDir, metadata.ID + ".pdf");
+        var path = Path.Combine(pathManager.NotebooksDir, $"{metadata.ID}.pdf");
 
         var pdfStream = File.OpenRead(path);
         var notebook = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Modify);
@@ -140,7 +140,7 @@ internal class ExportServiceImpl : IExportService
     private static ExportOptions CreateEpubOptions(Metadata metadata, ExportModalViewModel vm)
     {
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
-        var path = Path.Combine(pathManager.NotebooksDir, metadata.ID + ".epub");
+        var path = Path.Combine(pathManager.NotebooksDir, $"{metadata.ID}.epub");
 
         var notebook = EpubReader.Read(path);
         var options = ExportOptions.Create(notebook, vm.PagesSelector);

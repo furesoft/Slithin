@@ -18,7 +18,7 @@ public class S3Wrapper
     {
         var name = Path.GetFileName(key);
         var outputPath = Path.Join(output, name);
-        Console.WriteLine("Downloading: " + key + " to " + outputPath);
+        Console.WriteLine($"Downloading: {key} to {outputPath}");
 
         try
         {
@@ -93,7 +93,7 @@ public class S3Wrapper
 
     public List<S3Object> ListObjects(string bucketName)
     {
-        Console.WriteLine("Listing files from Bucket: " + bucketName);
+        Console.WriteLine($"Listing files from Bucket: {bucketName}");
         List<S3Object> result = new();
         try
         {
@@ -147,7 +147,7 @@ public class S3Wrapper
 
     public void UploadObjectFromFile(string bucketName, string objectName, string filePath)
     {
-        Console.WriteLine("Uploading: " + filePath + " to " + bucketName + " >> " + objectName);
+        Console.WriteLine($"Uploading: {filePath} to {bucketName} >> {objectName}");
         try
         {
             PutObjectRequest putRequest = new()

@@ -47,7 +47,7 @@ public class DownloadSyncNotebooksMessageHandler : IMessageHandler<DownloadSyncN
             {
                 var fi = new FileInfo(Path.Combine(_pathManager.NotebooksDir, file));
 
-                ssh.Download(PathList.Documents + "/" + file, fi);
+                ssh.Download($"{PathList.Documents}/{file}", fi);
             }
         }
     }

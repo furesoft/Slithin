@@ -49,7 +49,7 @@ public class Notebook
 
         for (var p = 0; p < notebook.PageCount; ++p)
         {
-            var path = Path.Combine(pathManager.NotebooksDir, md.ID, md.Content.Pages[p] + ".rm");
+            var path = Path.Combine(pathManager.NotebooksDir, md.ID, $"{md.Content.Pages[p]}.rm");
 
             if (File.Exists(path))
             {
@@ -97,13 +97,13 @@ public class Notebook
 
         var notebooksDir = pathManager.NotebooksDir;
 
-        device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
-               pathList.Notebooks + md.ID + ".metadata");
+        device.Upload(new FileInfo(Path.Combine(notebooksDir, $"{md.ID}.metadata")),
+            $"{pathList.Notebooks}{md.ID}.metadata");
 
-        device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + "." + md.Content.FileType)),
-            pathList.Notebooks + md.ID + "." + md.Content.FileType);
-        device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")),
-            pathList.Notebooks + md.ID + ".content");
+        device.Upload(new FileInfo(Path.Combine(notebooksDir, $"{md.ID}.{md.Content.FileType}")),
+            $"{pathList.Notebooks}{md.ID}.{md.Content.FileType}");
+        device.Upload(new FileInfo(Path.Combine(notebooksDir, $"{md.ID}.content")),
+            $"{pathList.Notebooks}{md.ID}.content");
 
         device.Reload();
     }
@@ -117,11 +117,11 @@ public class Notebook
 
         var notebooksDir = pathManager.NotebooksDir;
 
-        device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
-               pathList.Notebooks + md.ID + ".metadata");
+        device.Upload(new FileInfo(Path.Combine(notebooksDir, $"{md.ID}.metadata")),
+            $"{pathList.Notebooks}{md.ID}.metadata");
 
-        device.RunCommand("mkdir " + pathList.Notebooks + md.ID);
-        device.RunCommand("mkdir " + pathList.Notebooks + md.ID + ".thumbnails");
+        device.RunCommand($"mkdir {pathList.Notebooks}{md.ID}");
+        device.RunCommand($"mkdir {pathList.Notebooks}{md.ID}.thumbnails");
 
         /*
         device.Uploading += (s, e) =>
@@ -132,9 +132,10 @@ public class Notebook
                   , (int)e.Uploaded, (int)e.Size);
           };*/
 
-        device.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".content")), pathList.Notebooks + md.ID + ".content");
+        device.Upload(new FileInfo(Path.Combine(notebooksDir, $"{md.ID}.content")),
+            $"{pathList.Notebooks}{md.ID}.content");
         device.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)), pathList.Notebooks + md.ID);
-        device.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)), pathList.Notebooks + md.ID + ".thumbnails");
+        device.Upload(new DirectoryInfo(Path.Combine(notebooksDir, md.ID)), $"{pathList.Notebooks}{md.ID}.thumbnails");
 
         device.Reload();
     }
@@ -171,13 +172,13 @@ public class Notebook
         {
             var p = Pages[i];
 
-            var path = Path.Combine(pathManager.NotebooksDir, ID, md.Content.Pages[i] + ".rm");
+            var path = Path.Combine(pathManager.NotebooksDir, ID, $"{md.Content.Pages[i]}.rm");
 
             var strm = File.OpenWrite(path);
             var bw = new BinaryWriter(strm);
 
             // write header (33 bytes)
-            bw.Write(Encoding.ASCII.GetBytes("reMarkable .lines file, version=" + (char)Version));
+            bw.Write(Encoding.ASCII.GetBytes($"reMarkable .lines file, version={(char)Version}"));
 
             // write space padding
             bw.Write(Encoding.ASCII.GetBytes("".PadRight(10, ' ')));

@@ -25,7 +25,7 @@ internal partial class RenderingServiceImpl : IRenderingService
 
         if (template != null)
         {
-            group.Children.Add(new SvgImage { Href = "data:image/png;base64," + template, X = 0, Y = 0 });
+            group.Children.Add(new SvgImage { Href = $"data:image/png;base64,{template}", X = 0, Y = 0 });
         }
 
         RenderLayer(page, group);
@@ -47,7 +47,7 @@ internal partial class RenderingServiceImpl : IRenderingService
         }
 
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
-        var buffer = File.ReadAllBytes(Path.Combine(pathManager.TemplatesDir, filename + ".png"));
+        var buffer = File.ReadAllBytes(Path.Combine(pathManager.TemplatesDir, $"{filename}.png"));
 
         return Convert.ToBase64String(buffer);
     }
@@ -139,6 +139,6 @@ internal partial class RenderingServiceImpl : IRenderingService
 
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
 
-        return Path.Combine(pathManager.TemplatesDir, filename + ".png");
+        return Path.Combine(pathManager.TemplatesDir, $"{filename}.png");
     }
 }

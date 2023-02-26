@@ -92,16 +92,16 @@ internal class RestoreTool : ITool
 
                 //upload all data
                 _notificationService.Show("Removing Notebooks From Device");
-                _remarkableDevice.RunCommand("rm -fr " + _devicePathList.Notebooks);
-                _remarkableDevice.RunCommand("mkdir " + _devicePathList.Notebooks);
+                _remarkableDevice.RunCommand($"rm -fr {_devicePathList.Notebooks}");
+                _remarkableDevice.RunCommand($"mkdir {_devicePathList.Notebooks}");
 
                 _notificationService.Show("Removing Screens From Device");
-                _remarkableDevice.RunCommand("rm -fr " + _devicePathList.Screens);
-                _remarkableDevice.RunCommand("mkdir " + _devicePathList.Screens);
+                _remarkableDevice.RunCommand($"rm -fr {_devicePathList.Screens}");
+                _remarkableDevice.RunCommand($"mkdir {_devicePathList.Screens}");
 
                 _notificationService.Show("Removing Templates From Device");
-                _remarkableDevice.RunCommand("rm -fr " + _devicePathList.Templates);
-                _remarkableDevice.RunCommand("mkdir " + _devicePathList.Templates);
+                _remarkableDevice.RunCommand($"rm -fr {_devicePathList.Templates}");
+                _remarkableDevice.RunCommand($"mkdir {_devicePathList.Templates}");
 
                 _notificationService.Show("Uploading Notebooks");
                 _remarkableDevice.Upload(new DirectoryInfo(_pathManager.NotebooksDir), _devicePathList.Notebooks);

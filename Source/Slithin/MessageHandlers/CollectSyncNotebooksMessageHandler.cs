@@ -68,7 +68,7 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
 
         if (pdfFoldersToSync.Any())
         {
-            var pdfSync = new SyncNotebook { Directories = pdfFoldersToSync.Where(_ => allFilenames.Contains(_ + "/")) };
+            var pdfSync = new SyncNotebook { Directories = pdfFoldersToSync.Where(_ => allFilenames.Contains($"{_}/")) };
             _syncNotebooks.Add(pdfSync);
         }
 
@@ -121,14 +121,14 @@ public class CollectSyncNotebooksMessageHandler : IMessageHandler<CollectSyncNot
             //add collecting thumbnails that are not transfered yet: check for title thumbnail if it not exists - transfer whole directory
 
             var thumbnailFilename = GetThumbnailFilename(mdLocalObj);
-            var thumbnailFolder = Path.Combine(notebooksDir, mdLocalObj.ID + ".thumbnails");
+            var thumbnailFolder = Path.Combine(notebooksDir, $"{mdLocalObj.ID}.thumbnails");
             var thumbnailPath = Path.Combine(thumbnailFolder, thumbnailFilename);
 
             if (!File.Exists(thumbnailPath) && !string.IsNullOrEmpty(thumbnailFilename))
             {
                 _syncNotebooks.Add(new SyncNotebook()
                 {
-                    Directories = allFilenames.Where(x => x.EndsWith(mdLocalObj.ID + ".thumbnails"))
+                    Directories = allFilenames.Where(x => x.EndsWith($"{mdLocalObj.ID}.thumbnails"))
                 });
             }
         });

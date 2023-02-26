@@ -19,8 +19,8 @@ public partial class App : Application
     {
         var bootstrapper = BootstrapperBuilder.StartConfigure()
             .WithAppName("Slithin")
-            .UseLiteDb()
-            .AddResourceHook(this);
+            .AddResourceHook(this)
+            .UseLiteDb();
 
         await bootstrapper.BuildAndStartAsync();
 

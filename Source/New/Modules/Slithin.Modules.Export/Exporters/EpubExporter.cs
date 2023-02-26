@@ -35,7 +35,7 @@ public class EpubExporter : IExportProvider
         {
             var percent = (int)((float)pageIndex / (float)options.PagesIndices.Count * 100);
             var rm = metadata.Content.Pages[pageIndex];
-            var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
+            var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, $"{rm}.rm");
 
             //ToDo: implement epub export
 
@@ -59,13 +59,13 @@ public class EpubExporter : IExportProvider
             {
                 Content = svgStrm.ToArray(),
                 ContentType = EpubSharp.Format.EpubContentType.ImageSvg,
-                FileName = pageIndex + ".svg"
+                FileName = $"{pageIndex}.svg"
             });
 
             progress.Report(percent);
         }
 
-        EpubWriter.Write(doc, Path.Combine(outputPath, doc.Title + ".epub"));
+        EpubWriter.Write(doc, Path.Combine(outputPath, $"{doc.Title}.epub"));
 
         return true;
     }

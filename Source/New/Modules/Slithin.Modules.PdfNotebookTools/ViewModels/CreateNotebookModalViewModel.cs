@@ -281,7 +281,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         if (p is NotebookPage nbp)
         {
             count = nbp.Count;
-            image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
+            image = XImage.FromFile($"{_pathManager.TemplatesDir}\\{nbp.Template.Filename}.png");
         }
         else if (p is NotebookCustomPage nbcp)
         {

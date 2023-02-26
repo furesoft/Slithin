@@ -8,7 +8,7 @@ public class ProtoController
     {
         var assembly = Assembly.GetEntryAssembly();
 
-        return assembly.GetManifestResourceStream(assembly.GetName().Name + $".Protos.{protoName}.proto");
+        return assembly.GetManifestResourceStream($"{assembly.GetName().Name}.Protos.{protoName}.proto");
     }
 
     public IEnumerable<string> GetAvailable()

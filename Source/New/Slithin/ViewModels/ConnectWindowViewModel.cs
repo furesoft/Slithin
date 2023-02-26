@@ -93,7 +93,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         {
             if (string.IsNullOrEmpty(li[i].Name))
             {
-                li[i].Name = "Device " + (i + 1);
+                li[i].Name = $"Device {(i + 1)}";
             }
         }
 

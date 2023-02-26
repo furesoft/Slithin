@@ -137,11 +137,11 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
         var template = BuildTemplate();
 
-        if (File.Exists(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png")))
+        if (File.Exists(Path.Combine(_pathManager.TemplatesDir, $"{template.Filename}.png")))
         {
             if (await _dialogService.Show(_localisationService.GetString("Template already exist. Would you replace it?")))
             {
-                File.Delete(Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+                File.Delete(Path.Combine(_pathManager.TemplatesDir, $"{template.Filename}.png"));
             }
             else
             {
@@ -159,7 +159,7 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
             return;
         }
 
-        File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png"));
+        File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, $"{template.Filename}.png"));
 
         //_localRepository.AddTemplate(template);
 
