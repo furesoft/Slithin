@@ -9,7 +9,7 @@ namespace Slithin.Modules.Sync;
 
 public class SynchronizeImpl : ISynchronizeService
 {
-    public Task Synchronize(bool notificationsInNewWindow, CancellationToken token)
+    public async Task Synchronize(bool notificationsInNewWindow)
     {
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
@@ -21,9 +21,9 @@ public class SynchronizeImpl : ISynchronizeService
 
         foreach (var fetchResult in notebooks)
         {
-            if (token.IsCancellationRequested)
+            if (status.Token.IsCancellationRequested)
             {
-                return Task.CompletedTask;
+                return;
             }
 
             var path = Path.Combine(pathManager.NotebooksDir, fetchResult.ShortPath);
@@ -44,9 +44,9 @@ public class SynchronizeImpl : ISynchronizeService
 
         foreach (var fetchResult in templates)
         {
-            if (token.IsCancellationRequested)
+            if (status.Token.IsCancellationRequested)
             {
-                return Task.CompletedTask;
+                return;
             }
 
             var path = fetchResult.ShortPath == "templates.json" ? Path.Combine(pathManager.ConfigBaseDir, "templates.json") : Path.Combine(pathManager.TemplatesDir, fetchResult.ShortPath);
@@ -67,9 +67,9 @@ public class SynchronizeImpl : ISynchronizeService
 
         foreach (var fetchResult in screens)
         {
-            if (token.IsCancellationRequested)
+            if (status.Token.IsCancellationRequested)
             {
-                return Task.CompletedTask;
+                return;
             }
 
             var path = Path.Combine(pathManager.CustomScreensDir, fetchResult.ShortPath);
@@ -84,8 +84,6 @@ public class SynchronizeImpl : ISynchronizeService
                 status.Step(locService.GetStringFormat("Sync Screen: Skipping {0} (Up to date)", fetchResult.ShortPath));
             }
         }
-
-        return Task.CompletedTask;
     }
 
     private static bool IsFileOlder(FileInfo file, long other)

@@ -97,11 +97,9 @@ public class MainWindowViewModel : BaseViewModel
 
     private async Task Synchronize()
     {
-        var cts = new CancellationTokenSource();
-
         if (await ServiceContainer.Current.Resolve<IRemarkableDevice>().Ping())
         {
-            await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize(false, cts.Token);
+            await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize(false);
         }
         else
         {

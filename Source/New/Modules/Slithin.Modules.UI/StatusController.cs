@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System.Windows.Input;
+using Avalonia.Controls;
 using Avalonia.Threading;
 using Slithin.Core.MVVM;
 using Slithin.Modules.UI.Modals;
@@ -9,14 +10,20 @@ namespace Slithin.Modules.UI;
 internal class StatusController : IStatusController
 {
     private readonly bool _showInNewWindow;
+    private readonly CancellationTokenSource _cancellationTokenSource;
     private StatusViewModel _viewModel = new();
     private Window _window;
 
     public StatusController(bool showInNewWindow)
     {
+        _cancellationTokenSource = new();
+        _cancellationTokenSource.Token.Register(Finish);
+
         Dispatcher.UIThread.InvokeAsync(() =>
         {
             var modal = new StatusModal();
+            _viewModel.CancellationTokenSource = _cancellationTokenSource;
+
             modal.DataContext = _viewModel;
 
             if (showInNewWindow)
@@ -28,6 +35,10 @@ internal class StatusController : IStatusController
                 _window.Content = modal;
                 _window.HasSystemDecorations = false;
                 _window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                _window.Closing += (s, e) =>
+                {
+                    Cancel();
+                };
                 _window.Show();
             }
             else
@@ -44,6 +55,15 @@ internal class StatusController : IStatusController
     }
 
     public StatusViewModel ViewModel => _viewModel;
+
+    public CancellationToken Token => _cancellationTokenSource.Token;
+
+    public void Cancel()
+    {
+        _cancellationTokenSource.Cancel();
+
+        Finish();
+    }
 
     public void Finish()
     {
@@ -72,10 +92,23 @@ internal class StatusController : IStatusController
     {
         private string _message;
 
+        public StatusViewModel()
+        {
+            CancelCommand = new DelegateCommand(Cancel);
+        }
+
         public string Message
         {
             get { return _message; }
             set { SetValue(ref _message, value); }
+        }
+
+        public ICommand CancelCommand { get; set; }
+        public CancellationTokenSource CancellationTokenSource { get; set; }
+
+        private void Cancel(object obj)
+        {
+            CancellationTokenSource.Cancel();
         }
     }
 }

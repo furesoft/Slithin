@@ -6,12 +6,17 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.Modules.UI.Modals.StatusModal">
     <Border BorderBrush="Black" BorderThickness="1" Margin="3" MaxHeight="150" MinHeight="180" MinWidth="400" MaxWidth="400" Background="White">
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <c:LottieViewer HorizontalAlignment="Center" VerticalAlignment="Top" IsPlaying="True"
-                            LottieFile="./loading_animation.json" Scale="0.5" Width="180" Height="125" />
+        <Grid>
 
-            <TextBlock Text="{Binding Message, Mode=TwoWay}" FontSize="15" TextWrapping="Wrap" Width="240" MaxWidth="240"
-                       HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <c:LottieViewer HorizontalAlignment="Center" VerticalAlignment="Top" IsPlaying="True"
+                                LottieFile="./loading_animation.json" Scale="0.5" Width="180" Height="125" />
+
+                <TextBlock Text="{Binding Message, Mode=TwoWay}" FontSize="15" TextWrapping="Wrap" Width="240" MaxWidth="240"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <Button Classes="Flat" Margin="5" Command="{Binding CancelCommand}" Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+        </Grid>
     </Border>
 </UserControl>
