@@ -9,7 +9,7 @@ namespace Slithin.Modules.Sync;
 
 public class SynchronizeImpl : ISynchronizeService
 {
-    public Task Synchronize()
+    public Task Synchronize(bool notificationsInNewWindow)
     {
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
@@ -17,7 +17,7 @@ public class SynchronizeImpl : ISynchronizeService
         var locService = ServiceContainer.Current.Resolve<ILocalisationService>();
 
         {
-            var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Notebooks"));
+            var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Notebooks"), notificationsInNewWindow);
             var notebooks = device.FetchedNotebooks;
 
             foreach (var fetchResult in notebooks)
@@ -37,7 +37,7 @@ public class SynchronizeImpl : ISynchronizeService
         }
 
         {
-            var status = notificationService.ShowStatus("Synchronizing Device: Fetching Templates");
+            var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Templates"), notificationsInNewWindow);
             var templates = device.FetchedTemplates;
 
             foreach (var fetchResult in templates)
@@ -57,7 +57,7 @@ public class SynchronizeImpl : ISynchronizeService
         }
 
         {
-            var status = notificationService.ShowStatus("Synchronizing Device: Fetching Screens");
+            var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Screens"), notificationsInNewWindow);
             var screens = device.FetchedScreens;
 
             foreach (var fetchResult in screens)
