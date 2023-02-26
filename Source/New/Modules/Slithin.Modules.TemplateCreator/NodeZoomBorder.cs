@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Avalonia.Controls.PanAndZoom;
 
-namespace Slithin.UI;
+namespace Slithin.Modules.TemplateCreator;
 
 public class NodeZoomBorder : ZoomBorder
 {

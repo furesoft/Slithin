@@ -80,7 +80,7 @@
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Resources.UI\Slithin.Modules.Resources.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Settings.UI\Slithin.Modules.Settings.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Sync\Slithin.Modules.Sync.csproj" />
-	  <ProjectReference Include="..\Modules\Slithin.Modules.TemplateEditor\Slithin.Modules.TemplateEditor.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.TemplateCreator\Slithin.Modules.TemplateCreator.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Templates.UI\Slithin.Modules.Templates.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Tools.UI\Slithin.Modules.Tools.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Tools\Slithin.Modules.Tools.csproj" />
