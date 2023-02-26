@@ -66,23 +66,25 @@ internal class DeviceImplementation : IRemarkableDevice
     public IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories)
     {
         var expandedSearchOption = searchOption == SearchOption.TopDirectoryOnly ? "-maxdepth 1" : "";
-        var commandResult = RunCommand($"find {directory} \\( ! -regex '.*/\\..*' \\) {expandedSearchOption} -type f -name '{searchPattern}'; find {directory} \\( ! -regex '.*/\\..*' \\) {expandedSearchOption} -type f -name '{searchPattern}' | xargs stat -c \" % Y\"");
+        var findCmdResult = RunCommand($"find {directory} \\( ! -regex '.*/\\..*' \\) {expandedSearchOption} -type f -name '{searchPattern}'");
+        var lastModResult = RunCommand($"find {directory} \\( ! -regex '.*/\\..*' \\) {expandedSearchOption} -type f -name '{searchPattern}' | xargs stat -c \" % Y\"");
 
-        if (!string.IsNullOrEmpty(commandResult.Error))
+        if (!string.IsNullOrEmpty(findCmdResult.Error) || !string.IsNullOrEmpty(lastModResult.Error))
         {
-            Debug.WriteLine(commandResult.Error);
+            Debug.WriteLine($"[findCmd]: {findCmdResult.Error}");
+            Debug.WriteLine($"[lastMod]: {lastModResult.Error}");
         }
 
-        var output = commandResult.Result.Split('\n');
-        int middle = output.Length / 2;
+        var findCmdOutput = findCmdResult.Result.Split('\n');
+        var lastModOutput = lastModResult.Result.Split('\n');
         var result = new List<FileFetchResult>();
-        for (int i = 0; i < middle; i++)
+        for (int i = 0; i < findCmdOutput.Length; i++)
         {
             result.Add(new()
             {
-                ShortPath = output[i].Substring(directory.Length),
-                FullPath = output[i],
-                LastModified = long.Parse(output[i + middle]),
+                ShortPath = findCmdOutput[i].Substring(directory.Length),
+                FullPath = findCmdOutput[i],
+                LastModified = long.Parse(lastModOutput[i]),
             });
         }
 
