@@ -9,6 +9,12 @@ public interface IRemarkableDevice
 
     event EventHandler<ScpUploadEventArgs> Uploading;
 
+    IReadOnlyList<FileFetchResult> FetchedNotebooks { get; }
+
+    IReadOnlyList<FileFetchResult> FetchedTemplates { get; }
+
+    IReadOnlyList<FileFetchResult> FetchedScreens { get; }
+
     void Connect(IPAddress ip, string password);
 
     void Reload();
@@ -23,11 +29,12 @@ public interface IRemarkableDevice
 
     IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories);
 
-    IReadOnlyList<FileFetchResult> FetchedNotebooks { get; }
-    IReadOnlyList<FileFetchResult> FetchedTemplates { get; }
-    IReadOnlyList<FileFetchResult> FetchedScreens { get; }
-
     CommandResult RunCommand(string cmd);
 
     Task<bool> Ping(IPAddress ip);
+
+    public async Task<bool> Ping(string ip)
+    {
+        return await Ping(IPAddress.Parse(ip));
+    }
 }

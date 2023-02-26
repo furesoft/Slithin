@@ -9,6 +9,7 @@ using Avalonia.Media;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.BaseServices.Models;
+using Slithin.Modules.Device.Models;
 using Slithin.Modules.Diagnostics.Sentry.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ContextualMenu;
@@ -48,7 +49,7 @@ public class MainWindowViewModel : BaseViewModel
         SynchronizeCommand = new DelegateCommand(async _ =>
         {
             var credential = ServiceContainer.Current.Resolve<ILoginService>().GetCurrentCredential();
-            if (ServiceContainer.Current.Resolve<IDeviceDiscovery>().PingDevice(System.Net.IPAddress.Parse(credential.IP)))
+            if (await ServiceContainer.Current.Resolve<IRemarkableDevice>().Ping(credential.IP))
             {
                 await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize(false);
             }

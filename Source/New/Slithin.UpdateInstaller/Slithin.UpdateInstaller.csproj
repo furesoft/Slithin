@@ -6,6 +6,6 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Authors>furesoft</Authors>
         <PackageTags>slithin</PackageTags>
-        <Version>1.0.24</Version>
+        <Version>1.0.25</Version>
     </PropertyGroup>
 </Project>

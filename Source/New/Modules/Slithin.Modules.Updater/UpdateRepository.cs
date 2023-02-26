@@ -10,9 +10,9 @@ namespace Slithin.Modules.Updater;
 
 internal class UpdateRepository
 {
+    private static readonly SourceRepository repository;
     private static SourceCacheContext cache;
     private static PackageSource source;
-    private static readonly SourceRepository repository;
     private static CancellationTokenSource cts;
 
     static UpdateRepository()
@@ -52,8 +52,10 @@ internal class UpdateRepository
         var resource = await repository.GetResourceAsync<FindPackageByIdResource>();
         var packages = await resource.GetDependencyInfoAsync("Slithin", version, cache, NullLogger.Instance, cts.Token);
 
+        //ToDo: get dependent packages recursivly
+
         return packages.DependencyGroups[0].Packages
-            .Concat(new[] {new PackageDependency("Slithin", new(version))});
+            .Concat(new[] { new PackageDependency("Slithin", new(version)) });
     }
 
     public static async Task<Dictionary<string, NuGetVersion>> GetUpdatablePackages()

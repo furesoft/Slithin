@@ -8,7 +8,7 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        var executable = args[1];
+        var executable = args[0];
         var slithinPath = new FileInfo(executable).Directory.ToString();
         var basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SlithinUpdate");
 

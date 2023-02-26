@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Text;
 using AuroraModularis.Core;
 using Renci.SshNet;
@@ -37,6 +38,12 @@ internal class DeviceImplementation : IRemarkableDevice
         }
     }
 
+    public IReadOnlyList<FileFetchResult> FetchedNotebooks => FetchFilesWithModified(ServiceContainer.Current.Resolve<DevicePathList>().Notebooks);
+
+    public IReadOnlyList<FileFetchResult> FetchedTemplates => FetchFilesWithModified(ServiceContainer.Current.Resolve<DevicePathList>().Templates);
+
+    public IReadOnlyList<FileFetchResult> FetchedScreens => FetchFilesWithModified(ServiceContainer.Current.Resolve<DevicePathList>().Screens, "*.png", SearchOption.TopDirectoryOnly);
+
     public void Connect(IPAddress ip, string password)
     {
         _client = new(ip.Address, ip.Port, "root", password);
@@ -59,7 +66,14 @@ internal class DeviceImplementation : IRemarkableDevice
     public IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories)
     {
         var expandedSearchOption = searchOption == SearchOption.TopDirectoryOnly ? "-maxdepth 1" : "";
-        var output = _client.RunCommand($"find {directory} {expandedSearchOption} -type f -not -path '*/\\.*' -path '{searchPattern}'; find {directory} {expandedSearchOption} -type f -not -path '*/\\.*' -path '{searchPattern}' | xargs stat -c \"%Y\"").Result.Split('\n');
+        var commandResult = RunCommand($"find {directory} \\( ! -regex '.*/\\..*' \\) {expandedSearchOption} -type f -name '{searchPattern}'; find {directory} \\( ! -regex '.*/\\..*' \\) {expandedSearchOption} -type f -name '{searchPattern}' | xargs stat -c \" % Y\"");
+
+        if (!string.IsNullOrEmpty(commandResult.Error))
+        {
+            Debug.WriteLine(commandResult.Error);
+        }
+
+        var output = commandResult.Result.Split('\n');
         int middle = output.Length / 2;
         var result = new List<FileFetchResult>();
         for (int i = 0; i < middle; i++)
@@ -74,12 +88,6 @@ internal class DeviceImplementation : IRemarkableDevice
 
         return result;
     }
-
-    public IReadOnlyList<FileFetchResult> FetchedNotebooks => FetchFilesWithModified(ServiceContainer.Current.Resolve<DevicePathList>().Notebooks);
-
-    public IReadOnlyList<FileFetchResult> FetchedTemplates => FetchFilesWithModified(ServiceContainer.Current.Resolve<DevicePathList>().Templates);
-
-    public IReadOnlyList<FileFetchResult> FetchedScreens => FetchFilesWithModified(ServiceContainer.Current.Resolve<DevicePathList>().Screens, "*.png", SearchOption.TopDirectoryOnly);
 
     public void Reload()
     {

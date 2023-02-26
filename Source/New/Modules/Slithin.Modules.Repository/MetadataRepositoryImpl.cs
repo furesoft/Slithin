@@ -21,8 +21,8 @@ public class MetadataRepositoryImpl : IMetadataRepository
 
         if (File.Exists(Path.Combine(pathManager.NotebooksDir, $"{id}.content")))
         {
-            mdObj.Content = JsonConvert.DeserializeObject<ContentFile>(
-                File.ReadAllText(Path.Combine(pathManager.NotebooksDir, $"{id}.content")));
+            //  mdObj.Content = JsonConvert.DeserializeObject<ContentFile>(
+            //    File.ReadAllText(Path.Combine(pathManager.NotebooksDir, $"{id}.content")));
         }
 
         if (File.Exists(Path.Combine(pathManager.NotebooksDir, $"{id}.pagedata")))
