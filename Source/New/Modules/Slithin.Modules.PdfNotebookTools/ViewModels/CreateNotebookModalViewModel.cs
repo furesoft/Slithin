@@ -175,9 +175,15 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         CustomTemplateFilename = null;
     }
 
-    private string[] GeneratePageIDS(int count)
+    private ContentPage[] GeneratePageIDS(int count)
     {
-        return Enumerable.Range(0, count).Select( _ => Guid.NewGuid().ToString().ToLower()).ToArray();
+        return Enumerable.Range(0, count)
+            .Select( _ => 
+                Guid.NewGuid()
+                    .ToString()
+                    .ToLower())
+            .Select(_=> new ContentPage{ ID = _ })
+            .ToArray();
     }
 
     private async void Ok(object obj)

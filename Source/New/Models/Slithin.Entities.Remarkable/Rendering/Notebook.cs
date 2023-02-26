@@ -152,11 +152,12 @@ public class Notebook
         {
             var difference = Pages.Count - md.Content.Pages.Length;
 
-            var pages = new List<string>(md.Content.Pages);
+            var pages = new List<ContentPage>(md.Content.Pages);
 
             for (var i = 0; i < difference; i++)
             {
-                pages.Add(Guid.NewGuid().ToString().ToLower());
+                var page = new ContentPage(){ ID = Guid.NewGuid().ToString().ToLower() };
+                pages.Add(page);
             }
 
             newContent.Pages = pages.ToArray();

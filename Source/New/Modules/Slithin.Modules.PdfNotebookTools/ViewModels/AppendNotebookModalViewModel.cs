@@ -119,7 +119,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
         var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, $"{ID}.pdf"));
         var md = mdStorage.GetMetadata(ID);
-        var pages = new List<string>(md.Content.Pages);
+        var pages = md.Content.Pages.ToList();
         var pageCount = md.Content.PageCount;
 
         foreach (var p in Pages)
@@ -152,7 +152,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
                 gfx.DrawImage(image, 0, 0, page.Width, page.Height);
 
                 var pageId = Guid.NewGuid();
-                pages.Add(pageId.ToString());
+                pages.Add( new(){ ID = pageId.ToString(), Template = new(){ Value = "Blank" } }); //ToDo: replace blank with real selected template
             }
         }
 

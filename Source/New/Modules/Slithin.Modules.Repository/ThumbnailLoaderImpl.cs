@@ -38,12 +38,12 @@ internal class ThumbnailLoaderImpl : IThumbnailLoader
         if (md.Content.CoverPageNumber == 0)
         {
             // load first page
-            filename = md.Content.Pages[0];
+            filename = md.Content.Pages[0].Template.Value;
         }
         else if (md.Content.CoverPageNumber == -1)
         {
             // load last page opened, set in md.LastOpenedPage
-            filename = md.Content.Pages[md.LastOpenedPage];
+            filename = md.Content.Pages[md.LastOpenedPage].Template.Value;
         }
 
         if (string.IsNullOrEmpty(filename))

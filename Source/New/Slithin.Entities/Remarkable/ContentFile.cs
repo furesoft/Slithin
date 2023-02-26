@@ -2,6 +2,21 @@
 
 namespace Slithin.Entities.Remarkable;
 
+public struct ContentPage
+{
+    [JsonProperty("id")]
+    public string ID { get; set; }
+
+    [JsonProperty("template")]
+    public ContentTemplate Template { get; set; }
+}
+
+public struct ContentTemplate
+{
+    [JsonProperty("value")]
+    public string Value { get; set; }
+}
+
 public struct ContentFile : IEqualityComparer<ContentFile>
 {
     [JsonProperty("coverPageNumber")] public int CoverPageNumber { get; set; }
@@ -12,7 +27,7 @@ public struct ContentFile : IEqualityComparer<ContentFile>
 
     [JsonProperty("pageCount")] public int PageCount { get; set; }
 
-    [JsonProperty("pages")] public string[] Pages { get; set; }
+    [JsonProperty("pages")] public ContentPage[] Pages { get; set; }
 
     public bool Equals(ContentFile x, ContentFile y)
     {

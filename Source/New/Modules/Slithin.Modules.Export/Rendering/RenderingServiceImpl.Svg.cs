@@ -45,6 +45,10 @@ internal partial class RenderingServiceImpl : IRenderingService
         {
             filename = i < md.PageData.Data.Length ? md.PageData.Data[i] : "Blank";
         }
+        else
+        {
+            filename = md.Content.Pages[i].Template.Value;
+        }
 
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
         var buffer = File.ReadAllBytes(Path.Combine(pathManager.TemplatesDir, $"{filename}.png"));
