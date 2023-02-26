@@ -17,6 +17,7 @@ using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Menu.Views;
 using Slithin.Modules.Repository.Models;
 using Slithin.Modules.Sync.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.ViewModels;
 
@@ -47,8 +48,14 @@ public class MainWindowViewModel : BaseViewModel
         SynchronizeCommand = new DelegateCommand(async _ =>
         {
             var credential = ServiceContainer.Current.Resolve<ILoginService>().GetCurrentCredential();
-            ServiceContainer.Current.Resolve<IDeviceDiscovery>().PingDevice(System.Net.IPAddress.Parse(credential.IP));
-            await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize(false);
+            if (ServiceContainer.Current.Resolve<IDeviceDiscovery>().PingDevice(System.Net.IPAddress.Parse(credential.IP)))
+            {
+                await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize(false);
+            }
+            else
+            {
+                ServiceContainer.Current.Resolve<INotificationService>().ShowError(ServiceContainer.Current.Resolve<ILocalisationService>().GetString("Your remarkable is not reachable. Please check your connection and restart Slithin"));
+            }
         });
     }
 
