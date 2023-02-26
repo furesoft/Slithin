@@ -1,4 +1,6 @@
-﻿using AuroraModularis.Core;
+﻿using System.Net.NetworkInformation;
+using System.Text;
+using AuroraModularis.Core;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using Slithin.Entities;
@@ -89,6 +91,23 @@ internal class DeviceImplementation : IRemarkableDevice
         var result = _client.RunCommand(cmd);
 
         return new(result.Error, result.Result);
+    }
+
+    public async Task<bool> Ping(IPAddress ip)
+    {
+        var pingSender = new Ping();
+
+        var data = new string('a', 32);
+        var buffer = Encoding.ASCII.GetBytes(data);
+
+        const int Timeout = 10000;
+
+        var options = new PingOptions(64, true);
+
+        var reply = pingSender.Send(ip.Address, Timeout, buffer,
+            options);
+
+        return reply.Status == IPStatus.Success;
     }
 
     public void Upload(FileInfo fileInfo, string path)

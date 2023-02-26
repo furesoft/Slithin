@@ -19,21 +19,4 @@ internal class DeviceDiscoveryImpl : IDeviceDiscovery
             return null;
         }
     }
-
-    public bool PingDevice(IPAddress address)
-    {
-        var pingSender = new Ping();
-
-        var data = new string('a', 32);
-        var buffer = Encoding.ASCII.GetBytes(data);
-
-        const int Timeout = 10000;
-
-        var options = new PingOptions(64, true);
-
-        var reply = pingSender.Send(address, Timeout, buffer,
-            options);
-
-        return reply.Status == IPStatus.Success;
-    }
 }

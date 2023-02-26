@@ -82,6 +82,11 @@ internal class MockDevice : IRemarkableDevice
         return new("");
     }
 
+    public Task<bool> Ping(IPAddress ip)
+    {
+        return Task.FromResult(true);
+    }
+
     public void Upload(FileInfo fileInfo, string path)
     {
         using var fileStream = File.Open(fileInfo.FullName, FileMode.Open);

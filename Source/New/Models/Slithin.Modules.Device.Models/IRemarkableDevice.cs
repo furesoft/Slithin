@@ -28,4 +28,6 @@ public interface IRemarkableDevice
     IReadOnlyList<FileFetchResult> FetchedScreens { get; }
 
     CommandResult RunCommand(string cmd);
+
+    Task<bool> Ping(IPAddress ip);
 }
