@@ -44,7 +44,7 @@ internal class DeviceImplementation : IRemarkableDevice
         _scp.Connect();
     }
 
-    public void Disconned()
+    public void Disconnect()
     {
         _client.Disconnect();
     }

@@ -13,7 +13,7 @@ public interface IRemarkableDevice
 
     void Reload();
 
-    void Disconned();
+    void Disconnect();
 
     void Download(string path, FileInfo fileInfo);
 

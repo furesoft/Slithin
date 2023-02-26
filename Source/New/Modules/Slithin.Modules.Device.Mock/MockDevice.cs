@@ -19,7 +19,7 @@ internal class MockDevice : IRemarkableDevice
 
     ~MockDevice()
     {
-        Disconned();
+        Disconnect();
     }
 
     public event EventHandler<ScpDownloadEventArgs> Downloading;
@@ -34,7 +34,7 @@ internal class MockDevice : IRemarkableDevice
         xochitl.Init();
     }
 
-    public void Disconned()
+    public void Disconnect()
     {
         _filesystem.Dispose();
     }
