@@ -8,6 +8,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Authors>furesoft</Authors>
         <PackageTags>slithin</PackageTags>
+        <Version>1.0.23</Version>
     </PropertyGroup>
     <ItemGroup>
         <None Remove=".gitignore" />
