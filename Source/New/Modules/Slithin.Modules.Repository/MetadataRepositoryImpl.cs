@@ -117,7 +117,7 @@ public class MetadataRepositoryImpl : IMetadataRepository
     {
         var scp = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         var notebooksDir = ServiceContainer.Current.Resolve<IPathManager>().NotebooksDir;
-        var pathList = ServiceContainer.Current.Resolve<PathList>();
+        var pathList = ServiceContainer.Current.Resolve<DevicePathList>();
 
         scp.Upload(new FileInfo(Path.Combine(notebooksDir, md.ID + ".metadata")),
                                 pathList.Notebooks + md.ID + ".metadata");
