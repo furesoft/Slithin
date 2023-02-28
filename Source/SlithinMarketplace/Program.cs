@@ -40,9 +40,6 @@ public static class Program
                  m.RegisterController<FilesController>();
                  m.RegisterController<TemplatesController>();
              })
-            .WithStaticFolder("/", Path.Combine(Environment.CurrentDirectory, "Content"), false, (_) =>
-             {
-             })
             .HandleUnhandledException((context, ex) =>
             {
                 context.Response.StatusCode = 500;

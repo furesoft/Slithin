@@ -100,4 +100,4 @@ public enum Brushes
     Fineline1 = 12,
     Fineline2 = 13,
     Fineline3 = 14
-};
+}

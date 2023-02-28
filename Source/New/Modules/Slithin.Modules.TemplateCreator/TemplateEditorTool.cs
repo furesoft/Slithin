@@ -18,6 +18,5 @@ public class TemplateEditorTool : ITool
 
     public void Invoke(object data)
     {
-        
     }
 }

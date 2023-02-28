@@ -6,5 +6,5 @@ public interface IToolInvokerService
 
     void Init();
 
-    void Invoke(string id, ToolProperties props);
+    void Invoke(string id);
 }

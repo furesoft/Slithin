@@ -53,24 +53,14 @@ public class NotebookAppendTool : ITool, IContextProvider
         var modal = new AppendNotebookModal();
         var vm = ServiceContainer.Current.Resolve<AppendNotebookModalViewModel>();
 
-        if (data is ToolProperties props)
+        if (data is Metadata md)
         {
-            vm.ID = props["id"].ToString() ?? string.Empty;
-            vm.Pages = new((IEnumerable<object>)props["pages"]);
-
-            vm.OKCommand.Execute(null);
+            vm.ID = md.ID; //Pre select the notebook, if it is executed from contextmenu
         }
-        else
-        {
-            if (data is Metadata md)
-            {
-                vm.ID = md.ID; //Pre select the notebook, if it is executed from contextmenu
-            }
 
-            if (await _dialogService.Show("", modal))
-            {
-                vm.OKCommand.Execute(null);
-            }
+        if (await _dialogService.Show("", modal))
+        {
+            vm.OKCommand.Execute(null);
         }
     }
 }

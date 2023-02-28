@@ -32,23 +32,11 @@ public class NotebookCreationTool : ITool
     {
         var vm = ServiceContainer.Current.Resolve<CreateNotebookModalViewModel>();
 
-        if (data is ToolProperties props)
-        {
-            vm.Title = props["title"].ToString() ?? string.Empty;
-            vm.CoverFilename = props["coverFilename"].ToString() ?? string.Empty;
-            vm.Pages = new((IEnumerable<object>)props["pages"]);
-            vm.RenderName = (bool)props["renderName"];
+        var modal = new CreateNotebookModal { DataContext = vm };
 
+        if (await _dialogService.Show("", modal))
+        {
             vm.OKCommand.Execute(null);
-        }
-        else
-        {
-            var modal = new CreateNotebookModal { DataContext = vm };
-
-            if (await _dialogService.Show("", modal))
-            {
-                vm.OKCommand.Execute(null);
-            }
         }
     }
 }
