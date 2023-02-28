@@ -9,7 +9,7 @@
              xmlns:m="clr-namespace:NodeEditor.Model;assembly=NodeEditorAvalonia.Model"
              xmlns:controls="http://github.com/furesoft/Slithin"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.Modules.TemplateEditor.TemplateEditorControl">
+             x:Class="Slithin.Modules.TemplateCreator.TemplateEditorControl">
     <Grid ColumnDefinitions="200,6,*">
         <DockPanel Background="{DynamicResource PanelBackground}" Grid.Column="0">
             <ListBox Items="{Binding Templates}"

@@ -71,7 +71,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
     protected override async void OnLoad()
     {
-        if (_settingsService.GetSettings().IsFirstStart)
+        if (!_settingsService.GetSettings().IsFirstStart)
         {
             RequestClose();
         }
@@ -93,7 +93,7 @@ public class ConnectionWindowViewModel : BaseViewModel
         {
             if (string.IsNullOrEmpty(li[i].Name))
             {
-                li[i].Name = "Device " + (i + 1);
+                li[i].Name = $"Device {(i + 1)}";
             }
         }
 

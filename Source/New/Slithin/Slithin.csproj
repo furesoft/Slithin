@@ -28,14 +28,13 @@
 		<AvaloniaResource Include="Resources\Icon.png" />
 		<AvaloniaResource Include="Resources\nav.png" />
 		<AvaloniaResource Include="Resources\new_logo.png" />
-		<AvaloniaResource Include="Resources\notebook.png" />
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="AuroraModularis" Version="1.0.34" />
-		<PackageReference Include="AuroraModularis.Hooks.ResourceRegistrationHook" Version="1.0.3" />
-		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.31" />
-		<PackageReference Include="AuroraModularis.Settings.LiteDb" Version="1.0.0" />
+		<PackageReference Include="AuroraModularis" Version="1.0.36" />
+		<PackageReference Include="AuroraModularis.Hooks.ResourceRegistrationHook" Version="1.0.4" />
+		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.36" />
+		<PackageReference Include="AuroraModularis.Settings.LiteDb" Version="1.0.4" />
 		<PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.18" />
 		<PackageReference Include="DataBox" Version="0.10.13" />
 		<PackageReference Include="FluentValidations" Version="1.1.0" />
@@ -81,7 +80,7 @@
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Resources.UI\Slithin.Modules.Resources.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Settings.UI\Slithin.Modules.Settings.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Sync\Slithin.Modules.Sync.csproj" />
-	  <ProjectReference Include="..\Modules\Slithin.Modules.TemplateEditor\Slithin.Modules.TemplateEditor.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.TemplateCreator\Slithin.Modules.TemplateCreator.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Templates.UI\Slithin.Modules.Templates.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Tools.UI\Slithin.Modules.Tools.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Tools\Slithin.Modules.Tools.csproj" />

@@ -90,7 +90,7 @@ public class PdfExporter : IExportProvider
             progress.Report(percent);
         }
 
-        document.Save(Path.Combine(outputPath, metadata.VisibleName + ".pdf"));
+        document.Save(Path.Combine(outputPath, $"{metadata.VisibleName}.pdf"));
 
         return true;
     }
@@ -100,7 +100,7 @@ public class PdfExporter : IExportProvider
         if (metadata.PageData.Data == null) return;
 
         var templateBackgroundFilename = metadata.PageData.Data[index];
-        var templatePath = Path.Combine(_pathManager.TemplatesDir, templateBackgroundFilename + ".png");
+        var templatePath = Path.Combine(_pathManager.TemplatesDir, $"{templateBackgroundFilename}.png");
 
         if (File.Exists(templatePath))
         {
@@ -111,7 +111,7 @@ public class PdfExporter : IExportProvider
     private bool ExportPDF(ExportOptions options, Metadata metadata, string outputPath, bool shouldHideTemplates,
         IProgress<int> progress)
     {
-        var filename = Path.Combine(_pathManager.NotebooksDir, metadata.ID + ".pdf");
+        var filename = Path.Combine(_pathManager.NotebooksDir, $"{metadata.ID}.pdf");
         var doc = options.Document.AsT0;
 
         doc.Info.Title = metadata.VisibleName;
@@ -127,7 +127,7 @@ public class PdfExporter : IExportProvider
             var pageIndex = options.PagesIndices[i];
             var percent = (int)((float)i / (float)options.PagesIndices.Count * 100);
             var rm = metadata.Content.Pages[pageIndex];
-            var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, rm + ".rm");
+            var rmPath = Path.Combine(_pathManager.NotebooksDir, metadata.ID, $"{rm}.rm");
 
             PdfPage p = doc.Pages[pageIndex];
             if (!File.Exists(rmPath))
@@ -150,7 +150,7 @@ public class PdfExporter : IExportProvider
             progress.Report(percent);
         }
 
-        doc.Save(Path.Combine(outputPath, doc.Info.Title + ".pdf"));
+        doc.Save(Path.Combine(outputPath, $"{doc.Info.Title}.pdf"));
 
         return true;
     }

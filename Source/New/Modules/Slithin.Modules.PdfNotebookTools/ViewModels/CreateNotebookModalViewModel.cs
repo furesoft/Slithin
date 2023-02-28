@@ -175,9 +175,15 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         CustomTemplateFilename = null;
     }
 
-    private string[] GeneratePageIDS(int count)
+    private ContentPage[] GeneratePageIDS(int count)
     {
-        return Enumerable.Range(0, count).Select( _ => Guid.NewGuid().ToString().ToLower()).ToArray();
+        return Enumerable.Range(0, count)
+            .Select( _ => 
+                Guid.NewGuid()
+                    .ToString()
+                    .ToLower())
+            .Select(_=> new ContentPage{ ID = _ })
+            .ToArray();
     }
 
     private async void Ok(object obj)
@@ -281,7 +287,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         if (p is NotebookPage nbp)
         {
             count = nbp.Count;
-            image = XImage.FromFile(_pathManager.TemplatesDir + "\\" + nbp.Template.Filename + ".png");
+            image = XImage.FromFile($"{_pathManager.TemplatesDir}\\{nbp.Template.Filename}.png");
         }
         else if (p is NotebookCustomPage nbcp)
         {

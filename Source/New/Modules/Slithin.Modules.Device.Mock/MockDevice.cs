@@ -19,7 +19,7 @@ internal class MockDevice : IRemarkableDevice
 
     ~MockDevice()
     {
-        Disconned();
+        Disconnect();
     }
 
     public event EventHandler<ScpDownloadEventArgs> Downloading;
@@ -34,7 +34,7 @@ internal class MockDevice : IRemarkableDevice
         xochitl.Init();
     }
 
-    public void Disconned()
+    public void Disconnect()
     {
         _filesystem.Dispose();
     }
@@ -46,6 +46,27 @@ internal class MockDevice : IRemarkableDevice
 
         zipStream.CopyTo(fileStream);
     }
+
+    public IReadOnlyList<FileFetchResult> FetchFilesWithModified(string directory, string searchPattern = "*.*", SearchOption searchOption = SearchOption.AllDirectories)
+    {
+        var list = new List<FileFetchResult>();
+        foreach (FileEntry file in _filesystem.EnumerateFileEntries(directory, searchPattern, searchOption))
+        {
+            list.Add(new()
+            {
+                ShortPath = file.FullName.Substring(directory.Length),
+                FullPath = file.FullName,
+                LastModified = file.LastWriteTime.Ticks,
+            });
+        }
+        return list;
+    }
+
+    public IReadOnlyList<FileFetchResult> FetchedNotebooks => FetchFilesWithModified(ServiceContainer.Current.Resolve<DevicePathList>().Notebooks);
+
+    public IReadOnlyList<FileFetchResult> FetchedTemplates => FetchFilesWithModified(ServiceContainer.Current.Resolve<DevicePathList>().Templates);
+
+    public IReadOnlyList<FileFetchResult> FetchedScreens => FetchFilesWithModified(ServiceContainer.Current.Resolve<DevicePathList>().Screens, "*.png", SearchOption.TopDirectoryOnly);
 
     public void Reload()
     {
@@ -59,6 +80,11 @@ internal class MockDevice : IRemarkableDevice
         }
 
         return new("");
+    }
+
+    public Task<bool> Ping(IPAddress ip)
+    {
+        return Task.FromResult(true);
     }
 
     public void Upload(FileInfo fileInfo, string path)

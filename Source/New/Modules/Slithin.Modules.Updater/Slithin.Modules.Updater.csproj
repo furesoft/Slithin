@@ -5,15 +5,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	<Version>1.0.21</Version>
+	<Version>1.0.23</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.34" />
+    <PackageReference Include="AuroraModularis" Version="1.0.36" />
     <PackageReference Include="Avalonia" Version="0.10.18" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.18" />
+    <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
-    <PackageReference Include="NuGet.Protocol" Version="6.4.0" />
+    <PackageReference Include="NuGet.Protocol" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>

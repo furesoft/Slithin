@@ -24,6 +24,6 @@ internal class Module : AuroraModularis.Module
     {
         container.Register<IRemarkableDevice>(new MockDevice(container)).AsSingleton();
         container.Register<IXochitlService>(new XochitlImpl(container)).AsSingleton();
-        container.Register<PathList>(new PathList()).AsSingleton();
+        container.Register<DevicePathList>(new DevicePathList()).AsSingleton();
     }
 }

@@ -14,5 +14,6 @@ public class Module : AuroraModularis.Module
     {
         container.Register<NotebooksFilter>().AsSingleton();
         container.Register<TemplatesFilter>().AsSingleton();
+        container.Register<ISynchronizeService>(new SynchronizeImpl()).AsSingleton();
     }
 }

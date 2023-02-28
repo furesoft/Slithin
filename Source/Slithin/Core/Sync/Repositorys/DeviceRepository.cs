@@ -25,8 +25,8 @@ public class DeviceRepository : IRepository
     {
         var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
 
-        _ssh.Upload(new FileInfo(Path.Combine(_pathManager.CustomScreensDir, screen.Title + ".png")),
-            PathList.Screens + screen.Title + ".png");
+        _ssh.Upload(new FileInfo(Path.Combine(_pathManager.CustomScreensDir, $"{screen.Title}.png")),
+            $"{PathList.Screens + screen.Title}.png");
     }
 
     public void AddTemplate(Template template)
@@ -35,8 +35,8 @@ public class DeviceRepository : IRepository
         //2. add template to template.json
         var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
 
-        var deviceTemplatePath = Path.Combine(_pathManager.TemplatesDir, template.Filename + ".png");
-        _ssh?.Upload(File.OpenRead(deviceTemplatePath), PathList.Templates + template.Filename + ".png");
+        var deviceTemplatePath = Path.Combine(_pathManager.TemplatesDir, $"{template.Filename}.png");
+        _ssh?.Upload(File.OpenRead(deviceTemplatePath), $"{PathList.Templates + template.Filename}.png");
 
         // modifiy template.json
 
@@ -56,14 +56,14 @@ public class DeviceRepository : IRepository
 
         // upload modified template.json
         var jsonStrm = File.OpenRead(path);
-        _ssh!.Upload(jsonStrm, PathList.Templates + "/templates.json");
+        _ssh!.Upload(jsonStrm, $"{PathList.Templates}/templates.json");
     }
 
     public void DownloadCustomScreens()
     {
         var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
 
-        var cmd = _ssh.RunCommand("ls -p " + PathList.Screens);
+        var cmd = _ssh.RunCommand($"ls -p {PathList.Screens}");
         var filenames = cmd.Result.Split('\n', StringSplitOptions.RemoveEmptyEntries).Where(_ => _.EndsWith(".png"));
 
         // download files to custom screen dir
@@ -80,7 +80,7 @@ public class DeviceRepository : IRepository
     {
         var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
 
-        _ssh.Download(PathList.Templates + "templates.json",
+        _ssh.Download($"{PathList.Templates}templates.json",
             new FileInfo(Path.Combine(_pathManager.ConfigBaseDir, "templates.json")));
         //Get template.json
         //sort out all synced templates
@@ -94,10 +94,10 @@ public class DeviceRepository : IRepository
 
         foreach (var t in toSyncTemplates)
         {
-            _ssh.Download(PathList.Templates + t.Filename + ".png",
-                new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".png")));
-            _ssh.Download(PathList.Templates + t.Filename + ".svg",
-                new FileInfo(Path.Combine(_pathManager.TemplatesDir, t.Filename + ".svg")));
+            _ssh.Download($"{PathList.Templates + t.Filename}.png",
+                new FileInfo(Path.Combine(_pathManager.TemplatesDir, $"{t.Filename}.png")));
+            _ssh.Download($"{PathList.Templates + t.Filename}.svg",
+                new FileInfo(Path.Combine(_pathManager.TemplatesDir, $"{t.Filename}.svg")));
         }
 
         _loadingService.LoadTemplates();
@@ -109,13 +109,13 @@ public class DeviceRepository : IRepository
     {
         var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
 
-        var cmd = _ssh.RunCommand("ls " + PathList.Documents);
+        var cmd = _ssh.RunCommand($"ls {PathList.Documents}");
         var split = cmd.Result.Split('\n');
         var excluded = split.Where(_ => _.Contains(md.ID));
 
         foreach (var filename in excluded.Select(_ => PathList.Documents + _))
         {
-            _ssh.RunCommand("rm -fr " + filename);
+            _ssh.RunCommand($"rm -fr {filename}");
         }
     }
 
@@ -131,6 +131,6 @@ public class DeviceRepository : IRepository
 
         _ssh.Upload(File.OpenRead(path),
             Path.Combine(PathList.Templates, "templates.json"));
-        _ssh.RunCommand("rm -fr " + PathList.Templates + template.Filename + ".png");
+        _ssh.RunCommand($"rm -fr {PathList.Templates}{template.Filename}.png");
     }
 }

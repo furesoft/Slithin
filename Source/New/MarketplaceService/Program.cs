@@ -59,7 +59,7 @@ public class Program
             var filenames = protoService.GetAvailable();
 
             var links = string.Join('\n',
-                            filenames.Select(_ => $"<a href=http://{context.Request.Host + "/protos/" + _}>{Path.GetFileNameWithoutExtension(_)}<a/>"));
+                            filenames.Select(_ => $"<a href=http://{$"{context.Request.Host}/protos/{_}"}>{Path.GetFileNameWithoutExtension(_)}<a/>"));
 
             await context.Response.WriteAsync($"<html><head><title>Services</title></head><body>{links}</body></html>");
         });

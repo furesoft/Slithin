@@ -37,11 +37,11 @@ internal class NotificationServiceImpl : INotificationService
         window.Show();
     }
 
-    public IStatusController ShowStatus(string message, bool showInNewWindow = false)
+    public IStatusController ShowStatus(string message, bool isCancellable = false, bool showInNewWindow = false)
     {
         ServiceContainer.Current.Resolve<ILogger>().Info(message);
 
-        var controller = new StatusController(showInNewWindow);
+        var controller = new StatusController(showInNewWindow, isCancellable);
         controller.Step(message);
 
         return controller;

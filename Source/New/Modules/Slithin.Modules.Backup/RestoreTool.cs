@@ -20,19 +20,19 @@ internal class RestoreTool : ITool
     private readonly IRemarkableDevice _remarkableDevice;
     private readonly INotificationService _notificationService;
     private readonly IDialogService _dialogService;
-    private readonly PathList _pathList;
+    private readonly DevicePathList _devicePathList;
 
     public RestoreTool(IPathManager pathManager,
                        IRemarkableDevice remarkableDevice,
                        INotificationService notificationService,
                        IDialogService dialogService,
-                       PathList pathList)
+                       DevicePathList devicePathList)
     {
         _pathManager = pathManager;
         _remarkableDevice = remarkableDevice;
         _notificationService = notificationService;
         _dialogService = dialogService;
-        _pathList = pathList;
+        _devicePathList = devicePathList;
     }
 
     public IImage Image
@@ -92,25 +92,25 @@ internal class RestoreTool : ITool
 
                 //upload all data
                 _notificationService.Show("Removing Notebooks From Device");
-                _remarkableDevice.RunCommand("rm -fr " + _pathList.Documents);
-                _remarkableDevice.RunCommand("mkdir " + _pathList.Documents);
+                _remarkableDevice.RunCommand($"rm -fr {_devicePathList.Notebooks}");
+                _remarkableDevice.RunCommand($"mkdir {_devicePathList.Notebooks}");
 
                 _notificationService.Show("Removing Screens From Device");
-                _remarkableDevice.RunCommand("rm -fr " + _pathList.Screens);
-                _remarkableDevice.RunCommand("mkdir " + _pathList.Screens);
+                _remarkableDevice.RunCommand($"rm -fr {_devicePathList.Screens}");
+                _remarkableDevice.RunCommand($"mkdir {_devicePathList.Screens}");
 
                 _notificationService.Show("Removing Templates From Device");
-                _remarkableDevice.RunCommand("rm -fr " + _pathList.Templates);
-                _remarkableDevice.RunCommand("mkdir " + _pathList.Templates);
+                _remarkableDevice.RunCommand($"rm -fr {_devicePathList.Templates}");
+                _remarkableDevice.RunCommand($"mkdir {_devicePathList.Templates}");
 
                 _notificationService.Show("Uploading Notebooks");
-                _remarkableDevice.Upload(new DirectoryInfo(_pathManager.NotebooksDir), _pathList.Documents);
+                _remarkableDevice.Upload(new DirectoryInfo(_pathManager.NotebooksDir), _devicePathList.Notebooks);
 
                 _notificationService.Show("Uploading Screens");
-                _remarkableDevice.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), _pathList.Screens);
+                _remarkableDevice.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), _devicePathList.Screens);
 
                 _notificationService.Show("Uploading Templates");
-                _remarkableDevice.Upload(new DirectoryInfo(_pathManager.TemplatesDir), _pathList.Templates);
+                _remarkableDevice.Upload(new DirectoryInfo(_pathManager.TemplatesDir), _devicePathList.Templates);
 
                 _notificationService.Show("Finished");
 

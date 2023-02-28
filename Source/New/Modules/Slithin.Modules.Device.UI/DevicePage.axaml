@@ -16,20 +16,22 @@
             <TextBlock Text="{l:Localisation 'Share Email Addresses'}" FontSize="18" VerticalAlignment="Center"
                        IsVisible="{Binding HasEmailAddresses}" />
 
-            <ItemsControl Items="{Binding ShareEmailAddresses}" HorizontalAlignment="Right">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <c:TagControl Tag="{Binding}"
-                                      RemoveCommand="{Binding $parent[ItemsControl].DataContext.RemoveEmailCommand}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
+            <ScrollViewer>
+                <ItemsControl Items="{Binding ShareEmailAddresses}" HorizontalAlignment="Right">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <c:TagControl Tag="{Binding}"
+                                          RemoveCommand="{Binding $parent[ItemsControl].DataContext.RemoveEmailCommand}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
 
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" Spacing="3" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="3" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
 
         <StackPanel>

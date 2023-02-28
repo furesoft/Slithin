@@ -13,7 +13,7 @@ namespace LocalisationSearcher
             JObject resultObj = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(stringsPath));
 
             var csPattern = "(GetString|GetStringFormat|WithLocalizedMessage)\\(\"(?<key>[^\"]+)\"\\)";
-            var axamlPattern = @"\{l:Localisation '(?<key>[^}]+)'\}";
+            var axamlPattern = @"Localisation '(?<key>[^}]+)'\}";
 
             var regxp = new Regex($"{csPattern}|{axamlPattern}");
             var csFiles = Directory.GetFiles(directoryToSearch, "*.cs", SearchOption.AllDirectories);

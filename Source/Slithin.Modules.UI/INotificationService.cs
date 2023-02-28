@@ -11,5 +11,5 @@ public interface INotificationService
     void ShowError(string message);
     void ShowErrorNewWindow(string message);
 
-    IStatusController ShowStatus(string message, bool showInNewWindow = false);
+    IStatusController ShowStatus(string message, bool isCancellable = false, bool showInNewWindow = false);
 }

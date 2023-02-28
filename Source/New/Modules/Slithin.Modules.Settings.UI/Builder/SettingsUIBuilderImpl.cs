@@ -39,7 +39,7 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
             HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
         };
 
-        var sectionsView = new UniformGrid() { Columns = 2};
+        var sectionsView = new UniformGrid() { Columns = 2 };
 
         foreach (var obj in _settingsModels)
         {
@@ -61,9 +61,9 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
                 model.Save();
             };
         }
-        
+
         var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
-        
+
         var settingsObjType = settingsObject.GetType();
         var displayAttribute = settingsObjType.GetCustomAttribute<DisplaySettingsAttribute>();
 
@@ -75,64 +75,16 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
 
         return new SettingsGroup
         {
-            Header = localisationService.GetString(displayAttribute.Label), Content = BuildGrid(settingsObjType, settingsObject),
+            Header = localisationService.GetString(displayAttribute.Label),
+            Content = BuildGrid(settingsObjType, settingsObject),
             Tag = displayAttribute.IsExpanded
         };
     }
 
-    private object BuildGrid(Type settingsObjType, object settingsObj)
-    {
-        var grid = new Grid {HorizontalAlignment = HorizontalAlignment.Left};
-
-        grid.ColumnDefinitions.Add(new(GridLength.Auto));
-        grid.ColumnDefinitions.Add(new(GridLength.Auto));
-
-        var properties = settingsObjType.GetProperties();
-        var index = 0;
-        
-        BuildProperties(settingsObj, properties, grid, index);
-
-        return grid;
-    }
-
-    private void BuildProperties(object settingsObj, PropertyInfo[] properties, Grid grid, int index)
-    {
-        foreach (var prop in properties)
-        {
-            var attr = prop.GetCustomAttribute<SettingsAttribute>(true);
-
-            if (attr is null)
-            {
-                continue;
-            }
-
-            grid.RowDefinitions.Add(new(GridLength.Auto));
-
-            var label = BuildLabelAndAddToGrid(attr, index, grid);
-
-            foreach (var providerType in _providers)
-            {
-                var provider = (ISettingsControlProvider) Activator.CreateInstance(providerType);
-
-                if (provider.AttributeType != attr.GetType() || !provider.CanHandle(prop.PropertyType))
-                {
-                    continue;
-                }
-
-                label.IsVisible = !provider.HideLabel;
-
-                AddGeneratedProviderToGrid(settingsObj, providerType, attr, prop, index, grid);
-                index++;
-            }
-        }
-    }
-
-
-    //ToDo: Add ability to localize labels
     private static Label BuildLabelAndAddToGrid(SettingsAttribute attr, int index, Grid grid)
     {
         var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
-        
+
         var label = new Label { Content = localisationService.GetString(attr.Label), VerticalAlignment = VerticalAlignment.Center };
         Grid.SetColumn(label, 0);
         Grid.SetRow(label, index);
@@ -158,6 +110,53 @@ public class SettingsUIBuilderImpl : ISettingsUiBuilder
             Grid.SetColumn(control, 1);
             Grid.SetRow(control, index);
             grid.Children.Add(control);
+        }
+    }
+
+    private object BuildGrid(Type settingsObjType, object settingsObj)
+    {
+        var grid = new Grid { HorizontalAlignment = HorizontalAlignment.Left };
+
+        grid.ColumnDefinitions.Add(new(GridLength.Auto));
+        grid.ColumnDefinitions.Add(new(GridLength.Auto));
+
+        var properties = settingsObjType.GetProperties();
+        var index = 0;
+
+        BuildProperties(settingsObj, properties, grid, index);
+
+        return grid;
+    }
+
+    private void BuildProperties(object settingsObj, PropertyInfo[] properties, Grid grid, int index)
+    {
+        foreach (var prop in properties)
+        {
+            var attr = prop.GetCustomAttribute<SettingsAttribute>(true);
+
+            if (attr is null)
+            {
+                continue;
+            }
+
+            grid.RowDefinitions.Add(new(GridLength.Auto));
+
+            var label = BuildLabelAndAddToGrid(attr, index, grid);
+
+            foreach (var providerType in _providers)
+            {
+                var provider = (ISettingsControlProvider)Activator.CreateInstance(providerType);
+
+                if (provider.AttributeType != attr.GetType() || !provider.CanHandle(prop.PropertyType))
+                {
+                    continue;
+                }
+
+                label.IsVisible = !provider.HideLabel;
+
+                AddGeneratedProviderToGrid(settingsObj, providerType, attr, prop, index, grid);
+                index++;
+            }
         }
     }
 }

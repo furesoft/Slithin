@@ -13,7 +13,7 @@ internal class Module : AuroraModularis.Module
         contextMenuProvider.Init();
 
         var builder = container.Resolve<IContextualMenuBuilder>();
-       // builder.Init();
+        builder.Init();
 
         return Task.CompletedTask;
     }

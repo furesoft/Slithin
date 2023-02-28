@@ -30,6 +30,8 @@ internal class LoginServiceImpl : ILoginService
 
     public LoginInfo[] GetLoginCredentials()
     {
+        Init();
+
         var db = _dbService.GetDatabase();
 
         return db.FindAll<LoginInfo>().ToArray();

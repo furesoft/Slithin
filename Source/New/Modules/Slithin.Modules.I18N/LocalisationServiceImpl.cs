@@ -24,6 +24,6 @@ public class LocalisationServiceImpl : ILocalisationService
 
     public string GetString(string key)
     {
-        return _localization.TryGetValue(key, out var value) ? value : "[No Value] - " + key;
+        return _localization.TryGetValue(key, out var value) ? value : $"[No Value] - {key}";
     }
 }

@@ -64,8 +64,7 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
         if (!dir.Exists)
         {
             throw new DirectoryNotFoundException(
-                "SettingsBuilderTestApp directory does not exist or could not be found: "
-                + sourceDirName);
+                $"SettingsBuilderTestApp directory does not exist or could not be found: {sourceDirName}");
         }
 
         var dirs = dir.GetDirectories();
@@ -98,11 +97,11 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
 
         DirectoryCopy(Path.Combine(_pathManager.NotebooksDir, md.ID), Path.Combine(_pathManager.NotebooksDir, newID),
             false);
-        DirectoryCopy(Path.Combine(_pathManager.NotebooksDir, md.ID + ".thumbnails"),
-            Path.Combine(_pathManager.NotebooksDir, newID + ".thumbnails"), false);
+        DirectoryCopy(Path.Combine(_pathManager.NotebooksDir, $"{md.ID}.thumbnails"),
+            Path.Combine(_pathManager.NotebooksDir, $"{newID}.thumbnails"), false);
 
         md.ID = newID;
-        md.VisibleName += " " + _localisationService.GetString("Notebook");
+        md.VisibleName += $" {_localisationService.GetString("Notebook")}";
         _metadataRepository.SaveToDisk(md);
 
         _metadataRepository.AddMetadata(md, out var alreadyAdded);

@@ -12,8 +12,8 @@
 
         <DataGrid Items="{Binding Items}" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Module" Binding="{Binding Name}" />
-                <DataGridTemplateColumn Header="Progress">
+                <DataGridTextColumn Header="{core:Localisation 'Module'}" Binding="{Binding Name}" />
+                <DataGridTemplateColumn Header="{core:Localisation 'Progress'}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="viewModels:ItemViewModel">
                             <Grid Margin="5">

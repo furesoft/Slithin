@@ -5,11 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.21</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="device.zip" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="device.zip">
@@ -18,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.34" />
+    <PackageReference Include="AuroraModularis" Version="1.0.36" />
     <PackageReference Include="Zio" Version="0.16.2" />
   </ItemGroup>
 

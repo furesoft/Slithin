@@ -22,6 +22,7 @@ public partial struct IPAddress
     {
         var match = IpRegex().Match(src);
         var result = new IPAddress();
+        result.Port = 22;
 
         var splitted = src.Split(':', StringSplitOptions.RemoveEmptyEntries);
 

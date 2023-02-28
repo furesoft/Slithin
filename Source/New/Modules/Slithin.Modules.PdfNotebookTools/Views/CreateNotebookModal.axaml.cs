@@ -16,7 +16,7 @@ public partial class CreateNotebookModal : UserControl
     {
         if (DataContext is CreateNotebookModalViewModel vm)
         {
-            vm.CoverFilename = "internal:" + e.AddedItems[0].ToString();
+            vm.CoverFilename = $"internal:{e.AddedItems[0]}";
             vm.LoadCover();
         }
     }
@@ -40,7 +40,7 @@ public partial class CreateNotebookModal : UserControl
 
             if (DataContext is CreateNotebookModalViewModel vm)
             {
-                vm.CoverFilename = "custom:" + filename;
+                vm.CoverFilename = $"custom:{filename}";
                 vm.LoadCover();
             }
         }

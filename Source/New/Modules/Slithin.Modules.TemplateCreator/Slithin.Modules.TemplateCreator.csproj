@@ -9,6 +9,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Slithin.Controls\Slithin.Controls.csproj" />
+      <ProjectReference Include="..\..\Models\Slithin.Modules.Menu.Models\Slithin.Modules.Menu.Models.csproj" />
+      <ProjectReference Include="..\..\Models\Slithin.Modules.Tools.Models\Slithin.Modules.Tools.Models.csproj" />
     </ItemGroup>
 	
 	<ItemGroup>

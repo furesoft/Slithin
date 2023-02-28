@@ -84,14 +84,14 @@ internal class LocalRepository : IRepository
     {
         var pathManager = _container.Resolve<IPathManager>();
 
-        var files = Directory.GetFiles(pathManager.NotebooksDir, md.ID + "*");
+        var files = Directory.GetFiles(pathManager.NotebooksDir, $"{md.ID}*");
 
         foreach (var file in files)
         {
             File.Delete(file);
         }
 
-        var directories = Directory.GetDirectories(pathManager.NotebooksDir, md.ID + "*");
+        var directories = Directory.GetDirectories(pathManager.NotebooksDir, $"{md.ID}*");
 
         foreach (var directory in directories)
         {

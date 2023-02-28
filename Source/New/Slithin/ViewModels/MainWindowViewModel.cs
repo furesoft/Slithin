@@ -9,6 +9,7 @@ using Avalonia.Media;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.BaseServices.Models;
+using Slithin.Modules.Device.Models;
 using Slithin.Modules.Diagnostics.Sentry.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ContextualMenu;
@@ -16,6 +17,8 @@ using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
 using Slithin.Modules.Menu.Views;
 using Slithin.Modules.Repository.Models;
+using Slithin.Modules.Sync.Models;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.ViewModels;
 
@@ -25,6 +28,7 @@ public class MainWindowViewModel : BaseViewModel
     private readonly IEventService _eventService;
     private readonly IDiagnosticService _diagnosticService;
     private readonly ILocalisationService _localisationService;
+    private readonly INotificationService _notificationService;
     private object _contextualMenu;
 
     private Page _selectedTab;
@@ -33,22 +37,22 @@ public class MainWindowViewModel : BaseViewModel
 
     public MainWindowViewModel(IVersionService versionService,
         ILoginService loginService, IDiagnosticService diagnosticService,
-        ILocalisationService localisationService,
+        ILocalisationService localisationService, INotificationService notificationService,
         IContextualMenuBuilder contextualMenuBuilder,
         IEventService eventService)
     {
         _diagnosticService = diagnosticService;
         _localisationService = localisationService;
+        _notificationService = notificationService;
         _contextualMenuBuilder = contextualMenuBuilder;
         _eventService = eventService;
         Title = $"Slithin {versionService.GetSlithinVersion()} - {loginService.GetCurrentCredential().Name} -";
 
-        SynchronizeCommand = new DelegateCommand(_ =>
+        SynchronizeCommand = new DelegateCommand(async _ =>
         {
-            //ToDo: implement synchronize command
+            //ToDo: add support for cancellation in Status
+            await Task.Run(Synchronize);
         });
-
-        LoadMenu();
     }
 
     public object ContextualMenu
@@ -81,9 +85,26 @@ public class MainWindowViewModel : BaseViewModel
         set => SetValue(ref _title, value);
     }
 
+    protected override void OnLoad()
+    {
+        LoadMenu();
+    }
+
     private static object? GetIcon(PageIconAttribute? pageIconAttribute, Type type)
     {
         return Application.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
+    }
+
+    private async Task Synchronize()
+    {
+        if (await ServiceContainer.Current.Resolve<IRemarkableDevice>().Ping())
+        {
+            await ServiceContainer.Current.Resolve<ISynchronizeService>().Synchronize(false);
+        }
+        else
+        {
+            _notificationService.ShowError(_localisationService.GetString("Your remarkable is not reachable. Please check your connection and restart Slithin"));
+        }
     }
 
     private double CalculateMenuWidth()
@@ -111,7 +132,7 @@ public class MainWindowViewModel : BaseViewModel
         var toRearrange = new List<(int index, Page page, Control view)>();
         var typeFinder = ServiceContainer.Current.Resolve<ITypeFinder>();
 
-        var types = typeFinder.FindTypes<IPage>();
+        var types = typeFinder.FindTypes<IPage>().DistinctBy(_ => _.FullName);
         foreach (var type in types)
         {
             if (!typeof(IPage).IsAssignableFrom(type) || type.IsInterface)
