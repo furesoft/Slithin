@@ -1,4 +1,8 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections;
+using System.Linq;
+using System.Reflection;
+using MoreLinq;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Packaging;
@@ -52,10 +56,15 @@ internal class UpdateRepository
         var resource = await repository.GetResourceAsync<FindPackageByIdResource>();
         var packages = await resource.GetDependencyInfoAsync("Slithin", version, cache, NullLogger.Instance, cts.Token);
 
-        //ToDo: get dependent packages recursivly
-
-        return packages.DependencyGroups[0].Packages
+        return packages.DependencyGroups[0].Packages.SelectMany(dep => GetNugetSubDependencyPackages(resource, dep).Result)
             .Concat(new[] { new PackageDependency("Slithin", new(version)) });
+    }
+
+    private static async Task<IEnumerable<PackageDependency>> GetNugetSubDependencyPackages(FindPackageByIdResource resource, PackageDependency dependency)
+    {
+        var packages = await resource.GetDependencyInfoAsync(dependency.Id, dependency.VersionRange.MinVersion, cache, NullLogger.Instance, cts.Token);
+
+        return packages.DependencyGroups[0].Packages.Concat(dependency);
     }
 
     public static async Task<Dictionary<string, NuGetVersion>> GetUpdatablePackages()
