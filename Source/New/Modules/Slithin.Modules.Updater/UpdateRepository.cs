@@ -64,7 +64,7 @@ internal class UpdateRepository
     {
         var packages = await resource.GetDependencyInfoAsync(dependency.Id, dependency.VersionRange.MinVersion, cache, NullLogger.Instance, cts.Token);
 
-        return packages.DependencyGroups[0].Packages.Concat(dependency);
+        return packages.DependencyGroups[0].Packages.SelectMany(dep => GetNugetSubDependencyPackages(resource, dep).Result).Concat(dependency);
     }
 
     public static async Task<Dictionary<string, NuGetVersion>> GetUpdatablePackages()
