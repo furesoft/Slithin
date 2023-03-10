@@ -1,9 +1,12 @@
 ﻿using System.Reflection;
 using NuGet.Common;
 using NuGet.Configuration;
+using NuGet.PackageManagement;
 using NuGet.Packaging;
 using NuGet.Packaging.Core;
+using NuGet.ProjectManagement;
 using NuGet.Protocol.Core.Types;
+using NuGet.Resolver;
 using NuGet.Versioning;
 
 namespace Slithin.Modules.Updater;
@@ -45,17 +48,14 @@ internal class UpdateRepository
         return versions;
     }
 
-    public static async Task<IEnumerable<PackageDependency>> GetNugetBaseDependencyPackages()
+    public static async Task<IEnumerable<SourcePackageDependencyInfo>> GetNugetBaseDependencyPackages()
     {
         var version = await GetLatestVersion();
-
-        var resource = await repository.GetResourceAsync<FindPackageByIdResource>();
-        var packages = await resource.GetDependencyInfoAsync("Slithin", version, cache, NullLogger.Instance, cts.Token);
-
-        //ToDo: get dependent packages recursivly
-
-        return packages.DependencyGroups[0].Packages
-            .Concat(new[] { new PackageDependency("Slithin", new(version)) });
+        
+        var loader = new Loader();
+        var packages = await loader.LoadExtensions(version);
+        
+        return packages;
     }
 
     public static async Task<Dictionary<string, NuGetVersion>> GetUpdatablePackages()
@@ -66,10 +66,11 @@ internal class UpdateRepository
 
         foreach (var remoteVersion in remoteVersions)
         {
-            var remoteMinVersion = remoteVersion.VersionRange.MinVersion;
+            var remoteMinVersion = remoteVersion.Version;
+            
             if (!localVersions.ContainsKey(remoteVersion.Id))
             {
-                result.Add(remoteVersion.Id, remoteMinVersion);
+                result.TryAdd(remoteVersion.Id, remoteMinVersion);
                 continue;
             }
 
@@ -77,7 +78,7 @@ internal class UpdateRepository
 
             if (new Version(localVersion) < remoteMinVersion.Version)
             {
-                result.Add(remoteVersion.Id, remoteMinVersion);
+                result.TryAdd(remoteVersion.Id, remoteMinVersion);
             }
         }
 
