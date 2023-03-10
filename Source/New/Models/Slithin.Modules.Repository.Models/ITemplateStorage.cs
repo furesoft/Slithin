@@ -2,6 +2,9 @@
 
 namespace Slithin.Modules.Repository.Models;
 
+/// <summary>
+/// A service to work with the templates.json config file
+/// </summary>
 public interface ITemplateStorage
 {
     Template[] Templates { get; set; }

@@ -2,6 +2,9 @@
 
 namespace Slithin.Modules.Repository.Models;
 
+/// <summary>
+/// A service to work with notebook metadata
+/// </summary>
 public interface IMetadataRepository
 {
     void AddMetadata(Metadata metadata, out bool alreadyAdded);

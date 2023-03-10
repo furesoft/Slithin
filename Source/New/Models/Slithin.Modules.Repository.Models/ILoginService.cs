@@ -2,6 +2,9 @@
 
 namespace Slithin.Modules.Repository.Models;
 
+/// <summary>
+/// A service to work with device login information
+/// </summary>
 public interface ILoginService
 {
     LoginInfo GetCurrentCredential();

@@ -6,6 +6,9 @@ using Avalonia.Platform;
 
 namespace Slithin.Modules.Tools.Models;
 
+/// <summary>
+/// Interface to represent a custom tool
+/// </summary>
 public interface ITool
 {
     IImage Image { get; }
