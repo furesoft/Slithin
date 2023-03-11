@@ -119,7 +119,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
         var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, $"{ID}.pdf"));
         var md = mdStorage.GetMetadata(ID);
-        var pages = md.Content.Pages.ToList();
+        var pages = md.Content.Pages?.ToList();
         var pageCount = md.Content.PageCount;
 
         foreach (var p in Pages)

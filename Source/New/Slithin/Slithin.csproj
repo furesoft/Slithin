@@ -12,7 +12,7 @@
 		<PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
 		<Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.0.21</Version>
+		<Version>1.0.29</Version>
 	</PropertyGroup>
 
 

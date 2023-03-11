@@ -20,7 +20,7 @@ public class Module : AuroraModularis.Module
 
         var window = new FirstStartWindow();
 
-        //window.Show();
+        window.Show();
 
         return Task.CompletedTask;
     }

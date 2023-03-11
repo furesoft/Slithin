@@ -25,8 +25,7 @@ internal class NotificationServiceImpl : INotificationService
         ServiceContainer.Current.Resolve<ILogger>().Error(message);
         _notificationManager.Show((new Notification("Error", message, NotificationType.Error)));
     }
-
-    //ToDo: error notification in new window need to be tested
+    
     public void ShowErrorNewWindow(string message)
     {
         ServiceContainer.Current.Resolve<ILogger>().Error(message);

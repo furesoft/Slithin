@@ -35,13 +35,14 @@ internal class FirstStartViewModel : BaseViewModel
         AddStep("Welcome", new WelcomeStep());
         AddStep("Device", new DeviceStep(), LoginInfoViewModel);
         AddStep("Settings", new SettingsStep(), SettingsViewModel);
-        AddStep("Finish", new FinishStep());
+        AddStep("Finish", new FinishStep(), FinishViewModel);
 
         NextCommand = new DelegateCommand(Next);
     }
 
     public SettingsViewModel SettingsViewModel { get; set; } = new();
     public LoginInfoViewModel LoginInfoViewModel { get; set; } = new();
+    public FinishViewModel FinishViewModel { get; set; } = new();
 
     public string ButtonText
     {

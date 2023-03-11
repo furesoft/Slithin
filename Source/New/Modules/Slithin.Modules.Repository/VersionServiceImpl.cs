@@ -48,6 +48,11 @@ internal class VersionServiceImpl : IVersionService
         return Assembly.GetExecutingAssembly().GetName().Version;
     }
 
+    public bool HasDeviceUpdated()
+    {
+        return GetLocalVersion() <= GetDeviceVersion();
+    }
+
     public bool HasLocalVersion()
     {
         var versionFile = Path.Combine(_container.Resolve<IPathManager>().ConfigBaseDir, ".version");

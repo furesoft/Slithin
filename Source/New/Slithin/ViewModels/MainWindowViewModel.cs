@@ -50,7 +50,6 @@ public class MainWindowViewModel : BaseViewModel
 
         SynchronizeCommand = new DelegateCommand(async _ =>
         {
-            //ToDo: add support for cancellation in Status
             await Task.Run(Synchronize);
         });
     }

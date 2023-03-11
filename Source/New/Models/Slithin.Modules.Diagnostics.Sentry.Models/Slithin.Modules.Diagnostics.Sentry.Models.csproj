@@ -5,10 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.0.21</Version>
+    <Version>1.0.30</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Sentry" Version="3.28.1" />
+    <PackageReference Include="Sentry" Version="3.29.1" />
   </ItemGroup>
 </Project>

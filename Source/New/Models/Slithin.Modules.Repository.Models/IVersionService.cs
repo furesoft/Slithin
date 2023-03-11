@@ -11,6 +11,8 @@ public interface IVersionService
 
     Version GetSlithinVersion();
 
+    bool HasDeviceUpdated();
+
     bool HasLocalVersion();
 
     void UpdateVersion(Version version);

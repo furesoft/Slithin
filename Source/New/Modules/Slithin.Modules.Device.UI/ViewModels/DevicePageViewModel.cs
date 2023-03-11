@@ -139,39 +139,9 @@ internal class DevicePageViewModel : BaseViewModel
         });
     }
 
-    /*
-    public void InitNotebooks()
-    {
-        var _ssh = ServiceLocator.Container.Resolve<ISSHService>();
-
-        var notebooksDir = _pathManager.NotebooksDir;
-        NotificationService.Show(_localisationService.GetString("Downloading Notebooks"));
-
-        var cmd = _ssh.RunCommand("ls -p " + PathList.Documents);
-        var allNodes
-            = cmd.Result
-                .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                .Where(_ => !_.EndsWith(".zip") && !_.EndsWith(".zip.part")).ToArray();
-
-        for (var i = 0; i < allNodes.Length; i++)
-        {
-            var node = allNodes[i];
-            if (!node.EndsWith("/"))
-            {
-                _ssh.Download(PathList.Documents + node, new FileInfo(Path.Combine(notebooksDir, node)));
-                continue;
-            }
-
-            Directory.CreateDirectory(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1)));
-            NotificationService.ShowProgress("Downloading Notebooks", i, allNodes.Length - 1);
-            _ssh.Download(PathList.Documents + node, new DirectoryInfo(Path.Combine(notebooksDir, node.Remove(node.Length - 1, 1))));
-        }
-    }
-    */
-
     private async Task DoAfterDeviceUpdate()
     {
-        if (_versionService.GetLocalVersion() >= _versionService.GetDeviceVersion())
+        if (!_versionService.HasDeviceUpdated())
         {
             return;
         }
@@ -233,6 +203,7 @@ internal class DevicePageViewModel : BaseViewModel
 
     private void ReloadDevice(object obj)
     {
+        _logger.Info("Device Reloaded");
         _remarkableDevice.Reload();
     }
 

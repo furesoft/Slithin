@@ -85,7 +85,7 @@ internal class UpdateRepository
         return result;
     }
 
-    public static async Task DownloadPackage(string id, NuGetVersion version, IProgress<bool> progress)
+    public static async Task DownloadPackage(string id, NuGetVersion version)
     {
         var pkgStream = await GetNupkgStream(id, version);
 
@@ -104,8 +104,6 @@ internal class UpdateRepository
                 reader.ExtractFile(item, filePath, NullLogger.Instance);
             }
         }
-            
-        progress.Report(true);
     }
 
     private static async Task<MemoryStream> GetNupkgStream(string id, NuGetVersion version)

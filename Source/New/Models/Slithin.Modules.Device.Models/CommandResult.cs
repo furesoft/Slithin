@@ -1,6 +1,6 @@
 ﻿namespace Slithin.Modules.Device.Models;
 
-public class CommandResult
+public class CommandResult 
 {
     public CommandResult(string error, string result)
     {

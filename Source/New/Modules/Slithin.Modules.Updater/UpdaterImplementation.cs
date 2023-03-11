@@ -1,8 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using NuGet.Versioning;
-using Slithin.Core.MVVM;
 using Slithin.Modules.Updater.Models;
-using Slithin.Modules.Updater.ViewModels;
 
 namespace Slithin.Modules.Updater;
 
@@ -26,15 +25,14 @@ internal class UpdaterImplementation : IUpdaterService
         return newModuleVersions.Where(_=> _.Key.StartsWith("Slithin")).Any();
     }
 
-    public Task StartUpdate()
+    public async Task StartUpdate()
     {
-        var window = new UpdaterWindow();
-        var vm = new UpdaterViewModel(newModuleVersions);
+        foreach (var package in newModuleVersions)
+        {
+            await UpdateRepository.DownloadPackage(package.Key, package.Value);
+        }
+        
+        Process.Start(new ProcessStartInfo("dotnet", typeof(UpdateInstaller.Program).Assembly.Location + " " + Path.Combine(Environment.CurrentDirectory, "Slithin.dll")));
 
-        BaseViewModel.ApplyViewModel(window, vm);
-
-        window.Show();
-
-        return Task.CompletedTask;
     }
 }
