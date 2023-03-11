@@ -12,9 +12,11 @@ public static class Program
         var slithinPath = new FileInfo(executable).Directory.ToString();
         var basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SlithinUpdate");
 
-        foreach (var file in Directory.GetFiles(basePath))
+        foreach (var file in Directory.GetFiles(basePath, "*.*", SearchOption.AllDirectories))
         {
             File.Copy(file, Path.Combine(slithinPath, Path.GetFileName(file)), true);
+            
+            File.Delete(file);
         }
         
         Process.Start(new ProcessStartInfo("dotnet", executable));
