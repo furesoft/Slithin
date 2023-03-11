@@ -94,13 +94,17 @@ internal class UpdateRepository
 
         var basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "SlithinUpdate");
-        foreach (var item in libItemsGroups.First().Items)
-        {
-            var normalizedItem = Path.GetFileName(item);
-            var filePath = Path.Combine(basePath, normalizedItem);
-            reader.ExtractFile(item, filePath, NullLogger.Instance);
-        }
 
+        if (libItemsGroups is not null && libItemsGroups.Any())
+        {
+            foreach (var item in libItemsGroups.FirstOrDefault()?.Items)
+            {
+                var normalizedItem = Path.GetFileName(item);
+                var filePath = Path.Combine(basePath, normalizedItem);
+                reader.ExtractFile(item, filePath, NullLogger.Instance);
+            }
+        }
+            
         progress.Report(true);
     }
 

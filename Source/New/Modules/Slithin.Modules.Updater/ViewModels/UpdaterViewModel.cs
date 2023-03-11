@@ -41,7 +41,7 @@ internal class UpdaterViewModel : BaseViewModel
 
                 await UpdateRepository.DownloadPackage(item.Name, item.Version, progress);
 
-                await Task.Delay(250);
+                await Task.Delay(100);
             }
         });
     }
