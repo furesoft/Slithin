@@ -22,7 +22,7 @@ public partial class FirstStartWindow : Window
 
         var vm = ServiceContainer.Current.Resolve<FirstStartViewModel>();
         vm.Load();
-
+        
         vm.OnRequestClose += () => Close();
 
         DataContext = vm;

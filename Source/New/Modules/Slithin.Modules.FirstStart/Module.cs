@@ -13,7 +13,7 @@ public class Module : AuroraModularis.Module
 
         var settings = settingsService.GetSettings();
 
-        if (!(settings.IsFirstStart && loginService.GetLoginCredentials().Any()))
+        if (!settings.IsFirstStart && loginService.GetLoginCredentials().Any())
         {
             return Task.CompletedTask;
         }

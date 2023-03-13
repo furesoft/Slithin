@@ -71,7 +71,7 @@ public class ConnectionWindowViewModel : BaseViewModel
 
     protected override async void OnLoad()
     {
-        if (!_settingsService.GetSettings().IsFirstStart)
+        if (_settingsService.GetSettings().IsFirstStart)
         {
             RequestClose();
         }

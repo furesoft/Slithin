@@ -16,7 +16,7 @@ public abstract class BaseViewModel : NotifyObject
         {
             vm.OnRequestClose += () =>
             {
-                win.Close();
+                win.Hide();
             };
         }
 
