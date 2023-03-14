@@ -39,14 +39,9 @@ public class ResourcesPageViewModel : BaseViewModel
         }
         else
         {
+        /*
             Task.Run(async () =>
             {
-                var marketplaceAPI = ServiceContainer.Current.Resolve<MarketplaceAPI>();
-                var templates = marketplaceAPI.Get<Template[]>("templates", 5)
-                        .Select(_ => new Sharable() { Asset = _ });
-
-                Templates = new(templates);
-
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     frame.Navigate(typeof(ResourcesMainPage));
@@ -55,14 +50,13 @@ public class ResourcesPageViewModel : BaseViewModel
                 Parallel.For(0, Templates.Count, async (index) =>
                 {
                     var template = Templates[index];
-                    var bytes = marketplaceAPI.GetBytes(template.Asset.FileID);
 
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
                         Templates[index].Image = LoadImage(bytes);
                     });
                 });
-            });
+            });*/
         }
     }
 
@@ -71,7 +65,7 @@ public class ResourcesPageViewModel : BaseViewModel
     {
         return new DelegateCommand(asset =>
         {
-            Task.Run(async () =>
+           /* Task.Run(async () =>
             {
                 var marketplaceAPI = ServiceContainer.Current.Resolve<MarketplaceAPI>();
                 var items = marketplaceAPI.Get<T[]>(asset.ToString().ToLower())
@@ -96,7 +90,7 @@ public class ResourcesPageViewModel : BaseViewModel
                         vm.Items[index].Image = LoadImage(bytes);
                     });
                 });
-            });
+            });*/
         });
     }
 

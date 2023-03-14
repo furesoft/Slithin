@@ -11,6 +11,6 @@ internal class Module : AuroraModularis.Module
 
     public override void RegisterServices(ServiceContainer serviceContainer)
     {
-        serviceContainer.Register<MarketplaceAPI>().AsSingleton();
+       
     }
 }

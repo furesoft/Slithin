@@ -17,6 +17,6 @@ public class Module : AuroraModularis.Module
 
     public override void RegisterServices(ServiceContainer serviceContainer)
     {
-        serviceContainer.Register<IPeer>(new PeerImpl());
+        serviceContainer.Register<IPeer>(new PeerImpl()).AsSingleton();
     }
 }

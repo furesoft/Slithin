@@ -8,7 +8,6 @@ namespace Slithin.Modules.Resources.UI.ViewModels;
 
 public sealed class LoginModalViewModel : ModalBaseViewModel
 {
-    private readonly MarketplaceAPI _api;
     private readonly ISettingsService _settingsService;
     private string _password;
     private string _username;
@@ -59,8 +58,7 @@ public sealed class LoginModalViewModel : ModalBaseViewModel
     {
         Task.Run(() =>
         {
-            _api.Authenticate(Username, Password);
-
+  
             var settings = _settingsService.GetSettings();
             _settingsService.Save(settings);
 
