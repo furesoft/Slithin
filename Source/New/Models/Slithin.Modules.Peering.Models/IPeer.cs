@@ -7,4 +7,7 @@ public interface IPeer
     void Broadcast<T>(T message);
 
     event Action<object> OnMessageReceived;
+
+    void RegisterMessageHandler<TMessageType, THandlerType>() 
+        where THandlerType : IMessageHandler<TMessageType>, new();
 }

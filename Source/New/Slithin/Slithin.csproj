@@ -76,6 +76,7 @@
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Menu\Slithin.Modules.Menu.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Notebooks.UI\Slithin.Modules.Notebooks.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.PdfNotebookTools\Slithin.Modules.PdfNotebookTools.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Peering\Slithin.Modules.Peering.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Resources.UI\Slithin.Modules.Resources.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Settings.UI\Slithin.Modules.Settings.UI.csproj" />

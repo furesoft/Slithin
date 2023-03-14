@@ -8,6 +8,10 @@ public class Module : AuroraModularis.Module
 {
     public override Task OnStart(ServiceContainer serviceContainer)
     {
+        var peering = serviceContainer.Resolve<IPeer>();
+        
+        peering.Init();
+        
         return Task.CompletedTask;
     }
 
