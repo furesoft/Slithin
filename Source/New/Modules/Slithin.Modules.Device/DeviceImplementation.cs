@@ -71,14 +71,14 @@ internal class DeviceImplementation : IRemarkableDevice
         var findCmdResult = RunCommand($"find {directory} {expandedSearchOption} -type f -name '{searchPattern}'");
         var lastModResult = RunCommand($"find {directory} {expandedSearchOption} -type f -name '{searchPattern}' | xargs stat -c \"%Y\"");
 
-        if (!string.IsNullOrEmpty(findCmdResult.Error) || !string.IsNullOrEmpty(lastModResult.Error))
+        if (!findCmdResult.IsT1 || !lastModResult.IsT1)
         {
-            Debug.WriteLine($"[findCmd]: {findCmdResult.Error}");
-            Debug.WriteLine($"[lastMod]: {lastModResult.Error}");
+            Debug.WriteLine($"[findCmd]: {findCmdResult.AsT1.Message}");
+            Debug.WriteLine($"[lastMod]: {lastModResult.AsT1.Message}");
         }
 
-        var findCmdOutput = findCmdResult.Result.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        var lastModOutput = lastModResult.Result.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        var findCmdOutput = findCmdResult.AsT0.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        var lastModOutput = lastModResult.AsT0.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
         var result = new List<FileFetchResult>();
 
         for (int i = 0; i < findCmdOutput.Length; i++)
@@ -103,7 +103,12 @@ internal class DeviceImplementation : IRemarkableDevice
     {
         var result = _client.RunCommand(cmd);
 
-        return new(result.Error, result.Result);
+        if (!string.IsNullOrEmpty(result.Error))
+        {
+            return new Exception(result.Error);
+        }
+        
+        return result.Result;
     }
 
     public async Task<bool> Ping(IPAddress ip)

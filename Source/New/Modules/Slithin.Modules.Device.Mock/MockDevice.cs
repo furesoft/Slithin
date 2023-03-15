@@ -76,10 +76,10 @@ internal class MockDevice : IRemarkableDevice
     {
         if (cmd == "grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf")
         {
-            return new("2.13.5");
+            return "2.13.5";
         }
 
-        return new("");
+        return new Exception();
     }
 
     public Task<bool> Ping(IPAddress ip)

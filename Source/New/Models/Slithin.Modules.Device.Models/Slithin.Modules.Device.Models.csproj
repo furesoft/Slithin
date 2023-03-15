@@ -11,6 +11,8 @@
 	<ItemGroup>
 	  <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.36" />
 	  <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
+	  <PackageReference Include="OneOf" Version="3.0.243" />
+	  <PackageReference Include="OneOf.SourceGenerator" Version="3.0.243" />
 	</ItemGroup>
 
 	<ItemGroup>
