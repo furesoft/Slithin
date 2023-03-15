@@ -17,7 +17,9 @@ internal class VersionServiceImpl : IVersionService
 
     public Version GetDeviceVersion()
     {
-        var str = _container.Resolve<IRemarkableDevice>().RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf").Result;
+        var str = _container.Resolve<IRemarkableDevice>()
+            .RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf").AsT0;
+        
         str = str.Replace("REMARKABLE_RELEASE_VERSION=", "").Replace("\n", "");
 
         return new(str);

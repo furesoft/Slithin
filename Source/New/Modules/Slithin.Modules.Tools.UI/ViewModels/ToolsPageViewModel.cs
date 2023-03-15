@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Slithin.Core.MVVM;
+using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Tools.Models;
 using Slithin.Modules.Tools.UI.Models;
 
@@ -45,7 +46,7 @@ internal class ToolsPageViewModel : BaseViewModel
 
         var categories = _invoker.Tools.Where(_ => _.Value.Info.IsListed).Select(_ => _.Value.Info.Category);
 
-        Filter.Categories = new ObservableCollection<string>(categories.Distinct());
+        Filter.Categories = new ObservableCollection<TranslatedString>(categories.Distinct());
     }
 
     /*

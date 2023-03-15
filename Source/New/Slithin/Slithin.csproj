@@ -50,6 +50,7 @@
 		</PackageReference>
 		<PackageReference Include="Portable.Xaml" Version="0.26.0" />
 		<PackageReference Include="QRCoder" Version="1.4.3" />
+		<PackageReference Include="System.Threading.AccessControl" Version="7.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

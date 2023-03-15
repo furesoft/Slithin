@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Slithin.Core.MVVM;
+using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Tools.Models;
 
 namespace Slithin.Modules.Tools.UI.Models;
@@ -28,7 +29,7 @@ internal class ToolsFilter : NotifyObject
         }
     }
 
-    public ObservableCollection<string> Categories { get; set; }
+    public ObservableCollection<TranslatedString> Categories { get; set; }
 
     public string SelectedCategory
     {

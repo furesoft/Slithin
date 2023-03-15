@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Threading;
 using Slithin.Core.MVVM;
+using Slithin.Modules.I18N.Models;
 using Slithin.Modules.UI.Modals;
 using Slithin.Modules.UI.Models;
 using Slithin.Modules.UI.ViewModels;
@@ -9,7 +10,7 @@ namespace Slithin.Modules.UI.Implementations;
 
 internal class DialogServiceImpl : IDialogService
 {
-    public Task<bool> Show(string title, Control content)
+    public Task<bool> Show(TranslatedString title, Control content)
     {
         TaskCompletionSource<bool> tcs = new();
 
@@ -42,7 +43,7 @@ internal class DialogServiceImpl : IDialogService
         return tcs.Task;
     }
 
-    public async Task<string> ShowPrompt(string title, string message, string defaultValue = "")
+    public async Task<string> ShowPrompt(TranslatedString title, TranslatedString message, string defaultValue = "")
     {
         var vm = new PromptModalViewModel();
         vm.Header = title;

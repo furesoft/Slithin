@@ -1,5 +1,8 @@
 ﻿namespace Slithin.Modules.Device.Models;
 
+/// <summary>
+/// Service to work with the Xochitl configuration file
+/// </summary>
 public interface IXochitlService
 {
     bool GetIsBeta();

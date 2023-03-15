@@ -2,6 +2,9 @@
 
 namespace Slithin.Modules.I18N.Models;
 
+/// <summary>
+/// A Helper type to represent a translated string for better code readability
+/// </summary>
 public struct TranslatedString
 {
     private TranslatedString(string key)

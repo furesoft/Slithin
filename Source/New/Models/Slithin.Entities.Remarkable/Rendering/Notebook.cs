@@ -7,8 +7,15 @@ using Slithin.Modules.Repository.Models;
 
 namespace Slithin.Entities.Remarkable.Rendering;
 
+/// <summary>
+/// Represents a Notebook in the remarkable proprietary format
+/// </summary>
 public class Notebook
 {
+    /// <summary>
+    /// Init the notebook based on the metadata id
+    /// </summary>
+    /// <param name="md"></param>
     public Notebook(Metadata md)
     {
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
@@ -33,6 +40,11 @@ public class Notebook
 
     public int Version { get; set; }
 
+    /// <summary>
+    /// Load the notebook ased on the id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public static Notebook Load(string id)
     {
         var mdStorage = ServiceContainer.Current.Resolve<IMetadataRepository>();
@@ -40,6 +52,11 @@ public class Notebook
         return Load(mdStorage.GetMetadata(id));
     }
 
+    /// <summary>
+    /// Load the notebook based on the metadata
+    /// </summary>
+    /// <param name="md"></param>
+    /// <returns></returns>
     public static Notebook Load(Metadata md)
     {
         var notebook = new Notebook(md);
@@ -89,6 +106,10 @@ public class Notebook
         return curPage;
     }
 
+    /// <summary>
+    /// Upload the pdf or epub notebook to the device
+    /// </summary>
+    /// <param name="md"></param>
     public static void UploadDocument(Metadata md)
     {
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
@@ -108,6 +129,10 @@ public class Notebook
         device.Reload();
     }
 
+    /// <summary>
+    /// Upload the notebook to the device
+    /// </summary>
+    /// <param name="md"></param>
     public static void UploadNotebook(Metadata md)
     {
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
@@ -140,6 +165,9 @@ public class Notebook
         device.Reload();
     }
 
+    /// <summary>
+    /// Save the changed notebook to the filesystem
+    /// </summary>
     public void Save()
     {
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
