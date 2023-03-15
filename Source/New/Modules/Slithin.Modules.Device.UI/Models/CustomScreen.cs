@@ -7,6 +7,7 @@ using LiteDB;
 using Slithin.Core.MVVM;
 using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
+using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.Device.UI.Models;
 
@@ -32,7 +33,7 @@ internal class CustomScreen : NotifyObject
     [BsonIgnore]
     public ICommand ResetCommand { get; set; }
 
-    public string Title { get; set; }
+    public TranslatedString Title { get; set; }
 
     [BsonIgnore]
     public ICommand TransferCommand { get; set; }

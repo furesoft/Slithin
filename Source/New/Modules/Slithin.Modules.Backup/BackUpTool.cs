@@ -23,7 +23,7 @@ internal class BackupTool : ITool
 
     public IImage Image => this.LoadImage("backup.png");
 
-    public ToolInfo Info => new("backup", "Backup", "Internal", _localisationService.GetString("Backup all your files"), true, true);
+    public ToolInfo Info => new("backup", "Backup", "Internal", "Backup all your files", true, true);
 
     public bool IsConfigurable => false;
 
@@ -36,7 +36,7 @@ internal class BackupTool : ITool
     {
         await Task.Run(() =>
         {
-            var status = _notificationService.ShowStatus(_localisationService.GetString("Start Compressing"));
+            var status = _notificationService.ShowStatus("Start Compressing");
             using var zip = new ZipFile();
             
             AddZipEntries(zip);

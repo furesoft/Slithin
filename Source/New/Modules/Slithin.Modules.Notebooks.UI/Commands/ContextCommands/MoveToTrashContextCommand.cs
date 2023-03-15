@@ -24,7 +24,7 @@ internal class MoveToTrashContextCommand : IContextCommand
     }
 
     public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Move To Trash");
+    public TranslatedString Title => "Move To Trash";
 
     public bool CanExecute(object data)
     {

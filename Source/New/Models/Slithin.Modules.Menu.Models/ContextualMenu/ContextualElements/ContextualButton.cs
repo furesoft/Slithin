@@ -10,19 +10,17 @@ public class ContextualButton : ContextualElement
 {
     private object? _commandParameter;
 
-    public ContextualButton(string title, string iconName, ICommand command)
+    public ContextualButton(TranslatedString title, string iconName, ICommand command)
     {
-        var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
-
-        Title = localisationService.GetString(title);
+        Title = title;
         Command = command;
 
         Icon = Application.Current.FindResource(iconName);
     }
 
     public ICommand Command { get; }
-    public string? Hint { get; set; }
-    public string Title { get; set; }
+    public TranslatedString? Hint { get; set; }
+    public TranslatedString Title { get; set; }
 
     public object Icon { get; set; }
 }

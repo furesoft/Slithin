@@ -100,8 +100,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
         }
         else
         {
-            await _dialogService.Show(
-                _localisationService.GetString("Page Count must be a number and a template need to be selected"));
+            await _dialogService.Show("Page Count must be a number and a template need to be selected");
         }
     }
 

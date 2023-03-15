@@ -29,7 +29,7 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
     }
 
     public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Convert To Notebook");
+    public TranslatedString Title => "Convert To Notebook";
 
     public bool CanExecute(object data)
     {

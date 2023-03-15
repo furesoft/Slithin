@@ -35,7 +35,7 @@ internal class RemoveNotebookCommand : ICommand
     public event EventHandler CanExecuteChanged;
 
     public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Remove");
+    public TranslatedString Titel => "Remove";
 
     public bool CanExecute(object parameter)
     {

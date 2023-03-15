@@ -180,8 +180,7 @@ internal class DevicePageViewModel : BaseViewModel
 
         var result =
             await _dialogService.Show(
-               _localisationService.GetString(
-                   "A new version has been installed to your device. Would you upload your custom templates/screens?"));
+                   "A new version has been installed to your device. Would you upload your custom templates/screens?");
 
         if (result)
         {
@@ -192,11 +191,11 @@ internal class DevicePageViewModel : BaseViewModel
 
     private void InitScreens()
     {
-        CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Starting"), Filename = "starting.png" });
-        CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Power Off"), Filename = "poweroff.png" });
-        CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Suspended"), Filename = "suspended.png" });
-        CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Rebooting"), Filename = "rebooting.png" });
-        CustomScreens.Add(new CustomScreen { Title = _localisationService.GetString("Battery Empty"), Filename = "batteryempty.png" });
+        CustomScreens.Add(new CustomScreen { Title = "Starting", Filename = "starting.png" });
+        CustomScreens.Add(new CustomScreen { Title = "Power Off", Filename = "poweroff.png" });
+        CustomScreens.Add(new CustomScreen { Title = "Suspended", Filename = "suspended.png" });
+        CustomScreens.Add(new CustomScreen { Title = "Rebooting", Filename = "rebooting.png" });
+        CustomScreens.Add(new CustomScreen { Title = "Battery Empty", Filename = "batteryempty.png" });
 
         _logger.Info("Initialize Screens");
     }
@@ -217,7 +216,7 @@ internal class DevicePageViewModel : BaseViewModel
 
     private void UploadScreens()
     {
-        _notificationService.Show(_localisationService.GetString("Uploading Screens"));
+        _notificationService.Show("Uploading Screens");
 
         _remarkableDevice.Upload(new DirectoryInfo(_pathManager.CustomScreensDir), _devicePathList.Screens);
 
@@ -226,7 +225,7 @@ internal class DevicePageViewModel : BaseViewModel
 
     private void UploadTemplates()
     {
-        _notificationService.Show(_localisationService.GetString("Uploading Templates"));
+        _notificationService.Show("Uploading Templates");
 
         _remarkableDevice.Upload(new DirectoryInfo(_pathManager.TemplatesDir), _devicePathList.Templates);
 

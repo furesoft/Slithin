@@ -161,8 +161,6 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
 
         File.Copy(Filename, Path.Combine(_pathManager.TemplatesDir, $"{template.Filename}.png"));
 
-        //_localRepository.AddTemplate(template);
-
         await _templateStorage.LoadTemplateAsync(template);
 
         _templateStorage.AppendTemplate(template);

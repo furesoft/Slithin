@@ -36,8 +36,7 @@ internal class MakeFolderCommand : ICommand
 
     public async void Execute(object parameter)
     {
-        var name = await _dialogService.ShowPrompt(_localisationService.GetString("Make Folder"),
-                _localisationService.GetString("Name"));
+        var name = await _dialogService.ShowPrompt("Make Folder", "Name");
 
         if (!string.IsNullOrEmpty(name))
         {

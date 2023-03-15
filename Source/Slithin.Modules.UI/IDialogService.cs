@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.UI.Models;
 
@@ -7,7 +8,7 @@ namespace Slithin.Modules.UI.Models;
 /// </summary>
 public interface IDialogService
 {
-    Task<bool> Show(string title, Control content);
+    Task<bool> Show(TranslatedString title, Control content);
 
     /// <summary>
     /// Show modal for asking the user for one value
@@ -16,5 +17,5 @@ public interface IDialogService
     /// <param name="message"></param>
     /// <param name="defaultValue"></param>
     /// <returns></returns>
-    Task<string> ShowPrompt(string title, string message, string defaultValue = "");
+    Task<string> ShowPrompt(TranslatedString title, TranslatedString message, string defaultValue = "");
 }

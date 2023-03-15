@@ -39,7 +39,7 @@ internal class RenameCommand : ICommand
     public event EventHandler CanExecuteChanged;
 
     public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Rename");
+    public TranslatedString Titel => "Rename";
 
     public bool CanExecute(object parameter)
     {
@@ -52,8 +52,7 @@ internal class RenameCommand : ICommand
 
     public async void Execute(object parameter)
     {
-        var name = await _dialogService.ShowPrompt(_localisationService.GetString("Rename"),
-                _localisationService.GetString("Name"), ((Metadata)parameter).VisibleName);
+        var name = await _dialogService.ShowPrompt("Rename",  "Name", ((Metadata)parameter).VisibleName);
 
         if (!string.IsNullOrEmpty(name))
         {

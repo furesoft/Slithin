@@ -157,7 +157,7 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         if (!int.TryParse(PageCount, out var pcount) ||
             SelectedTemplate == null && string.IsNullOrEmpty(CustomTemplateFilename))
         {
-            await _dialogService.Show(_localisationService.GetString("Page Count must be a number and a template need to be selected"));
+            await _dialogService.Show("Page Count must be a number and a template need to be selected");
             return;
         }
 

@@ -32,7 +32,7 @@ internal class RemoveTemplateCommand : ICommand, IContextCommand
 
     public object ParentViewModel { get; set; }
 
-    public string Titel => _localisationService.GetString("Remove");
+    public TranslatedString Title => "Remove";
 
     public bool CanExecute(object parameter)
     {

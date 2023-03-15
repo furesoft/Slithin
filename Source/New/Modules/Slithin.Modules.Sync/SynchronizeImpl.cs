@@ -19,7 +19,7 @@ public class SynchronizeImpl : ISynchronizeService
         var locService = ServiceContainer.Current.Resolve<ILocalisationService>();
         var mdService = ServiceContainer.Current.Resolve<IMetadataRepository>();
 
-        using var status = notificationService.ShowStatus(locService.GetString("Synchronizing Device: Fetching Notebooks"),
+        using var status = notificationService.ShowStatus("Synchronizing Device: Fetching Notebooks",
             isCancellable: true,
             notificationsInNewWindow);
         

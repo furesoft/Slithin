@@ -16,7 +16,7 @@ public class CopyIDContextCommand : IContextCommand
     }
 
     public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Copy ID");
+    public TranslatedString Title => "Copy ID";
 
     public bool CanExecute(object data)
     {

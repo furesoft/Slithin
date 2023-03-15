@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls.Notifications;
+using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.UI.Models;
 
@@ -9,10 +10,10 @@ public interface INotificationService
 {
     void Init(WindowNotificationManager manager);
 
-    void Show(string message);
+    void Show(TranslatedString message);
 
-    void ShowError(string message);
-    void ShowErrorNewWindow(string message);
+    void ShowError(TranslatedString message);
+    void ShowErrorNewWindow(TranslatedString message);
 
     /// <summary>
     /// Shows a status modal
@@ -21,5 +22,5 @@ public interface INotificationService
     /// <param name="isCancellable"></param>
     /// <param name="showInNewWindow"></param>
     /// <returns></returns>
-    IStatusController ShowStatus(string message, bool isCancellable = false, bool showInNewWindow = false);
+    IStatusController ShowStatus(TranslatedString message, bool isCancellable = false, bool showInNewWindow = false);
 }

@@ -102,7 +102,7 @@ public class MainWindowViewModel : BaseViewModel
         }
         else
         {
-            _notificationService.ShowError(_localisationService.GetString("Your remarkable is not reachable. Please check your connection and restart Slithin"));
+            _notificationService.ShowError("Your remarkable is not reachable. Please check your connection and restart Slithin");
         }
     }
 
@@ -181,11 +181,11 @@ public class MainWindowViewModel : BaseViewModel
     private string BuildPage(IPage pageInstance, Control? controlInstance, PageIconAttribute? pageIconAttribute, Type type,
         out Page page)
     {
-        var header = _localisationService.GetString(pageInstance.Title);
-        page = new Page { Header = header, DataContext = controlInstance.DataContext };
+        page = new Page { Header = pageInstance.Title, DataContext = controlInstance.DataContext };
 
         page.Icon = GetIcon(pageIconAttribute, type);
-        return header;
+        
+        return pageInstance.Title;
     }
 
     private UserControl BuildContextMenu(ContextAttribute contextAttribute, Page page, string header)

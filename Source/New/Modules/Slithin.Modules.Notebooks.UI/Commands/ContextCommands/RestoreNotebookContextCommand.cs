@@ -18,7 +18,7 @@ internal class RestoreNotebookContextCommand : IContextCommand
     }
 
     public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Restore");
+    public TranslatedString Title => "Restore";
 
     public bool CanExecute(object data)
     {

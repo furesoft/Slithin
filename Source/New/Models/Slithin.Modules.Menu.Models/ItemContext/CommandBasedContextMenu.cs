@@ -26,7 +26,7 @@ public class CommandBasedContextMenu : IContextProvider
         return new List<MenuItem>(
             new MenuItem[] {
                 new() {
-                    Header = _command.Titel,
+                    Header = _command.Title,
                     Command = new DelegateCommand(_ => _command.Execute(obj)) } }
             );
     }

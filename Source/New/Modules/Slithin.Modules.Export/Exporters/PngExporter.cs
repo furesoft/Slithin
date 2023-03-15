@@ -37,7 +37,7 @@ public class PngExporter : IExportProvider
 
         if (options.PagesIndices.Count == 0)
         {
-            _dialogService.Show(_localisationService.GetString("No Pages To Export Selected"));
+            _dialogService.Show("No Pages To Export Selected");
             return false;
         }
 

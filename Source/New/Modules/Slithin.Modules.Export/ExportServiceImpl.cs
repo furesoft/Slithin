@@ -34,7 +34,7 @@ internal class ExportServiceImpl : IExportService
         var vm = new ExportModalViewModel(metadata, exportProviderFactory);
         modal.DataContext = vm;
 
-        var shouldExport = await dialogService.Show(localisationService.GetString("Export"), modal);
+        var shouldExport = await dialogService.Show("Export", modal);
         if (!shouldExport)
         {
             return;

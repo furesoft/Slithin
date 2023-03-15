@@ -19,7 +19,7 @@ internal class BackupContextCommand : IContextCommand
     }
 
     public object ParentViewModel { get; set; }
-    public string Titel => _localisationService.GetString("Backup");
+    public TranslatedString Title => "Backup";
 
     public bool CanExecute(object data)
     {

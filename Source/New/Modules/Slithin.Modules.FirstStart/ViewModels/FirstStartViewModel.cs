@@ -17,7 +17,7 @@ internal class FirstStartViewModel : BaseViewModel
     private readonly IPathManager _pathManager;
     private readonly ILoginService _loginService;
     private readonly ISettingsService _settingsService;
-    private string _buttonText;
+    private TranslatedString _buttonText;
     private int _index;
 
     public FirstStartViewModel(
@@ -26,7 +26,7 @@ internal class FirstStartViewModel : BaseViewModel
         ISettingsService settingsService,
         ILoginService loginService)
     {
-        ButtonText = localisationService.GetString("Next");
+        ButtonText = "Next";
         _localisationService = localisationService;
         _pathManager = pathManager;
         _settingsService = settingsService;
@@ -44,7 +44,7 @@ internal class FirstStartViewModel : BaseViewModel
     public LoginInfoViewModel LoginInfoViewModel { get; set; } = new();
     public FinishViewModel FinishViewModel { get; set; } = new();
 
-    public string ButtonText
+    public TranslatedString ButtonText
     {
         get { return _buttonText; }
         set { SetValue(ref _buttonText, value); }
@@ -59,7 +59,7 @@ internal class FirstStartViewModel : BaseViewModel
 
             if (_index >= StepTitles.Count - 1)
             {
-                ButtonText = _localisationService.GetString("Start");
+                ButtonText = "Start";
             }
         }
     }
