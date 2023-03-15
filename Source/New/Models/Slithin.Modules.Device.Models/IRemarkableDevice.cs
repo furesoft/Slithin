@@ -1,4 +1,5 @@
 ﻿using AuroraModularis.Core;
+using DotNext;
 using Renci.SshNet.Common;
 using Slithin.Entities;
 using Slithin.Modules.Repository.Models;
@@ -45,7 +46,7 @@ public interface IRemarkableDevice
     /// </summary>
     /// <param name="cmd"></param>
     /// <returns>Either the output stream as string or an error as exception</returns>
-    CommandResult RunCommand(string cmd);
+    Result<string> RunCommand(string cmd);
 
     Task<bool> Ping(IPAddress ip);
 

@@ -1,16 +1,17 @@
-﻿using OneOf;
+﻿using DotNext;
+using OneOf;
 
 namespace Slithin.Modules.Export.Models;
 
 public record PageRange(int From, int To)
 {
-    public static OneOf<List<PageRange>, bool> Parse(string src)
+    public static Result<List<PageRange>> Parse(string src)
     {
         if (string.IsNullOrEmpty(src) || string.IsNullOrWhiteSpace(src))
-            return true;
+            return new(new Exception("Input is empty"));
 
         if (src == "-")
-            return true;
+            return new(new Exception("Invalid Range"));
 
         src = src.Replace(" ", "").Replace("\t", "");
         var spl = src.Split(';', StringSplitOptions.RemoveEmptyEntries);
@@ -20,13 +21,13 @@ public record PageRange(int From, int To)
         {
             var match = ParseSingle(part);
 
-            if (!match.IsT1)
+            if (match)
             {
-                result.Add(match.AsT0);
+                result.Add(match.Value);
             }
             else
             {
-                return true;
+                return new(match.Error);
             }
         }
 
@@ -36,13 +37,13 @@ public record PageRange(int From, int To)
     //"1-5" Sites 1,2,3,4,5
     //"2" Site 2
     //"3-" Sites 3,4,...,PageCount(-1)
-    public static OneOf<PageRange, bool> ParseSingle(string src)
+    public static Result<PageRange> ParseSingle(string src)
     {
         //page starts at index 1, need to translate to coding index!
 
-        if (!src.Contains("-"))
+        if (!src.Contains('-'))
         {
-            return int.TryParse(src, out var page) ? new PageRange(page, page) : true;
+            return int.TryParse(src, out var page) ? new PageRange(page, page) : new Result<PageRange>(new Exception("Invalid Index"));
         }
 
         var split = src.Split('-', StringSplitOptions.RemoveEmptyEntries);
@@ -61,7 +62,8 @@ public record PageRange(int From, int To)
                 return new PageRange(leftPart, rightPart);
             }
         }
-        return true;
+        
+        return new(new Exception("Error Parsing Index"));
     }
 
     public static IEnumerable<int> ToIndices(List<PageRange> ranges, int max)

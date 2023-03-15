@@ -18,11 +18,16 @@ internal class VersionServiceImpl : IVersionService
     public Version GetDeviceVersion()
     {
         var str = _container.Resolve<IRemarkableDevice>()
-            .RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf").AsT0;
-        
-        str = str.Replace("REMARKABLE_RELEASE_VERSION=", "").Replace("\n", "");
+            .RunCommand("grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf");
 
-        return new(str);
+        if (!str.IsSuccessful)
+        {
+            return new Version(1, 0, 0, 0);
+        }
+        
+        var version = str.Value.Replace("REMARKABLE_RELEASE_VERSION=", "").Replace("\n", "");
+
+        return new(version);
     }
 
     public void UpdateVersion(Version version)

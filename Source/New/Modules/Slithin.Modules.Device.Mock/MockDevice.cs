@@ -1,4 +1,5 @@
 ﻿using AuroraModularis.Core;
+using DotNext;
 using Renci.SshNet.Common;
 using Slithin.Entities;
 using Slithin.Modules.Device.Models;
@@ -72,14 +73,14 @@ internal class MockDevice : IRemarkableDevice
     {
     }
 
-    public CommandResult RunCommand(string cmd)
+    public Result<string> RunCommand(string cmd)
     {
         if (cmd == "grep '^REMARKABLE_RELEASE_VERSION' /usr/share/remarkable/update.conf")
         {
             return "2.13.5";
         }
 
-        return new Exception();
+        return Result.FromException<string>(new Exception());
     }
 
     public Task<bool> Ping(IPAddress ip)

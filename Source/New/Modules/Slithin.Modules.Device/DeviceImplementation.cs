@@ -2,6 +2,7 @@
 using System.Net.NetworkInformation;
 using System.Text;
 using AuroraModularis.Core;
+using DotNext;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 using Slithin.Entities;
@@ -71,14 +72,14 @@ internal class DeviceImplementation : IRemarkableDevice
         var findCmdResult = RunCommand($"find {directory} {expandedSearchOption} -type f -name '{searchPattern}'");
         var lastModResult = RunCommand($"find {directory} {expandedSearchOption} -type f -name '{searchPattern}' | xargs stat -c \"%Y\"");
 
-        if (!findCmdResult.IsT1 || !lastModResult.IsT1)
+        if (!findCmdResult.IsSuccessful || !lastModResult.IsSuccessful)
         {
-            Debug.WriteLine($"[findCmd]: {findCmdResult.AsT1.Message}");
-            Debug.WriteLine($"[lastMod]: {lastModResult.AsT1.Message}");
+            Debug.WriteLine($"[findCmd]: {findCmdResult.Error.Message}");
+            Debug.WriteLine($"[lastMod]: {lastModResult.Error.Message}");
         }
 
-        var findCmdOutput = findCmdResult.AsT0.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        var lastModOutput = lastModResult.AsT0.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        var findCmdOutput = findCmdResult.Value.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        var lastModOutput = lastModResult.Value.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
         var result = new List<FileFetchResult>();
 
         for (int i = 0; i < findCmdOutput.Length; i++)
@@ -94,18 +95,20 @@ internal class DeviceImplementation : IRemarkableDevice
         return result;
     }
 
+    /// <inheritdoc cref="IRemarkableDevice.Reload" />
     public void Reload()
     {
         _client.RunCommand("systemctl restart xochitl");
     }
 
-    public CommandResult RunCommand(string cmd)
+    /// <inheritdoc cref="IRemarkableDevice.RunCommand" />
+    public Result<string> RunCommand(string cmd)
     {
         var result = _client.RunCommand(cmd);
 
         if (!string.IsNullOrEmpty(result.Error))
         {
-            return new Exception(result.Error);
+            return Result.FromException<string>(new(result.Error));
         }
         
         return result.Result;

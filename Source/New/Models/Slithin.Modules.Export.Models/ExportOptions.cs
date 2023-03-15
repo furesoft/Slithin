@@ -1,5 +1,8 @@
 ﻿namespace Slithin.Modules.Export.Models;
 
+/// <summary>
+/// A type to represent options for exporting a notebook
+/// </summary>
 public class ExportOptions
 {
     public ExportDocument Document { get; set; }
@@ -7,13 +10,18 @@ public class ExportOptions
 
     public bool ShouldHideTemplates { get; set; }
 
+    private ExportOptions()
+    {
+        
+    }
+    
     public static ExportOptions Create(ExportDocument document, string pageRange)
     {
         var result = new ExportOptions();
 
         var parsedPageRange = PageRange.Parse(pageRange);
 
-        if (parsedPageRange.IsT0)
+        if (parsedPageRange)
         {
             var max = 0;
             if (document.IsT0)
@@ -25,7 +33,7 @@ public class ExportOptions
                 max = document.AsT1.Pages.Count;
             }
 
-            result.PagesIndices = PageRange.ToIndices(parsedPageRange.AsT0, max).ToList();
+            result.PagesIndices = PageRange.ToIndices(parsedPageRange.Value, max).ToList();
         }
 
         result.Document = document;
