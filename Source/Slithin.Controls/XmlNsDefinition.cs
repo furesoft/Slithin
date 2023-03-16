@@ -10,3 +10,4 @@
 [assembly: XmlnsDefinition("http://github.com/furesoft/Slithin", "Slithin.Controls.Ports.StepBar")]
 [assembly: XmlnsDefinition("http://github.com/furesoft/Slithin", "Slithin.Controls.Ports.RatingControl")]
 [assembly: XmlnsDefinition("http://github.com/furesoft/Slithin", "Slithin.Controls.Settings")]
+[assembly: XmlnsDefinition("http://github.com/furesoft/Slithin", "Slithin.Controls.Gif")]
