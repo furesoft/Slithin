@@ -9,11 +9,6 @@ internal class EventServiceImpl : IEventService
 
     public void Invoke<T>(string name, T argument)
     {
-        if (argument == null)
-        {
-            throw new ArgumentNullException(nameof(argument));
-        }
-
         if (_subscriptions.TryGetValue(name, out var value))
         {
             value.Invoke(argument);

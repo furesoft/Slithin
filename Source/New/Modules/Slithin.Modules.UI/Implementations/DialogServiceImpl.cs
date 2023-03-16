@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Threading;
+using Slithin.Controls;
 using Slithin.Core.MVVM;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.UI.Modals;
@@ -59,5 +60,10 @@ internal class DialogServiceImpl : IDialogService
         }
 
         return string.Empty;
+    }
+
+    public ContentDialog GetContainerControl()
+    {
+        return Models.DialogHost.Host;
     }
 }

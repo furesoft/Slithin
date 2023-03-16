@@ -130,7 +130,6 @@ public class ConnectionWindowViewModel : BaseViewModel
         _remarkableDevice.Connect(ip, SelectedLogin.Password);
 
         var mainWindow = new MainWindow();
-        ApplyViewModel<MainWindowViewModel>(mainWindow);
         mainWindow.Show();
 
         RequestClose();

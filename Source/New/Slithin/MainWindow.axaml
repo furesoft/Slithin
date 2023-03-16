@@ -39,7 +39,7 @@
                     </Grid>
                 </SplitView.Pane>
 
-                <Grid RowDefinitions="AUTO,*" ColumnDefinitions="*,Auto" Margin="5">
+                <Grid RowDefinitions="AUTO,*" ColumnDefinitions="*,Auto" Margin="5" Name="contentGrid">
                     <styles:Card Grid.Column="0" MaxHeight="100" HorizontalAlignment="Stretch"
                                  Content="{Binding ContextualMenu, Mode=TwoWay}" />
                     <controls:ImageButton Grid.Row="0" HorizontalAlignment="Right" Command="{Binding SynchronizeCommand}"

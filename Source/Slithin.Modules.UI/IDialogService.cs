@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Slithin.Controls;
 using Slithin.Modules.I18N.Models;
 
 namespace Slithin.Modules.UI.Models;
@@ -18,4 +19,10 @@ public interface IDialogService
     /// <param name="defaultValue"></param>
     /// <returns></returns>
     Task<string> ShowPrompt(TranslatedString title, TranslatedString message, string defaultValue = "");
+
+    /// <summary>
+    /// Get the Control where the dialog is containerd. Can be used to place controls on top of the main ui
+    /// </summary>
+    /// <returns></returns>
+    ContentDialog GetContainerControl();
 }

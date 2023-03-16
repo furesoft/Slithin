@@ -8,6 +8,8 @@ public static class DialogHost
 {
     private static ContentDialog _host;
 
+    public static ContentDialog Host => _host;
+    
     public static void Close()
     {
         if (_host != null)
