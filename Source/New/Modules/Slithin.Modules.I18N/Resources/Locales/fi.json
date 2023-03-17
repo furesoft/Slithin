@@ -170,5 +170,9 @@
   "Only for short names and default covers": "Vain lyhyet nimet ja oletusarvot",
   "Hide Templates": "Piilota Mallit",
   "Display": "Näyttö",
-  "Hide": "Piilota"
+  "Hide": "Piilota",
+  "Slithin is updating. Please be patient.": "Päivitys on käynnissä. Ole hyvä ja odota.",
+  "Slithin Update": "Ohjelman päivitys",
+  "Module": "Moduuli",
+  "Progress": "Edistyminen"
 }
