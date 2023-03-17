@@ -1,0 +1,31 @@
+﻿<DataTemplates xmlns="https://github.com/avaloniaui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:messageModels="clr-namespace:Slithin.Modules.Bot.MessageModels">
+    <DataTemplate DataType="{x:Type messageModels:HintMessageModel}">
+        <StackPanel Spacing="5">
+            <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Width="135"/>
+
+            <ItemsPresenter Items="{Binding Hints}" IsVisible="{Binding HintsVisible, Mode=TwoWay}">
+                <ItemsPresenter.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding}" CommandParameter="{Binding}" Command="{Binding $parent[ItemsPresenter].DataContext.Command}" />
+                    </DataTemplate>
+                </ItemsPresenter.ItemTemplate>
+                
+                <ItemsPresenter.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="5" />
+                    </ItemsPanelTemplate>
+                </ItemsPresenter.ItemsPanel>
+            </ItemsPresenter>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type messageModels:SimpleMessageModel}">
+        <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Width="135"/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type messageModels:ImageMessageModel}">
+        <Image Source="{Binding Image}" Width="135" />
+    </DataTemplate>
+</DataTemplates>

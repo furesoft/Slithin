@@ -1,0 +1,18 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:chat="clr-namespace:Slithin.Controls.Chat">
+    <Design.PreviewWith>
+        <chat:ChatBubble />
+    </Design.PreviewWith>
+
+    <Style Selector="chat|ChatBubble">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Width="{TemplateBinding Width}" MaxWidth="{TemplateBinding MaxWidth}"
+                        Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4">
+                    <ContentPresenter Margin="4" Content="{TemplateBinding Content}" TextBlock.Foreground="Black" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

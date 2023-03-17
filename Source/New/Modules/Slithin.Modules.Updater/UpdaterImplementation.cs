@@ -21,8 +21,8 @@ internal class UpdaterImplementation : IUpdaterService
         }
 
         newModuleVersions = await UpdateRepository.GetUpdatablePackages();
-        
-        return newModuleVersions.Where(_=> _.Key.StartsWith("Slithin")).Any();
+
+        return newModuleVersions.Where(_ => _.Key.StartsWith("Slithin")).Any();
     }
 
     public async Task StartUpdate()
@@ -31,8 +31,6 @@ internal class UpdaterImplementation : IUpdaterService
         {
             await UpdateRepository.DownloadPackage(package.Key, package.Value);
         }
-        
-        Process.Start(new ProcessStartInfo("dotnet", typeof(UpdateInstaller.Program).Assembly.Location + " " + Path.Combine(Environment.CurrentDirectory, "Slithin.dll")));
-
+        // Process.Start(new ProcessStartInfo("dotnet", typeof(UpdateInstaller.Program).Assembly.Location + " " + Path.Combine(Environment.CurrentDirectory, "Slithin.dll")));
     }
 }

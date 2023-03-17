@@ -1,0 +1,54 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:chat="clr-namespace:Slithin.Controls.Chat;assembly=Slithin.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             VerticalAlignment="Bottom" HorizontalAlignment="Right"
+             x:Class="Slithin.Modules.Bot.BotChatButton">
+    <UserControl.Styles>
+        <Style Selector="Button.chatToggle:pointerover">
+            <Style.Animations>
+                <Animation Duration="0:0:0.5" FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Width" Value="45" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Width" Value="140" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+            
+        <Style Selector="Button.chatToggle">
+            <Style.Animations>
+                <Animation Duration="0:0:0.5" FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Width" Value="140" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Width" Value="45" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </UserControl.Styles>
+    
+    <Button Classes="chatToggle" Width="45">
+        <Button.Flyout>
+            <Flyout Placement="TopEdgeAlignedRight">
+                <chat:ChatControl Name="chat" Width="280" Height="420" />
+            </Flyout>
+        </Button.Flyout>
+
+        <StackPanel Orientation="Horizontal" Spacing="15">
+            <Image Width="15" Height="15">
+                <Image.Source>
+                    <DrawingImage Drawing="{DynamicResource ChatIcon}" />
+                </Image.Source>
+            </Image>
+
+            <TextBlock Text="Ask me" FontSize="15" />
+        </StackPanel>
+    </Button>
+</UserControl>

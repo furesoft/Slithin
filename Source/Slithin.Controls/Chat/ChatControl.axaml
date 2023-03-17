@@ -1,0 +1,49 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:chat="clr-namespace:Slithin.Controls.Chat"
+             xmlns:controls="http://github.com/furesoft/Slithin"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Slithin.Controls.Chat.ChatControl">
+    <Grid RowDefinitions="*,40" ColumnDefinitions="*,Auto" Background="White" Cursor="Arrow">
+        <ScrollViewer Name="chatScrollViewer" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+            <ItemsPresenter Items="{Binding Messages}" Name="chatList">
+                <ItemsPresenter.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <chat:ChatBubble Margin="4"
+                                HorizontalAlignment="{Binding SentByMe, Converter={chat:HorizontalAlignmentConverter}}"
+                                Width="180" MaxWidth="180">
+                                <Grid>
+                                    <ContentControl Margin="4" Content="{Binding Content}"
+                                                    IsVisible="{Binding !IsWriting, Mode=TwoWay}" MaxWidth="180" />
+
+                                    <controls:GifImage
+                                        SourceUri="avares://Slithin.Modules.Bot/Assets/three-dots-loading.gif"
+                                        Stretch="Uniform" StretchDirection="Both"
+                                        IsVisible="{Binding IsWriting, Mode=TwoWay}" Height="23"
+                                        HorizontalAlignment="Left" />
+                                </Grid>
+                            </chat:ChatBubble>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsPresenter.ItemTemplate>
+
+                <ItemsPresenter.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Vertical" Spacing="3" />
+                    </ItemsPanelTemplate>
+                </ItemsPresenter.ItemsPanel>
+            </ItemsPresenter>
+        </ScrollViewer>
+
+        <TextBox Foreground="Black" Grid.Row="1" Text="{Binding Message, Mode=TwoWay}" Margin="5" Watermark="Message">
+            <TextBox.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding SendCommand}" />
+            </TextBox.KeyBindings>
+        </TextBox>
+
+        <Button Classes="Flat" Grid.Row="1" Grid.Column="1" Command="{Binding SendCommand}" Margin="2">Send</Button>
+    </Grid>
+</UserControl>

@@ -1,5 +1,11 @@
-﻿using AuroraModularis.Core;
+﻿using System.Diagnostics;
+using AuroraModularis.Core;
+using Avalonia.Controls;
+using Avalonia.Layout;
+using Slithin.Controls.Ports.Extensions;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.UI.ViewModels;
+using Slithin.Modules.UI.Models;
 
 namespace Slithin.Modules.Device.UI;
 

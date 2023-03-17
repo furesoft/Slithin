@@ -51,10 +51,10 @@ internal class UpdateRepository
     public static async Task<IEnumerable<SourcePackageDependencyInfo>> GetNugetBaseDependencyPackages()
     {
         var version = await GetLatestVersion();
-        
+
         var loader = new Loader();
         var packages = await loader.LoadExtensions(version);
-        
+
         return packages;
     }
 
@@ -67,7 +67,7 @@ internal class UpdateRepository
         foreach (var remoteVersion in remoteVersions)
         {
             var remoteMinVersion = remoteVersion.Version;
-            
+
             if (!localVersions.ContainsKey(remoteVersion.Id))
             {
                 result.TryAdd(remoteVersion.Id, remoteMinVersion);
@@ -95,14 +95,21 @@ internal class UpdateRepository
         var basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "SlithinUpdate");
 
-        if (libItemsGroups is not null && libItemsGroups.Any())
+        if (libItemsGroups is null)
         {
-            foreach (var item in libItemsGroups.FirstOrDefault()?.Items)
-            {
-                var normalizedItem = Path.GetFileName(item);
-                var filePath = Path.Combine(basePath, normalizedItem);
-                reader.ExtractFile(item, filePath, NullLogger.Instance);
-            }
+            return;
+        }
+
+        if (!libItemsGroups.Any())
+        {
+            return;
+        }
+
+        foreach (var item in libItemsGroups.FirstOrDefault()?.Items)
+        {
+            var normalizedItem = Path.GetFileName(item);
+            var filePath = Path.Combine(basePath, normalizedItem);
+            reader.ExtractFile(item, filePath, NullLogger.Instance);
         }
     }
 

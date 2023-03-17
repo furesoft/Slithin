@@ -1,4 +1,5 @@
-﻿using AuroraModularis.Core;
+﻿using System.ComponentModel;
+using AuroraModularis.Core;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
@@ -41,5 +42,10 @@ public partial class MainWindow : Window
 #if DEBUG
         this.AttachDevTools();
 #endif
+    }
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        Environment.Exit(0);
     }
 }

@@ -67,6 +67,7 @@
 	  <ProjectReference Include="..\..\Slithin.Controls\Slithin.Controls.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Backup\Slithin.Modules.Backup.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.BaseServices\Slithin.Modules.BaseServices.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Bot\Slithin.Modules.Bot.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Device.Mock\Slithin.Modules.Device.Mock.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Device.UI\Slithin.Modules.Device.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Diagnostics.Sentry\Slithin.Modules.Diagnostics.Sentry.csproj" />
@@ -77,7 +78,6 @@
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Menu\Slithin.Modules.Menu.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Notebooks.UI\Slithin.Modules.Notebooks.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.PdfNotebookTools\Slithin.Modules.PdfNotebookTools.csproj" />
-	  <ProjectReference Include="..\Modules\Slithin.Modules.Peering\Slithin.Modules.Peering.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Repository\Slithin.Modules.Repository.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Resources.UI\Slithin.Modules.Resources.UI.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Settings.UI\Slithin.Modules.Settings.UI.csproj" />
