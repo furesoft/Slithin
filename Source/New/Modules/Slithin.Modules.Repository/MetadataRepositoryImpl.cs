@@ -1,4 +1,5 @@
 ﻿using AuroraModularis.Core;
+using DotNext;
 using Newtonsoft.Json;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.BaseServices.Models;
@@ -73,6 +74,11 @@ public class MetadataRepositoryImpl : IMetadataRepository
         return _storage.Values;
     }
 
+    public Result<Metadata> GetByName(string name)
+    {
+        return _storage.Values.FirstOrDefault(_ => _.VisibleName == name) ?? new Result<Metadata>(new Exception($"Cannot find notebook with name '{name}'"));
+    }
+
     public IEnumerable<Metadata> GetByParent(string parent)
     {
         var list = new List<Metadata>();
@@ -91,11 +97,6 @@ public class MetadataRepositoryImpl : IMetadataRepository
     public Metadata GetMetadata(string id)
     {
         return _storage[id];
-    }
-
-    public IEnumerable<string> GetNames()
-    {
-        return _storage.Keys;
     }
 
     public void Move(Metadata md, string folder)

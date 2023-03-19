@@ -1,7 +1,15 @@
 ﻿namespace Slithin.Modules.Device.Models;
 
+/// <summary>
+/// An Ini Serilizer
+/// </summary>
 public static class CustomIniSerializer
 {
+    /// <summary>
+    /// Writes the Inidata to the specified file
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <param name="data"></param>
     public static void WriteFile(string filename, IniParser.Model.IniData? data)
     {
         if (data is null)

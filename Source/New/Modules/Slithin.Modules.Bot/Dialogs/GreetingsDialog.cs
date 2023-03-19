@@ -55,7 +55,7 @@ public class GreetingsDialog : Dialog
     public static void Fallback(Context context, Result result)
     {
         var response = new Response();
-        response.Text = "I have no awsner for your question.";
+        response.Text = "I have no answner for your question.";
         //response.Messages.Add(new ImageMessage(){ Url = "avares://ChatbotTest/Assets/unknown.png"});
         
         result.SendResponse(response);

@@ -1,12 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq.Expressions;
 using System.Windows.Input;
-using AuroraModularis.Core;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Templates;
-using Avalonia.Layout;
-using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
@@ -45,6 +39,7 @@ public class ChatFlyoutViewModel : BaseViewModel
 
             // bot.ImportAgent("Tardis.zip");
             bot.Dialogs.Add(new NotebooksDialog());
+            bot.Dialogs.Add(new TemplatesDialog());
             bot.Dialogs.Add(new GreetingsDialog());
 
             bot.Trainer.StartTraining();
@@ -80,11 +75,9 @@ public class ChatFlyoutViewModel : BaseViewModel
 
     private async Task CreateImageBotMessage(ImageMessage imgMsg)
     {
-        var img = new Image();
-
         var assets = (IAssetLoader)AvaloniaLocator.Current.GetService(typeof(IAssetLoader));
 
-        img.Source = new Bitmap(assets.Open(new Uri(imgMsg.Url), null));
+        var img = new Bitmap(assets.Open(new Uri(imgMsg.Url), null));
 
         await CreateBotMessage(img, null);
     }
@@ -95,21 +88,34 @@ public class ChatFlyoutViewModel : BaseViewModel
         {
             var msg = new ChatMessage() {SentByMe = false, Username = "Tardis", IsWriting = true, Hint = hint};
 
-            var hintModel = new HintMessageModel
+            object msgModel = null;
+            if (!string.IsNullOrEmpty(hint))
             {
-                Message = content.ToString(),
-                HintsVisible = true,
-                Hints = hint.Split('|'),
-            };
-            hintModel.Command = new DelegateCommand(_ =>
+                var hintModel = new HintMessageModel
+                {
+                    Message = content.ToString(), HintsVisible = true, Hints = hint.Split('|'),
+                };
+                hintModel.Command = new DelegateCommand(_ =>
+                {
+                    CreateUserMessage(_.ToString());
+                    hintModel.HintsVisible = false;
+                });
+
+                msgModel = hintModel;
+            }
+            else
             {
-                CreateUserMessage(_.ToString());
-                hintModel.HintsVisible = false;
-            });
-            
-            msg.Content = string.IsNullOrEmpty(hint)
-                ? new SimpleMessageModel() {Message = content.ToString()}
-                : hintModel;
+                if (content is string s)
+                {
+                    msgModel = new SimpleMessageModel() {Message = s};
+                }
+                else if(content is Bitmap bmp)
+                {
+                    msgModel = new ImageMessageModel(bmp);
+                }
+            }
+
+            msg.Content = msgModel;
 
             Messages.Add(msg);
 

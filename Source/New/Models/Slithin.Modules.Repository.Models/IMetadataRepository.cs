@@ -1,4 +1,5 @@
-﻿using Slithin.Entities.Remarkable;
+﻿using DotNext;
+using Slithin.Entities.Remarkable;
 
 namespace Slithin.Modules.Repository.Models;
 
@@ -24,4 +25,6 @@ public interface IMetadataRepository
     void Upload(Metadata md, bool onlyMetadata = false);
 
     void Remove(Metadata md);
+    IEnumerable<Metadata> GetAll();
+    Result<Metadata> GetByName(string name);
 }

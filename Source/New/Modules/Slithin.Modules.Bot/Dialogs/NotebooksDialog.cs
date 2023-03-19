@@ -20,4 +20,20 @@ public class NotebooksDialog : Dialog
         
         result.SendResponse($"There are {amount} notebooks. {inTrash} of them are in trash.");
     }
+
+    [Expression("What is the id of @sys.text?")]
+    [Entity(Sys.Text)]
+    public static void NotebookID(Context context, Result result)
+    {
+        var metadataStorage = ServiceContainer.Current.Resolve<IMetadataRepository>();
+        var notebook = metadataStorage.GetByName(result.Entities.OfType(Sys.Text).Value);
+
+        if (notebook)
+        {
+            result.SendResponse(notebook.Value.ID);
+            return;
+        }
+        
+        result.SendResponse("Cannot find a notebook '@sys.text'.");
+    }
 }

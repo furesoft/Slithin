@@ -5,5 +5,9 @@
 /// </summary>
 public interface IFeedbackService
 {
+    /// <summary>
+    /// Transfer feedback to developer
+    /// </summary>
+    /// <param name="message"></param>
     void SendFeedback(string message);
 }
