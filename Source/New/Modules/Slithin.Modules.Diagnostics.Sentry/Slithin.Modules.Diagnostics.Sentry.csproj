@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.36" />
+    <PackageReference Include="AuroraModularis" Version="1.0.37" />
     <PackageReference Include="Sentry" Version="3.29.1" />
   </ItemGroup>
 
