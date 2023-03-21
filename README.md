@@ -57,4 +57,4 @@ The new version will be fully extendable, that means:
 
 # Contribution
 
-Everyone is welcome to contribute. I am looking especially for people who can implement the new rM6 format. But other contributions are alwys welcome.
+Everyone is welcome to contribute. I am looking especially for people who can implement the new rM6 format. But other contributions are always welcome.
