@@ -33,12 +33,17 @@ public class ChatFlyoutViewModel : BaseViewModel
     {
         _bot = bot;
 
+        InitBot(bot);
+    }
+
+    private void InitBot(OscovaBot bot)
+    {
         Dispatcher.UIThread.Post(() =>
         {
             SendCommand = new DelegateCommand(Send);
 
-            bot.CreateRecognizer("orientation", new[] { "portrait", "landscape" });
-            
+            bot.CreateRecognizer("orientation", new[] {"portrait", "landscape"});
+
             bot.Dialogs.Add(new NotebooksDialog());
             bot.Dialogs.Add(new TemplatesDialog());
             bot.Dialogs.Add(new GreetingsDialog());
