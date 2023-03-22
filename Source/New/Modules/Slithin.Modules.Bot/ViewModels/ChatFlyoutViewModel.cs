@@ -37,7 +37,8 @@ public class ChatFlyoutViewModel : BaseViewModel
         {
             SendCommand = new DelegateCommand(Send);
 
-            // bot.ImportAgent("Tardis.zip");
+            bot.CreateRecognizer("orientation", new[] { "portrait", "landscape" });
+            
             bot.Dialogs.Add(new NotebooksDialog());
             bot.Dialogs.Add(new TemplatesDialog());
             bot.Dialogs.Add(new GreetingsDialog());

@@ -17,4 +17,17 @@ public class TemplatesDialog : Dialog
         
         result.SendResponse($"You have {amount} templates.");
     }
+
+    [Expression("how many templates are @orientation?")]
+    public static void TemplateOrientation(Context context, Result result)
+    {
+        var templateStorage = ServiceContainer.Current.Resolve<ITemplateStorage>();
+
+        var selectedOrientation = result.Entities.OfType("orientation").Value;
+        var isLandscapeSelected = selectedOrientation == "landscape";
+
+        var templatesAmount = templateStorage.Templates.Count(_ => _.Landscape == isLandscapeSelected);
+        
+        result.SendResponse($"You have {templatesAmount} templates that are $orientation.");
+    }
 }
