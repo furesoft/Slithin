@@ -5,9 +5,10 @@ namespace Slithin.Modules.Diagnostics.Sentry;
 
 internal class FeedbackServiceImpl : IFeedbackService
 {
-    public void SendFeedback(string message)
+    public void SendFeedback(string message, string title = "An event that will receive user feedback.", 
+        string email = "fake@slithin.de")
     {
-        var eventId = SentrySdk.CaptureMessage("An event that will receive user feedback.");
-        SentrySdk.CaptureUserFeedback(eventId, "fake@slithin.sl", message, Environment.UserName);
+        var eventId = SentrySdk.CaptureMessage(title);
+        SentrySdk.CaptureUserFeedback(eventId, email, message, Environment.UserName);
     }
 }

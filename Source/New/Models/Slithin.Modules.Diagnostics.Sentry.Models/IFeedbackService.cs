@@ -9,5 +9,6 @@ public interface IFeedbackService
     /// Transfer feedback to developer
     /// </summary>
     /// <param name="message"></param>
-    void SendFeedback(string message);
+    void SendFeedback(string message, string title = "An event that will receive user feedback.", 
+        string email = "fake@slithin.de");
 }
