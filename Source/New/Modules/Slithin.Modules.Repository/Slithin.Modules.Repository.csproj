@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.37" />
+    <PackageReference Include="AuroraModularis" Version="1.0.38" />
     <PackageReference Include="LiteDB" Version="5.0.16" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>

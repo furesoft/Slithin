@@ -31,10 +31,10 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="AuroraModularis" Version="1.0.37" />
-		<PackageReference Include="AuroraModularis.Hooks.ResourceRegistrationHook" Version="1.0.37" />
-		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.37" />
-		<PackageReference Include="AuroraModularis.Settings.LiteDb" Version="1.0.37" />
+		<PackageReference Include="AuroraModularis" Version="1.0.38" />
+		<PackageReference Include="AuroraModularis.Hooks.ResourceRegistrationHook" Version="1.0.38" />
+		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.38" />
+		<PackageReference Include="AuroraModularis.Settings.LiteDb" Version="1.0.38" />
 		<PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.18" />
 		<PackageReference Include="DataBox" Version="0.10.13" />
 		<PackageReference Include="FluentValidations" Version="1.1.0" />

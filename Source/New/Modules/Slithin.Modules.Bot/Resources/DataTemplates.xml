@@ -28,4 +28,12 @@
     <DataTemplate DataType="{x:Type messageModels:ImageMessageModel}">
         <Image Source="{Binding Image}" Width="135" />
     </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type messageModels:UnknownMessageModel}">
+        <Grid>
+            <TextBlock Text="Sent" TextWrapping="Wrap" Width="135" IsVisible="{Binding IsVisible, Mode=TwoWay}" />
+            
+            <Button Content="Suggest Chat Command" Command="{Binding Command}" Width="120" Height="35" />
+        </Grid>
+    </DataTemplate>
 </DataTemplates>

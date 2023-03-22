@@ -54,9 +54,8 @@ public class GreetingsDialog : Dialog
     [Fallback]
     public static void Fallback(Context context, Result result)
     {
-        var response = new Response();
-        response.Text = "I have no answner for your question.";
-        //response.Messages.Add(new ImageMessage(){ Url = "avares://ChatbotTest/Assets/unknown.png"});
+        var response = new Response {Text = "I have no answner for your question. You can suggest your question to the developer."};
+        response.Messages.Add(new UnknownRequestMessage(result.Request));
         
         result.SendResponse(response);
     }

@@ -22,7 +22,7 @@ public class NotebooksDialog : Dialog
     }
 
     [Expression("What is the id of @sys.text?")]
-    [Entity(Sys.Text)]
+    //[Entity(Sys.Text)]
     public static void NotebookID(Context context, Result result)
     {
         var metadataStorage = ServiceContainer.Current.Resolve<IMetadataRepository>();

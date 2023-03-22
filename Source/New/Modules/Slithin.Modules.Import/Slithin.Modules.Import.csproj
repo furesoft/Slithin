@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.37" />
+    <PackageReference Include="AuroraModularis" Version="1.0.38" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" />
   </ItemGroup>
 

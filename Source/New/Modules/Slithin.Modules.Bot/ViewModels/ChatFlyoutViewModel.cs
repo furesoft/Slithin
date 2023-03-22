@@ -61,7 +61,11 @@ public class ChatFlyoutViewModel : BaseViewModel
 
             foreach (var msg in e.Response.Messages)
             {
-                if (msg is TextMessage tmsg)
+                if (msg is UnknownRequestMessage ukmsg)
+                {
+                    await CreateUnknownMessage(ukmsg);
+                }
+                else if (msg is TextMessage tmsg)
                 {
                     await CreateBotMessage(tmsg.GetRandomText(), e.Response.Hint);
                 }
@@ -71,6 +75,11 @@ public class ChatFlyoutViewModel : BaseViewModel
                 }
             }
         });
+    }
+
+    private async Task CreateUnknownMessage(UnknownRequestMessage ukmsg)
+    {
+        await CreateBotMessage(ukmsg, null);
     }
 
     private async Task CreateImageBotMessage(ImageMessage imgMsg)
@@ -112,6 +121,10 @@ public class ChatFlyoutViewModel : BaseViewModel
                 else if(content is Bitmap bmp)
                 {
                     msgModel = new ImageMessageModel(bmp);
+                }
+                else if (content is UnknownRequestMessage ukmsg)
+                {
+                    msgModel = new UnknownMessageModel(ukmsg);
                 }
             }
 
