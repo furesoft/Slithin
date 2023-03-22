@@ -5,7 +5,7 @@ using Slithin.Modules.Diagnostics.Sentry.Models;
 
 namespace Slithin.Modules.Bot.MessageModels;
 
-public class UnknownMessageModel : SimpleMessageModel
+public class UnknownMessageModel : BaseViewModel
 {
     private readonly UnknownRequestMessage _ukmsg;
     private bool _isVisible = true;
@@ -21,7 +21,9 @@ public class UnknownMessageModel : SimpleMessageModel
     {
         var feedbackService = ServiceContainer.Current.Resolve<IFeedbackService>();
         
-        feedbackService.SendFeedback("Chat Bot Request Suggestion: " + _ukmsg.ResultRequest.NormalizedText);
+        feedbackService.SendFeedback("Request: " + _ukmsg.ResultRequest.Text, 
+            "Bot Suggestion", "bot@slithin.de");
+        
         IsVisible = false;
     }
 

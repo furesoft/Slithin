@@ -30,10 +30,10 @@
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type messageModels:UnknownMessageModel}">
-        <Grid>
-            <TextBlock Text="Sent" TextWrapping="Wrap" Width="135" IsVisible="{Binding IsVisible, Mode=TwoWay}" />
+        <Grid Width="125" Height="75">
+            <TextBlock Text="Sent" TextWrapping="Wrap" Width="135" Height="50" IsVisible="{Binding !IsVisible, Mode=TwoWay}" />
             
-            <Button Content="Suggest Chat Command" Command="{Binding Command}" Width="120" Height="35" />
+            <Button IsVisible="{Binding IsVisible, Mode=TwoWay}" Content="Suggest" Command="{Binding Command}" Width="120" Height="35" />
         </Grid>
     </DataTemplate>
 </DataTemplates>
