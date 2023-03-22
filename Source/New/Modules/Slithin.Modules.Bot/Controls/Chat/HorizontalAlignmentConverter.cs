@@ -3,7 +3,7 @@ using Avalonia.Data.Converters;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.Controls.Chat;
+namespace Slithin.Modules.Bot.Controls.Chat;
 
 public class HorizontalAlignmentConverter : MarkupExtension, IValueConverter
 {

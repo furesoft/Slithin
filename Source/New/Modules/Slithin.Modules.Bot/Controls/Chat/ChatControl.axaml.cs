@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Slithin.Controls.Chat;
+namespace Slithin.Modules.Bot.Controls.Chat;
 
 public partial class ChatControl : UserControl
 {

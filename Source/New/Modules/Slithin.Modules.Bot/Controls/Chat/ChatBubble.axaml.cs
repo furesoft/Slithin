@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace Slithin.Controls.Chat;
+namespace Slithin.Modules.Bot.Controls.Chat;
 
 public class ChatBubble : ContentControl
 {

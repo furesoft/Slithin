@@ -30,4 +30,8 @@
     <AvaloniaResource Include="Assets\three-dots-loading.gif" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controls" />
+  </ItemGroup>
+
 </Project>

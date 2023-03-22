@@ -2,18 +2,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:chat="clr-namespace:Slithin.Controls.Chat"
              xmlns:controls="http://github.com/furesoft/Slithin"
+             xmlns:chat1="clr-namespace:Slithin.Modules.Bot.Controls.Chat"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Slithin.Controls.Chat.ChatControl">
+             x:Class="Slithin.Modules.Bot.Controls.Chat.ChatControl">
     <Grid RowDefinitions="*,40" ColumnDefinitions="*,Auto" Background="White" Cursor="Arrow">
         <ScrollViewer Name="chatScrollViewer" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
             <ItemsPresenter Items="{Binding Messages}" Name="chatList">
                 <ItemsPresenter.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <chat:ChatBubble Margin="4"
-                                HorizontalAlignment="{Binding SentByMe, Converter={chat:HorizontalAlignmentConverter}}"
+                            <chat1:ChatBubble Margin="4"
+                                HorizontalAlignment="{Binding SentByMe, Converter={chat1:HorizontalAlignmentConverter}}"
                                 Width="180" MaxWidth="180">
                                 <Grid>
                                     <ContentControl Margin="4" Content="{Binding Content}"
@@ -25,7 +25,7 @@
                                         IsVisible="{Binding IsWriting, Mode=TwoWay}" Height="23"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                            </chat:ChatBubble>
+                            </chat1:ChatBubble>
                         </Grid>
                     </DataTemplate>
                 </ItemsPresenter.ItemTemplate>

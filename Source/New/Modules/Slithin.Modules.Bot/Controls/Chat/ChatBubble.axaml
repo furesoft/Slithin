@@ -1,11 +1,11 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:chat="clr-namespace:Slithin.Controls.Chat">
+        xmlns:chat1="clr-namespace:Slithin.Modules.Bot.Controls.Chat">
     <Design.PreviewWith>
-        <chat:ChatBubble />
+        <chat1:ChatBubble />
     </Design.PreviewWith>
 
-    <Style Selector="chat|ChatBubble">
+    <Style Selector="chat1|ChatBubble">
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Width="{TemplateBinding Width}" MaxWidth="{TemplateBinding MaxWidth}"

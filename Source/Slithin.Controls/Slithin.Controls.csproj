@@ -129,6 +129,8 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Theme\Styles\System\NotificationCard.axaml" />
+    <UpToDateCheckInput Remove="Chat\ChatBubble.axaml" />
+    <UpToDateCheckInput Remove="Chat\ChatControl.axaml" />
   </ItemGroup>
 
 </Project>

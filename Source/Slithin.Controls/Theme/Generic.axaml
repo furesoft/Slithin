@@ -32,6 +32,4 @@
 
     <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Ports/RateItem.axaml" />
     <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Ports/RatingControl.axaml" />
-
-    <StyleInclude Source="avares://Slithin.Controls/Chat/ChatBubble.axaml" />
 </Styles>
