@@ -9,6 +9,5 @@ public class UnknownRequestMessage : Syn.Bot.Oscova.Messages.TextMessage
     public UnknownRequestMessage(Request resultRequest)
     {
         ResultRequest = resultRequest;
-        
     }
 }

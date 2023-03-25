@@ -176,7 +176,7 @@
 
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.38" />
-    <PackageReference Include="Avalonia" Version="0.10.18" />
+    <PackageReference Include="Avalonia" Version="0.10.19" />
   </ItemGroup>
 
   <ItemGroup>
