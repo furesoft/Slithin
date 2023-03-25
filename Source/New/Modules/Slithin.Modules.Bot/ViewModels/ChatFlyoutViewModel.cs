@@ -43,6 +43,7 @@ public class ChatFlyoutViewModel : BaseViewModel
             SendCommand = new DelegateCommand(Send);
 
             bot.CreateRecognizer("orientation", new[] {"portrait", "landscape"});
+            bot.CreateRecognizer("asset", new[] {"screen", "template", "notebook"});
 
             bot.Dialogs.Add(new NotebooksDialog());
             bot.Dialogs.Add(new TemplatesDialog());
@@ -75,7 +76,7 @@ public class ChatFlyoutViewModel : BaseViewModel
                 {
                     await CreateBotMessage(tmsg.GetRandomText(), e.Response.Hint);
                 }
-                else if (msg is ImageMessage imgMsg)
+                else if (msg is BitmapMessage imgMsg)
                 {
                     await CreateImageBotMessage(imgMsg);
                 }
@@ -88,13 +89,9 @@ public class ChatFlyoutViewModel : BaseViewModel
         await CreateBotMessage(ukmsg, null);
     }
 
-    private async Task CreateImageBotMessage(ImageMessage imgMsg)
+    private async Task CreateImageBotMessage(BitmapMessage imgMsg)
     {
-        var assets = (IAssetLoader)AvaloniaLocator.Current.GetService(typeof(IAssetLoader));
-
-        var img = new Bitmap(assets.Open(new Uri(imgMsg.Url), null));
-
-        await CreateBotMessage(img, null);
+        await CreateBotMessage(imgMsg.Bitmap, null);
     }
 
     private async Task CreateBotMessage(object content, string hint)
