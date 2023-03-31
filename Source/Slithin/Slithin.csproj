@@ -17,7 +17,7 @@
     <PackageReference Include="Avalonia.Desktop" Version="0.10.19" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.19" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="0.10.19" />
-    <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.8" />
+    <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.9" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
     <PackageReference Include="EpubSharp.dll" Version="1.1.5" />
     <PackageReference Include="FluentValidation" Version="11.5.1" />
