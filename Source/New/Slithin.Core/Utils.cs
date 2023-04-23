@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using AuroraModularis.Core;
 
@@ -31,6 +32,21 @@ public static class Utils
             {
                 throw;
             }
+        }
+    }
+
+    public static bool CheckIfInternetIsAvailable()
+    {
+        try { 
+            var myPing = new Ping();
+            var buffer = new byte[32];
+            var pingOptions = new PingOptions();
+            var reply = myPing.Send("google.com", 1000, buffer, pingOptions);
+            
+            return reply.Status == IPStatus.Success;
+        }
+        catch (Exception) {
+            return false;
         }
     }
 }

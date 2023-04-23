@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using NuGet.Versioning;
+using Slithin.Core;
 using Slithin.Modules.Updater.Models;
 
 namespace Slithin.Modules.Updater;
@@ -11,6 +12,11 @@ internal class UpdaterImplementation : IUpdaterService
 
     public async Task<bool> CheckForUpdate()
     {
+        if (!Utils.CheckIfInternetIsAvailable())
+        {
+            return false;
+        }
+        
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             var uwpHelper = new DesktopBridge.Helpers();
