@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="WebAssembly" Version="1.2.0" />
+		<PackageReference Include="MessagePack" Version="2.3.85" />
+		<PackageReference Include="MessagePackAnalyzer" Version="2.3.85" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Slithin.ModuleSystem.Memory\Slithin.ModuleSystem.Memory.csproj" />
+	</ItemGroup>
+</Project>

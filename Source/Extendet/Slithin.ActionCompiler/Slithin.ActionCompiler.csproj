@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>10</LangVersion>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommandLineParser" Version="2.8.0" />
+        <PackageReference Include="Flo" Version="0.3.0" />
+        <PackageReference Include="Furesoft.Core.CodeDom" Version="1.0.6" />
+        <PackageReference Include="MessagePack" Version="2.3.85" />
+        <PackageReference Include="MessagePackAnalyzer" Version="2.3.85" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Slithin.ModuleSystem.Memory\Slithin.ModuleSystem.Memory.csproj" />
+        <ProjectReference Include="..\Slithin.ModuleSystem\Slithin.ModuleSystem.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="test.ood">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>
