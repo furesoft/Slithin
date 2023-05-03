@@ -5,6 +5,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
 using Slithin.Core.MVVM;
+using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Bot.Dialogs;
 using Slithin.Modules.Bot.MessageModels;
 using Syn.Bot.Oscova;
@@ -16,6 +17,7 @@ namespace Slithin.Modules.Bot.ViewModels;
 public class ChatFlyoutViewModel : BaseViewModel
 {
     private readonly OscovaBot _bot;
+    private readonly IProfanityFilter _profanityFilter;
 
     public string Message
     {
@@ -29,9 +31,10 @@ public class ChatFlyoutViewModel : BaseViewModel
 
     private string _message;
 
-    public ChatFlyoutViewModel(OscovaBot bot)
+    public ChatFlyoutViewModel(OscovaBot bot, IProfanityFilter profanityFilter)
     {
         _bot = bot;
+        _profanityFilter = profanityFilter;
 
         InitBot(bot);
     }
@@ -143,6 +146,12 @@ public class ChatFlyoutViewModel : BaseViewModel
 
     private void Send(object parameter)
     {
+        if (_profanityFilter.HasProfanities(_message))
+        {
+            CreateBotMessage("Your message has profanities. Please be more polite.", null);
+            return;
+        }
+        
         CreateUserMessage(Message);
 
         Message = null;
