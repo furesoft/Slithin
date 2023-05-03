@@ -17,6 +17,7 @@ internal class Module : AuroraModularis.Module
         container.Register<IDeviceDiscovery>(new DeviceDiscoveryImpl()).AsSingleton();
         container.Register<ICacheService>(new CacheServiceImpl()).AsSingleton();
         container.Register<IEventService>(new EventServiceImpl()).AsSingleton();
+        container.Register<IProfanityFilter>(new ProfanityFilterImpl()).AsSingleton();
         container.Register<AuroraModularis.Logging.Models.ILogger>(new LoggerImpl(container)).AsSingleton();
     }
 }
