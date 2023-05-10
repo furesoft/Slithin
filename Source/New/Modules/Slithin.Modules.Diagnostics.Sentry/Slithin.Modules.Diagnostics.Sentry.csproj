@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.38" />
-    <PackageReference Include="Sentry" Version="3.30.0" />
+    <PackageReference Include="Sentry" Version="3.31.0" />
   </ItemGroup>
 
   <ItemGroup>
