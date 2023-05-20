@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="AuroraModularis" Version="1.0.38" />
-    <PackageReference Include="Avalonia" Version="0.10.19" />
+    <PackageReference Include="Avalonia" Version="0.10.21" />
     <PackageReference Include="DotNext" Version="4.12.0" />
     <PackageReference Include="Syn.Bot" Version="6.0.7" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
