@@ -55,6 +55,9 @@ The new version will be fully extendable, that means:
 
 # This is a beta, so use it on your own risk
 
+# Information
+The notebooks are saved as it is on the device. On your computer the files are stored in Documents/Slithin. Because of the rewrite of Slithin it is possible to make an smartphone app. So in far future there will be an app available.
+
 # Contribution
 
 Everyone is welcome to contribute. I am looking especially for people who can implement the new rM6 format. But other contributions are always welcome.
