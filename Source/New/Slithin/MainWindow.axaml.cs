@@ -26,6 +26,8 @@ public partial class MainWindow : Window
         notificationManager.MaxItems = 1;
 
         ServiceContainer.Current.Resolve<INotificationService>().Init(notificationManager);
+        
+        ServiceContainer.Current.Resolve<IKeyBinding>().Init(this);
     }
 
     private void OnOpened(object? sender, EventArgs e)
