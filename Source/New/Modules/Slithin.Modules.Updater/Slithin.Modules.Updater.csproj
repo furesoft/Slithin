@@ -14,7 +14,7 @@
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.18" />
     <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
-    <PackageReference Include="NuGet.Protocol" Version="6.5.0" />
+    <PackageReference Include="NuGet.Protocol" Version="6.5.1" />
   </ItemGroup>
 
   <ItemGroup>
