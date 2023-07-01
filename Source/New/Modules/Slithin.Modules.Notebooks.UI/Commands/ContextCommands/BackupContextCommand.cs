@@ -1,5 +1,4 @@
 ﻿using Slithin.Entities.Remarkable;
-using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Notebooks.UI.Models;
@@ -9,14 +8,6 @@ namespace Slithin.Modules.Notebooks.UI.Commands.ContextCommands;
 [Context(UIContext.Notebook)]
 internal class BackupContextCommand : IContextCommand
 {
-    private readonly ILocalisationService _localisationService;
-    private readonly IPathManager _pathManager;
-
-    public BackupContextCommand(ILocalisationService localisationService, IPathManager pathManager)
-    {
-        _localisationService = localisationService;
-        _pathManager = pathManager;
-    }
 
     public object ParentViewModel { get; set; }
     public TranslatedString Title => "Backup";

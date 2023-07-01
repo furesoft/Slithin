@@ -2,7 +2,7 @@
 
 namespace Slithin.Core;
 
-public class KeyGenerator
+public static class KeyGenerator
 {
     public static byte[] Generate()
     {

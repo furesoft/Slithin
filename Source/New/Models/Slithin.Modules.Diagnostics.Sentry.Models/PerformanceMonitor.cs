@@ -4,8 +4,8 @@ namespace Slithin.Modules.Diagnostics.Sentry.Models;
 
 public class PerformanceMonitor : IDisposable
 {
-    private ISpan _span;
-    private ITransaction _transaction;
+    private readonly ISpan _span;
+    private readonly ITransaction _transaction;
 
     public PerformanceMonitor(string name, string operation)
     {

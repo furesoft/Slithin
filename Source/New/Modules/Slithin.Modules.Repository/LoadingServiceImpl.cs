@@ -9,7 +9,7 @@ namespace Slithin.Modules.Repository;
 
 internal class LoadingServiceImpl : ILoadingService
 {
-    private ServiceContainer _container;
+    private readonly ServiceContainer _container;
 
     public LoadingServiceImpl(ServiceContainer container)
     {
@@ -75,7 +75,7 @@ internal class LoadingServiceImpl : ILoadingService
         }
 
         //Load first templates which are shown to make loading "smoother and faster"
-        LoadTemplatesByCategory(filter.Categories.First(), filter, storage, true);
+        LoadTemplatesByCategory(filter.Categories[0], filter, storage, true);
 
         Parallel.ForEach(filter.Categories, (category) =>
         {

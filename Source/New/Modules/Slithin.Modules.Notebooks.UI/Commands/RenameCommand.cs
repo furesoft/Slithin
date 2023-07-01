@@ -43,8 +43,7 @@ internal class RenameCommand : ICommand
 
     public bool CanExecute(object parameter)
     {
-        return _notebooksFilter.Selection != null
-               && _notebooksFilter.Selection is FileSystemModel fsm && fsm.Tag is Metadata md
+        return _notebooksFilter.Selection is FileSystemModel fsm && fsm.Tag is Metadata md
                && md.VisibleName != _localisationService.GetString("Quick sheets")
                && fsm is not UpDirectoryModel
                && fsm is not TrashModel;

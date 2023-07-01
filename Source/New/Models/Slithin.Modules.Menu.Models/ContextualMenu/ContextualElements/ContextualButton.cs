@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using AuroraModularis.Core;
 using Avalonia;
 using Avalonia.Controls;
 using Slithin.Modules.I18N.Models;
@@ -8,8 +7,6 @@ namespace Slithin.Modules.Menu.Models.ContextualMenu.ContextualElements;
 
 public class ContextualButton : ContextualElement
 {
-    private object? _commandParameter;
-
     public ContextualButton(TranslatedString title, string iconName, ICommand command)
     {
         Title = title;

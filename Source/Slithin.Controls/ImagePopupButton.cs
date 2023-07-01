@@ -6,13 +6,13 @@ namespace Slithin.Controls;
 
 public class ImagePopupButton : ToggleButton
 {
-    public static StyledProperty<Drawing> ImageProperty =
+    public static readonly StyledProperty<Drawing> ImageProperty =
         AvaloniaProperty.Register<ImageButton, Drawing>("Kind");
 
-    public static StyledProperty<object> PopupContentProperty =
+    public static readonly StyledProperty<object> PopupContentProperty =
         AvaloniaProperty.Register<ImagePopupButton, object>("PopupContent");
 
-    public static StyledProperty<string> TextProperty =
+    public static readonly StyledProperty<string> TextProperty =
         AvaloniaProperty.Register<ImagePopupButton, string>("Text");
 
     public Drawing Image

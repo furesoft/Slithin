@@ -55,9 +55,9 @@ public class EntranceNavigationTransitionInfo : NavigationTransitionInfo
             FillMode = FillMode.Forward
         };
 
-        await animation.RunAsync(ctrl, null);
+        await animation.RunAsync(ctrl);
 
-        (ctrl as IVisual).Opacity = 1;
+        (ctrl as Visual).Opacity = 1;
     }
 }
 

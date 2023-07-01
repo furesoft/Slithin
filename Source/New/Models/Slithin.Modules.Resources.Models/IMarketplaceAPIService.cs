@@ -1,6 +1,6 @@
 ﻿namespace Slithin.Modules.Resources.Models;
 
-public interface IMarketplaceAPIService
+public interface IMarketplaceApiService
 {
     string Auth(string username, string password);
 

@@ -9,7 +9,6 @@ using Slithin.Core.MVVM;
 using Slithin.Entities.Remarkable;
 using Slithin.Entities.Remarkable.Rendering;
 using Slithin.Modules.BaseServices.Models;
-using Slithin.Modules.I18N.Models;
 using Slithin.Modules.PdfNotebookTools.Models;
 using Slithin.Modules.PdfNotebookTools.Validators;
 using Slithin.Modules.Repository.Models;
@@ -22,7 +21,6 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
     private readonly IDialogService _dialogService;
     private readonly INotificationService _notificationService;
     private readonly AppendNotebookValidator _validator;
-    private readonly ILocalisationService _localisationService;
     private readonly IPathManager _pathManager;
     private readonly ITemplateStorage _templateStorage;
     private string? _customTemplateFilename;
@@ -32,14 +30,13 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
     public AppendNotebookModalViewModel(IPathManager pathManager, ITemplateStorage templateStorage,
         IDialogService dialogService, INotificationService notificationService,
-        AppendNotebookValidator validator, ILocalisationService localisationService)
+        AppendNotebookValidator validator)
     {
         _pathManager = pathManager;
         _templateStorage = templateStorage;
         _dialogService = dialogService;
         _notificationService = notificationService;
         _validator = validator;
-        _localisationService = localisationService;
         AddPagesCommand = new DelegateCommand(AddPages);
         OKCommand = new DelegateCommand(Ok);
     }
@@ -118,7 +115,7 @@ public class AppendNotebookModalViewModel : ModalBaseViewModel
 
         var document = PdfReader.Open(Path.Combine(_pathManager.NotebooksDir, $"{ID}.pdf"));
         var md = mdStorage.GetMetadata(ID);
-        var pages = md.Content.Pages?.ToList();
+        var pages = md.Content.Pages.ToList();
         var pageCount = md.Content.PageCount;
 
         foreach (var p in Pages)

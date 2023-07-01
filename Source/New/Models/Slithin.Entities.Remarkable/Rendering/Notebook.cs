@@ -136,7 +136,6 @@ public class Notebook
     public static void UploadNotebook(Metadata md)
     {
         var pathManager = ServiceContainer.Current.Resolve<IPathManager>();
-        var localisationService = ServiceContainer.Current.Resolve<ILocalisationService>();
         var device = ServiceContainer.Current.Resolve<IRemarkableDevice>();
         var pathList = ServiceContainer.Current.Resolve<DevicePathList>();
 

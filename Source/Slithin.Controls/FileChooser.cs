@@ -9,16 +9,16 @@ namespace Slithin.Controls;
 
 public class FileChooser : TemplatedControl
 {
-    public static StyledProperty<ICommand> BrowseCommandProperty =
+    public static readonly StyledProperty<ICommand> BrowseCommandProperty =
         AvaloniaProperty.Register<FileChooser, ICommand>("BrowseCommand");
 
-    public static StyledProperty<string> FilenameProperty =
+    public static readonly StyledProperty<string> FilenameProperty =
         AvaloniaProperty.Register<FileChooser, string>("Filename");
 
-    public static StyledProperty<string> FilterProperty =
+    public static readonly StyledProperty<string> FilterProperty =
         AvaloniaProperty.Register<FileChooser, string>("Filter");
 
-    public static StyledProperty<string> WatermarkProperty =
+    public static readonly StyledProperty<string> WatermarkProperty =
         AvaloniaProperty.Register<FileChooser, string>("Watermark");
 
     public FileChooser()

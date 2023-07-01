@@ -38,15 +38,7 @@ internal class ConvertQuicksheetToNotebookContextCommand : IContextCommand
             return false;
         }
 
-        if (fsm.Tag is Metadata md)
-        {
-            if (md.VisibleName != _localisationService.GetString("Quick sheets"))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return fsm.Tag is not Metadata md || md.VisibleName == _localisationService.GetString("Quick sheets");
     }
 
     public void Execute(object data)

@@ -11,13 +11,11 @@ namespace Slithin.Modules.Notebooks.UI;
 
 internal class ContextualMenuProvider : IContextualMenuProvider
 {
-    private readonly NotebooksFilter _filter;
     private readonly NotebooksPageViewModel _viewModel;
 
-    public ContextualMenuProvider(NotebooksPageViewModel viewModel, NotebooksFilter filter)
+    public ContextualMenuProvider(NotebooksPageViewModel viewModel)
     {
         _viewModel = viewModel;
-        _filter = filter;
     }
 
     public void RegisterContextualMenuElements(ContextualRegistrar registrar)

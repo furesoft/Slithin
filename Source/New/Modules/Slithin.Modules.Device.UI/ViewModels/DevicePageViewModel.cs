@@ -15,7 +15,6 @@ namespace Slithin.Modules.Device.UI.ViewModels;
 
 internal class DevicePageViewModel : BaseViewModel
 {
-    private readonly ILocalisationService _localisationService;
     private readonly ILogger _logger;
     private readonly TemplatesFilter _templatesFilter;
     private readonly DevicePathList _devicePathList;
@@ -36,7 +35,6 @@ internal class DevicePageViewModel : BaseViewModel
     public DevicePageViewModel(IVersionService versionService,
         IXochitlService xochitlService,
         IRemarkableDevice remarkableDevice,
-        ILocalisationService localisationService,
         IPathManager pathManager,
         ISettingsService settingsService,
         ILoadingService loadingService,
@@ -47,7 +45,6 @@ internal class DevicePageViewModel : BaseViewModel
         _versionService = versionService;
         _xochitlService = xochitlService;
         _remarkableDevice = remarkableDevice;
-        _localisationService = localisationService;
         _pathManager = pathManager;
         _settingsService = settingsService;
         _loadingService = loadingService;
@@ -135,7 +132,7 @@ internal class DevicePageViewModel : BaseViewModel
 
             Task.WaitAll(templatesTask, notebooksTask);
             
-            _templatesFilter.SelectedCategory = _templatesFilter.Categories.First();
+            _templatesFilter.SelectedCategory = _templatesFilter.Categories[0];
         });
     }
 

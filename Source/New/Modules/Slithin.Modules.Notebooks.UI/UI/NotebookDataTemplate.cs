@@ -17,11 +17,8 @@ namespace Slithin.Modules.Notebooks.UI.UI;
 
 internal class NotebookDataTemplate : IDataTemplate
 {
-    public IControl Build(object param)
+    public Control Build(object param)
     {
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-        var notebooksDir = ServiceContainer.Current.Resolve<IPathManager>().NotebooksDir;
-        var cache = ServiceContainer.Current.Resolve<ICacheService>();
         var contextProvider = ServiceContainer.Current.Resolve<IContextMenuProvider>();
         var thumbnailLoader = ServiceContainer.Current.Resolve<IThumbnailLoader>();
 

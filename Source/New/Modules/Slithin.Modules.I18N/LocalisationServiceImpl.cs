@@ -5,7 +5,7 @@ namespace Slithin.Modules.I18N;
 
 public class LocalisationServiceImpl : ILocalisationService
 {
-    private Dictionary<string, string> _localization;
+    private readonly Dictionary<string, string> _localization;
 
     public LocalisationServiceImpl()
     {

@@ -20,8 +20,7 @@ public class CopyIDContextCommand : IContextCommand
 
     public bool CanExecute(object data)
     {
-        return data != null
-                && data is Metadata md
+        return data is Metadata md
                 && md.VisibleName != _localisationService.GetString("Quick sheets")
                 && md.VisibleName != _localisationService.GetString("Up ..")
                 && md.VisibleName != _localisationService.GetString("Trash");

@@ -6,10 +6,10 @@ namespace Slithin.Controls;
 
 public class ImageButton : Button
 {
-    public static StyledProperty<Drawing> ImageProperty =
+    public static readonly StyledProperty<Drawing> ImageProperty =
         AvaloniaProperty.Register<ImageButton, Drawing>("Kind");
 
-    public static StyledProperty<string> TextProperty =
+    public static readonly StyledProperty<string> TextProperty =
         AvaloniaProperty.Register<ImageButton, string>("Text");
 
     public Drawing Image

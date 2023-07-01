@@ -39,9 +39,7 @@ internal class RestoreTool : ITool
     {
         get
         {
-            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-            return new Bitmap(assets.Open(new Uri("avares://Slithin.Modules.Backup/Resources/restore.png")));
+            return new Bitmap(AssetLoader.Open(new Uri("avares://Slithin.Modules.Backup/Resources/restore.png")));
         }
     }
 

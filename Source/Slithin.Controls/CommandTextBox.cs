@@ -7,19 +7,19 @@ namespace Slithin.Controls;
 
 public class CommandTextBox : TemplatedControl
 {
-    public static StyledProperty<ICommand> ActionProperty =
+    public static readonly StyledProperty<ICommand> ActionProperty =
         AvaloniaProperty.Register<CommandTextBox, ICommand>("ActionParameter");
 
-    public static StyledProperty<ICommand> CommandProperty =
+    public static readonly StyledProperty<ICommand> CommandProperty =
         AvaloniaProperty.Register<CommandTextBox, ICommand>("Command");
 
-    public static StyledProperty<string> CommandTextProperty =
+    public static readonly StyledProperty<string> CommandTextProperty =
         AvaloniaProperty.Register<CommandTextBox, string>("CommandTextProperty");
 
-    public static StyledProperty<string> TextProperty =
+    public static readonly StyledProperty<string> TextProperty =
         AvaloniaProperty.Register<CommandTextBox, string>("Text");
 
-    public static StyledProperty<string> WatermarkProperty =
+    public static readonly StyledProperty<string> WatermarkProperty =
         AvaloniaProperty.Register<CommandTextBox, string>("Watermark");
 
     public CommandTextBox()

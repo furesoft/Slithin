@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Reflection;
 using System.Windows.Input;
 using AuroraModularis.Core;
@@ -27,7 +28,6 @@ public class MainWindowViewModel : BaseViewModel
     private readonly IContextualMenuBuilder _contextualMenuBuilder;
     private readonly IEventService _eventService;
     private readonly IDiagnosticService _diagnosticService;
-    private readonly ILocalisationService _localisationService;
     private readonly INotificationService _notificationService;
     private object _contextualMenu;
 
@@ -37,12 +37,11 @@ public class MainWindowViewModel : BaseViewModel
 
     public MainWindowViewModel(IVersionService versionService,
         ILoginService loginService, IDiagnosticService diagnosticService,
-        ILocalisationService localisationService, INotificationService notificationService,
+        INotificationService notificationService,
         IContextualMenuBuilder contextualMenuBuilder,
         IEventService eventService)
     {
         _diagnosticService = diagnosticService;
-        _localisationService = localisationService;
         _notificationService = notificationService;
         _contextualMenuBuilder = contextualMenuBuilder;
         _eventService = eventService;
@@ -89,7 +88,7 @@ public class MainWindowViewModel : BaseViewModel
         LoadMenu();
     }
 
-    private static object? GetIcon(PageIconAttribute? pageIconAttribute, Type type)
+    private static object? GetIcon(PageIconAttribute? pageIconAttribute)
     {
         return Application.Current.FindResource(pageIconAttribute == null ? "Material.Refresh" : pageIconAttribute.Key);
     }
@@ -109,16 +108,12 @@ public class MainWindowViewModel : BaseViewModel
     private double CalculateMenuWidth()
     {
         var maximumWidth = 0d;
-
-        var textFormat = new FormattedText();
-        textFormat.FontSize = 25;
-        textFormat.Typeface = new("Consolas");
-
+        
         foreach (var page in Menu)
         {
-            textFormat.Text = page.Header;
+            var textFormat = new FormattedText(page.Header, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 25, Brushes.Black);
 
-            maximumWidth = Math.Max(maximumWidth, textFormat.Bounds.Width);
+            maximumWidth = Math.Max(maximumWidth, textFormat.MaxTextWidth);
         }
 
         return maximumWidth + 60;
@@ -183,7 +178,7 @@ public class MainWindowViewModel : BaseViewModel
     {
         page = new Page { Header = pageInstance.Title, DataContext = controlInstance.DataContext };
 
-        page.Icon = GetIcon(pageIconAttribute, type);
+        page.Icon = GetIcon(pageIconAttribute);
         
         return pageInstance.Title;
     }

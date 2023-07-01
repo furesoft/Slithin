@@ -19,13 +19,10 @@ public class LoginInfoValidator : AbstractValidator<LoginInfo>
 
     private void PasswordValidator(string password, ValidationContext<LoginInfo> arg2)
     {
-        if (!arg2.InstanceToValidate.UsesKey)
+        if (!arg2.InstanceToValidate.UsesKey && string.IsNullOrEmpty(password))
         {
-            if (string.IsNullOrEmpty(password))
-            {
-                arg2.AddFailure("Password",
-                    _localisationService.GetString("The device is not configured using SSH Keys. Enter a password."));
-            }
+            arg2.AddFailure("Password",
+                _localisationService.GetString("The device is not configured using SSH Keys. Enter a password."));
         }
     }
 }

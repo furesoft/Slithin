@@ -12,18 +12,15 @@ namespace Slithin.Modules.Export.Exporters;
 
 public class PdfExporter : IExportProvider
 {
-    private readonly ILocalisationService _localisationService;
     private readonly IRenderingService _renderingService;
     private readonly IDialogService _dialogService;
     private readonly IPathManager _pathManager;
 
     public PdfExporter(IPathManager pathManager,
-        ILocalisationService localisationService,
         IRenderingService renderingService,
         IDialogService dialogService)
     {
         _pathManager = pathManager;
-        _localisationService = localisationService;
         _renderingService = renderingService;
         _dialogService = dialogService;
     }
@@ -111,7 +108,6 @@ public class PdfExporter : IExportProvider
     private bool ExportPDF(ExportOptions options, Metadata metadata, string outputPath, bool shouldHideTemplates,
         IProgress<int> progress)
     {
-        var filename = Path.Combine(_pathManager.NotebooksDir, $"{metadata.ID}.pdf");
         var doc = options.Document.AsT0;
 
         doc.Info.Title = metadata.VisibleName;

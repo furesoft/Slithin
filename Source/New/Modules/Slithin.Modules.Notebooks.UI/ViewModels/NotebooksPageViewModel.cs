@@ -47,8 +47,7 @@ internal class NotebooksPageViewModel : BaseViewModel, IFilterable<NotebooksFilt
                 IsMoving = true;
                 _movingNotebook = Filter.Selection;
             },
-            _ => _ != null
-                 && _ is Metadata md
+            _ => _ is Metadata md
                  && md.VisibleName != localisationService.GetString("Quick sheets")
                  && md.VisibleName != localisationService.GetString("Up ..")
                  && md.VisibleName != localisationService.GetString("Trash"));

@@ -4,7 +4,7 @@
 /// An interface to work with messages sent by another peer
 /// </summary>
 /// <typeparam name="T">The message type</typeparam>
-public interface IMessageHandler<T>
+public interface IMessageHandler<in T>
 {
     /// <summary>
     /// Do something with the message

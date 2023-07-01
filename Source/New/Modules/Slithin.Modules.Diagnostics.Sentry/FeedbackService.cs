@@ -7,7 +7,7 @@ namespace Slithin.Modules.Diagnostics.Sentry;
 
 internal class FeedbackServiceImpl : IFeedbackService
 {
-    public void SendFeedback(string message, string title = "User feedback.", 
+    public void SendFeedback(string message, string title = "An event that will receive user feedback.", 
         string email = "fake@slithin.de")
     {
         var profanityFilter = ServiceContainer.Current.Resolve<IProfanityFilter>();

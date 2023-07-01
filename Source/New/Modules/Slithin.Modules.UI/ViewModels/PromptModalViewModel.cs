@@ -6,7 +6,6 @@ namespace Slithin.Modules.UI.ViewModels;
 public class PromptModalViewModel : BaseViewModel
 {
     private string _header;
-    private string _input;
     private string _watermark;
     public ICommand AcceptCommand { get; set; }
     public ICommand CancelCommand { get; set; }
@@ -17,11 +16,7 @@ public class PromptModalViewModel : BaseViewModel
         set => SetValue(ref _header, value);
     }
 
-    public string Input
-    {
-        get => _input;
-        set => _input = value;
-    }
+    public string Input { get; set; }
 
     public string Watermark
     {

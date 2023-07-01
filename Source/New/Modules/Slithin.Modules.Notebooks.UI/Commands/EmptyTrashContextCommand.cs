@@ -10,17 +10,14 @@ namespace Slithin.Modules.Notebooks.UI.Commands;
 
 internal class EmptyTrashCommand : ICommand
 {
-    private readonly ILocalisationService _localisationService;
     private readonly IMetadataRepository _metadataRepository;
     private readonly NotebooksFilter _notebooksFilter;
     private readonly IRemarkableDevice _remarkableDevice;
 
-    public EmptyTrashCommand(ILocalisationService localisationService,
-                             IMetadataRepository metadataRepository,
+    public EmptyTrashCommand(IMetadataRepository metadataRepository,
                              NotebooksFilter notebooksFilter,
                              IRemarkableDevice remarkableDevice)
     {
-        _localisationService = localisationService;
         _metadataRepository = metadataRepository;
         _notebooksFilter = notebooksFilter;
         _remarkableDevice = remarkableDevice;

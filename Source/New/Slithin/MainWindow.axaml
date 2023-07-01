@@ -18,7 +18,7 @@
                 <SplitView.Pane>
                     <Grid RowDefinitions="170,*" Margin="0,20,0,0">
                         <Image Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top"
-                               Source="avares:/Resources/new_logo.png" Classes="header" />
+                               Source="/Resources/new_logo.png" Classes="header" />
 
                         <ListBox Items="{Binding Menu}" Grid.Row="1" SelectedItem="{Binding SelectedTab}"
                                  Classes="Drawer" Name="Drawer" VerticalAlignment="Bottom">

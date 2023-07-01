@@ -11,10 +11,10 @@ namespace Slithin.Controls;
 
 public class GalleryControl : ItemsControl
 {
-    public static StyledProperty<bool> AreButtonsVisibleProperty =
+    public static readonly StyledProperty<bool> AreButtonsVisibleProperty =
         AvaloniaProperty.Register<GalleryControl, bool>(nameof(AreButtonsVisible), true);
 
-    public static StyledProperty<ObservableCollection<Indicator>> IndicatorsProperty =
+    public static readonly StyledProperty<ObservableCollection<Indicator>> IndicatorsProperty =
         AvaloniaProperty.Register<GalleryControl, ObservableCollection<Indicator>>(nameof(Indicators),
             new());
 
@@ -30,9 +30,14 @@ public class GalleryControl : ItemsControl
         set => SetValue(IndicatorsProperty, value);
     }
 
-    protected override void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    void ItemsCollectionChanged(object sender)
     {
         Indicators.Add(new Indicator());
+    }
+
+    public GalleryControl()
+    {
+        ItemsSourceProperty.Changed.Subscribe(ItemsCollectionChanged);
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)

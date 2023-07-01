@@ -133,8 +133,8 @@ public class MetadataRepositoryImpl : IMetadataRepository
         }
     }
 
-    public void Remove(Metadata tmpl)
+    public void Remove(Metadata md)
     {
-        _storage.Remove(tmpl.ID);
+        _storage.Remove(md.ID);
     }
 }

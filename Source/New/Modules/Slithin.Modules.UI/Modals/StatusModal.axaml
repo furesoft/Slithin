@@ -9,8 +9,8 @@
     <Border BorderBrush="Black" BorderThickness="1" Margin="3" MaxHeight="150" MinHeight="180" MinWidth="400" MaxWidth="400" Background="White">
         <Grid>
             <StackPanel Orientation="Vertical" Margin="5" HorizontalAlignment="Center">
-                <c:LottieViewer HorizontalAlignment="Center" VerticalAlignment="Top" IsPlaying="True"
-                                LottieFile="./loading_animation.json" Scale="0.25" Width="75" Height="75" />
+                <Lottie HorizontalAlignment="Center" VerticalAlignment="Top" IsPlaying="True"
+                                 Path="./loading_animation.json" StretchDirection="Both" Scale="0.25" Width="75" Height="75" />
 
                 <TextBlock Text="{Binding Message, Mode=TwoWay}" FontSize="15" TextWrapping="Wrap" Width="325" MaxWidth="325"
                            HorizontalAlignment="Stretch" VerticalAlignment="Center" />

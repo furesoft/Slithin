@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -11,11 +12,11 @@ namespace Slithin.Controls;
 
 public class KryptoDonateButton : TemplatedControl
 {
-    public static StyledProperty<string> AddressProperty = AvaloniaProperty.Register<KryptoDonateButton, string>(nameof(Address), "0000000000000000000000");
-    public static StyledProperty<string> CoinNameProperty = AvaloniaProperty.Register<KryptoDonateButton, string>(nameof(CoinName), "0000000000000000000000");
-    public static StyledProperty<ICommand> CopyAddressCommandProperty = AvaloniaProperty.Register<KryptoDonateButton, ICommand>(nameof(CopyAddressCommand));
-    public static StyledProperty<Drawing> ImageProperty = AvaloniaProperty.Register<KryptoDonateButton, Drawing>(nameof(Image));
-    public static StyledProperty<IImage> QrProperty = AvaloniaProperty.Register<KryptoDonateButton, IImage>(nameof(Qr));
+    public static readonly StyledProperty<string> AddressProperty = AvaloniaProperty.Register<KryptoDonateButton, string>(nameof(Address), "0000000000000000000000");
+    public static readonly StyledProperty<string> CoinNameProperty = AvaloniaProperty.Register<KryptoDonateButton, string>(nameof(CoinName), "0000000000000000000000");
+    public static readonly StyledProperty<ICommand> CopyAddressCommandProperty = AvaloniaProperty.Register<KryptoDonateButton, ICommand>(nameof(CopyAddressCommand));
+    public static readonly StyledProperty<Drawing> ImageProperty = AvaloniaProperty.Register<KryptoDonateButton, Drawing>(nameof(Image));
+    public static readonly StyledProperty<IImage> QrProperty = AvaloniaProperty.Register<KryptoDonateButton, IImage>(nameof(Qr));
 
     public KryptoDonateButton()
     {
@@ -58,7 +59,7 @@ public class KryptoDonateButton : TemplatedControl
 
     private async void CopyAddress(object obj)
     {
-        await Application.Current.Clipboard.SetTextAsync(Address);
+        await TopLevel.GetTopLevel(this)?.Clipboard.SetTextAsync(Address);
     }
 
     private void RegenerateQrCode(string addr)

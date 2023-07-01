@@ -13,7 +13,7 @@ namespace Slithin.Modules.Export.Rendering;
 
 internal partial class RenderingServiceImpl : IRenderingService
 {
-    public Stream RenderSvg(Page page, int pageIndex, Metadata md, bool shouldHideTemplate, int width = 1404, int height = 1872)
+    public Stream RenderSvg(Page page, int pageIndex, Metadata md, bool shouldHideTemplate = false, int width = 1404, int height = 1872)
     {
         var svgDoc = new SvgDocument { Width = width, Height = height, ViewBox = new SvgViewBox(0, 0, width, height) };
 

@@ -7,15 +7,12 @@ namespace Slithin.Modules.Export.Exporters;
 
 public class PngExporter : IExportProvider
 {
-    private readonly ILocalisationService _localisationService;
     private readonly IDialogService _dialogService;
     private readonly IRenderingService _renderingService;
 
-    public PngExporter(ILocalisationService localisationService,
-                       IDialogService dialogService,
+    public PngExporter(IDialogService dialogService,
                        IRenderingService renderingService)
     {
-        _localisationService = localisationService;
         _dialogService = dialogService;
         _renderingService = renderingService;
     }

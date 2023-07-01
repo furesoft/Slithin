@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using AuroraModularis.Core;
 using Avalonia.Controls;
-using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Notebooks.UI.Models;
@@ -55,9 +54,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
         {
             return null;
         }
-
-        var localisationProvider = ServiceContainer.Current.Resolve<ILocalisationService>();
-
+        
         var providersForContext = _providers[context];
         var availableContexts = providersForContext.Where(p => p.CanHandle(item));
 

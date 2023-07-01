@@ -69,8 +69,9 @@ internal class MockDevice : IRemarkableDevice
 
     public IReadOnlyList<FileFetchResult> FetchedScreens => FetchFilesWithModified(ServiceContainer.Current.Resolve<DevicePathList>().Screens, "*.png", SearchOption.TopDirectoryOnly);
 
-    public void Reload()
+    public void Reload() // Compliant
     {
+        //Do nothing because the mock device cannot be reloaded
     }
 
     public Result<string> RunCommand(string cmd)

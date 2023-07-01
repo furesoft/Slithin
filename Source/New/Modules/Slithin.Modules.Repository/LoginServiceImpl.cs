@@ -10,7 +10,7 @@ internal class LoginServiceImpl : ILoginService
     private IPathManager _pathManager;
     private IDatabaseService _dbService;
     private LoginInfo? _selectedLoginCredential;
-    private ServiceContainer _container;
+    private readonly ServiceContainer _container;
 
     public LoginServiceImpl(ServiceContainer container)
     {
@@ -37,11 +37,11 @@ internal class LoginServiceImpl : ILoginService
         return db.FindAll<LoginInfo>().ToArray();
     }
 
-    public void RememberLoginCredencials(LoginInfo info)
+    public void RememberLoginCredencials(LoginInfo loginInfo)
     {
         var db = _dbService.GetDatabase();
 
-        db.Insert(info);
+        db.Insert(loginInfo);
     }
 
     public void SetLoginCredential(LoginInfo loginInfo)

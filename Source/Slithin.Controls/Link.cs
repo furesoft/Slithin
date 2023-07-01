@@ -6,10 +6,10 @@ namespace Slithin.Controls;
 
 public class Link : Button
 {
-    public static StyledProperty<TextDecorationCollection> TextDecorationsProperty =
+    public static readonly StyledProperty<TextDecorationCollection> TextDecorationsProperty =
         AvaloniaProperty.Register<Link, TextDecorationCollection>(nameof(TextDecorations));
 
-    public static StyledProperty<string> TitleProperty =
+    public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<Link, string>(nameof(Title));
 
     public TextDecorationCollection TextDecorations

@@ -12,7 +12,7 @@ internal class DeviceDiscoveryImpl : IDeviceDiscovery
         try
         {
             return Dns.GetHostAddresses("remarkable")
-                .FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+                .First(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
         }
         catch
         {

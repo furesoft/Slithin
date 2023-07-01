@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 namespace Slithin.Controls.Gif;
 
 [Serializable]
-internal class InvalidGifStreamException : Exception
+public class InvalidGifStreamException : Exception
 {
     public InvalidGifStreamException()
     {

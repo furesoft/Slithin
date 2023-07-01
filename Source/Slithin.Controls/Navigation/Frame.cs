@@ -372,7 +372,7 @@ public partial class Frame : ContentControl
             }
         }
 
-        var newPage = Activator.CreateInstance(srcPageType) as IControl;
+        var newPage = Activator.CreateInstance(srcPageType) as Control;
         _cache.Add(newPage);
         if (_cache.Count > CacheSize)
         {

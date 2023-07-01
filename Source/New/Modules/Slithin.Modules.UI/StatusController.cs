@@ -11,7 +11,7 @@ internal class StatusController : IStatusController
 {
     private readonly bool _showInNewWindow;
     private readonly CancellationTokenSource _cancellationTokenSource;
-    private StatusViewModel _viewModel = new();
+    private readonly StatusViewModel _viewModel = new();
     private Window _window;
 
     public StatusController(bool showInNewWindow, bool isCancellable)

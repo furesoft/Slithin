@@ -4,7 +4,7 @@ namespace Slithin.Modules.Repository.Models;
 
 public class DatabaseAccessor
 {
-    private LiteDatabase _db;
+    private readonly LiteDatabase _db;
 
     public DatabaseAccessor(LiteDatabase dB)
     {

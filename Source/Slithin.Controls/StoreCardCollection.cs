@@ -7,25 +7,25 @@ namespace Slithin.Controls;
 
 public class StoreCardCollection : TemplatedControl
 {
-    public static StyledProperty<ObservableCollection<object>> CardsProperty =
+    public static readonly StyledProperty<ObservableCollection<object>> CardsProperty =
         AvaloniaProperty.Register<StoreCardCollection, ObservableCollection<object>>("Cards");
 
-    public static StyledProperty<string> CategoryProperty =
+    public static readonly StyledProperty<string> CategoryProperty =
         AvaloniaProperty.Register<StoreCardCollection, string>("Category");
 
-    public static StyledProperty<ICommand> InstallCommandProperty =
+    public static readonly StyledProperty<ICommand> InstallCommandProperty =
         AvaloniaProperty.Register<StoreCardCollection, ICommand>("InstallCommand");
 
-    public static StyledProperty<ICommand> MoreCommandProperty =
+    public static readonly StyledProperty<ICommand> MoreCommandProperty =
         AvaloniaProperty.Register<StoreCardCollection, ICommand>("MoreCommand");
 
-    public static StyledProperty<string> MoreTitleProperty =
+    public static readonly StyledProperty<string> MoreTitleProperty =
                    AvaloniaProperty.Register<StoreCardCollection, string>("MoreTitle");
 
-    public static StyledProperty<object> SelectedCardProperty =
+    public static readonly StyledProperty<object> SelectedCardProperty =
         AvaloniaProperty.Register<StoreCardCollection, object>("SelectedCard");
 
-    public static StyledProperty<ICommand> UninstallCommandProperty =
+    public static readonly StyledProperty<ICommand> UninstallCommandProperty =
         AvaloniaProperty.Register<StoreCardCollection, ICommand>("UninstallCommand");
 
     public ObservableCollection<object> Cards

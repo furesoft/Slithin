@@ -6,10 +6,10 @@ namespace Slithin.Controls;
 
 public class ContentDialog : ContentControl, IStyleable
 {
-    public static StyledProperty<object> DialogContentProperty =
+    public static readonly StyledProperty<object> DialogContentProperty =
         AvaloniaProperty.Register<ContentDialog, object>("DialogContent");
 
-    public static StyledProperty<bool> IsOpenedProperty =
+    public static readonly StyledProperty<bool> IsOpenedProperty =
         AvaloniaProperty.Register<ContentDialog, bool>("IsOpened");
 
     public object DialogContent
