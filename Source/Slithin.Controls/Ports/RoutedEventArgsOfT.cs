@@ -9,7 +9,7 @@ public class RoutedEventArgsOfT<T> : RoutedEventArgs
         Info = info;
     }
 
-    public RoutedEventArgsOfT(RoutedEvent routedEvent, IInteractive source) : base(routedEvent, source)
+    public RoutedEventArgsOfT(RoutedEvent routedEvent, Interactive source) : base(routedEvent, source)
     {
     }
 

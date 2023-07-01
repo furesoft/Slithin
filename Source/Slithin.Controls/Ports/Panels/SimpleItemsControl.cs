@@ -83,14 +83,14 @@ public class SimpleItemsControl : TemplatedControl
         set { SetValue(ItemTemplateProperty, value); }
     }
 
-    internal IPanel ItemsHost { get; set; }
+    internal Panel ItemsHost { get; set; }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         ItemsHost?.Children.Clear();
         base.OnApplyTemplate(e);
 
-        ItemsHost = e.NameScope.Find<IPanel>(ElementPanel);
+        ItemsHost = e.NameScope.Find<Panel>(ElementPanel);
         Refresh();
     }
 

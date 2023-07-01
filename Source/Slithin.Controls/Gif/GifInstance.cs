@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using JetBrains.Annotations;
 using Slithin.Controls.Gif.Decoding;
 
 namespace Slithin.Controls.Gif;
@@ -90,13 +89,7 @@ internal class GifInstance : IDisposable
             throw new InvalidDataException(
                 "The URI provided is not currently supported.");
 
-        var assetLocator = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-        if (assetLocator is null)
-            throw new InvalidDataException(
-                "The resource URI was not found in the current assembly.");
-
-        return assetLocator.Open(uri);
+        return AssetLoader.Open(uri);
     }
 
     public PixelSize GifPixelSize { get; }
@@ -106,8 +99,7 @@ internal class GifInstance : IDisposable
         CurrentCts.Cancel();
         _targetBitmap?.Dispose();
     }
-
-    [CanBeNull]
+    
     public WriteableBitmap ProcessFrameTime(TimeSpan stopwatchElapsed)
     {
         if (!IterationCount.IsInfinite && _iterationCount > IterationCount.Value)

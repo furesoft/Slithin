@@ -18,8 +18,8 @@ public partial class ResizeRotateControl
     /// <summary>
     /// Defines the <see cref="BouncedControl"/> property.
     /// </summary>
-    public static readonly StyledProperty<IControl> BouncedControlProperty =
-        AvaloniaProperty.Register<ResizeRotateControl, IControl>(nameof(BouncedControl));
+    public static readonly StyledProperty<Control> BouncedControlProperty =
+        AvaloniaProperty.Register<ResizeRotateControl, Control>(nameof(BouncedControl));
 
     /// <summary>
     /// Defines the CanDrag property.
@@ -234,9 +234,9 @@ public partial class ResizeRotateControl
     /// <summary>
     /// Gets or sets BouncedControl.
     /// </summary>
-    public IControl BouncedControl
+    public Control BouncedControl
     {
-        get { return (IControl)GetValue(BouncedControlProperty); }
+        get { return (Control)GetValue(BouncedControlProperty); }
         set { SetValue(BouncedControlProperty, value); }
     }
 

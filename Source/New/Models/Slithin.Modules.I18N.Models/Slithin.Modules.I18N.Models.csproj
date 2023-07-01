@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.38" />
+    <PackageReference Include="AuroraModularis" Version="1.0.40" />
     <PackageReference Include="FluentValidation" Version="11.5.2" />
   </ItemGroup>
 </Project>

@@ -15,11 +15,11 @@
     </ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="NodeEditorAvalonia" Version="0.10.14" />
-		<PackageReference Include="NodeEditorAvalonia.Export" Version="0.10.14" />
-		<PackageReference Include="NodeEditorAvalonia.Model" Version="0.10.14" />
-		<PackageReference Include="NodeEditorAvalonia.ReactiveUI" Version="0.10.14" />
-		<PackageReference Include="NodeEditorAvalonia.Serializer" Version="0.10.14" />
+		<PackageReference Include="NodeEditorAvalonia" Version="11.0.0-rc1.1" />
+		<PackageReference Include="NodeEditorAvalonia.Export" Version="11.0.0-preview5" />
+		<PackageReference Include="NodeEditorAvalonia.Model" Version="11.0.0-rc1.1" />
+		<PackageReference Include="NodeEditorAvalonia.ReactiveUI" Version="11.0.0-preview5" />
+		<PackageReference Include="NodeEditorAvalonia.Serializer" Version="11.0.0-preview5" />
 	</ItemGroup>
 
     <ItemGroup>

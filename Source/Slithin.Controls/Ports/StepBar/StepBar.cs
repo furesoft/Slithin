@@ -163,7 +163,7 @@ public class StepBar : ItemsControl
     /// returns <see cref="ItemContainerGenerator"/> of type <see cref="StepBarItem"/>
     /// </summary>
     /// <returns></returns>
-    protected override IItemContainerGenerator CreateItemContainerGenerator()
+    protected override ItemContainerGenerator CreateItemContainerGenerator()
     {
         return new ItemContainerGenerator<StepBarItem>(
             this,
@@ -181,7 +181,7 @@ public class StepBar : ItemsControl
         _progressBarBack = e.NameScope.Find<ProgressBar>(ElementProgressBarBack);
     }
 
-    private static int CoerceStepIndex(IAvaloniaObject ctrl, int stepIndex)
+    private static int CoerceStepIndex(AvaloniaObject ctrl, int stepIndex)
     {
         StepBar stepBar = ctrl as StepBar;
 

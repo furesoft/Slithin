@@ -175,8 +175,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.38" />
-    <PackageReference Include="Avalonia" Version="0.10.21" />
+    <PackageReference Include="AuroraModularis" Version="1.0.40" />
+    <PackageReference Include="Avalonia" Version="11.0.0-rc1.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.9" />
+    <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.0-preview20230601001" />
   </ItemGroup>
 
   <ItemGroup>

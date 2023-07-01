@@ -16,7 +16,7 @@ public class GalleryControl : ItemsControl
 
     public static StyledProperty<ObservableCollection<Indicator>> IndicatorsProperty =
         AvaloniaProperty.Register<GalleryControl, ObservableCollection<Indicator>>(nameof(Indicators),
-            new ObservableCollection<Indicator>());
+            new());
 
     public bool AreButtonsVisible
     {

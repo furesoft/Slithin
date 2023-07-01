@@ -16,7 +16,7 @@ public static class TreeExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="control"></param>
     /// <returns></returns>
-    public static T FindChildren<T>(this IControl control) where T : IControl
+    public static T FindChildren<T>(this Control control) where T : Control
     {
         //if (control.Parent is T)
         //    return (T)control.Parent;
@@ -42,12 +42,12 @@ public static class TreeExtensions
     /// <param name="source"></param>
     /// <param name="forceUsingTheVisualTreeHelper"></param>
     /// <returns></returns>
-    public static IEnumerable<T> FindChildren<T>(this IControl source, bool forceUsingTheVisualTreeHelper = false) where T : IControl
+    public static IEnumerable<T> FindChildren<T>(this Control source, bool forceUsingTheVisualTreeHelper = false) where T : Control
     {
         if (source != null)
         {
             var childs = GetChildObjects(source, forceUsingTheVisualTreeHelper);
-            foreach (IControl child in childs)
+            foreach (Control child in childs)
             {
                 //analyze if children match the requested type
                 if (child != null && child is T)
@@ -69,9 +69,9 @@ public static class TreeExtensions
     /// </summary>
     /// <param name="child"></param>
     /// <returns></returns>
-    public static IEnumerable<IVisual> GetAncestors(this IVisual child)
+    public static IEnumerable<Visual> GetAncestors(this Visual child)
     {
-        IVisual parent = Avalonia.VisualTree.VisualExtensions.GetVisualParent(child);
+        Visual parent = Avalonia.VisualTree.VisualExtensions.GetVisualParent(child);
         while (parent != null)
         {
             yield return parent;
@@ -85,7 +85,7 @@ public static class TreeExtensions
     /// <param name="parent"></param>
     /// <param name="forceUsingTheVisualTreeHelper"></param>
     /// <returns></returns>
-    public static IEnumerable<IControl> GetChildObjects(this IControl parent, bool forceUsingTheVisualTreeHelper = false)
+    public static IEnumerable<Control> GetChildObjects(this Control parent, bool forceUsingTheVisualTreeHelper = false)
     {
         if (parent == null)
             yield break;
@@ -96,20 +96,20 @@ public static class TreeExtensions
         {
             foreach (var item in LogicalExtensions.GetLogicalChildren(parentLogical))
             {
-                IControl avalonia = item as IControl;
+                Control avalonia = item as Control;
                 if (avalonia != null)
                     yield return item as IControl;
             }
         }
         else
         {
-            IVisual visual = parent as IVisual;
+            Visual visual = parent as Visual;
 
             foreach (var item in Avalonia.VisualTree.VisualExtensions.GetVisualChildren(visual))
             {
-                IControl avalonia = item as IControl;
+                Control avalonia = item as Control;
                 if (avalonia != null)
-                    yield return item as IControl;
+                    yield return item as Control;
             }
         }
     }
@@ -121,7 +121,7 @@ public static class TreeExtensions
     /// <param name="ancestor">The ancestor visual.</param>
     /// <param name="visual">The visual.</param>
     /// <returns>The transform.</returns>
-    public static Matrix GetOffsetFrom(IVisual ancestor, IVisual visual)
+    public static Matrix GetOffsetFrom(Visual ancestor, Visual visual)
     {
         var result = Matrix.Identity;
 
@@ -173,7 +173,7 @@ public static class TreeExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="control"></param>
     /// <returns></returns>
-    public static T TryFindParent<T>(this IControl control) where T : IControl
+    public static T TryFindParent<T>(this Control control) where T : Control
     {
         if (control is T)
             return (T)control;
@@ -183,16 +183,16 @@ public static class TreeExtensions
             return (T)control.TemplatedParent;
         }
 
-        if (control is IContentControl
-            && ((IContentControl)control).Content is T)
+        if (control is ContentControl
+            && ((ContentControl)control).Content is T)
         {
-            return (T)((IContentControl)control).Content;
+            return (T)((ContentControl)control).Content;
         }
 
         if (control.Parent is T)
             return (T)control.Parent;
 
-        IControl parent = control.Parent?.Parent;
+        Control parent = control.Parent?.Parent;
 
         while (parent != null)
         {

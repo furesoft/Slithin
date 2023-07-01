@@ -34,7 +34,7 @@ internal class StatusController : IStatusController
                 _window.Width = 350;
                 _window.Title = "Slithin Update";
                 _window.Content = modal;
-                _window.HasSystemDecorations = false;
+                _window.SystemDecorations = SystemDecorations.None;
                 _window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 _window.Closing += (s, e) =>
                 {

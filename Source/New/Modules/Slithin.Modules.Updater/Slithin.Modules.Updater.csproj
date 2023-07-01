@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.38" />
+    <PackageReference Include="AuroraModularis" Version="1.0.40" />
     <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
-    <PackageReference Include="NuGet.PackageManagement" Version="6.6.0" />
-    <PackageReference Include="NuGet.Protocol" Version="6.6.0" />
+    <PackageReference Include="NuGet.PackageManagement" Version="6.6.1" />
+    <PackageReference Include="NuGet.Protocol" Version="6.6.1" />
   </ItemGroup>
 
   <ItemGroup>

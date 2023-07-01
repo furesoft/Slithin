@@ -17,7 +17,7 @@ namespace Slithin.Controls.Navigation;
 public partial class Frame : ContentControl
 {
     private static Dictionary<string, Frame> _frames = new Dictionary<string, Frame>();
-    private List<IControl> _cache = new List<IControl>(10);
+    private List<Control> _cache = new List<Control>(10);
 
     private bool _isNavigating = false;
 
@@ -339,7 +339,7 @@ public partial class Frame : ContentControl
         }
     }
 
-    private IControl CheckCacheAndGetPage(Type srcPageType)
+    private Control CheckCacheAndGetPage(Type srcPageType)
     {
         if (CacheSize == 0)
             return null;
@@ -357,11 +357,11 @@ public partial class Frame : ContentControl
         return null;
     }
 
-    private IControl CreatePageAndCacheIfNecessary(Type srcPageType)
+    private Control CreatePageAndCacheIfNecessary(Type srcPageType)
     {
         if (CacheSize == 0)
         {
-            return Activator.CreateInstance(srcPageType) as IControl;
+            return Activator.CreateInstance(srcPageType) as Control;
         }
 
         for (int i = 0; i < _cache.Count; i++)

@@ -24,8 +24,8 @@ public class MoveThumb : Thumb
     /// <summary>
     /// Defines the <see cref="BouncedControl"/> property.
     /// </summary>
-    public static readonly StyledProperty<IControl> BouncedControlProperty =
-        AvaloniaProperty.Register<MoveThumb, IControl>(nameof(BouncedControl));
+    public static readonly StyledProperty<Control> BouncedControlProperty =
+        AvaloniaProperty.Register<MoveThumb, Control>(nameof(BouncedControl));
 
     /// <summary>
     /// Defines the <see cref="MovedFinished"/> routed event.
@@ -74,9 +74,9 @@ public class MoveThumb : Thumb
     /// <summary>
     /// Gets or sets BouncedControl.
     /// </summary>
-    public IControl BouncedControl
+    public Control BouncedControl
     {
-        get { return (IControl)GetValue(BouncedControlProperty); }
+        get { return (Control)GetValue(BouncedControlProperty); }
         set { SetValue(BouncedControlProperty, value); }
     }
 

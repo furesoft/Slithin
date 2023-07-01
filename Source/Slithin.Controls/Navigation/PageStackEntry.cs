@@ -35,5 +35,5 @@ public class PageStackEntry
     /// </summary>
     public Type SourcePageType { get; set; }
 
-    internal IControl Instance { get; set; }
+    internal Control Instance { get; set; }
 }
