@@ -46,6 +46,10 @@ jobs:
     - name: Installing dotnet-packaging rpm
       continue-on-error: true
       run: dotnet tool install --global dotnet-rpm
+    - name: 'Qodana Scan'
+      uses: JetBrains/qodana-action@main
+      env:
+        QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
   Build:
     runs-on: ubuntu-latest
     needs:
