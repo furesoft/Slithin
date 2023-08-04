@@ -31,18 +31,18 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="AuroraModularis" Version="1.0.40" />
+		<PackageReference Include="AuroraModularis" Version="1.0.41" />
 		<PackageReference Include="AuroraModularis.Hooks.ResourceRegistrationHook" Version="1.0.40" />
 		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.40" />
 		<PackageReference Include="AuroraModularis.Settings.LiteDb" Version="1.0.40" />
-		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0-rc1.1" />
-		<PackageReference Include="DataBox" Version="11.0.0-preview8" />
+		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.2" />
+		<PackageReference Include="DataBox" Version="11.0.0" />
 		<PackageReference Include="FluentValidations" Version="1.1.0" />
-		<PackageReference Include="Avalonia" Version="11.0.0-rc1.1" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.0.0-rc1.1" />
-		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.0-rc1.1" />
-		<PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.0.0-rc1.1" />
-		<PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.0-preview20230601001" />
+		<PackageReference Include="Avalonia" Version="11.0.2" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.2" />
+		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.2" />
+		<PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.0.2" />
+		<PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.0" />
 		<PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.90-nightly" />
 		<PackageReference Include="Packaging.Targets" Version="0.1.220">
 			<PrivateAssets>all</PrivateAssets>

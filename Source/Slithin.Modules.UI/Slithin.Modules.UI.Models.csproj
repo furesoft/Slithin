@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.0-rc1.1" />
+    <PackageReference Include="Avalonia" Version="11.0.2" />
 	<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.40" />
   </ItemGroup>
 

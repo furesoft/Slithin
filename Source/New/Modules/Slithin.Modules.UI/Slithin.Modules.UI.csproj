@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Skia.Lottie" Version="11.0.0-rc1.1" />
-    <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.0-preview20230601001" />
+    <PackageReference Include="Avalonia.Skia.Lottie" Version="11.0.0" />
+    <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.0" />
   </ItemGroup>
 
   <ItemGroup>

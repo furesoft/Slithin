@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AuroraModularis" Version="1.0.40" />
+      <PackageReference Include="AuroraModularis" Version="1.0.41" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="OwlCore.Kubo" Version="0.12.5" />
     </ItemGroup>

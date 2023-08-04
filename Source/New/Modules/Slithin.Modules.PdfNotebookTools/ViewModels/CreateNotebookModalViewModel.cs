@@ -205,6 +205,8 @@ public class CreateNotebookModalViewModel : ModalBaseViewModel
         {
             var document = InitPdfDocument();
 
+            
+
             var coverPage = document.AddPage();
             var coverGfx = XGraphics.FromPdfPage(coverPage);
 
