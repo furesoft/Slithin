@@ -79,7 +79,7 @@ jobs:
       with:
         args: zip -qq -r ./Dist/${{ matrix.arch }}.zip ./Dist/${{ matrix.arch }}
     - name: Upload the build output
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: publish-output
         path: "./Dist/**/*.*"
@@ -110,7 +110,7 @@ jobs:
     - name: Build ${{ matrix.package }}
       run: dotnet ${{ matrix.package }} --version-suffix "" -r linux-x64 -c Release -o ./Dist/Linux-x64-${{ matrix.package }} $SOLUTION_NAME
     - name: Upload the build output
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: build-packages-output
         path: "${{ env.SOLUTION_PATH }}/Dist/**/*.*"
