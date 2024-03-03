@@ -25,7 +25,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       name: Setup Cache
       id: cache-setup
       with:
@@ -62,7 +62,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       name: Setup Cache
       id: cache-setup
       with:
@@ -97,7 +97,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       name: Setup Cache
       id: cache-setup
       with:

@@ -55,7 +55,7 @@ jobs:
         uses: docker/setup-buildx-action@0d103c3126aa41d772a8362f6aa67afac040f80c
 
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
