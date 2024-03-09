@@ -1,15 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<Version>1.0.30</Version>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.41" />
-    <PackageReference Include="FluentValidation" Version="11.6.0" />
+    <PackageReference Include="AuroraModularis" Version="1.0.50" />
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
   </ItemGroup>
 </Project>

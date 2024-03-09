@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<TrimMode>copyused</TrimMode>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
@@ -13,6 +13,7 @@
 		<Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Version>1.0.29</Version>
+		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
 

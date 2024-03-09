@@ -1,20 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>1.0.30</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.2" />
-    <PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.90-nightly" />
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="Material.Avalonia" Version="3.4.2" />
     <PackageReference Include="SkiaSharp.QrCodeFork" Version="0.4.5" />
     <PackageReference Include="Xiejiang.SKLottie" Version="1.1.1" />
-	<PackageReference Include="Avalonia.Controls.PanAndZoom" Version="11.0.0" />
+	<PackageReference Include="Avalonia.Controls.PanAndZoom" Version="11.0.0.3" />
   </ItemGroup>
 
   <ItemGroup>

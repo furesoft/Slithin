@@ -8,7 +8,7 @@
              x:Class="Slithin.Modules.Bot.Controls.Chat.ChatControl">
     <Grid RowDefinitions="*,40" ColumnDefinitions="*,Auto" Background="White" Cursor="Arrow">
         <ScrollViewer Name="chatScrollViewer" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
-            <ItemsPresenter Items="{Binding Messages}" Name="chatList">
+            <ItemsPresenter ItemsSource="{Binding Messages}" Name="chatList">
                 <ItemsPresenter.ItemTemplate>
                     <DataTemplate>
                         <Grid>

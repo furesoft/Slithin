@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Authors>furesoft</Authors>
         <PackageTags>slithin</PackageTags>
         <Version>1.0.30</Version>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 </Project>
