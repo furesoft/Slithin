@@ -17,7 +17,7 @@
                        IsVisible="{Binding HasEmailAddresses}" />
 
             <ScrollViewer>
-                <ItemsControl Items="{Binding ShareEmailAddresses}" HorizontalAlignment="Right">
+                <ItemsControl ItemsSource="{Binding ShareEmailAddresses}" HorizontalAlignment="Right">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <c:TagControl Tag="{Binding}"
@@ -37,7 +37,7 @@
         <StackPanel>
             <TextBlock Text="{l:Localisation 'Screens'}" Margin="4" FontSize="18" />
 
-            <ItemsControl Items="{Binding CustomScreens, Mode=TwoWay}" Margin="16,0,0,0"
+            <ItemsControl ItemsSource="{Binding CustomScreens, Mode=TwoWay}" Margin="16,0,0,0"
                           ScrollViewer.VerticalScrollBarVisibility="Visible">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -47,14 +47,14 @@
                                     <Button Classes="Flat" Command="{Binding TransferCommand}"
                                             HorizontalAlignment="Left" VerticalAlignment="Top"
                                             ToolTip.Tip="{l:Localisation 'Transfer to Device'}">
-                                        <DrawingPresenter Width="16" Height="16"
-                                                          Drawing="{DynamicResource BoxIcons.RegularTransfer}" />
+                                        <PathIcon Width="16" Height="16"
+                                                          Data="{DynamicResource BoxIcons.RegularTransfer}" />
                                     </Button>
 
                                     <Button Classes="Flat" Command="{Binding ResetCommand}" HorizontalAlignment="Right"
                                             VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Reset To Default'}">
-                                        <DrawingPresenter Width="16" Height="16"
-                                                          Drawing="{DynamicResource BoxIcons.RegularReset}" />
+                                        <PathIcon Width="16" Height="16"
+                                                  Data="{DynamicResource BoxIcons.RegularReset}" />
                                     </Button>
                                 </Grid>
 

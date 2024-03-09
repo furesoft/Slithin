@@ -27,9 +27,6 @@
 
     <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/FrameStyles.axaml" />
 
-    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Ports/StepBar.axaml" />
-    <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Ports/StepBarItem.axaml" />
-
     <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Ports/RateItem.axaml" />
     <StyleInclude Source="avares://Slithin.Controls/Theme/Styles/Ports/RatingControl.axaml" />
 </Styles>

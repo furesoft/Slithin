@@ -5,28 +5,32 @@
              xmlns:l="using:Slithin.Core"
              xmlns:c="using:Slithin.Controls"
              xmlns:context="using:Slithin.Modules.Menu.Models.ItemContext"
-             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.Modules.Templates.UI.TemplatesPage">
     <Grid>
-        <ListBox DragDrop.AllowDrop="True" Items="{Binding Filter.Items}" Margin="16,0,0,0" x:Name="templatesListBox" SelectedItem="{Binding Filter.Selection}">
+        <ListBox DragDrop.AllowDrop="True" ItemsSource="{Binding Filter.Items}" Margin="16,0,0,0"
+                 x:Name="templatesListBox" SelectedItem="{Binding Filter.Selection}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <styles:Card CornerRadius="0" Background="#e2e2e2" Margin="3" HorizontalAlignment="Center" context:UIContextMenuBuilder.Enable="Templates">
+                    <controls:Card CornerRadius="0" Background="#e2e2e2" Margin="3" HorizontalAlignment="Center"
+                                   context:UIContextMenuBuilder.Enable="Templates">
                         <StackPanel Orientation="Vertical" Margin="2">
                             <Grid>
-                                <Button Classes="Flat" Command="{Binding TransferCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Transfer to Device'}">
-                                    <DrawingPresenter Width="16" Height="16" Drawing="{DynamicResource BoxIcons.RegularTransfer}" />
+                                <Button Classes="Flat" Command="{Binding TransferCommand}" HorizontalAlignment="Right"
+                                        VerticalAlignment="Top" ToolTip.Tip="{l:Localisation 'Transfer to Device'}">
+                                    <PathIcon Width="16" Height="16" Data="{DynamicResource BoxIcons.RegularTransfer}" />
                                 </Button>
                             </Grid>
 
                             <Border Margin="5" BorderThickness="1" BorderBrush="Black">
-                                <c:PreviewImageControl Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150" Margin="2" />
+                                <c:PreviewImageControl Source="{Binding Image, Mode=TwoWay}" Width="150" Height="150"
+                                                       Margin="2" />
                             </Border>
 
                             <TextBlock Text="{Binding Name}" TextAlignment="Center" />
                         </StackPanel>
-                    </styles:Card>
+                    </controls:Card>
                 </DataTemplate>
             </ListBox.ItemTemplate>
 

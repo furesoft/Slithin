@@ -13,13 +13,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AuroraModularis" Version="1.0.41" />
+      <PackageReference Include="AuroraModularis" Version="1.0.50" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="OwlCore.Kubo" Version="0.12.5" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="MessageHandlers" />
+      <PackageReference Include="OwlCore.Kubo" Version="0.15.1" />
     </ItemGroup>
 
 </Project>

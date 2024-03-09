@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.41" />
-    <PackageReference Include="Svg" Version="3.4.4" />
+    <PackageReference Include="AuroraModularis" Version="1.0.50" />
+    <PackageReference Include="Svg" Version="3.4.7" />
   </ItemGroup>
 
   <ItemGroup>

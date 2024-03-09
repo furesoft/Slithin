@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using Avalonia.Controls;
-using Slithin.Controls.Ports.StepBar;
+using Avalonia.Labs.Controls;
+using Avalonia.Layout;
 using Slithin.Core.MVVM;
 using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.FirstStart.Steps;
@@ -14,8 +16,8 @@ namespace Slithin.Modules.FirstStart.ViewModels;
 internal class FirstStartViewModel : BaseViewModel
 {
     private readonly ILocalisationService _localisationService;
-    private readonly IPathManager _pathManager;
     private readonly ILoginService _loginService;
+    private readonly IPathManager _pathManager;
     private readonly ISettingsService _settingsService;
     private TranslatedString _buttonText;
     private int _index;
@@ -46,13 +48,13 @@ internal class FirstStartViewModel : BaseViewModel
 
     public TranslatedString ButtonText
     {
-        get { return _buttonText; }
-        set { SetValue(ref _buttonText, value); }
+        get => _buttonText;
+        set => SetValue(ref _buttonText, value);
     }
 
     public int Index
     {
-        get { return _index; }
+        get => _index;
         set
         {
             SetValue(ref _index, value);
@@ -70,15 +72,14 @@ internal class FirstStartViewModel : BaseViewModel
     public ObservableCollection<StepBarItem> StepTitles { get; set; } = new();
 
     public void AddStep(string title,
-                        UserControl control,
-                        BaseViewModel viewModel = null)
+        UserControl control,
+        BaseViewModel viewModel = null)
     {
         control.DataContext = viewModel;
 
-        StepTitles.Add(new StepBarItem()
+        StepTitles.Add(new()
         {
-            Content = _localisationService.GetString(title),
-            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top
+            Content = _localisationService.GetString(title), VerticalAlignment = VerticalAlignment.Top
         });
         StepControls.Add(control);
     }
@@ -108,7 +109,7 @@ internal class FirstStartViewModel : BaseViewModel
             _pathManager.ReLink(LoginInfoViewModel.SelectedLogin.Name);
             _pathManager.Init();
 
-            System.Diagnostics.Process.Start(Environment.ProcessPath);
+            Process.Start(Environment.ProcessPath);
             Environment.Exit(0);
         }
     }

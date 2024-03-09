@@ -8,8 +8,8 @@
              x:Class="Slithin.Modules.Bot.Controls.Chat.ChatControl">
     <Grid RowDefinitions="*,40" ColumnDefinitions="*,Auto" Background="White" Cursor="Arrow">
         <ScrollViewer Name="chatScrollViewer" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
-            <ItemsPresenter ItemsSource="{Binding Messages}" Name="chatList">
-                <ItemsPresenter.ItemTemplate>
+            <ItemsControl ItemsSource="{Binding Messages}" Name="chatList">
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <chat1:ChatBubble Margin="4"
@@ -28,14 +28,14 @@
                             </chat1:ChatBubble>
                         </Grid>
                     </DataTemplate>
-                </ItemsPresenter.ItemTemplate>
+                </ItemsControl.ItemTemplate>
 
-                <ItemsPresenter.ItemsPanel>
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <VirtualizingStackPanel Orientation="Vertical" Spacing="3" />
+                        <VirtualizingStackPanel Orientation="Vertical" />
                     </ItemsPanelTemplate>
-                </ItemsPresenter.ItemsPanel>
-            </ItemsPresenter>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </ScrollViewer>
 
         <TextBox Foreground="Black" Grid.Row="1" Text="{Binding Message, Mode=TwoWay}" Margin="5" Watermark="Message">

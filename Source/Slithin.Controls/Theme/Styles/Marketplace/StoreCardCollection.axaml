@@ -1,8 +1,8 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="http://github.com/furesoft/Slithin"
-        xmlns:controls="http://github.com/furesoft/Slithin">
+        xmlns:controls="http://github.com/furesoft/Slithin"
+        xmlns:controls1="clr-namespace:Material.Styles.Controls;assembly=Material.Styles">
     <Design.PreviewWith>
         <controls:StoreCardCollection />
     </Design.PreviewWith>
@@ -18,31 +18,43 @@
                     <StackPanel Orientation="Horizontal" Spacing="15">
                         <TextBlock Text="{TemplateBinding Category}" FontSize="22" FontWeight="Bold" Margin="3" />
 
-                        <c:Link Title="{TemplateBinding MoreTitle}" CommandParameter="{TemplateBinding Category}" Command="{TemplateBinding MoreCommand}" VerticalAlignment="Center" />
+                        <c:Link Title="{TemplateBinding MoreTitle}" CommandParameter="{TemplateBinding Category}"
+                                Command="{TemplateBinding MoreCommand}" VerticalAlignment="Center" />
                     </StackPanel>
 
-                    <ItemsControl Items="{TemplateBinding Cards, Mode=TwoWay}" VerticalAlignment="Top">
+                    <ItemsControl ItemsSource="{TemplateBinding Cards, Mode=TwoWay}" VerticalAlignment="Top">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <styles:Card Background="#e2e2e2" Margin="3" HorizontalAlignment="Center" MaxHeight="275">
+                                <controls1:Card Background="#e2e2e2" Margin="3" HorizontalAlignment="Center"
+                                                MaxHeight="275">
                                     <StackPanel Spacing="5">
-                                        <TextBlock Text="{Binding Asset.Name}" Margin="0,0,0,5" TextAlignment="Center" FontSize="17" FontWeight="Medium" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding Asset.Name}" Margin="0,0,0,5" TextAlignment="Center"
+                                                   FontSize="17" FontWeight="Medium" TextWrapping="Wrap"
+                                                   TextTrimming="CharacterEllipsis" />
 
                                         <Image Source="{Binding Image, Mode=TwoWay}" Margin="2" Height="120" Width="80" />
 
                                         <Grid>
                                             <TextBlock Text="{Binding Asset.Author}" VerticalAlignment="Center" />
 
-                                            <Button IsVisible="{Binding !IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right" Command="{TemplateBinding InstallCommand}" CommandParameter="{Binding}">
-                                                <DrawingPresenter Width="40" Height="40" Drawing="{DynamicResource Microns.Download}" />
+                                            <Button IsVisible="{Binding !IsInstalled}" Width="40" Height="40"
+                                                    Classes="Flat" HorizontalAlignment="Right"
+                                                    Command="{TemplateBinding InstallCommand}"
+                                                    CommandParameter="{Binding}">
+                                                <PathIcon Width="40" Height="40"
+                                                                  Data="{DynamicResource Microns.Download}" />
                                             </Button>
 
-                                            <Button IsVisible="{Binding IsInstalled}" Width="40" Height="40" Classes="Flat" HorizontalAlignment="Right" Command="{TemplateBinding UninstallCommand}" CommandParameter="{Binding}">
-                                                <DrawingPresenter Width="40" Height="40" Drawing="{DynamicResource EvaIcons.Minus}" />
+                                            <Button IsVisible="{Binding IsInstalled}" Width="40" Height="40"
+                                                    Classes="Flat" HorizontalAlignment="Right"
+                                                    Command="{TemplateBinding UninstallCommand}"
+                                                    CommandParameter="{Binding}">
+                                                <PathIcon Width="40" Height="40"
+                                                                  Data="{DynamicResource EvaIcons.Minus}" />
                                             </Button>
                                         </Grid>
                                     </StackPanel>
-                                </styles:Card>
+                                </controls1:Card>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
 

@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 using Slithin.Entities.Remarkable;
 using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ItemContext;
@@ -33,6 +34,8 @@ public class CopyIDContextCommand : IContextCommand
             return;
         }
 
-        await Application.Current.Clipboard.SetTextAsync(md.ID);
+        var lifetime = (IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime;
+
+        await lifetime.MainWindow.Clipboard.SetTextAsync(md.ID);
     }
 }

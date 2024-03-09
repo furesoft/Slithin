@@ -96,16 +96,14 @@ public class AddTemplateModalViewModel : ModalBaseViewModel
             return;
         }
 
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-
-        var iconTiles = assets.GetAssets(new("avares://Slithin.Modules.Templates.UI/Resources/IconTiles"), null);
+        var iconTiles = AssetLoader.GetAssets(new("avares://Slithin.Modules.Templates.UI/Resources/IconTiles"), null);
 
         foreach (var res in iconTiles)
         {
             var item = new IconCodeItem { Name = Path.GetFileNameWithoutExtension(res.ToString()) };
 
-            var imageStrm = assets.Open(res);
-            item.Image = Bitmap.DecodeToWidth(imageStrm, 32, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.Default);
+            var imageStrm = AssetLoader.Open(res);
+            item.Image = Bitmap.DecodeToWidth(imageStrm, 32);
 
             IconCodes.Add(item);
         }

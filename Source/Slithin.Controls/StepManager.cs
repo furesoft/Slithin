@@ -1,5 +1,5 @@
 ﻿using Avalonia.Controls;
-using Slithin.Controls.Ports.StepBar;
+using Avalonia.Labs.Controls;
 
 namespace Slithin.Controls;
 
@@ -21,7 +21,7 @@ public static class StepManager
 
     public static void Next()
     {
-        Bar?.Next();
+        Bar?.NextCommand.Execute(null);
     }
 
     public static void SetManageStepBar(StepBar target, bool value)

@@ -13,7 +13,7 @@
         </StackPanel>
 
         <Grid Margin="3" Grid.Row="1">
-            <ComboBox IsVisible="{Binding !#customImage.IsChecked}" Classes="Filled" SelectedIndex="0" Items="{Binding Templates, Mode=TwoWay}" SelectedItem="{Binding SelectedTemplate}">
+            <ComboBox IsVisible="{Binding !#customImage.IsChecked}" Classes="Filled" SelectedIndex="0" ItemsSource="{Binding Templates, Mode=TwoWay}" SelectedItem="{Binding SelectedTemplate}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Spacing="5">
@@ -36,11 +36,11 @@
         </StackPanel>
 
         <ScrollViewer Grid.Row="4">
-            <ItemsPresenter Items="{Binding Pages}">
-                <ItemsPresenter.ItemTemplate>
+            <ItemsControl ItemsSource="{Binding Pages}">
+                <ItemsControl.ItemTemplate>
                     <ui:NotebookPageDataTemplate />
-                </ItemsPresenter.ItemTemplate>
-            </ItemsPresenter>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </UserControl>

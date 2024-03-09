@@ -14,7 +14,7 @@
 
         <StackPanel Orientation="Horizontal" Margin="3" Spacing="5" Grid.Row="1">
             <Grid Margin="3" Width="150">
-                <ComboBox IsVisible="{Binding !#customImage.IsChecked}" Classes="Filled" SelectedIndex="0" Items="{Binding Templates, Mode=TwoWay}" SelectedItem="{Binding SelectedTemplate}">
+                <ComboBox IsVisible="{Binding !#customImage.IsChecked}" Classes="Filled" SelectedIndex="0" ItemsSource="{Binding Templates, Mode=TwoWay}" SelectedItem="{Binding SelectedTemplate}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Spacing="5">
@@ -38,7 +38,7 @@
         <CheckBox Grid.Row="3" Margin="3" Name="customImage" Content="{l:Localisation 'Use Custom Image'}" />
 
         <StackPanel HorizontalAlignment="Right" Grid.Row="0" Spacing="3" Margin="15,0,0,0" Grid.Column="2">
-            <ComboBox PlaceholderText="{l:Localisation 'Default Cover'}" SelectionChanged="CoverSelection" Items="{Binding DefaultCovers, Mode=TwoWay}" />
+            <ComboBox PlaceholderText="{l:Localisation 'Default Cover'}" SelectionChanged="CoverSelection" ItemsSource="{Binding DefaultCovers, Mode=TwoWay}" />
 
             <TextBlock Text="{l:Localisation 'Cover'}" />
 
@@ -50,11 +50,11 @@
         </StackPanel>
 
         <ScrollViewer Grid.Row="4">
-            <ItemsPresenter Items="{Binding Pages}">
-                <ItemsPresenter.ItemTemplate>
+            <ItemsControl ItemsSource="{Binding Pages}">
+                <ItemsControl.ItemTemplate>
                     <ui:NotebookPageDataTemplate />
-                </ItemsPresenter.ItemTemplate>
-            </ItemsPresenter>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </UserControl>

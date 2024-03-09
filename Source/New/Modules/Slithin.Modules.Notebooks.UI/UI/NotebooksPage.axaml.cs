@@ -14,7 +14,7 @@ namespace Slithin.Modules.Notebooks.UI.UI;
 [PreserveIndex(1)]
 [PageIcon("Codeicons.Notebook")]
 [Context(UIContext.Notebook)]
-public class NotebooksPage : UserControl, IPage
+public partial class NotebooksPage : UserControl, IPage
 {
     public NotebooksPage()
     {

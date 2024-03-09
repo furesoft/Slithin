@@ -98,7 +98,7 @@ public static class TreeExtensions
             {
                 Control avalonia = item as Control;
                 if (avalonia != null)
-                    yield return item as IControl;
+                    yield return item as Control;
             }
         }
         else
@@ -143,7 +143,7 @@ public static class TreeExtensions
                 result *= Matrix.CreateTranslation(topLeft);
             }
 
-            visual = visual.VisualParent;
+            visual = visual.GetVisualParent();
 
             if (visual == null)
             {
@@ -192,7 +192,7 @@ public static class TreeExtensions
         if (control.Parent is T)
             return (T)control.Parent;
 
-        Control parent = control.Parent?.Parent;
+        var parent = control.Parent?.Parent;
 
         while (parent != null)
         {
@@ -201,7 +201,7 @@ public static class TreeExtensions
                 return (T)parent;
             }
 
-            T result = TryFindParent<T>(parent);
+            T result = TryFindParent<T>((Control)parent);
 
             if (result is T)
             {

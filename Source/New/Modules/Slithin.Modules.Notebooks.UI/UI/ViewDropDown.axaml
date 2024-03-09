@@ -7,16 +7,8 @@
              x:Class="Slithin.Modules.Notebooks.UI.UI.ViewDropDown">
     <Border Background="White">
         <controls:RadioButtonGroup Orientation="Horizontal">
-            <controls:RadioImage Width="60">
-                <controls:RadioImage.Image>
-                    <DrawingImage Drawing="{DynamicResource Vaadin.List}" />
-                </controls:RadioImage.Image>
-            </controls:RadioImage>
-            <controls:RadioImage Width="60">
-                <controls:RadioImage.Image>
-                    <DrawingImage Drawing="{DynamicResource Material.FormatWrapTopBottom}" />
-                </controls:RadioImage.Image>
-            </controls:RadioImage>
+            <controls:RadioImage Width="60" Image="{DynamicResource Vaadin.List}"/>
+            <controls:RadioImage Width="60" Image="{DynamicResource Material.FormatWrapTopBottom}"/>
         </controls:RadioButtonGroup>
     </Border>
 </UserControl>

@@ -7,6 +7,7 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Platform;
 using Material.Styles;
+using Material.Styles.Controls;
 using Slithin.Controls;
 using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Menu.Models;

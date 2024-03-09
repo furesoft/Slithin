@@ -5,21 +5,22 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 using Avalonia.Logging;
 using Avalonia.Threading;
 
 namespace Slithin.Controls.Navigation;
 
 /// <summary>
-/// Displays <see cref="UserControl"/> instances (Pages in WinUI), supports navigation to new pages,
-/// and maintains a navigation history to support forward and backward navigation.
+///     Displays <see cref="UserControl" /> instances (Pages in WinUI), supports navigation to new pages,
+///     and maintains a navigation history to support forward and backward navigation.
 /// </summary>
 public partial class Frame : ContentControl
 {
-    private static Dictionary<string, Frame> _frames = new Dictionary<string, Frame>();
-    private List<Control> _cache = new List<Control>(10);
+    private static readonly Dictionary<string, Frame> _frames = new();
+    private readonly List<Control> _cache = new(10);
 
-    private bool _isNavigating = false;
+    private bool _isNavigating;
 
     private ContentPresenter _presenter;
 
@@ -51,13 +52,16 @@ public partial class Frame : ContentControl
     }
 
     /// <summary>
-    /// Serializes the Frame navigation history into a string
+    ///     Serializes the Frame navigation history into a string
     /// </summary>
     /// <returns></returns>
     public string GetNavigationState()
     {
         if (!IsNavigationStackEnabled)
-            throw new InvalidOperationException("Cannot retreive navigation stack when IsNavigationStackEnabled is false");
+        {
+            throw new InvalidOperationException(
+                "Cannot retreive navigation stack when IsNavigationStackEnabled is false");
+        }
 
         // Format of the Navigation state string - this is not the same as WinUI
         // Full.Type.Name.Here|Serialized Parameter // First line is the current page
@@ -68,32 +72,32 @@ public partial class Frame : ContentControl
 
         static void AppendEntry(StringBuilder sb, PageStackEntry entry)
         {
+            if (entry == null)
+            {
+                return;
+            }
+
             sb.Append(entry.SourcePageType.AssemblyQualifiedName);
             sb.Append('|');
-            if (entry.Parameter != null)
-            {
-                sb.Append(entry.Parameter.ToString());
-            }
+            sb.Append(entry.Parameter);
+
             sb.AppendLine();
         }
 
         var sb = new StringBuilder();
 
-        if (CurrentEntry != null)
-        {
-            AppendEntry(sb, CurrentEntry);
-        }
+        AppendEntry(sb, CurrentEntry);
 
         sb.AppendLine(BackStackDepth.ToString());
 
-        for (int i = 0; i < BackStackDepth; i++)
+        for (var i = 0; i < BackStackDepth; i++)
         {
             AppendEntry(sb, BackStack[i]);
         }
 
         sb.AppendLine(ForwardStack.Count.ToString());
 
-        for (int i = 0; i < ForwardStack.Count; i++)
+        for (var i = 0; i < ForwardStack.Count; i++)
         {
             AppendEntry(sb, ForwardStack[i]);
         }
@@ -102,13 +106,16 @@ public partial class Frame : ContentControl
     }
 
     /// <summary>
-    /// Navigates to the most recent item in back navigation history, if a Frame manages its own navigation history.
+    ///     Navigates to the most recent item in back navigation history, if a Frame manages its own navigation history.
     /// </summary>
-    public void GoBack() => GoBack(null);
+    public void GoBack()
+    {
+        GoBack(null);
+    }
 
     /// <summary>
-    /// Navigates to the most recent item in back navigation history, if a Frame manages its own navigation history,
-    /// and specifies the animated transition to use.
+    ///     Navigates to the most recent item in back navigation history, if a Frame manages its own navigation history,
+    ///     and specifies the animated transition to use.
     /// </summary>
     /// <param name="infoOverride">Info about the animated transition to use.</param>
     public void GoBack(NavigationTransitionInfo infoOverride)
@@ -130,7 +137,7 @@ public partial class Frame : ContentControl
     }
 
     /// <summary>
-    /// Navigates to the most recent item in forward navigation history, if a Frame manages its own navigation history.
+    ///     Navigates to the most recent item in forward navigation history, if a Frame manages its own navigation history.
     /// </summary>
     public void GoForward()
     {
@@ -141,79 +148,111 @@ public partial class Frame : ContentControl
     }
 
     /// <summary>
-    /// Causes the Frame to load content represented by the specified Page.
+    ///     Causes the Frame to load content represented by the specified Page.
     /// </summary>
     /// <param name="sourcePageType">he page to navigate to, specified as a type reference to its partial class type.</param>
-    /// <returns>false if a <see cref="NavigationFailed"/> event handler has set Handled to true; otherwise, true. </returns>
-    public bool Navigate(Type sourcePageType) => Navigate(sourcePageType, null, null);
+    /// <returns>false if a <see cref="NavigationFailed" /> event handler has set Handled to true; otherwise, true. </returns>
+    public bool Navigate(Type sourcePageType)
+    {
+        return Navigate(sourcePageType, null, null);
+    }
 
     /// <summary>
-    /// Causes the Frame to load content represented by the specified Page, also passing a parameter to be
-    /// interpreted by the target of the navigation.
+    ///     Causes the Frame to load content represented by the specified Page, also passing a parameter to be
+    ///     interpreted by the target of the navigation.
     /// </summary>
-    /// <param name="sourcePageType">The page to navigate to, specified as a type reference to its
-    /// partial class type.</param>
-    /// <param name="parameter">The navigation parameter to pass to the target page;
-    /// must have a basic type (string, char, numeric, or GUID) to support parameter serialization
-    /// using GetNavigationState.</param>
-    /// <returns>false if a <see cref="NavigationFailed"/> event handler has set Handled to true;
-    /// otherwise, true.</returns>
-    public bool Navigate(Type sourcePageType, object parameter) => Navigate(sourcePageType, parameter, null);
+    /// <param name="sourcePageType">
+    ///     The page to navigate to, specified as a type reference to its
+    ///     partial class type.
+    /// </param>
+    /// <param name="parameter">
+    ///     The navigation parameter to pass to the target page;
+    ///     must have a basic type (string, char, numeric, or GUID) to support parameter serialization
+    ///     using GetNavigationState.
+    /// </param>
+    /// <returns>
+    ///     false if a <see cref="NavigationFailed" /> event handler has set Handled to true;
+    ///     otherwise, true.
+    /// </returns>
+    public bool Navigate(Type sourcePageType, object parameter)
+    {
+        return Navigate(sourcePageType, parameter, null);
+    }
 
     /// <summary>
-    /// Causes the Frame to load content represented by the specified Page -derived data type,
-    /// also passing a parameter to be interpreted by the target of the navigation, and a value
-    /// indicating the animated transition to use.
+    ///     Causes the Frame to load content represented by the specified Page -derived data type,
+    ///     also passing a parameter to be interpreted by the target of the navigation, and a value
+    ///     indicating the animated transition to use.
     /// </summary>
-    /// <param name="sourcePageType">The page to navigate to, specified as a type reference to
-    /// its partial class type. </param>
-    /// <param name="parameter">The navigation parameter to pass to the target page; must have a
-    /// basic type (string, char, numeric, or GUID) to support parameter serialization using
-    /// GetNavigationState.</param>
+    /// <param name="sourcePageType">
+    ///     The page to navigate to, specified as a type reference to
+    ///     its partial class type.
+    /// </param>
+    /// <param name="parameter">
+    ///     The navigation parameter to pass to the target page; must have a
+    ///     basic type (string, char, numeric, or GUID) to support parameter serialization using
+    ///     GetNavigationState.
+    /// </param>
     /// <param name="infoOverride">Info about the animated transition.</param>
-    /// <returns>false if a <see cref="NavigationFailed"/> event handler has set Handled to true;
-    /// otherwise, true.</returns>
+    /// <returns>
+    ///     false if a <see cref="NavigationFailed" /> event handler has set Handled to true;
+    ///     otherwise, true.
+    /// </returns>
     public bool Navigate(Type sourcePageType, object parameter, NavigationTransitionInfo infoOverride)
     {
-        return NavigateCore(new PageStackEntry(sourcePageType, parameter,
+        return NavigateCore(new(sourcePageType, parameter,
             infoOverride), NavigationMode.New);
     }
 
     /// <summary>
-    /// Causes the Frame to load content represented by the specified Page, also passing a parameter to be
-    /// interpreted by the target of the navigation.
+    ///     Causes the Frame to load content represented by the specified Page, also passing a parameter to be
+    ///     interpreted by the target of the navigation.
     /// </summary>
     /// <param name="sourcePageType">The page to navigate to, specified as a type reference to its partial class type.</param>
-    /// <param name="parameter">The navigation parameter to pass to the target page; must have a basic type
-    /// (string, char, numeric, or GUID) to support parameter serialization using GetNavigationState.</param>
-    /// <param name="navOptions">Options for the navigation, including whether it is recorded in the navigation stack
-    /// and what transition animation is used.</param>
-    /// <returns>false if a <see cref="NavigationFailed"/> event handler has set Handled to true; otherwise, true.</returns>
-    public bool NavigateToType(Type sourcePageType, object parameter, FrameNavigationOptions navOptions) =>
-        NavigateCore(new PageStackEntry(sourcePageType, parameter, navOptions?.TransitionInfoOverride),
+    /// <param name="parameter">
+    ///     The navigation parameter to pass to the target page; must have a basic type
+    ///     (string, char, numeric, or GUID) to support parameter serialization using GetNavigationState.
+    /// </param>
+    /// <param name="navOptions">
+    ///     Options for the navigation, including whether it is recorded in the navigation stack
+    ///     and what transition animation is used.
+    /// </param>
+    /// <returns>false if a <see cref="NavigationFailed" /> event handler has set Handled to true; otherwise, true.</returns>
+    public bool NavigateToType(Type sourcePageType, object parameter, FrameNavigationOptions navOptions)
+    {
+        return NavigateCore(new(sourcePageType, parameter, navOptions?.TransitionInfoOverride),
             NavigationMode.New, navOptions);
+    }
 
     /// <summary>
-    /// Reads and restores the navigation history of a Frame from a provided serialization string.
+    ///     Reads and restores the navigation history of a Frame from a provided serialization string.
     /// </summary>
     /// <param name="navState">The serialization string that supplies the restore point for navigation history.</param>
-    public void SetNavigationState(string navState) =>
+    public void SetNavigationState(string navState)
+    {
         SetNavigationState(navState, false);
+    }
 
     /// <summary>
-    /// Reads and restores the navigation history of a Frame from a provided serialization string,
-    /// and optionally supresses navigation to the last page type
+    ///     Reads and restores the navigation history of a Frame from a provided serialization string,
+    ///     and optionally supresses navigation to the last page type
     /// </summary>
     /// <param name="navState">The serialization string that supplies the restore point for navigation history.</param>
-    /// <param name="suppressNavigate">true to restore navigation history without navigating to the current page; otherwise, false.</param>
+    /// <param name="suppressNavigate">
+    ///     true to restore navigation history without navigating to the current page; otherwise,
+    ///     false.
+    /// </param>
     /// <remarks>
-    /// Calling SetNavigationState with suppressNavigate set to true, OnNavigatedTo is not called and the current page is placed into
-    /// the BackStack
+    ///     Calling SetNavigationState with suppressNavigate set to true, OnNavigatedTo is not called and the current page is
+    ///     placed into
+    ///     the BackStack
     /// </remarks>
     public void SetNavigationState(string navState, bool suppressNavigate)
     {
         if (!IsNavigationStackEnabled)
+        {
             throw new InvalidOperationException("Cannot set navigation stack when IsNavigationStackEnabled is false");
+        }
 
         BackStack.Clear();
         ForwardStack.Clear();
@@ -232,7 +271,7 @@ public partial class Frame : ContentControl
         {
             var firstLine = reader.ReadLine(); // Current Page
 
-            bool addCurrentEntryToBackStack = false;
+            var addCurrentEntryToBackStack = false;
             // Current page was null when saved, don't restore null
             // This is the only place we're allowed to have null - since a call to
             // Navigate(null) will fail to navigate & nothing is added to the stack
@@ -241,7 +280,7 @@ public partial class Frame : ContentControl
                 var indexOfSep = firstLine.IndexOf('|');
                 var pageType = Type.GetType(firstLine.Substring(0, indexOfSep));
                 var param = firstLine.Substring(indexOfSep + 1);
-                CurrentEntry = new PageStackEntry(pageType, param, null);
+                CurrentEntry = new(pageType, param, null);
 
                 if (!suppressNavigate)
                 {
@@ -250,7 +289,11 @@ public partial class Frame : ContentControl
 
                     SetContentAndAnimate(CurrentEntry);
                     // We only raise the NavigatedEvent
-                    page.RaiseEvent(new NavigationEventArgs(page, NavigationMode.New, null, param, pageType) { RoutedEvent = NavigatedToEvent });
+                    page.RaiseEvent(
+                        new NavigationEventArgs(page, NavigationMode.New, null, param, pageType)
+                        {
+                            RoutedEvent = NavigatedToEvent
+                        });
                 }
                 else
                 {
@@ -260,7 +303,7 @@ public partial class Frame : ContentControl
 
             var numBackLine = int.Parse(reader.ReadLine());
 
-            for (int i = 0; i < numBackLine; i++)
+            for (var i = 0; i < numBackLine; i++)
             {
                 var line = reader.ReadLine();
                 var indexOfSep = line.IndexOf('|');
@@ -270,7 +313,8 @@ public partial class Frame : ContentControl
                 {
                     // Don't fail if we get an invalid page, log & continue
                     Logger.TryGet(LogEventLevel.Error, "Frame")?
-                        .Log("Frame", $"Attempting to parse the type '{line.Substring(0, indexOfSep)}' failed. Page was skipped");
+                        .Log("Frame",
+                            $"Attempting to parse the type '{line.Substring(0, indexOfSep)}' failed. Page was skipped");
 
                     continue;
                 }
@@ -289,7 +333,7 @@ public partial class Frame : ContentControl
 
             var numForwardLine = int.Parse(reader.ReadLine());
 
-            for (int i = 0; i < numForwardLine; i++)
+            for (var i = 0; i < numForwardLine; i++)
             {
                 var line = reader.ReadLine();
                 var indexOfSep = line.IndexOf('|');
@@ -300,7 +344,8 @@ public partial class Frame : ContentControl
                 {
                     // Don't fail if we get an invalid page, log & continue
                     Logger.TryGet(LogEventLevel.Error, "Frame")?
-                        .Log("Frame", $"Attempting to parse the type '{line.Substring(0, indexOfSep)}' failed. Page was skipped");
+                        .Log("Frame",
+                            $"Attempting to parse the type '{line.Substring(0, indexOfSep)}' failed. Page was skipped");
 
                     continue;
                 }
@@ -317,12 +362,13 @@ public partial class Frame : ContentControl
         _presenter = e.NameScope.Find<ContentPresenter>("ContentPresenter");
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
         if (change.Property == ContentProperty)
         {
-            if (change.NewValue.GetValueOrDefault() == null)
+            if (change.NewValue == null)
             {
                 CurrentEntry = null;
             }
@@ -331,10 +377,12 @@ public partial class Frame : ContentControl
         {
             if (!_isNavigating)
             {
-                if (change.NewValue.GetValueOrDefault() is null)
+                if (change.NewValue is null)
+                {
                     throw new InvalidOperationException("SourcePageType cannot be null. Use Content instead.");
+                }
 
-                Navigate(change.NewValue.GetValueOrDefault<Type>());
+                Navigate((Type)change.NewValue);
             }
         }
     }
@@ -342,9 +390,11 @@ public partial class Frame : ContentControl
     private Control CheckCacheAndGetPage(Type srcPageType)
     {
         if (CacheSize == 0)
+        {
             return null;
+        }
 
-        for (int i = _cache.Count - 1; i >= 0; i--)
+        for (var i = _cache.Count - 1; i >= 0; i--)
         {
             if (_cache[i].GetType() == srcPageType)
             {
@@ -364,11 +414,11 @@ public partial class Frame : ContentControl
             return Activator.CreateInstance(srcPageType) as Control;
         }
 
-        for (int i = 0; i < _cache.Count; i++)
+        for (var i = 0; i < _cache.Count; i++)
         {
             if (_cache[i].GetType() == srcPageType)
             {
-                throw new Exception($"An object of type {srcPageType} has already been added to the Navigation Stack");
+                throw new($"An object of type {srcPageType} has already been added to the Navigation Stack");
             }
         }
 
@@ -452,7 +502,7 @@ public partial class Frame : ContentControl
 
             SetContentAndAnimate(entry);
 
-            bool addToNavStack = options?.IsNavigationStackEnabled ?? IsNavigationStackEnabled;
+            var addToNavStack = options?.IsNavigationStackEnabled ?? IsNavigationStackEnabled;
 
             if (addToNavStack)
             {
@@ -472,6 +522,7 @@ public partial class Frame : ContentControl
 
                             BackStack.Add(prevEntry);
                         }
+
                         break;
 
                     case NavigationMode.Back:
@@ -508,7 +559,7 @@ public partial class Frame : ContentControl
         }
         catch (Exception ex)
         {
-            NavigationFailed?.Invoke(this, new NavigationFailedEventArgs(ex, entry.SourcePageType));
+            NavigationFailed?.Invoke(this, new(ex, entry.SourcePageType));
 
             //I don't really want to throw an exception and break things. Just return false
             return false;
@@ -521,36 +572,38 @@ public partial class Frame : ContentControl
 
     private void OnBackStackChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        int oldCount = (_backStack.Count - (e.NewItems?.Count ?? 0) + (e.OldItems?.Count ?? 0));
+        var oldCount = _backStack.Count - (e.NewItems?.Count ?? 0) + (e.OldItems?.Count ?? 0);
 
-        bool oldBack = oldCount > 0;
-        bool newBack = _backStack.Count > 0;
-        RaisePropertyChanged(new AvaloniaPropertyChangedEventArgs<bool>(this,
-            CanGoBackProperty, oldBack, newBack, Avalonia.Data.BindingPriority.LocalValue));
+        var oldBack = oldCount > 0;
+        var newBack = _backStack.Count > 0;
+    /*    RaisePropertyChanged(new AvaloniaPropertyChangedEventArgs<bool>(this,
+            CanGoBackProperty, oldBack, newBack, BindingPriority.LocalValue));
         RaisePropertyChanged(new AvaloniaPropertyChangedEventArgs<int>(this,
-            BackStackDepthProperty, oldCount, _backStack.Count, Avalonia.Data.BindingPriority.LocalValue));
+            BackStackDepthProperty, oldCount, _backStack.Count, BindingPriority.LocalValue));*/
     }
 
     private void OnFowardwardStackChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        int oldCount = (_forwardStack.Count - (e.NewItems?.Count ?? 0) + (e.OldItems?.Count ?? 0));
+        var oldCount = _forwardStack.Count - (e.NewItems?.Count ?? 0) + (e.OldItems?.Count ?? 0);
 
-        bool oldForward = oldCount > 0;
-        bool newForward = _forwardStack.Count > 0;
-        RaisePropertyChanged(new AvaloniaPropertyChangedEventArgs<bool>(this,
-            CanGoForwardProperty, oldForward, newForward, Avalonia.Data.BindingPriority.LocalValue));
+        var oldForward = oldCount > 0;
+        var newForward = _forwardStack.Count > 0;
+        /*RaisePropertyChanged(new AvaloniaPropertyChangedEventArgs<bool>(this,
+            CanGoForwardProperty, oldForward, newForward, BindingPriority.LocalValue));*/
     }
 
     private void OnNavigationStopped(PageStackEntry entry, NavigationMode mode)
     {
-        NavigationStopped?.Invoke(this, new NavigationEventArgs(entry.Instance,
+        NavigationStopped?.Invoke(this, new(entry.Instance,
             mode, entry.NavigationTransitionInfo, entry.Parameter, entry.SourcePageType));
     }
 
     private void SetContentAndAnimate(PageStackEntry entry)
     {
         if (entry == null)
+        {
             return;
+        }
 
         Content = entry.Instance;
 

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.41" />
+    <PackageReference Include="AuroraModularis" Version="1.0.50" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
   </ItemGroup>
 

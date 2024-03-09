@@ -1,9 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Timers;
+﻿using System.Timers;
 using Avalonia.Controls;
-using Avalonia.Controls.Generators;
-using Avalonia.Controls.Presenters;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using Timer = System.Timers.Timer;
@@ -23,26 +19,12 @@ public partial class ChatControl : UserControl
     {
         base.OnInitialized();
 
-        ((ObservableCollection<ChatMessage>)this.FindControl<ItemsPresenter>("chatList").Items).CollectionChanged +=
-            OnCollectionChanged;
-        this.FindControl<ItemsPresenter>("chatList").ItemContainerGenerator.Materialized +=
-            ItemContainerGeneratorOnMaterialized;
-
-        _timer = new System.Timers.Timer();
+        _timer = new();
         _timer.Interval = 1000;
         _timer.AutoReset = false;
         _timer.Elapsed += TimerOnElapsed;
     }
 
-    private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        ScrollToEnd();
-    }
-
-    private void ItemContainerGeneratorOnMaterialized(object? sender, ItemContainerEventArgs e)
-    {
-        ScrollToEnd();
-    }
 
     private void ScrollToEnd()
     {

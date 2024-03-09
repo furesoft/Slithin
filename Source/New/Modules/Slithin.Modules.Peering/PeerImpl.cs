@@ -21,18 +21,11 @@ public class PeerImpl : IPeer
     {
         var process = Process.GetProcessesByName("ipfs").FirstOrDefault();
 
-        if (process is not null)
-        {
-            process.Kill();
-        }
-
-        var downloader = new KuboDownloader();
+        process?.Kill();
 
         //ToDo: copy ipfs binary to slithin execution directory
-        var latestKuboBinary = await downloader.DownloadLatestBinaryAsync();
-
         var repoPath = Path.Combine(ServiceContainer.Current.Resolve<IPathManager>().SlithinDir, "Peering");
-        var bootstrapper = new KuboBootstrapper(latestKuboBinary, repoPath);
+        var bootstrapper = new KuboBootstrapper(repoPath, KuboDownloader.GetLatestBinaryAsync);
 
         AppDomain.CurrentDomain.ProcessExit += (s, e) =>
         {

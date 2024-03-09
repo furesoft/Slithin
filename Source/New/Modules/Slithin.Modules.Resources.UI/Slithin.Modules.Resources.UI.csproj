@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AuroraModularis" Version="1.0.41" />
-    <PackageReference Include="Avalonia" Version="11.0.2" />
+    <PackageReference Include="AuroraModularis" Version="1.0.50" />
+    <PackageReference Include="Avalonia" Version="11.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 

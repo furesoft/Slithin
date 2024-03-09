@@ -8,7 +8,7 @@
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<Nullable>enable</Nullable>
 		<ApplicationIcon>Icon.ico</ApplicationIcon>
-		<RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64;osx.12-arm64</RuntimeIdentifiers>
+		<RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
 		<PackageDescription>A management application for your rM Tablet 1 and 2</PackageDescription>
 		<Platforms>AnyCPU;x64;x86;ARM32;ARM64</Platforms>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -32,26 +32,27 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="AuroraModularis" Version="1.0.41" />
-		<PackageReference Include="AuroraModularis.Hooks.ResourceRegistrationHook" Version="1.0.40" />
-		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.40" />
-		<PackageReference Include="AuroraModularis.Settings.LiteDb" Version="1.0.40" />
-		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.2" />
+		<PackageReference Include="AuroraModularis" Version="1.0.50" />
+		<PackageReference Include="AuroraModularis.Hooks.ResourceRegistrationHook" Version="1.0.50" />
+		<PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.50" />
+		<PackageReference Include="AuroraModularis.Settings.LiteDb" Version="1.0.50" />
+		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.10" />
+		<PackageReference Include="Avalonia.Labs.Controls" Version="11.0.3" />
 		<PackageReference Include="DataBox" Version="11.0.0" />
 		<PackageReference Include="FluentValidations" Version="1.1.0" />
-		<PackageReference Include="Avalonia" Version="11.0.2" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.0.2" />
-		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.2" />
-		<PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.0.2" />
-		<PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.0" />
-		<PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.90-nightly" />
+		<PackageReference Include="Avalonia" Version="11.0.10" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.10" />
+		<PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.0.10" />
+		<PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.5" />
+		<PackageReference Include="Material.Avalonia" Version="3.4.2" />
 		<PackageReference Include="Packaging.Targets" Version="0.1.220">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Portable.Xaml" Version="0.26.0" />
 		<PackageReference Include="QRCoder" Version="1.4.3" />
-		<PackageReference Include="System.Threading.AccessControl" Version="8.0.0-preview.5.23280.8" />
+		<PackageReference Include="System.Threading.AccessControl" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -69,11 +70,10 @@
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Backup\Slithin.Modules.Backup.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.BaseServices\Slithin.Modules.BaseServices.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Bot\Slithin.Modules.Bot.csproj" />
-	  <ProjectReference Include="..\Modules\Slithin.Modules.Device.Mock\Slithin.Modules.Device.Mock.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Device.UI\Slithin.Modules.Device.UI.csproj" />
+	  <ProjectReference Include="..\Modules\Slithin.Modules.Device\Slithin.Modules.Device.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Diagnostics.Sentry\Slithin.Modules.Diagnostics.Sentry.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Export\Slithin.Modules.Export.csproj" />
-	  <ProjectReference Include="..\Modules\Slithin.Modules.FirstStart\Slithin.Modules.FirstStart.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.I18N\Slithin.Modules.I18N.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Import\Slithin.Modules.Import.csproj" />
 	  <ProjectReference Include="..\Modules\Slithin.Modules.Menu\Slithin.Modules.Menu.csproj" />

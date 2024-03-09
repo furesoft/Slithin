@@ -15,7 +15,7 @@ public class KryptoDonateButton : TemplatedControl
     public static readonly StyledProperty<string> AddressProperty = AvaloniaProperty.Register<KryptoDonateButton, string>(nameof(Address), "0000000000000000000000");
     public static readonly StyledProperty<string> CoinNameProperty = AvaloniaProperty.Register<KryptoDonateButton, string>(nameof(CoinName), "0000000000000000000000");
     public static readonly StyledProperty<ICommand> CopyAddressCommandProperty = AvaloniaProperty.Register<KryptoDonateButton, ICommand>(nameof(CopyAddressCommand));
-    public static readonly StyledProperty<Drawing> ImageProperty = AvaloniaProperty.Register<KryptoDonateButton, Drawing>(nameof(Image));
+    public static readonly StyledProperty<Geometry> ImageProperty = AvaloniaProperty.Register<KryptoDonateButton, Geometry>(nameof(Image));
     public static readonly StyledProperty<IImage> QrProperty = AvaloniaProperty.Register<KryptoDonateButton, IImage>(nameof(Qr));
 
     public KryptoDonateButton()
@@ -45,7 +45,7 @@ public class KryptoDonateButton : TemplatedControl
         set { SetValue(CopyAddressCommandProperty, value); }
     }
 
-    public Drawing Image
+    public Geometry Image
     {
         get { return GetValue(ImageProperty); }
         set { SetValue(ImageProperty, value); }

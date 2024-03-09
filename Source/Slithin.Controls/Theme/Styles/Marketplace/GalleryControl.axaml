@@ -13,13 +13,13 @@
             <ControlTemplate>
                 <Grid ColumnDefinitions="35,*,35" RowDefinitions="*,35">
                     <StackPanel Spacing="2" Grid.Column="1">
-                        <Carousel Margin="3" Name="PART_CAROUSEL" MaxWidth="420" Grid.Column="1" Items="{TemplateBinding Items}" MinHeight="{TemplateBinding MinHeight}">
+                        <Carousel Margin="3" Name="PART_CAROUSEL" MaxWidth="420" Grid.Column="1" ItemsSource="{TemplateBinding ItemsSource}" MinHeight="{TemplateBinding MinHeight}">
                             <Carousel.PageTransition>
                                 <PageSlide Duration="0.25" Orientation="Horizontal" />
                             </Carousel.PageTransition>
                         </Carousel>
 
-                        <ListBox Classes="indicator" Items="{TemplateBinding Indicators}" HorizontalAlignment="Center" SelectedIndex="{Binding ElementName=PART_CAROUSEL, Path=SelectedIndex}">
+                        <ListBox Classes="indicator" ItemsSource="{TemplateBinding Indicators}" HorizontalAlignment="Center" SelectedIndex="{Binding ElementName=PART_CAROUSEL, Path=SelectedIndex}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border Width="15" Height="7" Background="Gray" CornerRadius="4" />
@@ -34,11 +34,11 @@
                         </ListBox>
                     </StackPanel>
                     <Button Name="PART_LEFT" Classes="indicator" VerticalAlignment="Center" IsVisible="{Binding AreButtonsVisible}">
-                        <DrawingPresenter Width="40" Height="40" Drawing="{DynamicResource BoxIcons.RegularChevronLeft}" />
+                        <PathIcon Width="40" Height="40" Data="{DynamicResource BoxIcons.RegularChevronLeft}" />
                     </Button>
 
                     <Button Name="PART_RIGHT" Classes="indicator" Grid.Column="2" IsVisible="{Binding AreButtonsVisible}" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <DrawingPresenter Width="40" Height="40" Drawing="{DynamicResource BoxIcons.RegularChevronRight}" />
+                        <PathIcon Width="40" Height="40" Data="{DynamicResource BoxIcons.RegularChevronRight}" />
                     </Button>
                 </Grid>
             </ControlTemplate>

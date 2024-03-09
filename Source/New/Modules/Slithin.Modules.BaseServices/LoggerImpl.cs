@@ -46,4 +46,11 @@ internal class LoggerImpl : AuroraModularis.Logging.Models.ILogger
 
         _logger.Information(message);
     }
+
+    public void Debug(string message)
+    {
+        InitLogger();
+
+        _logger.Debug(message);
+    }
 }

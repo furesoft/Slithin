@@ -5,19 +5,19 @@
         <StackPanel Spacing="5">
             <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Width="135"/>
 
-            <ItemsPresenter Items="{Binding Hints}" IsVisible="{Binding HintsVisible, Mode=TwoWay}">
-                <ItemsPresenter.ItemTemplate>
+            <ItemsControl ItemsSource="{Binding Hints}" IsVisible="{Binding HintsVisible, Mode=TwoWay}">
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Content="{Binding}" CommandParameter="{Binding}" Command="{Binding $parent[ItemsPresenter].DataContext.Command}" />
                     </DataTemplate>
-                </ItemsPresenter.ItemTemplate>
+                </ItemsControl.ItemTemplate>
                 
-                <ItemsPresenter.ItemsPanel>
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Spacing="5" />
                     </ItemsPanelTemplate>
-                </ItemsPresenter.ItemsPanel>
-            </ItemsPresenter>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </StackPanel>
     </DataTemplate>
 

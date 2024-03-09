@@ -76,7 +76,7 @@ internal class ContextMenuProviderImpl : IContextMenuProvider
             return c.GetMenu(item);
         }
 
-        var menu = new ContextMenu { Items = iContextProviders.SelectMany(ContextProviderSelector) };
+        var menu = new ContextMenu { ItemsSource = iContextProviders.SelectMany(ContextProviderSelector) };
 
         return menu;
     }

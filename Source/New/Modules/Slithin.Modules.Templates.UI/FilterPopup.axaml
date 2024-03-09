@@ -8,6 +8,6 @@
     <Grid RowDefinitions="*,AUTO" Margin="4">
         <TextBox Watermark="{l:Localisation 'Search ...'}" MinWidth="175" Margin="0,0,0,10" IsVisible="False" />
         <CheckBox Grid.Row="1" Content="{l:Localisation 'Is Landscape'}" IsChecked="{Binding Filter.Landscape, Mode=TwoWay}" />
-        <ComboBox Items="{Binding Filter.Categories, Mode=TwoWay}" SelectedItem="{Binding Filter.SelectedCategory}" MinWidth="175" />
+        <ComboBox ItemsSource="{Binding Filter.Categories, Mode=TwoWay}" SelectedItem="{Binding Filter.SelectedCategory}" MinWidth="175" />
     </Grid>
 </UserControl>

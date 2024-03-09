@@ -5,14 +5,12 @@ using System.Windows.Input;
 using AuroraModularis.Core;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
 using Avalonia.Media;
 using Slithin.Core.MVVM;
 using Slithin.Entities;
 using Slithin.Modules.BaseServices.Models;
 using Slithin.Modules.Device.Models;
 using Slithin.Modules.Diagnostics.Sentry.Models;
-using Slithin.Modules.I18N.Models;
 using Slithin.Modules.Menu.Models.ContextualMenu;
 using Slithin.Modules.Menu.Models.ItemContext;
 using Slithin.Modules.Menu.Models.Menu;
@@ -26,8 +24,8 @@ namespace Slithin.ViewModels;
 public class MainWindowViewModel : BaseViewModel
 {
     private readonly IContextualMenuBuilder _contextualMenuBuilder;
-    private readonly IEventService _eventService;
     private readonly IDiagnosticService _diagnosticService;
+    private readonly IEventService _eventService;
     private readonly INotificationService _notificationService;
     private object _contextualMenu;
 
@@ -101,17 +99,19 @@ public class MainWindowViewModel : BaseViewModel
         }
         else
         {
-            _notificationService.ShowError("Your remarkable is not reachable. Please check your connection and restart Slithin");
+            _notificationService.ShowError(
+                "Your remarkable is not reachable. Please check your connection and restart Slithin");
         }
     }
 
     private double CalculateMenuWidth()
     {
         var maximumWidth = 0d;
-        
+
         foreach (var page in Menu)
         {
-            var textFormat = new FormattedText(page.Header, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 25, Brushes.Black);
+            var textFormat = new FormattedText(page.Header, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+                new("Consolas"), 25, Brushes.Black);
 
             maximumWidth = Math.Max(maximumWidth, textFormat.MaxTextWidth);
         }
@@ -155,7 +155,7 @@ public class MainWindowViewModel : BaseViewModel
                 continue;
             }
 
-            var header = BuildPage(pageInstance, controlInstance, pageIconAttribute, type, out var page);
+            var header = BuildPage(pageInstance, controlInstance, pageIconAttribute, out var page);
             var contextMenu = BuildContextMenu(contextAttribute, page, header);
 
             ApplyDataContextToContextualElements(contextMenu, page.DataContext);
@@ -173,13 +173,13 @@ public class MainWindowViewModel : BaseViewModel
         monitor.Dispose();
     }
 
-    private string BuildPage(IPage pageInstance, Control? controlInstance, PageIconAttribute? pageIconAttribute, Type type,
+    private string BuildPage(IPage pageInstance, Control? controlInstance, PageIconAttribute? pageIconAttribute,
         out Page page)
     {
-        page = new Page { Header = pageInstance.Title, DataContext = controlInstance.DataContext };
+        page = new() {Header = pageInstance.Title, DataContext = controlInstance.DataContext};
 
         page.Icon = GetIcon(pageIconAttribute);
-        
+
         return pageInstance.Title;
     }
 
@@ -203,7 +203,8 @@ public class MainWindowViewModel : BaseViewModel
             return;
         }
 
-        if (contextMenu.FindControl<ItemsPresenter>("presenter").DataContext is not IEnumerable<ContextualElement> elements)
+        if (contextMenu.FindControl<ItemsControl>("presenter").DataContext is not IEnumerable<ContextualElement>
+            elements)
         {
             return;
         }

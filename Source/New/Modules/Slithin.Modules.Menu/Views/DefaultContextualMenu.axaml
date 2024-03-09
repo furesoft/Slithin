@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="85"
              x:Class="Slithin.Modules.Menu.Views.DefaultContextualMenu">
-    <ItemsPresenter Items="{Binding}" Name="presenter">
-        <ItemsPresenter.ItemsPanel>
+    <ItemsControl ItemsSource="{Binding}" Name="presenter">
+        <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Spacing="4" Orientation="Horizontal" />
             </ItemsPanelTemplate>
-        </ItemsPresenter.ItemsPanel>
-    </ItemsPresenter>
+        </ItemsControl.ItemsPanel>
+    </ItemsControl>
 </UserControl>

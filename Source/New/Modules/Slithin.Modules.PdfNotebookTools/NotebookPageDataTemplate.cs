@@ -7,7 +7,7 @@ namespace Slithin.Modules.PdfNotebookTools;
 
 public class NotebookPageDataTemplate : IDataTemplate
 {
-    public IControl Build(object? param)
+    public Control Build(object? param)
     {
         if (param is null)
         {

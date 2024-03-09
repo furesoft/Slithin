@@ -10,8 +10,8 @@
   </PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.40" />
-	  <PackageReference Include="DotNext" Version="4.13.1" />
+	  <PackageReference Include="AuroraModularis.Logging.Models" Version="1.0.50" />
+	  <PackageReference Include="DotNext" Version="5.2.0" />
 	  <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
 	</ItemGroup>
 

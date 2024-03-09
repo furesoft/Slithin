@@ -161,9 +161,7 @@ public class GifImage : Control
             var sourceRect = new Rect(sourceSize)
                 .CenterRect(new Rect(destRect.Size / scale));
 
-            var interpolationMode = RenderOptions.GetBitmapInterpolationMode(this);
-
-            context.DrawImage(backingRTB, sourceRect, destRect, interpolationMode);
+            context.DrawImage(backingRTB, sourceRect, destRect);
         }
     }
 

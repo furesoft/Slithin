@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Slithin.Modules.Tools.UI.ToolsPage">
-    <ListBox Items="{Binding Filter.Tools, Mode=TwoWay}" Margin="16,0,0,0" SelectedItem="{Binding SelectedScript, Mode=TwoWay}">
+    <ListBox ItemsSource="{Binding Filter.Tools, Mode=TwoWay}" Margin="16,0,0,0" SelectedItem="{Binding SelectedScript, Mode=TwoWay}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" MaxHeight="275"  MinWidth="150" Margin="2" VerticalAlignment="Top">
@@ -22,11 +22,11 @@
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="4">
                                 <Button Classes="Flat" Command="{Binding $parent[ListBox].DataContext.ConfigurateScriptCommand}" IsHitTestVisible="True" IsVisible="{Binding IsConfigurable}" CommandParameter="{Binding}">
-                                    <DrawingPresenter Width="15" Height="15" Drawing="{DynamicResource Vaadin.CogOutline}" />
+                                    <PathIcon Width="15" Height="15" Data="{DynamicResource Vaadin.CogOutline}" />
                                 </Button>
 
                                 <Button Classes="Flat" Command="{Binding $parent[ListBox].DataContext.ExecuteScriptCommand}" IsHitTestVisible="True"  CommandParameter="{Binding}">
-                                    <DrawingPresenter Width="15" Height="15" Drawing="{DynamicResource Material.HexagonMultiple}" />
+                                    <PathIcon Width="15" Height="15" Data="{DynamicResource Material.HexagonMultiple}" />
                                 </Button>
                             </StackPanel>
                         </Grid>

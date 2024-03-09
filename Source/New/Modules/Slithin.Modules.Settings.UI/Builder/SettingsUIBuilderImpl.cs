@@ -9,6 +9,7 @@ using Slithin.Modules.Settings.Models;
 using Slithin.Modules.Settings.Models.Builder;
 using Slithin.Modules.Settings.Models.Builder.Attributes;
 using Slithin.Modules.Settings.UI.Builder.ControlProviders;
+using TimeProvider = Slithin.Modules.Settings.UI.Builder.ControlProviders.TimeProvider;
 
 namespace Slithin.Modules.Settings.UI.Builder;
 

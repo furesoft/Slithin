@@ -12,14 +12,14 @@
                        Watermark="{l:Localisation 'Template File'}" IsVisible="{Binding !UseTemplateEditor}" />
 
         <ListBox MinWidth="150" Margin="0,0,0,4" Grid.Column="2" Grid.RowSpan="4" Grid.Row="0"
-                 Items="{Binding Categories, Mode=TwoWay}"
+                 ItemsSource="{Binding Categories, Mode=TwoWay}"
                  SelectedItems="{Binding SelectedCategory, Mode=TwoWay}" SelectionMode="Multiple" />
 
         <c:CommandTextBox Grid.Column="2" Grid.Row="4" CommandText="+" Watermark="{l:Localisation 'New Category'}"
                           Command="{Binding AddCategoryCommand}" />
 
         <ComboBox Classes="Filled" Grid.Column="0" Grid.Row="2" MinWidth="150" ToolTip.Tip="{l:Localisation 'IconCode'}"
-                  Margin="0,7,0,0" Items="{Binding IconCodes, Mode=TwoWay}" SelectedItem="{Binding IconCode}">
+                  Margin="0,7,0,0" ItemsSource="{Binding IconCodes, Mode=TwoWay}" SelectedItem="{Binding IconCode}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Spacing="3">

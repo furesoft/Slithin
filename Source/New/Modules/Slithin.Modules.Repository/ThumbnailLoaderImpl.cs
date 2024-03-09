@@ -20,12 +20,11 @@ internal class ThumbnailLoaderImpl : IThumbnailLoader
 
         var notebooksDir = ServiceContainer.Current.Resolve<IPathManager>()!.NotebooksDir;
         var cache = ServiceContainer.Current.Resolve<ICacheService>();
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
         if (!Directory.Exists(Path.Combine(notebooksDir, $"{md.ID}.thumbnails")))
         {
             return cache.GetObject($"notebook-{md.Content.FileType}",
-                () => new Bitmap(assets.Open(new Uri($"avares://Slithin.Modules.Notebooks.UI/Resources/{md.Content.FileType}.png"))));
+                () => new Bitmap(AssetLoader.Open(new Uri($"avares://Slithin.Modules.Notebooks.UI/Resources/{md.Content.FileType}.png"))));
         }
 
         var filename = "";
@@ -49,7 +48,7 @@ internal class ThumbnailLoaderImpl : IThumbnailLoader
         if (string.IsNullOrEmpty(filename))
         {
             return cache.GetObject($"notebook-{md.Content.FileType}",
-                () => new Bitmap(assets.Open(new Uri($"avares://Slithin.Modules.Notebooks.UI/Resources/{md.Content.FileType}.png"))));
+                () => new Bitmap(AssetLoader.Open(new Uri($"avares://Slithin.Modules.Notebooks.UI/Resources/{md.Content.FileType}.png"))));
         }
 
         var thumbnail = Path.Combine(notebooksDir, $"{md.ID}.thumbnails", $"{filename}.jpg");
@@ -60,6 +59,6 @@ internal class ThumbnailLoaderImpl : IThumbnailLoader
         }
 
         return cache.GetObject($"notebook-{md.Content.FileType}",
-           () => new Bitmap(assets!.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
+           () => new Bitmap(AssetLoader.Open(new Uri($"avares://Slithin/Resources/{md.Content.FileType}.png"))));
     }
 }

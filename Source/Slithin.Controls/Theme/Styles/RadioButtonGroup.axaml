@@ -8,13 +8,13 @@
     <Style Selector="controls|RadioButtonGroup">
         <Setter Property="Template">
             <ControlTemplate>
-                <ItemsPresenter Items="{TemplateBinding Items}">
-                    <ItemsPresenter.ItemsPanel>
+                <ItemsControl ItemsSource="{TemplateBinding ItemsSource}">
+                    <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Margin="5" Orientation="{TemplateBinding Orientation}" />
                         </ItemsPanelTemplate>
-                    </ItemsPresenter.ItemsPanel>
-                </ItemsPresenter>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </ControlTemplate>
         </Setter>
     </Style>

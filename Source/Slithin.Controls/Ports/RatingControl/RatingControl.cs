@@ -248,9 +248,10 @@ public class RatingControl : RegularItemsControl
     /// updates the items
     /// </summary>
     /// <param name="e"></param>
-    protected override void OnPointerLeave(PointerEventArgs e)
+
+    protected override void OnPointerExited(PointerEventArgs e)
     {
-        base.OnPointerLeave(e);
+        base.OnPointerExited(e);
         if (Value != 0)
         {
             UpdateItems();

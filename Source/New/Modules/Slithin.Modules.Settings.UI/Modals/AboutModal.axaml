@@ -10,19 +10,15 @@
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="1" HorizontalAlignment="Left" Grid.Row="1">
             <Button Classes="Flat" Command="{core:OpenLink 'https://github.com/furesoft/Slithin'}">
-                <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Github}" HorizontalAlignment="Left" ToolTip.Tip="Github" />
+                <PathIcon Width="50" Height="50" Data="{DynamicResource Bootstrap.Github}" HorizontalAlignment="Left" ToolTip.Tip="Github" />
             </Button>
 
             <Button Classes="Flat" Command="{core:OpenLink 'https://www.reddit.com/r/Slithin/'}">
-                <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Reddit}" HorizontalAlignment="Left" ToolTip.Tip="Reddit" />
-            </Button>
-
-            <Button Classes="Flat" Command="{core:OpenLink 'https://www.facebook.com/groups/slithin/'}">
-                <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource Bootstrap.Facebook}" HorizontalAlignment="Left" ToolTip.Tip="Facebook" />
+                <PathIcon Width="50" Height="50" Data="{DynamicResource Bootstrap.Reddit}" HorizontalAlignment="Left" ToolTip.Tip="Reddit" />
             </Button>
 
             <Button Classes="Flat" Command="{core:OpenLink 'https://www.patreon.com/Slithin'}">
-                <DrawingPresenter Width="50" Height="50" Drawing="{DynamicResource BoxIcons.LogosPatreon}" HorizontalAlignment="Left" ToolTip.Tip="Patreon" />
+                <PathIcon Width="50" Height="50" Data="{DynamicResource BoxIcons.LogosPatreon}" HorizontalAlignment="Left" ToolTip.Tip="Patreon" />
             </Button>
         </StackPanel>
     </Grid>

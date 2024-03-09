@@ -16,7 +16,7 @@ public class ContextualMenuBuilderImpl : IContextualMenuBuilder
         var elements = _registrar.GetAllElements(id);
 
         var contextualElements = elements.ToArray();
-        control.FindControl<ItemsPresenter>("presenter").DataContext = contextualElements;
+        control.FindControl<ItemsControl>("presenter").DataContext = contextualElements;
 
         if (!contextualElements.Any())
         {

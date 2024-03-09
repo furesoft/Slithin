@@ -19,7 +19,7 @@ public class EnumProvider : ISettingsControlProvider
                 {
                     Mode = BindingMode.TwoWay, Source = settingsObj
                 },
-            Items = Enum.GetValues(settingsObj.GetType().GetProperty(bindingName).GetValue(settingsObj).GetType())
+            ItemsSource = Enum.GetValues(settingsObj.GetType().GetProperty(bindingName).GetValue(settingsObj).GetType())
         };
     }
 

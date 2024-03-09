@@ -10,7 +10,7 @@
             <ControlTemplate>
                 <Border Width="{TemplateBinding Width}" MaxWidth="{TemplateBinding MaxWidth}"
                         Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4">
-                    <ContentPresenter Margin="4" Content="{TemplateBinding Content}" TextBlock.Foreground="Black" />
+                    <ContentPresenter Margin="4" Content="{TemplateBinding Content}" Foreground="Black" />
                 </Border>
             </ControlTemplate>
         </Setter>

@@ -6,10 +6,10 @@ namespace Slithin.Controls;
 
 public class RadioImage : RadioButton
 {
-    public static readonly StyledProperty<IImage> ImageProperty =
-        AvaloniaProperty.Register<RadioImage, IImage>(nameof(Image));
+    public static readonly StyledProperty<Geometry> ImageProperty =
+        AvaloniaProperty.Register<RadioImage, Geometry>(nameof(Image));
 
-    public IImage Image
+    public Geometry Image
     {
         get => GetValue(ImageProperty);
         set => SetValue(ImageProperty, value);

@@ -1,7 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
-        xmlns:controls="http://github.com/furesoft/Slithin">
+        xmlns:controls="http://github.com/furesoft/Slithin"
+        xmlns:controls1="clr-namespace:Material.Styles.Controls;assembly=Material.Styles">
     <Design.PreviewWith>
         <controls:KryptoDonateButton CoinName="Bitcoin" Address="3Q6Y2aJ56p5jZemroawyTTYv7VJzzp8QFA" />
     </Design.PreviewWith>
@@ -11,30 +11,35 @@
             <ControlTemplate>
                 <Grid>
                     <ToggleButton Name="toggle" Classes="Flat" IsHitTestVisible="True">
-                        <DrawingPresenter Width="32" Height="32" Drawing="{TemplateBinding Image}" />
+                        <PathIcon Width="32" Height="32" Data="{TemplateBinding Image}" />
                     </ToggleButton>
 
                     <Popup
-                       IsOpen="{Binding #toggle.IsChecked, Mode=TwoWay}"
-                       Width="335" PlacementConstraintAdjustment="SlideY" PlacementGravity="Top"
-                       Height="250" PlacementAnchor="Top" StaysOpen="False"
-                       PlacementTarget="{TemplateBinding}">
+                        IsOpen="{Binding #toggle.IsChecked, Mode=TwoWay}"
+                        Width="335" PlacementConstraintAdjustment="SlideY" PlacementGravity="Top"
+                        Height="250" PlacementAnchor="Top"
+                        PlacementTarget="{TemplateBinding}">
                         <Border BorderThickness="1" BorderBrush="Black" CornerRadius="2">
-                            <styles:Card CornerRadius="2">
+                            <controls1:Card CornerRadius="2">
                                 <StackPanel>
-                                    <Label Height="35" HorizontalAlignment="Center" Content="{TemplateBinding CoinName, Mode=TwoWay}" Foreground="Black" />
+                                    <Label Height="35" HorizontalAlignment="Center"
+                                           Content="{TemplateBinding CoinName, Mode=TwoWay}" Foreground="Black" />
 
                                     <Image Source="{TemplateBinding Qr}" Width="150" Height="150" />
 
                                     <Grid ColumnDefinitions="*,35">
-                                        <TextBlock TextWrapping="Wrap" Grid.Column="0" Text="{TemplateBinding Address, Mode=TwoWay}" Foreground="Black" VerticalAlignment="Center" />
+                                        <TextBlock TextWrapping="Wrap" Grid.Column="0"
+                                                   Text="{TemplateBinding Address, Mode=TwoWay}" Foreground="Black"
+                                                   VerticalAlignment="Center" />
 
-                                        <Button Grid.Column="1" Classes="Flat" Command="{TemplateBinding CopyAddressCommand}">
-                                            <Image Source="avares://Slithin/Resources/copy.png" Width="12" Height="12" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        <Button Grid.Column="1" Classes="Flat"
+                                                Command="{TemplateBinding CopyAddressCommand}">
+                                            <Image Source="avares://Slithin/Resources/copy.png" Width="12" Height="12"
+                                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
                                         </Button>
                                     </Grid>
                                 </StackPanel>
-                            </styles:Card>
+                            </controls1:Card>
                         </Border>
                     </Popup>
                 </Grid>

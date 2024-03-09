@@ -10,11 +10,10 @@
             <ControlTemplate>
                 <Border Background="{TemplateBinding Background}">
                     <Grid RowDefinitions="40,*" VerticalAlignment="Center" Margin="2">
-                        <Viewbox Grid.Row="0" Width="40" Height="40" HorizontalAlignment="Center">
-                            <DrawingPresenter Drawing="{TemplateBinding Image}" Height="40" Width="40" HorizontalAlignment="Center" />
-                        </Viewbox>
+                        <PathIcon Data="{TemplateBinding Image}" Height="40" Width="40" HorizontalAlignment="Center" />
 
-                        <TextBlock Grid.Row="1" Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Row="1" Text="{TemplateBinding Text}" TextAlignment="Center" FontSize="17"
+                                   HorizontalAlignment="Center" />
                     </Grid>
                 </Border>
             </ControlTemplate>

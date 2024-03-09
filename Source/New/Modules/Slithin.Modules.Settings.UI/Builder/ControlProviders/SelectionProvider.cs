@@ -16,7 +16,7 @@ public class SelectionProvider : ISettingsControlProvider
         {
             [!SelectingItemsControl.SelectedItemProperty] =
                 new Binding(((SelectionAttribute)settingsAttribute).SelectionPropertyName),
-            [!ItemsControl.ItemsProperty] = new Binding(bindingName) {Source = settingsObj}
+            [!ItemsControl.ItemsSourceProperty] = new Binding(bindingName) {Source = settingsObj}
         };
     }
 

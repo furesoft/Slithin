@@ -132,7 +132,7 @@ internal class DevicePageViewModel : BaseViewModel
 
             Task.WaitAll(templatesTask, notebooksTask);
             
-            _templatesFilter.SelectedCategory = _templatesFilter.Categories[0];
+            _templatesFilter.SelectedCategory = _templatesFilter.Categories.FirstOrDefault();
         });
     }
 

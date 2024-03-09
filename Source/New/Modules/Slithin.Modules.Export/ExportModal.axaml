@@ -8,7 +8,7 @@
     <StackPanel Spacing="5" VerticalAlignment="Center">
         <TextBlock Text="{Binding Notebook.VisibleName, FallbackValue=hello}" FontSize="18" TextAlignment="Center"
                    TextWrapping="Wrap" />
-        <ComboBox Items="{Binding Formats}" SelectedItem="{Binding SelectedFormat}" />
+        <ComboBox ItemsSource="{Binding Formats}" SelectedItem="{Binding SelectedFormat}" />
 
         <Grid IsVisible="{Binding !IsEpubSelected, Mode=TwoWay}">
             <Label Content="{l:Localisation 'Pages'}" VerticalAlignment="Center" />
