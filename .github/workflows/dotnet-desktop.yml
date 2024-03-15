@@ -143,7 +143,7 @@ jobs:
       with:
         name: publish-output
         path: ./dist
-    - uses: softprops/action-gh-release@v1
+    - uses: softprops/action-gh-release@v2
       if: github.event_name != 'pull_request'
       name: Generate Release
       with:
@@ -182,7 +182,7 @@ jobs:
       with:
         name: publish-output
         path: ./dist
-    - uses: softprops/action-gh-release@v1
+    - uses: softprops/action-gh-release@v2
       if: github.event_name != 'pull_request'
       name: Generate Release
       with:
