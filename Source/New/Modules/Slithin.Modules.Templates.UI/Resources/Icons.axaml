@@ -1,4 +1,4 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <GeometryDrawing x:Key="Vaadin.List" Brush="#FF000000" Geometry="M0,0 L4,0 L4,3 L0,3 L0,0 z M0,4 L4,4 L4,7 L0,7 L0,4 z M0,12 L4,12 L4,15 L0,15 L0,12 z M0,8 L4,8 L4,11 L0,11 L0,8 z M5,0 L16,0 L16,3 L5,3 L5,0 z M5,4 L16,4 L16,7 L5,7 L5,4 z M5,12 L16,12 L16,15 L5,15 L5,12 z M5,8 L16,8 L16,11 L5,11 L5,8 z" />
+    <StreamGeometry x:Key="Vaadin.List">M0,0 L4,0 L4,3 L0,3 L0,0 z M0,4 L4,4 L4,7 L0,7 L0,4 z M0,12 L4,12 L4,15 L0,15 L0,12 z M0,8 L4,8 L4,11 L0,11 L0,8 z M5,0 L16,0 L16,3 L5,3 L5,0 z M5,4 L16,4 L16,7 L5,7 L5,4 z M5,12 L16,12 L16,15 L5,15 L5,12 z M5,8 L16,8 L16,11 L5,11 L5,8 z</StreamGeometry>
 </ResourceDictionary>
